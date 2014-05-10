@@ -38,7 +38,7 @@ Objective-C是一门面向对象的编程语言，既然是面向对象，那我
 从头文件的定义可以看出,对象的内存布局以一个Class 类型的isa指针开始,而类的内存布局也是以一个Class类型的isa指针开始，所以类也是对象，这样就满足了面向对象编程语言中所有的东西都是对象。
 
 对象是对象，类也是对象。很容易混淆是吧，所以OC重用了一个术语来区分它们:类对象（Class Object）;实例对象（Instance Object）。实例对象的isa指针指向的类叫Class,类对象的isa指针指向的类叫meta-class。meta-class的isa指针指向根类meta-class,根类meta-class的isa指针指向自己。让我们看张图：
-{% img /images/Objective-C\ Class\ And\ Object.png Objective-C Class And Object  %}
+{% img /images/Objective-C_Class_And_Object.png Objective-C Class And Object  %}
 
 那么类对象是怎么创建的呢？经过查找，得到的结论是编译器创建的，编译时所谓的类是指类对象（官方文档： The class object is the compiled version of the class.）。
 

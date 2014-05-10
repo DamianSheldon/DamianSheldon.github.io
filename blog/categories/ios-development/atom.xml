@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-05-10T17:20:39+08:00</updated>
+  <updated>2014-05-10T17:26:36+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -55,7 +55,7 @@ retain
 assign (default)
 </code></pre>
 
-<h1>API Control</h1>
+<h2>API Control</h2>
 
 <p>@property声明实际上是存取方法的快速声明。
 ``` objective-c</p>
@@ -79,15 +79,15 @@ assign (default)
 @property(nonatomic,getter=isHighlighted) BOOL highlighted;                          // default is NO. this gets set/cleared
 ```</p>
 
-<h1>Write Serialization(not general thread safety)</h1>
+<h2>Write Serialization(not general thread safety)</h2>
 
 <p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
 
-<h1>Mutability</h1>
+<h2>Mutability</h2>
 
 <p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
 
-<h1>Memory Management(ARC)</h1>
+<h2>Memory Management(ARC)</h2>
 
 <p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
 
@@ -99,7 +99,11 @@ assign (default)
 
 <p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
 
-<h1>Memory Management(Traditional)</h1>
+<h2>Memory Management(Traditional)</h2>
+
+<h2>Reference</h2>
+
+<p>o Property Values <a href="http://www.bignerdranch.com/blog/property-values/?replytocom=740600">http://www.bignerdranch.com/blog/property-values/?replytocom=740600</a></p>
 ]]></content>
   </entry>
   

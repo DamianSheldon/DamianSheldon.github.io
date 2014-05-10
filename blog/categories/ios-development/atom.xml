@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-05-10T11:43:27+08:00</updated>
+  <updated>2014-05-10T17:20:39+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,96 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Property Values]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/10/property-values/"/>
+    <updated>2014-05-10T14:41:40+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/10/property-values</id>
+    <content type="html"><![CDATA[<p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
+
+<p> Property的attribute关键字有以下几类：<br/>
+ 1）API Control；</p>
+
+<pre><code>getter = methodname
+setter = mehtodname:
+</code></pre>
+
+<p> 2）Write Serialization(not general thread safety);</p>
+
+<pre><code>nonatomic
+atomic (default)
+</code></pre>
+
+<p> 3) Mutability;</p>
+
+<pre><code>readonly
+readwrite (default)
+</code></pre>
+
+<p> 4) Memory Management(ARC);</p>
+
+<pre><code>copy
+strong (default)
+weak
+unsafe_unretained
+assign
+</code></pre>
+
+<p> 5) Memory Management(Traditional)</p>
+
+<pre><code>copy
+retain
+assign (default)
+</code></pre>
+
+<h1>API Control</h1>
+
+<p>@property声明实际上是存取方法的快速声明。
+``` objective-c</p>
+
+<pre><code>@property (nonatomic, readwrite, strong) NSObject *propertyName;
+</code></pre>
+
+<p><code>
+编辑器最终会合成存取方法：
+</code> objective-c</p>
+
+<pre><code>- (NSObject *)propertyName;
+- (void)setPropertyName:(NSObject *)anObject;
+</code></pre>
+
+<p><code>
+默认的getter和setter方法名分别是propertyName,setPropertyName。可以通过API Control提供的关键字指定存取方法名。
+</code> objective-c
+@property(nonatomic,getter=isEnabled) BOOL enabled;                                  // default is YES. if NO, ignores touch events and subclasses may draw differently
+@property(nonatomic,getter=isSelected) BOOL selected;                                // default is NO may be used by some subclasses or by application
+@property(nonatomic,getter=isHighlighted) BOOL highlighted;                          // default is NO. this gets set/cleared
+```</p>
+
+<h1>Write Serialization(not general thread safety)</h1>
+
+<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
+
+<h1>Mutability</h1>
+
+<p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
+
+<h1>Memory Management(ARC)</h1>
+
+<p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
+
+<p>2)copy,在内存分配一块全新的地址来存放传入的数据内容，即创建一份新的数据副本用来赋值。适用于实现了NSCoping协议的对象，其他类型的对象声明copy无效。</p>
+
+<p>3)strong(=retain)，强引用，ARC下对象默认内存管理声明关键字，对象引用计数+1。</p>
+
+<p>4)weak,弱引用，持有对象引用计数不变，持有对象释放时，指向的地址为nil。</p>
+
+<p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
+
+<h1>Memory Management(Traditional)</h1>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tips and Techniques for Framework Developers(Translation)]]></title>

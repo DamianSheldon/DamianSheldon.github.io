@@ -384,14 +384,7 @@ Listing 1  在初始化过程中检测错误</p>
 
 <p>你应该意识到通常对象的比较方法isEqual:和相关对象类型的比较方法，如isEqualToString:有重大差别. isEqual方法允许传入任意对象作为参数，如果对象不是相同的对象则返回NO.像isEqualToString:和isEqualToArray:方法，经常假定参数是指定的类型（它经常是方法的接收者）。它们因此不做类型检查，因而它们更快，不过这并不安全。对于需要从外部获取的值，例如，应用的信息属性列表或偏好，推荐使用isEqual:,因为它们安全；当类型是知道的时候，使用isEqualToString:替代。</p>
 
-<p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。<p class='post-footer'></p>
-
-<pre><code>        original link:
-        &lt;a href='http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/'&gt;http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/&lt;/a&gt;&lt;br/&gt;
-        &amp;nbsp;written by &lt;a href='http://DamianSheldon.github.io'&gt;Sheldon&lt;/a&gt;
-        &amp;nbsp;posted at &lt;a href='http://DamianSheldon.github.io'&gt;http://DamianSheldon.github.io&lt;/a&gt;
-        &lt;/p&gt;
-</code></pre>
+<p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。</p>
 </div>
 
 
@@ -459,6 +452,8 @@ Listing 1  在初始化过程中检测错误</p>
         <a class="basic-alignment left" href="/blog/2014/05/10/objective-c-class-and-object/" title="Previous Post: Objective-C Class And Object">&laquo; Objective-C Class And Object</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/05/10/property-values/" title="Next Post: Property Values">Property Values &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -476,6 +471,10 @@ Listing 1  在初始化过程中检测错误</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/property-values/">Property Values</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/">Tips and Techniques for Framework Developers(Translation)</a>

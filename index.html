@@ -9,8 +9,8 @@
   <meta name="author" content="Sheldon">
 
   
-  <meta name="description" content="Initialization Class initialization initialize 类方法是一个一次性，懒散的执行一些代码的地方，它会在类的其他方法被调用之前调用。最典型的应用是设置类的版本号。
-动态系统给继承链上每一个类发送initialize方法，即使方法没有实现。 &hellip;">
+  <meta name="description" content="Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。 Property的attribute关键字有以下几类： 1）API Control； getter = methodname
+setter = mehtodname: 2）Write &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,128 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/10/property-values/">Property Values</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-10T14:41:40+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
+
+<p> Property的attribute关键字有以下几类：<br/>
+ 1）API Control；</p>
+
+<pre><code>getter = methodname
+setter = mehtodname:
+</code></pre>
+
+<p> 2）Write Serialization(not general thread safety);</p>
+
+<pre><code>nonatomic
+atomic (default)
+</code></pre>
+
+<p> 3) Mutability;</p>
+
+<pre><code>readonly
+readwrite (default)
+</code></pre>
+
+<p> 4) Memory Management(ARC);</p>
+
+<pre><code>copy
+strong (default)
+weak
+unsafe_unretained
+assign
+</code></pre>
+
+<p> 5) Memory Management(Traditional)</p>
+
+<pre><code>copy
+retain
+assign (default)
+</code></pre>
+
+<h1>API Control</h1>
+
+<p>@property声明实际上是存取方法的快速声明。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSObject</span> <span class="o">*</span><span class="n">propertyName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编辑器最终会合成存取方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">propertyName</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPropertyName:</span><span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>默认的getter和setter方法名分别是propertyName,setPropertyName。可以通过API Control提供的关键字指定存取方法名。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">enabled</span><span class="p">;</span>                                  <span class="c1">// default is YES. if NO, ignores touch events and subclasses may draw differently</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isSelected</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">selected</span><span class="p">;</span>                                <span class="c1">// default is NO may be used by some subclasses or by application</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isHighlighted</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">highlighted</span><span class="p">;</span>                          <span class="c1">// default is NO. this gets set/cleared </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Write Serialization(not general thread safety)</h1>
+
+<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
+
+<h1>Mutability</h1>
+
+<p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
+
+<h1>Memory Management(ARC)</h1>
+
+<p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
+
+<p>2)copy,在内存分配一块全新的地址来存放传入的数据内容，即创建一份新的数据副本用来赋值。适用于实现了NSCoping协议的对象，其他类型的对象声明copy无效。</p>
+
+<p>3)strong(=retain)，强引用，ARC下对象默认内存管理声明关键字，对象引用计数+1。</p>
+
+<p>4)weak,弱引用，持有对象引用计数不变，持有对象释放时，指向的地址为nil。</p>
+
+<p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
+
+<h1>Memory Management(Traditional)</h1>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -387,14 +509,7 @@ Listing 1  在初始化过程中检测错误</p>
 
 <p>你应该意识到通常对象的比较方法isEqual:和相关对象类型的比较方法，如isEqualToString:有重大差别. isEqual方法允许传入任意对象作为参数，如果对象不是相同的对象则返回NO.像isEqualToString:和isEqualToArray:方法，经常假定参数是指定的类型（它经常是方法的接收者）。它们因此不做类型检查，因而它们更快，不过这并不安全。对于需要从外部获取的值，例如，应用的信息属性列表或偏好，推荐使用isEqual:,因为它们安全；当类型是知道的时候，使用isEqualToString:替代。</p>
 
-<p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。<p class='post-footer'></p>
-
-<pre><code>        original link:
-        &lt;a href='http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/'&gt;http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/&lt;/a&gt;&lt;br/&gt;
-        &amp;nbsp;written by &lt;a href='http://DamianSheldon.github.io'&gt;Sheldon&lt;/a&gt;
-        &amp;nbsp;posted at &lt;a href='http://DamianSheldon.github.io'&gt;http://DamianSheldon.github.io&lt;/a&gt;
-        &lt;/p&gt;
-</code></pre>
+<p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。</p>
 </div>
   
   
@@ -517,14 +632,7 @@ Listing 1  在初始化过程中检测错误</p>
 3,深入浅出Cocoa 之动态创建类(<a href="http://blog.csdn.net/kesalin/article/details/7219572">http://blog.csdn.net/kesalin/article/details/7219572</a>)<br/>
 4,Objective-C对象模型及应用(<a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/">http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/</a>)<br/>
 5,Objective-C对象之类对象和元类对象（一）(<a href="http://blog.csdn.net/wzzvictory/article/details/8592492">http://blog.csdn.net/wzzvictory/article/details/8592492</a>)<br/>
-6,Objcclass(<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">http://studentdeng.github.io/blog/2011/10/05/objcclass/</a>)<p class='post-footer'></p>
-
-<pre><code>        original link:
-        &lt;a href='http://DamianSheldon.github.io/blog/2014/05/10/objective-c-class-and-object/'&gt;http://DamianSheldon.github.io/blog/2014/05/10/objective-c-class-and-object/&lt;/a&gt;&lt;br/&gt;
-        &amp;nbsp;written by &lt;a href='http://DamianSheldon.github.io'&gt;Sheldon&lt;/a&gt;
-        &amp;nbsp;posted at &lt;a href='http://DamianSheldon.github.io'&gt;http://DamianSheldon.github.io&lt;/a&gt;
-        &lt;/p&gt;
-</code></pre>
+6,Objcclass(<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">http://studentdeng.github.io/blog/2011/10/05/objcclass/</a>)</p>
 </div>
   
   
@@ -609,14 +717,6 @@ Build Failed
 <pre><code>rake generate
 rake deploy
 </code></pre>
-
-<p class='post-footer'>
-            original link:
-            <a href='http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress/'>http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress/</a><br/>
-            &nbsp;written by <a href='http://DamianSheldon.github.io'>Sheldon</a>
-            &nbsp;posted at <a href='http://DamianSheldon.github.io'>http://DamianSheldon.github.io</a>
-            </p>
-
 </div>
   
   
@@ -641,6 +741,10 @@ rake deploy
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/10/property-values/">Property Values</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/">Tips and Techniques for Framework Developers(Translation)</a>

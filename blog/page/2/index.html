@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Tips and Techniques for Framework Developers(Translation) - Hello World</title>
+  <title>Hello World</title>
   <meta name="author" content="Sheldon">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation">
+  <link rel="canonical" href="http://DamianSheldon.github.io/blog/page/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 <!-- Add by dongmeiliang for table-->
@@ -67,12 +67,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Tips and Techniques for Framework Developers(Translation)</h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/">Tips and Techniques for Framework Developers(Translation)</a></h1>
     
     
       <p class="meta">
@@ -95,7 +98,7 @@
   </header>
 
 
-<div class="entry-content"><h2>Initialization</h2>
+  <div class="entry-content"><h2>Initialization</h2>
 
 <h3>Class initialization</h3>
 
@@ -388,80 +391,252 @@ Listing 1  在初始化过程中检测错误</p>
 
 <p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。</p>
 </div>
+  
+  
 
 
-  <footer>
-    <p class="meta">
+    </article>
+  
+  
+    <article>
       
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Sheldon</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-  
-</span>
-
-
-    </p>
+  <header>
     
-      <div class="sharing">
-  
-  
-  
-</div>
-
-
-	<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style_24x24">
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_tqq"></a>
-	<a class="jiathis_button_weixin"></a>
-	<a class="jiathis_button_renren"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
-<!-- UY END -->
-
-
-
+      <h1 class="entry-title"><a href="/blog/2014/05/10/objective-c-class-and-object/">Objective-C Class and Object</a></h1>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/05/10/objective-c-class-and-object/" title="Previous Post: Objective-C Class And Object">&laquo; Objective-C Class And Object</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/05/10/property-values/" title="Next Post: Property Values">Property Values &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
+    
+      <p class="meta">
+        
 
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-10T07:54:58+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。</p>
+
+<h2>1,Class</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#if !__OBJC2__</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">super_class</span>                                           <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span>                                             <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">version</span>                                               <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">info</span>                                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">instance_size</span>                                         <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span><span class="n">ivars</span>                              <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">**</span><span class="n">methodLists</span>                     <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span><span class="n">cache</span>                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span><span class="n">protocols</span>                      <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2,Object</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// Represents an instance of a class.</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从头文件的定义可以看出,对象的内存布局以一个Class 类型的isa指针开始,而类的内存布局也是以一个Class类型的isa指针开始，所以类也是对象，这样就满足了面向对象编程语言中所有的东西都是对象。</p>
+
+<p>对象是对象，类也是对象。很容易混淆是吧，所以OC重用了一个术语来区分它们:类对象（Class Object）;实例对象（Instance Object）。实例对象的isa指针指向的类叫Class,类对象的isa指针指向的类叫meta-class。meta-class的isa指针指向根类meta-class,根类meta-class的isa指针指向自己。让我们看张图：
+<img src="/images/Objective-C_Class_And_Object.png" title="Objective-C Class And Object" ></p>
+
+<p>那么类对象是怎么创建的呢？经过查找，得到的结论是编译器创建的，编译时所谓的类是指类对象（官方文档： The class object is the compiled version of the class.）。</p>
+
+<h2>3,category</h2>
+
+<p>因为对象在内存中的排布可以看成一个结构体，该结构体的大小并不能动态变化。所以无法在运行时动态给对象增加成员变量。
+相对的，对象的方法定义都保存在类的可变区域中。Objective-C 2.0并未在头文件中将实现暴露出来，但在Objective-C 1.0中，我们可以看到方法的定义列表是一个名为 methodLists的指针的指针。通过修改该指针指向的指针的值，就可以实现动态地为某一个类增加成员方法。这也是Category实现的原理。同时也说明了为什么Category只可为对象增加成员方法，却不能增加成员变量。</p>
+
+<h2>4,方法混写</h2>
+
+<p>因为对象的方法可以改变，因此我们就有了方法混写的技术。</p>
+
+<h2>5,isa混写</h2>
+
+<p>除了对象的方法可以动态修改，因为isa本身也只是一个指针，所以我们也可以在运行时动态地修改isa指针的值，达到替换对象整个行为的目的。</p>
+
+<p>典型示例：KVO。</p>
+
+<h2>6,参考资料</h2>
+
+<p>1,iOS 6 Programming Pushing the Limits, Rob Napier, Mugunth Kumar<br/>
+2,深入浅出Cocoa之类与对象,(<a href="http://blog.csdn.net/kesalin/article/details/7211228">http://blog.csdn.net/kesalin/article/details/7211228</a>)<br/>
+3,深入浅出Cocoa 之动态创建类(<a href="http://blog.csdn.net/kesalin/article/details/7219572">http://blog.csdn.net/kesalin/article/details/7219572</a>)<br/>
+4,Objective-C对象模型及应用(<a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/">http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/</a>)<br/>
+5,Objective-C对象之类对象和元类对象（一）(<a href="http://blog.csdn.net/wzzvictory/article/details/8592492">http://blog.csdn.net/wzzvictory/article/details/8592492</a>)<br/>
+6,Objcclass(<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">http://studentdeng.github.io/blog/2011/10/05/objcclass/</a>)</p>
 </div>
+  
+  
 
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/09/hello-octopress/">Hello Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true">May 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Octopress:A blogging framework for hackers.</p>
+
+<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己对ruby完全不懂，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+
+<h1>问题1</h1>
+
+<pre><code>An error occurred while installing RedCloth (4.2.9), and Bundler cannot continue.
+Make sure that gem install RedCloth -v '4.2.9' succeeds before bundling.
+</code></pre>
+
+<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
+
+<h1>问题2</h1>
+
+<pre><code>rake aborted!
+You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending `bundle exec` to your command may solve this.
+/Users/dongmeiliang/Documents/octopress/Rakefile:2:in `&lt;top (required)&gt;'
+(See full trace by running task with --trace)
+</code></pre>
+
+<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
+
+<pre><code>brew update
+brew doctor
+cd root_path_octopress
+git pull octopress master
+rm Gemfile.lock
+vim Gemfile
+gem 'rake', '~&gt; 10.1.0'//改成合适的版本
+</code></pre>
+
+<h1>问题3</h1>
+
+<pre><code>dongmeiiangsmbp:octopress dongmeiliang$ rake generate
+...
+Build Failed
+</code></pre>
+
+<p>Solution:网上找了下，类似问题的原因可能是有空格之类的问题，用FileMerge比较了下发现是空格的原因。吐槽下这原因感觉有点难以接受啊。十分感谢原帖作者，忘记把链接复制下来了。</p>
+
+<h1>问题4</h1>
+
+<p>之前安装过程中，出于测试的目的，写了篇草稿发上来了，现在想重新把文章编辑下，但是奇怪的是source分支中找不到原文件了，如果你知道原因请告诉我一声。</p>
+
+<p>Solution:我的解决办法是在_deploy路径下同步master分支，解决合并冲突，然后把blog目录下相应的index.html文件删除了，然后：</p>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<h2>问题5（2014.5.21）</h2>
+
+<p>怎么把文章放到navigation对应的分类组织中呢？</p>
+
+<p>solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：<br/>
+rake new_page[categories/iOS_Development]<br/>
+vim source/_includes/custom/navigation.html
+增加<li><a href="/blog/categories/ios-development">iOS Development</a></li></p>
+
+<p>然后在文章的头部：
+categories: [iOS Development]</p>
+
+<h2>问题6</h2>
+
+<p>怎么把侧边栏放到底部去呢？</p>
+
+<h2>问题7</h2>
+
+<p>Error fetching <a href="https://ruby.taobao.org/:">https://ruby.taobao.org/:</a></p>
+
+<pre><code>too many connection resets (https://rubygems-china.oss.aliyuncs.com/specs.4.8.gz)
+</code></pre>
+
+<p>Solution:网上查找相关问题，没有找到好的解决办法。经过一番琢磨，觉得可能是我设置了goagent，于是注释掉.bash_profile中的http_prosy, https_proxy, 然后在Terminal中执行unset http_proxy, unset https_proxy, gem sources -a <a href="https://ruby.taobao.org/%E6%88%90%E5%8A%9F%E4%BA%86%E3%80%82">https://ruby.taobao.org/%E6%88%90%E5%8A%9F%E4%BA%86%E3%80%82</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
 <aside class="sidebar">
   
     <section>
@@ -469,15 +644,15 @@ Listing 1  在初始化过程中检测错误</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/06/24/swift-learning-notes-properties/">Swift Learning Notes -- Properties</a>
+        <a href="/blog/2014/06/24/swift-learning-notes-properties/">Swift Learning Notes &#8211; Properties</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/06/24/swift-learning-notes-initialization/">Swift Learning Notes -- Initialization</a>
+        <a href="/blog/2014/06/24/swift-learning-notes-initialization/">Swift Learning Notes &#8211; Initialization</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/05/21/ios-concurrency-programming-gcd/">iOS Concurrency Programming--GCD</a>
+        <a href="/blog/2014/05/21/ios-concurrency-programming-gcd/">iOS Concurrency Programming&#8211;GCD</a>
       </li>
     
       <li class="post">
@@ -497,7 +672,6 @@ Listing 1  在初始化过程中检测错误</p>
 
   
 </aside>
-
 
     </div>
   </div>

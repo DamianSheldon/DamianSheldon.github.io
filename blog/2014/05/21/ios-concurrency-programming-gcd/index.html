@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS Concurrency Programming--GCD - Hello World</title>
+  <meta name="author" content="Sheldon">
+
+  
+  <meta name="description" content="GCD是什么？ GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：
+* 直接简单的编程接口；
+* 自动、整体的线程池管理；
+* 高效的内存管理；
+* 负载时不干扰内核；
+* &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+<!-- Add by dongmeiliang for table-->
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hello World</a></h1>
+  
+    <h2>Here's where it all happens for me.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:DamianSheldon.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Welcome</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories/ios-development">iOS Development</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS Concurrency Programming--GCD</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>GCD是什么？</h2>
+
+<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
+* 直接简单的编程接口；<br/>
+* 自动、整体的线程池管理；<br/>
+* 高效的内存管理；<br/>
+* 负载时不干扰内核；<br/>
+* 异步分发任务到分派队列不会造成死锁；<br/>
+* 优雅地处理竞争；<br/>
+* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
+
+<h2>如何使用GCD？</h2>
+
+<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
+
+<h3>1）单个任务；</h3>
+
+<p>我们通常是通过调用以下API来执行任务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
+</span><span class='line'><span class="n">dispatch_async_f</span>
+</span><span class='line'><span class="n">dispatch_sync</span>
+</span><span class='line'><span class="n">dispatch_sync_f</span>
+</span><span class='line'><span class="n">dispatch_after</span>
+</span><span class='line'><span class="n">dispatch_after_f</span>
+</span><span class='line'><span class="n">dispatch_apply</span>
+</span><span class='line'><span class="n">dispatch_apply_f</span>
+</span><span class='line'><span class="n">dispatch_once</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_get_global_queue</span>
+</span><span class='line'><span class="n">dispatch_get_main_queue</span>
+</span><span class='line'><span class="n">dispatch_queue_create</span>
+</span><span class='line'><span class="n">dispatch_get_current_queue</span>
+</span><span class='line'><span class="n">dispatch_queue_get_label</span>
+</span><span class='line'><span class="n">dispatch_set_target_queue</span>
+</span><span class='line'><span class="n">dispatch_main</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dispatch queues主要有三大类：main queue, Concurrent queue, Serial queue;</p>
+
+<p>i)main queue:通过dispatch_get_main_queue(void)可以取到main queue;</p>
+
+<p>ii)Concurrent queue:通过dispatch_queue_t dispatch_get_global_queue(long priority,unsigned long flags)可以取得全局的并发队列。总共有四个优先级的全局队列：
+ DISPATCH_QUEUE_PRIORITY_HIGH      <br/>
+ DISPATCH_QUEUE_PRIORITY_DEFAULT
+ DISPATCH_QUEUE_PRIORITY_LOW      <br/>
+ DISPATCH_QUEUE_PRIORITY_BACKGROUND</p>
+
+<p>iii）Serial queue:可以使用dispatch_queue_create创建串行或并行队列。</p>
+
+<p>代码示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// i) main queue</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ii)Concurrent Queue</span>
+</span><span class='line'><span class="n">dispatch_queue</span> <span class="n">defaultGlobalConcurrentQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// iii)Serial queue</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">myCustomSerialQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyCustomSerialQueue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// async</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// sync</span>
+</span><span class='line'><span class="n">dispatch_sync</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some more work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Both blocks have completed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// apply</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// equlivent implement</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">defaultGlobalConcurrentQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="n">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2）组任务；</h3>
+
+<p>可以使用以下API进行组操作：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_group_async</span>
+</span><span class='line'><span class="n">dispatch_group_async_f</span>
+</span><span class='line'><span class="n">dispatch_group_create</span>
+</span><span class='line'><span class="n">dispatch_group_enter</span>
+</span><span class='line'><span class="n">dispatch_group_leave</span>
+</span><span class='line'><span class="n">dispatch_group_notify</span>
+</span><span class='line'><span class="n">dispatch_group_notify_f</span>
+</span><span class='line'><span class="n">dispatch_group_wait</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Example 1</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Add a task to the group</span>
+</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>   <span class="c1">// Some asynchronous work</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Do some other work while the tasks execute.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// When you cannot make any more forward progress,</span>
+</span><span class='line'><span class="c1">// wait on the group to block the current thread.</span>
+</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Release the group when it is no longer needed.</span>
+</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Example 2</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span> <span class="k">in</span> <span class="n">array</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnItem:</span><span class="n">obj</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnArray:</span><span class="n">array</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3）使用Dispatch Semaphores调控有效的资源使用；</h3>
+
+<p>Dispatch Semaphores相关的API如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_semaphore_create</span>
+</span><span class='line'><span class="n">dispatch_semaphore_signal</span>
+</span><span class='line'><span class="n">dispatch_semaphore_wait</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create the semaphore, specifying the initial pool size</span>
+</span><span class='line'><span class="n">dispatch_semaphore_t</span> <span class="n">fd_sema</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">getdtablesize</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Wait for a free file descriptor</span>
+</span><span class='line'><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&quot;/etc/services&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Release the file descriptor when done</span>
+</span><span class='line'><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Reference</h2>
+
+<p>o Concurrency Programming Guide<br/>
+o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sheldon</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+
+	<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/19/iosde-hui-tu-xi-tong/" title="Previous Post: iOS的绘图系统">&laquo; iOS的绘图系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/06/24/swift-learning-notes-initialization/" title="Next Post: Swift Learning Notes -- Initialization">Swift Learning Notes -- Initialization &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/24/swift-learning-notes-properties/">Swift Learning Notes -- Properties</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/24/swift-learning-notes-initialization/">Swift Learning Notes -- Initialization</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/ios-concurrency-programming-gcd/">iOS Concurrency Programming--GCD</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/19/iosde-hui-tu-xi-tong/">iOS的绘图系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu/">iOS UIWebView与JavaScript交互</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sheldon -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

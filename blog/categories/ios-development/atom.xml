@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-07-28T21:42:06+08:00</updated>
+  <updated>2014-08-25T21:01:02+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[改变UIView的Frame时遇到的问题]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/"/>
+    <updated>2014-08-25T17:09:49+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti</id>
+    <content type="html"><![CDATA[<p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
+
+<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+
+<p>Reference:<br/>
+o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
+
+<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
+
+<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6]]></title>
@@ -355,152 +375,6 @@ dispatch_semaphore_signal(fd_sema);
 
 <p>o Concurrency Programming Guide<br/>
 o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS的绘图系统]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/19/iosde-hui-tu-xi-tong/"/>
-    <updated>2014-05-19T16:47:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/19/iosde-hui-tu-xi-tong</id>
-    <content type="html"><![CDATA[<h2>iOS的绘图框架</h2>
-
-<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
-
-<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
-
-<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
-
-<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
-
-<h2>Drawing Destinations(iOS-Only)</h2>
-
-<p>1)View Graphics Context<br/>
-2)Layer<br/>
-3)Bitmap<br/>
-4)PDF<br/>
-5)Printer</p>
-
-<h2>Drawing to a View Graphics Context in iOS</h2>
-
-<p>1)Implement drawRect:method;<br/>
-2)Mark the view you want update by invocate setNeedDisplay;<br/>
-3)Obtain Graphic context by Call UIGraphicsGetCurrentContext method;<br/>
-4)Use UIKit provides functions, UIBezierPath or Core Graphics to meet your need.</p>
-
-<p>``` objective-c
-// 1) UIKit method
-UIBezierPath *path = [UIBezierPath bezierPath];
-[path moveToPoint:CGPointMake(16.72, 7.22)];
-[path addLineToPoint:CGPointMake(3.29, 20.83)];
-[path addLineToPoint:CGPointMake(0.4, 18.05)];
-[path addLineToPoint:CGPointMake(18.8, -0.47)];
-[path addLineToPoint:CGPointMake(37.21, 18.05)];
-[path addLineToPoint:CGPointMake(34.31, 20.83)];
-[path addLineToPoint:CGPointMake(20.88, 7.22)];
-[path addLineToPoint:CGPointMake(20.88, 42.18)];
-[path addLineToPoint:CGPointMake(16.72, 42.18)];
-[path addLineToPoint:CGPointMake(16.72, 7.22)];
-[path closePath];
-path.lineWidth = 1;
-[[UIColor redColor] setStroke];
-[path stroke];</p>
-
-<p>// 2) Core Graphics method
-CGContextBeginPath(ctx);
-CGContextMoveToPoint(ctx, 16.72, 7.22);
-CGContextAddLineToPoint(ctx, 3.29, 20.83);
-CGContextAddLineToPoint(ctx, 0.4, 18.05);
-CGContextAddLineToPoint(ctx, 18.8, -0.47);
-CGContextAddLineToPoint(ctx, 37.21, 18.05);
-CGContextAddLineToPoint(ctx, 34.31, 20.83);
-CGContextAddLineToPoint(ctx, 20.88, 7.22);
-CGContextAddLineToPoint(ctx, 20.88, 42.18);
-CGContextAddLineToPoint(ctx, 16.72, 42.18);
-CGContextAddLineToPoint(ctx, 16.72, 7.22);
-CGContextClosePath(ctx);
-CGContextSetLineWidth(ctx, 1);
-CGContextSetStrokeColorWithColor(ctx, [UIColor redColor].CGColor);
-CGContextStrokePath(ctx);
-```</p>
-
-<h2>Drawing to a Layer(CGLayer)</h2>
-
-<p>A layer context (CGLayerRef) is an offscreen drawing destination associated with another graphics context. It is designed for optimal performance when drawing the layer to the graphics context that created it. A layer context can be a much better choice for offscreen drawing than a bitmap graphics context.</p>
-
-<p>1)“Create a CGLayer Object Initialized with an Existing Graphics Context”<br/>
-2)“Get a Graphics Context for the Layer”<br/>
-3)“Draw to the CGLayer Graphics Context”<br/>
-4)“Draw the Layer to the Destination Graphics Context”</p>
-
-<h2>Drawing to a BitMap</h2>
-
-<p>A bitmap graphics context accepts a pointer to a memory buffer that contains storage space for the bitmap. When you paint into the bitmap graphics context, the buffer is updated. After you release the graphics context, you have a fully updated bitmap in the pixel format you specify.</p>
-
-<p>1)Creating a Bitmap Graphics Context;<br/>
-UIGraphicsBeginImageContextWithOptions() or CGBitmapContextCeate()<br/>
-2)Draw code.</p>
-
-<p>``` objective-c
-// 1) Mix call UIKit and Core Graphics</p>
-
-<p>UIGraphicsBeginImageContextWithOptions(CGSizeMake(45, 45), YES, 2);
-CGContextRef ctx = UIGraphicsGetCurrentContext();
-CGContextBeginPath(ctx);
-CGContextMoveToPoint(ctx, 16.72, 7.22);
-CGContextAddLineToPoint(ctx, 3.29, 20.83);
-&hellip;
-CGContextStrokePath(ctx);
-UIGraphicsEndImageContext();</p>
-
-<p>// 2) Core Graphics
-CGContextRef ctx = CGBitmapContextCreate(NULL, 90, 90, 8, 90 * 4, space, bitmapInfo);
-CGContextScaleCTM(ctx, 0.5, 0.5);
-UIGraphicsPushContext(ctx);
-UIBezierPath *path = [UIBezierPath bezierPath];
-[path moveToPoint:CGPointMake(16.72, 7.22)];
-[path addLineToPoint:CGPointMake(3.29, 20.83)];
-&hellip;
-[path stroke];
-UIGraphicsPopContext(ctx);
-CGContextRelease(ctx);
-```</p>
-
-<h2>Concurrency Drawing</h2>
-
-<p>``` objective-c
-UIImageView <em>view; // assume we have this
-NSOperationQueue </em>renderQueue; // assume we have this
-CGSize size = view.bounds.size;
-[renderQueue addOperationWithBlock:^(){</p>
-
-<pre><code>    UIImage *image = [renderer renderInImageOfSize:size];
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^(){
-        view.image = image;
-    }];
-</code></pre>
-
-<p>}];</p>
-
-<ul>
-<li><p>(UIImage *)renderInImageOfSize:(CGSize)size;
-{
-  UIGraphicsBeginImageContextWithOptions(size, NO, 0);</p>
-
-<p>  // do drawing here</p>
-
-<p>  UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  return result;
-}
-```</p></li>
-</ul>
-
-
-<h2>Reference</h2>
-
-<p>o Quartz 2D Programming Guide<br/>
-o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.io/issue-3-1/</a></p>
 ]]></content>
   </entry>
   

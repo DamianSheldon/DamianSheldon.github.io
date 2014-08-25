@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>About Me  | Hello World</title>
+	<title>改变UIView的Frame时遇到的问题  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Welcome to my blog!"> <meta name="keywords" content="">
+<meta name="description" content="改变UIView的Frame时遇到的问题"> <meta name="keywords" content="iOS, UIView, Frame">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -110,13 +110,79 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner"><article class="page">
-    <div class="entry-content"><p>Hi,我是Sheldon,欢迎来到我的博客。目前在长沙从事iOS App开发，对移动互联网和传统互联网有浓厚兴趣，欢迎交流学习。<br/>
-twitter:@dongmeilianghy<br/>
-E-mail:<a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#100;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#108;&#105;&#97;&#x6e;&#103;&#x68;&#121;&#64;&#115;&#x69;&#110;&#x61;&#46;&#99;&#111;&#109;">&#100;&#x6f;&#x6e;&#x67;&#x6d;&#x65;&#105;&#108;&#105;&#97;&#110;&#x67;&#x68;&#121;&#x40;&#x73;&#105;&#x6e;&#97;&#46;&#99;&#x6f;&#x6d;</a>  <br/>
-兴趣爱好：台球。</p>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">改变UIView的Frame时遇到的问题</h2>
+	<div class="entry-content"><p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
+
+<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+
+<p>Reference:<br/>
+o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
+
+<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
+
+<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
 </div>
-</article>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    <!-- Add wei bo share and comment by sheldon -->
+    
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
 
 </div>

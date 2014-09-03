@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-08-25T21:01:02+08:00</updated>
+  <updated>2014-09-03T15:19:09+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Core Animation 笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/09/03/core-animation-bi-ji/"/>
+    <updated>2014-09-03T09:59:58+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/09/03/core-animation-bi-ji</id>
+    <content type="html"><![CDATA[<h2>Core Animation介绍</h2>
+
+<p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app.</p>
+
+<h2>什么时候使用Core Animation?</h2>
+
+<p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p>
+
+<h2>如何使用Core Animation?</h2>
+
+<pre><code>1)Enabling Core Animation Support in Your App;
+In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.
+
+2)Selecting a appropriate Layer Object Associated with a View;
+Reference:Core Animation Programming Guide -- Different Layer Classes Provide Specialized Behaviors
+
+3)Add animation to layer.
+CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.
+The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[改变UIView的Frame时遇到的问题]]></title>
@@ -198,183 +226,6 @@ These rules apply even if your subclass adds further convenience initializers.
 
 NOTE:子类可以是用Convenience Initializer实现父类的Designated Initializer.
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Concurrency Programming--GCD]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd/"/>
-    <updated>2014-05-21T11:40:27+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd</id>
-    <content type="html"><![CDATA[<h2>GCD是什么？</h2>
-
-<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
-* 直接简单的编程接口；<br/>
-* 自动、整体的线程池管理；<br/>
-* 高效的内存管理；<br/>
-* 负载时不干扰内核；<br/>
-* 异步分发任务到分派队列不会造成死锁；<br/>
-* 优雅地处理竞争；<br/>
-* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
-
-<h2>如何使用GCD？</h2>
-
-<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
-
-<h3>1）单个任务；</h3>
-
-<p>我们通常是通过调用以下API来执行任务：
-<code>objective-c
-dispatch_async
-dispatch_async_f
-dispatch_sync
-dispatch_sync_f
-dispatch_after
-dispatch_after_f
-dispatch_apply
-dispatch_apply_f
-dispatch_once
-</code></p>
-
-<p>调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:
-<code>objective-c
-dispatch_get_global_queue
-dispatch_get_main_queue
-dispatch_queue_create
-dispatch_get_current_queue
-dispatch_queue_get_label
-dispatch_set_target_queue
-dispatch_main
-</code></p>
-
-<p>dispatch queues主要有三大类：main queue, Concurrent queue, Serial queue;</p>
-
-<p>i)main queue:通过dispatch_get_main_queue(void)可以取到main queue;</p>
-
-<p>ii)Concurrent queue:通过dispatch_queue_t dispatch_get_global_queue(long priority,unsigned long flags)可以取得全局的并发队列。总共有四个优先级的全局队列：
- DISPATCH_QUEUE_PRIORITY_HIGH      <br/>
- DISPATCH_QUEUE_PRIORITY_DEFAULT
- DISPATCH_QUEUE_PRIORITY_LOW      <br/>
- DISPATCH_QUEUE_PRIORITY_BACKGROUND</p>
-
-<p>iii）Serial queue:可以使用dispatch_queue_create创建串行或并行队列。</p>
-
-<p>代码示例：
-``` objective-c
-// i) main queue
-dispatch_queue_t mainQueue = dispatch_get_main_queue(void);</p>
-
-<p>// ii)Concurrent Queue
-dispatch_queue defaultGlobalConcurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</p>
-
-<p>// iii)Serial queue
-dispatch_queue_t myCustomSerialQueue = dispatch_queue_create(&ldquo;com.example.MyCustomSerialQueue&rdquo;, NULL);</p>
-
-<p>// async
-dispatch_async(myCustomSerialQueue, ^{</p>
-
-<pre><code>printf("Do some work here.\n");
-</code></pre>
-
-<p>});</p>
-
-<p>// sync
-dispatch_sync(myCustomSerialQueue, ^{</p>
-
-<pre><code>printf("Do some more work here.\n");
-</code></pre>
-
-<p>});
-printf(&ldquo;Both blocks have completed.\n&rdquo;);</p>
-
-<p>// apply
-for (i = 0; i &lt; count; i++) {
-   printf(&ldquo;%u\n&rdquo;,i);
-}</p>
-
-<p>// equlivent implement</p>
-
-<p>dispatch_apply(count, defaultGlobalConcurrentQueue, ^(size_t i) {
-   printf(&ldquo;%u\n&rdquo;,i);
-});
-```</p>
-
-<h3>2）组任务；</h3>
-
-<p>可以使用以下API进行组操作：
-<code>objective-c
-dispatch_group_async
-dispatch_group_async_f
-dispatch_group_create
-dispatch_group_enter
-dispatch_group_leave
-dispatch_group_notify
-dispatch_group_notify_f
-dispatch_group_wait
-</code>
-代码示例：
-``` objective-c
-// Example 1
-dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</p>
-
-<p>dispatch_group_t group = dispatch_group_create();</p>
-
-<p>// Add a task to the group
-dispatch_group_async(group, queue, ^{
-   // Some asynchronous work
-});</p>
-
-<p>// Do some other work while the tasks execute.</p>
-
-<p>// When you cannot make any more forward progress,
-// wait on the group to block the current thread.
-dispatch_group_wait(group, DISPATCH_TIME_FOREVER);</p>
-
-<p>// Release the group when it is no longer needed.
-dispatch_release(group);</p>
-
-<p>// Example 2
-dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-dispatch_group_t group = dispatch_group_create();
-for(id obj in array)</p>
-
-<pre><code>dispatch_group_async(group, queue, ^{
-    [self doWorkOnItem:obj];
-});
-</code></pre>
-
-<p>dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-dispatch_release(group);
-[self doWorkOnArray:array];</p>
-
-<p>```</p>
-
-<h3>3）使用Dispatch Semaphores调控有效的资源使用；</h3>
-
-<p>Dispatch Semaphores相关的API如下：
-<code>objective-c
-dispatch_semaphore_create
-dispatch_semaphore_signal
-dispatch_semaphore_wait
-</code>
-代码示例：
-```objective-c
-// Create the semaphore, specifying the initial pool size
-dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);</p>
-
-<p>// Wait for a free file descriptor
-dispatch_semaphore_wait(fd_sema, DISPATCH_TIME_FOREVER);
-fd = open(&ldquo;/etc/services&rdquo;, O_RDONLY);</p>
-
-<p>// Release the file descriptor when done
-close(fd);
-dispatch_semaphore_signal(fd_sema);
-```</p>
-
-<h2>Reference</h2>
-
-<p>o Concurrency Programming Guide<br/>
-o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/</a></p>
 ]]></content>
   </entry>
   

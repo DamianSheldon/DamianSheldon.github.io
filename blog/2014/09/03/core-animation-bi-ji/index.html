@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Categories  | Hello World</title>
+	<title>Core Animation 笔记  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Welcome to my blog!"> <meta name="keywords" content="">
+<meta name="description" content="Learning Core Animation Notes"> <meta name="keywords" content="Core Animation, iOS Development">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -110,25 +110,87 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner"><article class="page">
-    <div class="entry-content"><ul>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Core Animation 笔记</h2>
+	<div class="entry-content"><h2>Core Animation介绍</h2>
 
-    <li><a href="/blog/categories/Archievs/">Archievs</a> [ 1 ]</li>
+<p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app.</p>
 
-    <li><a href="/blog/categories/Archives/">Archives</a> [ 6 ]</li>
+<h2>什么时候使用Core Animation?</h2>
 
-    <li><a href="/blog/categories/iOS Development/">Ios development</a> [ 11 ]</li>
+<p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p>
 
-    <li><a href="/blog/categories/Archieves/">Archieves</a> [ 2 ]</li>
+<h2>如何使用Core Animation?</h2>
 
-    <li><a href="/blog/categories/Archevies/">Archevies</a> [ 1 ]</li>
+<pre><code>1)Enabling Core Animation Support in Your App;
+In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.
 
-    <li><a href="/blog/categories/Archive/">Archive</a> [ 1 ]</li>
+2)Selecting a appropriate Layer Object Associated with a View;
+Reference:Core Animation Programming Guide -- Different Layer Classes Provide Specialized Behaviors
 
-</ul>
+3)Add animation to layer.
+CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.
+The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.
+</code></pre>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-03T09:59:58+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archive/'>Archive</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
-</article>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    <!-- Add wei bo share and comment by sheldon -->
+    
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
 
 </div>

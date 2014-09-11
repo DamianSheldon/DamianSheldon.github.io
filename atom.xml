@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-09-03T15:19:09+08:00</updated>
+  <updated>2014-09-11T09:55:00+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Mac OSX Mavericks上安装和配置Openfire]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/"/>
+    <updated>2014-09-11T09:15:32+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks</id>
+    <content type="html"><![CDATA[<h3>安装</h3>
+
+<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
+
+<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
+  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
+
+<h3>配置</h3>
+
+<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Core Animation 笔记]]></title>
@@ -28,16 +46,15 @@
 
 <h2>如何使用Core Animation?</h2>
 
-<pre><code>1)Enabling Core Animation Support in Your App;
-In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.
+<p>  1)Enabling Core Animation Support in Your App;
+  In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.</p>
 
-2)Selecting a appropriate Layer Object Associated with a View;
-Reference:Core Animation Programming Guide -- Different Layer Classes Provide Specialized Behaviors
+<p>  2)Selecting a appropriate Layer Object Associated with a View;
+  Reference:Core Animation Programming Guide &mdash; Different Layer Classes Provide Specialized Behaviors</p>
 
-3)Add animation to layer.
-CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.
-The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.
-</code></pre>
+<p>  3)Add animation to layer.
+  CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.
+  The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.</p>
 ]]></content>
   </entry>
   

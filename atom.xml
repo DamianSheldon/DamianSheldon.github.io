@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-09-11T09:59:47+08:00</updated>
+  <updated>2014-09-29T22:27:31+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1375,41 +1375,61 @@ Listing 1  在初始化过程中检测错误</p>
     <id>http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress</id>
     <content type="html"><![CDATA[<p>Octopress:A blogging framework for hackers.</p>
 
-<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己对ruby完全不懂，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
 
 <h1>问题1</h1>
 
-<pre><code>An error occurred while installing RedCloth (4.2.9), and Bundler cannot continue.
-Make sure that gem install RedCloth -v '4.2.9' succeeds before bundling.
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
+</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
 
 <h1>问题2</h1>
 
-<pre><code>rake aborted!
-You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending `bundle exec` to your command may solve this.
-/Users/dongmeiliang/Documents/octopress/Rakefile:2:in `&lt;top (required)&gt;'
-(See full trace by running task with --trace)
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
+</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
+</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
 
-<pre><code>brew update
-brew doctor
-cd root_path_octopress
-git pull octopress master
-rm Gemfile.lock
-vim Gemfile
-gem 'rake', '~&gt; 10.1.0'//改成合适的版本
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew doctor
+</span><span class='line'><span class="nb">cd </span>root_path_octopress
+</span><span class='line'>git pull octopress master
+</span><span class='line'>rm Gemfile.lock
+</span><span class='line'>vim Gemfile
+</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h1>问题3</h1>
 
-<pre><code>dongmeiiangsmbp:octopress dongmeiliang$ rake generate
-...
-Build Failed
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dongmeiiangsmbp:octopress dongmeiliang<span class="nv">$ </span>rake generate
+</span><span class='line'>...
+</span><span class='line'>Build Failed
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Solution:网上找了下，类似问题的原因可能是有空格之类的问题，用FileMerge比较了下发现是空格的原因。吐槽下这原因感觉有点难以接受啊。十分感谢原帖作者，忘记把链接复制下来了。</p>
 
@@ -1419,18 +1439,27 @@ Build Failed
 
 <p>Solution:我的解决办法是在_deploy路径下同步master分支，解决合并冲突，然后把blog目录下相应的index.html文件删除了，然后：</p>
 
-<pre><code>rake generate
-rake deploy
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake generate
+</span><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>问题5（2014.5.21）</h2>
 
 <p>怎么把文章放到navigation对应的分类组织中呢？</p>
 
-<p>solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：<br/>
-rake new_page[categories/iOS_Development]<br/>
-vim source/_includes/custom/navigation.html
-增加<li><a href="http://DamianSheldon.github.io/blog/categories/ios-development">iOS Development</a></li></p>
+<p>solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>categories/iOS_Development<span class="o">]</span>
+</span><span class='line'>vim <span class="nb">source</span>/_includes/custom/navigation.html
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>增加<li><a href="http://DamianSheldon.github.io/blog/categories/ios-development">iOS Development</a></li></p>
 
 <p>然后在文章的头部：
 categories: [iOS Development]</p>
@@ -1441,12 +1470,72 @@ categories: [iOS Development]</p>
 
 <h2>问题7</h2>
 
-<p>Error fetching <a href="https://ruby.taobao.org/:">https://ruby.taobao.org/:</a></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Error fetching https://ruby.taobao.org/:
+</span><span class='line'>  too many connection resets <span class="o">(</span>https://rubygems-china.oss.aliyuncs.com/specs.4.8.gz<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>too many connection resets (https://rubygems-china.oss.aliyuncs.com/specs.4.8.gz)
-</code></pre>
 
-<p>Solution:网上查找相关问题，没有找到好的解决办法。经过一番琢磨，觉得可能是我设置了goagent，于是注释掉.bash_profile中的http_prosy, https_proxy, 然后在Terminal中执行unset http_proxy, unset https_proxy, gem sources -a <a href="https://ruby.taobao.org/%E6%88%90%E5%8A%9F%E4%BA%86%E3%80%82">https://ruby.taobao.org/%E6%88%90%E5%8A%9F%E4%BA%86%E3%80%82</a></p>
+<p>Solution:网上查找相关问题，没有找到好的解决办法。经过一番琢磨，觉得可能是我设置了goagent，于是注释掉.bash_profile中的http_prosy, https_proxy, 然后在Terminal中执行</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">unset </span>http_proxy
+</span><span class='line'><span class="nb">unset </span>https_proxy
+</span><span class='line'>gem sources -a https://ruby.taobao.org
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Octopress目录结构 (2014.9.29)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> ├─ config.rb  <span class="c">#指定额外的compass插件</span>
+</span><span class='line'>  ├─ config.ru
+</span><span class='line'>  ├─ Rakefile   <span class="c">#rake的配置文件,类似于makefile</span>
+</span><span class='line'>  ├─ Gemfile    <span class="c">#bundle要下载需要的gem依赖关系的指定文件</span>
+</span><span class='line'>  ├─ Gemfile.lock  <span class="c">#这些gem依赖的对应关系,比如A的x本依赖于B的y版本</span>
+</span><span class='line'>  ├─ _config.yml   <span class="c">#站点的配置文件</span>
+</span><span class='line'>  ├─ public/    <span class="c">#在静态编译完成后的目录,网站只需要这个目录下的文件树</span>
+</span><span class='line'>  ├─ _deploy/   <span class="c">#deploy时候生成的缓存文件夹,和public目录一样</span>
+</span><span class='line'>  ├─ sass/      <span class="c">#css文件的源文件,过程中会compass成css</span>
+</span><span class='line'>  ├─ plugins/   <span class="c">#放置自带以及第三方插件的目录,ruby程序</span>
+</span><span class='line'>  │  └── xxx.rb
+</span><span class='line'>  └─ <span class="nb">source</span>/    <span class="c">#站点的源文件目录,public目录就是根据这个目录下数据生成的</span>
+</span><span class='line'>    └─ _includes/
+</span><span class='line'>        └─ custom/      <span class="c">#自定义的模板目录,被相应上级html include</span>
+</span><span class='line'>           └─ asides/   <span class="c">#边栏模板自定义模板目录</span>
+</span><span class='line'>        └─ asides/      <span class="c">#边栏模板目录</span>
+</span><span class='line'>        └─ post/        <span class="c">#文章页面相应模板目录</span>
+</span><span class='line'>     └─ _layouts/       <span class="c">#默认网站html相关文件,最底层</span>
+</span><span class='line'>     └─ _posts/         <span class="c">#新增以及从其它程序迁移过来的数据都存在这里</span>
+</span><span class='line'>     └─ stylesheets/    <span class="c">#css文件目录</span>
+</span><span class='line'>     └─ javascripts/    <span class="c">#js文件目录</span>
+</span><span class='line'>     └─ images/         <span class="c">#图片目录  </span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   

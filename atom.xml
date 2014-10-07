@@ -1,0 +1,1493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Hello World]]></title>
+  <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
+  <link href="http://DamianSheldon.github.io/"/>
+  <updated>2014-10-07T10:29:01+08:00</updated>
+  <id>http://DamianSheldon.github.io/</id>
+  <author>
+    <name><![CDATA[Sheldon]]></name>
+    <email><![CDATA[dongmeilianghy@sina.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[在Mac OSX Mavericks上安装和配置Openfire]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/"/>
+    <updated>2014-09-11T09:15:32+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks</id>
+    <content type="html"><![CDATA[<h3>安装</h3>
+
+<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
+
+<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
+  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
+
+<h3>配置</h3>
+
+<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Core Animation 笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/09/03/core-animation-bi-ji/"/>
+    <updated>2014-09-03T09:59:58+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/09/03/core-animation-bi-ji</id>
+    <content type="html"><![CDATA[<h2>Core Animation介绍</h2>
+
+<p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app.</p>
+
+<h2>什么时候使用Core Animation?</h2>
+
+<p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p>
+
+<h2>如何使用Core Animation?</h2>
+
+<p>  1)Enabling Core Animation Support in Your App;<br/>
+  In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.</p>
+
+<p>  2)Selecting a appropriate Layer Object Associated with a View;<br/>
+  Reference:Core Animation Programming Guide &mdash; Different Layer Classes Provide Specialized Behaviors</p>
+
+<p>  3)Add animation to layer.<br/>
+  CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.<br/>
+  The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发遇到的问题]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/"/>
+    <updated>2014-08-25T17:09:49+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti</id>
+    <content type="html"><![CDATA[<p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
+
+<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+
+<p>Reference:<br/>
+o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
+
+<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
+
+<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/"/>
+    <updated>2014-07-28T16:05:38+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6</id>
+    <content type="html"><![CDATA[<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+
+<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+
+<h3>当方法被废弃了</h3>
+
+<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+
+<h3>如何处理废弃的方法</h3>
+
+<p>已经被废弃的方法在新的iOS版本上仍然可以工作。Apple趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
+
+<p>今天的例子，我们会看下 locationManager:didUpdateToLocation:fromLocation:方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了兼容iOS 5,我们可以加入旧的方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>，并在旧的方法中调用新的方法，代码看起来会像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateToLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">newLocation</span> <span class="nf">fromLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLocation</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">locationManager:</span><span class="n">locationManager</span> <span class="nl">didUpdateLocations:</span><span class="p">[[</span><span class="n">NSArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithObjects:</span><span class="n">newLocation</span><span class="p">,</span> <span class="nb">nil</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是iOS5，新的方法不会被调用，它就像自定义的方法，iOS5并不知道locationManager:didUpdateLocations:事实上是什么。旧的方法简单的alloc/init新的名为currentLocation的NSArray并且使用 initWithObjects:newLocation获取一个newLocation,然后NSArray作为信息被传递到locationManager新的方法。</p>
+
+<p>总之，如果设备是iOS5,旧的方法locationManager:didUpdateToLocation:fromLocation: 告诉代理新的位置可用，它把CLLocation加到NSArray中传递给新的方法，但设备的操作系统并不知道新方法。</p>
+
+<p>如果使用的是iOS6,我们从CLLocationManagerDelegate的头文件中了解到如果代码中既有旧方法又有新方法，那么iOS会调用新方法通知代理位置更新了。</p>
+
+<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和关文件，因为Apple添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
+
+<p>原文<br/>
+o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Swift Learning Notes -- Properties]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-properties/"/>
+    <updated>2014-06-24T15:28:20+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-properties</id>
+    <content type="html"><![CDATA[<h3>Properties</h3>
+
+<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
+
+<h4>Type Properties</h4>
+
+<p>属于类型本身的properties称为Type Property.</p>
+
+<p>1)Value Type Properties (keyword: static)<br/>
+structrue, enumeration可以定义Stroed 和Computed type properties.</p>
+
+<p>Stored type properties for value types can be variables or constants.<br/>
+NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
+
+<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
+
+<p>2)Reference Type Properties (keyword: class)<br/>
+class只可以定义Computed type properties.</p>
+
+<h4>Instance Properties</h4>
+
+<p>1)Stroed Properties
+In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).</p>
+
+<p>P.S:A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.</p>
+
+<p>2)Computed Properties
+computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.</p>
+
+<h3>Properties Observer</h3>
+
+<p>Property observers observe and respond to changes in a property’s value.</p>
+
+<p>You have the option to define either or both of these observers on a property:</p>
+
+<p>willSet is called just before the value is stored.<br/>
+didSet is called immediately after the new value is stored.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Swift Learning Notes -- Initialization]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-initialization/"/>
+    <updated>2014-06-24T11:33:28+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-initialization</id>
+    <content type="html"><![CDATA[<h3>Initialization</h3>
+
+<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
+
+<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
+1，为实例的每一个存储属性设置初始值;  <br/>
+2，进行其他必要的准备工作.</p>
+
+<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
+
+<h3>Value Type Initialization</h3>
+
+<p>1)为存储属性设置默认值；</p>
+
+<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
+structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
+</code></pre>
+
+<p>2)初始化方法。</p>
+
+<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
+</code></pre>
+
+<h3>Reference Type Initialization</h3>
+
+<p>1)为类引入的存储属性设置初始值;<br/>
+2)初始化方法。</p>
+
+<pre><code>Designated initializers must always delegate up.
+Convenience initializers must always delegate across.
+
+Swift中子类默认是不继承父类的初始化方法,然而当满足一定条件时例外。
+Assuming that you provide default values for any new properties you introduce in a subclass, the following two rules apply:
+
+Rule 1
+If your subclass doesn’t define any designated initializers, it automatically inherits all of its superclass designated initializers.
+
+Rule 2
+If your subclass provides an implementation of all of its superclass designated initializers—either by inheriting them as per rule 1, or by providing a custom implementation as part of its definition—then it automatically inherits all of the superclass convenience initializers.
+
+These rules apply even if your subclass adds further convenience initializers.
+
+NOTE:子类可以是用Convenience Initializer实现父类的Designated Initializer.
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Concurrency Programming--GCD]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd/"/>
+    <updated>2014-05-21T11:40:27+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd</id>
+    <content type="html"><![CDATA[<h2>GCD是什么？</h2>
+
+<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
+* 直接简单的编程接口；<br/>
+* 自动、整体的线程池管理；<br/>
+* 高效的内存管理；<br/>
+* 负载时不干扰内核；<br/>
+* 异步分发任务到分派队列不会造成死锁；<br/>
+* 优雅地处理竞争；<br/>
+* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
+
+<h2>如何使用GCD？</h2>
+
+<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
+
+<h3>1）单个任务；</h3>
+
+<p>我们通常是通过调用以下API来执行任务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
+</span><span class='line'><span class="n">dispatch_async_f</span>
+</span><span class='line'><span class="n">dispatch_sync</span>
+</span><span class='line'><span class="n">dispatch_sync_f</span>
+</span><span class='line'><span class="n">dispatch_after</span>
+</span><span class='line'><span class="n">dispatch_after_f</span>
+</span><span class='line'><span class="n">dispatch_apply</span>
+</span><span class='line'><span class="n">dispatch_apply_f</span>
+</span><span class='line'><span class="n">dispatch_once</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_get_global_queue</span>
+</span><span class='line'><span class="n">dispatch_get_main_queue</span>
+</span><span class='line'><span class="n">dispatch_queue_create</span>
+</span><span class='line'><span class="n">dispatch_get_current_queue</span>
+</span><span class='line'><span class="n">dispatch_queue_get_label</span>
+</span><span class='line'><span class="n">dispatch_set_target_queue</span>
+</span><span class='line'><span class="n">dispatch_main</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dispatch queues主要有三大类：main queue, Concurrent queue, Serial queue;</p>
+
+<p>i)main queue:通过dispatch_get_main_queue(void)可以取到main queue;</p>
+
+<p>ii)Concurrent queue:通过dispatch_queue_t dispatch_get_global_queue(long priority,unsigned long flags)可以取得全局的并发队列。总共有四个优先级的全局队列：
+ DISPATCH_QUEUE_PRIORITY_HIGH      <br/>
+ DISPATCH_QUEUE_PRIORITY_DEFAULT
+ DISPATCH_QUEUE_PRIORITY_LOW      <br/>
+ DISPATCH_QUEUE_PRIORITY_BACKGROUND</p>
+
+<p>iii）Serial queue:可以使用dispatch_queue_create创建串行或并行队列。</p>
+
+<p>代码示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// i) main queue</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ii)Concurrent Queue</span>
+</span><span class='line'><span class="n">dispatch_queue</span> <span class="n">defaultGlobalConcurrentQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// iii)Serial queue</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">myCustomSerialQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyCustomSerialQueue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// async</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// sync</span>
+</span><span class='line'><span class="n">dispatch_sync</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some more work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Both blocks have completed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// apply</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// equlivent implement</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">defaultGlobalConcurrentQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="n">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2）组任务；</h3>
+
+<p>可以使用以下API进行组操作：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_group_async</span>
+</span><span class='line'><span class="n">dispatch_group_async_f</span>
+</span><span class='line'><span class="n">dispatch_group_create</span>
+</span><span class='line'><span class="n">dispatch_group_enter</span>
+</span><span class='line'><span class="n">dispatch_group_leave</span>
+</span><span class='line'><span class="n">dispatch_group_notify</span>
+</span><span class='line'><span class="n">dispatch_group_notify_f</span>
+</span><span class='line'><span class="n">dispatch_group_wait</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Example 1</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Add a task to the group</span>
+</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>   <span class="c1">// Some asynchronous work</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Do some other work while the tasks execute.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// When you cannot make any more forward progress,</span>
+</span><span class='line'><span class="c1">// wait on the group to block the current thread.</span>
+</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Release the group when it is no longer needed.</span>
+</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Example 2</span>
+</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span> <span class="k">in</span> <span class="n">array</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnItem:</span><span class="n">obj</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnArray:</span><span class="n">array</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3）使用Dispatch Semaphores调控有效的资源使用；</h3>
+
+<p>Dispatch Semaphores相关的API如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_semaphore_create</span>
+</span><span class='line'><span class="n">dispatch_semaphore_signal</span>
+</span><span class='line'><span class="n">dispatch_semaphore_wait</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create the semaphore, specifying the initial pool size</span>
+</span><span class='line'><span class="n">dispatch_semaphore_t</span> <span class="n">fd_sema</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">getdtablesize</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Wait for a free file descriptor</span>
+</span><span class='line'><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&quot;/etc/services&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Release the file descriptor when done</span>
+</span><span class='line'><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Reference</h2>
+
+<p>o Concurrency Programming Guide<br/>
+o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS的绘图系统]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/19/iosde-hui-tu-xi-tong/"/>
+    <updated>2014-05-19T16:47:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/19/iosde-hui-tu-xi-tong</id>
+    <content type="html"><![CDATA[<h2>iOS的绘图框架</h2>
+
+<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
+
+<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
+
+<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
+
+<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
+
+<h2>Drawing Destinations(iOS-Only)</h2>
+
+<p>1)View Graphics Context<br/>
+2)Layer<br/>
+3)Bitmap<br/>
+4)PDF<br/>
+5)Printer</p>
+
+<h2>Drawing to a View Graphics Context in iOS</h2>
+
+<p>1)Implement drawRect:method;<br/>
+2)Mark the view you want update by invocate setNeedDisplay;<br/>
+3)Obtain Graphic context by Call UIGraphicsGetCurrentContext method;<br/>
+4)Use UIKit provides functions, UIBezierPath or Core Graphics to meet your need.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 1) UIKit method</span>
+</span><span class='line'><span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">18.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.47</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">37.21</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">34.31</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.88</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.88</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="n">closePath</span><span class="p">];</span>
+</span><span class='line'><span class="n">path</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">[[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">]</span> <span class="n">setStroke</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 2) Core Graphics method</span>
+</span><span class='line'><span class="n">CGContextBeginPath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextMoveToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">18.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.47</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">37.21</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">34.31</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">20.88</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">20.88</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextClosePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextSetLineWidth</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextSetStrokeColorWithColor</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextStrokePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Drawing to a Layer(CGLayer)</h2>
+
+<p>A layer context (CGLayerRef) is an offscreen drawing destination associated with another graphics context. It is designed for optimal performance when drawing the layer to the graphics context that created it. A layer context can be a much better choice for offscreen drawing than a bitmap graphics context.</p>
+
+<p>1)“Create a CGLayer Object Initialized with an Existing Graphics Context”<br/>
+2)“Get a Graphics Context for the Layer”<br/>
+3)“Draw to the CGLayer Graphics Context”<br/>
+4)“Draw the Layer to the Destination Graphics Context”</p>
+
+<h2>Drawing to a BitMap</h2>
+
+<p>A bitmap graphics context accepts a pointer to a memory buffer that contains storage space for the bitmap. When you paint into the bitmap graphics context, the buffer is updated. After you release the graphics context, you have a fully updated bitmap in the pixel format you specify.</p>
+
+<p>1)Creating a Bitmap Graphics Context;<br/>
+UIGraphicsBeginImageContextWithOptions() or CGBitmapContextCeate()<br/>
+2)Draw code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 1) Mix call UIKit and Core Graphics</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span> <span class="n">YES</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextRef</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">UIGraphicsGetCurrentContext</span><span class="p">();</span>
+</span><span class='line'><span class="n">CGContextBeginPath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextMoveToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'><span class="n">CGContextStrokePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span><span class='line'><span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 2) Core Graphics</span>
+</span><span class='line'><span class="n">CGContextRef</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">CGBitmapContextCreate</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">90</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">bitmapInfo</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextScaleCTM</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+</span><span class='line'><span class="n">UIGraphicsPushContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span><span class='line'><span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
+</span><span class='line'><span class="n">UIGraphicsPopContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGContextRelease</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Concurrency Drawing</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">UIImageView</span> <span class="o">*</span><span class="n">view</span><span class="p">;</span> <span class="c1">// assume we have this</span>
+</span><span class='line'><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">renderQueue</span><span class="p">;</span> <span class="c1">// assume we have this</span>
+</span><span class='line'><span class="n">CGSize</span> <span class="n">size</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">renderQueue</span> <span class="nl">addOperationWithBlock:</span><span class="o">^</span><span class="p">(){</span>
+</span><span class='line'>        <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">renderer</span> <span class="nl">renderInImageOfSize:</span><span class="n">size</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span> <span class="nl">addOperationWithBlock:</span><span class="o">^</span><span class="p">(){</span>
+</span><span class='line'>            <span class="n">view</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}];</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">renderInImageOfSize:</span><span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">NO</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// do drawing here</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Reference</h2>
+
+<p>o Quartz 2D Programming Guide<br/>
+o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.io/issue-3-1/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS UIWebView与JavaScript交互]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu/"/>
+    <updated>2014-05-14T11:05:53+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu</id>
+    <content type="html"><![CDATA[<h2>1.UIWebView调用JavaScript</h2>
+
+<h3>1.1调用html中已有的JavaScript function</h3>
+
+<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1.2注入JavaScript function,然后调用</h3>
+
+<p>我们还可以先向html中注入JavaScript function,然后调用。
+通常可以在UIWebViewDelegate中注入。示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.JavaScript调用Objective-C Method</h2>
+
+<p>JavaScript调用Objective-C方法的原理是利用UIWebView的重定向请求，传一些命令到我们的UIWebView,在UIWebView的delegate的方法中接收这些命令，并根据命令执行相应的Objc方法。示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">sendCommand</span><span class="p">(</span><span class="nx">cmd</span><span class="p">,</span><span class="nx">param</span><span class="p">){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">url</span><span class="o">=</span><span class="s2">&quot;objc:&quot;</span><span class="o">+</span><span class="nx">cmd</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nx">param</span><span class="p">;</span>
+</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">clickLink</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">sendCommand</span><span class="p">(</span><span class="s2">&quot;alert&quot;</span><span class="p">,</span><span class="s2">&quot;hello objective-c method&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark --  </span>
+</span><span class='line'><span class="cp">#pragma mark UIWebViewDelegate  </span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">webView:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">shouldStartLoadWithRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">navigationType:</span><span class="p">(</span><span class="n">UIWebViewNavigationType</span><span class="p">)</span><span class="nv">navigationType</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">requestString</span> <span class="o">=</span> <span class="p">[[</span><span class="n">request</span> <span class="n">URL</span><span class="p">]</span> <span class="n">absoluteString</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSArray</span> <span class="o">*</span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">requestString</span> <span class="nl">componentsSeparatedByString:</span><span class="s">@&quot;:&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">components</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">[(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;objc&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">([(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">1</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;alert&quot;</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>                                  <span class="nl">initWithTitle:</span><span class="s">@&quot;Alert from Cocoa Touch&quot;</span> <span class="nl">message:</span><span class="p">[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>                                  <span class="nl">delegate:</span><span class="n">self</span> <span class="nl">cancelButtonTitle:</span><span class="nb">nil</span>
+</span><span class='line'>                                  <span class="nl">otherButtonTitles:</span><span class="s">@&quot;OK&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3.相互传值</h2>
+
+<h2>3.1UIWebView传值给JavaScript</h2>
+
+<p>1）最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。
+2）PhoneGap的解决方法是把要传递的参数放到队列里，然后通知Native去取。</p>
+
+<h2>3.2JavaScript传值给UIWebView</h2>
+
+<p>UIWebView调用JavaScript接口方法的返回值就是JavaScript传给UIWebView的值。示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Property Values]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/10/property-values/"/>
+    <updated>2014-05-10T14:41:40+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/10/property-values</id>
+    <content type="html"><![CDATA[<p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
+
+<p> Property的attribute关键字有以下几类：<br/>
+ 1）API Control；</p>
+
+<pre><code>getter = methodname
+setter = mehtodname:
+</code></pre>
+
+<p> 2）Write Serialization(not general thread safety);</p>
+
+<pre><code>nonatomic
+atomic (default)
+</code></pre>
+
+<p> 3) Mutability;</p>
+
+<pre><code>readonly
+readwrite (default)
+</code></pre>
+
+<p> 4) Memory Management(ARC);</p>
+
+<pre><code>copy
+strong (default)
+weak
+unsafe_unretained
+assign
+</code></pre>
+
+<p> 5) Memory Management(Traditional)</p>
+
+<pre><code>copy
+retain
+assign (default)
+</code></pre>
+
+<h2>API Control</h2>
+
+<p>@property声明实际上是存取方法的快速声明。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSObject</span> <span class="o">*</span><span class="n">propertyName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编辑器最终会合成存取方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">propertyName</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPropertyName:</span><span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>默认的getter和setter方法名分别是propertyName,setPropertyName。可以通过API Control提供的关键字指定存取方法名。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">enabled</span><span class="p">;</span>                                  <span class="c1">// default is YES. if NO, ignores touch events and subclasses may draw differently</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isSelected</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">selected</span><span class="p">;</span>                                <span class="c1">// default is NO may be used by some subclasses or by application</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isHighlighted</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">highlighted</span><span class="p">;</span>                          <span class="c1">// default is NO. this gets set/cleared </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Write Serialization(not general thread safety)</h2>
+
+<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
+
+<h2>Mutability</h2>
+
+<p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
+
+<h2>Memory Management(ARC)</h2>
+
+<p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
+
+<p>2)copy,在内存分配一块全新的地址来存放传入的数据内容，即创建一份新的数据副本用来赋值。适用于实现了NSCoping协议的对象，其他类型的对象声明copy无效。</p>
+
+<p>3)strong(=retain)，强引用，ARC下对象默认内存管理声明关键字，对象引用计数+1。</p>
+
+<p>4)weak,弱引用，持有对象引用计数不变，持有对象释放时，指向的地址为nil。</p>
+
+<p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
+
+<h2>Memory Management(Traditional)</h2>
+
+<h2>Reference</h2>
+
+<p>o Property Values <a href="http://www.bignerdranch.com/blog/property-values/?replytocom=740600">http://www.bignerdranch.com/blog/property-values/?replytocom=740600</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips and Techniques for Framework Developers(Translation)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation/"/>
+    <updated>2014-05-10T09:23:09+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/10/tips-and-techniques-for-framework-developers-translation</id>
+    <content type="html"><![CDATA[<h2>Initialization</h2>
+
+<h3>Class initialization</h3>
+
+<p>initialize 类方法是一个一次性，懒散的执行一些代码的地方，它会在类的其他方法被调用之前调用。最典型的应用是设置类的版本号。
+动态系统给继承链上每一个类发送initialize方法，即使方法没有实现。因此它可能会被调用多次（例如，一个子类没有实现它。）。通常我们只想初始化代码被执行一次。一种实现的方法是使用dispatch_once();</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// the initializing code</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Note:因为动态系统发送initialize给每一个类，所以它很可能会在子类的上下文中调用—如果子类没有实现initialize，会调用父类的实现。如果在相关类的上下文中有特殊的初始化需求，我们可以进行如下操作而不仅仅是使用dispatch_once();</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// the initializing code</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你永远不应显式的调用initialize方法。如果你需要触发初始化，调用一些没有副作用的方法，例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">NSImage</span> <span class="n">self</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Designated Initializers</h2>
+
+<p>Designated initializer是类的init方法，它会调用父类的init方法。（其他的initializer调用类的init方法）。每个公用类应该至少有一个designed intializer.例如，NSView的initWithFrame:,NSResponder的init方法。这里init方法不是意味着覆盖，不像作为类簇的NSString和其他的抽象类，子类是期望去实现它自己的init方法。</p>
+
+<p>Designated initializer应该标识清晰因为这些信息对于一个想要子类化的人很重要。子类仅需要覆盖designated initializer其他的初始化方法就能正常工作。</p>
+
+<p>当你实现一个框架的类，你经常需要去实现像initWithCoder:和encodeWithCoder:的归档方法。在初始化代码中要小心点，不要去做反归档得到的对象不会发生的事情。如果你的类实现了归档，一个好的实现方法是你的designated initializer和initWithCoder:调用一段相同的程序。</p>
+
+<h3>在初始化过程中检测错误</h3>
+
+<p>好的初始化方法应该完全遵循以下步骤去保证正确的错误检测和传递：
+调用父类的designated initializer给self重新赋值。
+验证返回值是否为nil，它表明父类的初始化发生了一些错误。
+如果现在当前类的初始化发生了错误，释放对象并返回nil。</p>
+
+<p>Listing 1你应该怎么做的示例。
+Listing 1  在初始化过程中检测错误</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>  <span class="c1">// Call a designated initializer here.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Initialize object  ...</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">someError</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">self</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>版本化和兼容</h1>
+
+<p>当你往框架时添加新的类或方法，通常没有必要给新的特性组指定新版本号。开发者通常（或者应该）在Objective-C的运行时进行检查，例如用respondsToSelector:去确定新的特性在给定的系统上是否可用。这些运行时的测试是验证新特性推荐和最动态的方法。</p>
+
+<p>但是，你也可以使用一些技术去确保你的每个新版本框架都被合适的标识和尽可能的兼容早期的版本。</p>
+
+<h2>框架版本</h2>
+
+<p>当运行时测试不容易去检测到存在的新特性或修复的bug，你应该提供一些方法给开发者去检查发生的改变。一种实现方法是存储准确的框架版本号并让开发者能访问：
+在版本号下编写更改文档。
+设置框架的当前版本并让它全局可读取。你也许会把版本号存放在框架的信息属性列表（Info.plist）中然后访问它。</p>
+
+<h2>加上归档键</h2>
+
+<p>如果你框架的对象需要被写到nib文件中，它们必须能够归档它们自己。你也要使用文件数据归档机制去归档任何文档。
+你应该考虑关于归档的以下问题：
+如果归档的key丢失了，从它们中取值会返回nil, NULL, NO, 0或者0.0,这得看你取值的类型。判断它返回的值可以减少你写入的数据。另外，你可以查出键是否被写入归档中。
+编码和解码方法都能做些事情去保证向后兼容。例如，新版本类的编码方法可能用键写新的值，但是仍然写到旧的地方，这样旧类仍能理解对象。另外，解码方法可能想用一些合理的方法处理丢失值去维护未来版本的灵活性。</p>
+
+<p>框架类归档键的推荐命名惯例是加上框架中其他API元素使用的前缀然后加上实例变量的名字。仅仅保证名字不会和任何父类或子类冲突。</p>
+
+<p>如果你有一个工具函数它写出基本的数据类型（换句话说，非对象值），确保使用唯一的键。例如，你有一个名为archiveRect的程序，它应该带一个键的参数去归档一个矩形，无论使用与否；或者，如果你写出多个值（例如，4个浮点数），它应该追加唯一的bits给提供的key.</p>
+
+<p>归档位段对于编译器和大小端依赖时很危险。你应该只在出于性能原因，很多bits需要多次写出时才归档它们。查看”Bitfields”获得更多建议。</p>
+
+<h1>异常和错误</h1>
+
+<p>大多数Cocoa框架方法并不强制开发者捕获和处理异常。这是因为正常部分的执行不会抛出异常，除非运行和用户错误，通常它是不用来交流的。这些错误的例子包括：
+文件没有找到
+没有这个用户
+应用程序尝试打开错误类型的文件</p>
+
+<p>但是，Cocoa不会抛出异常去暗示如下的编程或者逻辑错误：</p>
+
+<p>数组索引越界
+尝试改变不可变对象
+错误的参数类型</p>
+
+<p>所谓异常是开发者将在测试期间捕获上述错误然后在传给应用之前解决它们。因此应用没有必要在运行时处理惯常。如果异常抛出而应用的各个部分都没有捕获它，通常最上层的默认处理方法会捕获它然后报告异常，之后继续执行。开发者可以选择替换默认的异常捕获，如给出更详细的错误信息，提供保证数据的机会或者退出应用。</p>
+
+<p>错误是Cocoa框架与其他软件库另一个不同的地方。Cocoa方法通常不会返回错误代码。当有一个合理或者像错误的原因，方法会简单的依靠布尔或对象（nil/non-nil）返回值测试；返回NO或nil的原因会在文档中说明。你不应该在运行时使用错误代码标明程序错误需要处理，而应使用抛出异常或者简单打印错误来替代。</p>
+
+<p>例如，NSDictionary的 objectForKey:方法返回找到的对象,如果对象没有找到则返回nil。NSArray的objectAtIndex:方法永远不能返回nil(除非覆盖通用的语言惯用像给nil发送消息返回nil)，因为NSArray对象不能存储nil值，而且在定义上任何越界访问都量程序错误应该抛出异常。许多初始化方法会返回nil当对象不能被 提供的参数初始化时。</p>
+
+<p>在一些小众的情况下会有一些方法有对许多特定错误代码的合理需求，应该通过想着参数指定他们，返回错误代码，或者本地化错误字符串，或者天王终点其他错误描述信息。例如，你可能把错误作为一个NSError返回；查看NSError.h头文件了解更多细节。这个参数需要额外提供不像BOOL或nil是直接返回的。方法也应该遵守这样一个惯例，通过引用的参数是可选的，并且如果发送者不关心错误应该允许传递NULL作为error-code的参数。</p>
+
+<h1>框架数据</h1>
+
+<p>你处理框架数据的方式会影响性能，跨平台兼容和其他方面。这一部分讨论涉及框架数据的技术。</p>
+
+<h2>常量数据</h2>
+
+<p>因为性能的原因，尽可能的把常量标记为框架数据是推荐的做法，因为这样可以减少Mach-O二进制文件<strong>DATA段的大小。全局和静态变量不是const，它们在</strong>DATA段的__DATA部分。这种类型的数据会占用内存，当运行的应用使用了这类框架。虽然额外的500字节（例如）也许不是太糟，它可能造成需要许多页—-每个应用额外占用4KB.</p>
+
+<p>你应该把任何常量数据都标记为const.如果没有char*指针在块中，这会导致数据被 放在<em>TEXT段（这成了真正的常量）。否则它会存在</em>DATA段但不允许写操作（unless prebinding is not done or is violated by having to slide the binary at load time。）。</p>
+
+<p>你应该初始化静态变量保证它们被合并进<em>DATA段的</em>data部分，而不是在_bss部分。如果没有明显的值用作初始化，使用0,NULL, 0.0或任何合适的值。</p>
+
+<h2>位段</h2>
+
+<p>位段使用有符号的值，特别是一位的位段，如果代码假设值是布尔类型可能导致未定义行为。一位形式的位段应该总是无符号的。因为它只存像0和-1（依赖编译器实现）这样的唯一的值，拿这样一个位段与1想比较结果是false.例如，如果你的你代码遇到以下情况：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">BOOL</span> <span class="nl">isAttachment:</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nl">startTracking:</span><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你应该把类型改为unsigned int.</p>
+
+<p>位段的其他问题是归档。通常，你不应该以它自身的形式把位段写到硬盘或者归档文件，因为当从其他的架构或者编译器读取时可能会不一样。</p>
+
+<h2>内存分配</h2>
+
+<p>在框架代码中，如果你能做到不一起分配内存是最好的.如果因为某些原因需要临时的缓存区，通常使用栈的缓存区经分配一个缓存区要好。但是，栈的大小有限制（通常总共是512kb)，所以决定使用栈还得考虑函数和缓存的大小。通常如果缓冲的大小是1000字节（或MAXPATHLEN）或更少，使用栈是可接受的。</p>
+
+<p>如果缓冲的大小超过了栈的缓冲大小，就要使用malloc生成的缓冲了。</p>
+
+<p>Listing 2 给出示例代码片段。</p>
+
+<p>Listing 2  Allocation using both stack and malloc’ed buffer</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#define STACKBUFSIZE (1000 / sizeof(YourElementType))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="n">YourElementType</span> <span class="n">stackBuffer</span><span class="p">[</span><span class="n">STACKBUFSIZE</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">YourElementType</span> <span class="o">*</span><span class="n">buf</span> <span class="o">=</span> <span class="n">stackBuffer</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">capacity</span> <span class="o">=</span> <span class="n">STACKBUFSIZE</span><span class="p">;</span>  <span class="c1">// In terms of   YourElementType</span>
+</span><span class='line'>
+</span><span class='line'> <span class="kt">int</span> <span class="n">numElements</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// In terms of YourElementType</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">numElements</span> <span class="o">&gt;</span> <span class="n">capacity</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// Need more room</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">newCapacity</span> <span class="o">=</span> <span class="n">capacity</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// Or whatever your growth algorithm is</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">buf</span> <span class="o">==</span> <span class="n">stackBuffer</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// Previously using stack; switch to allocated memory</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">buf</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">newCapacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">YourElementType</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">memmove</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">stackBuffer</span><span class="p">,</span> <span class="n">capacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">YourElementType</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>  <span class="c1">// Was already using malloc; simply realloc</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">buf</span> <span class="o">=</span> <span class="n">realloc</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">newCapacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">YourElementType</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">capacity</span> <span class="o">=</span> <span class="n">newCapacity</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ... use buf; increment numElements ...</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// ...</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">buf</span> <span class="o">!=</span> <span class="n">stackBuffer</span><span class="p">)</span> <span class="n">free</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>对象比较</h1>
+
+<p>你应该意识到通常对象的比较方法isEqual:和相关对象类型的比较方法，如isEqualToString:有重大差别. isEqual方法允许传入任意对象作为参数，如果对象不是相同的对象则返回NO.像isEqualToString:和isEqualToArray:方法，经常假定参数是指定的类型（它经常是方法的接收者）。它们因此不做类型检查，因而它们更快，不过这并不安全。对于需要从外部获取的值，例如，应用的信息属性列表或偏好，推荐使用isEqual:,因为它们安全；当类型是知道的时候，使用isEqualToString:替代。</p>
+
+<p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Objective-C Class And Object]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/10/objective-c-class-and-object/"/>
+    <updated>2014-05-10T07:54:58+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/10/objective-c-class-and-object</id>
+    <content type="html"><![CDATA[<p>Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。</p>
+
+<h2>1,Class</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#if !__OBJC2__</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">super_class</span>                                           <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span>                                             <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">version</span>                                               <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">info</span>                                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">instance_size</span>                                         <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span><span class="n">ivars</span>                              <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">**</span><span class="n">methodLists</span>                     <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span><span class="n">cache</span>                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span><span class="n">protocols</span>                      <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2,Object</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// Represents an instance of a class.</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从头文件的定义可以看出,对象的内存布局以一个Class 类型的isa指针开始,而类的内存布局也是以一个Class类型的isa指针开始，所以类也是对象，这样就满足了面向对象编程语言中所有的东西都是对象。</p>
+
+<p>对象是对象，类也是对象。很容易混淆是吧，所以OC重用了一个术语来区分它们:类对象（Class Object）;实例对象（Instance Object）。实例对象的isa指针指向的类叫Class,类对象的isa指针指向的类叫meta-class。meta-class的isa指针指向根类meta-class,根类meta-class的isa指针指向自己。让我们看张图：
+<img src="http://DamianSheldon.github.io/images/Objective-C_Class_And_Object.png" title="Objective-C Class And Object" ></p>
+
+<p>那么类对象是怎么创建的呢？经过查找，得到的结论是编译器创建的，编译时所谓的类是指类对象（官方文档： The class object is the compiled version of the class.）。</p>
+
+<h2>3,category</h2>
+
+<p>因为对象在内存中的排布可以看成一个结构体，该结构体的大小并不能动态变化。所以无法在运行时动态给对象增加成员变量。
+相对的，对象的方法定义都保存在类的可变区域中。Objective-C 2.0并未在头文件中将实现暴露出来，但在Objective-C 1.0中，我们可以看到方法的定义列表是一个名为 methodLists的指针的指针。通过修改该指针指向的指针的值，就可以实现动态地为某一个类增加成员方法。这也是Category实现的原理。同时也说明了为什么Category只可为对象增加成员方法，却不能增加成员变量。</p>
+
+<h2>4,方法混写</h2>
+
+<p>因为对象的方法可以改变，因此我们就有了方法混写的技术。</p>
+
+<h2>5,isa混写</h2>
+
+<p>除了对象的方法可以动态修改，因为isa本身也只是一个指针，所以我们也可以在运行时动态地修改isa指针的值，达到替换对象整个行为的目的。</p>
+
+<p>典型示例：KVO。</p>
+
+<h2>6,参考资料</h2>
+
+<p>1,iOS 6 Programming Pushing the Limits, Rob Napier, Mugunth Kumar<br/>
+2,深入浅出Cocoa之类与对象,(<a href="http://blog.csdn.net/kesalin/article/details/7211228">http://blog.csdn.net/kesalin/article/details/7211228</a>)<br/>
+3,深入浅出Cocoa 之动态创建类(<a href="http://blog.csdn.net/kesalin/article/details/7219572">http://blog.csdn.net/kesalin/article/details/7219572</a>)<br/>
+4,Objective-C对象模型及应用(<a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/">http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/</a>)<br/>
+5,Objective-C对象之类对象和元类对象（一）(<a href="http://blog.csdn.net/wzzvictory/article/details/8592492">http://blog.csdn.net/wzzvictory/article/details/8592492</a>)<br/>
+6,Objcclass(<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">http://studentdeng.github.io/blog/2011/10/05/objcclass/</a>)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello Octopress]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress/"/>
+    <updated>2014-05-09T15:01:51+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress</id>
+    <content type="html"><![CDATA[<p>Octopress:A blogging framework for hackers.</p>
+
+<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+
+<h1>问题1</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
+</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
+
+<h1>问题2</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
+</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
+</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew doctor
+</span><span class='line'><span class="nb">cd </span>root_path_octopress
+</span><span class='line'>git pull octopress master
+</span><span class='line'>rm Gemfile.lock
+</span><span class='line'>vim Gemfile
+</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>问题3</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dongmeiiangsmbp:octopress dongmeiliang<span class="nv">$ </span>rake generate
+</span><span class='line'>...
+</span><span class='line'>Build Failed
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:网上找了下，类似问题的原因可能是有空格之类的问题，用FileMerge比较了下发现是空格的原因。吐槽下这原因感觉有点难以接受啊。十分感谢原帖作者，忘记把链接复制下来了。</p>
+
+<h1>问题4</h1>
+
+<p>之前安装过程中，出于测试的目的，写了篇草稿发上来了，现在想重新把文章编辑下，但是奇怪的是source分支中找不到原文件了，如果你知道原因请告诉我一声。</p>
+
+<p>Solution:我的解决办法是在_deploy路径下同步master分支，解决合并冲突，然后把blog目录下相应的index.html文件删除了，然后：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake generate
+</span><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>问题5（2014.5.21）</h2>
+
+<p>怎么把文章放到navigation对应的分类组织中呢？</p>
+
+<p>solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>categories/iOS_Development<span class="o">]</span>
+</span><span class='line'>vim <span class="nb">source</span>/_includes/custom/navigation.html
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>增加<li><a href="http://DamianSheldon.github.io/blog/categories/ios-development">iOS Development</a></li></p>
+
+<p>然后在文章的头部：
+categories: [iOS Development]</p>
+
+<h2>问题6</h2>
+
+<p>怎么把侧边栏放到底部去呢？</p>
+
+<h2>问题7</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Error fetching https://ruby.taobao.org/:
+</span><span class='line'>  too many connection resets <span class="o">(</span>https://rubygems-china.oss.aliyuncs.com/specs.4.8.gz<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:网上查找相关问题，没有找到好的解决办法。经过一番琢磨，觉得可能是我设置了goagent，于是注释掉.bash_profile中的http_prosy, https_proxy, 然后在Terminal中执行</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">unset </span>http_proxy
+</span><span class='line'><span class="nb">unset </span>https_proxy
+</span><span class='line'>gem sources -a https://ruby.taobao.org
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+</feed>

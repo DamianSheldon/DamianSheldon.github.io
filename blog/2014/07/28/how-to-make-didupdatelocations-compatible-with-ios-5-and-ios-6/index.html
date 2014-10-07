@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Here's where it all happens for me.  | Hello World</title>
+	<title>(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="如何让didUpdateLocation兼容iOS 5和iOS 6"> <meta name="keywords" content="Core Location, iOS, compatible">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -110,182 +110,9 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">
-		
-			在Mac OSX Mavericks上安装和配置Openfire</a>
-	</h2>
-	<div class="entry-content">
-		<h3>安装</h3>
-
-<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
-
-<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
-  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
-
-<h3>配置</h3>
-
-<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-11T09:15:32+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/09/03/core-animation-bi-ji/">
-		
-			Core Animation 笔记</a>
-	</h2>
-	<div class="entry-content">
-		<h2>Core Animation介绍</h2>
-
-<p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app.</p>
-
-<h2>什么时候使用Core Animation?</h2>
-
-<p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p>
-
-<h2>如何使用Core Animation?</h2>
-
-<p>  1)Enabling Core Animation Support in Your App;<br/>
-  In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.</p>
-
-<p>  2)Selecting a appropriate Layer Object Associated with a View;<br/>
-  Reference:Core Animation Programming Guide &mdash; Different Layer Classes Provide Specialized Behaviors</p>
-
-<p>  3)Add animation to layer.<br/>
-  CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.<br/>
-  The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-03T09:59:58+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/">
-		
-			iOS App 开发遇到的问题</a>
-	</h2>
-	<div class="entry-content">
-		<p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
-
-<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
-
-<p>Reference:<br/>
-o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
-
-<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
-
-<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">
-		
-			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
-	</h2>
-	<div class="entry-content">
-		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</h2>
+	<div class="entry-content"><p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
 当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
 
 <p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
@@ -364,10 +191,7 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 
 <p>原文<br/>
 o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
-
-		
-		
-	</div>
+</div>
 
 
 <div class="meta">
@@ -396,176 +220,39 @@ o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-wi
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/24/swift-learning-notes-properties/">
-		
-			Swift Learning Notes &#8211; Properties</a>
-	</h2>
-	<div class="entry-content">
-		<h3>Properties</h3>
-
-<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
-
-<h4>Type Properties</h4>
-
-<p>属于类型本身的properties称为Type Property.</p>
-
-<p>1)Value Type Properties (keyword: static)<br/>
-structrue, enumeration可以定义Stroed 和Computed type properties.</p>
-
-<p>Stored type properties for value types can be variables or constants.<br/>
-NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
-
-<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
-
-<p>2)Reference Type Properties (keyword: class)<br/>
-class只可以定义Computed type properties.</p>
-
-<h4>Instance Properties</h4>
-
-<p>1)Stroed Properties
-In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).</p>
-
-<p>P.S:A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.</p>
-
-<p>2)Computed Properties
-computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.</p>
-
-<h3>Properties Observer</h3>
-
-<p>Property observers observe and respond to changes in a property’s value.</p>
-
-<p>You have the option to define either or both of these observers on a property:</p>
-
-<p>willSet is called just before the value is stored.<br/>
-didSet is called immediately after the new value is stored.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
 	
+	
+	
+    <!-- Add wei bo share and comment by sheldon -->
+    
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-<div class="tags">
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/24/swift-learning-notes-initialization/">
-		
-			Swift Learning Notes &#8211; Initialization</a>
-	</h2>
-	<div class="entry-content">
-		<h3>Initialization</h3>
-
-<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
-
-<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
-1，为实例的每一个存储属性设置初始值;  <br/>
-2，进行其他必要的准备工作.</p>
-
-<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
-
-<h3>Value Type Initialization</h3>
-
-<p>1)为存储属性设置默认值；</p>
-
-<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
-structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
-</code></pre>
-
-<p>2)初始化方法。</p>
-
-<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
-</code></pre>
-
-<h3>Reference Type Initialization</h3>
-
-<p>1)为类引入的存储属性设置初始值;<br/>
-2)初始化方法。</p>
-
-<pre><code>Designated initializers must always delegate up.
-Convenience initializers must always delegate across.
-
-Swift中子类默认是不继承父类的初始化方法,然而当满足一定条件时例外。
-Assuming that you provide default values for any new properties you introduce in a subclass, the following two rules apply:
-
-Rule 1
-If your subclass doesn’t define any designated initializers, it automatically inherits all of its superclass designated initializers.
-
-Rule 2
-If your subclass provides an implementation of all of its superclass designated initializers—either by inheriting them as per rule 1, or by providing a custom implementation as part of its definition—then it automatically inherits all of the superclass convenience initializers.
-
-These rules apply even if your subclass adds further convenience initializers.
-
-NOTE:子类可以是用Convenience Initializer实现父类的Designated Initializer.
-</code></pre>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
 </div>
-
-
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-        <a href="/blog/page/2/" class="next">Next</a>
-    
-    <div class="center"><a href="/archives">Blog Archives</a></div>
-</nav></div>
 	<footer id="footer" class="inner">Copyright &copy; 2014
 
     Sheldon

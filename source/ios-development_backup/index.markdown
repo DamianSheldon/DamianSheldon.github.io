@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: "iOS Development Archives"
 date: 2014-05-10 10:52
 comments: true

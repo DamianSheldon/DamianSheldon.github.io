@@ -5,6 +5,8 @@ date: 2014-05-22 09:53:40 +0800
 comments: true
 published: false
 categories: [Archives, iOS Development]
+keywords: Core Data, iOS, Database
+description: Introduce Core Data
 ---
 ##Core Data是什么？
 苹果官方对Core Data的介绍是这样的：

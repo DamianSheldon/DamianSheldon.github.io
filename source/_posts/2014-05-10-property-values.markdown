@@ -3,7 +3,9 @@ layout: post
 title: "Property Values"
 date: 2014-05-10 14:41:40 +0800
 comments: true
-categories: [Archieves, iOS Development]
+categories: [Archives, iOS Development]
+keywords: Property Valule, Objective-C, iOS
+description: Introduce Objective-C's Property
 ---
   Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。
   

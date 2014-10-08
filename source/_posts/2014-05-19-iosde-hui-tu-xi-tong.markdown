@@ -4,6 +4,8 @@ title: "iOS的绘图系统"
 date: 2014-05-19 16:47:22 +0800
 comments: true
 categories: [Archives, iOS Development]
+keywords: iOS, UIKit, Core Graphics, Core Animation, OpenCL ES
+description: iOS的绘图系统
 ---
 ##iOS的绘图框架
 1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；  

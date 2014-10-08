@@ -5,6 +5,8 @@ date: 2014-06-09 16:56:43 +0800
 comments: true
 published: false
 categories: [Archives, iOS Development] 
+keywords: Swift, Programming, Language
+description: Introduce swift Programming Language
 ---
 ##Data Types
 

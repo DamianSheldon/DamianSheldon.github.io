@@ -3,7 +3,7 @@ layout: post
 title: "Core Animation 笔记"
 date: 2014-09-03 09:59:58 +0800
 comments: true
-categories: [Archive, iOS Development]
+categories: [Archives, iOS Development]
 keywords: Core Animation, iOS Development
 description: Learning Core Animation Notes
 ---

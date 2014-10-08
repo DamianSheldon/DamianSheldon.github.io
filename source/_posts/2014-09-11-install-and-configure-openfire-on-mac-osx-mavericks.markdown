@@ -5,7 +5,7 @@ date: 2014-09-11 09:15:32 +0800
 comments: true
 categories: [Archives] 
 keywords: Openfire, Mac, OSX, Mavericks, Install, Configure
-descriptions: Install and configure openfire on Mac OSX mavericks.
+description: Install and configure openfire on Mac OSX mavericks.
 ---
 
 ###安装

@@ -4,9 +4,9 @@ title: "浅析互联网通信"
 date: 2014-08-26 21:20:31 +0800
 comments: true
 published: false
-categories: [Archive] 
+categories: [Archives] 
 keywords: Internet, TCP/IP, subnet mask
-descriptions: 简单分析互联通信原理，认识互联网。
+description: 简单分析互联通信原理，认识互联网。
 ---
     互联网中两台计算机是怎么通信的呢？这是有趣的问题，我试图弄清楚它。
 

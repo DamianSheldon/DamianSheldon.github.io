@@ -5,6 +5,8 @@ date: 2014-05-20 09:31:07 +0800
 comments: true
 published: false
 categories: [Archives, iOS Development] 
+keywords: iOS, Concurrency Programming, Operation
+description: Introduce iOS Concurrency Programming Operation
 ---
 Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。
 

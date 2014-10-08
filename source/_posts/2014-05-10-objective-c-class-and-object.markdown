@@ -4,6 +4,8 @@ title: "Objective-C Class And Object"
 date: 2014-05-10 07:54:58 +0800
 comments: true
 categories: [Archives,iOS Development]
+keywords: Objective-C, Class, Object, Programming, Category, ISA
+description: Introduce Objective-C's class and object
 ---
 
 Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。

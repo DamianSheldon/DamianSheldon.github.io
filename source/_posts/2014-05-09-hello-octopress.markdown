@@ -3,9 +3,9 @@ layout: post
 title: "Hello Octopress"
 date: 2014-05-09 15:01:51 +0800
 comments: true
-categories: [Archievs]
+categories: [Archives]
 keywords: Octopress, blog, Problem, Solution
-description: 用Octopress搭建自己博客过程中的常见问题及解决办法。
+description: 用Octopress搭建自己博客过程中的常见问题及解决办法
 ---
 Octopress:A blogging framework for hackers.
 
@@ -83,31 +83,4 @@ Solution:网上查找相关问题，没有找到好的解决办法。经过一�
 	unset http_proxy  
 	unset https_proxy  
 	gem sources -a https://ruby.taobao.org  
-```
-
-##Octopress目录结构 (2014.9.29)  
-```bash
-
-	├─ config.rb  #指定额外的compass插件
-	├─ config.ru  
-	├─ Rakefile   #rake的配置文件,类似于makefile
-	├─ Gemfile    #bundle要下载需要的gem依赖关系的指定文件
-	├─ Gemfile.lock  #这些gem依赖的对应关系,比如A的x本依赖于B的y版本
-	├─ _config.yml   #站点的配置文件
-	├─ public/    #在静态编译完成后的目录,网站只需要这个目录下的文件树
-	├─ _deploy/   #deploy时候生成的缓存文件夹,和public目录一样
-	├─ sass/      #css文件的源文件,过程中会compass成css
-	├─ plugins/   #放置自带以及第三方插件的目录,ruby程序
-	│  └── xxx.rb
-	└─ source/    #站点的源文件目录,public目录就是根据这个目录下数据生成的
- 	  └─ _includes/
-	      └─ custom/      #自定义的模板目录,被相应上级html include
-	         └─ asides/   #边栏模板自定义模板目录
-	      └─ asides/      #边栏模板目录
-	      └─ post/        #文章页面相应模板目录
-	   └─ _layouts/       #默认网站html相关文件,最底层
-	   └─ _posts/         #新增以及从其它程序迁移过来的数据都存在这里
-	   └─ stylesheets/    #css文件目录
-	   └─ javascripts/    #js文件目录
-	   └─ images/         #图片目录  
 ```

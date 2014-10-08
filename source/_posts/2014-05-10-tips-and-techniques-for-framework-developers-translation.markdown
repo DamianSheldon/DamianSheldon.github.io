@@ -4,6 +4,8 @@ title: "Tips and Techniques for Framework Developers(Translation)"
 date: 2014-05-10 09:23:09 +0800
 comments: true
 categories: [Archives, iOS Development]
+keywords: Framework, Development, Tips, Techniques
+description: Tips and Techniques for Framework Developers
 ---
 
 ##Initialization

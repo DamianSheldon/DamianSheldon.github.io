@@ -4,6 +4,8 @@ title: "iOS Concurrency Programming--GCD"
 date: 2014-05-21 11:40:27 +0800
 comments: true
 categories: [Archives, iOS Development]
+keywords: iOS, Concurrency Programing, GCD
+description: Introduce iOS Concurrency Programming GCD
 ---
 ##GCD是什么？
 GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：  

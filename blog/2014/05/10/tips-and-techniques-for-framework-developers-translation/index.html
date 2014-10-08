@@ -60,9 +60,8 @@ $(document).ready(
 </head>
 
 
-
 <body>
-	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+    <header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
 <h4>Here's where it all happens for me.</h4>
 <nav id="main-nav"><ul>
     <!--
@@ -71,7 +70,7 @@ $(document).ready(
 	<li><a href="/portfolio">Portfolio</a></li>
 	<li><a href="/archives">Archive</a></li>
     -->
-    <li><a href="/">Blog</a></li>
+    <li><a href="/">Home</a></li>
 	<li><a href="/archives">Archive</a></li>
 	<li><a href="/categories/ios-development">iOS Development</a></li>
 	<li><a href="/about">About</a></li>
@@ -88,7 +87,7 @@ $(document).ready(
 	<li><a href="/portfolio">Portfolio</a></li>
 	<li><a href="/archives">Archive</a></li>
     -->
-    <li><a href="/">Blog</a></li>
+    <li><a href="/">Home</a></li>
 	<li><a href="/archives">Archive</a></li>
 	<li><a href="/categories/ios-development">iOS Development</a></li>
 	<li><a href="/about">About</a></li>
@@ -109,10 +108,14 @@ $(document).ready(
 
 
 </header>
-
-	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Tips and Techniques for Framework Developers(Translation)</h2>
-	<div class="entry-content"><h2>Initialization</h2>
+    
+    
+    
+    <div id="content" class="inner"><article class="post">
+    
+<h2 class="title">Tips and Techniques for Framework Developers(Translation)</h2>
+<div class="entry-content">
+    <h2>Initialization</h2>
 
 <h3>Class initialization</h3>
 
@@ -404,36 +407,18 @@ Listing 1  在初始化过程中检测错误</p>
 <p>你应该意识到通常对象的比较方法isEqual:和相关对象类型的比较方法，如isEqualToString:有重大差别. isEqual方法允许传入任意对象作为参数，如果对象不是相同的对象则返回NO.像isEqualToString:和isEqualToArray:方法，经常假定参数是指定的类型（它经常是方法的接收者）。它们因此不做类型检查，因而它们更快，不过这并不安全。对于需要从外部获取的值，例如，应用的信息属性列表或偏好，推荐使用isEqual:,因为它们安全；当类型是知道的时候，使用isEqualToString:替代。</p>
 
 <p>关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。</p>
-</div>
 
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-	<div class="share">
+    <div>
+        
+        <a class="pull-left" href="/blog/2014/05/10/objective-c-class-and-object/" title="Previous Post: Objective-C Class And Object">&laquo; Objective-C Class And Object</a>
+        
+        
+        <a class="pull-right" href="/blog/2014/05/10/property-values/" title="Next Post: Property Values">Property Values &raquo;</a>
+        
+        <div class="clear"></div>
+    </div>
+    
+    <div class="share">
 	<div class="addthis_toolbox addthis_default_style ">
 	
 	
@@ -464,25 +449,161 @@ Listing 1  在初始化过程中检测错误</p>
   <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
+    <div class="comments"><a href="#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
+        <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+        <div class="comments"><a href="#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+            <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+        </div>
+        
+
+        <br />
+        <section>
+    <h1>分类目录</h1>
+    <ul id="categories">
+        <li class='category'><a href='/blog/categories/archives/'>Archives (13)</a></li>
+<li class='category'><a href='/blog/categories/ios-development/'>iOS Development (11)</a></li>
+
+    </ul>
+</section>
+        <br />
+        <section>
+            <h2>相关文章：</h2>
+            <ul class="posts">
+                
+                <li class="related">
+                    <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">在Mac OSX Mavericks上安装和配置Openfire</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/09/03/core-animation-bi-ji/">Core Animation 笔记</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/">iOS App 开发遇到的问题</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/06/24/swift-learning-notes-properties/">Swift Learning Notes -- Properties</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/06/24/swift-learning-notes-initialization/">Swift Learning Notes -- Initialization</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/05/21/ios-concurrency-programming-gcd/">iOS Concurrency Programming--GCD</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/05/19/iosde-hui-tu-xi-tong/">iOS的绘图系统</a>
+                </li>
+                
+            </ul>
+        </section>
+        <br />
+        <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">在Mac OSX Mavericks上安装和配置Openfire</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/03/core-animation-bi-ji/">Core Animation 笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/">iOS App 开发遇到的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/24/swift-learning-notes-properties/">Swift Learning Notes -- Properties</a>
+      </li>
+    
+  </ul>
+</section>
+
+        <br />
+        <section>
+    <h1>评论热榜</h1>
+    <div id="uyan_hotcmt_unit"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+</section>
+        <section>
+    <h1>最新评论</h1>
+    <div id="uyan_newcmt_unit"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+</section>
+    </div>
+</article>
+</div>
+    <footer id="footer" class="inner">Copyright &copy; 2014
 
     Sheldon
 
 <br>
 Powered by Octopress.
 </footer>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
-
-
-
+    <script src="/javascripts/slash.js"></script>
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -498,5 +619,11 @@ Powered by Octopress.
 
 
 
+    <!--返回顶部开始-->
+<div id="full" style="width:0px; height:0px; position:fixed; right:180px; bottom:150px; z-index:100; text-align:center; background-color:transparent; cursor:pointer;">
+    <a href="#" onclick="goTop();return false;"><img src="/images/top.png" border=0 alt="返回顶部"></a>
+</div>
+<script src="/javascripts/top.js" type="text/javascript"></script>
+<!--返回顶部结束-->
 </body>
 </html>

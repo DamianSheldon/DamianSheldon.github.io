@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-10-08T15:28:32+08:00</updated>
+  <updated>2014-10-11T15:27:06+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Development--Certificates, Provisioning Profiles]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates/"/>
+    <updated>2014-10-09T16:24:09+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates</id>
+    <content type="html"><![CDATA[<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
+
+<p><img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573"></p>
+
+<p>开发过程的真机调试需要：</p>
+
+<pre><code>Private Key -- 私钥
+iPhone Development Certificate -- 开发证书
+Development Provisioning profile
+</code></pre>
+
+<p>发布到 App Store 需要：</p>
+
+<pre><code>私钥
+iPhone Distribution Certificate
+App Store Distribution Provisioning profile
+</code></pre>
+
+<p>通过 Ad Hoc 发布需要：</p>
+
+<pre><code>私钥
+iPhone Distribution Certificate
+Ad Hoc Distribution Provisioning profile
+</code></pre>
+
+<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
+
+<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
+
+<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
+
+<p><img name="Certificate" src="http://DamianSheldon.github.io/images/Certificate.png" width="696" height="471"> </p>
+
+<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
+
+<p><img name="ProvisioningProfile" src="http://DamianSheldon.github.io/images/ProvisioningProfile.png" width="618" height="377"></p>
+
+<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
+
+<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
+
+<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
+
+<h3>Tips</h3>
+
+<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
+
+<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
+
+<p><img name="TeamProvisioningProfile" src="http://DamianSheldon.github.io/images/TeamProvisioningProfile.png" width="712" height="406">  </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在Mac OSX Mavericks上安装和配置Openfire]]></title>
@@ -146,51 +204,6 @@ MKCoordinateRegion userLocation = MKCoordinateRegionMakeWithDistance(newLocation
 
 <p>原文<br/>
 o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift Learning Notes -- Properties]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-properties/"/>
-    <updated>2014-06-24T15:28:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-properties</id>
-    <content type="html"><![CDATA[<h3>Properties</h3>
-
-<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
-
-<h4>Type Properties</h4>
-
-<p>属于类型本身的properties称为Type Property.</p>
-
-<p>1)Value Type Properties (keyword: static)<br/>
-structrue, enumeration可以定义Stroed 和Computed type properties.</p>
-
-<p>Stored type properties for value types can be variables or constants.<br/>
-NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
-
-<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
-
-<p>2)Reference Type Properties (keyword: class)<br/>
-class只可以定义Computed type properties.</p>
-
-<h4>Instance Properties</h4>
-
-<p>1)Stroed Properties
-In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).</p>
-
-<p>P.S:A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.</p>
-
-<p>2)Computed Properties
-computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.</p>
-
-<h3>Properties Observer</h3>
-
-<p>Property observers observe and respond to changes in a property’s value.</p>
-
-<p>You have the option to define either or both of these observers on a property:</p>
-
-<p>willSet is called just before the value is stored.<br/>
-didSet is called immediately after the new value is stored.</p>
 ]]></content>
   </entry>
   

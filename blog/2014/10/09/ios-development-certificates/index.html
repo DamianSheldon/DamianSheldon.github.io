@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS App 开发遇到的问题  | Hello World</title>
+	<title>iOS Development--Certificates, Provisioning Profiles  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="总结iOS App 开发遇到的各种问题"> <meta name="keywords" content="iOS, UIView, Frame， Switch, Case">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Private Key, Certificate Signing Request, CSR, Certificates, Provisioning Profiles">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -101,27 +101,63 @@ $(document).ready(
     
     <div id="content" class="inner"><article class="post">
     
-<h2 class="title">iOS App 开发遇到的问题</h2>
+<h2 class="title">iOS Development--Certificates, Provisioning Profiles</h2>
 <div class="entry-content">
-    <p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
+    <p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
 
-<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+<p><img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573"></p>
 
-<p>Reference:<br/>
-o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
+<p>开发过程的真机调试需要：</p>
 
-<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
+<pre><code>Private Key -- 私钥
+iPhone Development Certificate -- 开发证书
+Development Provisioning profile
+</code></pre>
 
-<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+<p>发布到 App Store 需要：</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
+<pre><code>私钥
+iPhone Distribution Certificate
+App Store Distribution Provisioning profile
+</code></pre>
+
+<p>通过 Ad Hoc 发布需要：</p>
+
+<pre><code>私钥
+iPhone Distribution Certificate
+Ad Hoc Distribution Provisioning profile
+</code></pre>
+
+<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
+
+<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
+
+<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
+
+<p><img name="Certificate" src="/images/Certificate.png" width="696" height="471"> </p>
+
+<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
+
+<p><img name="ProvisioningProfile" src="/images/ProvisioningProfile.png" width="618" height="377"></p>
+
+<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
+
+<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
+
+<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
+
+<h3>Tips</h3>
+
+<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
+
+<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
+
+<p><img name="TeamProvisioningProfile" src="/images/TeamProvisioningProfile.png" width="712" height="406">  </p>
 
     <div>
         
-        <a class="pull-left" href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/" title="Previous Post: (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6">&laquo; (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+        <a class="pull-left" href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/" title="Previous Post: 在Mac OSX Mavericks上安装和配置Openfire">&laquo; 在Mac OSX Mavericks上安装和配置Openfire</a>
         
-        
-        <a class="pull-right" href="/blog/2014/09/03/core-animation-bi-ji/" title="Next Post: Core Animation 笔记">Core Animation 笔记 &raquo;</a>
         
         <div class="clear"></div>
     </div>
@@ -174,7 +210,7 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
   
 
 
-<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2014</time></div>
+<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
     <div class="tags">
 
 
@@ -202,7 +238,7 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
   
 
 
-<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2014</time></div>
+<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
         <div class="tags">
 
 
@@ -229,15 +265,15 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
             <ul class="posts">
                 
                 <li class="related">
-                    <a href="/blog/2014/10/09/ios-development-certificates/">iOS Development--Certificates, Provisioning Profiles</a>
-                </li>
-                
-                <li class="related">
                     <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">在Mac OSX Mavericks上安装和配置Openfire</a>
                 </li>
                 
                 <li class="related">
                     <a href="/blog/2014/09/03/core-animation-bi-ji/">Core Animation 笔记</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/">iOS App 开发遇到的问题</a>
                 </li>
                 
                 <li class="related">

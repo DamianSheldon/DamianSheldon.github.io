@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-10-11T15:27:06+08:00</updated>
+  <updated>2014-10-19T20:18:24+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Auto Layout]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/10/19/auto-layout/"/>
+    <updated>2014-10-19T17:43:12+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/10/19/auto-layout</id>
+    <content type="html"><![CDATA[<h3>前言</h3>
+
+<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
+
+<h3>Auto Layout 是什么</h3>
+
+<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
+  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
+
+<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
+  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
+
+<h4>Constraint &mdash; 约束</h4>
+
+<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
+  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
+  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
+  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
+  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
+
+<h4>Intrinsic Content Size</h4>
+
+<p>  Intrinsic Content Size 是 Auto Layout 中另一个重要概念，身处视图层级末端的视图会为显示特定内容期望得到一个大小，它就叫做Intrinsic Content Size。</p>
+
+<h3>如何使用Auto Layout</h3>
+
+<p>  Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。</p>
+
+<h3>Tips</h3>
+
+<p>  在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
+
+<h3>Demo</h3>
+
+<p><a href="https://github.com/DamianSheldon/AutoLayout">Auto Layout Demo</a></p>
+
+<h3>Reference</h3>
+
+<p>Auto Layout Guide<br/>
+WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
+WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
+WWDC2012 session 232 – Auto Layout by Example<br/>
+<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  ">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  </a>
+<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2  ">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2  </a>
+<a href="http://objccn.io/issue-3-5/  ">http://objccn.io/issue-3-5/  </a>
+<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/  ">http://studentdeng.github.io/blog/2014/06/13/auto-layout/  </a>
+<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Development--Certificates, Provisioning Profiles]]></title>
@@ -133,77 +188,6 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 <p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/"/>
-    <updated>2014-07-28T16:05:38+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6</id>
-    <content type="html"><![CDATA[<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
-当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
-
-<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
-
-<h3>当方法被废弃了</h3>
-
-<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
-
-<h3>如何处理废弃的方法</h3>
-
-<p>已经被废弃的方法在新的iOS版本上仍然可以工作。Apple趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
-
-<p>今天的例子，我们会看下 locationManager:didUpdateToLocation:fromLocation:方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。<br/>
-``` objective-c</p>
-
-<p>&ndash;(void)locationManager:(CLLocationManager <em>)manager didUpdateLocations:(NSArray </em>)locations {</p>
-
-<pre><code>CLLocation *newLocation = [locations lastObject];
-CLLocation *oldLocation = [locations objectAtIndex:locations.count-1];
-NSLog(@"didUpdateToLocation %@ from %@", newLocation, oldLocation);
-MKCoordinateRegion userLocation = MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 1500.0, 1500.0);
-[regionsMapView setRegion:userLocation animated:YES];
-</code></pre>
-
-<p>}
-<code>
-为了兼容iOS 5,我们可以加入旧的方法`- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation`，并在旧的方法中调用新的方法，代码看起来会像这样：
-</code> objective-c
-&ndash;(void)locationManager:(CLLocationManager <em>)manager didUpdateLocations:(NSArray </em>)locations {</p>
-
-<pre><code>CLLocation *newLocation = [locations lastObject];
-CLLocation *oldLocation;
-if (locations.count &gt;= 2) {
-    oldLocation = [locations objectAtIndex:locations.count-1];
-} else {
-    oldLocation = nil;
-}
-NSLog(@"didUpdateToLocation %@ from %@", newLocation, oldLocation);
-MKCoordinateRegion userLocation = MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 1500.0, 1500.0);
-[regionsMapView setRegion:userLocation animated:YES];
-</code></pre>
-
-<p>}</p>
-
-<ul>
-<li>(void)locationManager:(CLLocationManager <em>)manager didUpdateToLocation:(CLLocation </em>)newLocation fromLocation:(CLLocation *)oldLocation {
-  [self locationManager:locationManager didUpdateLocations:[[NSArray alloc] initWithObjects:newLocation, nil]];
-}
-```</li>
-</ul>
-
-
-<p>如果是iOS5，新的方法不会被调用，它就像自定义的方法，iOS5并不知道locationManager:didUpdateLocations:事实上是什么。旧的方法简单的alloc/init新的名为currentLocation的NSArray并且使用 initWithObjects:newLocation获取一个newLocation,然后NSArray作为信息被传递到locationManager新的方法。</p>
-
-<p>总之，如果设备是iOS5,旧的方法locationManager:didUpdateToLocation:fromLocation: 告诉代理新的位置可用，它把CLLocation加到NSArray中传递给新的方法，但设备的操作系统并不知道新方法。</p>
-
-<p>如果使用的是iOS6,我们从CLLocationManagerDelegate的头文件中了解到如果代码中既有旧方法又有新方法，那么iOS会调用新方法通知代理位置更新了。</p>
-
-<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和关文件，因为Apple添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
-
-<p>原文<br/>
-o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
 ]]></content>
   </entry>
   

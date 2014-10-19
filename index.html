@@ -105,6 +105,97 @@ $(document).ready(
     <article class="post">
 <h2 class="title">
     
+        <a href="/blog/2014/10/19/auto-layout/">
+            
+            Auto Layout</a>
+        </h2>
+<div class="entry-content">
+    <h3>前言</h3>
+
+<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
+
+<h3>Auto Layout 是什么</h3>
+
+<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
+  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
+
+<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
+  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
+
+<h4>Constraint &mdash; 约束</h4>
+
+<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
+  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
+  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
+  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
+  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
+
+<h4>Intrinsic Content Size</h4>
+
+<p>  Intrinsic Content Size 是 Auto Layout 中另一个重要概念，身处视图层级末端的视图会为显示特定内容期望得到一个大小，它就叫做Intrinsic Content Size。</p>
+
+<h3>如何使用Auto Layout</h3>
+
+<p>  Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。</p>
+
+<h3>Tips</h3>
+
+<p>  在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
+
+<h3>Demo</h3>
+
+<p><a href="https://github.com/DamianSheldon/AutoLayout">Auto Layout Demo</a></p>
+
+<h3>Reference</h3>
+
+<p>Auto Layout Guide<br/>
+WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
+WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
+WWDC2012 session 232 – Auto Layout by Example<br/>
+<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  ">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  </a>
+<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2  ">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2  </a>
+<a href="http://objccn.io/issue-3-5/  ">http://objccn.io/issue-3-5/  </a>
+<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/  ">http://studentdeng.github.io/blog/2014/06/13/auto-layout/  </a>
+<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
+
+    
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+    <div class="comments"><a href="/blog/2014/10/19/auto-layout/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+</article>
+
+
+    <article class="post">
+<h2 class="title">
+    
         <a href="/blog/2014/10/09/ios-development-certificates/">
             
             iOS Development&#8211;Certificates, Provisioning Profiles</a>
@@ -483,87 +574,6 @@ o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-wi
 
 </div>
     <div class="comments"><a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/06/24/swift-learning-notes-properties/">
-            
-            Swift Learning Notes &#8211; Properties</a>
-        </h2>
-<div class="entry-content">
-    <h3>Properties</h3>
-
-<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
-
-<h4>Type Properties</h4>
-
-<p>属于类型本身的properties称为Type Property.</p>
-
-<p>1)Value Type Properties (keyword: static)<br/>
-structrue, enumeration可以定义Stroed 和Computed type properties.</p>
-
-<p>Stored type properties for value types can be variables or constants.<br/>
-NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
-
-<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
-
-<p>2)Reference Type Properties (keyword: class)<br/>
-class只可以定义Computed type properties.</p>
-
-<h4>Instance Properties</h4>
-
-<p>1)Stroed Properties
-In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).</p>
-
-<p>P.S:A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.</p>
-
-<p>2)Computed Properties
-computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.</p>
-
-<h3>Properties Observer</h3>
-
-<p>Property observers observe and respond to changes in a property’s value.</p>
-
-<p>You have the option to define either or both of these observers on a property:</p>
-
-<p>willSet is called just before the value is stored.<br/>
-didSet is called immediately after the new value is stored.</p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/06/24/swift-learning-notes-properties/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
         <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
     </div>
     

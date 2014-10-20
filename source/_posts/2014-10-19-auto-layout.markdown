@@ -43,7 +43,7 @@ WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X
 WWDC2012 session 228 – Best Practices for Mastering Auto Layout  
 WWDC2012 session 232 – Auto Layout by Example  
 http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  
-http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2  
-http://objccn.io/issue-3-5/  
-http://studentdeng.github.io/blog/2014/06/13/auto-layout/  
+http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2    
+http://objccn.io/issue-3-5/    
+http://studentdeng.github.io/blog/2014/06/13/auto-layout/    
 http://www.onevcat.com/2012/09/autoayout/

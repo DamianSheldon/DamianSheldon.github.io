@@ -19,3 +19,9 @@ o http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-doe
 原因：Case statements are only 'labels'. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the 'switch' statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.  
 
 Reference:http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439
+
+问题描述：创建 Group style 的 UITalbeView 的顶端有很大一块空白。  
+
+解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck - Adjust scroll view insets    
+
+Reference:http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst

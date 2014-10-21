@@ -122,6 +122,17 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 
 <p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
 
+<p>问题描述：SVN 更新 Cocoapods 管理的第三方包的 Xcode 工程报错，</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>A  +  C Pods
+</span><span class='line'>&gt;   <span class="nb">local </span>edit, incoming delete upon update
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法：svn revert &mdash;depth infinity Pods</p>
+
     <div>
         
         <a class="pull-left" href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/" title="Previous Post: (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6">&laquo; (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>

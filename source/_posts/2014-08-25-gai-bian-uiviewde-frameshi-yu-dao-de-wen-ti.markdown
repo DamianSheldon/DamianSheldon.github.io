@@ -24,4 +24,15 @@ Reference:http://stackoverflow.com/questions/92396/why-cant-variables-be-declare
 
 解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck - Adjust scroll view insets    
 
-Reference:http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst
+Reference:http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst   
+
+问题描述：SVN 更新 Cocoapods 管理的第三方包的 Xcode 工程报错。    
+```bash
+A  +  C Pods
+>   local edit, incoming delete upon update
+```
+
+解决办法：svn revert --depth infinity Pods  
+
+Reference:http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message  
+

@@ -32,7 +32,14 @@ Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多
   Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。
 
 ###Tips  
-  在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。
+1,在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。    
+
+2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：  
+  * 在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；  
+  * 双击上述文件使它在新的窗口中打开；   
+  * 将新的窗口移动到新的桌面上，最大化它；   
+  * 单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；    
+  * 在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。  
 
 ###Demo
 [Auto Layout Demo](https://github.com/DamianSheldon/AutoLayout)

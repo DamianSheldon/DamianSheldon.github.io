@@ -42,3 +42,10 @@ Reference:http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-ed
 
 Reference:http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html    
 
+问题描述：设置 swipe gesture 的 direction 为 UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight 但是只识别一个方向。   
+
+解决办法：为每个方向单独创建一个 UISwipeGestureRecognizer。   
+
+Reference:http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927    
+
+

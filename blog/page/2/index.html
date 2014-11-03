@@ -118,6 +118,129 @@ $(document).ready(
     <article class="post">
 <h2 class="title">
     
+        <a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">
+            
+            (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+        </h2>
+<div class="entry-content">
+    <p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+
+<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+
+<h3>当方法被废弃了</h3>
+
+<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+
+<h3>如何处理废弃的方法</h3>
+
+<p>已经被废弃的方法在新的iOS版本上仍然可以工作。Apple趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
+
+<p>今天的例子，我们会看下 locationManager:didUpdateToLocation:fromLocation:方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了兼容iOS 5,我们可以加入旧的方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>，并在旧的方法中调用新的方法，代码看起来会像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateToLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">newLocation</span> <span class="nf">fromLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLocation</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">locationManager:</span><span class="n">locationManager</span> <span class="nl">didUpdateLocations:</span><span class="p">[[</span><span class="n">NSArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithObjects:</span><span class="n">newLocation</span><span class="p">,</span> <span class="nb">nil</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是iOS5，新的方法不会被调用，它就像自定义的方法，iOS5并不知道locationManager:didUpdateLocations:事实上是什么。旧的方法简单的alloc/init新的名为currentLocation的NSArray并且使用 initWithObjects:newLocation获取一个newLocation,然后NSArray作为信息被传递到locationManager新的方法。</p>
+
+<p>总之，如果设备是iOS5,旧的方法locationManager:didUpdateToLocation:fromLocation: 告诉代理新的位置可用，它把CLLocation加到NSArray中传递给新的方法，但设备的操作系统并不知道新方法。</p>
+
+<p>如果使用的是iOS6,我们从CLLocationManagerDelegate的头文件中了解到如果代码中既有旧方法又有新方法，那么iOS会调用新方法通知代理位置更新了。</p>
+
+<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和关文件，因为Apple添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
+
+<p>原文<br/>
+o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
+
+    
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+    <div class="comments"><a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+</article>
+
+
+    <article class="post">
+<h2 class="title">
+    
         <a href="/blog/2014/06/24/swift-learning-notes-properties/">
             
             Swift Learning Notes &#8211; Properties</a>
@@ -994,141 +1117,6 @@ o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.i
 
 </div>
     <div class="comments"><a href="/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/05/10/property-values/">
-            
-            Property Values</a>
-        </h2>
-<div class="entry-content">
-    <p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
-
-<p> Property的attribute关键字有以下几类：<br/>
- 1）API Control；</p>
-
-<pre><code>getter = methodname
-setter = mehtodname:
-</code></pre>
-
-<p> 2）Write Serialization(not general thread safety);</p>
-
-<pre><code>nonatomic
-atomic (default)
-</code></pre>
-
-<p> 3) Mutability;</p>
-
-<pre><code>readonly
-readwrite (default)
-</code></pre>
-
-<p> 4) Memory Management(ARC);</p>
-
-<pre><code>copy
-strong (default)
-weak
-unsafe_unretained
-assign
-</code></pre>
-
-<p> 5) Memory Management(Traditional)</p>
-
-<pre><code>copy
-retain
-assign (default)
-</code></pre>
-
-<h2>API Control</h2>
-
-<p>@property声明实际上是存取方法的快速声明。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSObject</span> <span class="o">*</span><span class="n">propertyName</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编辑器最终会合成存取方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">propertyName</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPropertyName:</span><span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>默认的getter和setter方法名分别是propertyName,setPropertyName。可以通过API Control提供的关键字指定存取方法名。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">enabled</span><span class="p">;</span>                                  <span class="c1">// default is YES. if NO, ignores touch events and subclasses may draw differently</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isSelected</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">selected</span><span class="p">;</span>                                <span class="c1">// default is NO may be used by some subclasses or by application</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isHighlighted</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">highlighted</span><span class="p">;</span>                          <span class="c1">// default is NO. this gets set/cleared </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Write Serialization(not general thread safety)</h2>
-
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
-
-<h2>Mutability</h2>
-
-<p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
-
-<h2>Memory Management(ARC)</h2>
-
-<p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
-
-<p>2)copy,在内存分配一块全新的地址来存放传入的数据内容，即创建一份新的数据副本用来赋值。适用于实现了NSCoping协议的对象，其他类型的对象声明copy无效。</p>
-
-<p>3)strong(=retain)，强引用，ARC下对象默认内存管理声明关键字，对象引用计数+1。</p>
-
-<p>4)weak,弱引用，持有对象引用计数不变，持有对象释放时，指向的地址为nil。</p>
-
-<p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
-
-<h2>Memory Management(Traditional)</h2>
-
-<h2>Reference</h2>
-
-<p>o Property Values <a href="http://www.bignerdranch.com/blog/property-values/?replytocom=740600">http://www.bignerdranch.com/blog/property-values/?replytocom=740600</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-10T14:41:40+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/05/10/property-values/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
         <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
     </div>
     

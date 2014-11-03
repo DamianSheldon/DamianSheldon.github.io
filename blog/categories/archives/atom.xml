@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-10-31T15:48:55+08:00</updated>
+  <updated>2014-11-03T10:49:45+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iTunes 歌曲信息乱码的解决办法]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/"/>
+    <updated>2014-11-03T10:23:29+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes</id>
+    <content type="html"><![CDATA[<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
+1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
+2)安装Mutagen; <br/>
+```bash</p>
+
+<pre><code>$ path_to_mutagen/setup.py build
+$ sudo path_to_mutagen/setup.py install
+</code></pre>
+
+<p><code>
+3)先将所有歌曲备份，防止操作出错；  
+4)将目录下的所有MP3歌曲的编码转成Unicode;  
+</code>bash</p>
+
+<pre><code>$find . -iname "*.mp3" -execdir mid3iconv -e gbk {} \;  
+</code></pre>
+
+<p>```
+5)将iTunes中的音乐清空，重新添加。</p>
+
+<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Auto Layout]]></title>
@@ -175,55 +204,6 @@ Ad Hoc Distribution Provisioning profile
 <p>  3)Add animation to layer.<br/>
   CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.<br/>
   The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发遇到的问题]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/"/>
-    <updated>2014-08-25T17:09:49+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti</id>
-    <content type="html"><![CDATA[<p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
-
-<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
-
-<p>Reference:<br/>
-o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
-
-<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
-
-<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
-
-<p>问题描述：创建 Group style 的 UITalbeView 的顶端有很大一块空白。</p>
-
-<p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck &ndash; Adjust scroll view insets</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
-
-<p>问题描述：SVN 更新 Cocoapods 管理的第三方包的 Xcode 工程报错。  <br/>
-```bash
-A  +  C Pods</p>
-
-<blockquote><p>  local edit, incoming delete upon update
-```</p></blockquote>
-
-<p>解决办法：svn revert &mdash;depth infinity Pods</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message">http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message</a></p>
-
-<p>问题描述：*** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;&ndash;[UIViewController _loadViewFromNibNamed:bundle:] loaded the &ldquo;loc&rdquo; nib but the view outlet was not set.&rsquo;</p>
-
-<p>解决办法：从输出的日志来看，是说 view 没有设置，事实也确实如此。我先创建了 UIViewController 类文件，然后再创建一个空的同名 xib 文件，我从 Object Library 中拉了一个 UIViewController，问题就出在这里，我应该拉一个 UIView ，并将 File&rsquo;s Owner 设置成正确的类名，最后将 view outlet 联接起来。所以，如果想用 xib 创建 UIViewController，建议在创建类的时候勾选创建相应的 Xib 文件，让 Xcode 做好这些工作。</p>
-
-<p>Reference:<a href="http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html">http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html</a></p>
-
-<p>问题描述：设置 swipe gesture 的 direction 为 UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight 但是只识别一个方向。</p>
-
-<p>解决办法：为每个方向单独创建一个 UISwipeGestureRecognizer。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927">http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927</a></p>
 ]]></content>
   </entry>
   

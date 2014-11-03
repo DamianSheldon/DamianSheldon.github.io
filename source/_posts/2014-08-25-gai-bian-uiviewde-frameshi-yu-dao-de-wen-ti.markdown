@@ -20,13 +20,13 @@ o http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-doe
 
 Reference:http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439
 
-问题描述：创建 Group style 的 UITalbeView 的顶端有很大一块空白。  
+问题描述：创建Group style的UITalbeView的顶端有很大一块空白。  
 
 解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck - Adjust scroll view insets    
 
 Reference:http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst   
 
-问题描述：SVN 更新 Cocoapods 管理的第三方包的 Xcode 工程报错。    
+问题描述：SVN更新Cocoapods管理的第三方包的Xcode工程报错。    
 ```bash
 A  +  C Pods
 >   local edit, incoming delete upon update
@@ -42,9 +42,9 @@ Reference:http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-ed
 
 Reference:http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html    
 
-问题描述：设置 swipe gesture 的 direction 为 UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight 但是只识别一个方向。   
+问题描述：设置swipe gesture的direction为UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight但是只识别一个方向。   
 
-解决办法：为每个方向单独创建一个 UISwipeGestureRecognizer。   
+解决办法：为每个方向单独创建一个UISwipeGestureRecognizer。   
 
 Reference:http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927    
 

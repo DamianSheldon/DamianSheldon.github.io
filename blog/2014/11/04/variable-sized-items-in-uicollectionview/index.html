@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Here's where it all happens for me.  | Hello World</title>
+	<title>(翻译)Variable-Sized Items in UICollectionView  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="UICollectionView, Auto Layout, UICollectionViewCell">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -112,16 +112,9 @@ $(document).ready(
     
     
     
-    <div id="content" class="inner">
-
-
-    <article class="post">
-<h2 class="title">
+    <div id="content" class="inner"><article class="post">
     
-        <a href="/blog/2014/11/04/variable-sized-items-in-uicollectionview/">
-            
-            (翻译)Variable-Sized Items in UICollectionView</a>
-        </h2>
+<h2 class="title">(翻译)Variable-Sized Items in UICollectionView</h2>
 <div class="entry-content">
     <h3>基本训练</h3>
 
@@ -503,7 +496,45 @@ $(document).ready(
 
 <p><a href="http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/">http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/</a></p>
 
+    <div>
+        
+        <a class="pull-left" href="/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/" title="Previous Post: iTunes 歌曲信息乱码的解决办法">&laquo; iTunes 歌曲信息乱码的解决办法</a>
+        
+        
+        <div class="clear"></div>
+    </div>
     
+    <div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    <!-- Add wei bo share and comment by sheldon -->
+    
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
     
 </div>
 
@@ -528,54 +559,16 @@ $(document).ready(
 <a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
-    <div class="comments"><a href="/blog/2014/11/04/variable-sized-items-in-uicollectionview/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+    <div class="comments"><a href="#comments" id="uyan_count_unit" du="" su="">0条评论</a>
         <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
     </div>
     
 
     
 </div>
-</article>
 
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/">
-            
-            iTunes 歌曲信息乱码的解决办法</a>
-        </h2>
-<div class="entry-content">
-    <p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
-1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
-2)安装Mutagen;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
-</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3)先将所有歌曲备份，防止操作出错；<br/>
-4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>5)将iTunes中的音乐清空，重新添加。</p>
-
-<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
+    <div class="meta">
+        <div class="date">
 
 
 
@@ -587,338 +580,92 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-03T10:23:29+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/10/19/auto-layout/">
-            
-            Auto Layout</a>
-        </h2>
-<div class="entry-content">
-    <h3>前言</h3>
-
-<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
-
-<h3>Auto Layout 是什么</h3>
-
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
-
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
-
-<h4>Constraint &mdash; 约束</h4>
-
-<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
-  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
-  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
-  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
-  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
-
-<h4>Intrinsic Content Size</h4>
-
-<p>  Intrinsic Content Size 是 Auto Layout 中另一个重要概念，身处视图层级末端的视图会为显示特定内容期望得到一个大小，它就叫做Intrinsic Content Size。</p>
-
-<h3>如何使用Auto Layout</h3>
-
-<p>  Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。</p>
-
-<h3>Tips</h3>
-
-<p>1,在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
-
-<p>2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：<br/>
-  * 在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；<br/>
-  * 双击上述文件使它在新的窗口中打开； <br/>
-  * 将新的窗口移动到新的桌面上，最大化它； <br/>
-  * 单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；  <br/>
-  * 在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。</p>
-
-<h3>Demo</h3>
-
-<p><a href="https://github.com/DamianSheldon/AutoLayout">Auto Layout Demo</a></p>
-
-<h3>Reference</h3>
-
-<p>Auto Layout Guide<br/>
-WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
-WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
-WWDC2012 session 232 – Auto Layout by Example<br/>
-<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  ">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  </a>
-<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2</a>  <br/>
-<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
-<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
-<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
-    <div class="tags">
+<time datetime="2014-11-04T11:27:12+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time></div>
+        <div class="tags">
 
 
 <a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
-    <div class="comments"><a href="/blog/2014/10/19/auto-layout/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+        <div class="comments"><a href="#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+            <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+        </div>
+        
+
+        <br />
+        <section>
+    <h2>分类目录</h2>
+    <ul id="categories">
+        <li class='category'><a href='/blog/categories/archives/'>Archives (17)</a></li>
+<li class='category'><a href='/blog/categories/ios-development/'>iOS Development (14)</a></li>
+
+    </ul>
+</section>
+        <br />
+        <section>
+            <h2>相关文章：</h2>
+            <ul class="posts">
+                
+                <li class="related">
+                    <a href="/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/">iTunes 歌曲信息乱码的解决办法</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/10/19/auto-layout/">Auto Layout</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/10/09/ios-development-certificates/">iOS Development--Certificates, Provisioning Profiles</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">在Mac OSX Mavericks上安装和配置Openfire</a>
+                </li>
+                
+            </ul>
+        </section>
+        <br />
+        <section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/04/variable-sized-items-in-uicollectionview/">(翻译)Variable-Sized Items in UICollectionView</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/">iTunes 歌曲信息乱码的解决办法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/19/auto-layout/">Auto Layout</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/09/ios-development-certificates/">iOS Development--Certificates, Provisioning Profiles</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">在Mac OSX Mavericks上安装和配置Openfire</a>
+      </li>
+    
+  </ul>
+</section>
+
+        <br />
+        <section>
+    <h2>评论热榜</h2>
+    <div id="uyan_hotcmt_unit"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+</section>
+        <section>
+    <h2>最新评论</h2>
+    <div id="uyan_newcmt_unit"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+</section>
     </div>
-    
-
-    
-</div>
 </article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/10/09/ios-development-certificates/">
-            
-            iOS Development&#8211;Certificates, Provisioning Profiles</a>
-        </h2>
-<div class="entry-content">
-    <p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
-
-<p><img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573"></p>
-
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
-
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
-
-<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
-
-<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
-
-<p><img name="Certificate" src="/images/Certificate.png" width="696" height="471"> </p>
-
-<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
-
-<p><img name="ProvisioningProfile" src="/images/ProvisioningProfile.png" width="618" height="377"></p>
-
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
-
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
-
-<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
-
-<h3>Tips</h3>
-
-<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
-
-<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
-
-<p><img name="TeamProvisioningProfile" src="/images/TeamProvisioningProfile.png" width="712" height="406">  </p>
-
-    
-    
 </div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/10/09/ios-development-certificates/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">
-            
-            在Mac OSX Mavericks上安装和配置Openfire</a>
-        </h2>
-<div class="entry-content">
-    <h3>安装</h3>
-
-<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
-
-<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
-  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
-
-<h3>配置</h3>
-
-<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-11T09:15:32+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/09/03/core-animation-bi-ji/">
-            
-            Core Animation 笔记</a>
-        </h2>
-<div class="entry-content">
-    <h2>Core Animation介绍</h2>
-
-<p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app.</p>
-
-<h2>什么时候使用Core Animation?</h2>
-
-<p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p>
-
-<h2>如何使用Core Animation?</h2>
-
-<p>  1)Enabling Core Animation Support in Your App;<br/>
-  In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.</p>
-
-<p>  2)Selecting a appropriate Layer Object Associated with a View;<br/>
-  Reference:Core Animation Programming Guide &mdash; Different Layer Classes Provide Specialized Behaviors</p>
-
-<p>  3)Add animation to layer.<br/>
-  CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.<br/>
-  The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.</p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-03T09:59:58+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/09/03/core-animation-bi-ji/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-<nav id="pagenavi">
-    
-    
-        <a href="/blog/page/2/" class="next">Next</a>
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
     <footer id="footer" class="inner">Copyright &copy; 2014
 
     Sheldon

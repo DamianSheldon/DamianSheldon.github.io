@@ -200,10 +200,17 @@ $(document).ready(
 <span class='line-number'>66</span>
 <span class='line-number'>67</span>
 <span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
 </span><span class='line'><span class="nv">$ </span>sudo adduser git
-</span><span class='line'><span class="nv">$ </span>su git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span>
+</span><span class='line'><span class="nv">$ </span>su -l git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~
 </span><span class='line'><span class="nv">$ </span>mkdir .ssh
 </span><span class='line'>
 </span><span class='line'>// Step 2:把开发者的 SSH 公钥添加到这个用户的 authorized_keys 文件中。
@@ -213,9 +220,16 @@ $(document).ready(
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'>
 </span><span class='line'>// Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
+</span><span class='line'><span class="nv">$sudo</span> mkdir /opt/git
+</span><span class='line'><span class="nv">$sudo</span> chown -R git /opt/git
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /opt/git
-</span><span class='line'><span class="nv">$ </span>mkdir project.git <span class="nv">$ </span><span class="nb">cd </span>project.git
+</span><span class='line'><span class="nv">$ </span>mkdir project.git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>project.git
 </span><span class='line'><span class="nv">$ </span>git --bare init
+</span><span class='line'>
+</span><span class='line'>// Mac 下需要开启ssh并允许remote login
+</span><span class='line'><span class="nv">$launchctl</span> start sshd
+</span><span class='line'>// System Preferences -&gt; Sharing -&gt; Remote Login -&gt; All Users
 </span><span class='line'>
 </span><span class='line'>// Step 4:Join,Josie 或者 Jessica 就可以把它加为远程仓库,
 </span><span class='line'>推送一个分支,从而把第一个版本的工程上 传到仓库里了
@@ -368,7 +382,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Git分支</h3>
+<h5>Git分支</h5>
 
 <p>几乎每一种版本控制系统都以某种形式支持分支。使用分支意味着你可以从开发主线上分离开来,然后在不影响主线的同时继续工作。
 1)新建分支;</p>
@@ -1058,7 +1072,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>Refernce</h4>
+<h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
 

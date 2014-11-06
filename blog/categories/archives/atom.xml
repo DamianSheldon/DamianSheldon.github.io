@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-05T20:54:50+08:00</updated>
+  <updated>2014-11-06T11:25:07+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -36,8 +36,8 @@
 ```bash
 // Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
 $ sudo adduser git
-$ su git
-$ cd
+$ su -l git
+$ cd ~
 $ mkdir .ssh</p>
 
 <p>// Step 2:把开发者的 SSH 公钥添加到这个用户的 authorized_keys 文件中。
@@ -47,9 +47,16 @@ $ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 $ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys</p>
 
 <p>// Step 3:使用 &mdash;bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
+$sudo mkdir /opt/git
+$sudo chown -R git /opt/git
 $ cd /opt/git
-$ mkdir project.git $ cd project.git
+$ mkdir project.git
+$ cd project.git
 $ git &mdash;bare init</p>
+
+<p>// Mac 下需要开启ssh并允许remote login
+$launchctl start sshd
+// System Preferences &ndash;> Sharing &ndash;> Remote Login &ndash;> All Users</p>
 
 <p>// Step 4:Join,Josie 或者 Jessica 就可以把它加为远程仓库,
 推送一个分支,从而把第一个版本的工程上 传到仓库里了</p>
@@ -89,7 +96,7 @@ Enter same passphrase again:
 Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 The key fingerprint is:
-43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#99;&#104;&#x61;&#99;&#x6f;&#x6e;&#64;&#97;&#103;&#97;&#x64;&#x6f;&#114;&#108;&#97;&#x70;&#116;&#111;&#x70;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;">&#x73;&#x63;&#104;&#x61;&#x63;&#111;&#x6e;&#x40;&#x61;&#103;&#97;&#100;&#111;&#114;&#x6c;&#97;&#112;&#116;&#111;&#112;&#x2e;&#x6c;&#111;&#x63;&#x61;&#x6c;</a></p>
+43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x73;&#x63;&#104;&#97;&#99;&#x6f;&#x6e;&#64;&#97;&#x67;&#x61;&#x64;&#x6f;&#x72;&#x6c;&#97;&#x70;&#116;&#x6f;&#112;&#46;&#x6c;&#111;&#x63;&#x61;&#x6c;">&#115;&#99;&#104;&#x61;&#99;&#x6f;&#110;&#64;&#x61;&#103;&#x61;&#100;&#111;&#x72;&#108;&#x61;&#x70;&#x74;&#x6f;&#112;&#x2e;&#108;&#x6f;&#99;&#97;&#x6c;</a></p>
 
 <p>// Step 3:它先要求你确认保存公钥的位置(.ssh/id_rsa),然后它会让你重复一个密码两次,
 // 如果不想在使用公钥的 时候输入密码,可以留空。
@@ -102,7 +109,7 @@ GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
 t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
 mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
-NrRFi9wrf+M7Q== <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x73;&#x63;&#x68;&#x61;&#99;&#111;&#110;&#64;&#97;&#103;&#97;&#x64;&#x6f;&#114;&#x6c;&#97;&#112;&#x74;&#x6f;&#112;&#x2e;&#108;&#x6f;&#99;&#x61;&#108;">&#115;&#99;&#x68;&#x61;&#x63;&#111;&#110;&#64;&#x61;&#x67;&#x61;&#x64;&#x6f;&#x72;&#x6c;&#97;&#112;&#x74;&#111;&#x70;&#x2e;&#x6c;&#111;&#99;&#x61;&#x6c;</a>
+NrRFi9wrf+M7Q== <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#x63;&#104;&#x61;&#x63;&#x6f;&#110;&#x40;&#97;&#103;&#97;&#100;&#111;&#x72;&#x6c;&#x61;&#112;&#x74;&#111;&#x70;&#46;&#108;&#x6f;&#x63;&#x61;&#108;">&#x73;&#x63;&#104;&#97;&#x63;&#111;&#x6e;&#64;&#x61;&#x67;&#x61;&#x64;&#111;&#x72;&#x6c;&#97;&#x70;&#116;&#111;&#112;&#x2e;&#108;&#111;&#99;&#x61;&#108;</a>
 ```</p>
 
 <p>作为一个额外的防范措施,你可以用 Git 自带的 git-shell 简单工具来把 git 用户的活动限制在仅与 Git 相关。把它设为 git 用户登入的 shell,那么该用户就不能拥有主机正常的 shell 访问权。为了实现这一 点,需要指明用户的登入shell 是 git-shell ,而不是 bash 或者 csh。你可能得编辑 /etc/passwd 文件:
@@ -162,7 +169,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 // Quilk config
 // 用户信息
 $ git config &mdash;global user.name &ldquo;John Doe&rdquo;
-$ git config &mdash;global user.email <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6a;&#x6f;&#x68;&#x6e;&#x64;&#x6f;&#101;&#64;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#111;&#109;">&#x6a;&#111;&#104;&#110;&#100;&#x6f;&#101;&#x40;&#101;&#120;&#x61;&#109;&#x70;&#108;&#x65;&#46;&#x63;&#x6f;&#109;</a></p>
+$ git config &mdash;global user.email <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x6a;&#x6f;&#x68;&#x6e;&#x64;&#x6f;&#101;&#64;&#101;&#x78;&#97;&#x6d;&#112;&#x6c;&#x65;&#46;&#x63;&#x6f;&#109;">&#x6a;&#x6f;&#104;&#x6e;&#100;&#111;&#101;&#64;&#101;&#x78;&#x61;&#109;&#112;&#x6c;&#x65;&#x2e;&#99;&#111;&#x6d;</a></p>
 
 <p>// 文本编辑器
 $ git config &mdash;global core.editor emacs</p>
@@ -175,7 +182,7 @@ $ git config &mdash;list</p>
 
 <p>```</p>
 
-<h3>Git分支</h3>
+<h5>Git分支</h5>
 
 <p>几乎每一种版本控制系统都以某种形式支持分支。使用分支意味着你可以从开发主线上分离开来,然后在不影响主线的同时继续工作。
 1)新建分支;
@@ -402,17 +409,17 @@ $ git tag -a v1.4 -m &lsquo;my version 1.4&rsquo;</p>
 <p>// 可以使用 git show 命令查看相应标签的版本信息,并连同显示打标签时的提交对象。
 $ git show v1.4
 tag v1.4
-Tagger: Scott Chacon <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#115;&#x63;&#104;&#97;&#99;&#111;&#110;&#64;&#103;&#101;&#x65;&#x2d;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">&#x73;&#99;&#x68;&#97;&#99;&#111;&#x6e;&#64;&#103;&#x65;&#101;&#45;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a> Date: Mon Feb 9 14:45:11 2009 -0800
+Tagger: Scott Chacon <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#115;&#x63;&#104;&#97;&#x63;&#111;&#x6e;&#x40;&#x67;&#x65;&#x65;&#x2d;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#x73;&#99;&#x68;&#97;&#99;&#x6f;&#110;&#64;&#103;&#101;&#101;&#x2d;&#x6d;&#97;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;</a> Date: Mon Feb 9 14:45:11 2009 -0800
 my version 1.4
 commit 15027957951b64cf874c3557a0f3547bd83b3ff6 Merge: 4a447f7&hellip; a6b4c97&hellip;
-Author: Scott Chacon <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x63;&#x68;&#x61;&#99;&#x6f;&#110;&#64;&#103;&#x65;&#101;&#45;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;">&#x73;&#x63;&#x68;&#97;&#99;&#111;&#x6e;&#x40;&#x67;&#x65;&#x65;&#45;&#109;&#97;&#105;&#108;&#46;&#99;&#x6f;&#109;</a> Date: Sun Feb 8 19:02:46 2009 -0800
+Author: Scott Chacon <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#99;&#104;&#97;&#x63;&#111;&#x6e;&#x40;&#103;&#101;&#x65;&#x2d;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;">&#115;&#x63;&#x68;&#x61;&#x63;&#111;&#110;&#64;&#x67;&#101;&#x65;&#45;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#111;&#109;</a> Date: Sun Feb 8 19:02:46 2009 -0800
 Merge branch &lsquo;experiment&rsquo;</p>
 
 <p>// 签署标签
 //如果你有自己的私钥,还可以用 GPG 来签署标签,只需要把之前的 -a 改为 -s (译注: 取 Signed 的首
 字母)即可:
 $ git tag -s v1.5 -m &lsquo;my signed 1.5 tag&rsquo;
-You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x73;&#x63;&#104;&#97;&#99;&#111;&#x6e;&#x40;&#103;&#x65;&#101;&#45;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#115;&#x63;&#104;&#97;&#x63;&#x6f;&#110;&#x40;&#103;&#101;&#x65;&#x2d;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a>&rdquo;
+You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#99;&#104;&#x61;&#99;&#x6f;&#110;&#x40;&#103;&#x65;&#x65;&#45;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#x73;&#x63;&#x68;&#x61;&#99;&#x6f;&#x6e;&#64;&#103;&#x65;&#101;&#x2d;&#x6d;&#97;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a>&rdquo;
 1024-bit DSA key, ID F721C45A, created 2009-02-09</p>
 
 <p>// 轻量级标签
@@ -427,11 +434,11 @@ $ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
 type commit
 tag v1.4.2.1
-tagger Junio C Hamano <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x6a;&#x75;&#x6e;&#107;&#x69;&#111;&#x40;&#x63;&#x6f;&#120;&#46;&#x6e;&#101;&#116;">&#106;&#x75;&#x6e;&#x6b;&#x69;&#x6f;&#x40;&#99;&#111;&#x78;&#46;&#x6e;&#x65;&#x74;</a> 1158138501 -0700
+tagger Junio C Hamano <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x6a;&#117;&#x6e;&#x6b;&#x69;&#111;&#64;&#99;&#111;&#x78;&#x2e;&#x6e;&#101;&#x74;">&#x6a;&#x75;&#110;&#x6b;&#105;&#111;&#64;&#x63;&#x6f;&#x78;&#x2e;&#x6e;&#101;&#x74;</a> 1158138501 -0700
 GIT 1.4.2.1
 Minor fixes since 1.4.2, including git-mv and git-http with alternates.
 gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
-gpg: Good signature from &ldquo;Junio C Hamano <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x6a;&#x75;&#110;&#x6b;&#105;&#111;&#x40;&#x63;&#x6f;&#x78;&#x2e;&#110;&#101;&#x74;">&#x6a;&#117;&#110;&#x6b;&#105;&#x6f;&#64;&#99;&#111;&#x78;&#x2e;&#110;&#x65;&#116;</a>&rdquo;
+gpg: Good signature from &ldquo;Junio C Hamano <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#106;&#117;&#x6e;&#x6b;&#105;&#111;&#64;&#x63;&#111;&#x78;&#46;&#110;&#101;&#x74;">&#106;&#117;&#x6e;&#x6b;&#x69;&#111;&#64;&#99;&#x6f;&#x78;&#46;&#110;&#101;&#116;</a>&rdquo;
 gpg: aka &ldquo;[jpeg image of size 1513]&rdquo;
 Primary key fingerprint: 3565 2A26 2040 E066 C9A7 4A7D C0C6 D9A4 F311 9B9A</p>
 
@@ -563,7 +570,7 @@ To jessica@githost:simplegit.git
 
 <p>```</p>
 
-<h4>Refernce</h4>
+<h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
 ]]></content>

@@ -24,8 +24,8 @@ git - the stupid content tracker
 ```bash
 // Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
 $ sudo adduser git 
-$ su git
-$ cd
+$ su -l git
+$ cd ~
 $ mkdir .ssh
 
 // Step 2:把开发者的 SSH 公钥添加到这个用户的 authorized_keys 文件中。
@@ -35,9 +35,16 @@ $ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 $ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
 // Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
+$sudo mkdir /opt/git
+$sudo chown -R git /opt/git
 $ cd /opt/git
-$ mkdir project.git $ cd project.git
+$ mkdir project.git 
+$ cd project.git
 $ git --bare init
+
+// Mac 下需要开启ssh并允许remote login
+$launchctl start sshd
+// System Preferences -> Sharing -> Remote Login -> All Users
 
 // Step 4:Join,Josie 或者 Jessica 就可以把它加为远程仓库,
 推送一个分支,从而把第一个版本的工程上 传到仓库里了
@@ -159,7 +166,7 @@ $ git config --list
 
 ```
 
-###Git分支
+#####Git分支
 几乎每一种版本控制系统都以某种形式支持分支。使用分支意味着你可以从开发主线上分离开来,然后在不影响主线的同时继续工作。
 1)新建分支;
 ```bash
@@ -529,5 +536,5 @@ To jessica@githost:simplegit.git
 
 ```
 
-####Refernce
+####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

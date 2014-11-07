@@ -118,6 +118,89 @@ $(document).ready(
     <article class="post">
 <h2 class="title">
     
+        <a href="/blog/2014/11/07/setup-iterm2-to-behave-like-guake/">
+            
+            为MacBook Pro配置一个像guake的终端</a>
+        </h2>
+<div class="entry-content">
+    <p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
+
+<h3>让iTerm2的行为像guake</h3>
+
+<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
+
+<p>2)打开iTerm2,然后iTerm2&mdash;>Prefences&hellip;&ndash;>Profiles;</p>
+
+<p>3)创建一个新Profiles,命名为guake;</p>
+
+<p>4)在Window选项中根据自己的喜好配置;</p>
+
+<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
+
+<p>5)在Keys选项中激活&#8221;Show/hide iTerm2 with a system-wide hotkey&#8221;,由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
+
+<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
+
+<h3>开机启动iTerm2时不打开终端窗口</h3>
+
+<p>安装好iTerm2,并把它配置像guake, 加入开机自启动(System Preferences > Users&amp;Groups > Login Items > + iTerm2)之后，还有一个小问题困扰着我，就是它会默认打开一个终端窗口，这让人很不舒坦，解决方法如下:</p>
+
+<p>1)打开iTerm2;</p>
+
+<p>2)关闭所有的窗口(iTerm2菜单栏&mdash;>shell&mdash;>Close);</p>
+
+<p>3)Window&mdash;>Save Window Arrangement;</p>
+
+<p>4)将新的窗口布局命名为“No Windows”;</p>
+
+<p>5)将这个新窗口布局设置默认布局，Preferences > Arrangements > Set it as default;</p>
+
+<p>6)最后在Preferences… > General > Startup, 只选中“Open default window arrangement” 。</p>
+
+<h3>Reference:</h3>
+
+<p>SETUP ITERM2 TO BEHAVE LIKE GUAKE(<a href="http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/">http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/</a>)</p>
+
+<p>Launch iTerm 2 on startup without opening a terminal window (<a href="http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/">http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/</a>)</p>
+
+    
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+    <div class="comments"><a href="/blog/2014/11/07/setup-iterm2-to-behave-like-guake/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+</article>
+
+
+    <article class="post">
+<h2 class="title">
+    
         <a href="/blog/2014/11/05/git-summary/">
             
             Git 小结</a>
@@ -1790,60 +1873,6 @@ Ad Hoc Distribution Provisioning profile
 
 </div>
     <div class="comments"><a href="/blog/2014/10/09/ios-development-certificates/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/">
-            
-            在Mac OSX Mavericks上安装和配置Openfire</a>
-        </h2>
-<div class="entry-content">
-    <h3>安装</h3>
-
-<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
-
-<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
-  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
-
-<h3>配置</h3>
-
-<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-11T09:15:32+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
         <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
     </div>
     

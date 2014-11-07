@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Hello Octopress  | Hello World</title>
+	<title>为MacBook Pro配置一个像guake的终端  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="用Octopress搭建自己博客过程中的常见问题及解决办法"> <meta name="keywords" content="Octopress, blog, Problem, Solution">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iterm2, guake">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -114,127 +114,52 @@ $(document).ready(
     
     <div id="content" class="inner"><article class="post">
     
-<h2 class="title">Hello Octopress</h2>
+<h2 class="title">为MacBook Pro配置一个像guake的终端</h2>
 <div class="entry-content">
-    <p>Octopress:A blogging framework for hackers.</p>
+    <p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
 
-<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+<h3>让iTerm2的行为像guake</h3>
 
-<h1>问题1</h1>
+<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
-</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
-</span></code></pre></td></tr></table></div></figure>
+<p>2)打开iTerm2,然后iTerm2&mdash;>Prefences&hellip;&ndash;>Profiles;</p>
 
+<p>3)创建一个新Profiles,命名为guake;</p>
 
-<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
+<p>4)在Window选项中根据自己的喜好配置;</p>
 
-<h1>问题2</h1>
+<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
-</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
-</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
-</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>5)在Keys选项中激活&#8221;Show/hide iTerm2 with a system-wide hotkey&#8221;,由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
 
+<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
 
-<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
+<h3>开机启动iTerm2时不打开终端窗口</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
-</span><span class='line'>brew doctor
-</span><span class='line'><span class="nb">cd </span>root_path_octopress
-</span><span class='line'>git pull octopress master
-</span><span class='line'>rm Gemfile.lock
-</span><span class='line'>vim Gemfile
-</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
-</span></code></pre></td></tr></table></div></figure>
+<p>安装好iTerm2,并把它配置像guake, 加入开机自启动(System Preferences > Users&amp;Groups > Login Items > + iTerm2)之后，还有一个小问题困扰着我，就是它会默认打开一个终端窗口，这让人很不舒坦，解决方法如下:</p>
 
+<p>1)打开iTerm2;</p>
 
-<h1>问题3</h1>
+<p>2)关闭所有的窗口(iTerm2菜单栏&mdash;>shell&mdash;>Close);</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>dongmeiiangsmbp:octopress dongmeiliang<span class="nv">$ </span>rake generate
-</span><span class='line'>...
-</span><span class='line'>Build Failed
-</span></code></pre></td></tr></table></div></figure>
+<p>3)Window&mdash;>Save Window Arrangement;</p>
 
+<p>4)将新的窗口布局命名为“No Windows”;</p>
 
-<p>Solution:网上找了下，类似问题的原因可能是有空格之类的问题，用FileMerge比较了下发现是空格的原因。吐槽下这原因感觉有点难以接受啊。十分感谢原帖作者，忘记把链接复制下来了。</p>
+<p>5)将这个新窗口布局设置默认布局，Preferences > Arrangements > Set it as default;</p>
 
-<h1>问题4</h1>
+<p>6)最后在Preferences… > General > Startup, 只选中“Open default window arrangement” 。</p>
 
-<p>之前安装过程中，出于测试的目的，写了篇草稿发上来了，现在想重新把文章编辑下，但是奇怪的是source分支中找不到原文件了，如果你知道原因请告诉我一声。</p>
+<h3>Reference:</h3>
 
-<p>Solution:我的解决办法是在_deploy路径下同步master分支，解决合并冲突，然后把blog目录下相应的index.html文件删除了，然后：</p>
+<p>SETUP ITERM2 TO BEHAVE LIKE GUAKE(<a href="http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/">http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/</a>)</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake generate
-</span><span class='line'>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>问题5（2014.5.21）</h2>
-
-<p>怎么把文章放到navigation对应的分类组织中呢？</p>
-
-<p>solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>categories/iOS_Development<span class="o">]</span>
-</span><span class='line'>vim <span class="nb">source</span>/_includes/custom/navigation.html
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>增加<li><a href="/blog/categories/ios-development">iOS Development</a></li></p>
-
-<p>然后在文章的头部：
-categories: [iOS Development]</p>
-
-<h2>问题6</h2>
-
-<p>怎么把侧边栏放到底部去呢？</p>
-
-<h2>问题7</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Error fetching https://ruby.taobao.org/:
-</span><span class='line'>  too many connection resets <span class="o">(</span>https://rubygems-china.oss.aliyuncs.com/specs.4.8.gz<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:网上查找相关问题，没有找到好的解决办法。经过一番琢磨，觉得可能是我设置了goagent，于是注释掉.bash_profile中的http_prosy, https_proxy, 然后在Terminal中执行</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">unset </span>http_proxy
-</span><span class='line'><span class="nb">unset </span>https_proxy
-</span><span class='line'>gem sources -a https://ruby.taobao.org
-</span></code></pre></td></tr></table></div></figure>
-
+<p>Launch iTerm 2 on startup without opening a terminal window (<a href="http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/">http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/</a>)</p>
 
     <div>
         
+        <a class="pull-left" href="/blog/2014/11/05/git-summary/" title="Previous Post: Git 小结">&laquo; Git 小结</a>
         
-        <a class="pull-right" href="/blog/2014/05/10/objective-c-class-and-object/" title="Next Post: Objective-C Class And Object">Objective-C Class And Object &raquo;</a>
         
         <div class="clear"></div>
     </div>
@@ -287,7 +212,7 @@ categories: [iOS Development]</p>
   
 
 
-<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true">May 9<span>th</span>, 2014</time></div>
+<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2014</time></div>
     <div class="tags">
 
 
@@ -315,7 +240,7 @@ categories: [iOS Development]</p>
   
 
 
-<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true">May 9<span>th</span>, 2014</time></div>
+<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2014</time></div>
         <div class="tags">
 
 
@@ -342,10 +267,6 @@ categories: [iOS Development]</p>
             <ul class="posts">
                 
                 <li class="related">
-                    <a href="/blog/2014/11/07/setup-iterm2-to-behave-like-guake/">为MacBook Pro配置一个像guake的终端</a>
-                </li>
-                
-                <li class="related">
                     <a href="/blog/2014/11/05/git-summary/">Git 小结</a>
                 </li>
                 
@@ -355,6 +276,10 @@ categories: [iOS Development]</p>
                 
                 <li class="related">
                     <a href="/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/">iTunes 歌曲信息乱码的解决办法</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/10/19/auto-layout/">Auto Layout</a>
                 </li>
                 
             </ul>

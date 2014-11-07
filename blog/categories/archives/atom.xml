@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-06T11:25:07+08:00</updated>
+  <updated>2014-11-07T11:29:25+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为MacBook Pro配置一个像guake的终端]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/11/07/setup-iterm2-to-behave-like-guake/"/>
+    <updated>2014-11-07T10:31:19+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/11/07/setup-iterm2-to-behave-like-guake</id>
+    <content type="html"><![CDATA[<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
+
+<h3>让iTerm2的行为像guake</h3>
+
+<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
+
+<p>2)打开iTerm2,然后iTerm2&mdash;>Prefences&hellip;&ndash;>Profiles;</p>
+
+<p>3)创建一个新Profiles,命名为guake;</p>
+
+<p>4)在Window选项中根据自己的喜好配置;</p>
+
+<p><img name="create_new_iterm_profile" src="http://DamianSheldon.github.io/images/create_new_iterm_profile.png" width="913" height="533"></p>
+
+<p>5)在Keys选项中激活"Show/hide iTerm2 with a system-wide hotkey",由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
+
+<p><img name="assign_a_hotkey" src="http://DamianSheldon.github.io/images/assign_a_hotkey.png" width="897" height="528"></p>
+
+<h3>开机启动iTerm2时不打开终端窗口</h3>
+
+<p>安装好iTerm2,并把它配置像guake, 加入开机自启动(System Preferences > Users&amp;Groups > Login Items > + iTerm2)之后，还有一个小问题困扰着我，就是它会默认打开一个终端窗口，这让人很不舒坦，解决方法如下:</p>
+
+<p>1)打开iTerm2;</p>
+
+<p>2)关闭所有的窗口(iTerm2菜单栏&mdash;>shell&mdash;>Close);</p>
+
+<p>3)Window&mdash;>Save Window Arrangement;</p>
+
+<p>4)将新的窗口布局命名为“No Windows”;</p>
+
+<p>5)将这个新窗口布局设置默认布局，Preferences > Arrangements > Set it as default;</p>
+
+<p>6)最后在Preferences… > General > Startup, 只选中“Open default window arrangement” 。</p>
+
+<h3>Reference:</h3>
+
+<p>SETUP ITERM2 TO BEHAVE LIKE GUAKE(<a href="http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/">http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/</a>)</p>
+
+<p>Launch iTerm 2 on startup without opening a terminal window (<a href="http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/">http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/</a>)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git 小结]]></title>
@@ -96,7 +143,7 @@ Enter same passphrase again:
 Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 The key fingerprint is:
-43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x73;&#x63;&#104;&#97;&#99;&#x6f;&#x6e;&#64;&#97;&#x67;&#x61;&#x64;&#x6f;&#x72;&#x6c;&#97;&#x70;&#116;&#x6f;&#112;&#46;&#x6c;&#111;&#x63;&#x61;&#x6c;">&#115;&#99;&#104;&#x61;&#99;&#x6f;&#110;&#64;&#x61;&#103;&#x61;&#100;&#111;&#x72;&#108;&#x61;&#x70;&#x74;&#x6f;&#112;&#x2e;&#108;&#x6f;&#99;&#97;&#x6c;</a></p>
+43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x73;&#99;&#104;&#97;&#x63;&#x6f;&#x6e;&#64;&#97;&#x67;&#97;&#100;&#111;&#x72;&#108;&#x61;&#112;&#x74;&#x6f;&#112;&#x2e;&#108;&#111;&#x63;&#97;&#x6c;">&#115;&#x63;&#104;&#97;&#x63;&#x6f;&#110;&#x40;&#x61;&#x67;&#97;&#100;&#x6f;&#114;&#x6c;&#x61;&#112;&#x74;&#111;&#112;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a></p>
 
 <p>// Step 3:它先要求你确认保存公钥的位置(.ssh/id_rsa),然后它会让你重复一个密码两次,
 // 如果不想在使用公钥的 时候输入密码,可以留空。
@@ -109,7 +156,7 @@ GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
 t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
 mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
-NrRFi9wrf+M7Q== <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#x63;&#104;&#x61;&#x63;&#x6f;&#110;&#x40;&#97;&#103;&#97;&#100;&#111;&#x72;&#x6c;&#x61;&#112;&#x74;&#111;&#x70;&#46;&#108;&#x6f;&#x63;&#x61;&#108;">&#x73;&#x63;&#104;&#97;&#x63;&#111;&#x6e;&#64;&#x61;&#x67;&#x61;&#x64;&#111;&#x72;&#x6c;&#97;&#x70;&#116;&#111;&#112;&#x2e;&#108;&#111;&#99;&#x61;&#108;</a>
+NrRFi9wrf+M7Q== <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#115;&#99;&#x68;&#x61;&#x63;&#111;&#x6e;&#64;&#97;&#x67;&#97;&#100;&#x6f;&#x72;&#108;&#97;&#112;&#116;&#x6f;&#112;&#46;&#x6c;&#x6f;&#99;&#97;&#x6c;">&#115;&#99;&#x68;&#x61;&#99;&#x6f;&#x6e;&#x40;&#97;&#103;&#x61;&#x64;&#x6f;&#x72;&#x6c;&#x61;&#x70;&#116;&#111;&#x70;&#46;&#108;&#111;&#99;&#x61;&#108;</a>
 ```</p>
 
 <p>作为一个额外的防范措施,你可以用 Git 自带的 git-shell 简单工具来把 git 用户的活动限制在仅与 Git 相关。把它设为 git 用户登入的 shell,那么该用户就不能拥有主机正常的 shell 访问权。为了实现这一 点,需要指明用户的登入shell 是 git-shell ,而不是 bash 或者 csh。你可能得编辑 /etc/passwd 文件:
@@ -169,7 +216,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 // Quilk config
 // 用户信息
 $ git config &mdash;global user.name &ldquo;John Doe&rdquo;
-$ git config &mdash;global user.email <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x6a;&#x6f;&#x68;&#x6e;&#x64;&#x6f;&#101;&#64;&#101;&#x78;&#97;&#x6d;&#112;&#x6c;&#x65;&#46;&#x63;&#x6f;&#109;">&#x6a;&#x6f;&#104;&#x6e;&#100;&#111;&#101;&#64;&#101;&#x78;&#x61;&#109;&#112;&#x6c;&#x65;&#x2e;&#99;&#111;&#x6d;</a></p>
+$ git config &mdash;global user.email <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#106;&#111;&#104;&#x6e;&#x64;&#111;&#101;&#64;&#x65;&#x78;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;">&#x6a;&#111;&#x68;&#110;&#100;&#111;&#101;&#x40;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
 <p>// 文本编辑器
 $ git config &mdash;global core.editor emacs</p>
@@ -409,17 +456,17 @@ $ git tag -a v1.4 -m &lsquo;my version 1.4&rsquo;</p>
 <p>// 可以使用 git show 命令查看相应标签的版本信息,并连同显示打标签时的提交对象。
 $ git show v1.4
 tag v1.4
-Tagger: Scott Chacon <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#115;&#x63;&#104;&#97;&#x63;&#111;&#x6e;&#x40;&#x67;&#x65;&#x65;&#x2d;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#x73;&#99;&#x68;&#97;&#99;&#x6f;&#110;&#64;&#103;&#101;&#101;&#x2d;&#x6d;&#97;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;</a> Date: Mon Feb 9 14:45:11 2009 -0800
+Tagger: Scott Chacon <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x73;&#99;&#x68;&#x61;&#x63;&#111;&#x6e;&#64;&#103;&#101;&#101;&#45;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x73;&#99;&#x68;&#97;&#99;&#x6f;&#x6e;&#64;&#103;&#x65;&#x65;&#45;&#x6d;&#97;&#x69;&#108;&#46;&#x63;&#111;&#109;</a> Date: Mon Feb 9 14:45:11 2009 -0800
 my version 1.4
 commit 15027957951b64cf874c3557a0f3547bd83b3ff6 Merge: 4a447f7&hellip; a6b4c97&hellip;
-Author: Scott Chacon <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#99;&#104;&#97;&#x63;&#111;&#x6e;&#x40;&#103;&#101;&#x65;&#x2d;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;">&#115;&#x63;&#x68;&#x61;&#x63;&#111;&#110;&#64;&#x67;&#101;&#x65;&#45;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#111;&#109;</a> Date: Sun Feb 8 19:02:46 2009 -0800
+Author: Scott Chacon <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x73;&#x63;&#104;&#97;&#99;&#111;&#110;&#64;&#103;&#x65;&#101;&#x2d;&#109;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#115;&#99;&#104;&#97;&#x63;&#111;&#110;&#x40;&#x67;&#x65;&#101;&#x2d;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a> Date: Sun Feb 8 19:02:46 2009 -0800
 Merge branch &lsquo;experiment&rsquo;</p>
 
 <p>// 签署标签
 //如果你有自己的私钥,还可以用 GPG 来签署标签,只需要把之前的 -a 改为 -s (译注: 取 Signed 的首
 字母)即可:
 $ git tag -s v1.5 -m &lsquo;my signed 1.5 tag&rsquo;
-You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#99;&#104;&#x61;&#99;&#x6f;&#110;&#x40;&#103;&#x65;&#x65;&#45;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#x73;&#x63;&#x68;&#x61;&#99;&#x6f;&#x6e;&#64;&#103;&#x65;&#101;&#x2d;&#x6d;&#97;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a>&rdquo;
+You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#115;&#99;&#104;&#97;&#99;&#x6f;&#110;&#64;&#103;&#101;&#101;&#45;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;">&#115;&#99;&#104;&#x61;&#x63;&#x6f;&#110;&#64;&#x67;&#101;&#x65;&#x2d;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;</a>&rdquo;
 1024-bit DSA key, ID F721C45A, created 2009-02-09</p>
 
 <p>// 轻量级标签
@@ -434,11 +481,11 @@ $ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
 type commit
 tag v1.4.2.1
-tagger Junio C Hamano <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x6a;&#117;&#x6e;&#x6b;&#x69;&#111;&#64;&#99;&#111;&#x78;&#x2e;&#x6e;&#101;&#x74;">&#x6a;&#x75;&#110;&#x6b;&#105;&#111;&#64;&#x63;&#x6f;&#x78;&#x2e;&#x6e;&#101;&#x74;</a> 1158138501 -0700
+tagger Junio C Hamano <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6a;&#117;&#x6e;&#107;&#105;&#x6f;&#64;&#99;&#111;&#x78;&#46;&#110;&#101;&#116;">&#x6a;&#x75;&#x6e;&#107;&#105;&#x6f;&#x40;&#x63;&#x6f;&#120;&#46;&#x6e;&#x65;&#116;</a> 1158138501 -0700
 GIT 1.4.2.1
 Minor fixes since 1.4.2, including git-mv and git-http with alternates.
 gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
-gpg: Good signature from &ldquo;Junio C Hamano <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#106;&#117;&#x6e;&#x6b;&#105;&#111;&#64;&#x63;&#111;&#x78;&#46;&#110;&#101;&#x74;">&#106;&#117;&#x6e;&#x6b;&#x69;&#111;&#64;&#99;&#x6f;&#x78;&#46;&#110;&#101;&#116;</a>&rdquo;
+gpg: Good signature from &ldquo;Junio C Hamano <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x6a;&#117;&#x6e;&#x6b;&#105;&#111;&#x40;&#99;&#111;&#120;&#x2e;&#x6e;&#x65;&#116;">&#x6a;&#117;&#x6e;&#107;&#x69;&#x6f;&#64;&#x63;&#111;&#120;&#x2e;&#110;&#x65;&#116;</a>&rdquo;
 gpg: aka &ldquo;[jpeg image of size 1513]&rdquo;
 Primary key fingerprint: 3565 2A26 2040 E066 C9A7 4A7D C0C6 D9A4 F311 9B9A</p>
 
@@ -934,64 +981,6 @@ WWDC2012 session 232 – Auto Layout by Example<br/>
 <a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
 <a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
 <a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Development--Certificates, Provisioning Profiles]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates/"/>
-    <updated>2014-10-09T16:24:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates</id>
-    <content type="html"><![CDATA[<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
-
-<p><img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573"></p>
-
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
-
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
-
-<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
-
-<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
-
-<p><img name="Certificate" src="http://DamianSheldon.github.io/images/Certificate.png" width="696" height="471"> </p>
-
-<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
-
-<p><img name="ProvisioningProfile" src="http://DamianSheldon.github.io/images/ProvisioningProfile.png" width="618" height="377"></p>
-
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
-
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
-
-<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
-
-<h3>Tips</h3>
-
-<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
-
-<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
-
-<p><img name="TeamProvisioningProfile" src="http://DamianSheldon.github.io/images/TeamProvisioningProfile.png" width="712" height="406">  </p>
 ]]></content>
   </entry>
   

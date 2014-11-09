@@ -9,7 +9,7 @@
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Learning Core Animation Notes"> <meta name="keywords" content="Core Animation, iOS Development">
+<meta name="description" content="Summary of Core Animation"> <meta name="keywords" content="Core Animation, iOS Development">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -118,23 +118,192 @@ $(document).ready(
 <div class="entry-content">
     <h2>Core Animation介绍</h2>
 
-<p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app.</p>
+<blockquote><p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app. &mdash; Apple</p></blockquote>
+
+<p>Core Animation是iOS和OS X上的图形渲染和动画的基础，你可以用它为视图以及应用的其他可见元素加上动画。</p>
 
 <h2>什么时候使用Core Animation?</h2>
 
-<p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p>
+<blockquote><p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p></blockquote>
+
+<p>在你想要执行更加复杂的动画，或者UIView类不支持的动画时，你可以使用Core Animation和视图底下的layer去创建动画。因为view和layer复杂地联系在一起，改变视图的layer会影响视图本身。</p>
+
+<p>UIView内置可动画的属性如下表：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="center"> Property </th>
+<th align="left"> Changes you can make                                                                                       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td align="center"> frame    </td>
+<td align="left"> Modify this property to change the view’s size and position relative to its superview’s coordinate system. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> bounds   </td>
+<td align="left"> Modify this property to change the view’s size. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> center   </td>
+<td align="left"> Modify this property to change the view’s position relative to its superview’s coordinate system. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> transform</td>
+<td align="left"> Modify this property to scale, rotate, or translate the view relative to its center point. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> alpha    </td>
+<td align="left"> Modify this property to gradually change the transparency of the view. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> backgroundColor </td>
+<td align="left"> Modify this property to change the view’s background color. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> contentStretch </td>
+<td align="left"> Modify this property to change the way the view’s contents are stretched to fill the available space. </td>
+</tr>
+</tbody>
+</table>
+
 
 <h2>如何使用Core Animation?</h2>
 
-<p>  1)Enabling Core Animation Support in Your App;<br/>
-  In iOS apps, Core Animation is always enabled and every view is backed by a layer.iOS apps must link against this framework only if they use Core Animation interfaces explicitly.</p>
+<p>Core Animation提供了不少类供我们在应用中使用，下图反映了这些类的关系：</p>
 
-<p>  2)Selecting a appropriate Layer Object Associated with a View;<br/>
-  Reference:Core Animation Programming Guide &mdash; Different Layer Classes Provide Specialized Behaviors</p>
+<div style="text-align:center" markdown="1">
 
-<p>  3)Add animation to layer.<br/>
-  CABasicAnimation provides basic, single-keyframe animation capabilities for a layer property.<br/>
-  The CAKeyframeAnimation class provides keyframe animation capabilities for a layer object.</p>
+<img name="animations_info_2x" src="/images/animations_info_2x.png" width="552" height="446">  
+
+</div>
+
+
+<ul>
+<li>CAAnimation是所有动画子类的抽象类。CAAnimation实现了CAMediaTiming协议，它为动画提供duration, speed和repeat count。CAAnimation还实现了CAAction协议，协议提供标准的方法为开始一个动画去响应由layer触发的动作。</li>
+</ul>
+
+
+<p>CAAnimation类还定义了一个动画的timing作为CAMediaTimingFunction的实例。timing函数像简单的Bezier曲线那样描述动画的步调。线性timing function指定动画在整个动画周期内的步调是一致,而ease-in timing function导致动画在开始时会加速。</p>
+
+<ul>
+<li><p>CAPropertyAnimation是CAAnimation的一个抽象子类，它为指定key path去动画layer属性提供支持。</p></li>
+<li><p>CABasicAnimation是CAPropertyAnimation的子类，它为layer的属性提供简单的插值。</p></li>
+<li><p>CAKeyframeAnimation(CAPropertyAnimation的子类)提供关键帧动画支持。你指定要动画的layer属性的key path,数组中的值代表动画每个阶段的值，就像一个包含key frame time和timing function的数组。当动画运行时，数组中的值依次用来插值。</p></li>
+<li><p>CATransition提供可以影响整个layer内容的变换效果。当动画时它褪色，推出，或显示layer的内容。在OS X上，股票变化效果可以通过提供你自定义的Core Image filters来扩展。</p></li>
+<li><p>CAAnimationGroup允许一个数组的动画对象成一组，同时运行。</p></li>
+</ul>
+
+
+<p>从上述介绍来看，我们日常使用Core Animation就主要和CABasicAnimation, CAKeyframeAnimation, CATransition以及CAAnimationGroup打交道了。在使用它们之前，我们要掌握一些基础知识。</p>
+
+<h3>Core Animation 基础</h3>
+
+<p>Core Animation本身不是绘画系统。它是在硬件中合成和操作你应用内容的基础。这个基础的核心是layer对象，它用来管理和操作你应用的内容。layer捕获你的内容到一个bitmap中，这样它很容易被图形硬件操作。在大多数应用中，layers是视图管理内容的一种方法，但是你也可以根据你的需要创建单独的layer。</p>
+
+<h4>Layer提供绘图和动画的基础</h4>
+
+<p>Layer对象被组织在三维空间的二维表面上并且是你和Core Animation任何交互的核心。像视图，layer管理着它们表面关于几何位置，内容，和可视属性的信息。和视图不同，layer不定义他们自己的外观。layer仅仅管理围绕位图的状态信息。位图自己可以是视图绘制自身的结果，或者是你指定的图片。因为这个原因，你在应用中使用的主图层被认为是模型对象，因为他们主要管理数据。记住这个注解很重要，因为它影响动画的行为。</p>
+
+<h5>基于图层的绘画模型</h5>
+
+<p>你应用中的多数图层并不做任何最终的绘画。相反，图层捕获你应用提供的内容并将它们缓存在位图中，它们有时官能称为后备存储。当你随后改变图层的属性时，你所要做的是改变相应图层的状态信息。当改变触发动画，Core Animation传递图层的位图和状态信息到图形硬件，它用新的信息来渲染位图，像图1-1展示的的那样。在硬件上操作位图可以比软件得到更快的动画。</p>
+
+<p>图1-1，Core Animation是如何绘制内容的。</p>
+
+<div style="text-align:center" markdown="1">
+<img name="basics_layer_rendering_2x" src="/images/basics_layer_rendering_2x.png" width="722" height="270">  
+</div>
+
+
+<p>因为它是操作一张静态位图，所以基于图层的绘画和传统的基于视图的绘画技术有很大的不同。使用基于视图的绘画，视图自身的改变会导致视图的drawRect:方法被调用，它用新的参数重绘内容。但是这种绘画方式十分昂贵，因为它在主线程上用CPU完成的。Core Animation避免了这些开消通过尽可能的在硬件上操作缓存的位图来获得相同或相类似的效果。</p>
+
+<p>虽然Core Animation尽可能的使用缓存的内容，你的应用仍然必须提供初始内容并不停的更新它。有很多方法为你应用的图层对象提供内容，这会在Providing a Layer&rsquo;s Contendts中详细描述。</p>
+
+<h5>基于图层的动画</h5>
+
+<p>图层对象的数据和状态信息是解藕来自屏幕图层内容的可视表示。这种解藕给Core Animation一种方法去干预自己并产生从旧状态值到新状态值的动画。例如，改变图层的位置属性导致Core Animation把图层从当前位置移动到新指定的位置。类似其他属性的改变产生合适的动画。图1-2示例了一些你可以对图层应用的动画。触发动画的图层属性列表，见Animatable Properties。</p>
+
+<p>图1-2 你可以应用到图层的动画实例。</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="basics_animation_types_2x" src="/images/basics_animation_types_2x.png" width="627" height="402">
+
+</div>
+
+
+<p>在动画的过程中,Core Animation在硬件上进行一帧一帧绘画的所有工作。你所要做的是指定动画的起点和终点，让Core Animation做剩下的所有工作。你也可以按需要指定自定义的定时信息和动画参数。而且，如果你不提供，Core Animation会提供合适的默认值。</p>
+
+<h4>图层树反映动画状态的不同方面</h4>
+
+<p>应用使用Core Animation拥有3套图层对象。每套图层在让你应用的内容出现在屏幕上均扮演不同的角色:</p>
+
+<ul>
+<li><p>模型图层树（或简称图层树）上的对象是应用交互最多的。树上的模型对象存储着任何动画的目标值。任何时候你改变一个图层的属性，你就使用其中的一个对象。</p></li>
+<li><p>表示树上对象包含任何动画的过程值。它不仅包含动画的目标值，还反映屏幕上的当前值。你永远不应该修改这树上的对象。作为替代，你使用这些对象读取当前动画值，也许创建动画开始于某个值。</p></li>
+<li><p>渲染树执行最终的动画，它对Core Animation是私有的。</p></li>
+</ul>
+
+
+<p>每套图层对象都被组织成层级结构，就像应用的视图。实际上，对使能了所有视图的图层的应用，每棵树的结构都和视图的层级准备对应。但是，应用也可增加图层对象，图层并不需要和视图中的图层层级相关联。你也许会在优化你应用的内容表现的情境下这么做，它不需要叠加在视图上。图1-9展示了一个简单应用的图层分解。示例中的窗口包含一个内容视图，它自身包含一个按钮视图和两个单独的图层对象。每个视图都有相应的图层对象，它们形成图层层级。</p>
+
+<p>图1-9 窗口关联的图层</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="sublayer_hierarchy_2x" src="/images/sublayer_hierarchy_2x.png" width="626" height="380" >
+
+</div>
+
+
+<p>图层树上的每一个对象，表示树和渲染树上都有相对应的对象，就像图1-10看到的那样。前面提到过，应用主要和图层树上的对象交互，但是有时也会访问表示树上的对象。特别的，访问图层树对象的<strong>presentationLayer</strong>属性可以返回表示树上相应对象。你也许会想访问这些对象去获取动画运行中的当前属性值。</p>
+
+<p>图1-10 窗口的图层树</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="sublayer_hierarchies_2x" src="/images/sublayer_hierarchies_2x.png" width="712" height="560" >
+
+</div>
+
+
+<p>重要提醒：你应该只在动画运行中去访问表示树的对象。当动画在运行中，表示树包含出现在屏幕上的图层的瞬时值。这个行为和图层树是不同的，它只反映你代码设置的最终值，等于动画的最终状态。</p>
+
+<h4>图层和视图之间的关系</h4>
+
+<p>图层不是用来替代你应用的视图的，你不能单独基于图层创建可视界面。图层为你的视图提供基础设施。特别地，图层让绘画更容易和高效，动画视图内容时维持高帧率。然而，有很多事情图层是做不了的。图层不处理事件，绘画内容，参与响应链，还有其他很多事情。出于这个原因，每个应用仍然要有一个或多个视图来处理这种交互。</p>
+
+<p>在iOS中，每个视图都已备份一个相应的图层对象，但是在OS X中，你必须决定哪些视图应该拥有图层。OS X v10.8及以后的版本，为你所有的视图增加图层可能是有意义的。然而，这么做不是必须的，你仍然可以在叠加到视图是不需要的地方禁止图层。图层某种程度上会增加你应用的内存使用，但是它的好处通常会多于坏处，所以在禁用图层之前测试应用的性能是最好的方法。</p>
+
+<p>当你为视图使能了图层支持，你创建的就是所谓的图层后备视图。在图层后备视图中，创建底层的图层对象和保持图层与视图同步是系统的责任。所有的iOS视图以及大多数OS X视图都是图层后备视图。然而，在OS X中，你也可以创建图层托管视图，它是自己为自己提供图层的视图。对于图层托管视图，AppKit提供了便利化的方法去管理图层，并不修改它来响应视图改变。</p>
+
+<p>Note:对于图层后备视图，推荐你任何时候都优先操作视图而不是图层。在iOS中，视图仅仅是图层外面的轻薄包装，所以通常你对图层的操作是能正常工作的。<strong>但是iOS和OS X中都存在操作图层来代替视图时也许不能得到期望结果的地方。</strong>任何可能之处，本文档都会指出这些陷阱并且尝试提供方法帮助你处理它们。</p>
+
+<p><strong>都有哪些地方呢？</strong></p>
+
+<p>除了关联你视图的图层，你也可以创建没有相应视图的图层对象。你可以将这些单独图层嵌入到你应用的其他图层中，包括那些有关联视图的图层。通常使用单独图层作为特定优化路径的一部分。例如，如果你想在多个地方使用同一张图片，你可以加载一次这张图片，把它和多个单独图层对象关联起来，然后把这些对象回到图层树上。每个图层都引用原图而不是在内存中创建自己的副本。</p>
+
+<h3>图层动画</h3>
+
+<p>1)图层本身属性的动画可以通过CABasicAnimation和CAKeyframeAnimation添加；  <br/>
+2)图层自定义属性动画可以参看<a href="http://objccn.io/issue-12-2/">Layer 中自定义属性的动画</a>。</p>
+
+<h3>Reference</h3>
+
+<p>Core Animation Programing Guide <br/>
+动画解释(<a href="http://objccn.io/issue-12-1/">http://objccn.io/issue-12-1/</a>)  <br/>
+Layer 中自定义属性的动画(<a href="http://objccn.io/issue-12-2/">http://objccn.io/issue-12-2/</a>)</p>
 
     <div>
         

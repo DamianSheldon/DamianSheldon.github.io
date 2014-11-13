@@ -8,11 +8,26 @@ keywords: Git, Summary
 discription: This is a summary of git
 ---
 
-###简介
+#Git
+
+1. Git是什么？
+2. 为什么使用Git?
+3. 如何使用Git? 
+
+
+##Git是什么？
 git - the stupid content tracker  
 
 这是man git中对它的介绍，我们看到它的核心是content tracker。Git是一个分布式的版本控制系统，项目是出于维护Linux内核源码的需求, 由Linus Torvalds启动的，现在已经成为最流行的版本管理系统，学会Git几乎成了开发者的必备技能。
 
+##为什么使用Git?
+
+1. 系统稳定，安全性高，不会丢失辛苦的劳动成果；  
+2. 操作十分快速；
+3. 功能强大；
+4. ...  
+
+##如何使用Git? 
 
 ###安装Git
 安装Git主要有两种方法：一种是通过编译源代码来安装;另一种是使用为特定平台预编译好的安装包。  

@@ -1,0 +1,505 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Key-Value Coding &amp; Key-Value Observing  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Key-Value Coding, Key-Value Observing">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+         
+         ga('create', 'UA-52345084-1', 'auto');
+         ga('send', 'pageview');
+     
+    </script>
+
+
+</head>
+
+
+<body>
+    <header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Home</a></li>
+	<li><a href="/archives">Archive</a></li>
+	<li><a href="/ios-development">iOS Development</a></li>
+	<li><a href="/about">About</a></li>
+
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Home</a></li>
+	<li><a href="/archives">Archive</a></li>
+	<li><a href="/ios-development">iOS Development</a></li>
+	<li><a href="/about">About</a></li>
+
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+    
+    
+    
+    <div id="content" class="inner"><article class="post">
+    
+<h2 class="title">Key-Value Coding &amp; Key-Value Observing</h2>
+<div class="entry-content">
+    <h2>Key-Value Coding</h2>
+
+<ol>
+<li>Key-Value Coding是什么？</li>
+<li>为什么要用Key-Value Coding？</li>
+<li>如何使用Key-Value Coding?</li>
+</ol>
+
+
+<h3>Key-Value Coding是什么？</h3>
+
+<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
+
+<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
+
+<h3>为什么要用Key-Value Coding？</h3>
+
+<ol>
+<li>Scripting（OS X）;</li>
+<li>简化代码和提高灵活性；</li>
+</ol>
+
+
+<h3>如何使用Key-Value Coding?</h3>
+
+<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
+
+<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
+
+<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
+
+<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
+
+<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
+
+<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
+
+<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+<h4>使用key-value coding读取attribute值</h4>
+
+<p>NSKeyValueCoding中定义的的attribute读取方法有：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)valueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableArray *)mutableArrayValueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (id)valueForKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableArray *)mutableArrayValueForKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys;
+</span><span class='line'>
+</span><span class='line'>- (id)valueForUndefinedKey:(NSString *)key;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>使用key-value coding存储attribute值</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)setValue:(id)value forKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableSet *)mutableSetValueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (void)setValue:(id)value forKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableSet *)mutableSetValueForKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (void)setValue:(id)value forUndefinedKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (void)setNilValueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (void)setValuesForKeysWithDictionary:(NSDictionary *)keyedValues;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你需要考虑一个额外的问题就是当你尝试设置非对象的property为nil。这种情况下，接收者给它自己发送一个setNilValueForKey:消息。它默认的实现是抛出NSInvalidArgumentException异常。你的应用可以覆盖这个方法替换默认值或标记值，然后你用新值调用setValue:forKey:。</p>
+
+<p>现在，我们知道怎么用key-value coding去间接访问对象的property了。但是，如果想让我们自定义的类的property也支持key-value coding的话，我们应该怎么做呢？</p>
+
+<h4>如何让自定义类的属性支持key-value coding?</h4>
+
+<blockquote><p>Key-value coding attempts to use accessor methods to get and set values, before resorting to directly accessing the instance variable.</p></blockquote>
+
+<p>在依靠直接访问实例变量之前，key-value coding尝试使用存取方法去访问和设置值。也就是说我们最好实现相应的存取方法，至少也要存在合适的实例变量。</p>
+
+<p>前面提到key-value coding支持三个类型的attribute,针对三种类型的attribute,key-value coding分别是怎么来搜索存取方法和实例变量的呢？</p>
+
+<ol>
+<li>简单attributes存取方法搜索模式；</li>
+<li>顺序集合存取方法的搜索模式；</li>
+<li>唯一顺序集合存取方法的搜索模式；</li>
+<li>无序集合存取方法的搜索模式。</li>
+</ol>
+
+
+<p>搜索的细节可以查阅Key-Value Coding Programming Guide。</p>
+
+<h2>Key-Value Observing</h2>
+
+<ol>
+<li>Key-Value Observing是什么？</li>
+<li>为什么要用Key-Value Observing？</li>
+<li>如何使用Key-Value Observing?</li>
+</ol>
+
+
+<h3>Key-Value Observing是什么？</h3>
+
+<blockquote><p>Key-value observing is a mechanism that allows objects to be notified of changes to specified properties of other objects.</p></blockquote>
+
+<p>Key-value observing是一种允许一对对象的特定属性改变时另一个对象被通知的机制。</p>
+
+<h3>为什么要用Key-Value Observing？</h3>
+
+<p>KVO的主要好处是你不需要实现一套属性每次改变发送通知的机制。</p>
+
+<h3>如何使用Key-Value Observing?</h3>
+
+<ol>
+<li>Registering as an Observer;</li>
+<li>Receiving Notification of a Change;</li>
+<li>Removing an Object as an Observer.</li>
+</ol>
+
+
+<p>同样，自定义的类如何才能让其他的开发者能使用KVO呢？我们要做的是符合KVO标准。</p>
+
+<h4>KVO Compliance</h4>
+
+<ul>
+<li>The class must be <strong>key-value coding compliant</strong> for the property, as specified in <strong>Ensuring KVC Compliance</strong> in <strong>Key-Value Coding Programming Guide</strong>.</li>
+<li>The class emits KVO change notifications for the property.</li>
+<li>Dependent keys are registered appropriately (see <strong>Registering Dependent Keys</strong>).</li>
+</ul>
+
+
+<hr />
+
+<p>There are two techniques for ensuring the change notifications are emitted. Automatic support is provided by NSObject and is by default available for all properties of a class that are key-value coding compliant. Typically, if you follow standard Cocoa coding and naming conventions, you can use automatic change notifications—you don’t have to write any additional code.</p>
+
+<p>Manual change notification provides additional control over when notifications are emitted, and requires additional coding. You can control automatic notifications for properties of your subclass by implementing the class method automaticallyNotifiesObserversForKey:.</p>
+
+<hr />
+
+<h4>One more thing</h4>
+
+<p>Key-Value Observing Implementation Details</p>
+
+<p>Automatic key-value observing is implemented using a technique called <strong>isa-swizzling</strong>.</p>
+
+<p>The <strong>isa</strong> pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.</p>
+
+<p>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.</p>
+
+<p>You should never rely on the <strong>isa</strong> pointer to determine class membership. Instead, you should use the <strong>class</strong> method to determine the class of an object instance.</p>
+
+<p>So how does <strong>class</strong> method determine the class of an object?</p>
+
+<h1>Reference</h1>
+
+<p>Key-Value Coding Programming Guide <br/>
+Key-Value Observing Programming Guide</p>
+
+    <div>
+        
+        <a class="pull-left" href="/blog/2014/11/10/ios-design-patterns/" title="Previous Post: (翻译)iOS 设计模式">&laquo; (翻译)iOS 设计模式</a>
+        
+        
+        <div class="clear"></div>
+    </div>
+    
+    <div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    <!-- Add wei bo share and comment by sheldon -->
+    
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+    <div class="comments"><a href="#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time></div>
+        <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+        <div class="comments"><a href="#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+            <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+        </div>
+        
+
+        <br />
+        <section>
+    <h2>分类目录</h2>
+    <ul id="categories">
+        <li class='category'><a href='/blog/categories/archives/'>Archives (21)</a></li>
+<li class='category'><a href='/blog/categories/ios-development/'>iOS Development (16)</a></li>
+
+    </ul>
+</section>
+        <br />
+        <section>
+            <h2>相关文章：</h2>
+            <ul class="posts">
+                
+                <li class="related">
+                    <a href="/blog/2014/11/10/ios-design-patterns/">(翻译)iOS 设计模式</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/11/07/setup-iterm2-to-behave-like-guake/">为MacBook Pro配置一个像guake的终端</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/11/05/git-summary/">Git 小结</a>
+                </li>
+                
+                <li class="related">
+                    <a href="/blog/2014/11/04/variable-sized-items-in-uicollectionview/">(翻译)Variable-Sized Items in UICollectionView</a>
+                </li>
+                
+            </ul>
+        </section>
+        <br />
+        <section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/12/key-value-coding-and-key-value-observing/">Key-Value Coding &amp; Key-Value Observing</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/10/ios-design-patterns/">(翻译)iOS 设计模式</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/07/setup-iterm2-to-behave-like-guake/">为MacBook Pro配置一个像guake的终端</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/05/git-summary/">Git 小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/04/variable-sized-items-in-uicollectionview/">(翻译)Variable-Sized Items in UICollectionView</a>
+      </li>
+    
+  </ul>
+</section>
+
+        <br />
+        <section>
+    <h2>评论热榜</h2>
+    <div id="uyan_hotcmt_unit"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+</section>
+        <section>
+    <h2>最新评论</h2>
+    <div id="uyan_newcmt_unit"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+</section>
+    </div>
+</article>
+</div>
+    <footer id="footer" class="inner">Copyright &copy; 2014
+
+    Sheldon
+
+<br>
+Powered by Octopress.
+</footer>
+    <script src="/javascripts/slash.js"></script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+         
+         ga('create', 'UA-52345084-1', 'auto');
+         ga('send', 'pageview');
+     
+    </script>
+
+
+
+    <!--返回顶部开始-->
+<div id="full" style="width:0px; height:0px; position:fixed; right:180px; bottom:150px; z-index:100; text-align:center; background-color:transparent; cursor:pointer;">
+    <a href="#" onclick="goTop();return false;"><img src="/images/top.png" border=0 alt="返回顶部"></a>
+</div>
+<script src="/javascripts/top.js" type="text/javascript"></script>
+<!--返回顶部结束-->
+</body>
+</html>

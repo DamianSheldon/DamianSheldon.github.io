@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-11T16:35:19+08:00</updated>
+  <updated>2014-11-13T11:50:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,175 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing/"/>
+    <updated>2014-11-12T16:06:13+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing</id>
+    <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
+
+<ol>
+<li>Key-Value Coding是什么？</li>
+<li>为什么要用Key-Value Coding？</li>
+<li>如何使用Key-Value Coding?</li>
+</ol>
+
+
+<h3>Key-Value Coding是什么？</h3>
+
+<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
+
+<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
+
+<h3>为什么要用Key-Value Coding？</h3>
+
+<ol>
+<li>Scripting（OS X）;</li>
+<li>简化代码和提高灵活性；</li>
+</ol>
+
+
+<h3>如何使用Key-Value Coding?</h3>
+
+<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
+
+<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
+
+<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
+
+<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
+
+<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
+
+<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
+
+<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+<h4>使用key-value coding读取attribute值</h4>
+
+<p>NSKeyValueCoding中定义的的attribute读取方法有：</p>
+
+<p>```
+&ndash; (id)valueForKey:(NSString *)key;</p>
+
+<ul>
+<li><p>(NSMutableArray <em>)mutableArrayValueForKey:(NSString </em>)key;</p></li>
+<li><p>(id)valueForKeyPath:(NSString *)keyPath;</p></li>
+<li><p>(NSMutableArray <em>)mutableArrayValueForKeyPath:(NSString </em>)keyPath;</p></li>
+<li><p>(NSDictionary <em>)dictionaryWithValuesForKeys:(NSArray </em>)keys;</p></li>
+<li><p>(id)valueForUndefinedKey:(NSString *)key;</p></li>
+</ul>
+
+
+<p>```</p>
+
+<h4>使用key-value coding存储attribute值</h4>
+
+<p>```
+&ndash; (void)setValue:(id)value forKey:(NSString *)key;</p>
+
+<ul>
+<li><p>(NSMutableSet <em>)mutableSetValueForKey:(NSString </em>)key;</p></li>
+<li><p>(void)setValue:(id)value forKeyPath:(NSString *)keyPath;</p></li>
+<li><p>(NSMutableSet <em>)mutableSetValueForKeyPath:(NSString </em>)keyPath;</p></li>
+<li><p>(void)setValue:(id)value forUndefinedKey:(NSString *)key;</p></li>
+<li><p>(void)setNilValueForKey:(NSString *)key;</p></li>
+<li><p>(void)setValuesForKeysWithDictionary:(NSDictionary *)keyedValues;</p></li>
+</ul>
+
+
+<p>```</p>
+
+<p>你需要考虑一个额外的问题就是当你尝试设置非对象的property为nil。这种情况下，接收者给它自己发送一个setNilValueForKey:消息。它默认的实现是抛出NSInvalidArgumentException异常。你的应用可以覆盖这个方法替换默认值或标记值，然后你用新值调用setValue:forKey:。</p>
+
+<p>现在，我们知道怎么用key-value coding去间接访问对象的property了。但是，如果想让我们自定义的类的property也支持key-value coding的话，我们应该怎么做呢？</p>
+
+<h4>如何让自定义类的属性支持key-value coding?</h4>
+
+<blockquote><p>Key-value coding attempts to use accessor methods to get and set values, before resorting to directly accessing the instance variable.</p></blockquote>
+
+<p>在依靠直接访问实例变量之前，key-value coding尝试使用存取方法去访问和设置值。也就是说我们最好实现相应的存取方法，至少也要存在合适的实例变量。</p>
+
+<p>前面提到key-value coding支持三个类型的attribute,针对三种类型的attribute,key-value coding分别是怎么来搜索存取方法和实例变量的呢？</p>
+
+<ol>
+<li>简单attributes存取方法搜索模式；</li>
+<li>顺序集合存取方法的搜索模式；</li>
+<li>唯一顺序集合存取方法的搜索模式；</li>
+<li>无序集合存取方法的搜索模式。</li>
+</ol>
+
+
+<p>搜索的细节可以查阅Key-Value Coding Programming Guide。</p>
+
+<h2>Key-Value Observing</h2>
+
+<ol>
+<li>Key-Value Observing是什么？</li>
+<li>为什么要用Key-Value Observing？</li>
+<li>如何使用Key-Value Observing?</li>
+</ol>
+
+
+<h3>Key-Value Observing是什么？</h3>
+
+<blockquote><p>Key-value observing is a mechanism that allows objects to be notified of changes to specified properties of other objects.</p></blockquote>
+
+<p>Key-value observing是一种允许一对对象的特定属性改变时另一个对象被通知的机制。</p>
+
+<h3>为什么要用Key-Value Observing？</h3>
+
+<p>KVO的主要好处是你不需要实现一套属性每次改变发送通知的机制。</p>
+
+<h3>如何使用Key-Value Observing?</h3>
+
+<ol>
+<li>Registering as an Observer;</li>
+<li>Receiving Notification of a Change;</li>
+<li>Removing an Object as an Observer.</li>
+</ol>
+
+
+<p>同样，自定义的类如何才能让其他的开发者能使用KVO呢？我们要做的是符合KVO标准。</p>
+
+<h4>KVO Compliance</h4>
+
+<ul>
+<li>The class must be <strong>key-value coding compliant</strong> for the property, as specified in <strong>Ensuring KVC Compliance</strong> in <strong>Key-Value Coding Programming Guide</strong>.</li>
+<li>The class emits KVO change notifications for the property.</li>
+<li>Dependent keys are registered appropriately (see <strong>Registering Dependent Keys</strong>).</li>
+</ul>
+
+
+<hr />
+
+<p>There are two techniques for ensuring the change notifications are emitted. Automatic support is provided by NSObject and is by default available for all properties of a class that are key-value coding compliant. Typically, if you follow standard Cocoa coding and naming conventions, you can use automatic change notifications—you don’t have to write any additional code.</p>
+
+<p>Manual change notification provides additional control over when notifications are emitted, and requires additional coding. You can control automatic notifications for properties of your subclass by implementing the class method automaticallyNotifiesObserversForKey:.</p>
+
+<hr />
+
+<h4>One more thing</h4>
+
+<p>Key-Value Observing Implementation Details</p>
+
+<p>Automatic key-value observing is implemented using a technique called <strong>isa-swizzling</strong>.</p>
+
+<p>The <strong>isa</strong> pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.</p>
+
+<p>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.</p>
+
+<p>You should never rely on the <strong>isa</strong> pointer to determine class membership. Instead, you should use the <strong>class</strong> method to determine the class of an object instance.</p>
+
+<p>So how does <strong>class</strong> method determine the class of an object?</p>
+
+<h1>Reference</h1>
+
+<p>Key-Value Coding Programming Guide <br/>
+Key-Value Observing Programming Guide</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[(翻译)iOS 设计模式]]></title>
@@ -723,11 +892,32 @@ return self;
     <link href="http://DamianSheldon.github.io/blog/2014/11/05/git-summary/"/>
     <updated>2014-11-05T10:13:13+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/2014/11/05/git-summary</id>
-    <content type="html"><![CDATA[<h3>简介</h3>
+    <content type="html"><![CDATA[<h1>Git</h1>
+
+<ol>
+<li>Git是什么？</li>
+<li>为什么使用Git?</li>
+<li>如何使用Git?</li>
+</ol>
+
+
+<h2>Git是什么？</h2>
 
 <p>git &ndash; the stupid content tracker</p>
 
 <p>这是man git中对它的介绍，我们看到它的核心是content tracker。Git是一个分布式的版本控制系统，项目是出于维护Linux内核源码的需求, 由Linus Torvalds启动的，现在已经成为最流行的版本管理系统，学会Git几乎成了开发者的必备技能。</p>
+
+<h2>为什么使用Git?</h2>
+
+<ol>
+<li>系统稳定，安全性高，不会丢失辛苦的劳动成果；</li>
+<li>操作十分快速；</li>
+<li>功能强大；</li>
+<li>&hellip;</li>
+</ol>
+
+
+<h2>如何使用Git?</h2>
 
 <h3>安装Git</h3>
 
@@ -801,7 +991,7 @@ Enter same passphrase again:
 Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 The key fingerprint is:
-43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x73;&#x63;&#104;&#97;&#x63;&#x6f;&#110;&#64;&#x61;&#103;&#97;&#x64;&#111;&#114;&#108;&#97;&#112;&#116;&#x6f;&#112;&#x2e;&#x6c;&#111;&#99;&#x61;&#x6c;">&#115;&#99;&#x68;&#x61;&#99;&#x6f;&#110;&#x40;&#x61;&#x67;&#97;&#x64;&#x6f;&#x72;&#108;&#x61;&#x70;&#116;&#x6f;&#x70;&#46;&#108;&#x6f;&#x63;&#97;&#108;</a></p>
+43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x73;&#99;&#104;&#97;&#x63;&#111;&#x6e;&#x40;&#x61;&#103;&#97;&#100;&#x6f;&#114;&#x6c;&#97;&#112;&#x74;&#x6f;&#x70;&#46;&#x6c;&#111;&#99;&#97;&#x6c;">&#115;&#99;&#x68;&#x61;&#99;&#111;&#x6e;&#64;&#97;&#103;&#97;&#x64;&#111;&#114;&#x6c;&#97;&#112;&#116;&#111;&#x70;&#46;&#108;&#111;&#99;&#x61;&#x6c;</a></p>
 
 <p>// Step 3:它先要求你确认保存公钥的位置(.ssh/id_rsa),然后它会让你重复一个密码两次,
 // 如果不想在使用公钥的 时候输入密码,可以留空。
@@ -814,7 +1004,7 @@ GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
 t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
 mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
-NrRFi9wrf+M7Q== <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#115;&#99;&#104;&#x61;&#99;&#x6f;&#110;&#x40;&#x61;&#103;&#97;&#100;&#111;&#x72;&#x6c;&#97;&#112;&#116;&#x6f;&#112;&#x2e;&#108;&#x6f;&#99;&#x61;&#108;">&#x73;&#99;&#104;&#97;&#99;&#111;&#110;&#64;&#x61;&#103;&#x61;&#100;&#x6f;&#114;&#108;&#x61;&#112;&#116;&#111;&#112;&#46;&#108;&#111;&#x63;&#x61;&#108;</a>
+NrRFi9wrf+M7Q== <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#115;&#99;&#104;&#97;&#x63;&#111;&#x6e;&#64;&#x61;&#103;&#97;&#x64;&#111;&#114;&#x6c;&#97;&#112;&#x74;&#x6f;&#112;&#x2e;&#x6c;&#x6f;&#99;&#97;&#x6c;">&#115;&#99;&#x68;&#x61;&#x63;&#x6f;&#110;&#x40;&#97;&#x67;&#97;&#x64;&#x6f;&#x72;&#x6c;&#x61;&#112;&#x74;&#x6f;&#x70;&#46;&#x6c;&#111;&#x63;&#x61;&#108;</a>
 ```</p>
 
 <p>作为一个额外的防范措施,你可以用 Git 自带的 git-shell 简单工具来把 git 用户的活动限制在仅与 Git 相关。把它设为 git 用户登入的 shell,那么该用户就不能拥有主机正常的 shell 访问权。为了实现这一 点,需要指明用户的登入shell 是 git-shell ,而不是 bash 或者 csh。你可能得编辑 /etc/passwd 文件:
@@ -874,7 +1064,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 // Quilk config
 // 用户信息
 $ git config &mdash;global user.name &ldquo;John Doe&rdquo;
-$ git config &mdash;global user.email <a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#106;&#x6f;&#x68;&#x6e;&#x64;&#x6f;&#101;&#x40;&#101;&#120;&#97;&#109;&#112;&#x6c;&#x65;&#46;&#x63;&#x6f;&#x6d;">&#x6a;&#x6f;&#104;&#110;&#x64;&#111;&#101;&#x40;&#x65;&#120;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#111;&#109;</a></p>
+$ git config &mdash;global user.email <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x6a;&#111;&#104;&#x6e;&#100;&#x6f;&#x65;&#x40;&#x65;&#120;&#x61;&#109;&#x70;&#108;&#101;&#x2e;&#99;&#111;&#x6d;">&#x6a;&#111;&#104;&#x6e;&#100;&#111;&#101;&#x40;&#101;&#120;&#x61;&#x6d;&#112;&#x6c;&#x65;&#x2e;&#x63;&#111;&#109;</a></p>
 
 <p>// 文本编辑器
 $ git config &mdash;global core.editor emacs</p>
@@ -1114,17 +1304,17 @@ $ git tag -a v1.4 -m &lsquo;my version 1.4&rsquo;</p>
 <p>// 可以使用 git show 命令查看相应标签的版本信息,并连同显示打标签时的提交对象。
 $ git show v1.4
 tag v1.4
-Tagger: Scott Chacon <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#99;&#x68;&#x61;&#x63;&#x6f;&#110;&#x40;&#x67;&#101;&#101;&#45;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;">&#x73;&#99;&#x68;&#97;&#x63;&#x6f;&#x6e;&#x40;&#103;&#101;&#x65;&#45;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;</a> Date: Mon Feb 9 14:45:11 2009 -0800
+Tagger: Scott Chacon <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x73;&#99;&#104;&#x61;&#x63;&#111;&#x6e;&#x40;&#x67;&#101;&#x65;&#x2d;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#109;">&#115;&#x63;&#104;&#97;&#99;&#111;&#110;&#64;&#x67;&#101;&#x65;&#45;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a> Date: Mon Feb 9 14:45:11 2009 -0800
 my version 1.4
 commit 15027957951b64cf874c3557a0f3547bd83b3ff6 Merge: 4a447f7&hellip; a6b4c97&hellip;
-Author: Scott Chacon <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x73;&#x63;&#x68;&#97;&#x63;&#x6f;&#x6e;&#x40;&#103;&#101;&#101;&#x2d;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#115;&#x63;&#x68;&#x61;&#x63;&#111;&#x6e;&#64;&#x67;&#x65;&#101;&#45;&#109;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#109;</a> Date: Sun Feb 8 19:02:46 2009 -0800
+Author: Scott Chacon <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#99;&#104;&#97;&#x63;&#x6f;&#110;&#x40;&#103;&#x65;&#101;&#45;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#115;&#x63;&#104;&#x61;&#99;&#x6f;&#110;&#x40;&#103;&#x65;&#x65;&#45;&#109;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a> Date: Sun Feb 8 19:02:46 2009 -0800
 Merge branch &lsquo;experiment&rsquo;</p>
 
 <p>// 签署标签
 //如果你有自己的私钥,还可以用 GPG 来签署标签,只需要把之前的 -a 改为 -s (译注: 取 Signed 的首
 字母)即可:
 $ git tag -s v1.5 -m &lsquo;my signed 1.5 tag&rsquo;
-You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#115;&#x63;&#x68;&#97;&#x63;&#111;&#110;&#64;&#x67;&#101;&#x65;&#x2d;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#115;&#99;&#x68;&#x61;&#99;&#x6f;&#x6e;&#64;&#103;&#101;&#101;&#45;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#109;</a>&rdquo;
+You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#99;&#104;&#x61;&#99;&#111;&#x6e;&#x40;&#103;&#101;&#101;&#x2d;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#109;">&#x73;&#x63;&#x68;&#97;&#99;&#x6f;&#110;&#64;&#103;&#x65;&#x65;&#x2d;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#109;</a>&rdquo;
 1024-bit DSA key, ID F721C45A, created 2009-02-09</p>
 
 <p>// 轻量级标签
@@ -1139,11 +1329,11 @@ $ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
 type commit
 tag v1.4.2.1
-tagger Junio C Hamano <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x6a;&#117;&#110;&#107;&#105;&#111;&#x40;&#x63;&#111;&#120;&#46;&#x6e;&#x65;&#116;">&#x6a;&#x75;&#x6e;&#x6b;&#105;&#x6f;&#64;&#x63;&#111;&#x78;&#x2e;&#110;&#x65;&#116;</a> 1158138501 -0700
+tagger Junio C Hamano <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#106;&#x75;&#110;&#107;&#105;&#x6f;&#x40;&#x63;&#x6f;&#x78;&#x2e;&#x6e;&#x65;&#116;">&#x6a;&#117;&#x6e;&#x6b;&#105;&#111;&#x40;&#99;&#x6f;&#x78;&#x2e;&#110;&#101;&#116;</a> 1158138501 -0700
 GIT 1.4.2.1
 Minor fixes since 1.4.2, including git-mv and git-http with alternates.
 gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
-gpg: Good signature from &ldquo;Junio C Hamano <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#x6a;&#x75;&#x6e;&#107;&#x69;&#x6f;&#x40;&#99;&#111;&#x78;&#46;&#110;&#x65;&#x74;">&#106;&#117;&#x6e;&#107;&#105;&#111;&#x40;&#99;&#x6f;&#x78;&#x2e;&#110;&#x65;&#x74;</a>&rdquo;
+gpg: Good signature from &ldquo;Junio C Hamano <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#106;&#117;&#x6e;&#x6b;&#105;&#111;&#64;&#x63;&#x6f;&#120;&#46;&#x6e;&#x65;&#x74;">&#x6a;&#117;&#110;&#107;&#x69;&#x6f;&#x40;&#99;&#111;&#x78;&#x2e;&#x6e;&#101;&#116;</a>&rdquo;
 gpg: aka &ldquo;[jpeg image of size 1513]&rdquo;
 Primary key fingerprint: 3565 2A26 2040 E066 C9A7 4A7D C0C6 D9A4 F311 9B9A</p>
 
@@ -1548,35 +1738,6 @@ static CGSize _extraMargins = {0,0};</p>
 <h3>原文</h3>
 
 <p><a href="http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/">http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iTunes 歌曲信息乱码的解决办法]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/"/>
-    <updated>2014-11-03T10:23:29+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes</id>
-    <content type="html"><![CDATA[<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
-1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
-2)安装Mutagen; <br/>
-```bash</p>
-
-<pre><code>$ path_to_mutagen/setup.py build
-$ sudo path_to_mutagen/setup.py install
-</code></pre>
-
-<p><code>
-3)先将所有歌曲备份，防止操作出错；  
-4)将目录下的所有MP3歌曲的编码转成Unicode;  
-</code>bash</p>
-
-<pre><code>$find . -iname "*.mp3" -execdir mid3iconv -e gbk {} \;  
-</code></pre>
-
-<p>```
-5)将iTunes中的音乐清空，重新添加。</p>
-
-<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
 ]]></content>
   </entry>
   

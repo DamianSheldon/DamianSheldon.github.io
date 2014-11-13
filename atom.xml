@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-11T16:35:19+08:00</updated>
+  <updated>2014-11-13T11:50:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,200 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
+    <link href="http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing/"/>
+    <updated>2014-11-12T16:06:13+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing</id>
+    <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
+
+<ol>
+<li>Key-Value Coding是什么？</li>
+<li>为什么要用Key-Value Coding？</li>
+<li>如何使用Key-Value Coding?</li>
+</ol>
+
+
+<h3>Key-Value Coding是什么？</h3>
+
+<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
+
+<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
+
+<h3>为什么要用Key-Value Coding？</h3>
+
+<ol>
+<li>Scripting（OS X）;</li>
+<li>简化代码和提高灵活性；</li>
+</ol>
+
+
+<h3>如何使用Key-Value Coding?</h3>
+
+<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
+
+<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
+
+<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
+
+<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
+
+<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
+
+<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
+
+<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+<h4>使用key-value coding读取attribute值</h4>
+
+<p>NSKeyValueCoding中定义的的attribute读取方法有：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)valueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableArray *)mutableArrayValueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (id)valueForKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableArray *)mutableArrayValueForKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys;
+</span><span class='line'>
+</span><span class='line'>- (id)valueForUndefinedKey:(NSString *)key;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>使用key-value coding存储attribute值</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)setValue:(id)value forKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableSet *)mutableSetValueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (void)setValue:(id)value forKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (NSMutableSet *)mutableSetValueForKeyPath:(NSString *)keyPath;
+</span><span class='line'>
+</span><span class='line'>- (void)setValue:(id)value forUndefinedKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (void)setNilValueForKey:(NSString *)key;
+</span><span class='line'>
+</span><span class='line'>- (void)setValuesForKeysWithDictionary:(NSDictionary *)keyedValues;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你需要考虑一个额外的问题就是当你尝试设置非对象的property为nil。这种情况下，接收者给它自己发送一个setNilValueForKey:消息。它默认的实现是抛出NSInvalidArgumentException异常。你的应用可以覆盖这个方法替换默认值或标记值，然后你用新值调用setValue:forKey:。</p>
+
+<p>现在，我们知道怎么用key-value coding去间接访问对象的property了。但是，如果想让我们自定义的类的property也支持key-value coding的话，我们应该怎么做呢？</p>
+
+<h4>如何让自定义类的属性支持key-value coding?</h4>
+
+<blockquote><p>Key-value coding attempts to use accessor methods to get and set values, before resorting to directly accessing the instance variable.</p></blockquote>
+
+<p>在依靠直接访问实例变量之前，key-value coding尝试使用存取方法去访问和设置值。也就是说我们最好实现相应的存取方法，至少也要存在合适的实例变量。</p>
+
+<p>前面提到key-value coding支持三个类型的attribute,针对三种类型的attribute,key-value coding分别是怎么来搜索存取方法和实例变量的呢？</p>
+
+<ol>
+<li>简单attributes存取方法搜索模式；</li>
+<li>顺序集合存取方法的搜索模式；</li>
+<li>唯一顺序集合存取方法的搜索模式；</li>
+<li>无序集合存取方法的搜索模式。</li>
+</ol>
+
+
+<p>搜索的细节可以查阅Key-Value Coding Programming Guide。</p>
+
+<h2>Key-Value Observing</h2>
+
+<ol>
+<li>Key-Value Observing是什么？</li>
+<li>为什么要用Key-Value Observing？</li>
+<li>如何使用Key-Value Observing?</li>
+</ol>
+
+
+<h3>Key-Value Observing是什么？</h3>
+
+<blockquote><p>Key-value observing is a mechanism that allows objects to be notified of changes to specified properties of other objects.</p></blockquote>
+
+<p>Key-value observing是一种允许一对对象的特定属性改变时另一个对象被通知的机制。</p>
+
+<h3>为什么要用Key-Value Observing？</h3>
+
+<p>KVO的主要好处是你不需要实现一套属性每次改变发送通知的机制。</p>
+
+<h3>如何使用Key-Value Observing?</h3>
+
+<ol>
+<li>Registering as an Observer;</li>
+<li>Receiving Notification of a Change;</li>
+<li>Removing an Object as an Observer.</li>
+</ol>
+
+
+<p>同样，自定义的类如何才能让其他的开发者能使用KVO呢？我们要做的是符合KVO标准。</p>
+
+<h4>KVO Compliance</h4>
+
+<ul>
+<li>The class must be <strong>key-value coding compliant</strong> for the property, as specified in <strong>Ensuring KVC Compliance</strong> in <strong>Key-Value Coding Programming Guide</strong>.</li>
+<li>The class emits KVO change notifications for the property.</li>
+<li>Dependent keys are registered appropriately (see <strong>Registering Dependent Keys</strong>).</li>
+</ul>
+
+
+<hr />
+
+<p>There are two techniques for ensuring the change notifications are emitted. Automatic support is provided by NSObject and is by default available for all properties of a class that are key-value coding compliant. Typically, if you follow standard Cocoa coding and naming conventions, you can use automatic change notifications—you don’t have to write any additional code.</p>
+
+<p>Manual change notification provides additional control over when notifications are emitted, and requires additional coding. You can control automatic notifications for properties of your subclass by implementing the class method automaticallyNotifiesObserversForKey:.</p>
+
+<hr />
+
+<h4>One more thing</h4>
+
+<p>Key-Value Observing Implementation Details</p>
+
+<p>Automatic key-value observing is implemented using a technique called <strong>isa-swizzling</strong>.</p>
+
+<p>The <strong>isa</strong> pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.</p>
+
+<p>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.</p>
+
+<p>You should never rely on the <strong>isa</strong> pointer to determine class membership. Instead, you should use the <strong>class</strong> method to determine the class of an object instance.</p>
+
+<p>So how does <strong>class</strong> method determine the class of an object?</p>
+
+<h1>Reference</h1>
+
+<p>Key-Value Coding Programming Guide <br/>
+Key-Value Observing Programming Guide</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[(翻译)iOS 设计模式]]></title>
@@ -805,11 +999,32 @@
     <link href="http://DamianSheldon.github.io/blog/2014/11/05/git-summary/"/>
     <updated>2014-11-05T10:13:13+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/2014/11/05/git-summary</id>
-    <content type="html"><![CDATA[<h3>简介</h3>
+    <content type="html"><![CDATA[<h1>Git</h1>
+
+<ol>
+<li>Git是什么？</li>
+<li>为什么使用Git?</li>
+<li>如何使用Git?</li>
+</ol>
+
+
+<h2>Git是什么？</h2>
 
 <p>git &ndash; the stupid content tracker</p>
 
 <p>这是man git中对它的介绍，我们看到它的核心是content tracker。Git是一个分布式的版本控制系统，项目是出于维护Linux内核源码的需求, 由Linus Torvalds启动的，现在已经成为最流行的版本管理系统，学会Git几乎成了开发者的必备技能。</p>
+
+<h2>为什么使用Git?</h2>
+
+<ol>
+<li>系统稳定，安全性高，不会丢失辛苦的劳动成果；</li>
+<li>操作十分快速；</li>
+<li>功能强大；</li>
+<li>&hellip;</li>
+</ol>
+
+
+<h2>如何使用Git?</h2>
 
 <h3>安装Git</h3>
 
@@ -3856,128 +4071,6 @@ Listing 1  在初始化过程中检测错误</p>
 4,Objective-C对象模型及应用(<a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/">http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/</a>)<br/>
 5,Objective-C对象之类对象和元类对象（一）(<a href="http://blog.csdn.net/wzzvictory/article/details/8592492">http://blog.csdn.net/wzzvictory/article/details/8592492</a>)<br/>
 6,Objcclass(<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">http://studentdeng.github.io/blog/2011/10/05/objcclass/</a>)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello Octopress]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress/"/>
-    <updated>2014-05-09T15:01:51+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/09/hello-octopress</id>
-    <content type="html"><![CDATA[<p>Octopress:A blogging framework for hackers.</p>
-
-<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
-
-<h1>问题1</h1>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
-</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
-
-<h1>问题2</h1>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
-</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
-</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
-</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
-</span><span class='line'>brew doctor
-</span><span class='line'><span class="nb">cd </span>root_path_octopress
-</span><span class='line'>git pull octopress master
-</span><span class='line'>rm Gemfile.lock
-</span><span class='line'>vim Gemfile
-</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>问题3</h1>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>dongmeiiangsmbp:octopress dongmeiliang<span class="nv">$ </span>rake generate
-</span><span class='line'>...
-</span><span class='line'>Build Failed
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:网上找了下，类似问题的原因可能是有空格之类的问题，用FileMerge比较了下发现是空格的原因。吐槽下这原因感觉有点难以接受啊。十分感谢原帖作者，忘记把链接复制下来了。</p>
-
-<h1>问题4</h1>
-
-<p>之前安装过程中，出于测试的目的，写了篇草稿发上来了，现在想重新把文章编辑下，但是奇怪的是source分支中找不到原文件了，如果你知道原因请告诉我一声。</p>
-
-<p>Solution:我的解决办法是在_deploy路径下同步master分支，解决合并冲突，然后把blog目录下相应的index.html文件删除了，然后：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake generate
-</span><span class='line'>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>问题5（2014.5.21）</h2>
-
-<p>怎么把文章放到navigation对应的分类组织中呢？</p>
-
-<p>solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>categories/iOS_Development<span class="o">]</span>
-</span><span class='line'>vim <span class="nb">source</span>/_includes/custom/navigation.html
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>增加<li><a href="http://DamianSheldon.github.io/blog/categories/ios-development">iOS Development</a></li></p>
-
-<p>然后在文章的头部：
-categories: [iOS Development]</p>
-
-<h2>问题6</h2>
-
-<p>怎么把侧边栏放到底部去呢？</p>
-
-<h2>问题7</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Error fetching https://ruby.taobao.org/:
-</span><span class='line'>  too many connection resets <span class="o">(</span>https://rubygems-china.oss.aliyuncs.com/specs.4.8.gz<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:网上查找相关问题，没有找到好的解决办法。经过一番琢磨，觉得可能是我设置了goagent，于是注释掉.bash_profile中的http_prosy, https_proxy, 然后在Terminal中执行</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">unset </span>http_proxy
-</span><span class='line'><span class="nb">unset </span>https_proxy
-</span><span class='line'>gem sources -a https://ruby.taobao.org
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

@@ -118,6 +118,129 @@ $(document).ready(
     <article class="post">
 <h2 class="title">
     
+        <a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">
+            
+            (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+        </h2>
+<div class="entry-content">
+    <p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+
+<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+
+<h3>当方法被废弃了</h3>
+
+<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+
+<h3>如何处理废弃的方法</h3>
+
+<p>已经被废弃的方法在新的iOS版本上仍然可以工作。Apple趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
+
+<p>今天的例子，我们会看下 locationManager:didUpdateToLocation:fromLocation:方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了兼容iOS 5,我们可以加入旧的方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>，并在旧的方法中调用新的方法，代码看起来会像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateToLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">newLocation</span> <span class="nf">fromLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLocation</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">locationManager:</span><span class="n">locationManager</span> <span class="nl">didUpdateLocations:</span><span class="p">[[</span><span class="n">NSArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithObjects:</span><span class="n">newLocation</span><span class="p">,</span> <span class="nb">nil</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是iOS5，新的方法不会被调用，它就像自定义的方法，iOS5并不知道locationManager:didUpdateLocations:事实上是什么。旧的方法简单的alloc/init新的名为currentLocation的NSArray并且使用 initWithObjects:newLocation获取一个newLocation,然后NSArray作为信息被传递到locationManager新的方法。</p>
+
+<p>总之，如果设备是iOS5,旧的方法locationManager:didUpdateToLocation:fromLocation: 告诉代理新的位置可用，它把CLLocation加到NSArray中传递给新的方法，但设备的操作系统并不知道新方法。</p>
+
+<p>如果使用的是iOS6,我们从CLLocationManagerDelegate的头文件中了解到如果代码中既有旧方法又有新方法，那么iOS会调用新方法通知代理位置更新了。</p>
+
+<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和关文件，因为Apple添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
+
+<p>原文<br/>
+o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
+
+    
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+    <div class="comments"><a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+</article>
+
+
+    <article class="post">
+<h2 class="title">
+    
         <a href="/blog/2014/06/24/swift-learning-notes-properties/">
             
             Swift Learning Notes &#8211; Properties</a>
@@ -275,6 +398,237 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
 
 </div>
     <div class="comments"><a href="/blog/2014/06/24/swift-learning-notes-initialization/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
+    </div>
+    
+
+    
+</div>
+</article>
+
+
+    <article class="post">
+<h2 class="title">
+    
+        <a href="/blog/2014/05/22/core-data-chu-bu/">
+            
+            Core Data 初步</a>
+        </h2>
+<div class="entry-content">
+    <ol>
+<li>Core Data是什么？</li>
+<li>为什么使用Core Data?</li>
+<li>如何使用Core Data?</li>
+</ol>
+
+
+<h2>Core Data是什么？</h2>
+
+<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
+
+<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
+
+<h2>为什么使用Core Data？</h2>
+
+<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
+
+<ul>
+<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
+<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
+<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
+<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
+<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
+</ul>
+
+
+<blockquote><p>There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.</p></blockquote>
+
+<h2>如何使用Core Data?</h2>
+
+<p>Core Data 有相当多可用的组件,下图示意了这些组件之间的关系：
+ </p>
+
+<div style="text-align:center" markdown="1">
+    <img name="Core Data Stack" src="/images/CoreDataStack.jpg" width="610" height="418"> 
+
+</div>
+
+
+<p>其实我们主要就是对数据进行CRUD操作，我们过一遍创建数据的过程，其他操作也就容易理解了。</p>
+
+<p>应用的需求会决定应该创建些什么模型类，通常我们会创建模型文件（后缀为xcdatamodeld，当然也可以纯代码），模型文件对应Managed Object Model（NSManagedObjectModel），它是实体的一个集合，实体和模型类一一对应。</p>
+
+<p>应用启动以后会实例化一个Managed Object Context（NSManagedObjectContext），它相当于一个总入口，所有的数据操作都是通过它进行。Managed Object Context会持有一个Persistent Store Coordinator（NSPersistentStoreCoordinator）。</p>
+
+<p>Persistent Store Coordinator帮我们将固化的文件内容映射成managed model,并且可以管理多个永久存储池（NSPersistentStore），这样managed object context看到的只是单个存储池。</p>
+
+<p>当所有的组件都捆绑到一起的时候，我们把它称作 Core Data 堆栈，这个堆栈有两个主要部分。一部分是关于对象图管理，这正是你需要很好掌握的那一部分，并且知道怎么使用。第二部分是关于持久化，比如，保存你模型对象的状态，然后再恢复模型对象的状态。</p>
+
+<p>在两个部分之间，即堆栈中间，是持久化存储协调器（persistent store coordinator），也被称为中间审查者。它将对象图管理部分和持久化部分捆绑在一起，当它们两者中的任何一部分需要和另一部分交流时，这便需要持久化存储协调器来调节了。</p>
+
+<p>对象图管理是你程序模型层的逻辑存在的地方。模型层的对象存在于一个 context 内。在大多数的设置中，存在一个 context ，并且所有的对象存在于那个 context 中。Core Data 支持多个 contexts，不过对于更高级的使用情况才用。注意每个 context 和其他 context 都是完全独立的，一会儿我们将会谈到。需要记住的是，对象和它们的 context 是相关联的。每个被管理的对象都知道自己属于哪个 context，并且每个 context 都知道自己管理着哪些对象。</p>
+
+<p>堆栈的另一部分就是持久了，即 Core Data 从文件系统中读或写数据。每个持久化存储协调器（persistent store coordinator）都有一个属于自己的持久化存储（persistent store），并且这个 store 在文件系统中与 SQLite 数据库交互。为了支持更高级的设置，Core Data 可以将多个 stores 附属于同一个持久化存储协调器，并且除了存储 SQL 格式外，还有很多存储类型(binary,XML)可供选择。</p>
+
+<h2>代码示例</h2>
+
+<p>纯理论的讲我们可能不容易理解，让我们结合代码来看看。</p>
+
+<h3>创建和加载Managed Object Model</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1)You usually create a model in Xcode, as described in Core Data Model Editor Help. 
+</span><span class='line'>
+</span><span class='line'>[[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"NameOfCoreDataResource" withExtension:@"momd"]]
+</span><span class='line'>
+</span><span class='line'>// Another method
+</span><span class='line'>managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
+</span><span class='line'>
+</span><span class='line'>// 2)You can also create a model entirely in code.
+</span><span class='line'>NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] init];
+</span><span class='line'>NSEntityDescription *runEntity = [[NSEntityDescription alloc] init];
+</span><span class='line'>[runEntity setName:@"Run"];
+</span><span class='line'>[runEntity setManagedObjectClassName:@"Run"];
+</span><span class='line'>[mom setEntities:@[runEntity]];
+</span><span class='line'> 
+</span><span class='line'>NSMutableArray *runProperties = [NSMutableArray array];
+</span><span class='line'> 
+</span><span class='line'>NSAttributeDescription *dateAttribute = [[NSAttributeDescription alloc] init];
+</span><span class='line'>[runProperties addObject:dateAttribute];
+</span><span class='line'>[dateAttribute setName:@"date"];
+</span><span class='line'>[dateAttribute setAttributeType:NSDateAttributeType];
+</span><span class='line'>[dateAttribute setOptional:NO];
+</span><span class='line'> 
+</span><span class='line'>NSAttributeDescription *idAttribute= [[NSAttributeDescription alloc] init];
+</span><span class='line'>[runProperties addObject:idAttribute];
+</span><span class='line'>[idAttribute setName:@"processID"];
+</span><span class='line'>[idAttribute setAttributeType:NSInteger32AttributeType];
+</span><span class='line'>[idAttribute setOptional:NO];
+</span><span class='line'>[idAttribute setDefaultValue:@0];
+</span><span class='line'> 
+</span><span class='line'>NSPredicate *validationPredicate = [NSPredicate predicateWithFormat:@"SELF &gt;= 0"];
+</span><span class='line'>NSString *validationWarning = @"Process ID &lt; 0";
+</span><span class='line'>[idAttribute setValidationPredicates:@[validationPredicate]
+</span><span class='line'>    withValidationWarnings:@[validationWarning]];
+</span><span class='line'> 
+</span><span class='line'>[runEntity setProperties:runProperties];
+</span><span class='line'> 
+</span><span class='line'>NSDictionary *localizationDictionary = @{
+</span><span class='line'>    @"Property/processID/Entity/Run" : @"Process ID",
+</span><span class='line'>    @"Property/date/Entity/Run" : @"Date"
+</span><span class='line'>    @"ErrorString/Process ID &lt; 0" : @"Process ID must not be less than 0" };
+</span><span class='line'>[mom setLocalizationDictionary:localizationDictionary];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建Managed Object Context</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Assume we have a persistent store coordinator
+</span><span class='line'>        managedObjectContext = [[NSManagedObjectContext alloc] init];
+</span><span class='line'>        [managedObjectContext setPersistentStoreCoordinator: coordinator];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建Persistent Store Coordinator</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Locations.sqlite"]];
+</span><span class='line'>
+</span><span class='line'>NSError *error;
+</span><span class='line'>persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+</span><span class='line'>if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+</span><span class='line'>    // Handle the error.
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建Persistent Store</h3>
+
+<p>我们不直接创建persistent object store。当我们给persistent store coordinator发送addPersistentStoreWithType:configuration:URL:options:error:, Core Data为我们创建合适的store.</p>
+
+<h2>完整示例</h2>
+
+<p>上面是分解开来的示例，我们最后来看过完整的实例，我稍稍修改下苹果的官方示例<a href="https://github.com/DamianSheldon/Locations">Locations</a>.</p>
+
+<h2>Reference</h2>
+
+<p>Core Data Programming Guide  <br/>
+<a href="http://objccn.io/issue-4-1/">Core Data 概述</a> <br/>
+<a href="http://blog.csdn.net/kesalin/article/details/6739319">深入浅出 Cocoa 之 Core Data</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/4077833.html#CoreData">iOS开发系列&mdash;数据存取</a></p>
+
+    
+    
+</div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time></div>
+    <div class="tags">
+
+
+<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+    <div class="comments"><a href="/blog/2014/05/22/core-data-chu-bu/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
         <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
     </div>
     
@@ -834,301 +1188,6 @@ o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.i
 
 </div>
     <div class="comments"><a href="/blog/2014/05/19/iosde-hui-tu-xi-tong/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu/">
-            
-            iOS UIWebView与JavaScript交互</a>
-        </h2>
-<div class="entry-content">
-    <h2>1.UIWebView调用JavaScript</h2>
-
-<h3>1.1调用html中已有的JavaScript function</h3>
-
-<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>1.2注入JavaScript function,然后调用</h3>
-
-<p>我们还可以先向html中注入JavaScript function,然后调用。
-通常可以在UIWebViewDelegate中注入。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2.JavaScript调用Objective-C Method</h2>
-
-<p>JavaScript调用Objective-C方法的原理是利用UIWebView的重定向请求，传一些命令到我们的UIWebView,在UIWebView的delegate的方法中接收这些命令，并根据命令执行相应的Objc方法。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">sendCommand</span><span class="p">(</span><span class="nx">cmd</span><span class="p">,</span><span class="nx">param</span><span class="p">){</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">url</span><span class="o">=</span><span class="s2">&quot;objc:&quot;</span><span class="o">+</span><span class="nx">cmd</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nx">param</span><span class="p">;</span>
-</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">clickLink</span><span class="p">(){</span>
-</span><span class='line'>    <span class="nx">sendCommand</span><span class="p">(</span><span class="s2">&quot;alert&quot;</span><span class="p">,</span><span class="s2">&quot;hello objective-c method&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark --  </span>
-</span><span class='line'><span class="cp">#pragma mark UIWebViewDelegate  </span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">webView:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">shouldStartLoadWithRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">navigationType:</span><span class="p">(</span><span class="n">UIWebViewNavigationType</span><span class="p">)</span><span class="nv">navigationType</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">requestString</span> <span class="o">=</span> <span class="p">[[</span><span class="n">request</span> <span class="n">URL</span><span class="p">]</span> <span class="n">absoluteString</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSArray</span> <span class="o">*</span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">requestString</span> <span class="nl">componentsSeparatedByString:</span><span class="s">@&quot;:&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">components</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">[(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;objc&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span><span class="p">([(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">1</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;alert&quot;</span><span class="p">])</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span>
-</span><span class='line'>                                  <span class="nl">initWithTitle:</span><span class="s">@&quot;Alert from Cocoa Touch&quot;</span> <span class="nl">message:</span><span class="p">[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'>                                  <span class="nl">delegate:</span><span class="n">self</span> <span class="nl">cancelButtonTitle:</span><span class="nb">nil</span>
-</span><span class='line'>                                  <span class="nl">otherButtonTitles:</span><span class="s">@&quot;OK&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.相互传值</h2>
-
-<h2>3.1UIWebView传值给JavaScript</h2>
-
-<p>1）最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。
-2）PhoneGap的解决方法是把要传递的参数放到队列里，然后通知Native去取。</p>
-
-<h2>3.2JavaScript传值给UIWebView</h2>
-
-<p>UIWebView调用JavaScript接口方法的返回值就是JavaScript传给UIWebView的值。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-14T11:05:53+08:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/05/10/property-values/">
-            
-            Property Values</a>
-        </h2>
-<div class="entry-content">
-    <p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
-
-<p> Property的attribute关键字有以下几类：<br/>
- 1）API Control；</p>
-
-<pre><code>getter = methodname
-setter = mehtodname:
-</code></pre>
-
-<p> 2）Write Serialization(not general thread safety);</p>
-
-<pre><code>nonatomic
-atomic (default)
-</code></pre>
-
-<p> 3) Mutability;</p>
-
-<pre><code>readonly
-readwrite (default)
-</code></pre>
-
-<p> 4) Memory Management(ARC);</p>
-
-<pre><code>copy
-strong (default)
-weak
-unsafe_unretained
-assign
-</code></pre>
-
-<p> 5) Memory Management(Traditional)</p>
-
-<pre><code>copy
-retain
-assign (default)
-</code></pre>
-
-<h2>API Control</h2>
-
-<p>@property声明实际上是存取方法的快速声明。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSObject</span> <span class="o">*</span><span class="n">propertyName</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编辑器最终会合成存取方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">propertyName</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPropertyName:</span><span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>默认的getter和setter方法名分别是propertyName,setPropertyName。可以通过API Control提供的关键字指定存取方法名。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">enabled</span><span class="p">;</span>                                  <span class="c1">// default is YES. if NO, ignores touch events and subclasses may draw differently</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isSelected</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">selected</span><span class="p">;</span>                                <span class="c1">// default is NO may be used by some subclasses or by application</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isHighlighted</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">highlighted</span><span class="p">;</span>                          <span class="c1">// default is NO. this gets set/cleared </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Write Serialization(not general thread safety)</h2>
-
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
-
-<h2>Mutability</h2>
-
-<p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
-
-<h2>Memory Management(ARC)</h2>
-
-<p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
-
-<p>2)copy,在内存分配一块全新的地址来存放传入的数据内容，即创建一份新的数据副本用来赋值。适用于实现了NSCoping协议的对象，其他类型的对象声明copy无效。</p>
-
-<p>3)strong(=retain)，强引用，ARC下对象默认内存管理声明关键字，对象引用计数+1。</p>
-
-<p>4)weak,弱引用，持有对象引用计数不变，持有对象释放时，指向的地址为nil。</p>
-
-<p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
-
-<h2>Memory Management(Traditional)</h2>
-
-<h2>Reference</h2>
-
-<p>o Property Values <a href="http://www.bignerdranch.com/blog/property-values/?replytocom=740600">http://www.bignerdranch.com/blog/property-values/?replytocom=740600</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-10T14:41:40+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/05/10/property-values/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
         <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
     </div>
     

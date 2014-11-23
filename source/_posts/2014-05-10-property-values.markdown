@@ -33,7 +33,9 @@ description: Introduce Objective-C's Property
 	copy
 	retain
 	assign (default)
-	
+
+<!-- more -->
+
 ##API Control
 @property声明实际上是存取方法的快速声明。
 ``` objective-c

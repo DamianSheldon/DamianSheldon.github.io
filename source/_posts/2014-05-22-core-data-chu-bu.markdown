@@ -26,6 +26,8 @@ Core Data是一个对象图管理和持久化框架。它有以下优点：
 * 允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。
 * 拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。
 
+<!-- more -->
+
 >There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.
 
 

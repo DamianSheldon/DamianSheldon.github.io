@@ -32,6 +32,7 @@ dispatch_apply
 dispatch_apply_f
 dispatch_once
 ```
+<!-- more -->
 
 调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:
 ``` objective-c
@@ -158,5 +159,7 @@ dispatch_semaphore_signal(fd_sema);
 ```
 
 ##Reference
-o Concurrency Programming Guide  
-o iOS多线程编程Part 3/3 - GCD;http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/
+o Concurrency Programming Guide    
+o [Grand Central Dispatch In-Depth: Part 1/2](http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1)   
+o [Grand Central Dispatch In-Depth: Part 2/2](http://www.raywenderlich.com/63338/grand-central-dispatch-in-depth-part-2)
+o [iOS多线程编程Part 3/3 - GCD](http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/)

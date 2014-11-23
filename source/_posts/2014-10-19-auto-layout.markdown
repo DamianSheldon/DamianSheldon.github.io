@@ -18,6 +18,8 @@ Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多
   You define these relationships in terms of constraints either on individual elements, or between sets of elements.  
   你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。
 
+<!-- more -->
+
 ####Constraint -- 约束  
   约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。  
   * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline；   

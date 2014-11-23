@@ -26,6 +26,8 @@ Reference:http://stackoverflow.com/questions/92396/why-cant-variables-be-declare
 
 Reference:http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst   
 
+<!-- more -->
+
 问题描述：SVN更新Cocoapods管理的第三方包的Xcode工程报错。    
 ```bash
 A  +  C Pods

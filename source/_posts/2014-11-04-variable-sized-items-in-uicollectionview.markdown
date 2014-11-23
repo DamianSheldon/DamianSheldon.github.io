@@ -25,6 +25,7 @@ Collection View和它的祖父类似，有delegate和dataSource两个outlet,我�
 
 我们设置Identifier为“TagCell”以便我们能在设计中引用。
 
+<!-- more -->
 
 这里我们遇到了第一个问题。如果你没有使用Storyboards,并没有办法让Collection View在相同的NIB文件中使用Collection View Cell。有两种可行的方法注册Cell:
 ```objective-c

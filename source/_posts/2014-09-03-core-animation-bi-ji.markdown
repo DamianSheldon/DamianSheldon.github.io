@@ -29,6 +29,7 @@ UIView内置可动画的属性如下表：
 | backgroundColor | Modify this property to change the view’s background color. 
 | contentStretch | Modify this property to change the way the view’s contents are stretched to fill the available space. 
 
+<!-- more -->
 
 ##如何使用Core Animation?
 Core Animation提供了不少类供我们在应用中使用，下图反映了这些类的关系：   

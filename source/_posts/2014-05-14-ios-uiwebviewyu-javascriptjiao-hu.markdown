@@ -30,6 +30,7 @@ NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:js];
     NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:@"injectJSFunction(1)"];
 
 ```
+<!-- more -->
 
 ##2.JavaScript调用Objective-C Method
 JavaScript调用Objective-C方法的原理是利用UIWebView的重定向请求，传一些命令到我们的UIWebView,在UIWebView的delegate的方法中接收这些命令，并根据命令执行相应的Objc方法。示例如下：

@@ -25,6 +25,8 @@ discription: setup iterm2 to behave like guake
 
 <img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528">  
 
+<!-- more -->
+
 ###开机启动iTerm2时不打开终端窗口
 安装好iTerm2,并把它配置像guake, 加入开机自启动(System Preferences > Users&Groups > Login Items > + iTerm2)之后，还有一个小问题困扰着我，就是它会默认打开一个终端窗口，这让人很不舒坦，解决方法如下:     
 

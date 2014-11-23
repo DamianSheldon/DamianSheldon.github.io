@@ -3,7 +3,7 @@ layout: post
 title: "iOS App 数据持久化"
 date: 2014-11-13 15:06:25 +0800
 comments: true
-categories:  
+categories:  [Archives, iOS Development]
 keywords: Data Persistence, File System, Sandbox, NSUserDefaults, Sqlite3, Core Data, plist, Archiving
 discription: Simple summary of iOS App Data Persistence
 ---
@@ -29,10 +29,12 @@ iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应�
 
 </div>
 
+<!-- more -->
+
 iOS应用常用的目录列表：
 
 | Directory | Description |
-| --------- | ----------- |
+| :--------- | :----------- |
 | AppName.app | This is the app’s bundle
 | Documents/ | Use this directory to store user-generated content.
 | Documents/Inbox | Use this directory to access files that your app was asked to open by outside entities.
@@ -93,7 +95,7 @@ Core Data是Apple为我们提供的一种持久化方法，比较强大也比较
 #Reference
 
 File System Programming Guide   
-Property List Programming Guide
+Property List Programming Guide     
 Archives and Serializations Programming Guide    
 [对比iOS中的四种数据存储](http://www.infoq.com/cn/articles/data-storage-in-ios)    
 [IOS开发系列—Objective-C之Foundation框架](http://www.cnblogs.com/kenshincui/p/3885689.html#archiver)    

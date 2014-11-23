@@ -23,6 +23,8 @@ description: iOS的绘图系统
 4)PDF  
 5)Printer  
 
+<!-- more -->
+
 ##Drawing to a View Graphics Context in iOS
 1)Implement drawRect:method;  
 2)Mark the view you want update by invocate setNeedDisplay;  

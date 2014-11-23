@@ -26,6 +26,8 @@ description: Initialization method of swift
 2)初始化方法。
     NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
 
+<!-- more -->
+
 ###Reference Type Initialization
 1)为类引入的存储属性设置初始值;  
 2)初始化方法。

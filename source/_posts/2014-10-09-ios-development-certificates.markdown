@@ -28,6 +28,7 @@ iOS App开发过程的真机调试和开发完成的发布要用合法的 Signin
     Ad Hoc Distribution Provisioning profile
 
 
+<!-- more -->
 
 ### Private Key, Certificate, Provisioning Profile 的作用  
 

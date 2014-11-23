@@ -25,6 +25,8 @@ Computed type properties are always declared as variable properties, in the same
 2)Reference Type Properties (keyword: class)  
 class只可以定义Computed type properties.
 
+<!-- more -->
+
 ####Instance Properties
 1)Stroed Properties
 In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).

@@ -33,6 +33,8 @@ Objective-C是一门面向对象的编程语言，既然是面向对象，那我
 	} OBJC2_UNAVAILABLE;
 ```
 
+<!-- more -->
+
 ##2,Object
 ``` objective-c 
 	/// Represents an instance of a class.

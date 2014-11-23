@@ -35,6 +35,8 @@ iOS设计模式--你也许听说过这个术语，但是你知道它意味着什
 
 </div>
 
+<!-- more -->
+
 ###开始吧
 
 下载[启动工程](http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip),解压ZIP文件内容，然后在Xcode中打开。

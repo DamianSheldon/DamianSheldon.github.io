@@ -44,6 +44,7 @@ var realVariableV2 = 0.89727
 
 let stringConstantV2 = "String Constant"
 ```
+<!-- more -->
 
 2)Declaring;
 ``` swift

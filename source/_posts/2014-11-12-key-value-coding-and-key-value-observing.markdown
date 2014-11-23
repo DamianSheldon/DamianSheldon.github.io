@@ -39,6 +39,8 @@ to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被
 
 既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。
 
+<!-- more -->
+
 ####使用key-value coding读取attribute值
 NSKeyValueCoding中定义的的attribute读取方法有：
 

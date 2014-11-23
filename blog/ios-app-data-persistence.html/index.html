@@ -1,0 +1,326 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>iOS App 数据持久化  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Data Persistence, File System, Sandbox, NSUserDefaults, Sqlite3, Core Data, plist, Archiving">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><!-- System header -->
+<h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+<!-- System navigation -->
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+<!-- System navigation -->
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">iOS App 数据持久化</h2>
+	<div class="entry-content"><p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
+
+<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
+
+<h2>文件系统基础</h2>
+
+<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
+我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
+
+<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
+
+<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+
+</div>
+
+
+
+
+<!-- more -->
+
+
+<p>iOS应用常用的目录列表：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left"> Directory </th>
+<th align="left"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td align="left"> AppName.app </td>
+<td align="left"> This is the app’s bundle</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Documents/ </td>
+<td align="left"> Use this directory to store user-generated content.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Documents/Inbox </td>
+<td align="left"> Use this directory to access files that your app was asked to open by outside entities.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Library/ </td>
+<td align="left"> This is the top-level directory for any files that are not user data files.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> tmp/ </td>
+<td align="left"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>数据的建议存储位置</h3>
+
+<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
+
+<h3>数据持久化的方法</h3>
+
+<ol>
+<li>NSUserDefaults;</li>
+<li>Property Lists;</li>
+<li>Archive;</li>
+<li>数据库;</li>
+<li>Core Data。</li>
+</ol>
+
+
+<h4>NSUserDefaults</h4>
+
+<p>NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许应用去自定义它的行为来符合用户的偏好。所以它主要是用来存储些配置信息。
+它支持的数据类型有：floats，doubles，integers，Booleans，URLs，NSData，NSString，NSNumber，NSDate，NSArray和NSDictionary。如果还想存储其他类型的对象，需要使用NSData对它们进行归档。</p>
+
+<h4>Property Lists</h4>
+
+<p>当我们的需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们对象的全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。</p>
+
+<p>Property list有三种存储方式：XML, binary format, &ldquo;old-style&rdquo; ASCII format inherited from OpenStep。old-style format的序列化API是只读的。</p>
+
+<p>XML property list比binary格式的可移植性好，可以手动编辑，但是binary property lists兼容性好，需要的存储空间少，读写速度要优于XML property lists。通常来说，如果你的property list相对较小，XML property lists的优点会战胜它相对binary property lists的I/O速度，难兼容的缺点。如果你有大量数据，binary property lists, keyed archives，或自定义数据格式会是更好的解决方案。</p>
+
+<h4>Archive</h4>
+
+<p>Archives提供了一种把对象和值转成结构独立的字节流，它保留了对象与值，以及对象与对象的关系信息。</p>
+
+<p>Cocoa archives可以持有Objective-c对象，标量，数组，结构体和字符串。它不能持有和平台相关的类型，例如union, void *, function pointers, 和long chains of pointers。</p>
+
+<p>对象写入archive和从archive读出是使用coder对象。Coder对象是抽象类NSCoder具体子类的实例。它通过给对象发送NSCoding协议定义的encodeWithCoder: 和initWithCoder:方法分别写入或读出archiver。只有支持NSCoding协议的对象才能写入archiver。</p>
+
+<h4>数据库</h4>
+
+<p>iOS中有了以上数据持久化方法，我们为什么还需要数据库？</p>
+
+<p>目前在iOS App开发中，SQLite是个不错的选择。</p>
+
+<hr />
+
+<p>SQLite</p>
+
+<blockquote><p>SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.</p></blockquote>
+
+<p>SQLite在众多数据库中脱颖而出，目前是个不错的选择，但由于它是C接口，操作略显繁琐，就有了很多对它的封装，FMDB是个不错的选择。</p>
+
+<h4>Core Data</h4>
+
+<p>Core Data是Apple为我们提供的一种持久化方法，比较强大也比较复杂。</p>
+
+<h1>Reference</h1>
+
+<p>File System Programming Guide <br/>
+Property List Programming Guide   <br/>
+Archives and Serializations Programming Guide  <br/>
+<a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/4077833.html">iOS开发系列&mdash;数据存取</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Sheldon
+
+
+- 署名 - 非商业 - 非衍生 - Powered by Octopress.</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-52345084-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

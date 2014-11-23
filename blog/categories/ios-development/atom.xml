@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-18T14:19:16+08:00</updated>
+  <updated>2014-11-23T23:00:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -14,10 +14,145 @@
 
   
   <entry>
+    <title type="html"><![CDATA[iOS App 数据持久化]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-data-persistence.html/"/>
+    <updated>2014-11-13T15:06:25+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-data-persistence</id>
+    <content type="html"><![CDATA[<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
+
+<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
+
+<h2>文件系统基础</h2>
+
+<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
+我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
+
+<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
+
+<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+
+</div>
+
+
+
+
+<!-- more -->
+
+
+<p>iOS应用常用的目录列表：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left"> Directory </th>
+<th align="left"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td align="left"> AppName.app </td>
+<td align="left"> This is the app’s bundle</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Documents/ </td>
+<td align="left"> Use this directory to store user-generated content.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Documents/Inbox </td>
+<td align="left"> Use this directory to access files that your app was asked to open by outside entities.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Library/ </td>
+<td align="left"> This is the top-level directory for any files that are not user data files.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> tmp/ </td>
+<td align="left"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>数据的建议存储位置</h3>
+
+<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
+
+<h3>数据持久化的方法</h3>
+
+<ol>
+<li>NSUserDefaults;</li>
+<li>Property Lists;</li>
+<li>Archive;</li>
+<li>数据库;</li>
+<li>Core Data。</li>
+</ol>
+
+
+<h4>NSUserDefaults</h4>
+
+<p>NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许应用去自定义它的行为来符合用户的偏好。所以它主要是用来存储些配置信息。
+它支持的数据类型有：floats，doubles，integers，Booleans，URLs，NSData，NSString，NSNumber，NSDate，NSArray和NSDictionary。如果还想存储其他类型的对象，需要使用NSData对它们进行归档。</p>
+
+<h4>Property Lists</h4>
+
+<p>当我们的需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们对象的全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。</p>
+
+<p>Property list有三种存储方式：XML, binary format, &ldquo;old-style&rdquo; ASCII format inherited from OpenStep。old-style format的序列化API是只读的。</p>
+
+<p>XML property list比binary格式的可移植性好，可以手动编辑，但是binary property lists兼容性好，需要的存储空间少，读写速度要优于XML property lists。通常来说，如果你的property list相对较小，XML property lists的优点会战胜它相对binary property lists的I/O速度，难兼容的缺点。如果你有大量数据，binary property lists, keyed archives，或自定义数据格式会是更好的解决方案。</p>
+
+<h4>Archive</h4>
+
+<p>Archives提供了一种把对象和值转成结构独立的字节流，它保留了对象与值，以及对象与对象的关系信息。</p>
+
+<p>Cocoa archives可以持有Objective-c对象，标量，数组，结构体和字符串。它不能持有和平台相关的类型，例如union, void *, function pointers, 和long chains of pointers。</p>
+
+<p>对象写入archive和从archive读出是使用coder对象。Coder对象是抽象类NSCoder具体子类的实例。它通过给对象发送NSCoding协议定义的encodeWithCoder: 和initWithCoder:方法分别写入或读出archiver。只有支持NSCoding协议的对象才能写入archiver。</p>
+
+<h4>数据库</h4>
+
+<p>iOS中有了以上数据持久化方法，我们为什么还需要数据库？</p>
+
+<p>目前在iOS App开发中，SQLite是个不错的选择。</p>
+
+<hr />
+
+<p>SQLite</p>
+
+<blockquote><p>SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.</p></blockquote>
+
+<p>SQLite在众多数据库中脱颖而出，目前是个不错的选择，但由于它是C接口，操作略显繁琐，就有了很多对它的封装，FMDB是个不错的选择。</p>
+
+<h4>Core Data</h4>
+
+<p>Core Data是Apple为我们提供的一种持久化方法，比较强大也比较复杂。</p>
+
+<h1>Reference</h1>
+
+<p>File System Programming Guide <br/>
+Property List Programming Guide   <br/>
+Archives and Serializations Programming Guide  <br/>
+<a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/4077833.html">iOS开发系列&mdash;数据存取</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing/"/>
+    <link href="http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing.html/"/>
     <updated>2014-11-12T16:06:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing</id>
+    <id>http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing</id>
     <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
 
 <ol>
@@ -56,6 +191,9 @@
 <p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
 
 <p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+<!-- more -->
+
 
 <h4>使用key-value coding读取attribute值</h4>
 
@@ -184,9 +322,9 @@ Key-Value Observing Programming Guide</p>
   
   <entry>
     <title type="html"><![CDATA[(翻译)iOS 设计模式]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/10/ios-design-patterns/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-design-patterns.html/"/>
     <updated>2014-11-10T08:35:43+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/10/ios-design-patterns</id>
+    <id>http://DamianSheldon.github.io/blog/ios-design-patterns</id>
     <content type="html"><![CDATA[<p>iOS设计模式&mdash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
 
 <p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
@@ -220,6 +358,11 @@ Key-Value Observing Programming Guide</p>
 <img name="finalapp-180x320" src="http://DamianSheldon.github.io/images/finalapp-180x320.png" width="180" height="320">  
 
 </div>
+
+
+
+
+<!-- more -->
 
 
 <h3>开始吧</h3>
@@ -842,9 +985,9 @@ return self;
   
   <entry>
     <title type="html"><![CDATA[(翻译)Variable-Sized Items in UICollectionView]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/04/variable-sized-items-in-uicollectionview/"/>
+    <link href="http://DamianSheldon.github.io/blog/variable-sized-items-in-uicollectionview.html/"/>
     <updated>2014-11-04T11:27:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/04/variable-sized-items-in-uicollectionview</id>
+    <id>http://DamianSheldon.github.io/blog/variable-sized-items-in-uicollectionview</id>
     <content type="html"><![CDATA[<h3>基本训练</h3>
 
 <p>我们以“Single View Application”为模板新建一个工程。在ViewController.xib上添加一个UICollectionView让它覆盖整个view。</p>
@@ -862,6 +1005,9 @@ return self;
 <p><img name="Variable-Sized_Items_in_UICollectionView02" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
 
 <p>我们设置Identifier为“TagCell”以便我们能在设计中引用。</p>
+
+<!-- more -->
+
 
 <p>这里我们遇到了第一个问题。如果你没有使用Storyboards,并没有办法让Collection View在相同的NIB文件中使用Collection View Cell。有两种可行的方法注册Cell:
 ```objective-c</p>
@@ -1112,9 +1258,9 @@ static CGSize _extraMargins = {0,0};</p>
   
   <entry>
     <title type="html"><![CDATA[Auto Layout]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/10/19/auto-layout/"/>
+    <link href="http://DamianSheldon.github.io/blog/auto-layout.html/"/>
     <updated>2014-10-19T17:43:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/10/19/auto-layout</id>
+    <id>http://DamianSheldon.github.io/blog/auto-layout</id>
     <content type="html"><![CDATA[<h3>前言</h3>
 
 <p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
@@ -1126,6 +1272,9 @@ static CGSize _extraMargins = {0,0};</p>
 
 <p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
   你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
+
+<!-- more -->
+
 
 <h4>Constraint &mdash; 约束</h4>
 
@@ -1169,64 +1318,6 @@ WWDC2012 session 232 – Auto Layout by Example<br/>
 <a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
 <a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
 <a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Development--Certificates, Provisioning Profiles]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates/"/>
-    <updated>2014-10-09T16:24:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates</id>
-    <content type="html"><![CDATA[<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
-
-<p><img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573"></p>
-
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
-
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
-
-<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
-
-<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
-
-<p><img name="Certificate" src="http://DamianSheldon.github.io/images/Certificate.png" width="696" height="471"> </p>
-
-<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
-
-<p><img name="ProvisioningProfile" src="http://DamianSheldon.github.io/images/ProvisioningProfile.png" width="618" height="377"></p>
-
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
-
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
-
-<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
-
-<h3>Tips</h3>
-
-<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
-
-<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
-
-<p><img name="TeamProvisioningProfile" src="http://DamianSheldon.github.io/images/TeamProvisioningProfile.png" width="712" height="406">  </p>
 ]]></content>
   </entry>
   

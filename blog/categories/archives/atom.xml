@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-18T14:19:16+08:00</updated>
+  <updated>2014-11-23T23:00:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -14,10 +14,145 @@
 
   
   <entry>
+    <title type="html"><![CDATA[iOS App 数据持久化]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-data-persistence.html/"/>
+    <updated>2014-11-13T15:06:25+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-data-persistence</id>
+    <content type="html"><![CDATA[<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
+
+<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
+
+<h2>文件系统基础</h2>
+
+<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
+我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
+
+<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
+
+<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+
+</div>
+
+
+
+
+<!-- more -->
+
+
+<p>iOS应用常用的目录列表：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left"> Directory </th>
+<th align="left"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td align="left"> AppName.app </td>
+<td align="left"> This is the app’s bundle</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Documents/ </td>
+<td align="left"> Use this directory to store user-generated content.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Documents/Inbox </td>
+<td align="left"> Use this directory to access files that your app was asked to open by outside entities.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> Library/ </td>
+<td align="left"> This is the top-level directory for any files that are not user data files.</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> tmp/ </td>
+<td align="left"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>数据的建议存储位置</h3>
+
+<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
+
+<h3>数据持久化的方法</h3>
+
+<ol>
+<li>NSUserDefaults;</li>
+<li>Property Lists;</li>
+<li>Archive;</li>
+<li>数据库;</li>
+<li>Core Data。</li>
+</ol>
+
+
+<h4>NSUserDefaults</h4>
+
+<p>NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许应用去自定义它的行为来符合用户的偏好。所以它主要是用来存储些配置信息。
+它支持的数据类型有：floats，doubles，integers，Booleans，URLs，NSData，NSString，NSNumber，NSDate，NSArray和NSDictionary。如果还想存储其他类型的对象，需要使用NSData对它们进行归档。</p>
+
+<h4>Property Lists</h4>
+
+<p>当我们的需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们对象的全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。</p>
+
+<p>Property list有三种存储方式：XML, binary format, &ldquo;old-style&rdquo; ASCII format inherited from OpenStep。old-style format的序列化API是只读的。</p>
+
+<p>XML property list比binary格式的可移植性好，可以手动编辑，但是binary property lists兼容性好，需要的存储空间少，读写速度要优于XML property lists。通常来说，如果你的property list相对较小，XML property lists的优点会战胜它相对binary property lists的I/O速度，难兼容的缺点。如果你有大量数据，binary property lists, keyed archives，或自定义数据格式会是更好的解决方案。</p>
+
+<h4>Archive</h4>
+
+<p>Archives提供了一种把对象和值转成结构独立的字节流，它保留了对象与值，以及对象与对象的关系信息。</p>
+
+<p>Cocoa archives可以持有Objective-c对象，标量，数组，结构体和字符串。它不能持有和平台相关的类型，例如union, void *, function pointers, 和long chains of pointers。</p>
+
+<p>对象写入archive和从archive读出是使用coder对象。Coder对象是抽象类NSCoder具体子类的实例。它通过给对象发送NSCoding协议定义的encodeWithCoder: 和initWithCoder:方法分别写入或读出archiver。只有支持NSCoding协议的对象才能写入archiver。</p>
+
+<h4>数据库</h4>
+
+<p>iOS中有了以上数据持久化方法，我们为什么还需要数据库？</p>
+
+<p>目前在iOS App开发中，SQLite是个不错的选择。</p>
+
+<hr />
+
+<p>SQLite</p>
+
+<blockquote><p>SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.</p></blockquote>
+
+<p>SQLite在众多数据库中脱颖而出，目前是个不错的选择，但由于它是C接口，操作略显繁琐，就有了很多对它的封装，FMDB是个不错的选择。</p>
+
+<h4>Core Data</h4>
+
+<p>Core Data是Apple为我们提供的一种持久化方法，比较强大也比较复杂。</p>
+
+<h1>Reference</h1>
+
+<p>File System Programming Guide <br/>
+Property List Programming Guide   <br/>
+Archives and Serializations Programming Guide  <br/>
+<a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
+<a href="http://www.cnblogs.com/kenshincui/p/4077833.html">iOS开发系列&mdash;数据存取</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing/"/>
+    <link href="http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing.html/"/>
     <updated>2014-11-12T16:06:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing</id>
+    <id>http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing</id>
     <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
 
 <ol>
@@ -56,6 +191,9 @@
 <p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
 
 <p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+<!-- more -->
+
 
 <h4>使用key-value coding读取attribute值</h4>
 
@@ -184,9 +322,9 @@ Key-Value Observing Programming Guide</p>
   
   <entry>
     <title type="html"><![CDATA[(翻译)iOS 设计模式]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/10/ios-design-patterns/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-design-patterns.html/"/>
     <updated>2014-11-10T08:35:43+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/10/ios-design-patterns</id>
+    <id>http://DamianSheldon.github.io/blog/ios-design-patterns</id>
     <content type="html"><![CDATA[<p>iOS设计模式&mdash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
 
 <p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
@@ -220,6 +358,11 @@ Key-Value Observing Programming Guide</p>
 <img name="finalapp-180x320" src="http://DamianSheldon.github.io/images/finalapp-180x320.png" width="180" height="320">  
 
 </div>
+
+
+
+
+<!-- more -->
 
 
 <h3>开始吧</h3>
@@ -842,9 +985,9 @@ return self;
   
   <entry>
     <title type="html"><![CDATA[为MacBook Pro配置一个像guake的终端]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/07/setup-iterm2-to-behave-like-guake/"/>
+    <link href="http://DamianSheldon.github.io/blog/setup-iterm2-to-behave-like-guake.html/"/>
     <updated>2014-11-07T10:31:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/07/setup-iterm2-to-behave-like-guake</id>
+    <id>http://DamianSheldon.github.io/blog/setup-iterm2-to-behave-like-guake</id>
     <content type="html"><![CDATA[<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
 
 <h3>让iTerm2的行为像guake</h3>
@@ -862,6 +1005,9 @@ return self;
 <p>5)在Keys选项中激活"Show/hide iTerm2 with a system-wide hotkey",由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
 
 <p><img name="assign_a_hotkey" src="http://DamianSheldon.github.io/images/assign_a_hotkey.png" width="897" height="528"></p>
+
+<!-- more -->
+
 
 <h3>开机启动iTerm2时不打开终端窗口</h3>
 
@@ -889,9 +1035,9 @@ return self;
   
   <entry>
     <title type="html"><![CDATA[Git 小结]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/05/git-summary/"/>
+    <link href="http://DamianSheldon.github.io/blog/git-summary.html/"/>
     <updated>2014-11-05T10:13:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/05/git-summary</id>
+    <id>http://DamianSheldon.github.io/blog/git-summary</id>
     <content type="html"><![CDATA[<h1>Git</h1>
 
 <ol>
@@ -922,6 +1068,9 @@ return self;
 <h3>安装Git</h3>
 
 <p>安装Git主要有两种方法：一种是通过编译源代码来安装;另一种是使用为特定平台预编译好的安装包。</p>
+
+<!-- more -->
+
 
 <h3>在服务器上布署Git</h3>
 
@@ -991,7 +1140,7 @@ Enter same passphrase again:
 Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 The key fingerprint is:
-43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#115;&#99;&#x68;&#x61;&#x63;&#111;&#x6e;&#64;&#97;&#x67;&#97;&#100;&#x6f;&#114;&#x6c;&#97;&#112;&#116;&#x6f;&#x70;&#x2e;&#108;&#x6f;&#99;&#x61;&#108;">&#115;&#99;&#x68;&#x61;&#x63;&#x6f;&#x6e;&#64;&#97;&#103;&#x61;&#x64;&#111;&#x72;&#108;&#97;&#112;&#x74;&#111;&#x70;&#46;&#108;&#111;&#x63;&#x61;&#x6c;</a></p>
+43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#115;&#99;&#x68;&#x61;&#x63;&#111;&#110;&#x40;&#97;&#103;&#97;&#100;&#x6f;&#x72;&#x6c;&#97;&#x70;&#116;&#x6f;&#112;&#46;&#108;&#x6f;&#x63;&#x61;&#x6c;">&#x73;&#99;&#x68;&#x61;&#99;&#111;&#110;&#x40;&#x61;&#x67;&#x61;&#x64;&#x6f;&#x72;&#x6c;&#x61;&#112;&#116;&#111;&#x70;&#46;&#108;&#x6f;&#x63;&#97;&#108;</a></p>
 
 <p>// Step 3:它先要求你确认保存公钥的位置(.ssh/id_rsa),然后它会让你重复一个密码两次,
 // 如果不想在使用公钥的 时候输入密码,可以留空。
@@ -1004,7 +1153,7 @@ GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
 t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
 mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
-NrRFi9wrf+M7Q== <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x73;&#99;&#104;&#97;&#x63;&#111;&#110;&#x40;&#x61;&#x67;&#x61;&#x64;&#x6f;&#x72;&#x6c;&#97;&#x70;&#116;&#111;&#x70;&#46;&#108;&#111;&#x63;&#x61;&#108;">&#115;&#99;&#104;&#97;&#x63;&#x6f;&#110;&#x40;&#x61;&#103;&#x61;&#x64;&#x6f;&#x72;&#108;&#x61;&#112;&#x74;&#111;&#x70;&#46;&#108;&#x6f;&#99;&#x61;&#108;</a>
+NrRFi9wrf+M7Q== <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#99;&#x68;&#97;&#99;&#111;&#x6e;&#x40;&#x61;&#103;&#97;&#x64;&#111;&#114;&#x6c;&#97;&#112;&#116;&#x6f;&#112;&#x2e;&#108;&#111;&#x63;&#97;&#108;">&#x73;&#x63;&#x68;&#x61;&#99;&#x6f;&#x6e;&#64;&#97;&#x67;&#97;&#x64;&#x6f;&#114;&#108;&#x61;&#x70;&#116;&#x6f;&#112;&#46;&#108;&#111;&#x63;&#97;&#x6c;</a>
 ```</p>
 
 <p>作为一个额外的防范措施,你可以用 Git 自带的 git-shell 简单工具来把 git 用户的活动限制在仅与 Git 相关。把它设为 git 用户登入的 shell,那么该用户就不能拥有主机正常的 shell 访问权。为了实现这一 点,需要指明用户的登入shell 是 git-shell ,而不是 bash 或者 csh。你可能得编辑 /etc/passwd 文件:
@@ -1064,7 +1213,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 // Quilk config
 // 用户信息
 $ git config &mdash;global user.name &ldquo;John Doe&rdquo;
-$ git config &mdash;global user.email <a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#x6a;&#111;&#x68;&#110;&#100;&#111;&#101;&#64;&#x65;&#x78;&#97;&#109;&#112;&#x6c;&#101;&#x2e;&#x63;&#x6f;&#x6d;">&#x6a;&#x6f;&#104;&#x6e;&#x64;&#111;&#x65;&#64;&#101;&#x78;&#97;&#109;&#112;&#108;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+$ git config &mdash;global user.email <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#106;&#x6f;&#x68;&#x6e;&#x64;&#x6f;&#x65;&#64;&#101;&#x78;&#x61;&#109;&#x70;&#x6c;&#x65;&#x2e;&#99;&#x6f;&#x6d;">&#106;&#x6f;&#x68;&#x6e;&#100;&#x6f;&#101;&#x40;&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#x65;&#46;&#99;&#x6f;&#109;</a></p>
 
 <p>// 文本编辑器
 $ git config &mdash;global core.editor emacs</p>
@@ -1304,17 +1453,17 @@ $ git tag -a v1.4 -m &lsquo;my version 1.4&rsquo;</p>
 <p>// 可以使用 git show 命令查看相应标签的版本信息,并连同显示打标签时的提交对象。
 $ git show v1.4
 tag v1.4
-Tagger: Scott Chacon <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#115;&#99;&#104;&#x61;&#x63;&#x6f;&#110;&#x40;&#103;&#x65;&#101;&#x2d;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;">&#115;&#99;&#104;&#x61;&#x63;&#x6f;&#110;&#x40;&#103;&#101;&#x65;&#45;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a> Date: Mon Feb 9 14:45:11 2009 -0800
+Tagger: Scott Chacon <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#115;&#x63;&#x68;&#x61;&#99;&#111;&#110;&#x40;&#x67;&#101;&#101;&#x2d;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x73;&#99;&#104;&#x61;&#x63;&#x6f;&#110;&#x40;&#103;&#101;&#101;&#45;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a> Date: Mon Feb 9 14:45:11 2009 -0800
 my version 1.4
 commit 15027957951b64cf874c3557a0f3547bd83b3ff6 Merge: 4a447f7&hellip; a6b4c97&hellip;
-Author: Scott Chacon <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x73;&#x63;&#x68;&#x61;&#99;&#x6f;&#x6e;&#x40;&#x67;&#101;&#x65;&#45;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">&#115;&#99;&#104;&#x61;&#99;&#x6f;&#110;&#64;&#x67;&#101;&#101;&#45;&#109;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;</a> Date: Sun Feb 8 19:02:46 2009 -0800
+Author: Scott Chacon <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#99;&#x68;&#97;&#99;&#111;&#110;&#x40;&#x67;&#x65;&#101;&#45;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#109;">&#x73;&#x63;&#x68;&#x61;&#99;&#x6f;&#x6e;&#64;&#x67;&#101;&#x65;&#45;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;</a> Date: Sun Feb 8 19:02:46 2009 -0800
 Merge branch &lsquo;experiment&rsquo;</p>
 
 <p>// 签署标签
 //如果你有自己的私钥,还可以用 GPG 来签署标签,只需要把之前的 -a 改为 -s (译注: 取 Signed 的首
 字母)即可:
 $ git tag -s v1.5 -m &lsquo;my signed 1.5 tag&rsquo;
-You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x63;&#104;&#97;&#x63;&#111;&#110;&#64;&#103;&#x65;&#x65;&#45;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#115;&#x63;&#x68;&#97;&#x63;&#111;&#x6e;&#64;&#x67;&#x65;&#101;&#45;&#109;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#109;</a>&rdquo;
+You need a passphrase to unlock the secret key for user: &ldquo;Scott Chacon <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x73;&#x63;&#x68;&#x61;&#99;&#111;&#110;&#x40;&#103;&#101;&#101;&#45;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;">&#115;&#x63;&#x68;&#97;&#99;&#111;&#x6e;&#64;&#x67;&#x65;&#x65;&#45;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a>&rdquo;
 1024-bit DSA key, ID F721C45A, created 2009-02-09</p>
 
 <p>// 轻量级标签
@@ -1329,11 +1478,11 @@ $ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
 type commit
 tag v1.4.2.1
-tagger Junio C Hamano <a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x6a;&#x75;&#110;&#x6b;&#x69;&#x6f;&#64;&#99;&#111;&#120;&#x2e;&#110;&#x65;&#116;">&#106;&#x75;&#110;&#x6b;&#105;&#x6f;&#x40;&#99;&#111;&#120;&#46;&#x6e;&#101;&#x74;</a> 1158138501 -0700
+tagger Junio C Hamano <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x6a;&#117;&#110;&#107;&#x69;&#x6f;&#x40;&#x63;&#x6f;&#x78;&#46;&#x6e;&#101;&#x74;">&#106;&#117;&#x6e;&#107;&#x69;&#x6f;&#64;&#x63;&#x6f;&#x78;&#46;&#x6e;&#101;&#x74;</a> 1158138501 -0700
 GIT 1.4.2.1
 Minor fixes since 1.4.2, including git-mv and git-http with alternates.
 gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
-gpg: Good signature from &ldquo;Junio C Hamano <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#106;&#x75;&#x6e;&#107;&#x69;&#x6f;&#x40;&#x63;&#111;&#x78;&#x2e;&#110;&#x65;&#116;">&#106;&#117;&#110;&#107;&#x69;&#111;&#x40;&#99;&#111;&#120;&#x2e;&#110;&#101;&#x74;</a>&rdquo;
+gpg: Good signature from &ldquo;Junio C Hamano <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#106;&#117;&#110;&#x6b;&#105;&#111;&#x40;&#x63;&#111;&#x78;&#46;&#x6e;&#101;&#116;">&#106;&#117;&#x6e;&#x6b;&#x69;&#111;&#64;&#99;&#111;&#x78;&#46;&#110;&#x65;&#x74;</a>&rdquo;
 gpg: aka &ldquo;[jpeg image of size 1513]&rdquo;
 Primary key fingerprint: 3565 2A26 2040 E066 C9A7 4A7D C0C6 D9A4 F311 9B9A</p>
 
@@ -1468,276 +1617,6 @@ To jessica@githost:simplegit.git
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[(翻译)Variable-Sized Items in UICollectionView]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/04/variable-sized-items-in-uicollectionview/"/>
-    <updated>2014-11-04T11:27:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/04/variable-sized-items-in-uicollectionview</id>
-    <content type="html"><![CDATA[<h3>基本训练</h3>
-
-<p>我们以“Single View Application”为模板新建一个工程。在ViewController.xib上添加一个UICollectionView让它覆盖整个view。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView01" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView01.png" width="1110" height="783"></p>
-
-<p>Collection View和它的祖父类似，有delegate和dataSource两个outlet,我们把它们连接到“File’s Owner”,这里的“File’s Owner”是ViewController类。这样Collection View的内容和交互就受ViewController控制。我们也需要一个outlet来引用Collection View,所以用Assistant editor增加一个。刚在ViewController.h中添加的outlet property可以是weak，因为作为ViewController的视图的子视图，它也会被充分的保留。</p>
-
-<h3>单元格</h3>
-
-<p>我们需要设计一个Cell原型来显示内容。如果你的Collection View是在View controller’s XIB ,你必须在先在代码中注册Cell才能使用。如果你是在Storyboard中新建的CollectionView，并在CollectionView的区域内创建的原型Cell,那么你就不需要注册Cell identifier了。因为我们并没有从Storyboard中开始，所以需要手动来创建。</p>
-
-<p>我们在Interface Builder中创建一个原型Cell，设置它的背影为白色，添加一个UILabel，添加Label到父视图边缘的约束，分别是5 points的距离。因为我们想让Label的文字来决定它的尺寸，所以选中Label,然后从Editor menu中选择“Size to Fit Content”。后面我们会看到它是否会按照我们想像的那样工作。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView02" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
-
-<p>我们设置Identifier为“TagCell”以便我们能在设计中引用。</p>
-
-<p>这里我们遇到了第一个问题。如果你没有使用Storyboards,并没有办法让Collection View在相同的NIB文件中使用Collection View Cell。有两种可行的方法注册Cell:
-```objective-c</p>
-
-<pre><code>– registerClass:forCellWithReuseIdentifier:
-– registerNib:forCellWithReuseIdentifier:
-</code></pre>
-
-<p>```</p>
-
-<p>方法一为指定的Reuse identifier实例化某个特定的类，如果我们是通过代码来创建Cell的视图层级，我们应该使用这个方法；  <br/>
-方法二需要一个NIB,而且NIB文件中只有Cell一个元素。在Storyboard中使用Collection Views避免了这个麻烦，这是它工作量更小的第二个重要原因。</p>
-
-<p>为了解决这个问题，我们创建一个“empty Interface Builder Document”，命名为TagCollectionViewCell。感激零涕我们可以简单地CMD+X Cell设计从一个ViewController NIB中，然后CMD+V它到一个空的文档中。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView03" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView03.png" width="791" height="229"></p>
-
-<p>下一步我们将试着注册Cell在Collection View中使用，并想看到显示一定数量的元素。</p>
-
-<h3>注册设计的单元格</h3>
-
-<p>任何时候我们想要一个标识符为“TagCell”的Cell都需要注册设计好的NIB文件，所以我们在ViewController.m文件的viewDidLoad中加入如下代码。
-```objective-c</p>
-
-<pre><code>UINib *cellNib = [UINib nibWithNibName:@"TagCollectionViewCell" bundle:nil];
-[self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"TagCell"];
-</code></pre>
-
-<p>```</p>
-
-<p>我们仅需要实现的更多方法属于UICollectionViewDataSource协议，这些方法确保单元格正确显示。</p>
-
-<p>```objective-c</p>
-
-<h1>pragma mark &ndash; UICollectionView</h1>
-
-<ul>
-<li><p>(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
- return 100;
-}</p></li>
-<li><p>(UICollectionViewCell <em>)collectionView:(UICollectionView </em>)collectionView cellForItemAtIndexPath:(NSIndexPath <em>)indexPath
-{
- UICollectionViewCell </em>cell = [collectionView dequeueReusableCellWithReuseIdentifier:@&ldquo;TagCell&rdquo; forIndexPath:indexPath];</p>
-
-<p> return cell;
-}
-```</p></li>
-</ul>
-
-
-<p>现在启动应用，我们看到100个元素全部是使用我们大概还没获奖的设计原型。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView04" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView04.png" width="396" height="744"></p>
-
-<p>一眼就看出所有的元素都拥有相同的大小，准确的50x50 points。这是因为我们没有修改Interface Builder的默认值。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView05" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView05.png" width="261" height="273"></p>
-
-<p>但是在我们为每个元素指定大小之前，让我们首先来完善一下我们的设计。我们移除白色的背影，新建一个TagCollectionViewCell类，并且将它指定为元素的类。</p>
-
-<h3>漂亮的单元</h3>
-
-<p>与其依赖iOS用单元的背影颜色填充整个矩形，我们想用一个圆角的矩形包围我们的标签。</p>
-
-<p>```objective-c
-&ndash; (void)drawRect:(CGRect)rect
-{
-   // inset by half line width to avoid cropping where line touches frame edges
-   CGRect insetRect = CGRectInset(rect, 0.5, 0.5);
-   UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:insetRect cornerRadius:rect.size.height/2.0];</p>
-
-<p>   // white background
-   [[UIColor whiteColor] setFill];
-   [path fill];</p>
-
-<p>   // red outline
-   [[UIColor redColor] setStroke];
-   [path stroke];
-}
-```</p>
-
-<p>注意：你需要设置单元的contentMode为redraw,否则修改单元的大小不会触发重绘这个漂亮的背影。</p>
-
-<p>结果看起来像下面这样，有部分黑色的背影发光渗透。注意我们需要轻微缩进一点再绘画轮廓，因为Quartz将裁剪红色圆圈靠近视图边界的部分。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView06" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView06.png" width="394" height="110"></p>
-
-<p>下一步是让单元的大小适合现在标签的内容。</p>
-
-<h3>逐个元素指定大小</h3>
-
-<p>当然我们并不满足用1）一个静态值指定所有的元素大小，所以2）想让大小随我们单元的内容自动调整。还记得我们指定元素标签依靠文本大小来决定自身大小吗？视图的边缘距离标签的边缘是固定的5 points。因此如果有一种方法能得到元素的实际大小，那将十分酷。更酷的是如果我们能告诉collection view用这些值来指定元素的大小。</p>
-
-<p>LLDB的一个快速测试表明元素返回一个-1，-1的固定内容大小值，这个未定义是一样的。我们在TagCollectionViewCell的头文件中为Label加一个outlet,以便我们能找到UILabel返回它们显示当前文本需要的大小。</p>
-
-<p>因为我们知道约束四周的空白，我们把它们和Label的固定内容大小相加就得到了元素的大小。
-```objective-c
-// cache for margins configured via constraints in XIB
-static CGSize _extraMargins = {0,0};</p>
-
-<p>@implementation TagCollectionViewCell</p>
-
-<ul>
-<li><p>(CGSize)intrinsicContentSize
-{
- CGSize size = [self.label intrinsicContentSize];</p>
-
-<p> if (CGSizeEqualToSize(<em>extraMargins, CGSizeZero))
- {
-    // quick and dirty: get extra margins from constraints
-    for (NSLayoutConstraint *constraint in self.constraints)
-    {
-       if (constraint.firstAttribute == NSLayoutAttributeBottom || constraint.firstAttribute == NSLayoutAttributeTop)
-       {
-          // vertical spacer
-          </em>extraMargins.height += [constraint constant];
-       }
-       else if (constraint.firstAttribute == NSLayoutAttributeLeading || constraint.firstAttribute == NSLayoutAttributeTrailing)
-       {
-          // horizontal spacer
-          _extraMargins.width += [constraint constant];
-       }
-    }
- }</p>
-
-<p> // add to intrinsic content size of label
- size.width += <em>extraMargins.width;
- size.height += </em>extraMargins.height;</p>
-
-<p> return size;
-}</p></li>
-</ul>
-
-
-<p>@end
-```</p>
-
-<p>该方法从我们在Interface Builder设置的约束中得到实际的留白宽度。它允许我们在IB中调整大小而不需要在代码中改变常量或宏定义。因为我们不打算修改任何约束，只是在方法第一次被调用时懒散的设置一个静态_extraMargins作为常量。</p>
-
-<p>现在困难的部分是从Collection view中出列一个元素并得到大小。它之所以困难是因为方法会调用数据源的collectionView:cellForItemAtIndexPath:，还会调用collectionView:layout:sizeForItemAtIndexPath:方法。这里禁止我们从后一种方法中出列一个元素，否则会导致无限循环。</p>
-
-<p>有些人从模型对象中得到数据，然后cell有一个类方法来计算需要的大小。然而这没有利用我们想要在Interface Builder中设置的约束。对于这个先有鸡还是先有蛋的问题，我能想到的最简便的方法是使用一个单独的元素作为模板，然后使用它新鲜出炉的intrinsicContentSize方法。</p>
-
-<p>```objective-c
-@implementation ViewController
-{
-   TagCollectionViewCell *_sizingCell;
-}</p>
-
-<ul>
-<li><p>(void)viewDidLoad
-{
- [super viewDidLoad];</p>
-
-<p> UINib *cellNib = [UINib nibWithNibName:@&ldquo;TagCollectionViewCell&rdquo; bundle:nil];
- [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@&ldquo;TagCell&rdquo;];</p>
-
-<p> // get a cell as template for sizing
- _sizingCell = [[cellNib instantiateWithOwner:nil options:nil] objectAtIndex:0];
-}</p></li>
-</ul>
-
-
-<h1>pragma mark &ndash; UICollectionView</h1>
-
-<ul>
-<li><p>(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
- return 100;
-}</p></li>
-<li><p>(void)_configureCell:(TagCollectionViewCell <em>)cell forIndexPath:(NSIndexPath </em>)indexPath
-{
- if (indexPath.row%2)
- {
-    cell.label.text = @&ldquo;A&rdquo;;
- }
- else if (indexPath.row%3)
- {
-    cell.label.text = @&ldquo;longer&rdquo;;
- }
- else
- {
-    cell.label.text = @&ldquo;much longer&rdquo;;
- }
-}</p></li>
-<li><p>(UICollectionViewCell <em>)collectionView:(UICollectionView </em>)collectionView cellForItemAtIndexPath:(NSIndexPath <em>)indexPath
-{
- TagCollectionViewCell </em>cell = [collectionView dequeueReusableCellWithReuseIdentifier:@&ldquo;TagCell&rdquo; forIndexPath:indexPath];</p>
-
-<p> [self _configureCell:cell forIndexPath:indexPath];</p>
-
-<p> return cell;
-}</p></li>
-<li><p>(CGSize)collectionView:(UICollectionView <em>)collectionView layout:(UICollectionViewLayout</em>)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
- [self <em>configureCell:</em>sizingCell forIndexPath:indexPath];</p>
-
-<p> return [_sizingCell intrinsicContentSize];
-}</p></li>
-</ul>
-
-
-<p>@end
-```</p>
-
-<p>为Collection view注册了NIB之后，我创建了个元素实例并赋值给了我的实例变量 <em>sizingCell。为了得到实际元素单元，我们有一个 </em>configureCell:forIndexPath:方法，它作用于出列可复用的实例上。为了计算大小，我们应用这个相同的方法到我们的sizing cell,以便我们得到正确的intrinsicContentSize。</p>
-
-<h3>Once More With Auto Layout</h3>
-
-<p>当我救助我的推友们关于如何得到基于约束的元素的大小，<a href="https://twitter.com/pilky">Martin Pilkington</a>迅速将我指向-systemLayoutSizeFittingSize:。一开始在应用中失败了，得到的全是{0,0}。但是当我写完上述解决办法，沉下心来又试了一次。</p>
-
-<p>这一次它正常工作了。所需要做的是替换下面方法：
-```objective-c
-&ndash; (CGSize)collectionView:(UICollectionView <em>)collectionView layout:(UICollectionViewLayout</em>)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-   [self <em>configureCell:</em>sizingCell forIndexPath:indexPath];</p>
-
-<p>   return [_sizingCell systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-}
-```</p>
-
-<p>这个方法决定一个最接近传入大小的布局大小。两个标准值都可行，UILayoutFittingCompressedSize得到基于布局的最小大小，UILayoutFittingExpandedSize得到最大大小。</p>
-
-<p>有了它我们可以很愉快地利用我们之前在intrinsicContentSize做的工作。我们也可以完全使用布局约束来进一步限制元素各个部分的大小。例如说：你可能想要短标签不要窄于某个宽度；如果某个标签太长了就让它截断。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView07" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView07.png" width="394" height="214"></p>
-
-<p>结果如下，证明确实是我们想要的。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView08" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView08.png" width="396" height="744"></p>
-
-<p>是不是很酷？让我们再强调一次：你不需要在Cell方法中计算大小，本质是重复了auto layout将要执行的计算。你只需要向系统要。</p>
-
-<h3>总结</h3>
-
-<p>在这篇博文中，我向你展示了如何为Collection view创建一个来自NIB的Cell。备选方法是在Storyboard中使用Collection view，它在某些方面更方便。这些Cell没有放在单独的XIB文件中，但是是在Collection view的结构层级中。探索如何得到一个sizing cell就作为练习留给读者了。</p>
-
-<p>我们发现UILabel暴露一个intrinsicContentSize方法十分方便，如果你在Interface Builder指定了auto layout，它会用来计算大小。我们探索了一种方法，它使用一个cell实例作为模板来决定最佳的元素大小。然后我们更进一步运用了一个方法告诉我们基于布局约束和固定内容大小的完美尺寸。</p>
-
-<p>例子的代码放在GitHub的<a href="https://github.com/Cocoanetics/Examples">Cocoanetics Examples</a> 仓库中。</p>
-
-<h3>原文</h3>
-
-<p><a href="http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/">http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/</a></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-18T14:19:16+08:00</updated>
+  <updated>2014-11-23T23:00:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS App 数据持久化]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/13/ios-app-data-persistence/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-data-persistence.html/"/>
     <updated>2014-11-13T15:06:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/13/ios-app-data-persistence</id>
+    <id>http://DamianSheldon.github.io/blog/ios-app-data-persistence</id>
     <content type="html"><![CDATA[<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
 
 <p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
@@ -38,41 +38,46 @@
 </div>
 
 
+
+
+<!-- more -->
+
+
 <p>iOS应用常用的目录列表：</p>
 
 <table>
 <thead>
 <tr>
 <th></th>
-<th> Directory </th>
-<th> Description </th>
+<th align="left"> Directory </th>
+<th align="left"> Description </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
-<td> AppName.app </td>
-<td> This is the app’s bundle</td>
+<td align="left"> AppName.app </td>
+<td align="left"> This is the app’s bundle</td>
 </tr>
 <tr>
 <td></td>
-<td> Documents/ </td>
-<td> Use this directory to store user-generated content.</td>
+<td align="left"> Documents/ </td>
+<td align="left"> Use this directory to store user-generated content.</td>
 </tr>
 <tr>
 <td></td>
-<td> Documents/Inbox </td>
-<td> Use this directory to access files that your app was asked to open by outside entities.</td>
+<td align="left"> Documents/Inbox </td>
+<td align="left"> Use this directory to access files that your app was asked to open by outside entities.</td>
 </tr>
 <tr>
 <td></td>
-<td> Library/ </td>
-<td> This is the top-level directory for any files that are not user data files.</td>
+<td align="left"> Library/ </td>
+<td align="left"> This is the top-level directory for any files that are not user data files.</td>
 </tr>
 <tr>
 <td></td>
-<td> tmp/ </td>
-<td> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
+<td align="left"> tmp/ </td>
+<td align="left"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
 </tr>
 </tbody>
 </table>
@@ -135,7 +140,7 @@
 <h1>Reference</h1>
 
 <p>File System Programming Guide <br/>
-Property List Programming Guide
+Property List Programming Guide   <br/>
 Archives and Serializations Programming Guide  <br/>
 <a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
 <a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
@@ -145,9 +150,9 @@ Archives and Serializations Programming Guide  <br/>
   
   <entry>
     <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing/"/>
+    <link href="http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing.html/"/>
     <updated>2014-11-12T16:06:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/12/key-value-coding-and-key-value-observing</id>
+    <id>http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing</id>
     <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
 
 <ol>
@@ -186,6 +191,9 @@ Archives and Serializations Programming Guide  <br/>
 <p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
 
 <p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+<!-- more -->
+
 
 <h4>使用key-value coding读取attribute值</h4>
 
@@ -339,9 +347,9 @@ Key-Value Observing Programming Guide</p>
   
   <entry>
     <title type="html"><![CDATA[(翻译)iOS 设计模式]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/10/ios-design-patterns/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-design-patterns.html/"/>
     <updated>2014-11-10T08:35:43+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/10/ios-design-patterns</id>
+    <id>http://DamianSheldon.github.io/blog/ios-design-patterns</id>
     <content type="html"><![CDATA[<p>iOS设计模式&mdash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
 
 <p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
@@ -375,6 +383,11 @@ Key-Value Observing Programming Guide</p>
 <img name="finalapp-180x320" src="http://DamianSheldon.github.io/images/finalapp-180x320.png" width="180" height="320">  
 
 </div>
+
+
+
+
+<!-- more -->
 
 
 <h3>开始吧</h3>
@@ -1079,9 +1092,9 @@ Key-Value Observing Programming Guide</p>
   
   <entry>
     <title type="html"><![CDATA[为MacBook Pro配置一个像guake的终端]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/07/setup-iterm2-to-behave-like-guake/"/>
+    <link href="http://DamianSheldon.github.io/blog/setup-iterm2-to-behave-like-guake.html/"/>
     <updated>2014-11-07T10:31:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/07/setup-iterm2-to-behave-like-guake</id>
+    <id>http://DamianSheldon.github.io/blog/setup-iterm2-to-behave-like-guake</id>
     <content type="html"><![CDATA[<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
 
 <h3>让iTerm2的行为像guake</h3>
@@ -1099,6 +1112,9 @@ Key-Value Observing Programming Guide</p>
 <p>5)在Keys选项中激活&#8221;Show/hide iTerm2 with a system-wide hotkey&#8221;,由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
 
 <p><img name="assign_a_hotkey" src="http://DamianSheldon.github.io/images/assign_a_hotkey.png" width="897" height="528"></p>
+
+<!-- more -->
+
 
 <h3>开机启动iTerm2时不打开终端窗口</h3>
 
@@ -1126,9 +1142,9 @@ Key-Value Observing Programming Guide</p>
   
   <entry>
     <title type="html"><![CDATA[Git 小结]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/05/git-summary/"/>
+    <link href="http://DamianSheldon.github.io/blog/git-summary.html/"/>
     <updated>2014-11-05T10:13:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/05/git-summary</id>
+    <id>http://DamianSheldon.github.io/blog/git-summary</id>
     <content type="html"><![CDATA[<h1>Git</h1>
 
 <ol>
@@ -1159,6 +1175,9 @@ Key-Value Observing Programming Guide</p>
 <h3>安装Git</h3>
 
 <p>安装Git主要有两种方法：一种是通过编译源代码来安装;另一种是使用为特定平台预编译好的安装包。</p>
+
+<!-- more -->
+
 
 <h3>在服务器上布署Git</h3>
 
@@ -2114,9 +2133,9 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
   
   <entry>
     <title type="html"><![CDATA[(翻译)Variable-Sized Items in UICollectionView]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/04/variable-sized-items-in-uicollectionview/"/>
+    <link href="http://DamianSheldon.github.io/blog/variable-sized-items-in-uicollectionview.html/"/>
     <updated>2014-11-04T11:27:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/04/variable-sized-items-in-uicollectionview</id>
+    <id>http://DamianSheldon.github.io/blog/variable-sized-items-in-uicollectionview</id>
     <content type="html"><![CDATA[<h3>基本训练</h3>
 
 <p>我们以“Single View Application”为模板新建一个工程。在ViewController.xib上添加一个UICollectionView让它覆盖整个view。</p>
@@ -2134,6 +2153,9 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 <p><img name="Variable-Sized_Items_in_UICollectionView02" src="http://DamianSheldon.github.io/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
 
 <p>我们设置Identifier为“TagCell”以便我们能在设计中引用。</p>
+
+<!-- more -->
+
 
 <p>这里我们遇到了第一个问题。如果你没有使用Storyboards,并没有办法让Collection View在相同的NIB文件中使用Collection View Cell。有两种可行的方法注册Cell:</p>
 
@@ -2501,9 +2523,9 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
   
   <entry>
     <title type="html"><![CDATA[iTunes 歌曲信息乱码的解决办法]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes/"/>
+    <link href="http://DamianSheldon.github.io/blog/music-import-from-windows-text-display-garbled-in-itunes.html/"/>
     <updated>2014-11-03T10:23:29+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/11/03/music-import-from-windows-text-display-garbled-in-itunes</id>
+    <id>http://DamianSheldon.github.io/blog/music-import-from-windows-text-display-garbled-in-itunes</id>
     <content type="html"><![CDATA[<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
 1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
 2)安装Mutagen;</p>
@@ -2531,9 +2553,9 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
   
   <entry>
     <title type="html"><![CDATA[Auto Layout]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/10/19/auto-layout/"/>
+    <link href="http://DamianSheldon.github.io/blog/auto-layout.html/"/>
     <updated>2014-10-19T17:43:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/10/19/auto-layout</id>
+    <id>http://DamianSheldon.github.io/blog/auto-layout</id>
     <content type="html"><![CDATA[<h3>前言</h3>
 
 <p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
@@ -2545,6 +2567,9 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 
 <p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
   你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
+
+<!-- more -->
+
 
 <h4>Constraint &mdash; 约束</h4>
 
@@ -2593,9 +2618,9 @@ WWDC2012 session 232 – Auto Layout by Example<br/>
   
   <entry>
     <title type="html"><![CDATA[iOS Development--Certificates, Provisioning Profiles]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-certificates.html/"/>
     <updated>2014-10-09T16:24:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/10/09/ios-development-certificates</id>
+    <id>http://DamianSheldon.github.io/blog/ios-development-certificates</id>
     <content type="html"><![CDATA[<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
 
 <p><img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573"></p>
@@ -2620,6 +2645,9 @@ App Store Distribution Provisioning profile
 iPhone Distribution Certificate
 Ad Hoc Distribution Provisioning profile
 </code></pre>
+
+<!-- more -->
+
 
 <h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
 
@@ -2651,9 +2679,9 @@ Ad Hoc Distribution Provisioning profile
   
   <entry>
     <title type="html"><![CDATA[在Mac OSX Mavericks上安装和配置Openfire]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks/"/>
+    <link href="http://DamianSheldon.github.io/blog/install-and-configure-openfire-on-mac-osx-mavericks.html/"/>
     <updated>2014-09-11T09:15:32+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/09/11/install-and-configure-openfire-on-mac-osx-mavericks</id>
+    <id>http://DamianSheldon.github.io/blog/install-and-configure-openfire-on-mac-osx-mavericks</id>
     <content type="html"><![CDATA[<h3>安装</h3>
 
 <p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
@@ -2669,9 +2697,9 @@ Ad Hoc Distribution Provisioning profile
   
   <entry>
     <title type="html"><![CDATA[Core Animation 笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/09/03/core-animation-bi-ji/"/>
+    <link href="http://DamianSheldon.github.io/blog/core-animation-bi-ji.html/"/>
     <updated>2014-09-03T09:59:58+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/09/03/core-animation-bi-ji</id>
+    <id>http://DamianSheldon.github.io/blog/core-animation-bi-ji</id>
     <content type="html"><![CDATA[<h2>Core Animation介绍</h2>
 
 <blockquote><p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app. &mdash; Apple</p></blockquote>
@@ -2732,6 +2760,9 @@ Ad Hoc Distribution Provisioning profile
 </tr>
 </tbody>
 </table>
+
+
+<!-- more -->
 
 
 <h2>如何使用Core Animation?</h2>
@@ -2865,9 +2896,9 @@ Layer 中自定义属性的动画(<a href="http://objccn.io/issue-12-2/">http://
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发遇到的问题]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti/"/>
+    <link href="http://DamianSheldon.github.io/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/"/>
     <updated>2014-08-25T17:09:49+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/08/25/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti</id>
+    <id>http://DamianSheldon.github.io/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti</id>
     <content type="html"><![CDATA[<p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
 
 <p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
@@ -2886,6 +2917,9 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 <p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck &ndash; Adjust scroll view insets</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
+
+<!-- more -->
+
 
 <p>问题描述：SVN更新Cocoapods管理的第三方包的Xcode工程报错。</p>
 
@@ -2916,9 +2950,9 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
   
   <entry>
     <title type="html"><![CDATA[(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/"/>
+    <link href="http://DamianSheldon.github.io/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/"/>
     <updated>2014-07-28T16:05:38+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6</id>
+    <id>http://DamianSheldon.github.io/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6</id>
     <content type="html"><![CDATA[<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
 当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
 
@@ -2927,6 +2961,9 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 <h3>当方法被废弃了</h3>
 
 <p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+
+<!-- more -->
+
 
 <h3>如何处理废弃的方法</h3>
 
@@ -3003,9 +3040,9 @@ o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-wi
   
   <entry>
     <title type="html"><![CDATA[Swift Learning Notes -- Properties]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-properties/"/>
+    <link href="http://DamianSheldon.github.io/blog/swift-learning-notes-properties.html/"/>
     <updated>2014-06-24T15:28:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-properties</id>
+    <id>http://DamianSheldon.github.io/blog/swift-learning-notes-properties</id>
     <content type="html"><![CDATA[<h3>Properties</h3>
 
 <p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
@@ -3024,6 +3061,9 @@ NOTE:Unlike stored instance properties, you must always give stored type propert
 
 <p>2)Reference Type Properties (keyword: class)<br/>
 class只可以定义Computed type properties.</p>
+
+<!-- more -->
+
 
 <h4>Instance Properties</h4>
 
@@ -3048,9 +3088,9 @@ didSet is called immediately after the new value is stored.</p>
   
   <entry>
     <title type="html"><![CDATA[Swift Learning Notes -- Initialization]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-initialization/"/>
+    <link href="http://DamianSheldon.github.io/blog/swift-learning-notes-initialization.html/"/>
     <updated>2014-06-24T11:33:28+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/06/24/swift-learning-notes-initialization</id>
+    <id>http://DamianSheldon.github.io/blog/swift-learning-notes-initialization</id>
     <content type="html"><![CDATA[<h3>Initialization</h3>
 
 <p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
@@ -3073,6 +3113,9 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
 
 <pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
 </code></pre>
+
+<!-- more -->
+
 
 <h3>Reference Type Initialization</h3>
 
@@ -3100,9 +3143,9 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
   
   <entry>
     <title type="html"><![CDATA[Core Data 初步]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/22/core-data-chu-bu/"/>
+    <link href="http://DamianSheldon.github.io/blog/core-data-chu-bu.html/"/>
     <updated>2014-05-22T09:53:40+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/22/core-data-chu-bu</id>
+    <id>http://DamianSheldon.github.io/blog/core-data-chu-bu</id>
     <content type="html"><![CDATA[<ol>
 <li>Core Data是什么？</li>
 <li>为什么使用Core Data?</li>
@@ -3127,6 +3170,9 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
 <li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
 <li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
 </ul>
+
+
+<!-- more -->
 
 
 <blockquote><p>There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.</p></blockquote>
@@ -3295,9 +3341,9 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
   
   <entry>
     <title type="html"><![CDATA[iOS Concurrency Programming--GCD]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-concurrency-programming-gcd.html/"/>
     <updated>2014-05-21T11:40:27+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/21/ios-concurrency-programming-gcd</id>
+    <id>http://DamianSheldon.github.io/blog/ios-concurrency-programming-gcd</id>
     <content type="html"><![CDATA[<h2>GCD是什么？</h2>
 
 <p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
@@ -3336,6 +3382,9 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
 </span><span class='line'><span class="n">dispatch_apply_f</span>
 </span><span class='line'><span class="n">dispatch_once</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
 
 
 <p>调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:</p>
@@ -3560,16 +3609,198 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
 
 <h2>Reference</h2>
 
+<p>o Concurrency Programming Guide  <br/>
+o <a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">Grand Central Dispatch In-Depth: Part &frac12;</a> <br/>
+o <a href="http://www.raywenderlich.com/63338/grand-central-dispatch-in-depth-part-2">Grand Central Dispatch In-Depth: Part 2/2</a>
+o <a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">iOS多线程编程Part 3/3 &ndash; GCD</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Concurrency Programming--Operation]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-concurrency-programming-operation.html/"/>
+    <updated>2014-05-20T09:31:07+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-concurrency-programming-operation</id>
+    <content type="html"><![CDATA[<p>Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。</p>
+
+<h2>Foundation框架中的Operation类</h2>
+
+<ol>
+<li>NSInvocationOperation类方便我们基于应用的对象和选择器创建operation对象。</li>
+<li>NSBlockOperation类方便我们同时执行一个或多个block对象。</li>
+<li>NSOperation类是自定义operation对象的基类。</li>
+</ol>
+
+
+<h2>并发 VS 非并发Operation</h2>
+
+<ol>
+<li>并发Operation是指Operation在调用线程中同步运行的。</li>
+<li>非并发Operation是指Operation与调用线程是异步运行的。</li>
+</ol>
+
+
+<h2>创建一个NSInvocationOperation对象</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span>
+</span><span class='line'>                    <span class="nl">selector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod:</span><span class="p">)</span> <span class="nl">object:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Perform the task.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h2>创建一个NSBlockOperation对象</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSBlockOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBlockOperation</span> <span class="nl">blockOperationWithBlock:</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Beginning operation.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="c1">// Do some work.</span>
+</span><span class='line'>   <span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>定义一个专属的Operation对象</h2>
+
+<h3>非并发Operation对象</h3>
+
+<p>对于非并发Operation，你所必须要做的是执行主任务和合适地响应取消事件。</p>
+
+<ol>
+<li><p>执行主任务；
+每个Operation对象至少应该实现下面所列的方法：</p>
+
+<ul>
+<li>自定义的初始化方法</li>
+<li>main</li>
+</ul>
+</li>
+<li><p>合适地响应取消事件。
+在Operation对象中为了支持取消，你所必须要做的是从自己的代码中周期性调用对象的isCancelled方法，如果它返回YES,那么立即返回。当你设计自己的Operation对象时，你应该考虑在你代码的下列位置调用isCancelled方法。</p>
+
+<ul>
+<li>在执行真正的任务之前立即调用；</li>
+<li>在循环的每一次迭代中至少调用一次，或者更频繁，如果每次迭代相对比较长；</li>
+<li>在你代码中相对比较容易中止Operation的任何点。</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>并发Operation对象</h3>
+
+<p>对于并发Operation，你必须用你的自定义代码替换现有的结构。
+并发Operation需要覆盖的方法</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> 方法 </th>
+<th> 描述  </th>
+<th>    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> start         </td>
+<td> (必须的)     </td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td> main          </td>
+<td> (可选的） </td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td> isExecuting   </td>
+<td> (必须的)   </td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td> isFinished    </td>
+<td> (必须的)   </td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td> isConcurrent  </td>
+<td> (必须的)    </td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>自定义Operation对象的执行行为</h2>
+
+<ul>
+<li>配置内部Operation依赖；</li>
+<li>改变对象的执行优先级；</li>
+<li>改变底层的线程优先级；</li>
+<li>设置完成block.</li>
+</ul>
+
+
+<h2>执行Operation的方法</h2>
+
+<ol>
+<li>把Operations加入到Operation Queues;</li>
+<li>手动执行Operations.</li>
+</ol>
+
+
+<h2>辨析Start和main方法</h2>
+
+<blockquote><p>start &mdash; Begins the execution of the operation.   <br/>
+main &mdash; Performs the receiver’s non-concurrent task.</p></blockquote>
+
+<p>刚接触NSOperation时，对start和main有点混淆，上面的描述能够清晰地区分它们。无论是手动调用Operation还是把它加入到Operation Queue,首先都会调用start。当我们的Operation是非并发的，我们可以在main中定义我们的任务，也就是可以不用覆盖start方法，而Operation是并发的时候就需要覆盖start方法了，但这时是否覆盖main方法是可选的。</p>
+
+<h2>Reference</h2>
+
 <p>o Concurrency Programming Guide<br/>
-o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/</a></p>
+o <a href="http://www.raywenderlich.com/19788/how-to-use-nsoperations-and-nsoperationqueues">How To Use NSOperations and NSOperationQueues</a>   <br/>
+o <a href="http://www.hrchen.com/2013/06/multi-threading-programming-of-ios-part-2/">iOS多线程编程Part 2/3 &ndash; NSOperation</a></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS的绘图系统]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/19/iosde-hui-tu-xi-tong/"/>
+    <link href="http://DamianSheldon.github.io/blog/iosde-hui-tu-xi-tong.html/"/>
     <updated>2014-05-19T16:47:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/19/iosde-hui-tu-xi-tong</id>
+    <id>http://DamianSheldon.github.io/blog/iosde-hui-tu-xi-tong</id>
     <content type="html"><![CDATA[<h2>iOS的绘图框架</h2>
 
 <p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
@@ -3587,6 +3818,9 @@ o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/
 3)Bitmap<br/>
 4)PDF<br/>
 5)Printer</p>
+
+<!-- more -->
+
 
 <h2>Drawing to a View Graphics Context in iOS</h2>
 
@@ -3782,9 +4016,9 @@ o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.i
   
   <entry>
     <title type="html"><![CDATA[iOS UIWebView与JavaScript交互]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu/"/>
+    <link href="http://DamianSheldon.github.io/blog/ios-uiwebviewyu-javascriptjiao-hu.html/"/>
     <updated>2014-05-14T11:05:53+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/14/ios-uiwebviewyu-javascriptjiao-hu</id>
+    <id>http://DamianSheldon.github.io/blog/ios-uiwebviewyu-javascriptjiao-hu</id>
     <content type="html"><![CDATA[<h2>1.UIWebView调用JavaScript</h2>
 
 <h3>1.1调用html中已有的JavaScript function</h3>
@@ -3820,6 +4054,9 @@ o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.i
 </span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
 </span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
 
 
 <h2>2.JavaScript调用Objective-C Method</h2>
@@ -3901,105 +4138,6 @@ o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.i
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Property Values]]></title>
-    <link href="http://DamianSheldon.github.io/blog/2014/05/10/property-values/"/>
-    <updated>2014-05-10T14:41:40+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/2014/05/10/property-values</id>
-    <content type="html"><![CDATA[<p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
-
-<p> Property的attribute关键字有以下几类：<br/>
- 1）API Control；</p>
-
-<pre><code>getter = methodname
-setter = mehtodname:
-</code></pre>
-
-<p> 2）Write Serialization(not general thread safety);</p>
-
-<pre><code>nonatomic
-atomic (default)
-</code></pre>
-
-<p> 3) Mutability;</p>
-
-<pre><code>readonly
-readwrite (default)
-</code></pre>
-
-<p> 4) Memory Management(ARC);</p>
-
-<pre><code>copy
-strong (default)
-weak
-unsafe_unretained
-assign
-</code></pre>
-
-<p> 5) Memory Management(Traditional)</p>
-
-<pre><code>copy
-retain
-assign (default)
-</code></pre>
-
-<h2>API Control</h2>
-
-<p>@property声明实际上是存取方法的快速声明。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSObject</span> <span class="o">*</span><span class="n">propertyName</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编辑器最终会合成存取方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">propertyName</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPropertyName:</span><span class="p">(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>默认的getter和setter方法名分别是propertyName,setPropertyName。可以通过API Control提供的关键字指定存取方法名。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">enabled</span><span class="p">;</span>                                  <span class="c1">// default is YES. if NO, ignores touch events and subclasses may draw differently</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isSelected</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">selected</span><span class="p">;</span>                                <span class="c1">// default is NO may be used by some subclasses or by application</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">getter</span><span class="o">=</span><span class="n">isHighlighted</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">highlighted</span><span class="p">;</span>                          <span class="c1">// default is NO. this gets set/cleared </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Write Serialization(not general thread safety)</h2>
-
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合，它并不是通常所指的线程安全。访问atomic修饰的property会比atomic修饰的property慢，这也很明显，因为要做一些额外的操作确保赋值操作是串行的。</p>
-
-<h2>Mutability</h2>
-
-<p>readonly和readwrite容易理解，就是限定property的访问权限。</p>
-
-<h2>Memory Management(ARC)</h2>
-
-<p>1)assign，普通赋值，不更改引用计数。适用于标量等非对象数据类型，如char, int ,float, double, NSUinteger, NSInteger等。</p>
-
-<p>2)copy,在内存分配一块全新的地址来存放传入的数据内容，即创建一份新的数据副本用来赋值。适用于实现了NSCoping协议的对象，其他类型的对象声明copy无效。</p>
-
-<p>3)strong(=retain)，强引用，ARC下对象默认内存管理声明关键字，对象引用计数+1。</p>
-
-<p>4)weak,弱引用，持有对象引用计数不变，持有对象释放时，指向的地址为nil。</p>
-
-<p>5)unsafe_unretained,和weak类似，区别是持有对象释放时成为野指针,访问它会造成程序crash(iOS5.0 Or higher不要使用它)。</p>
-
-<h2>Memory Management(Traditional)</h2>
-
-<h2>Reference</h2>
-
-<p>o Property Values <a href="http://www.bignerdranch.com/blog/property-values/?replytocom=740600">http://www.bignerdranch.com/blog/property-values/?replytocom=740600</a></p>
 ]]></content>
   </entry>
   

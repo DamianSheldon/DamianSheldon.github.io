@@ -57,43 +57,32 @@ $(document).ready(
 </script>
 
 	
-    
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-         
-         ga('create', 'UA-52345084-1', 'auto');
-         ga('send', 'pageview');
-     
-    </script>
-
-
 </head>
 
 
+
 <body>
-    <header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+	<header id="header" class="inner"><!-- System header -->
+<h1><a href="/">Hello World</a></h1>
 <h4>Here's where it all happens for me.</h4>
 <nav id="main-nav"><ul>
-    <li><a href="/">Home</a></li>
-	<li><a href="/archives">Archive</a></li>
-	<li><a href="/ios-development">iOS Development</a></li>
-	<li><a href="/about">About</a></li>
-
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/about">About</a></li>
 </ul>
+<!-- System navigation -->
 </nav>
 <nav id="mobile-nav">
 	<div class="alignleft menu">
 		<a class="button">Menu</a>
 		<div class="container"><ul>
-    <li><a href="/">Home</a></li>
-	<li><a href="/archives">Archive</a></li>
-	<li><a href="/ios-development">iOS Development</a></li>
-	<li><a href="/about">About</a></li>
-
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/about">About</a></li>
 </ul>
+<!-- System navigation -->
 </div>
 	</div>
 	<div class="alignright search">
@@ -109,107 +98,48 @@ $(document).ready(
 
 
 </header>
-    
-    
-    
-    <div id="content" class="inner">
+
+	<div id="content" class="inner">
 
 
     <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">
-            
-            (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
-        </h2>
-<div class="entry-content">
-    <p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
-当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
-
-<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
-
-<h3>当方法被废弃了</h3>
-
-<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
-
-<h3>如何处理废弃的方法</h3>
-
-<p>已经被废弃的方法在新的iOS版本上仍然可以工作。Apple趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
-
-<p>今天的例子，我们会看下 locationManager:didUpdateToLocation:fromLocation:方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。</p>
+	<h2 class="title">
+		
+		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html/">
+		
+			iTunes 歌曲信息乱码的解决办法</a>
+	</h2>
+	<div class="entry-content">
+		<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
+1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
+2)安装Mutagen;</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
+</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>为了兼容iOS 5,我们可以加入旧的方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>，并在旧的方法中调用新的方法，代码看起来会像这样：</p>
+<p>3)先将所有歌曲备份，防止操作出错；<br/>
+4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">newLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">CLLocation</span> <span class="o">*</span><span class="n">oldLocation</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="nl">objectAtIndex:</span><span class="n">locations</span><span class="p">.</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">oldLocation</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didUpdateToLocation %@ from %@&quot;</span><span class="p">,</span> <span class="n">newLocation</span><span class="p">,</span> <span class="n">oldLocation</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">userLocation</span> <span class="o">=</span> <span class="n">MKCoordinateRegionMakeWithDistance</span><span class="p">(</span><span class="n">newLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">regionsMapView</span> <span class="nl">setRegion:</span><span class="n">userLocation</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="n">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateToLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">newLocation</span> <span class="nf">fromLocation:</span><span class="p">(</span><span class="n">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLocation</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">locationManager:</span><span class="n">locationManager</span> <span class="nl">didUpdateLocations:</span><span class="p">[[</span><span class="n">NSArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithObjects:</span><span class="n">newLocation</span><span class="p">,</span> <span class="nb">nil</span><span class="p">]];</span>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>如果是iOS5，新的方法不会被调用，它就像自定义的方法，iOS5并不知道locationManager:didUpdateLocations:事实上是什么。旧的方法简单的alloc/init新的名为currentLocation的NSArray并且使用 initWithObjects:newLocation获取一个newLocation,然后NSArray作为信息被传递到locationManager新的方法。</p>
+<p>5)将iTunes中的音乐清空，重新添加。</p>
 
-<p>总之，如果设备是iOS5,旧的方法locationManager:didUpdateToLocation:fromLocation: 告诉代理新的位置可用，它把CLLocation加到NSArray中传递给新的方法，但设备的操作系统并不知道新方法。</p>
+<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
 
-<p>如果使用的是iOS6,我们从CLLocationManagerDelegate的头文件中了解到如果代码中既有旧方法又有新方法，那么iOS会调用新方法通知代理位置更新了。</p>
-
-<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和关文件，因为Apple添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
-
-<p>原文<br/>
-o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
-
-    
-    
-</div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -221,76 +151,48 @@ o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-wi
   
 
 
-<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
-    <div class="tags">
+<time datetime="2014-11-03T10:23:29+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time></div>
+	
 
+<div class="tags">
 
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
-    <div class="comments"><a href="/blog/2014/07/28/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
 
-    
-</div>
-</article>
+
+	
+</div></article>
 
 
     <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/06/24/swift-learning-notes-properties/">
-            
-            Swift Learning Notes &#8211; Properties</a>
-        </h2>
-<div class="entry-content">
-    <h3>Properties</h3>
+	<h2 class="title">
+		
+		<a href="/blog/auto-layout.html/">
+		
+			Auto Layout</a>
+	</h2>
+	<div class="entry-content">
+		<h3>前言</h3>
 
-<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
+<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
 
-<h4>Type Properties</h4>
+<h3>Auto Layout 是什么</h3>
 
-<p>属于类型本身的properties称为Type Property.</p>
+<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
+  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
 
-<p>1)Value Type Properties (keyword: static)<br/>
-structrue, enumeration可以定义Stroed 和Computed type properties.</p>
+<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
+  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
 
-<p>Stored type properties for value types can be variables or constants.<br/>
-NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
 
-<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
-
-<p>2)Reference Type Properties (keyword: class)<br/>
-class只可以定义Computed type properties.</p>
-
-<h4>Instance Properties</h4>
-
-<p>1)Stroed Properties
-In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).</p>
-
-<p>P.S:A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.</p>
-
-<p>2)Computed Properties
-computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.</p>
-
-<h3>Properties Observer</h3>
-
-<p>Property observers observe and respond to changes in a property’s value.</p>
-
-<p>You have the option to define either or both of these observers on a property:</p>
-
-<p>willSet is called just before the value is stored.<br/>
-didSet is called immediately after the new value is stored.</p>
-
-    
-    
-</div>
+		
+		<a href="/blog/auto-layout.html/" class="more-link">继续阅读</a>
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -302,83 +204,61 @@ didSet is called immediately after the new value is stored.</p>
   
 
 
-<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
-    <div class="tags">
+<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
+	
 
+<div class="tags">
 
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
-    <div class="comments"><a href="/blog/2014/06/24/swift-learning-notes-properties/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
 
-    
-</div>
-</article>
+
+	
+</div></article>
 
 
     <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/06/24/swift-learning-notes-initialization/">
-            
-            Swift Learning Notes &#8211; Initialization</a>
-        </h2>
-<div class="entry-content">
-    <h3>Initialization</h3>
+	<h2 class="title">
+		
+		<a href="/blog/ios-development-certificates.html/">
+		
+			iOS Development&#8211;Certificates, Provisioning Profiles</a>
+	</h2>
+	<div class="entry-content">
+		<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
 
-<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
+<p><img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573"></p>
 
-<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
-1，为实例的每一个存储属性设置初始值;  <br/>
-2，进行其他必要的准备工作.</p>
+<p>开发过程的真机调试需要：</p>
 
-<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
-
-<h3>Value Type Initialization</h3>
-
-<p>1)为存储属性设置默认值；</p>
-
-<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
-structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
+<pre><code>Private Key -- 私钥
+iPhone Development Certificate -- 开发证书
+Development Provisioning profile
 </code></pre>
 
-<p>2)初始化方法。</p>
+<p>发布到 App Store 需要：</p>
 
-<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
+<pre><code>私钥
+iPhone Distribution Certificate
+App Store Distribution Provisioning profile
 </code></pre>
 
-<h3>Reference Type Initialization</h3>
+<p>通过 Ad Hoc 发布需要：</p>
 
-<p>1)为类引入的存储属性设置初始值;<br/>
-2)初始化方法。</p>
-
-<pre><code>Designated initializers must always delegate up.
-Convenience initializers must always delegate across.
-
-Swift中子类默认是不继承父类的初始化方法,然而当满足一定条件时例外。
-Assuming that you provide default values for any new properties you introduce in a subclass, the following two rules apply:
-
-Rule 1
-If your subclass doesn’t define any designated initializers, it automatically inherits all of its superclass designated initializers.
-
-Rule 2
-If your subclass provides an implementation of all of its superclass designated initializers—either by inheriting them as per rule 1, or by providing a custom implementation as part of its definition—then it automatically inherits all of the superclass convenience initializers.
-
-These rules apply even if your subclass adds further convenience initializers.
-
-NOTE:子类可以是用Convenience Initializer实现父类的Designated Initializer.
+<pre><code>私钥
+iPhone Distribution Certificate
+Ad Hoc Distribution Provisioning profile
 </code></pre>
 
-    
-    
-</div>
+
+		
+		<a href="/blog/ios-development-certificates.html/" class="more-link">继续阅读</a>
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -390,811 +270,18 @@ NOTE:子类可以是用Convenience Initializer实现父类的Designated Initiali
   
 
 
-<time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
-    <div class="tags">
+<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
+	
 
+<div class="tags">
 
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/06/24/swift-learning-notes-initialization/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/05/22/core-data-chu-bu/">
-            
-            Core Data 初步</a>
-        </h2>
-<div class="entry-content">
-    <ol>
-<li>Core Data是什么？</li>
-<li>为什么使用Core Data?</li>
-<li>如何使用Core Data?</li>
-</ol>
-
-
-<h2>Core Data是什么？</h2>
-
-<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
-
-<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
-
-<h2>为什么使用Core Data？</h2>
-
-<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
-
-<ul>
-<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
-<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
-<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
-<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
-<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
-</ul>
-
-
-<blockquote><p>There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.</p></blockquote>
-
-<h2>如何使用Core Data?</h2>
-
-<p>Core Data 有相当多可用的组件,下图示意了这些组件之间的关系：
- </p>
-
-<div style="text-align:center" markdown="1">
-    <img name="Core Data Stack" src="/images/CoreDataStack.jpg" width="610" height="418"> 
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 
 
-<p>其实我们主要就是对数据进行CRUD操作，我们过一遍创建数据的过程，其他操作也就容易理解了。</p>
-
-<p>应用的需求会决定应该创建些什么模型类，通常我们会创建模型文件（后缀为xcdatamodeld，当然也可以纯代码），模型文件对应Managed Object Model（NSManagedObjectModel），它是实体的一个集合，实体和模型类一一对应。</p>
-
-<p>应用启动以后会实例化一个Managed Object Context（NSManagedObjectContext），它相当于一个总入口，所有的数据操作都是通过它进行。Managed Object Context会持有一个Persistent Store Coordinator（NSPersistentStoreCoordinator）。</p>
-
-<p>Persistent Store Coordinator帮我们将固化的文件内容映射成managed model,并且可以管理多个永久存储池（NSPersistentStore），这样managed object context看到的只是单个存储池。</p>
-
-<p>当所有的组件都捆绑到一起的时候，我们把它称作 Core Data 堆栈，这个堆栈有两个主要部分。一部分是关于对象图管理，这正是你需要很好掌握的那一部分，并且知道怎么使用。第二部分是关于持久化，比如，保存你模型对象的状态，然后再恢复模型对象的状态。</p>
-
-<p>在两个部分之间，即堆栈中间，是持久化存储协调器（persistent store coordinator），也被称为中间审查者。它将对象图管理部分和持久化部分捆绑在一起，当它们两者中的任何一部分需要和另一部分交流时，这便需要持久化存储协调器来调节了。</p>
-
-<p>对象图管理是你程序模型层的逻辑存在的地方。模型层的对象存在于一个 context 内。在大多数的设置中，存在一个 context ，并且所有的对象存在于那个 context 中。Core Data 支持多个 contexts，不过对于更高级的使用情况才用。注意每个 context 和其他 context 都是完全独立的，一会儿我们将会谈到。需要记住的是，对象和它们的 context 是相关联的。每个被管理的对象都知道自己属于哪个 context，并且每个 context 都知道自己管理着哪些对象。</p>
-
-<p>堆栈的另一部分就是持久了，即 Core Data 从文件系统中读或写数据。每个持久化存储协调器（persistent store coordinator）都有一个属于自己的持久化存储（persistent store），并且这个 store 在文件系统中与 SQLite 数据库交互。为了支持更高级的设置，Core Data 可以将多个 stores 附属于同一个持久化存储协调器，并且除了存储 SQL 格式外，还有很多存储类型(binary,XML)可供选择。</p>
-
-<h2>代码示例</h2>
-
-<p>纯理论的讲我们可能不容易理解，让我们结合代码来看看。</p>
-
-<h3>创建和加载Managed Object Model</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1)You usually create a model in Xcode, as described in Core Data Model Editor Help. 
-</span><span class='line'>
-</span><span class='line'>[[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"NameOfCoreDataResource" withExtension:@"momd"]]
-</span><span class='line'>
-</span><span class='line'>// Another method
-</span><span class='line'>managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
-</span><span class='line'>
-</span><span class='line'>// 2)You can also create a model entirely in code.
-</span><span class='line'>NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] init];
-</span><span class='line'>NSEntityDescription *runEntity = [[NSEntityDescription alloc] init];
-</span><span class='line'>[runEntity setName:@"Run"];
-</span><span class='line'>[runEntity setManagedObjectClassName:@"Run"];
-</span><span class='line'>[mom setEntities:@[runEntity]];
-</span><span class='line'> 
-</span><span class='line'>NSMutableArray *runProperties = [NSMutableArray array];
-</span><span class='line'> 
-</span><span class='line'>NSAttributeDescription *dateAttribute = [[NSAttributeDescription alloc] init];
-</span><span class='line'>[runProperties addObject:dateAttribute];
-</span><span class='line'>[dateAttribute setName:@"date"];
-</span><span class='line'>[dateAttribute setAttributeType:NSDateAttributeType];
-</span><span class='line'>[dateAttribute setOptional:NO];
-</span><span class='line'> 
-</span><span class='line'>NSAttributeDescription *idAttribute= [[NSAttributeDescription alloc] init];
-</span><span class='line'>[runProperties addObject:idAttribute];
-</span><span class='line'>[idAttribute setName:@"processID"];
-</span><span class='line'>[idAttribute setAttributeType:NSInteger32AttributeType];
-</span><span class='line'>[idAttribute setOptional:NO];
-</span><span class='line'>[idAttribute setDefaultValue:@0];
-</span><span class='line'> 
-</span><span class='line'>NSPredicate *validationPredicate = [NSPredicate predicateWithFormat:@"SELF &gt;= 0"];
-</span><span class='line'>NSString *validationWarning = @"Process ID &lt; 0";
-</span><span class='line'>[idAttribute setValidationPredicates:@[validationPredicate]
-</span><span class='line'>    withValidationWarnings:@[validationWarning]];
-</span><span class='line'> 
-</span><span class='line'>[runEntity setProperties:runProperties];
-</span><span class='line'> 
-</span><span class='line'>NSDictionary *localizationDictionary = @{
-</span><span class='line'>    @"Property/processID/Entity/Run" : @"Process ID",
-</span><span class='line'>    @"Property/date/Entity/Run" : @"Date"
-</span><span class='line'>    @"ErrorString/Process ID &lt; 0" : @"Process ID must not be less than 0" };
-</span><span class='line'>[mom setLocalizationDictionary:localizationDictionary];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Managed Object Context</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Assume we have a persistent store coordinator
-</span><span class='line'>        managedObjectContext = [[NSManagedObjectContext alloc] init];
-</span><span class='line'>        [managedObjectContext setPersistentStoreCoordinator: coordinator];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Persistent Store Coordinator</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Locations.sqlite"]];
-</span><span class='line'>
-</span><span class='line'>NSError *error;
-</span><span class='line'>persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-</span><span class='line'>if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-</span><span class='line'>    // Handle the error.
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Persistent Store</h3>
-
-<p>我们不直接创建persistent object store。当我们给persistent store coordinator发送addPersistentStoreWithType:configuration:URL:options:error:, Core Data为我们创建合适的store.</p>
-
-<h2>完整示例</h2>
-
-<p>上面是分解开来的示例，我们最后来看过完整的实例，我稍稍修改下苹果的官方示例<a href="https://github.com/DamianSheldon/Locations">Locations</a>.</p>
-
-<h2>Reference</h2>
-
-<p>Core Data Programming Guide  <br/>
-<a href="http://objccn.io/issue-4-1/">Core Data 概述</a> <br/>
-<a href="http://blog.csdn.net/kesalin/article/details/6739319">深入浅出 Cocoa 之 Core Data</a>  <br/>
-<a href="http://www.cnblogs.com/kenshincui/p/4077833.html#CoreData">iOS开发系列&mdash;数据存取</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/05/22/core-data-chu-bu/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/05/21/ios-concurrency-programming-gcd/">
-            
-            iOS Concurrency Programming&#8211;GCD</a>
-        </h2>
-<div class="entry-content">
-    <h2>GCD是什么？</h2>
-
-<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
-* 直接简单的编程接口；<br/>
-* 自动、整体的线程池管理；<br/>
-* 高效的内存管理；<br/>
-* 负载时不干扰内核；<br/>
-* 异步分发任务到分派队列不会造成死锁；<br/>
-* 优雅地处理竞争；<br/>
-* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
-
-<h2>如何使用GCD？</h2>
-
-<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
-
-<h3>1）单个任务；</h3>
-
-<p>我们通常是通过调用以下API来执行任务：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
-</span><span class='line'><span class="n">dispatch_async_f</span>
-</span><span class='line'><span class="n">dispatch_sync</span>
-</span><span class='line'><span class="n">dispatch_sync_f</span>
-</span><span class='line'><span class="n">dispatch_after</span>
-</span><span class='line'><span class="n">dispatch_after_f</span>
-</span><span class='line'><span class="n">dispatch_apply</span>
-</span><span class='line'><span class="n">dispatch_apply_f</span>
-</span><span class='line'><span class="n">dispatch_once</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_get_global_queue</span>
-</span><span class='line'><span class="n">dispatch_get_main_queue</span>
-</span><span class='line'><span class="n">dispatch_queue_create</span>
-</span><span class='line'><span class="n">dispatch_get_current_queue</span>
-</span><span class='line'><span class="n">dispatch_queue_get_label</span>
-</span><span class='line'><span class="n">dispatch_set_target_queue</span>
-</span><span class='line'><span class="n">dispatch_main</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>dispatch queues主要有三大类：main queue, Concurrent queue, Serial queue;</p>
-
-<p>i)main queue:通过dispatch_get_main_queue(void)可以取到main queue;</p>
-
-<p>ii)Concurrent queue:通过dispatch_queue_t dispatch_get_global_queue(long priority,unsigned long flags)可以取得全局的并发队列。总共有四个优先级的全局队列：
- DISPATCH_QUEUE_PRIORITY_HIGH      <br/>
- DISPATCH_QUEUE_PRIORITY_DEFAULT
- DISPATCH_QUEUE_PRIORITY_LOW      <br/>
- DISPATCH_QUEUE_PRIORITY_BACKGROUND</p>
-
-<p>iii）Serial queue:可以使用dispatch_queue_create创建串行或并行队列。</p>
-
-<p>代码示例：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// i) main queue</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// ii)Concurrent Queue</span>
-</span><span class='line'><span class="n">dispatch_queue</span> <span class="n">defaultGlobalConcurrentQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// iii)Serial queue</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">myCustomSerialQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyCustomSerialQueue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// async</span>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// sync</span>
-</span><span class='line'><span class="n">dispatch_sync</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some more work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Both blocks have completed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// apply</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// equlivent implement</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">defaultGlobalConcurrentQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="n">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2）组任务；</h3>
-
-<p>可以使用以下API进行组操作：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_group_async</span>
-</span><span class='line'><span class="n">dispatch_group_async_f</span>
-</span><span class='line'><span class="n">dispatch_group_create</span>
-</span><span class='line'><span class="n">dispatch_group_enter</span>
-</span><span class='line'><span class="n">dispatch_group_leave</span>
-</span><span class='line'><span class="n">dispatch_group_notify</span>
-</span><span class='line'><span class="n">dispatch_group_notify_f</span>
-</span><span class='line'><span class="n">dispatch_group_wait</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码示例：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Example 1</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Add a task to the group</span>
-</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>   <span class="c1">// Some asynchronous work</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Do some other work while the tasks execute.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// When you cannot make any more forward progress,</span>
-</span><span class='line'><span class="c1">// wait on the group to block the current thread.</span>
-</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Release the group when it is no longer needed.</span>
-</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Example 2</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span> <span class="k">in</span> <span class="n">array</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnItem:</span><span class="n">obj</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnArray:</span><span class="n">array</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3）使用Dispatch Semaphores调控有效的资源使用；</h3>
-
-<p>Dispatch Semaphores相关的API如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_semaphore_create</span>
-</span><span class='line'><span class="n">dispatch_semaphore_signal</span>
-</span><span class='line'><span class="n">dispatch_semaphore_wait</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码示例：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create the semaphore, specifying the initial pool size</span>
-</span><span class='line'><span class="n">dispatch_semaphore_t</span> <span class="n">fd_sema</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">getdtablesize</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Wait for a free file descriptor</span>
-</span><span class='line'><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&quot;/etc/services&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Release the file descriptor when done</span>
-</span><span class='line'><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
-</span><span class='line'><span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Reference</h2>
-
-<p>o Concurrency Programming Guide<br/>
-o iOS多线程编程Part 3/3 &ndash; GCD;<a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/05/21/ios-concurrency-programming-gcd/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
-
-
-    <article class="post">
-<h2 class="title">
-    
-        <a href="/blog/2014/05/19/iosde-hui-tu-xi-tong/">
-            
-            iOS的绘图系统</a>
-        </h2>
-<div class="entry-content">
-    <h2>iOS的绘图框架</h2>
-
-<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
-
-<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
-
-<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
-
-<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
-
-<h2>Drawing Destinations(iOS-Only)</h2>
-
-<p>1)View Graphics Context<br/>
-2)Layer<br/>
-3)Bitmap<br/>
-4)PDF<br/>
-5)Printer</p>
-
-<h2>Drawing to a View Graphics Context in iOS</h2>
-
-<p>1)Implement drawRect:method;<br/>
-2)Mark the view you want update by invocate setNeedDisplay;<br/>
-3)Obtain Graphic context by Call UIGraphicsGetCurrentContext method;<br/>
-4)Use UIKit provides functions, UIBezierPath or Core Graphics to meet your need.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 1) UIKit method</span>
-</span><span class='line'><span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">18.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.47</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">37.21</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">34.31</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.88</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.88</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="n">closePath</span><span class="p">];</span>
-</span><span class='line'><span class="n">path</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="p">[[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">]</span> <span class="n">setStroke</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 2) Core Graphics method</span>
-</span><span class='line'><span class="n">CGContextBeginPath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextMoveToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">18.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.47</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">37.21</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">34.31</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">20.88</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">20.88</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextClosePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextSetLineWidth</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextSetStrokeColorWithColor</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextStrokePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Drawing to a Layer(CGLayer)</h2>
-
-<p>A layer context (CGLayerRef) is an offscreen drawing destination associated with another graphics context. It is designed for optimal performance when drawing the layer to the graphics context that created it. A layer context can be a much better choice for offscreen drawing than a bitmap graphics context.</p>
-
-<p>1)“Create a CGLayer Object Initialized with an Existing Graphics Context”<br/>
-2)“Get a Graphics Context for the Layer”<br/>
-3)“Draw to the CGLayer Graphics Context”<br/>
-4)“Draw the Layer to the Destination Graphics Context”</p>
-
-<h2>Drawing to a BitMap</h2>
-
-<p>A bitmap graphics context accepts a pointer to a memory buffer that contains storage space for the bitmap. When you paint into the bitmap graphics context, the buffer is updated. After you release the graphics context, you have a fully updated bitmap in the pixel format you specify.</p>
-
-<p>1)Creating a Bitmap Graphics Context;<br/>
-UIGraphicsBeginImageContextWithOptions() or CGBitmapContextCeate()<br/>
-2)Draw code.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 1) Mix call UIKit and Core Graphics</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span> <span class="n">YES</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextRef</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">UIGraphicsGetCurrentContext</span><span class="p">();</span>
-</span><span class='line'><span class="n">CGContextBeginPath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextMoveToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
-</span><span class='line'><span class="p">...</span>
-</span><span class='line'><span class="n">CGContextStrokePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span><span class='line'><span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 2) Core Graphics</span>
-</span><span class='line'><span class="n">CGContextRef</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">CGBitmapContextCreate</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">90</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">bitmapInfo</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextScaleCTM</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
-</span><span class='line'><span class="n">UIGraphicsPushContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span><span class='line'><span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
-</span><span class='line'><span class="p">...</span>
-</span><span class='line'><span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
-</span><span class='line'><span class="n">UIGraphicsPopContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span><span class='line'><span class="n">CGContextRelease</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Concurrency Drawing</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">UIImageView</span> <span class="o">*</span><span class="n">view</span><span class="p">;</span> <span class="c1">// assume we have this</span>
-</span><span class='line'><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">renderQueue</span><span class="p">;</span> <span class="c1">// assume we have this</span>
-</span><span class='line'><span class="n">CGSize</span> <span class="n">size</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
-</span><span class='line'><span class="p">[</span><span class="n">renderQueue</span> <span class="nl">addOperationWithBlock:</span><span class="o">^</span><span class="p">(){</span>
-</span><span class='line'>        <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">renderer</span> <span class="nl">renderInImageOfSize:</span><span class="n">size</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span> <span class="nl">addOperationWithBlock:</span><span class="o">^</span><span class="p">(){</span>
-</span><span class='line'>            <span class="n">view</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}];</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">renderInImageOfSize:</span><span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">NO</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// do drawing here</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
-</span><span class='line'>    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Reference</h2>
-
-<p>o Quartz 2D Programming Guide<br/>
-o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.io/issue-3-1/</a></p>
-
-    
-    
-</div>
-
-
-<div class="meta">
-    <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time></div>
-    <div class="tags">
-
-
-<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-    <div class="comments"><a href="/blog/2014/05/19/iosde-hui-tu-xi-tong/#comments" id="uyan_count_unit" du="" su="">0条评论</a>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1850190"></script>
-    </div>
-    
-
-    
-</div>
-</article>
+	
+</div></article>
 
 <nav id="pagenavi">
     
@@ -1205,33 +292,36 @@ o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.i
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>
-    <footer id="footer" class="inner">Copyright &copy; 2014
+	<footer id="footer" class="inner">Copyright &copy; 2014
 
     Sheldon
 
-<br>
-Powered by Octopress.
-</footer>
-    <script src="/javascripts/slash.js"></script>
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-         
-         ga('create', 'UA-52345084-1', 'auto');
-         ga('send', 'pageview');
-     
-    </script>
+- 署名 - 非商业 - 非衍生 - Powered by Octopress.</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
 
 
 
-    <!--返回顶部开始-->
-<div id="full" style="width:0px; height:0px; position:fixed; right:180px; bottom:150px; z-index:100; text-align:center; background-color:transparent; cursor:pointer;">
-    <a href="#" onclick="goTop();return false;"><img src="/images/top.png" border=0 alt="返回顶部"></a>
-</div>
-<script src="/javascripts/top.js" type="text/javascript"></script>
-<!--返回顶部结束-->
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-52345084-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
 </body>
 </html>

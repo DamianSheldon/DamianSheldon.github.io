@@ -112,7 +112,7 @@ $(document).ready(
 	<div class="entry-content">
 		<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
 
-<h3>崩溃在main()</h3>
+<h3>崩溃在main( )</h3>
 
 <p>添加Exception Breakpoint</p>
 
@@ -152,56 +152,9 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>打印异常信息</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/*
-</span><span class='line'>The symbol $eax refers to one of the CPU registers. In the case of an exception, this register will contain a pointer to the NSException object. Note: $eax only works for the simulator, if you’re debugging on the device you’ll need to use register $r0.
-</span><span class='line'>*/
-</span><span class='line'>// Simulator
-</span><span class='line'>
-</span><span class='line'>(lldb) po [$eax class]
-</span><span class='line'>
-</span><span class='line'>(lldb) po [$eax name]
-</span><span class='line'>
-</span><span class='line'>(lldb) po [$eax reason]
-</span><span class='line'>
-</span><span class='line'>// Real Device
-</span><span class='line'>(lldb) po $r0</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>SIGABRT</h3>
-
-<p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>
-
-<h3>EXC_BAD_ACCESS</h3>
-
-<p>它出现的原因是因为访问一个已经释放的对象或向它发送消息。通常可以开启Zombie Objects(Toolbar > Edit Scheme&hellip; > Run > Diagnostics > Enabled Zombie Objects)重新运行程序以定位问题。</p>
-
-<p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
-
-<p>Reference:</p>
-
-<p>iOS 6 Programming Pushing the Limits<br/>
-<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
-<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
-<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
-<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
 
 		
-		
+		<a href="/blog/xcode-debug-tips.html/" class="more-link">继续阅读</a>
 	</div>
 
 

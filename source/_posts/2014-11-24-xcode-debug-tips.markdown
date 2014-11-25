@@ -41,6 +41,7 @@ NSLog(@"%s", __PRETTY_FUNCTION__);
 (lldb) po // 打印对象
 
 ```
+<!-- more -->
 
 ###打印异常信息
 

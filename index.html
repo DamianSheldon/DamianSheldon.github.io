@@ -105,6 +105,71 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-app-cache.html/">
+		
+			iOS App Cache</a>
+	</h2>
+	<div class="entry-content">
+		<p>在互联网时代的今天，iOS App几乎都要联网，缓存可以解决网络连接不良甚至无网络所造成的性能问题，而且还可以节约用户的流量。我们可以采用两种缓存策略：预缓存和按需缓存。预缓存就是应用启动以后开个后台线程去把需要用到的数据先取下来。按需缓存就是应用请求网络数据后在本地保存一份，只要本地数据没有过期就使用本地数据。</p>
+
+<h3>预缓存</h3>
+
+<p>实现预缓存可能需要一个后台线程访问数据并以有意义的格式保存，以便本地缓存无需连接服务器即可被编辑。Core Data(或者任何结构化存储)是实现这种缓存的一种方式。</p>
+
+<h3>按需缓存</h3>
+
+<p>按需缓存工作原理类似于浏览器缓存，它允许我们查看以前访问过的内容，主要有四种实现方法：</p>
+
+<ol>
+<li>URL缓存；</li>
+<li>数据模型缓存；</li>
+<li>Core Data;</li>
+<li>SQLite。</li>
+</ol>
+
+
+<p>上述的序号是推荐使用的顺序。</p>
+
+<h4>URL缓存</h4>
+
+<p>如果服务器设计得体，遵循HTTP 1.1的缓存规范时，URL缓存效果最好，通常网络库会提供支持。</p>
+
+
+		
+		<a href="/blog/ios-app-cache.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-25T16:36:04+08:00" pubdate data-updated="true">Nov 25<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/xcode-debug-tips.html/">
 		
 			Xcode 调试技巧（持续更新）</a>
@@ -235,86 +300,6 @@ $(document).ready(
 
 
 <time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/key-value-coding-and-key-value-observing.html/">
-		
-			Key-Value Coding &amp; Key-Value Observing</a>
-	</h2>
-	<div class="entry-content">
-		<h2>Key-Value Coding</h2>
-
-<ol>
-<li>Key-Value Coding是什么？</li>
-<li>为什么要用Key-Value Coding？</li>
-<li>如何使用Key-Value Coding?</li>
-</ol>
-
-
-<h3>Key-Value Coding是什么？</h3>
-
-<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
-
-<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
-
-<h3>为什么要用Key-Value Coding？</h3>
-
-<ol>
-<li>Scripting（OS X）;</li>
-<li>简化代码和提高灵活性；</li>
-</ol>
-
-
-<h3>如何使用Key-Value Coding?</h3>
-
-<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
-
-<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
-
-<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
-
-<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
-
-<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
-
-<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
-
-<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
-
-
-		
-		<a href="/blog/key-value-coding-and-key-value-observing.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">

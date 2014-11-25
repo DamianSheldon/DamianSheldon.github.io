@@ -105,6 +105,66 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/swift-learning-notes-properties.html/">
+		
+			Swift Learning Notes &#8211; Properties</a>
+	</h2>
+	<div class="entry-content">
+		<h3>Properties</h3>
+
+<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
+
+<h4>Type Properties</h4>
+
+<p>属于类型本身的properties称为Type Property.</p>
+
+<p>1)Value Type Properties (keyword: static)<br/>
+structrue, enumeration可以定义Stroed 和Computed type properties.</p>
+
+<p>Stored type properties for value types can be variables or constants.<br/>
+NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
+
+<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
+
+<p>2)Reference Type Properties (keyword: class)<br/>
+class只可以定义Computed type properties.</p>
+
+
+		
+		<a href="/blog/swift-learning-notes-properties.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/swift-learning-notes-initialization.html/">
 		
 			Swift Learning Notes &#8211; Initialization</a>
@@ -220,87 +280,6 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
 
 
 <time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-concurrency-programming-gcd.html/">
-		
-			iOS Concurrency Programming&#8211;GCD</a>
-	</h2>
-	<div class="entry-content">
-		<h2>GCD是什么？</h2>
-
-<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
-* 直接简单的编程接口；<br/>
-* 自动、整体的线程池管理；<br/>
-* 高效的内存管理；<br/>
-* 负载时不干扰内核；<br/>
-* 异步分发任务到分派队列不会造成死锁；<br/>
-* 优雅地处理竞争；<br/>
-* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
-
-<h2>如何使用GCD？</h2>
-
-<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
-
-<h3>1）单个任务；</h3>
-
-<p>我们通常是通过调用以下API来执行任务：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
-</span><span class='line'><span class="n">dispatch_async_f</span>
-</span><span class='line'><span class="n">dispatch_sync</span>
-</span><span class='line'><span class="n">dispatch_sync_f</span>
-</span><span class='line'><span class="n">dispatch_after</span>
-</span><span class='line'><span class="n">dispatch_after_f</span>
-</span><span class='line'><span class="n">dispatch_apply</span>
-</span><span class='line'><span class="n">dispatch_apply_f</span>
-</span><span class='line'><span class="n">dispatch_once</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/ios-concurrency-programming-gcd.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time></div>
 	
 
 <div class="tags">

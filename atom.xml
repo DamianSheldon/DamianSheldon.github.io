@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-23T23:00:38+08:00</updated>
+  <updated>2014-11-25T12:05:34+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,103 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 调试技巧（持续更新）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/xcode-debug-tips.html/"/>
+    <updated>2014-11-24T17:14:52+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/xcode-debug-tips</id>
+    <content type="html"><![CDATA[<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
+
+<h3>崩溃在main()</h3>
+
+<p>添加Exception Breakpoint</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
+
+<h3>符号断点</h3>
+
+<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
+
+<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
+
+<h3>打印方法名</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>控制台打印</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
+</span><span class='line'>(lldb) p (int)self.myAge
+</span><span class='line'>(lldb) p (CGPoint)self.view.center
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>(lldb) po // 打印对象
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>打印异常信息</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/*
+</span><span class='line'>The symbol $eax refers to one of the CPU registers. In the case of an exception, this register will contain a pointer to the NSException object. Note: $eax only works for the simulator, if you’re debugging on the device you’ll need to use register $r0.
+</span><span class='line'>*/
+</span><span class='line'>// Simulator
+</span><span class='line'>
+</span><span class='line'>(lldb) po [$eax class]
+</span><span class='line'>
+</span><span class='line'>(lldb) po [$eax name]
+</span><span class='line'>
+</span><span class='line'>(lldb) po [$eax reason]
+</span><span class='line'>
+</span><span class='line'>// Real Device
+</span><span class='line'>(lldb) po $r0</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SIGABRT</h3>
+
+<p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>
+
+<h3>EXC_BAD_ACCESS</h3>
+
+<p>它出现的原因是因为访问一个已经释放的对象或向它发送消息。通常可以开启Zombie Objects(Toolbar > Edit Scheme&hellip; > Run > Diagnostics > Enabled Zombie Objects)重新运行程序以定位问题。</p>
+
+<p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
+
+<p>Reference:</p>
+
+<p>iOS 6 Programming Pushing the Limits<br/>
+<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
+<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
+<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
+<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 数据持久化]]></title>
@@ -2623,7 +2720,10 @@ WWDC2012 session 232 – Auto Layout by Example<br/>
     <id>http://DamianSheldon.github.io/blog/ios-development-certificates</id>
     <content type="html"><![CDATA[<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
 
-<p><img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573"></p>
+<div style="text-align: center" markdown="1"> 
+    <img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573">  
+</div>
+
 
 <p>开发过程的真机调试需要：</p>
 
@@ -2655,11 +2755,21 @@ Ad Hoc Distribution Provisioning profile
 
 <p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
 
-<p><img name="Certificate" src="http://DamianSheldon.github.io/images/Certificate.png" width="696" height="471"> </p>
+<div style="text-align: center" markdown="1"> 
+
+    <img name="Certificate" src="http://DamianSheldon.github.io/images/Certificate.png" width="696" height="471"> 
+
+</div>
+
 
 <p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
 
-<p><img name="ProvisioningProfile" src="http://DamianSheldon.github.io/images/ProvisioningProfile.png" width="618" height="377"></p>
+<div style="text-align: center" markdown="1"> 
+
+    <img name="ProvisioningProfile" src="http://DamianSheldon.github.io/images/ProvisioningProfile.png" width="618" height="377">  
+
+</div>
+
 
 <h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
 
@@ -2673,7 +2783,11 @@ Ad Hoc Distribution Provisioning profile
 
 <p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
 
-<p><img name="TeamProvisioningProfile" src="http://DamianSheldon.github.io/images/TeamProvisioningProfile.png" width="712" height="406">  </p>
+<div style="text-align: center" markdown="1"> 
+
+    <img name="TeamProvisioningProfile" src="http://DamianSheldon.github.io/images/TeamProvisioningProfile.png" width="712" height="406">  
+</div>
+
 ]]></content>
   </entry>
   
@@ -4011,133 +4125,6 @@ UIGraphicsBeginImageContextWithOptions() or CGBitmapContextCeate()<br/>
 
 <p>o Quartz 2D Programming Guide<br/>
 o 绘制像素到屏幕上 <a href="http://objccn.io/issue-3-1/">http://objccn.io/issue-3-1/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS UIWebView与JavaScript交互]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-uiwebviewyu-javascriptjiao-hu.html/"/>
-    <updated>2014-05-14T11:05:53+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-uiwebviewyu-javascriptjiao-hu</id>
-    <content type="html"><![CDATA[<h2>1.UIWebView调用JavaScript</h2>
-
-<h3>1.1调用html中已有的JavaScript function</h3>
-
-<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>1.2注入JavaScript function,然后调用</h3>
-
-<p>我们还可以先向html中注入JavaScript function,然后调用。
-通常可以在UIWebViewDelegate中注入。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<h2>2.JavaScript调用Objective-C Method</h2>
-
-<p>JavaScript调用Objective-C方法的原理是利用UIWebView的重定向请求，传一些命令到我们的UIWebView,在UIWebView的delegate的方法中接收这些命令，并根据命令执行相应的Objc方法。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">sendCommand</span><span class="p">(</span><span class="nx">cmd</span><span class="p">,</span><span class="nx">param</span><span class="p">){</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">url</span><span class="o">=</span><span class="s2">&quot;objc:&quot;</span><span class="o">+</span><span class="nx">cmd</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nx">param</span><span class="p">;</span>
-</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">clickLink</span><span class="p">(){</span>
-</span><span class='line'>    <span class="nx">sendCommand</span><span class="p">(</span><span class="s2">&quot;alert&quot;</span><span class="p">,</span><span class="s2">&quot;hello objective-c method&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark --  </span>
-</span><span class='line'><span class="cp">#pragma mark UIWebViewDelegate  </span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">webView:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="nf">shouldStartLoadWithRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">navigationType:</span><span class="p">(</span><span class="n">UIWebViewNavigationType</span><span class="p">)</span><span class="nv">navigationType</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">requestString</span> <span class="o">=</span> <span class="p">[[</span><span class="n">request</span> <span class="n">URL</span><span class="p">]</span> <span class="n">absoluteString</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSArray</span> <span class="o">*</span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">requestString</span> <span class="nl">componentsSeparatedByString:</span><span class="s">@&quot;:&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">components</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">[(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;objc&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span><span class="p">([(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">1</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;alert&quot;</span><span class="p">])</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span>
-</span><span class='line'>                                  <span class="nl">initWithTitle:</span><span class="s">@&quot;Alert from Cocoa Touch&quot;</span> <span class="nl">message:</span><span class="p">[</span><span class="n">components</span> <span class="nl">objectAtIndex:</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'>                                  <span class="nl">delegate:</span><span class="n">self</span> <span class="nl">cancelButtonTitle:</span><span class="nb">nil</span>
-</span><span class='line'>                                  <span class="nl">otherButtonTitles:</span><span class="s">@&quot;OK&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.相互传值</h2>
-
-<h2>3.1UIWebView传值给JavaScript</h2>
-
-<p>1）最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。
-2）PhoneGap的解决方法是把要传递的参数放到队列里，然后通知Native去取。</p>
-
-<h2>3.2JavaScript传值给UIWebView</h2>
-
-<p>UIWebView调用JavaScript接口方法的返回值就是JavaScript传给UIWebView的值。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

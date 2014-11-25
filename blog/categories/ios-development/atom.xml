@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-23T23:00:38+08:00</updated>
+  <updated>2014-11-25T12:05:34+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 调试技巧（持续更新）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/xcode-debug-tips.html/"/>
+    <updated>2014-11-24T17:14:52+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/xcode-debug-tips</id>
+    <content type="html"><![CDATA[<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
+
+<h3>崩溃在main()</h3>
+
+<p>添加Exception Breakpoint</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
+
+<h3>符号断点</h3>
+
+<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
+
+<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
+
+<h3>打印方法名</h3>
+
+<p>```
+NSLog(@&ldquo;%s&rdquo;, <strong>PRETTY_FUNCTION</strong>);</p>
+
+<p>```</p>
+
+<h3>控制台打印</h3>
+
+<p>```
+(lldb) p // 打印标量变量
+(lldb) p (int)self.myAge
+(lldb) p (CGPoint)self.view.center</p>
+
+<p>(lldb) po // 打印对象</p>
+
+<p>```</p>
+
+<h3>打印异常信息</h3>
+
+<p>```
+/<em>
+The symbol $eax refers to one of the CPU registers. In the case of an exception, this register will contain a pointer to the NSException object. Note: $eax only works for the simulator, if you’re debugging on the device you’ll need to use register $r0.
+</em>/
+// Simulator</p>
+
+<p>(lldb) po [$eax class]</p>
+
+<p>(lldb) po [$eax name]</p>
+
+<p>(lldb) po [$eax reason]</p>
+
+<p>// Real Device
+(lldb) po $r0
+```</p>
+
+<h3>SIGABRT</h3>
+
+<p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>
+
+<h3>EXC_BAD_ACCESS</h3>
+
+<p>它出现的原因是因为访问一个已经释放的对象或向它发送消息。通常可以开启Zombie Objects(Toolbar > Edit Scheme&hellip; > Run > Diagnostics > Enabled Zombie Objects)重新运行程序以定位问题。</p>
+
+<p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
+
+<p>Reference:</p>
+
+<p>iOS 6 Programming Pushing the Limits<br/>
+<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
+<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
+<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
+<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 数据持久化]]></title>
@@ -1253,71 +1330,6 @@ static CGSize _extraMargins = {0,0};</p>
 <h3>原文</h3>
 
 <p><a href="http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/">http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Auto Layout]]></title>
-    <link href="http://DamianSheldon.github.io/blog/auto-layout.html/"/>
-    <updated>2014-10-19T17:43:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/auto-layout</id>
-    <content type="html"><![CDATA[<h3>前言</h3>
-
-<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
-
-<h3>Auto Layout 是什么</h3>
-
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
-
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
-
-<!-- more -->
-
-
-<h4>Constraint &mdash; 约束</h4>
-
-<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
-  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
-  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
-  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
-  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
-
-<h4>Intrinsic Content Size</h4>
-
-<p>  Intrinsic Content Size 是 Auto Layout 中另一个重要概念，身处视图层级末端的视图会为显示特定内容期望得到一个大小，它就叫做Intrinsic Content Size。</p>
-
-<h3>如何使用Auto Layout</h3>
-
-<p>  Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。</p>
-
-<h3>Tips</h3>
-
-<p>1,在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
-
-<p>2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：<br/>
-  * 在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；<br/>
-  * 双击上述文件使它在新的窗口中打开； <br/>
-  * 将新的窗口移动到新的桌面上，最大化它； <br/>
-  * 单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；  <br/>
-  * 在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。</p>
-
-<h3>Demo</h3>
-
-<p><a href="https://github.com/DamianSheldon/AutoLayout">Auto Layout Demo</a></p>
-
-<h3>Reference</h3>
-
-<p>Auto Layout Guide<br/>
-WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
-WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
-WWDC2012 session 232 – Auto Layout by Example<br/>
-<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  ">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  </a>
-<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2</a>  <br/>
-<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
-<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
-<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
 ]]></content>
   </entry>
   

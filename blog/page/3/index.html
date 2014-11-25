@@ -105,6 +105,65 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/variable-sized-items-in-uicollectionview.html/">
+		
+			(翻译)Variable-Sized Items in UICollectionView</a>
+	</h2>
+	<div class="entry-content">
+		<h3>基本训练</h3>
+
+<p>我们以“Single View Application”为模板新建一个工程。在ViewController.xib上添加一个UICollectionView让它覆盖整个view。</p>
+
+<p><img name="Variable-Sized_Items_in_UICollectionView01" src="/images/Variable-Sized_Items_in_UICollectionView01.png" width="1110" height="783"></p>
+
+<p>Collection View和它的祖父类似，有delegate和dataSource两个outlet,我们把它们连接到“File’s Owner”,这里的“File’s Owner”是ViewController类。这样Collection View的内容和交互就受ViewController控制。我们也需要一个outlet来引用Collection View,所以用Assistant editor增加一个。刚在ViewController.h中添加的outlet property可以是weak，因为作为ViewController的视图的子视图，它也会被充分的保留。</p>
+
+<h3>单元格</h3>
+
+<p>我们需要设计一个Cell原型来显示内容。如果你的Collection View是在View controller’s XIB ,你必须在先在代码中注册Cell才能使用。如果你是在Storyboard中新建的CollectionView，并在CollectionView的区域内创建的原型Cell,那么你就不需要注册Cell identifier了。因为我们并没有从Storyboard中开始，所以需要手动来创建。</p>
+
+<p>我们在Interface Builder中创建一个原型Cell，设置它的背影为白色，添加一个UILabel，添加Label到父视图边缘的约束，分别是5 points的距离。因为我们想让Label的文字来决定它的尺寸，所以选中Label,然后从Editor menu中选择“Size to Fit Content”。后面我们会看到它是否会按照我们想像的那样工作。</p>
+
+<p><img name="Variable-Sized_Items_in_UICollectionView02" src="/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
+
+<p>我们设置Identifier为“TagCell”以便我们能在设计中引用。</p>
+
+
+		
+		<a href="/blog/variable-sized-items-in-uicollectionview.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-04T11:27:12+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html/">
 		
 			iTunes 歌曲信息乱码的解决办法</a>
@@ -205,72 +264,6 @@ $(document).ready(
 
 
 <time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-certificates.html/">
-		
-			iOS Development&#8211;Certificates, Provisioning Profiles</a>
-	</h2>
-	<div class="entry-content">
-		<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
-
-<p><img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573"></p>
-
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
-
-
-		
-		<a href="/blog/ios-development-certificates.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">

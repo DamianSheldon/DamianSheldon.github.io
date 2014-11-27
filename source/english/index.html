@@ -1,0 +1,10 @@
+---
+layout: default
+title: "English"
+---
+
+{% for post in site.posts reverse %}
+    {% if post.categories contains 'English' %}
+        {% include archive_post.html %}
+    {% endif %}
+{% endfor %}

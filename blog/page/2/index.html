@@ -107,6 +107,89 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/xcode-debug-tips.html/">
+		
+			Xcode 调试技巧（持续更新）</a>
+	</h2>
+	<div class="entry-content">
+		<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
+
+<h3>崩溃在main( )</h3>
+
+<p>添加Exception Breakpoint</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
+
+<h3>符号断点</h3>
+
+<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
+
+<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
+
+<h3>打印方法名</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>控制台打印</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
+</span><span class='line'>(lldb) p (int)self.myAge
+</span><span class='line'>(lldb) p (CGPoint)self.view.center
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>(lldb) po // 打印对象
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/xcode-debug-tips.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-24T17:14:52+08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-app-data-persistence.html/">
 		
 			iOS App 数据持久化</a>
@@ -234,84 +317,6 @@ $(document).ready(
 
 
 <time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-design-patterns.html/">
-		
-			(翻译)iOS 设计模式</a>
-	</h2>
-	<div class="entry-content">
-		<p>iOS设计模式&mdash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
-
-<p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
-
-<p>如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握iOS的主要（次要）设计模式，它们在Cocoa中很常用。</p>
-
-<p>教程分成多个部分，每部分包含一种设计模式。在每部分，你会看到如下顺序的解释：</p>
-
-<ul>
-<li>该设计模式是什么；</li>
-<li>你为什么应该使用它；</li>
-<li>如何使用它，以及什么场景合适，使用时需要留意的常见陷阱；</li>
-</ul>
-
-
-<p>这篇教程中，你将创建一个Music Library应用，它会显示你的专辑和它们相关的信息。</p>
-
-<p>在开发应用的过程中，你会慢慢熟悉多数常见的Cocoa设计模式：</p>
-
-<ul>
-<li>构造类：单例(Singleton)和 抽象工厂(Abstract Factory);</li>
-<li>架构类：模型-视图-控制器(MVC), 修饰(Decorator), 适配器(Adapter), 门面(Facade)和合成（Composite);</li>
-<li>行为类：观察者(Observer), 记忆(Memento), 响应链(Chain of Responsibility)和命令（Command）。</li>
-</ul>
-
-
-<p>别被误导认为这是篇纯理论的文章；你会在你音乐应用中使用这些应用模式中的大多数。你的应用最终看起来像这样：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="finalapp-180x320" src="/images/finalapp-180x320.png" width="180" height="320">  
-
-</div>
-
-
-
-
-
-		
-		<a href="/blog/ios-design-patterns.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-10T08:35:43+08:00" pubdate data-updated="true">Nov 10<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">

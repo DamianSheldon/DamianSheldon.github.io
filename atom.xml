@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-11-27T21:47:33+08:00</updated>
+  <updated>2014-12-04T11:43:37+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -44,6 +44,9 @@ Our Manager has arrived in pairs.<br/>
 The water in the jar has ran out.<br/>
 My brother will talk on the phone.<br/>
 Mummy won&rsquo;t agree.</p>
+
+<!-- more -->
+
 
 <h3>SVP (P:predicative)主语+谓语+表语</h3>
 
@@ -100,7 +103,7 @@ Please sing us a folk song.</p>
 <p>They called him a fool.<br/>
 She found the children fast sleep.</p>
 
-<h3>There＋系动词＋主语（There is a man.）</h3>
+<h3>There＋系动词＋主语</h3>
 
 <p>There is a man. <br/>
 There are three apples on the table.<br/>
@@ -240,8 +243,16 @@ There are many types of businesses in a free-market economy.</p>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>/*
-</span><span class='line'>The symbol $eax refers to one of the CPU registers. In the case of an exception, this register will contain a pointer to the NSException object. Note: $eax only works for the simulator, if you’re debugging on the device you’ll need to use register $r0.
+</span><span class='line'>The symbol $eax refers to one of the CPU registers.    
+</span><span class='line'>In the case of an exception,   
+</span><span class='line'>this register will contain a pointer to the NSException object.   
+</span><span class='line'>Note: $eax only works for the simulator,   
+</span><span class='line'>if you’re debugging on the device you’ll need to use register $r0.  
 </span><span class='line'>*/
 </span><span class='line'>// Simulator
 </span><span class='line'>
@@ -265,9 +276,63 @@ There are many types of businesses in a free-market economy.</p>
 
 <p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
 
+<p>Enabled Zombie Objects后，控制台通常会打印出<code>*** -[CFNumber respondsToSelector:]: message sent to deallocated instance 0x31ab5cfe0</code>类似的信息，那么问题来了，我们怎么知道0x31ab5cfe0是哪个对象？</p>
+
+<p>Apple Memory Usage Performace Guidelines中介绍了记录内存分配历史的方法，简述如下：</p>
+
+<ol>
+<li>设置环境变量： MallocStackLogging，MallocStackLoggingNoCompact为1；</li>
+</ol>
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="Environment" src="http://DamianSheldon.github.io/images/Environment.png" width="448" height="252">
+
+</div>
+
+
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="Zombie" src="http://DamianSheldon.github.io/images/Zombie.png" width="448" height="252">
+
+</div>
+
+
+<ol>
+<li>使用malloc_history命令找到相应的对象。</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>malloc_history &lt;pid/partial-process-name&gt; [options] &lt;mode&gt; [&lt;address&gt; ...]
+</span><span class='line'>
+</span><span class='line'>// pid/partial-process-name是当前上下文NSLog输出时的前面[]的对应数字
+</span><span class='line'>2014-12-02 14:44:39.355 srsApp[7946:300216] selector:0x1014d70b3, jsonValue:0x31a896fd0
+</span><span class='line'>
+</span><span class='line'>malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="Malloc_history" src="http://DamianSheldon.github.io/images/Malloc_history.png" width="720" height="106">
+
+</div>
+
+
 <p>Reference:</p>
 
-<p>iOS 6 Programming Pushing the Limits<br/>
+<p>Memory Usage Performace Guidelines <br/>
+iOS 6 Programming Pushing the Limits<br/>
 <a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
 <a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
 <a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>

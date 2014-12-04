@@ -47,7 +47,11 @@ NSLog(@"%s", __PRETTY_FUNCTION__);
 
 ```
 /*
-The symbol $eax refers to one of the CPU registers. In the case of an exception, this register will contain a pointer to the NSException object. Note: $eax only works for the simulator, if you’re debugging on the device you’ll need to use register $r0.
+The symbol $eax refers to one of the CPU registers.    
+In the case of an exception,   
+this register will contain a pointer to the NSException object.   
+Note: $eax only works for the simulator,   
+if you’re debugging on the device you’ll need to use register $r0.  
 */
 // Simulator
 
@@ -71,8 +75,44 @@ SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后�
 
 Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.
 
+Enabled Zombie Objects后，控制台通常会打印出`*** -[CFNumber respondsToSelector:]: message sent to deallocated instance 0x31ab5cfe0`类似的信息，那么问题来了，我们怎么知道0x31ab5cfe0是哪个对象？
+
+Apple Memory Usage Performace Guidelines中介绍了记录内存分配历史的方法，简述如下：
+
+1. 设置环境变量： MallocStackLogging，MallocStackLoggingNoCompact为1；
+
+<div style="text-align: center" markdown="1">
+
+	<img name="Environment" src="/images/Environment.png" width="448" height="252">
+
+</div>
+
+<div style="text-align: center" markdown="1">
+
+	<img name="Zombie" src="/images/Zombie.png" width="448" height="252">
+
+</div>
+
+2. 使用malloc_history命令找到相应的对象。
+
+```
+malloc_history <pid/partial-process-name> [options] <mode> [<address> ...]
+
+// pid/partial-process-name是当前上下文NSLog输出时的前面[]的对应数字
+2014-12-02 14:44:39.355 srsApp[7946:300216] selector:0x1014d70b3, jsonValue:0x31a896fd0
+
+malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。
+```
+
+<div style="text-align: center" markdown="1">
+
+	<img name="Malloc_history" src="/images/Malloc_history.png" width="720" height="106">
+
+</div>
+
 Reference:
 
+Memory Usage Performace Guidelines   
 iOS 6 Programming Pushing the Limits  
 [My App Crashed, Now What? – Part 1](http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1)    
 [My App Crashed, Now What? – Part 2](http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2)  

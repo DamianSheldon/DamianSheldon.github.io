@@ -32,6 +32,8 @@ The water in the jar has ran out.
 My brother will talk on the phone.  
 Mummy won't agree.  
 
+<!-- more -->
+
 ### SVP (P:predicative)主语+谓语+表语
 
 The plan sounds perfect.  
@@ -87,7 +89,7 @@ Please sing us a folk song.
 They called him a fool.  
 She found the children fast sleep.  
 
-### There＋系动词＋主语（There is a man.）
+### There＋系动词＋主语
 
 There is a man.   
 There are three apples on the table.  

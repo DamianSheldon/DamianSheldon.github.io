@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-04T11:43:37+08:00</updated>
+  <updated>2014-12-05T17:16:26+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何创建自定义的Xcode 6 工程模板]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-creating-custom-xcode-6-project-templates.html/"/>
+    <updated>2014-12-05T14:34:04+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-creating-custom-xcode-6-project-templates</id>
+    <content type="html"><![CDATA[<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
+
+<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
+</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
+</span><span class='line'>
+</span><span class='line'>// Step 2:
+</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>现在我们有了一个和Single View Application一样的模板，但这和我们目标还相差很远。接下来我们要做就是修改<strong>TemplateInfo.plist</strong>，让模板为我们做更多准备工作。</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Keys </th>
+<th> Advice </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Ancestors   </td>
+<td> No          | Import settings from another Project Template.</td>
+</tr>
+<tr>
+<td></td>
+<td> Concrete    </td>
+<td> Recommended | Visible or hide Template form New Project Window.</td>
+</tr>
+<tr>
+<td></td>
+<td> Definitions </td>
+<td> No          | Work with workplace. Can write to file example source code.</td>
+</tr>
+<tr>
+<td></td>
+<td> Description </td>
+<td> Recommended | New Project Window &ndash; Project Template Description.</td>
+</tr>
+<tr>
+<td></td>
+<td> Identifier  </td>
+<td> Yes         | Project Template Unique Identifier.</td>
+</tr>
+<tr>
+<td></td>
+<td> Kind        </td>
+<td> Yes         | XCode Template Kind. Project or File.</td>
+</tr>
+<tr>
+<td></td>
+<td> Nodes       </td>
+<td> Recommended | Create or Copy Files to Project. Copy works</td>
+</tr>
+<tr>
+<td></td>
+<td> Options     </td>
+<td> Recommended | New Project Wizard >> Choose Options for Project. Add Text Fields, Combo Boxes.</td>
+</tr>
+<tr>
+<td></td>
+<td> Platforms   </td>
+<td> Recommended | Set Platform.</td>
+</tr>
+<tr>
+<td></td>
+<td> Project     </td>
+<td> Yes         | Set Project Build Settings.</td>
+</tr>
+<tr>
+<td></td>
+<td> Targets     </td>
+<td> Recommended | Set Build Settings, Build Phases for Targets. Link Libraries.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>上面列出了TemplateInfo.plist大部分键，详细介绍在<a href="https://snipt.net/yonishin/about-xcode-4-project-template/">这里</a>。</p>
+
+<p>我自己新建的模板主要用到Definitions和Nodes，它们俩组合起来可以控制模板会新建哪些文件。例如我想让模板包含Models目录：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
+</span><span class='line'>$ cd ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
+</span><span class='line'>
+</span><span class='line'>// Step 2:
+</span><span class='line'>$ mkdir -p Models
+</span><span class='line'>
+</span><span class='line'>// Step 3: 编辑TemplateInfo.plist 如下图所示。
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="PropertyList" src="http://DamianSheldon.github.io/images/PropertyList.png" width="623" height="836">
+
+</div>
+
+
+<p>完整的模板放在<a href="https://github.com/DamianSheldon/Xcode-6-Project-Templates">这里</a>。</p>
+
+<h2>Reference</h2>
+
+<p><a href="http://meandmark.com/blog/2011/12/creating-custom-xcode-4-project-templates/">Creating Custom Xcode 4 Project Templates</a><br/>
+<a href="https://snipt.net/yonishin/about-xcode-4-project-template/">About XCode 4 Project Template (How To Create Custom Project Template)</a><br/>
+<a href="https://github.com/reidmain/Xcode-6-Project-Templates">Xcode-6-Project-Templates</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[英语句子结构]]></title>
@@ -3482,204 +3617,6 @@ These rules apply even if your subclass adds further convenience initializers.
 
 NOTE:子类可以是用Convenience Initializer实现父类的Designated Initializer.
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Core Data 初步]]></title>
-    <link href="http://DamianSheldon.github.io/blog/core-data-chu-bu.html/"/>
-    <updated>2014-05-22T09:53:40+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/core-data-chu-bu</id>
-    <content type="html"><![CDATA[<ol>
-<li>Core Data是什么？</li>
-<li>为什么使用Core Data?</li>
-<li>如何使用Core Data?</li>
-</ol>
-
-
-<h2>Core Data是什么？</h2>
-
-<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
-
-<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
-
-<h2>为什么使用Core Data？</h2>
-
-<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
-
-<ul>
-<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
-<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
-<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
-<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
-<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
-</ul>
-
-
-<!-- more -->
-
-
-<blockquote><p>There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.</p></blockquote>
-
-<h2>如何使用Core Data?</h2>
-
-<p>Core Data 有相当多可用的组件,下图示意了这些组件之间的关系：
- </p>
-
-<div style="text-align:center" markdown="1">
-    <img name="Core Data Stack" src="http://DamianSheldon.github.io/images/CoreDataStack.jpg" width="610" height="418"> 
-
-</div>
-
-
-<p>其实我们主要就是对数据进行CRUD操作，我们过一遍创建数据的过程，其他操作也就容易理解了。</p>
-
-<p>应用的需求会决定应该创建些什么模型类，通常我们会创建模型文件（后缀为xcdatamodeld，当然也可以纯代码），模型文件对应Managed Object Model（NSManagedObjectModel），它是实体的一个集合，实体和模型类一一对应。</p>
-
-<p>应用启动以后会实例化一个Managed Object Context（NSManagedObjectContext），它相当于一个总入口，所有的数据操作都是通过它进行。Managed Object Context会持有一个Persistent Store Coordinator（NSPersistentStoreCoordinator）。</p>
-
-<p>Persistent Store Coordinator帮我们将固化的文件内容映射成managed model,并且可以管理多个永久存储池（NSPersistentStore），这样managed object context看到的只是单个存储池。</p>
-
-<p>当所有的组件都捆绑到一起的时候，我们把它称作 Core Data 堆栈，这个堆栈有两个主要部分。一部分是关于对象图管理，这正是你需要很好掌握的那一部分，并且知道怎么使用。第二部分是关于持久化，比如，保存你模型对象的状态，然后再恢复模型对象的状态。</p>
-
-<p>在两个部分之间，即堆栈中间，是持久化存储协调器（persistent store coordinator），也被称为中间审查者。它将对象图管理部分和持久化部分捆绑在一起，当它们两者中的任何一部分需要和另一部分交流时，这便需要持久化存储协调器来调节了。</p>
-
-<p>对象图管理是你程序模型层的逻辑存在的地方。模型层的对象存在于一个 context 内。在大多数的设置中，存在一个 context ，并且所有的对象存在于那个 context 中。Core Data 支持多个 contexts，不过对于更高级的使用情况才用。注意每个 context 和其他 context 都是完全独立的，一会儿我们将会谈到。需要记住的是，对象和它们的 context 是相关联的。每个被管理的对象都知道自己属于哪个 context，并且每个 context 都知道自己管理着哪些对象。</p>
-
-<p>堆栈的另一部分就是持久了，即 Core Data 从文件系统中读或写数据。每个持久化存储协调器（persistent store coordinator）都有一个属于自己的持久化存储（persistent store），并且这个 store 在文件系统中与 SQLite 数据库交互。为了支持更高级的设置，Core Data 可以将多个 stores 附属于同一个持久化存储协调器，并且除了存储 SQL 格式外，还有很多存储类型(binary,XML)可供选择。</p>
-
-<h2>代码示例</h2>
-
-<p>纯理论的讲我们可能不容易理解，让我们结合代码来看看。</p>
-
-<h3>创建和加载Managed Object Model</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1)You usually create a model in Xcode, as described in Core Data Model Editor Help. 
-</span><span class='line'>
-</span><span class='line'>[[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"NameOfCoreDataResource" withExtension:@"momd"]]
-</span><span class='line'>
-</span><span class='line'>// Another method
-</span><span class='line'>managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
-</span><span class='line'>
-</span><span class='line'>// 2)You can also create a model entirely in code.
-</span><span class='line'>NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] init];
-</span><span class='line'>NSEntityDescription *runEntity = [[NSEntityDescription alloc] init];
-</span><span class='line'>[runEntity setName:@"Run"];
-</span><span class='line'>[runEntity setManagedObjectClassName:@"Run"];
-</span><span class='line'>[mom setEntities:@[runEntity]];
-</span><span class='line'> 
-</span><span class='line'>NSMutableArray *runProperties = [NSMutableArray array];
-</span><span class='line'> 
-</span><span class='line'>NSAttributeDescription *dateAttribute = [[NSAttributeDescription alloc] init];
-</span><span class='line'>[runProperties addObject:dateAttribute];
-</span><span class='line'>[dateAttribute setName:@"date"];
-</span><span class='line'>[dateAttribute setAttributeType:NSDateAttributeType];
-</span><span class='line'>[dateAttribute setOptional:NO];
-</span><span class='line'> 
-</span><span class='line'>NSAttributeDescription *idAttribute= [[NSAttributeDescription alloc] init];
-</span><span class='line'>[runProperties addObject:idAttribute];
-</span><span class='line'>[idAttribute setName:@"processID"];
-</span><span class='line'>[idAttribute setAttributeType:NSInteger32AttributeType];
-</span><span class='line'>[idAttribute setOptional:NO];
-</span><span class='line'>[idAttribute setDefaultValue:@0];
-</span><span class='line'> 
-</span><span class='line'>NSPredicate *validationPredicate = [NSPredicate predicateWithFormat:@"SELF &gt;= 0"];
-</span><span class='line'>NSString *validationWarning = @"Process ID &lt; 0";
-</span><span class='line'>[idAttribute setValidationPredicates:@[validationPredicate]
-</span><span class='line'>    withValidationWarnings:@[validationWarning]];
-</span><span class='line'> 
-</span><span class='line'>[runEntity setProperties:runProperties];
-</span><span class='line'> 
-</span><span class='line'>NSDictionary *localizationDictionary = @{
-</span><span class='line'>    @"Property/processID/Entity/Run" : @"Process ID",
-</span><span class='line'>    @"Property/date/Entity/Run" : @"Date"
-</span><span class='line'>    @"ErrorString/Process ID &lt; 0" : @"Process ID must not be less than 0" };
-</span><span class='line'>[mom setLocalizationDictionary:localizationDictionary];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Managed Object Context</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Assume we have a persistent store coordinator
-</span><span class='line'>        managedObjectContext = [[NSManagedObjectContext alloc] init];
-</span><span class='line'>        [managedObjectContext setPersistentStoreCoordinator: coordinator];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Persistent Store Coordinator</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Locations.sqlite"]];
-</span><span class='line'>
-</span><span class='line'>NSError *error;
-</span><span class='line'>persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-</span><span class='line'>if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-</span><span class='line'>    // Handle the error.
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Persistent Store</h3>
-
-<p>我们不直接创建persistent object store。当我们给persistent store coordinator发送addPersistentStoreWithType:configuration:URL:options:error:, Core Data为我们创建合适的store.</p>
-
-<h2>完整示例</h2>
-
-<p>上面是分解开来的示例，我们最后来看过完整的实例，我稍稍修改下苹果的官方示例<a href="https://github.com/DamianSheldon/Locations">Locations</a>.</p>
-
-<h2>Reference</h2>
-
-<p>Core Data Programming Guide  <br/>
-<a href="http://objccn.io/issue-4-1/">Core Data 概述</a> <br/>
-<a href="http://blog.csdn.net/kesalin/article/details/6739319">深入浅出 Cocoa 之 Core Data</a>  <br/>
-<a href="http://www.cnblogs.com/kenshincui/p/4077833.html#CoreData">iOS开发系列&mdash;数据存取</a></p>
 ]]></content>
   </entry>
   

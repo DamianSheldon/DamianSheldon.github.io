@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-05T17:16:26+08:00</updated>
+  <updated>2014-12-09T09:36:06+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App State Preservation and Restoration]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration.html/"/>
+    <updated>2014-12-08T11:55:48+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration</id>
+    <content type="html"><![CDATA[<ol>
+<li>什么是State Preservation and Restoration？</li>
+<li>为什么要用State Preservation and Restoration？</li>
+<li>如何使用State Preservation and Restoration？</li>
+</ol>
+
+
+<h3>什么是State Preservation and Restoration？</h3>
+
+<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
+
+<h3>为什么要用State Preservation and Restoration？</h3>
+
+<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
+
+<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
+
+<!-- more -->
+
+
+<h3>如何使用State Preservation and Restoration？</h3>
+
+<p>State Restoreation成功的前提条件如下： <br/>
+1. <strong>状态保留必须成功。</strong>也就是说应用终止前必须进入后台运行状态。 <br/>
+2. <strong>应用不可以强制退出。</strong> <br/>
+3. <strong>从最近一次状态保留开始，应用必须没有启动失败过。</strong></p>
+
+<p>Checklist for Implementing State Preservation and Restoration</p>
+
+<ol>
+<li>(Required) Implement the <code>application:shouldSaveApplicationState:</code> and <code>application:shouldRestoreApplicationState:</code>methods in your app delegate;</li>
+<li>(Required) Assign restoration identifiers to each view controller you want to preserve by assigning a non empty string to their <code>restorationIdentifier</code> property;If you want to save the state of specific views too, assign non empty strings to their <code>restorationIdentifier</code> properties;</li>
+<li>(Required) Show your app’s window from the <code>application:willFinishLaunchingWithOptions:</code> method of your app delegate. The state restoration machinery needs the window so that it can restore scroll positions and other relevant bits of your app’s interface.</li>
+<li>Assign restoration classes to the appropriate view controllers. (If you do not do this, your app delegate is asked to provide the corresponding view controller at restore time.)</li>
+<li>(Recommended) Encode and decode the state of your views and view controllers using the <code>encodeRestorableStateWithCoder:</code> and <code>decodeRestorableStateWithCoder:</code> methods of those objects;</li>
+<li>Encode and decode any version information or additional state information for your app using the <code>application:willEncodeRestorableStateWithCoder:</code> and <code>application:didDecodeRestorableStateWithCoder:</code> methods of your app delegate;</li>
+<li>Objects that act as data sources for table views and collection views should implement the <strong>UIDataSourceModelAssociation</strong> protocol. Although not required, this protocol helps preserve the selected and visible items in those types of views.</li>
+</ol>
+
+
+<h3>注意事项</h3>
+
+<div style="text-align: center" markdown="1">
+
+    <img name="state_vc_caveats_2x" src="http://DamianSheldon.github.io/images/state_vc_caveats_2x.png" width="594" height="862">
+
+</div>
+
+
+<p>上图有颜色的视图控制器的状态是不会被保存和恢复的。</p>
+
+<h3>Reference</h3>
+
+<p>App Programming Guide for iOS</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何创建自定义的Xcode 6 工程模板]]></title>
@@ -3562,61 +3624,6 @@ computed properties, which do not actually store a value. Instead, they provide 
 
 <p>willSet is called just before the value is stored.<br/>
 didSet is called immediately after the new value is stored.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift Learning Notes -- Initialization]]></title>
-    <link href="http://DamianSheldon.github.io/blog/swift-learning-notes-initialization.html/"/>
-    <updated>2014-06-24T11:33:28+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/swift-learning-notes-initialization</id>
-    <content type="html"><![CDATA[<h3>Initialization</h3>
-
-<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
-
-<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
-1，为实例的每一个存储属性设置初始值;  <br/>
-2，进行其他必要的准备工作.</p>
-
-<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
-
-<h3>Value Type Initialization</h3>
-
-<p>1)为存储属性设置默认值；</p>
-
-<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
-structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
-</code></pre>
-
-<p>2)初始化方法。</p>
-
-<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
-</code></pre>
-
-<!-- more -->
-
-
-<h3>Reference Type Initialization</h3>
-
-<p>1)为类引入的存储属性设置初始值;<br/>
-2)初始化方法。</p>
-
-<pre><code>Designated initializers must always delegate up.
-Convenience initializers must always delegate across.
-
-Swift中子类默认是不继承父类的初始化方法,然而当满足一定条件时例外。
-Assuming that you provide default values for any new properties you introduce in a subclass, the following two rules apply:
-
-Rule 1
-If your subclass doesn’t define any designated initializers, it automatically inherits all of its superclass designated initializers.
-
-Rule 2
-If your subclass provides an implementation of all of its superclass designated initializers—either by inheriting them as per rule 1, or by providing a custom implementation as part of its definition—then it automatically inherits all of the superclass convenience initializers.
-
-These rules apply even if your subclass adds further convenience initializers.
-
-NOTE:子类可以是用Convenience Initializer实现父类的Designated Initializer.
-</code></pre>
 ]]></content>
   </entry>
   

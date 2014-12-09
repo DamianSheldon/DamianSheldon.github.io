@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-05T17:16:26+08:00</updated>
+  <updated>2014-12-09T09:36:06+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App State Preservation and Restoration]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration.html/"/>
+    <updated>2014-12-08T11:55:48+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration</id>
+    <content type="html"><![CDATA[<ol>
+<li>什么是State Preservation and Restoration？</li>
+<li>为什么要用State Preservation and Restoration？</li>
+<li>如何使用State Preservation and Restoration？</li>
+</ol>
+
+
+<h3>什么是State Preservation and Restoration？</h3>
+
+<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
+
+<h3>为什么要用State Preservation and Restoration？</h3>
+
+<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
+
+<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
+
+<!-- more -->
+
+
+<h3>如何使用State Preservation and Restoration？</h3>
+
+<p>State Restoreation成功的前提条件如下： <br/>
+1. <strong>状态保留必须成功。</strong>也就是说应用终止前必须进入后台运行状态。 <br/>
+2. <strong>应用不可以强制退出。</strong> <br/>
+3. <strong>从最近一次状态保留开始，应用必须没有启动失败过。</strong></p>
+
+<p>Checklist for Implementing State Preservation and Restoration</p>
+
+<ol>
+<li>(Required) Implement the <code>application:shouldSaveApplicationState:</code> and <code>application:shouldRestoreApplicationState:</code>methods in your app delegate;</li>
+<li>(Required) Assign restoration identifiers to each view controller you want to preserve by assigning a non empty string to their <code>restorationIdentifier</code> property;If you want to save the state of specific views too, assign non empty strings to their <code>restorationIdentifier</code> properties;</li>
+<li>(Required) Show your app’s window from the <code>application:willFinishLaunchingWithOptions:</code> method of your app delegate. The state restoration machinery needs the window so that it can restore scroll positions and other relevant bits of your app’s interface.</li>
+<li>Assign restoration classes to the appropriate view controllers. (If you do not do this, your app delegate is asked to provide the corresponding view controller at restore time.)</li>
+<li>(Recommended) Encode and decode the state of your views and view controllers using the <code>encodeRestorableStateWithCoder:</code> and <code>decodeRestorableStateWithCoder:</code> methods of those objects;</li>
+<li>Encode and decode any version information or additional state information for your app using the <code>application:willEncodeRestorableStateWithCoder:</code> and <code>application:didDecodeRestorableStateWithCoder:</code> methods of your app delegate;</li>
+<li>Objects that act as data sources for table views and collection views should implement the <strong>UIDataSourceModelAssociation</strong> protocol. Although not required, this protocol helps preserve the selected and visible items in those types of views.</li>
+</ol>
+
+
+<h3>注意事项</h3>
+
+<div style="text-align: center" markdown="1">
+
+    <img name="state_vc_caveats_2x" src="http://DamianSheldon.github.io/images/state_vc_caveats_2x.png" width="594" height="862">
+
+</div>
+
+
+<p>上图有颜色的视图控制器的状态是不会被保存和恢复的。</p>
+
+<h3>Reference</h3>
+
+<p>App Programming Guide for iOS</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何创建自定义的Xcode 6 工程模板]]></title>
@@ -451,178 +513,6 @@ Archives and Serializations Programming Guide  <br/>
 <a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
 <a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
 <a href="http://www.cnblogs.com/kenshincui/p/4077833.html">iOS开发系列&mdash;数据存取</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
-    <link href="http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing.html/"/>
-    <updated>2014-11-12T16:06:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing</id>
-    <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
-
-<ol>
-<li>Key-Value Coding是什么？</li>
-<li>为什么要用Key-Value Coding？</li>
-<li>如何使用Key-Value Coding?</li>
-</ol>
-
-
-<h3>Key-Value Coding是什么？</h3>
-
-<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
-
-<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
-
-<h3>为什么要用Key-Value Coding？</h3>
-
-<ol>
-<li>Scripting（OS X）;</li>
-<li>简化代码和提高灵活性；</li>
-</ol>
-
-
-<h3>如何使用Key-Value Coding?</h3>
-
-<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
-
-<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
-
-<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
-
-<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
-
-<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
-
-<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
-
-<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
-
-<!-- more -->
-
-
-<h4>使用key-value coding读取attribute值</h4>
-
-<p>NSKeyValueCoding中定义的的attribute读取方法有：</p>
-
-<p>```
-&ndash; (id)valueForKey:(NSString *)key;</p>
-
-<ul>
-<li><p>(NSMutableArray <em>)mutableArrayValueForKey:(NSString </em>)key;</p></li>
-<li><p>(id)valueForKeyPath:(NSString *)keyPath;</p></li>
-<li><p>(NSMutableArray <em>)mutableArrayValueForKeyPath:(NSString </em>)keyPath;</p></li>
-<li><p>(NSDictionary <em>)dictionaryWithValuesForKeys:(NSArray </em>)keys;</p></li>
-<li><p>(id)valueForUndefinedKey:(NSString *)key;</p></li>
-</ul>
-
-
-<p>```</p>
-
-<h4>使用key-value coding存储attribute值</h4>
-
-<p>```
-&ndash; (void)setValue:(id)value forKey:(NSString *)key;</p>
-
-<ul>
-<li><p>(NSMutableSet <em>)mutableSetValueForKey:(NSString </em>)key;</p></li>
-<li><p>(void)setValue:(id)value forKeyPath:(NSString *)keyPath;</p></li>
-<li><p>(NSMutableSet <em>)mutableSetValueForKeyPath:(NSString </em>)keyPath;</p></li>
-<li><p>(void)setValue:(id)value forUndefinedKey:(NSString *)key;</p></li>
-<li><p>(void)setNilValueForKey:(NSString *)key;</p></li>
-<li><p>(void)setValuesForKeysWithDictionary:(NSDictionary *)keyedValues;</p></li>
-</ul>
-
-
-<p>```</p>
-
-<p>你需要考虑一个额外的问题就是当你尝试设置非对象的property为nil。这种情况下，接收者给它自己发送一个setNilValueForKey:消息。它默认的实现是抛出NSInvalidArgumentException异常。你的应用可以覆盖这个方法替换默认值或标记值，然后你用新值调用setValue:forKey:。</p>
-
-<p>现在，我们知道怎么用key-value coding去间接访问对象的property了。但是，如果想让我们自定义的类的property也支持key-value coding的话，我们应该怎么做呢？</p>
-
-<h4>如何让自定义类的属性支持key-value coding?</h4>
-
-<blockquote><p>Key-value coding attempts to use accessor methods to get and set values, before resorting to directly accessing the instance variable.</p></blockquote>
-
-<p>在依靠直接访问实例变量之前，key-value coding尝试使用存取方法去访问和设置值。也就是说我们最好实现相应的存取方法，至少也要存在合适的实例变量。</p>
-
-<p>前面提到key-value coding支持三个类型的attribute,针对三种类型的attribute,key-value coding分别是怎么来搜索存取方法和实例变量的呢？</p>
-
-<ol>
-<li>简单attributes存取方法搜索模式；</li>
-<li>顺序集合存取方法的搜索模式；</li>
-<li>唯一顺序集合存取方法的搜索模式；</li>
-<li>无序集合存取方法的搜索模式。</li>
-</ol>
-
-
-<p>搜索的细节可以查阅Key-Value Coding Programming Guide。</p>
-
-<h2>Key-Value Observing</h2>
-
-<ol>
-<li>Key-Value Observing是什么？</li>
-<li>为什么要用Key-Value Observing？</li>
-<li>如何使用Key-Value Observing?</li>
-</ol>
-
-
-<h3>Key-Value Observing是什么？</h3>
-
-<blockquote><p>Key-value observing is a mechanism that allows objects to be notified of changes to specified properties of other objects.</p></blockquote>
-
-<p>Key-value observing是一种允许一对对象的特定属性改变时另一个对象被通知的机制。</p>
-
-<h3>为什么要用Key-Value Observing？</h3>
-
-<p>KVO的主要好处是你不需要实现一套属性每次改变发送通知的机制。</p>
-
-<h3>如何使用Key-Value Observing?</h3>
-
-<ol>
-<li>Registering as an Observer;</li>
-<li>Receiving Notification of a Change;</li>
-<li>Removing an Object as an Observer.</li>
-</ol>
-
-
-<p>同样，自定义的类如何才能让其他的开发者能使用KVO呢？我们要做的是符合KVO标准。</p>
-
-<h4>KVO Compliance</h4>
-
-<ul>
-<li>The class must be <strong>key-value coding compliant</strong> for the property, as specified in <strong>Ensuring KVC Compliance</strong> in <strong>Key-Value Coding Programming Guide</strong>.</li>
-<li>The class emits KVO change notifications for the property.</li>
-<li>Dependent keys are registered appropriately (see <strong>Registering Dependent Keys</strong>).</li>
-</ul>
-
-
-<hr />
-
-<p>There are two techniques for ensuring the change notifications are emitted. Automatic support is provided by NSObject and is by default available for all properties of a class that are key-value coding compliant. Typically, if you follow standard Cocoa coding and naming conventions, you can use automatic change notifications—you don’t have to write any additional code.</p>
-
-<p>Manual change notification provides additional control over when notifications are emitted, and requires additional coding. You can control automatic notifications for properties of your subclass by implementing the class method automaticallyNotifiesObserversForKey:.</p>
-
-<hr />
-
-<h4>One more thing</h4>
-
-<p>Key-Value Observing Implementation Details</p>
-
-<p>Automatic key-value observing is implemented using a technique called <strong>isa-swizzling</strong>.</p>
-
-<p>The <strong>isa</strong> pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.</p>
-
-<p>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.</p>
-
-<p>You should never rely on the <strong>isa</strong> pointer to determine class membership. Instead, you should use the <strong>class</strong> method to determine the class of an object instance.</p>
-
-<p>So how does <strong>class</strong> method determine the class of an object?</p>
-
-<h1>Reference</h1>
-
-<p>Key-Value Coding Programming Guide <br/>
-Key-Value Observing Programming Guide</p>
 ]]></content>
   </entry>
   

@@ -553,5 +553,20 @@ To jessica@githost:simplegit.git
 
 ```
 
+###Tips
+
+####如何将另一分支上的某文件复制到当前分支上来？
+
+```
+$git checkout currentBranch
+$git checkout anotherBranch -- filenameYourWantedCopy
+```
+
+####如何不再控制已经提交到仓库的文件？
+
+```
+$git rm --cached filenameYourDontWantTracked
+```
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

@@ -1083,6 +1083,24 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>Tips</h3>
+
+<h4>如何将另一分支上的某文件复制到当前分支上来？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> checkout currentBranch
+</span><span class='line'><span class="nv">$git</span> checkout anotherBranch -- filenameYourWantedCopy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>如何不再控制已经提交到仓库的文件？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> rm --cached filenameYourDontWantTracked
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>

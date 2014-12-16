@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-09T09:36:06+08:00</updated>
+  <updated>2014-12-16T09:14:19+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[App如何与Server安全交互]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server.html/"/>
+    <updated>2014-12-15T11:53:11+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server</id>
+    <content type="html"><![CDATA[<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
+
+<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
+
+<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
+
+<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
+
+<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
+
+<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
+
+<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App State Preservation and Restoration]]></title>
@@ -2649,6 +2670,24 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>Tips</h3>
+
+<h4>如何将另一分支上的某文件复制到当前分支上来？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> checkout currentBranch
+</span><span class='line'><span class="nv">$git</span> checkout anotherBranch -- filenameYourWantedCopy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>如何不再控制已经提交到仓库的文件？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> rm --cached filenameYourDontWantTracked
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
@@ -3576,54 +3615,6 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 
 <p>原文<br/>
 o <a href="http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/">http://www.devfright.com/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift Learning Notes -- Properties]]></title>
-    <link href="http://DamianSheldon.github.io/blog/swift-learning-notes-properties.html/"/>
-    <updated>2014-06-24T15:28:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/swift-learning-notes-properties</id>
-    <content type="html"><![CDATA[<h3>Properties</h3>
-
-<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
-
-<h4>Type Properties</h4>
-
-<p>属于类型本身的properties称为Type Property.</p>
-
-<p>1)Value Type Properties (keyword: static)<br/>
-structrue, enumeration可以定义Stroed 和Computed type properties.</p>
-
-<p>Stored type properties for value types can be variables or constants.<br/>
-NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
-
-<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
-
-<p>2)Reference Type Properties (keyword: class)<br/>
-class只可以定义Computed type properties.</p>
-
-<!-- more -->
-
-
-<h4>Instance Properties</h4>
-
-<p>1)Stroed Properties
-In its simplest form, a stored property is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).</p>
-
-<p>P.S:A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.</p>
-
-<p>2)Computed Properties
-computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.</p>
-
-<h3>Properties Observer</h3>
-
-<p>Property observers observe and respond to changes in a property’s value.</p>
-
-<p>You have the option to define either or both of these observers on a property:</p>
-
-<p>willSet is called just before the value is stored.<br/>
-didSet is called immediately after the new value is stored.</p>
 ]]></content>
   </entry>
   

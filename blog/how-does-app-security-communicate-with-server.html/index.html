@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>English  | Hello World</title>
+	<title>App如何与Server安全交互  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Security, TLS/SSL, HTTPS, Public-Key Infrastructure">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -101,114 +101,83 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-    
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">App如何与Server安全交互</h2>
+	<div class="entry-content"><p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
 
-    
+<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
 
-    
+<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
 
-    
-        
+<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
+
+<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
+
+<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
+
+<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
+</div>
 
 
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2014</time></div>
 	
-	
-		</section>
-	
-	<section class="archives"><h1 class="year">2014</h1>
-
-<article>
-	<h2 class="title"><a href="/blog/english-sentence.html/">英语句子结构</a></h2>
-	<div class="meta">
-		<div class="date">Nov 27</div>
-		
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/english/'>English</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 
 
-	    
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
 	</div>
-</article>
-    
-
-    
-        
-
-
-<article>
-	<h2 class="title"><a href="/blog/english-basic.html/">英语起步</a></h2>
-	<div class="meta">
-		<div class="date">Nov 26</div>
-		
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/english/'>English</a>
-
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	    
-	</div>
-</article>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2014
 

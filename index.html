@@ -107,6 +107,60 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-does-app-security-communicate-with-server.html/">
+		
+			App如何与Server安全交互</a>
+	</h2>
+	<div class="entry-content">
+		<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
+
+<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
+
+<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
+
+<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
+
+<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
+
+<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
+
+<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-app-state-preservation-and-restoration.html/">
 		
 			iOS App State Preservation and Restoration</a>
@@ -212,74 +266,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/english-sentence.html/">
-		
-			英语句子结构</a>
-	</h2>
-	<div class="entry-content">
-		<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
-
-<ol>
-<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
-<li>SVP (P:predicative)主语+谓语+表语</li>
-<li>SVO (O:object)主语+谓语+宾语</li>
-<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
-<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
-<li>There＋系动词＋主语</li>
-</ol>
-
-
-<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
-
-<p>John sleeps.<br/>
-Jill is eating.<br/>
-Jack will arrive next week.<br/>
-The tlephone rang.<br/>
-His father might have died.<br/>
-Sandy walks in the playground evening.<br/>
-He never gives up easily.<br/>
-The children listened carefully.<br/>
-Our Manager has arrived in pairs.<br/>
-The water in the jar has ran out.<br/>
-My brother will talk on the phone.<br/>
-Mummy won&rsquo;t agree.</p>
-
-
-		
-		<a href="/blog/english-sentence.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-27T20:19:06+08:00" pubdate data-updated="true">Nov 27<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/english/'>English</a>
 
 </div>
 

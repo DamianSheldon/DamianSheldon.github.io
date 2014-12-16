@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-09T09:36:06+08:00</updated>
+  <updated>2014-12-16T09:14:19+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[App如何与Server安全交互]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server.html/"/>
+    <updated>2014-12-15T11:53:11+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server</id>
+    <content type="html"><![CDATA[<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
+
+<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
+
+<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
+
+<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
+
+<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
+
+<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
+
+<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App State Preservation and Restoration]]></title>
@@ -378,141 +399,6 @@ iOS 6 Programming Pushing the Limits<br/>
 <a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
 <a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
 <a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 数据持久化]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-app-data-persistence.html/"/>
-    <updated>2014-11-13T15:06:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-app-data-persistence</id>
-    <content type="html"><![CDATA[<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
-
-<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
-
-<h2>文件系统基础</h2>
-
-<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
-我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
-
-<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
-
-<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
-
-</div>
-
-
-
-
-<!-- more -->
-
-
-<p>iOS应用常用的目录列表：</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Directory </th>
-<th align="left"> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> AppName.app </td>
-<td align="left"> This is the app’s bundle</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> Documents/ </td>
-<td align="left"> Use this directory to store user-generated content.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> Documents/Inbox </td>
-<td align="left"> Use this directory to access files that your app was asked to open by outside entities.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> Library/ </td>
-<td align="left"> This is the top-level directory for any files that are not user data files.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> tmp/ </td>
-<td align="left"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h3>数据的建议存储位置</h3>
-
-<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
-
-<h3>数据持久化的方法</h3>
-
-<ol>
-<li>NSUserDefaults;</li>
-<li>Property Lists;</li>
-<li>Archive;</li>
-<li>数据库;</li>
-<li>Core Data。</li>
-</ol>
-
-
-<h4>NSUserDefaults</h4>
-
-<p>NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许应用去自定义它的行为来符合用户的偏好。所以它主要是用来存储些配置信息。
-它支持的数据类型有：floats，doubles，integers，Booleans，URLs，NSData，NSString，NSNumber，NSDate，NSArray和NSDictionary。如果还想存储其他类型的对象，需要使用NSData对它们进行归档。</p>
-
-<h4>Property Lists</h4>
-
-<p>当我们的需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们对象的全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。</p>
-
-<p>Property list有三种存储方式：XML, binary format, &ldquo;old-style&rdquo; ASCII format inherited from OpenStep。old-style format的序列化API是只读的。</p>
-
-<p>XML property list比binary格式的可移植性好，可以手动编辑，但是binary property lists兼容性好，需要的存储空间少，读写速度要优于XML property lists。通常来说，如果你的property list相对较小，XML property lists的优点会战胜它相对binary property lists的I/O速度，难兼容的缺点。如果你有大量数据，binary property lists, keyed archives，或自定义数据格式会是更好的解决方案。</p>
-
-<h4>Archive</h4>
-
-<p>Archives提供了一种把对象和值转成结构独立的字节流，它保留了对象与值，以及对象与对象的关系信息。</p>
-
-<p>Cocoa archives可以持有Objective-c对象，标量，数组，结构体和字符串。它不能持有和平台相关的类型，例如union, void *, function pointers, 和long chains of pointers。</p>
-
-<p>对象写入archive和从archive读出是使用coder对象。Coder对象是抽象类NSCoder具体子类的实例。它通过给对象发送NSCoding协议定义的encodeWithCoder: 和initWithCoder:方法分别写入或读出archiver。只有支持NSCoding协议的对象才能写入archiver。</p>
-
-<h4>数据库</h4>
-
-<p>iOS中有了以上数据持久化方法，我们为什么还需要数据库？</p>
-
-<p>目前在iOS App开发中，SQLite是个不错的选择。</p>
-
-<hr />
-
-<p>SQLite</p>
-
-<blockquote><p>SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.</p></blockquote>
-
-<p>SQLite在众多数据库中脱颖而出，目前是个不错的选择，但由于它是C接口，操作略显繁琐，就有了很多对它的封装，FMDB是个不错的选择。</p>
-
-<h4>Core Data</h4>
-
-<p>Core Data是Apple为我们提供的一种持久化方法，比较强大也比较复杂。</p>
-
-<h1>Reference</h1>
-
-<p>File System Programming Guide <br/>
-Property List Programming Guide   <br/>
-Archives and Serializations Programming Guide  <br/>
-<a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
-<a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
-<a href="http://www.cnblogs.com/kenshincui/p/4077833.html">iOS开发系列&mdash;数据存取</a></p>
 ]]></content>
   </entry>
   

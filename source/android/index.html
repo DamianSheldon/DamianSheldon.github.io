@@ -1,0 +1,10 @@
+---
+layout: default
+title: "Android"
+---
+
+{% for post in site.posts reverse %}
+    {% if post.categories contains 'Android' %}
+        {% include archive_post.html %}
+    {% endif %}
+{% endfor %}

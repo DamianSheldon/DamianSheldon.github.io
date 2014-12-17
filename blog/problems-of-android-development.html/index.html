@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Auto Layout  | Hello World</title>
+	<title>Android开发问题汇总  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Auto Layout, 自动布局, iOS, Adaptive, Mutiple Screen, iPhone 6, iPhone 6 Plus">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Android, 问题">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -106,64 +106,84 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Auto Layout</h2>
-	<div class="entry-content"><h3>前言</h3>
+	<h2 class="title">Android开发问题汇总</h2>
+	<div class="entry-content"><h3>Android Studio SDK Components安装提示操作超时</h3>
 
-<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
-
-<h3>Auto Layout 是什么</h3>
-
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
-
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
-
-<!-- more -->
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
+</span><span class='line'>$ vim /etc/hosts
+</span><span class='line'>203.208.46.146 dl.google.com
+</span><span class='line'>203.208.46.146 dl-ssl.google.com</span></code></pre></td></tr></table></div></figure>
 
 
-<h4>Constraint &mdash; 约束</h4>
+<h3>Android Studio Check Updates提示连接出错</h3>
 
-<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
-  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
-  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
-  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
-  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
+</span><span class='line'>$ vim /Applications/Android\ Studio.app/Contents/Info.plist
+</span><span class='line'>
+</span><span class='line'>// 搜索 VMOptions
+</span><span class='line'>
+</span><span class='line'>// 添加如下内容
+</span><span class='line'>-Djava.net.preferIPv4Stack=true
+</span><span class='line'>-Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml
+</span><span class='line'>-Didea.patches.url=http://dl.google.com/android/studio/patches/
+</span><span class='line'>
+</span><span class='line'>// 结果
+</span><span class='line'>&lt;key&gt;VMOptions&lt;/key&gt;
+</span><span class='line'>&lt;string&gt;
+</span><span class='line'>-Dfile.encoding=UTF-8 -ea 
+</span><span class='line'>-Dsun.io.useCanonCaches=false 
+</span><span class='line'>-Djava.net.preferIPv4Stack=true
+</span><span class='line'> -Djna.nosys=true 
+</span><span class='line'> -Djna.boot.library.path=  
+</span><span class='line'> -Djna.debug_load=true 
+</span><span class='line'> -Djna.debug_load.jna=true 
+</span><span class='line'> -Djsse.enableSNIExtension=false 
+</span><span class='line'> -XX:+UseCodeCacheFlushing 
+</span><span class='line'> -XX:+UseConcMarkSweepGC 
+</span><span class='line'> -XX:SoftRefLRUPolicyMSPerMB=50 
+</span><span class='line'> -Xverify:none -Xbootclasspath/a:../lib/boot.jar 
+</span><span class='line'> -Djava.net.preferIPv4Stack=true 
+</span><span class='line'> -Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml 
+</span><span class='line'> -Didea.patches.url=http://dl.google.com/android/studio/patches/
+</span><span class='line'> &lt;/string&gt;
+</span><span class='line'>
+</span><span class='line'>// 重启 Android Studio</span></code></pre></td></tr></table></div></figure>
 
-<h4>Intrinsic Content Size</h4>
-
-<p>  Intrinsic Content Size 是 Auto Layout 中另一个重要概念，身处视图层级末端的视图会为显示特定内容期望得到一个大小，它就叫做Intrinsic Content Size。</p>
-
-<h3>如何使用Auto Layout</h3>
-
-<p>  Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。</p>
-
-<h3>Tips</h3>
-
-<p>1,在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
-
-<p>2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：<br/>
-  * 在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；<br/>
-  * 双击上述文件使它在新的窗口中打开； <br/>
-  * 将新的窗口移动到新的桌面上，最大化它； <br/>
-  * 单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；  <br/>
-  * 在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。</p>
-
-<h3>Demo</h3>
-
-<p><a href="https://github.com/DamianSheldon/AutoLayout">Auto Layout Demo</a></p>
-
-<h3>Reference</h3>
-
-<p>Auto Layout Guide<br/>
-WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
-WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
-WWDC2012 session 232 – Auto Layout by Example<br/>
-<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  ">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  </a>
-<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2</a>  <br/>
-<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
-<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
-<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
 </div>
 
 
@@ -180,12 +200,12 @@ WWDC2012 session 232 – Auto Layout by Example<br/>
   
 
 
-<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
+<time datetime="2014-12-17T09:38:20+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/android/'>Android</a>, <a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 

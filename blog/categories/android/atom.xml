@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Android | Hello World]]></title>
+  <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://DamianSheldon.github.io/"/>
+  <updated>2014-12-17T10:01:20+08:00</updated>
+  <id>http://DamianSheldon.github.io/</id>
+  <author>
+    <name><![CDATA[Sheldon]]></name>
+    <email><![CDATA[dongmeilianghy@sina.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android开发问题汇总]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development.html/"/>
+    <updated>2014-12-17T09:38:20+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development</id>
+    <content type="html"><![CDATA[<h3>Android Studio SDK Components安装提示操作超时</h3>
+
+<p><code>
+// MacOS
+$ vim /etc/hosts
+203.208.46.146 dl.google.com
+203.208.46.146 dl-ssl.google.com
+</code></p>
+
+<h3>Android Studio Check Updates提示连接出错</h3>
+
+<p>```
+// MacOS
+$ vim /Applications/Android\ Studio.app/Contents/Info.plist</p>
+
+<p>// 搜索 VMOptions</p>
+
+<p>// 添加如下内容
+-Djava.net.preferIPv4Stack=true
+-Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
+-Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a></p>
+
+<p>// 结果
+<key>VMOptions</key>
+<string>
+-Dfile.encoding=UTF-8 -ea
+-Dsun.io.useCanonCaches=false
+-Djava.net.preferIPv4Stack=true
+ -Djna.nosys=true
+ -Djna.boot.library.path=<br/>
+ -Djna.debug_load=true
+ -Djna.debug_load.jna=true
+ -Djsse.enableSNIExtension=false
+ -XX:+UseCodeCacheFlushing
+ -XX:+UseConcMarkSweepGC
+ -XX:SoftRefLRUPolicyMSPerMB=50
+ -Xverify:none -Xbootclasspath/a:../lib/boot.jar
+ -Djava.net.preferIPv4Stack=true
+ -Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
+ -Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a>
+ </string></p>
+
+<p>// 重启 Android Studio
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

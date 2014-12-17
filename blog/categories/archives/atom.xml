@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-16T09:14:19+08:00</updated>
+  <updated>2014-12-17T10:01:20+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android开发问题汇总]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development.html/"/>
+    <updated>2014-12-17T09:38:20+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development</id>
+    <content type="html"><![CDATA[<h3>Android Studio SDK Components安装提示操作超时</h3>
+
+<p><code>
+// MacOS
+$ vim /etc/hosts
+203.208.46.146 dl.google.com
+203.208.46.146 dl-ssl.google.com
+</code></p>
+
+<h3>Android Studio Check Updates提示连接出错</h3>
+
+<p>```
+// MacOS
+$ vim /Applications/Android\ Studio.app/Contents/Info.plist</p>
+
+<p>// 搜索 VMOptions</p>
+
+<p>// 添加如下内容
+-Djava.net.preferIPv4Stack=true
+-Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
+-Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a></p>
+
+<p>// 结果
+<key>VMOptions</key>
+<string>
+-Dfile.encoding=UTF-8 -ea
+-Dsun.io.useCanonCaches=false
+-Djava.net.preferIPv4Stack=true
+ -Djna.nosys=true
+ -Djna.boot.library.path=<br/>
+ -Djna.debug_load=true
+ -Djna.debug_load.jna=true
+ -Djsse.enableSNIExtension=false
+ -XX:+UseCodeCacheFlushing
+ -XX:+UseConcMarkSweepGC
+ -XX:SoftRefLRUPolicyMSPerMB=50
+ -Xverify:none -Xbootclasspath/a:../lib/boot.jar
+ -Djava.net.preferIPv4Stack=true
+ -Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
+ -Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a>
+ </string></p>
+
+<p>// 重启 Android Studio
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[App如何与Server安全交互]]></title>
@@ -268,137 +320,6 @@ $ mkdir -p Models</p>
 <h2>Reference</h2>
 
 <p>iOS 6 Programming Push the Limits</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode 调试技巧（持续更新）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/xcode-debug-tips.html/"/>
-    <updated>2014-11-24T17:14:52+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/xcode-debug-tips</id>
-    <content type="html"><![CDATA[<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
-
-<h3>崩溃在main( )</h3>
-
-<p>添加Exception Breakpoint</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
-
-<h3>符号断点</h3>
-
-<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
-
-<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
-
-<h3>打印方法名</h3>
-
-<p>```
-NSLog(@&ldquo;%s&rdquo;, <strong>PRETTY_FUNCTION</strong>);</p>
-
-<p>```</p>
-
-<h3>控制台打印</h3>
-
-<p>```
-(lldb) p // 打印标量变量
-(lldb) p (int)self.myAge
-(lldb) p (CGPoint)self.view.center</p>
-
-<p>(lldb) po // 打印对象</p>
-
-<p>```</p>
-
-<!-- more -->
-
-
-<h3>打印异常信息</h3>
-
-<p>```
-/<em>
-The symbol $eax refers to one of the CPU registers.  <br/>
-In the case of an exception, <br/>
-this register will contain a pointer to the NSException object. <br/>
-Note: $eax only works for the simulator, <br/>
-if you’re debugging on the device you’ll need to use register $r0.<br/>
-</em>/
-// Simulator</p>
-
-<p>(lldb) po [$eax class]</p>
-
-<p>(lldb) po [$eax name]</p>
-
-<p>(lldb) po [$eax reason]</p>
-
-<p>// Real Device
-(lldb) po $r0
-```</p>
-
-<h3>SIGABRT</h3>
-
-<p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>
-
-<h3>EXC_BAD_ACCESS</h3>
-
-<p>它出现的原因是因为访问一个已经释放的对象或向它发送消息。通常可以开启Zombie Objects(Toolbar > Edit Scheme&hellip; > Run > Diagnostics > Enabled Zombie Objects)重新运行程序以定位问题。</p>
-
-<p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
-
-<p>Enabled Zombie Objects后，控制台通常会打印出<code>*** -[CFNumber respondsToSelector:]: message sent to deallocated instance 0x31ab5cfe0</code>类似的信息，那么问题来了，我们怎么知道0x31ab5cfe0是哪个对象？</p>
-
-<p>Apple Memory Usage Performace Guidelines中介绍了记录内存分配历史的方法，简述如下：</p>
-
-<ol>
-<li>设置环境变量： MallocStackLogging，MallocStackLoggingNoCompact为1；</li>
-</ol>
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Environment" src="http://DamianSheldon.github.io/images/Environment.png" width="448" height="252">
-
-</div>
-
-
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Zombie" src="http://DamianSheldon.github.io/images/Zombie.png" width="448" height="252">
-
-</div>
-
-
-<ol>
-<li>使用malloc_history命令找到相应的对象。</li>
-</ol>
-
-
-<p>```
-malloc_history &lt;pid/partial-process-name> [options] <mode> [<address> &hellip;]</p>
-
-<p>// pid/partial-process-name是当前上下文NSLog输出时的前面[]的对应数字
-2014-12-02 14:44:39.355 srsApp[7946:300216] selector:0x1014d70b3, jsonValue:0x31a896fd0</p>
-
-<p>malloc_history 5968/224511 0x2d9e23fe0 | grep &ldquo;0x2d9e23fe0"。
-```</p>
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Malloc_history" src="http://DamianSheldon.github.io/images/Malloc_history.png" width="720" height="106">
-
-</div>
-
-
-<p>Reference:</p>
-
-<p>Memory Usage Performace Guidelines <br/>
-iOS 6 Programming Pushing the Limits<br/>
-<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
-<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
-<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
-<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
 ]]></content>
   </entry>
   

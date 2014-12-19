@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-17T10:01:20+08:00</updated>
+  <updated>2014-12-19T08:54:09+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2770,6 +2770,42 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> rm --cached filenameYourDontWantTracked
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>如何将目录覆盖下一级的同名目录？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 背景
+</span><span class='line'>|-A
+</span><span class='line'>|-B
+</span><span class='line'>  |-A
+</span><span class='line'>
+</span><span class='line'>// 目标
+</span><span class='line'>|-B
+</span><span class='line'>  |-A
+</span><span class='line'>
+</span><span class='line'>// 解决办法
+</span><span class='line'>1. rsync -a A/ B/A
+</span><span class='line'>2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> | <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>不再跟踪已经删除的文件</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add --update
 </span></code></pre></td></tr></table></div></figure>
 
 

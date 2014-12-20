@@ -59,3 +59,11 @@ $ vim /Applications/Android\ Studio.app/Contents/Info.plist
 // Mac OS X
 Use local gradle distribution > Gradle home > /Applications/Android Studio.app/Contents/plugins/gradle
 ```
+###
+
+```
+The project is using an unsupported version of Gradle.
+Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
+
+Consult IDE log for more details (Help | Show Log)
+```

@@ -52,3 +52,10 @@ $ vim /Applications/Android\ Studio.app/Contents/Info.plist
 
 // 重启 Android Studio
 ```
+
+###设置Gradle home
+
+```
+// Mac OS X
+Use local gradle distribution > Gradle home > /Applications/Android Studio.app/Contents/plugins/gradle
+```

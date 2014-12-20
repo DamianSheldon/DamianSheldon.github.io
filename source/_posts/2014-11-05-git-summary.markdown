@@ -568,5 +568,28 @@ $git checkout anotherBranch -- filenameYourWantedCopy
 $git rm --cached filenameYourDontWantTracked
 ```
 
+####如何将目录覆盖下一级的同名目录？
+```
+// 背景
+|-A
+|-B
+  |-A
+  
+// 目标
+|-B
+  |-A
+  
+// 解决办法
+1. rsync -a A/ B/A
+2. (cd A && tar c .) | (cd B/A && tar xf -)
+
+```
+
+####不再跟踪已经删除的文件
+
+```
+$ git add --update
+```
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

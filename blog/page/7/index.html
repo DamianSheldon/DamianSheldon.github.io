@@ -216,23 +216,23 @@ $(document).ready(
 		
 		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/">
 		
-			iOS App 开发遇到的问题</a>
+			iOS App 开发问题汇总</a>
 	</h2>
 	<div class="entry-content">
-		<p>  问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</p>
+		<h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
 
 <p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
 
 <p>Reference:<br/>
 o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
 
-<p>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</p>
+<h3>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</h3>
 
 <p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
 
-<p>问题描述：创建Group style的UITalbeView的顶端有很大一块空白。</p>
+<h3>问题描述：创建Group style的UITalbeView的顶端有很大一块空白。</h3>
 
 <p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck &ndash; Adjust scroll view insets</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2014-12-22T15:42:49+08:00</updated>
+  <updated>2015-01-02T13:31:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -115,6 +115,8 @@
 </span><span class='line'>
 </span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
 ]]></content>
   </entry>
   
@@ -3672,6 +3674,40 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 <p>解决办法：问题的原因是CLLocationManager实例是局部变量，出了作用域很快会被销毁。因此只要将CLLocationManager实例声明为类的property或私有实例变量就能解决。</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly">http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly</a></p>
+
+<h3>问题描述：位置服务在iOS 8上失效</h3>
+
+<p>解决办法：在plist配置文件中增加NSLocationAlwaysUsageDescription 或NSLocationWhenInUseUsageDescription，然后在代码中调用requestAlwaysAuthorization 或 requestWhenInUseAuthorization。NSLocationAlwaysUsageDescription的描述见Information Property List Key Reference。
+Reference:<a href="http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8">http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8</a></p>
+
+<h3>问题描述：如何查看Framework支持哪些架构</h3>
+
+<p>解决办法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// View RWUIControls.framework支持的架构
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/Desktop/RWUIControls.framework
+</span><span class='line'><span class="nv">$ </span>RWUIControls.framework  xcrun lipo -info RWUIControls
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>问题描述：when install Photoshop CS recently I got an error message saying that case-sensitive file system cannot be used for installation.</h3>
+
+<p>解决办法：
+I converted the default case-sensitive HFS+ partition to a case insensitive one after discovering the problem after installing a new MacBook. I assume here that you have enough disk space on your internal hard drive to duplicate the data and system files that you already have installed.</p>
+
+<ul>
+<li>Use Disk Utility to shrink the size of your existing boot partition to just big enough to contain the existing files.</li>
+<li>Create a new partition that is only Mac OS (Journaled) and is NOT case sensitive.</li>
+<li>Backup the original drive to the new partition. I used SuperDuper! but you can use rsync.</li>
+<li>Boot holding down the Option key and select the new partition.</li>
+<li>(Option)Delete the old partition with Disk Utility and increase the size of the new one.</li>
+</ul>
+
+
+<p>Reference:<a href="http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive">http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive</a></p>
 ]]></content>
   </entry>
   

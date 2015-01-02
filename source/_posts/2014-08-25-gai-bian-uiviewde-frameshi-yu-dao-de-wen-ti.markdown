@@ -58,3 +58,27 @@ Reference:http://stackoverflow.com/questions/7420078/detect-when-uigesturerecogn
 
 Reference:http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly 
 
+###问题描述：位置服务在iOS 8上失效
+解决办法：在plist配置文件中增加NSLocationAlwaysUsageDescription 或NSLocationWhenInUseUsageDescription，然后在代码中调用requestAlwaysAuthorization 或 requestWhenInUseAuthorization。NSLocationAlwaysUsageDescription的描述见Information Property List Key Reference。
+Reference:http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8
+
+###问题描述：如何查看Framework支持哪些架构
+解决办法：
+```
+// View RWUIControls.framework支持的架构
+$ cd ~/Desktop/RWUIControls.framework
+$ RWUIControls.framework  xcrun lipo -info RWUIControls
+```
+
+###问题描述：when install Photoshop CS recently I got an error message saying that case-sensitive file system cannot be used for installation.
+解决办法：
+I converted the default case-sensitive HFS+ partition to a case insensitive one after discovering the problem after installing a new MacBook. I assume here that you have enough disk space on your internal hard drive to duplicate the data and system files that you already have installed.
+
+* Use Disk Utility to shrink the size of your existing boot partition to just big enough to contain the existing files.
+* Create a new partition that is only Mac OS (Journaled) and is NOT case sensitive.
+* Backup the original drive to the new partition. I used SuperDuper! but you can use rsync.
+* Boot holding down the Option key and select the new partition.
+* (Option)Delete the old partition with Disk Utility and increase the size of the new one.
+
+Reference:http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive
+

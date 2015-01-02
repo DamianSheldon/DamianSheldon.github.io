@@ -8,6 +8,16 @@ categories: [Archives, iOS Development]
 keywords: Xcode, shortcut, 快捷键
 description: Xcode 快捷键
 ---
+
+| Symbol | Key |
+| ------ | --- |
+| ⌘ |	Command key 
+| ⌃ | 	Control key
+| ⌥ |	Option key
+| ⇧ |	Shift Key
+| ⇪ |	Caps Lock
+| fn|	Function Key
+
 ###Xcode
 
 Control + shift click viewcontroller 可以弹出里面所有的可选内容

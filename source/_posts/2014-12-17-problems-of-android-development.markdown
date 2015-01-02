@@ -67,3 +67,5 @@ Please point to a supported Gradle version in the project's Gradle settings or i
 
 Consult IDE log for more details (Help | Show Log)
 ```
+
+###Error:Error retrieving parent for item: No resource found that matches the given name 'android:Theme.AppCompat.Light'.

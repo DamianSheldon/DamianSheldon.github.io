@@ -190,6 +190,15 @@ $(document).ready(
 </span><span class='line'>(lldb) po $r0</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>输出View结构</h3>
+
+<p>任意时刻暂停App，在lldb中输入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po [[[[UIApplication sharedApplication] delegate] window] recursiveDescription]
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>SIGABRT</h3>
 
 <p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>

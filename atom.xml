@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-01-02T13:31:40+08:00</updated>
+  <updated>2015-01-09T08:51:11+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Technical Interview Part 1]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-1.html/"/>
+    <updated>2015-01-05T15:44:07+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-1</id>
+    <content type="html"><![CDATA[<h3>Explain method swizzling. When you would use it?</h3>
+
+<h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
+
+<p>Answer:循环保留导致内存泄漏。</p>
+
+<h3>What happens when you invoke a method on a nil pointer?</h3>
+
+<p>Answer:返回0</p>
+
+<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
+
+<h3>Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+
+<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
+
+<ol>
+<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
+<li>产品代码中不应该包含无用代码。</li>
+</ol>
+
+
+<h3>Explain your process for tracing and fixing a memory leak.</h3>
+
+<h3>Explain how an autorelease pool works at the runtime level.</h3>
+
+<h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
+
+<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@property CGRect domain;
+</span><span class='line'>
+</span><span class='line'>&lt;b&gt;thread 1:&lt;/b&gt; puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
+</span><span class='line'>&lt;b&gt;thread 2:&lt;/b&gt; puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);
+</span><span class='line'>
+</span><span class='line'>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。
+</span><span class='line'>
+</span><span class='line'>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
+
+<h3>In C, how would you reverse a string as quickly as possible?</h3>
+
+<h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
+
+<h3>Explain how code signing works.</h3>
+
+<h3>What is posing in Objective-C?</h3>
+
+<h3>List six instruments that are part of the standard.</h3>
+
+<h3>What are the differences between copy and retain?</h3>
+
+<p>copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
+
+<h3>What is the difference between frames and bounds?</h3>
+
+<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
+The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
+
+<h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+
+<h3>List the five iOS app states.</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android开发问题汇总]]></title>
@@ -589,6 +670,15 @@ There are many types of businesses in a free-market economy.</p>
 </span><span class='line'>
 </span><span class='line'>// Real Device
 </span><span class='line'>(lldb) po $r0</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>输出View结构</h3>
+
+<p>任意时刻暂停App，在lldb中输入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po [[[[UIApplication sharedApplication] delegate] window] recursiveDescription]
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>SIGABRT</h3>
@@ -3614,100 +3704,6 @@ Ad Hoc Distribution Provisioning profile
 <p>Core Animation Programing Guide <br/>
 动画解释(<a href="http://objccn.io/issue-12-1/">http://objccn.io/issue-12-1/</a>)  <br/>
 Layer 中自定义属性的动画(<a href="http://objccn.io/issue-12-2/">http://objccn.io/issue-12-2/</a>)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总]]></title>
-    <link href="http://DamianSheldon.github.io/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/"/>
-    <updated>2014-08-25T17:09:49+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti</id>
-    <content type="html"><![CDATA[<h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
-
-<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
-
-<p>Reference:<br/>
-o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
-
-<h3>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</h3>
-
-<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
-
-<h3>问题描述：创建Group style的UITalbeView的顶端有很大一块空白。</h3>
-
-<p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck &ndash; Adjust scroll view insets</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
-
-<!-- more -->
-
-
-<h3>问题描述：SVN更新Cocoapods管理的第三方包的Xcode工程报错。</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>A  +  C Pods
-</span><span class='line'>&gt;   <span class="nb">local </span>edit, incoming delete upon update
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决办法：svn revert &mdash;depth infinity Pods</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message">http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message</a></p>
-
-<h3>问题描述：*** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;&ndash;[UIViewController _loadViewFromNibNamed:bundle:] loaded the &ldquo;loc&rdquo; nib but the view outlet was not set.&rsquo;</h3>
-
-<p>解决办法：从输出的日志来看，是说 view 没有设置，事实也确实如此。我先创建了 UIViewController 类文件，然后再创建一个空的同名 xib 文件，我从 Object Library 中拉了一个 UIViewController，问题就出在这里，我应该拉一个 UIView ，并将 File&rsquo;s Owner 设置成正确的类名，最后将 view outlet 联接起来。所以，如果想用 xib 创建 UIViewController，建议在创建类的时候勾选创建相应的 Xib 文件，让 Xcode 做好这些工作。</p>
-
-<p>Reference:<a href="http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html">http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html</a></p>
-
-<h3>问题描述：设置swipe gesture的direction为UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight但是只识别一个方向。</h3>
-
-<p>解决办法：为每个方向单独创建一个UISwipeGestureRecognizer。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927">http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927</a></p>
-
-<h3>问题描述：应用获取用户位置信息弹出框很快自动消失</h3>
-
-<p>解决办法：问题的原因是CLLocationManager实例是局部变量，出了作用域很快会被销毁。因此只要将CLLocationManager实例声明为类的property或私有实例变量就能解决。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly">http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly</a></p>
-
-<h3>问题描述：位置服务在iOS 8上失效</h3>
-
-<p>解决办法：在plist配置文件中增加NSLocationAlwaysUsageDescription 或NSLocationWhenInUseUsageDescription，然后在代码中调用requestAlwaysAuthorization 或 requestWhenInUseAuthorization。NSLocationAlwaysUsageDescription的描述见Information Property List Key Reference。
-Reference:<a href="http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8">http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8</a></p>
-
-<h3>问题描述：如何查看Framework支持哪些架构</h3>
-
-<p>解决办法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// View RWUIControls.framework支持的架构
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/Desktop/RWUIControls.framework
-</span><span class='line'><span class="nv">$ </span>RWUIControls.framework  xcrun lipo -info RWUIControls
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>问题描述：when install Photoshop CS recently I got an error message saying that case-sensitive file system cannot be used for installation.</h3>
-
-<p>解决办法：
-I converted the default case-sensitive HFS+ partition to a case insensitive one after discovering the problem after installing a new MacBook. I assume here that you have enough disk space on your internal hard drive to duplicate the data and system files that you already have installed.</p>
-
-<ul>
-<li>Use Disk Utility to shrink the size of your existing boot partition to just big enough to contain the existing files.</li>
-<li>Create a new partition that is only Mac OS (Journaled) and is NOT case sensitive.</li>
-<li>Backup the original drive to the new partition. I used SuperDuper! but you can use rsync.</li>
-<li>Boot holding down the Option key and select the new partition.</li>
-<li>(Option)Delete the old partition with Disk Utility and increase the size of the new one.</li>
-</ul>
-
-
-<p>Reference:<a href="http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive">http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive</a></p>
 ]]></content>
   </entry>
   

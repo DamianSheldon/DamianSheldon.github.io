@@ -65,6 +65,15 @@ if you’re debugging on the device you’ll need to use register $r0.
 (lldb) po $r0
 ```
 
+###输出View结构
+
+任意时刻暂停App，在lldb中输入:
+
+```
+(lldb) po [[[[UIApplication sharedApplication] delegate] window] recursiveDescription]
+
+```
+
 ###SIGABRT
 
 SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。

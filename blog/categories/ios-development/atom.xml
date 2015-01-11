@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-01-09T08:51:11+08:00</updated>
+  <updated>2015-01-11T11:37:53+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -65,11 +65,23 @@
 
 <h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
 
+<p>NSArray</p>
+
+<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
+
 <h3>Explain how code signing works.</h3>
 
 <h3>What is posing in Objective-C?</h3>
 
 <h3>List six instruments that are part of the standard.</h3>
+
+<ol>
+<li>Allocations</li>
+<li>Core Animation</li>
+<li>Leaks</li>
+<li></li>
+</ol>
+
 
 <h3>What are the differences between copy and retain?</h3>
 
@@ -83,6 +95,46 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 <h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
 
 <h3>List the five iOS app states.</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> State </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Not Running </td>
+<td> The app has not been launched or was running but was terminated by the system.</td>
+</tr>
+<tr>
+<td></td>
+<td> Inactive </td>
+<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
+</tr>
+<tr>
+<td></td>
+<td> Active </td>
+<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
+</tr>
+<tr>
+<td></td>
+<td> Background </td>
+<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
+</tr>
+<tr>
+<td></td>
+<td> Suspended </td>
+<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
 ]]></content>
   </entry>
   

@@ -362,6 +362,9 @@ git remote [-v]
 // 添加远程仓库
 git remote add [shortname] [url]
 
+// Add a remote repo implementate ssh protocol
+git remote add origin ssh://dongmeiliang@localhost/git/ToDoList.git
+
 // 从远程仓库抓取数据
 $ git fetch [remote-name]
 

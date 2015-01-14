@@ -140,6 +140,14 @@ $(document).ready(
 
 <h3>Explain your process for tracing and fixing a memory leak.</h3>
 
+<ol>
+<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
+<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
+</ol>
+
+
+<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
+
 <h3>Explain how an autorelease pool works at the runtime level.</h3>
 
 <h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
@@ -199,6 +207,10 @@ $(document).ready(
 The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
 
 <h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+
+<p>The object gets released twice when the autorelease pool is destroyed.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
 
 <h3>List the five iOS app states.</h3>
 

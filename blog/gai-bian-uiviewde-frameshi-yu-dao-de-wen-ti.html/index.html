@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS App 开发问题汇总  | Hello World</title>
+	<title>iOS App 开发问题汇总（持续更新）  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -106,7 +106,7 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS App 开发问题汇总</h2>
+	<h2 class="title">iOS App 开发问题汇总（持续更新）</h2>
 	<div class="entry-content"><h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
 
 <p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
@@ -193,6 +193,27 @@ I converted the default case-sensitive HFS+ partition to a case insensitive one 
 
 
 <p>Reference:<a href="http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive">http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive</a></p>
+
+<h4>问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] <strong><em> Terminating app due to uncaught exception &lsquo;NSGenericException&rsquo;, reason: &lsquo;</em></strong> Collection &lt;__NSArrayM: 0x174253710> was mutated while being enumerated.&rsquo;</h4>
+
+<p>*** First throw call stack:
+(0x18734259c 0x197a500e4 0x187341f50 0x1002ebd00 0x1001e8e94 0x1001e9e90 0x18bb28d34 0x18bb11e48 0x18bb286d0 0x18bb2835c 0x18bb218b0 0x18baf4fa8 0x18bd93f58 0x18baf3510 0x1872fa9ec 0x1872f9c90 0x1872f7d40 0x1872250a4 0x1903cf5a4 0x18bb5a3c0 0x100220370 0x1980bea08)
+libc++abi.dylib: terminating with uncaught exception of type NSException</p>
+
+<p>解决办法：问题的原因是调用百度地图的removeAnnotations:方法，我传入调用地图返回的annotations,估计百度底下直接用它进行遍历加删除就出错了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>NSArray *tempArray <span class="o">=</span> <span class="o">[</span>self.bmapView.annotations copy<span class="o">]</span>;
+</span><span class='line'><span class="k">for</span> <span class="o">(</span>BMKPointAnnotation *annotation in tempArray<span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="o">[</span>self.bmapView removeAnnotation:annotation<span class="o">]</span>;
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

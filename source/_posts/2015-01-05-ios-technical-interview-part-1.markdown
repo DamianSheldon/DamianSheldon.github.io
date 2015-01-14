@@ -31,6 +31,12 @@ Reference:http://nshipster.com/nil/
 
 ###Explain your process for tracing and fixing a memory leak.
 
+1. Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause
+2. Run with Apple Instruments such as Leaks to look for memory issues
+
+Reference:http://www.raywenderlich.com/2696
+
+
 
 ###Explain how an autorelease pool works at the runtime level.
 
@@ -85,6 +91,10 @@ copy是新创建一个对象副本；retain则是对象引用计数加一。
 >The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.
 
 ###What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];
+
+The object gets released twice when the autorelease pool is destroyed.
+
+Reference:http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object
 
 ###List the five iOS app states.
 

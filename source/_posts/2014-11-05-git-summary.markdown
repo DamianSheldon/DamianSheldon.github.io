@@ -594,5 +594,34 @@ $git rm --cached filenameYourDontWantTracked
 $ git add --update
 ```
 
+####fatal: unresolved deltas left after unpacking
+
+```
+helloworld:iCycling dongmeiliang$ git push --verbose origin dev:dev
+Pushing to ssh://meiliang@202.114.177.31/git/iCycling.git
+Counting objects: 27, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (16/16), 1.11 MiB | 0 bytes/s, done.
+Total 16 (delta 10), reused 0 (delta 0)
+fatal: unresolved deltas left after unpacking
+error: unpack failed: unpack-objects abnormal exit
+To ssh://meiliang@202.114.177.31/git/iCycling.git
+ ! [remote rejected] dev -> dev (n/a (unpacker error))
+error: failed to push some refs to 'ssh://meiliang@202.114.177.31/git/iCycling.git'
+```
+
+Solution:
+
+```
+helloworld:iCycling dongmeiliang$ git pull --verbose origin dev
+From ssh://202.114.177.31/git/iCycling
+ * branch            dev        -> FETCH_HEAD
+ = [up to date]      dev        -> origin/dev
+Already up-to-date.
+
+
+```
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

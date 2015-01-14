@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS App 开发问题汇总"
+title: "iOS App 开发问题汇总（持续更新）"
 date: 2014-08-25 17:09:49 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -82,4 +82,18 @@ I converted the default case-sensitive HFS+ partition to a case insensitive one 
 * (Option)Delete the old partition with Disk Utility and increase the size of the new one.
 
 Reference:http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive
+
+####问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] *** Terminating app due to uncaught exception 'NSGenericException', reason: '*** Collection <__NSArrayM: 0x174253710> was mutated while being enumerated.'
+*** First throw call stack:
+(0x18734259c 0x197a500e4 0x187341f50 0x1002ebd00 0x1001e8e94 0x1001e9e90 0x18bb28d34 0x18bb11e48 0x18bb286d0 0x18bb2835c 0x18bb218b0 0x18baf4fa8 0x18bd93f58 0x18baf3510 0x1872fa9ec 0x1872f9c90 0x1872f7d40 0x1872250a4 0x1903cf5a4 0x18bb5a3c0 0x100220370 0x1980bea08)
+libc++abi.dylib: terminating with uncaught exception of type NSException
+
+解决办法：问题的原因是调用百度地图的removeAnnotations:方法，我传入调用地图返回的annotations,估计百度底下直接用它进行遍历加删除就出错了。
+
+```
+    NSArray *tempArray = [self.bmapView.annotations copy];
+    for (BMKPointAnnotation *annotation in tempArray) {
+        [self.bmapView removeAnnotation:annotation];
+    }
+```
 

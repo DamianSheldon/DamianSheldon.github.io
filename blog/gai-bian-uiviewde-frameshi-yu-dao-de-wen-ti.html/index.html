@@ -142,6 +142,38 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 
 <p>Reference:<a href="http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message">http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message</a></p>
 
+<h3>问题描述：local unversioned, incoming add upon update</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$svn</span> status
+</span><span class='line'>D     C removed_directory
+</span><span class='line'>&gt;   <span class="nb">local </span>unversioned, incoming add upon update
+</span><span class='line'>Summary of conflicts:
+</span><span class='line'>Tree conflicts: 1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>svn resolve --accept working removed_directory
+</span><span class='line'>Resolved conflicted state of <span class="s1">&#39;removed_directory&#39;</span>
+</span><span class='line'><span class="nv">$ </span>svn revert removed_directory
+</span><span class='line'>Reverted <span class="s1">&#39;removed_directory&#39;</span>
+</span><span class='line'><span class="nv">$ </span>svn status
+</span><span class='line'><span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>问题描述：*** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;&ndash;[UIViewController _loadViewFromNibNamed:bundle:] loaded the &ldquo;loc&rdquo; nib but the view outlet was not set.&rsquo;</h3>
 
 <p>解决办法：从输出的日志来看，是说 view 没有设置，事实也确实如此。我先创建了 UIViewController 类文件，然后再创建一个空的同名 xib 文件，我从 Object Library 中拉了一个 UIViewController，问题就出在这里，我应该拉一个 UIView ，并将 File&rsquo;s Owner 设置成正确的类名，最后将 view outlet 联接起来。所以，如果想用 xib 创建 UIViewController，建议在创建类的时候勾选创建相应的 Xib 文件，让 Xcode 做好这些工作。</p>

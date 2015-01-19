@@ -39,6 +39,28 @@ A  +  C Pods
 
 Reference:http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message  
 
+###问题描述：local unversioned, incoming add upon update
+
+```
+$svn status
+D     C removed_directory
+>   local unversioned, incoming add upon update
+Summary of conflicts:
+Tree conflicts: 1
+```
+
+解决办法:
+
+```
+$ svn resolve --accept working removed_directory
+Resolved conflicted state of 'removed_directory'
+$ svn revert removed_directory
+Reverted 'removed_directory'
+$ svn status
+$
+```
+
+
 ###问题描述：*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: '-[UIViewController _loadViewFromNibNamed:bundle:] loaded the "loc" nib but the view outlet was not set.'    
 
 解决办法：从输出的日志来看，是说 view 没有设置，事实也确实如此。我先创建了 UIViewController 类文件，然后再创建一个空的同名 xib 文件，我从 Object Library 中拉了一个 UIViewController，问题就出在这里，我应该拉一个 UIView ，并将 File's Owner 设置成正确的类名，最后将 view outlet 联接起来。所以，如果想用 xib 创建 UIViewController，建议在创建类的时候勾选创建相应的 Xib 文件，让 Xcode 做好这些工作。   

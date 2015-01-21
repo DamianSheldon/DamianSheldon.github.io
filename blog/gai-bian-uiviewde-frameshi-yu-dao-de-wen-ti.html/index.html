@@ -245,6 +245,29 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h4>问题描述：AView上面有个TableView，点击TableView的Cell弹出一个小的BView，BView上面有三个小的View和一个button，现在希望点击TableView能隐藏BView，而BView上面的点击手势仍然是可以识别的。</h4>
+
+<h3>解决办法：AView,BView上都添加Tap手势，将ViewController设置成AView的Tap手势的代理，实现代理中的：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>- <span class="o">(</span>BOOL<span class="o">)</span>gestureRecognizer:<span class="o">(</span>UIGestureRecognizer *<span class="o">)</span>gestureRecognizer shouldReceiveTouch:<span class="o">(</span>UITouch *<span class="o">)</span>touch
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span>touch.view <span class="o">==</span> self.BView<span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return </span>NO;
+</span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return </span>YES;
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
 

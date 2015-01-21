@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-01-19T17:26:44+08:00</updated>
+  <updated>2015-01-21T16:22:44+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2991,7 +2991,7 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>fatal: unresolved deltas left after unpacking</h4>
+<h4>insufficient permission for adding an object to repository database ./objects</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2999,41 +2999,16 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>helloworld:iCycling dongmeiliang<span class="nv">$ </span>git push --verbose origin dev:dev
-</span><span class='line'>Pushing to ssh://meiliang@202.114.177.31/git/iCycling.git
-</span><span class='line'>Counting objects: 27, <span class="k">done</span>.
-</span><span class='line'>Delta compression using up to 4 threads.
-</span><span class='line'>Compressing objects: 100% <span class="o">(</span>16/16<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Writing objects: 100% <span class="o">(</span>16/16<span class="o">)</span>, 1.11 MiB | 0 bytes/s, <span class="k">done</span>.
-</span><span class='line'>Total 16 <span class="o">(</span>delta 10<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
-</span><span class='line'>fatal: unresolved deltas left after unpacking
-</span><span class='line'>error: unpack failed: unpack-objects abnormal <span class="nb">exit</span>
-</span><span class='line'>To ssh://meiliang@202.114.177.31/git/iCycling.git
-</span><span class='line'> ! <span class="o">[</span>remote rejected<span class="o">]</span> dev -&gt; dev <span class="o">(</span>n/a <span class="o">(</span>unpacker error<span class="o">))</span>
-</span><span class='line'>error: failed to push some refs to <span class="s1">&#39;ssh://meiliang@202.114.177.31/git/iCycling.git&#39;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh me@myserver
+</span><span class='line'><span class="nb">cd </span>repository.git
+</span><span class='line'>
+</span><span class='line'>sudo chmod -R g+w *
+</span><span class='line'>
+</span><span class='line'>git config core.sharedRepository <span class="nb">true</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Solution:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>helloworld:iCycling dongmeiliang<span class="nv">$ </span>git pull --verbose origin dev
-</span><span class='line'>From ssh://202.114.177.31/git/iCycling
-</span><span class='line'> * branch            dev        -&gt; <span class="nv">FETCH_HEAD</span>
-</span><span class='line'> <span class="o">=</span> <span class="o">[</span>up to date<span class="o">]</span>      dev        -&gt; origin/dev
-</span><span class='line'>Already up-to-date.
-</span></code></pre></td></tr></table></div></figure>
-
+<p>Reference:<a href="http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi">http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi</a></p>
 
 <h4>Reference</h4>
 

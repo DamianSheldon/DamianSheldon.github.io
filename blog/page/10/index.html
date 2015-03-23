@@ -111,32 +111,33 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/iosde-hui-tu-xi-tong.html/">
+		<a href="/blog/swift-learning-notes-properties.html/">
 		
-			iOS的绘图系统</a>
+			Swift Learning Notes &#8211; Properties</a>
 	</h2>
 	<div class="entry-content">
-		<h2>iOS的绘图框架</h2>
+		<h3>Properties</h3>
 
-<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
+<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
 
-<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
+<h4>Type Properties</h4>
 
-<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
+<p>属于类型本身的properties称为Type Property.</p>
 
-<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
+<p>1)Value Type Properties (keyword: static)<br/>
+structrue, enumeration可以定义Stroed 和Computed type properties.</p>
 
-<h2>Drawing Destinations(iOS-Only)</h2>
+<p>Stored type properties for value types can be variables or constants.<br/>
+NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
 
-<p>1)View Graphics Context<br/>
-2)Layer<br/>
-3)Bitmap<br/>
-4)PDF<br/>
-5)Printer</p>
+<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
+
+<p>2)Reference Type Properties (keyword: class)<br/>
+class只可以定义Computed type properties.</p>
 
 
 		
-		<a href="/blog/iosde-hui-tu-xi-tong.html/" class="more-link">继续阅读</a>
+		<a href="/blog/swift-learning-notes-properties.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -153,7 +154,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time></div>
+<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -170,51 +171,37 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html/">
+		<a href="/blog/swift-learning-notes-initialization.html/">
 		
-			iOS UIWebView与JavaScript交互</a>
+			Swift Learning Notes &#8211; Initialization</a>
 	</h2>
 	<div class="entry-content">
-		<h2>1.UIWebView调用JavaScript</h2>
+		<h3>Initialization</h3>
 
-<h3>1.1调用html中已有的JavaScript function</h3>
+<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
 
-<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
+<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
+1，为实例的每一个存储属性设置初始值;  <br/>
+2，进行其他必要的准备工作.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
 
+<h3>Value Type Initialization</h3>
 
-<h3>1.2注入JavaScript function,然后调用</h3>
+<p>1)为存储属性设置默认值；</p>
 
-<p>我们还可以先向html中注入JavaScript function,然后调用。
-通常可以在UIWebViewDelegate中注入。示例如下：</p>
+<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
+structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
+</code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>2)初始化方法。</p>
 
+<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
+</code></pre>
 
 
 		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html/" class="more-link">继续阅读</a>
+		<a href="/blog/swift-learning-notes-initialization.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -231,7 +218,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-05-14T11:05:53+08:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time></div>
+<time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -248,51 +235,40 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/property-values.html/">
+		<a href="/blog/core-data-chu-bu.html/">
 		
-			Property Values</a>
+			Core Data 初步</a>
 	</h2>
 	<div class="entry-content">
-		<p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
+		<ol>
+<li>Core Data是什么？</li>
+<li>为什么使用Core Data?</li>
+<li>如何使用Core Data?</li>
+</ol>
 
-<p> Property的attribute关键字有以下几类：<br/>
- 1）API Control；</p>
 
-<pre><code>getter = methodname
-setter = mehtodname:
-</code></pre>
+<h2>Core Data是什么？</h2>
 
-<p> 2）Write Serialization(not general thread safety);</p>
+<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
 
-<pre><code>nonatomic
-atomic (default)
-</code></pre>
+<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
 
-<p> 3) Mutability;</p>
+<h2>为什么使用Core Data？</h2>
 
-<pre><code>readonly
-readwrite (default)
-</code></pre>
+<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
 
-<p> 4) Memory Management(ARC);</p>
+<ul>
+<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
+<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
+<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
+<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
+<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
+</ul>
 
-<pre><code>copy
-strong (default)
-weak
-unsafe_unretained
-assign
-</code></pre>
-
-<p> 5) Memory Management(Traditional)</p>
-
-<pre><code>copy
-retain
-assign (default)
-</code></pre>
 
 
 		
-		<a href="/blog/property-values.html/" class="more-link">继续阅读</a>
+		<a href="/blog/core-data-chu-bu.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -309,7 +285,7 @@ assign (default)
   
 
 
-<time datetime="2014-05-10T14:41:40+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
+<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time></div>
 	
 
 <div class="tags">

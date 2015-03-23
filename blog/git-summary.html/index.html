@@ -222,6 +222,18 @@ $(document).ready(
 <span class='line-number'>73</span>
 <span class='line-number'>74</span>
 <span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
 </span><span class='line'><span class="nv">$ </span>sudo adduser git
 </span><span class='line'><span class="nv">$ </span>su -l git
@@ -234,13 +246,25 @@ $(document).ready(
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'>
+</span><span class='line'>// Preparation &amp; Accounts Setup
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/john -m -s /bin/bash john
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/andrew -m -s /bin/bash andrew
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/robert -m -s /bin/bash robert
+</span><span class='line'>
+</span><span class='line'>// Exist user change his primary group by newgrp <span class="nb">command</span>
+</span><span class='line'><span class="nv">$ </span>sudo newgrp -g git john
+</span><span class='line'>
+</span><span class='line'>
 </span><span class='line'>// Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
 </span><span class='line'><span class="nv">$sudo</span> mkdir /opt/git
 </span><span class='line'><span class="nv">$sudo</span> chown -R git /opt/git
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /opt/git
 </span><span class='line'><span class="nv">$ </span>mkdir project.git
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>project.git
-</span><span class='line'><span class="nv">$ </span>git --bare init
+</span><span class='line'><span class="nv">$ </span>git --bare --shared<span class="o">=</span>group init
+</span><span class='line'>
+</span><span class='line'>// <span class="k">if </span>forget init with --shared<span class="o">=</span>group, we can config with <span class="nb">command</span>:
+</span><span class='line'><span class="nv">$ </span>git config -- core.sharedRepository ture
 </span><span class='line'>
 </span><span class='line'>// Mac 下需要开启ssh并允许remote login
 </span><span class='line'><span class="nv">$launchctl</span> start sshd

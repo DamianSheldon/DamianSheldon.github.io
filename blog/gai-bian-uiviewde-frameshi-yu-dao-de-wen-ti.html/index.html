@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS App 开发问题汇总（持续更新）  | Hello World</title>
+	<title>iOS App 开发问题汇总（一）  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -106,7 +106,7 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS App 开发问题汇总（持续更新）</h2>
+	<h2 class="title">iOS App 开发问题汇总（一）</h2>
 	<div class="entry-content"><h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
 
 <p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
@@ -226,7 +226,7 @@ I converted the default case-sensitive HFS+ partition to a case insensitive one 
 
 <p>Reference:<a href="http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive">http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive</a></p>
 
-<h4>问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] <strong><em> Terminating app due to uncaught exception &lsquo;NSGenericException&rsquo;, reason: &lsquo;</em></strong> Collection &lt;__NSArrayM: 0x174253710> was mutated while being enumerated.&rsquo;</h4>
+<h3>问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] <strong><em> Terminating app due to uncaught exception &lsquo;NSGenericException&rsquo;, reason: &lsquo;</em></strong> Collection &lt;__NSArrayM: 0x174253710> was mutated while being enumerated.&rsquo;</h3>
 
 <p>*** First throw call stack:
 (0x18734259c 0x197a500e4 0x187341f50 0x1002ebd00 0x1001e8e94 0x1001e9e90 0x18bb28d34 0x18bb11e48 0x18bb286d0 0x18bb2835c 0x18bb218b0 0x18baf4fa8 0x18bd93f58 0x18baf3510 0x1872fa9ec 0x1872f9c90 0x1872f7d40 0x1872250a4 0x1903cf5a4 0x18bb5a3c0 0x100220370 0x1980bea08)
@@ -245,9 +245,9 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>问题描述：AView上面有个TableView，点击TableView的Cell弹出一个小的BView，BView上面有三个小的View和一个button，现在希望点击TableView能隐藏BView，而BView上面的点击手势仍然是可以识别的。</h4>
+<h3>问题描述：AView上面有个TableView，点击TableView的Cell弹出一个小的BView，BView上面有三个小的View和一个button，现在希望点击TableView能隐藏BView，而BView上面的点击手势仍然是可以识别的。</h3>
 
-<h3>解决办法：AView,BView上都添加Tap手势，将ViewController设置成AView的Tap手势的代理，实现代理中的：</h3>
+<p>解决办法：AView,BView上都添加Tap手势，将ViewController设置成AView的Tap手势的代理，实现代理中的：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -268,7 +268,58 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>问题描述：Build failed:</h3>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Undefined symbols <span class="k">for </span>architecture x86_64:
+</span><span class='line'>  <span class="s2">&quot;_deflate&quot;</span>, referenced from:
+</span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gzippedDataWithCompressionLevel:<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
+</span><span class='line'>  <span class="s2">&quot;_deflateEnd&quot;</span>, referenced from:
+</span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gzippedDataWithCompressionLevel:<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
+</span><span class='line'>  <span class="s2">&quot;_deflateInit2_&quot;</span>, referenced from:
+</span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gzippedDataWithCompressionLevel:<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
+</span><span class='line'>  <span class="s2">&quot;_inflate&quot;</span>, referenced from:
+</span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gunzippedData<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
+</span><span class='line'>  <span class="s2">&quot;_inflateEnd&quot;</span>, referenced from:
+</span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gunzippedData<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
+</span><span class='line'>  <span class="s2">&quot;_inflateInit2_&quot;</span>, referenced from:
+</span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gunzippedData<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
+</span><span class='line'>ld: symbol<span class="o">(</span>s<span class="o">)</span> not found <span class="k">for </span>architecture x86_64
+</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code 1 <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: file: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk/usr/lib/libz.dylib is a dynamic library, not added to the static library
+</span><span class='line'>warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: file: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk/usr/lib/libz.dylib is a dynamic library, not added to the static library
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法：问题出在libz.dylib，我把它加在静态库的Target上并不管用，应该把它加在实际应用的Target上，个人觉得这里的添加方法有点奇怪。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18053546/undefined-symbols-for-architecture-i386-deflate-referenced-from-platcompres">http://stackoverflow.com/questions/18053546/undefined-symbols-for-architecture-i386-deflate-referenced-from-platcompres</a></p>
+
+<p><a href="http://stackoverflow.com/questions/22572610/how-to-fix-is-a-dynamic-library-not-added-to-the-static-library-warning">http://stackoverflow.com/questions/22572610/how-to-fix-is-a-dynamic-library-not-added-to-the-static-library-warning</a></p>
+
+<h3>问题描述：如何查看服务器某个端口是否打开？</h3>
+
+<p>解决办法：1. nmap -PN 80 example.com
+2. nc -vz google.com 80
+3. telnet google.com 80 (To close your session, hit ctrl-])</p>
 </div>
 
 

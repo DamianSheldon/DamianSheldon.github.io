@@ -111,16 +111,144 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/english-basic.html/">
+		<a href="/blog/problems-of-android-development.html/">
 		
-			英语起步</a>
+			Android开发问题汇总</a>
 	</h2>
 	<div class="entry-content">
-		<p>如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。</p>
+		<h3>Android Studio SDK Components安装提示操作超时</h3>
 
-<p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
+</span><span class='line'>$ vim /etc/hosts
+</span><span class='line'>203.208.46.146 dl.google.com
+</span><span class='line'>203.208.46.146 dl-ssl.google.com</span></code></pre></td></tr></table></div></figure>
 
-<p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
+
+<h3>Android Studio Check Updates提示连接出错</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
+</span><span class='line'>$ vim /Applications/Android\ Studio.app/Contents/Info.plist
+</span><span class='line'>
+</span><span class='line'>// 搜索 VMOptions
+</span><span class='line'>
+</span><span class='line'>// 添加如下内容
+</span><span class='line'>-Djava.net.preferIPv4Stack=true
+</span><span class='line'>-Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml
+</span><span class='line'>-Didea.patches.url=http://dl.google.com/android/studio/patches/
+</span><span class='line'>
+</span><span class='line'>// 结果
+</span><span class='line'>&lt;key&gt;VMOptions&lt;/key&gt;
+</span><span class='line'>&lt;string&gt;
+</span><span class='line'>-Dfile.encoding=UTF-8 -ea 
+</span><span class='line'>-Dsun.io.useCanonCaches=false 
+</span><span class='line'>-Djava.net.preferIPv4Stack=true
+</span><span class='line'> -Djna.nosys=true 
+</span><span class='line'> -Djna.boot.library.path=  
+</span><span class='line'> -Djna.debug_load=true 
+</span><span class='line'> -Djna.debug_load.jna=true 
+</span><span class='line'> -Djsse.enableSNIExtension=false 
+</span><span class='line'> -XX:+UseCodeCacheFlushing 
+</span><span class='line'> -XX:+UseConcMarkSweepGC 
+</span><span class='line'> -XX:SoftRefLRUPolicyMSPerMB=50 
+</span><span class='line'> -Xverify:none -Xbootclasspath/a:../lib/boot.jar 
+</span><span class='line'> -Djava.net.preferIPv4Stack=true 
+</span><span class='line'> -Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml 
+</span><span class='line'> -Didea.patches.url=http://dl.google.com/android/studio/patches/
+</span><span class='line'> &lt;/string&gt;
+</span><span class='line'>
+</span><span class='line'>// 重启 Android Studio</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>设置Gradle home</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Mac OS X
+</span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>The project is using an unsupported version of Gradle</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>The project is using an unsupported version of Gradle.
+</span><span class='line'>Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
+</span><span class='line'>
+</span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
+
+<h3>Project&#8217;X&#8217; is missing required Java project &lsquo;Y&rsquo;</h3>
+
+<p>Solution: Open Java project &lsquo;Y&rsquo;</p>
+
+<h3>Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
+
+<p>Solution: Eclipse > Preferences > Java > Installed JREs > Add > Standar VM > Select JRE Directory</p>
+
+<p>My Mac JRE Directory is here:/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home/</p>
+
+<h3>Eclipse Can&rsquo;t detect Android Device</h3>
+
+<p>Solution: Disable device&rsquo;s usb debuggin then enable, It then prompted me for authorization for that computer, select ok, and then it worked fine.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device">http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device</a></p>
+
+<h3>Unable to resolve target &ldquo;Android-5&rdquo;</h3>
+
+<p>Solution:Android SDK Manager > Android 1.6 (API 4) > Intall</p>
+
+<p>Eclipse > Preferences&hellip; > Android > Apply > OK</p>
+
+<p>Project > Properties > Android > Project Build Target</p>
+
+<h3>error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
+
+<p>Solution:Project > Properties > Android > Project Build Target > 21</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml">http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml</a></p>
+
+<h3>Android studio Offline document path</h3>
+
+<p>Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html</p>
 
 		
 		
@@ -140,12 +268,12 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-26T22:01:08+08:00" pubdate data-updated="true">Nov 26<span>th</span>, 2014</time></div>
+<time datetime="2014-12-17T09:38:20+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/english/'>English</a>
+	<a class='category' href='/blog/categories/android/'>Android</a>, <a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 
@@ -157,38 +285,27 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-app-cache.html/">
+		<a href="/blog/how-does-app-security-communicate-with-server.html/">
 		
-			iOS App Cache</a>
+			App如何与Server安全交互</a>
 	</h2>
 	<div class="entry-content">
-		<p>在互联网时代的今天，iOS App几乎都要联网，缓存可以解决网络连接不良甚至无网络所造成的性能问题，而且还可以节约用户的流量。我们可以采用两种缓存策略：预缓存和按需缓存。预缓存就是应用启动以后开个后台线程去把需要用到的数据先取下来。按需缓存就是应用请求网络数据后在本地保存一份，只要本地数据没有过期就使用本地数据。</p>
+		<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
 
-<h3>预缓存</h3>
+<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
 
-<p>实现预缓存可能需要一个后台线程访问数据并以有意义的格式保存，以便本地缓存无需连接服务器即可被编辑。Core Data(或者任何结构化存储)是实现这种缓存的一种方式。</p>
+<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
 
-<h3>按需缓存</h3>
+<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
 
-<p>按需缓存工作原理类似于浏览器缓存，它允许我们查看以前访问过的内容，主要有四种实现方法：</p>
+<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
 
-<ol>
-<li>URL缓存；</li>
-<li>数据模型缓存；</li>
-<li>Core Data;</li>
-<li>SQLite。</li>
-</ol>
+<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
 
-
-<p>上述的序号是推荐使用的顺序。</p>
-
-<h4>URL缓存</h4>
-
-<p>如果服务器设计得体，遵循HTTP 1.1的缓存规范时，URL缓存效果最好，通常网络库会提供支持。</p>
-
+<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
 
 		
-		<a href="/blog/ios-app-cache.html/" class="more-link">继续阅读</a>
+		
 	</div>
 
 
@@ -205,7 +322,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-25T16:36:04+08:00" pubdate data-updated="true">Nov 25<span>th</span>, 2014</time></div>
+<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -222,56 +339,31 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/xcode-debug-tips.html/">
+		<a href="/blog/ios-app-state-preservation-and-restoration.html/">
 		
-			Xcode 调试技巧（持续更新）</a>
+			iOS App State Preservation and Restoration</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
-
-<h3>崩溃在main( )</h3>
-
-<p>添加Exception Breakpoint</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
-
-<h3>符号断点</h3>
-
-<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
-
-<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
-
-<h3>打印方法名</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
-</span></code></pre></td></tr></table></div></figure>
+		<ol>
+<li>什么是State Preservation and Restoration？</li>
+<li>为什么要用State Preservation and Restoration？</li>
+<li>如何使用State Preservation and Restoration？</li>
+</ol>
 
 
-<p></p>
+<h3>什么是State Preservation and Restoration？</h3>
 
-<h3>控制台打印</h3>
+<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
-</span><span class='line'>(lldb) p (int)self.myAge
-</span><span class='line'>(lldb) p (CGPoint)self.view.center
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>(lldb) po // 打印对象
-</span></code></pre></td></tr></table></div></figure>
+<h3>为什么要用State Preservation and Restoration？</h3>
 
+<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
+
+<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
 
 
 		
-		<a href="/blog/xcode-debug-tips.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-app-state-preservation-and-restoration.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -288,7 +380,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-24T17:14:52+08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2014</time></div>
+<time datetime="2014-12-08T11:55:48+08:00" pubdate data-updated="true">Dec 8<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">

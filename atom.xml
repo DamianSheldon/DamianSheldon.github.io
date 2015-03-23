@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-01-21T16:22:44+08:00</updated>
+  <updated>2015-03-23T11:34:00+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,301 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux命令行整理]]></title>
+    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line.html/"/>
+    <updated>2015-03-18T21:12:56+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line</id>
+    <content type="html"><![CDATA[<h3>Create new account</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>List all groups and the user names that were in each group</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for u in `cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort
+</span><span class='line'>
+</span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
+
+<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
+
+<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
+
+<ul>
+<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
+This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
+<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
+If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
+You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Thread笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/nsthread-thechnology-notes.html/"/>
+    <updated>2015-03-16T16:27:17+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/nsthread-thechnology-notes</id>
+    <content type="html"><![CDATA[<ol>
+<li>Thread是什么？</li>
+<li>iOS中怎么使用Thread？</li>
+</ol>
+
+
+<h3>Thread是什么</h3>
+
+<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
+
+<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
+
+<h3>iOS中怎么使用Thread</h3>
+
+<p>iOS中的Thread技术主要有以下两种：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Technology </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Cocoa threads </td>
+<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
+</tr>
+<tr>
+<td></td>
+<td> POSIX threads </td>
+<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>Creating a Thread</h4>
+
+<ol>
+<li><p>Using NSThread</p>
+
+<ul>
+<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
+<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
+</ul>
+</li>
+<li><p>Using POSIX Threads</p>
+
+<ul>
+<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
+</ul>
+</li>
+<li><p>Using NSObject to Spawn a Thread</p>
+
+<ul>
+<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>Configuring Thread Attributes</h4>
+
+<p>Thread的配置项有：</p>
+
+<ul>
+<li>Stack Size of a Thread</li>
+<li>Thread-Local Storage</li>
+<li>Detached State of a Thread</li>
+<li>Thread Priority</li>
+</ul>
+
+
+<h4>Writing Your Thread Entry Routine</h4>
+
+<p>编写Thread的入口程序通常需要做如下事项：</p>
+
+<ul>
+<li>Creating an Autorelease Pool</li>
+<li>Setting Up an Exception Handler</li>
+<li>Setting Up a Run Loop</li>
+</ul>
+
+
+<h4>Terminating a Thread</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（二）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-problems-part-2.html/"/>
+    <updated>2015-03-16T16:14:50+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-problems-part-2</id>
+    <content type="html"><![CDATA[<h3>问题描述：Ad Hoc分发应用</h3>
+
+<p>导出Ad Hoc授权应用
+Xcode > Product > Archive > Export</p>
+
+<p>安装Ad Hoc分发的应用
+Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
+
+<h3>问题描述：Xcode编译出现如下警告提示：</h3>
+
+<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
+
+<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
+
+<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
+
+<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
+
+<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
+
+<p>解决办法：</p>
+
+<ol>
+<li>Plug in your iPad/iPhone</li>
+<li>Open Image Capture</li>
+<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
+<li>Press the triangle in square symbol in the lower left corner.</li>
+<li>Select &ldquo;No application&rdquo; in the menu.</li>
+</ol>
+
+
+<p>iPhoto:
+Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
+set it to &ldquo;No Application&rdquo;</p>
+
+<!--more-->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何创建私有的Pod]]></title>
+    <link href="http://DamianSheldon.github.io/blog/private-pods.html/"/>
+    <updated>2015-03-11T17:23:04+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/private-pods</id>
+    <content type="html"><![CDATA[<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
+
+<p>Cocoa Pods工作依赖于两个文件：<br/>
+1. podspec:一个pod的配置是什么，pod的代码放在哪里
+2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
+
+<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create --verbose project</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
+
+
+<p>然后编辑podspecs文件，这里有几个地方需要注意：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
+</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.iOS", :tag =&gt; "2.0.0" }
+</span><span class='line'>
+</span><span class='line'>// s.source_files指定哪些源文件需要包含在pod中
+</span><span class='line'>s.source_files  = "AJFrame.iOS/*.{h,m}"
+</span><span class='line'>
+</span><span class='line'>// pod的依赖
+</span><span class='line'>s.dependency "JSONKit", "~&gt; 1.4"
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来在需要依赖这个pod的工程的Podfile文件中指定podspec的存放路径。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reference</h3>
+
+<p><a href="http://guides.cocoapods.org/making/using-pod-lib-create">Using Pod Lib Create</a><br/>
+<a href="http://guides.cocoapods.org/using/the-podfile.html">The Podfile</a><br/>
+<a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
+<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
+<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[(翻译)How to Play, Record, and Edit Videos in iOS]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-play.html/"/>
+    <updated>2015-01-22T16:48:25+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-play</id>
+    <content type="html"><![CDATA[<h4>AVAsset</h4>
+
+<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
+
+<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
+
+<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
+
+<h4>AVComposition</h4>
+
+<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
+
+<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
+
+<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
+
+<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack</p>
+
+<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
+
+<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
+
+<p>And the Rest</p>
+
+<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
+
+<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
+
+<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
+
+<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
+
+<p>Conclusion</p>
+
+<p>To sum it all up:</p>
+
+<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
+
+<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
+
+<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
+
+<p>Each layer instruction is used to apply a certain transform to a given track.</p>
+
+<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Technical Interview Part 1]]></title>
@@ -262,6 +557,40 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 
 
 <h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
+
+<h3>Project&#8217;X&#8217; is missing required Java project &lsquo;Y&rsquo;</h3>
+
+<p>Solution: Open Java project &lsquo;Y&rsquo;</p>
+
+<h3>Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
+
+<p>Solution: Eclipse > Preferences > Java > Installed JREs > Add > Standar VM > Select JRE Directory</p>
+
+<p>My Mac JRE Directory is here:/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home/</p>
+
+<h3>Eclipse Can&rsquo;t detect Android Device</h3>
+
+<p>Solution: Disable device&rsquo;s usb debuggin then enable, It then prompted me for authorization for that computer, select ok, and then it worked fine.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device">http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device</a></p>
+
+<h3>Unable to resolve target &ldquo;Android-5&rdquo;</h3>
+
+<p>Solution:Android SDK Manager > Android 1.6 (API 4) > Intall</p>
+
+<p>Eclipse > Preferences&hellip; > Android > Apply > OK</p>
+
+<p>Project > Properties > Android > Project Build Target</p>
+
+<h3>error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
+
+<p>Solution:Project > Properties > Android > Project Build Target > 21</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml">http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml</a></p>
+
+<h3>Android studio Offline document path</h3>
+
+<p>Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html</p>
 ]]></content>
   </entry>
   
@@ -2066,6 +2395,18 @@ Key-Value Observing Programming Guide</p>
 <span class='line-number'>73</span>
 <span class='line-number'>74</span>
 <span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
 </span><span class='line'><span class="nv">$ </span>sudo adduser git
 </span><span class='line'><span class="nv">$ </span>su -l git
@@ -2078,13 +2419,25 @@ Key-Value Observing Programming Guide</p>
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'>
+</span><span class='line'>// Preparation &amp; Accounts Setup
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/john -m -s /bin/bash john
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/andrew -m -s /bin/bash andrew
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/robert -m -s /bin/bash robert
+</span><span class='line'>
+</span><span class='line'>// Exist user change his primary group by newgrp <span class="nb">command</span>
+</span><span class='line'><span class="nv">$ </span>sudo newgrp -g git john
+</span><span class='line'>
+</span><span class='line'>
 </span><span class='line'>// Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
 </span><span class='line'><span class="nv">$sudo</span> mkdir /opt/git
 </span><span class='line'><span class="nv">$sudo</span> chown -R git /opt/git
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /opt/git
 </span><span class='line'><span class="nv">$ </span>mkdir project.git
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>project.git
-</span><span class='line'><span class="nv">$ </span>git --bare init
+</span><span class='line'><span class="nv">$ </span>git --bare --shared<span class="o">=</span>group init
+</span><span class='line'>
+</span><span class='line'>// <span class="k">if </span>forget init with --shared<span class="o">=</span>group, we can config with <span class="nb">command</span>:
+</span><span class='line'><span class="nv">$ </span>git config -- core.sharedRepository ture
 </span><span class='line'>
 </span><span class='line'>// Mac 下需要开启ssh并允许remote login
 </span><span class='line'><span class="nv">$launchctl</span> start sshd
@@ -3403,396 +3756,6 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 <h3>原文</h3>
 
 <p><a href="http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/">http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iTunes 歌曲信息乱码的解决办法]]></title>
-    <link href="http://DamianSheldon.github.io/blog/music-import-from-windows-text-display-garbled-in-itunes.html/"/>
-    <updated>2014-11-03T10:23:29+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/music-import-from-windows-text-display-garbled-in-itunes</id>
-    <content type="html"><![CDATA[<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
-1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
-2)安装Mutagen;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
-</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3)先将所有歌曲备份，防止操作出错；<br/>
-4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>5)将iTunes中的音乐清空，重新添加。</p>
-
-<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Auto Layout]]></title>
-    <link href="http://DamianSheldon.github.io/blog/auto-layout.html/"/>
-    <updated>2014-10-19T17:43:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/auto-layout</id>
-    <content type="html"><![CDATA[<h3>前言</h3>
-
-<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
-
-<h3>Auto Layout 是什么</h3>
-
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
-
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
-
-<!-- more -->
-
-
-<h4>Constraint &mdash; 约束</h4>
-
-<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
-  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
-  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
-  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
-  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
-
-<h4>Intrinsic Content Size</h4>
-
-<p>  Intrinsic Content Size 是 Auto Layout 中另一个重要概念，身处视图层级末端的视图会为显示特定内容期望得到一个大小，它就叫做Intrinsic Content Size。</p>
-
-<h3>如何使用Auto Layout</h3>
-
-<p>  Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Code。</p>
-
-<h3>Tips</h3>
-
-<p>1,在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
-
-<p>2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：<br/>
-  * 在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；<br/>
-  * 双击上述文件使它在新的窗口中打开； <br/>
-  * 将新的窗口移动到新的桌面上，最大化它； <br/>
-  * 单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；  <br/>
-  * 在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。</p>
-
-<h3>Demo</h3>
-
-<p><a href="https://github.com/DamianSheldon/AutoLayout">Auto Layout Demo</a></p>
-
-<h3>Reference</h3>
-
-<p>Auto Layout Guide<br/>
-WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
-WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
-WWDC2012 session 232 – Auto Layout by Example<br/>
-<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  ">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1  </a>
-<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2</a>  <br/>
-<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
-<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
-<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Development--Certificates, Provisioning Profiles]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-certificates.html/"/>
-    <updated>2014-10-09T16:24:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-certificates</id>
-    <content type="html"><![CDATA[<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
-
-<div style="text-align: center" markdown="1"> 
-    <img name="LaunchApp" src="http://DamianSheldon.github.io/images/LaunchApp.png" width="697" height="573">  
-</div>
-
-
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
-
-<!-- more -->
-
-
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
-
-<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
-
-<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
-
-<div style="text-align: center" markdown="1"> 
-
-    <img name="Certificate" src="http://DamianSheldon.github.io/images/Certificate.png" width="696" height="471"> 
-
-</div>
-
-
-<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
-
-<div style="text-align: center" markdown="1"> 
-
-    <img name="ProvisioningProfile" src="http://DamianSheldon.github.io/images/ProvisioningProfile.png" width="618" height="377">  
-
-</div>
-
-
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
-
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
-
-<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
-
-<h3>Tips</h3>
-
-<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
-
-<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
-
-<div style="text-align: center" markdown="1"> 
-
-    <img name="TeamProvisioningProfile" src="http://DamianSheldon.github.io/images/TeamProvisioningProfile.png" width="712" height="406">  
-</div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在Mac OSX Mavericks上安装和配置Openfire]]></title>
-    <link href="http://DamianSheldon.github.io/blog/install-and-configure-openfire-on-mac-osx-mavericks.html/"/>
-    <updated>2014-09-11T09:15:32+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/install-and-configure-openfire-on-mac-osx-mavericks</id>
-    <content type="html"><![CDATA[<h3>安装</h3>
-
-<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
-
-<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
-  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
-
-<h3>配置</h3>
-
-<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Core Animation 笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/core-animation-bi-ji.html/"/>
-    <updated>2014-09-03T09:59:58+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/core-animation-bi-ji</id>
-    <content type="html"><![CDATA[<h2>Core Animation介绍</h2>
-
-<blockquote><p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app. &mdash; Apple</p></blockquote>
-
-<p>Core Animation是iOS和OS X上的图形渲染和动画的基础，你可以用它为视图以及应用的其他可见元素加上动画。</p>
-
-<h2>什么时候使用Core Animation?</h2>
-
-<blockquote><p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p></blockquote>
-
-<p>在你想要执行更加复杂的动画，或者UIView类不支持的动画时，你可以使用Core Animation和视图底下的layer去创建动画。因为view和layer复杂地联系在一起，改变视图的layer会影响视图本身。</p>
-
-<p>UIView内置可动画的属性如下表：</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th align="center"> Property </th>
-<th align="left"> Changes you can make                                                                                       </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="center"> frame    </td>
-<td align="left"> Modify this property to change the view’s size and position relative to its superview’s coordinate system. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> bounds   </td>
-<td align="left"> Modify this property to change the view’s size. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> center   </td>
-<td align="left"> Modify this property to change the view’s position relative to its superview’s coordinate system. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> transform</td>
-<td align="left"> Modify this property to scale, rotate, or translate the view relative to its center point. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> alpha    </td>
-<td align="left"> Modify this property to gradually change the transparency of the view. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> backgroundColor </td>
-<td align="left"> Modify this property to change the view’s background color. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> contentStretch </td>
-<td align="left"> Modify this property to change the way the view’s contents are stretched to fill the available space. </td>
-</tr>
-</tbody>
-</table>
-
-
-<!-- more -->
-
-
-<h2>如何使用Core Animation?</h2>
-
-<p>Core Animation提供了不少类供我们在应用中使用，下图反映了这些类的关系：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="animations_info_2x" src="http://DamianSheldon.github.io/images/animations_info_2x.png" width="552" height="446">  
-
-</div>
-
-
-<ul>
-<li>CAAnimation是所有动画子类的抽象类。CAAnimation实现了CAMediaTiming协议，它为动画提供duration, speed和repeat count。CAAnimation还实现了CAAction协议，协议提供标准的方法为开始一个动画去响应由layer触发的动作。</li>
-</ul>
-
-
-<p>CAAnimation类还定义了一个动画的timing作为CAMediaTimingFunction的实例。timing函数像简单的Bezier曲线那样描述动画的步调。线性timing function指定动画在整个动画周期内的步调是一致,而ease-in timing function导致动画在开始时会加速。</p>
-
-<ul>
-<li><p>CAPropertyAnimation是CAAnimation的一个抽象子类，它为指定key path去动画layer属性提供支持。</p></li>
-<li><p>CABasicAnimation是CAPropertyAnimation的子类，它为layer的属性提供简单的插值。</p></li>
-<li><p>CAKeyframeAnimation(CAPropertyAnimation的子类)提供关键帧动画支持。你指定要动画的layer属性的key path,数组中的值代表动画每个阶段的值，就像一个包含key frame time和timing function的数组。当动画运行时，数组中的值依次用来插值。</p></li>
-<li><p>CATransition提供可以影响整个layer内容的变换效果。当动画时它褪色，推出，或显示layer的内容。在OS X上，股票变化效果可以通过提供你自定义的Core Image filters来扩展。</p></li>
-<li><p>CAAnimationGroup允许一个数组的动画对象成一组，同时运行。</p></li>
-</ul>
-
-
-<p>从上述介绍来看，我们日常使用Core Animation就主要和CABasicAnimation, CAKeyframeAnimation, CATransition以及CAAnimationGroup打交道了。在使用它们之前，我们要掌握一些基础知识。</p>
-
-<h3>Core Animation 基础</h3>
-
-<p>Core Animation本身不是绘画系统。它是在硬件中合成和操作你应用内容的基础。这个基础的核心是layer对象，它用来管理和操作你应用的内容。layer捕获你的内容到一个bitmap中，这样它很容易被图形硬件操作。在大多数应用中，layers是视图管理内容的一种方法，但是你也可以根据你的需要创建单独的layer。</p>
-
-<h4>Layer提供绘图和动画的基础</h4>
-
-<p>Layer对象被组织在三维空间的二维表面上并且是你和Core Animation任何交互的核心。像视图，layer管理着它们表面关于几何位置，内容，和可视属性的信息。和视图不同，layer不定义他们自己的外观。layer仅仅管理围绕位图的状态信息。位图自己可以是视图绘制自身的结果，或者是你指定的图片。因为这个原因，你在应用中使用的主图层被认为是模型对象，因为他们主要管理数据。记住这个注解很重要，因为它影响动画的行为。</p>
-
-<h5>基于图层的绘画模型</h5>
-
-<p>你应用中的多数图层并不做任何最终的绘画。相反，图层捕获你应用提供的内容并将它们缓存在位图中，它们有时官能称为后备存储。当你随后改变图层的属性时，你所要做的是改变相应图层的状态信息。当改变触发动画，Core Animation传递图层的位图和状态信息到图形硬件，它用新的信息来渲染位图，像图1-1展示的的那样。在硬件上操作位图可以比软件得到更快的动画。</p>
-
-<p>图1-1，Core Animation是如何绘制内容的。</p>
-
-<div style="text-align:center" markdown="1">
-<img name="basics_layer_rendering_2x" src="http://DamianSheldon.github.io/images/basics_layer_rendering_2x.png" width="722" height="270">  
-</div>
-
-
-<p>因为它是操作一张静态位图，所以基于图层的绘画和传统的基于视图的绘画技术有很大的不同。使用基于视图的绘画，视图自身的改变会导致视图的drawRect:方法被调用，它用新的参数重绘内容。但是这种绘画方式十分昂贵，因为它在主线程上用CPU完成的。Core Animation避免了这些开消通过尽可能的在硬件上操作缓存的位图来获得相同或相类似的效果。</p>
-
-<p>虽然Core Animation尽可能的使用缓存的内容，你的应用仍然必须提供初始内容并不停的更新它。有很多方法为你应用的图层对象提供内容，这会在Providing a Layer&rsquo;s Contendts中详细描述。</p>
-
-<h5>基于图层的动画</h5>
-
-<p>图层对象的数据和状态信息是解藕来自屏幕图层内容的可视表示。这种解藕给Core Animation一种方法去干预自己并产生从旧状态值到新状态值的动画。例如，改变图层的位置属性导致Core Animation把图层从当前位置移动到新指定的位置。类似其他属性的改变产生合适的动画。图1-2示例了一些你可以对图层应用的动画。触发动画的图层属性列表，见Animatable Properties。</p>
-
-<p>图1-2 你可以应用到图层的动画实例。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="basics_animation_types_2x" src="http://DamianSheldon.github.io/images/basics_animation_types_2x.png" width="627" height="402">
-
-</div>
-
-
-<p>在动画的过程中,Core Animation在硬件上进行一帧一帧绘画的所有工作。你所要做的是指定动画的起点和终点，让Core Animation做剩下的所有工作。你也可以按需要指定自定义的定时信息和动画参数。而且，如果你不提供，Core Animation会提供合适的默认值。</p>
-
-<h4>图层树反映动画状态的不同方面</h4>
-
-<p>应用使用Core Animation拥有3套图层对象。每套图层在让你应用的内容出现在屏幕上均扮演不同的角色:</p>
-
-<ul>
-<li><p>模型图层树（或简称图层树）上的对象是应用交互最多的。树上的模型对象存储着任何动画的目标值。任何时候你改变一个图层的属性，你就使用其中的一个对象。</p></li>
-<li><p>表示树上对象包含任何动画的过程值。它不仅包含动画的目标值，还反映屏幕上的当前值。你永远不应该修改这树上的对象。作为替代，你使用这些对象读取当前动画值，也许创建动画开始于某个值。</p></li>
-<li><p>渲染树执行最终的动画，它对Core Animation是私有的。</p></li>
-</ul>
-
-
-<p>每套图层对象都被组织成层级结构，就像应用的视图。实际上，对使能了所有视图的图层的应用，每棵树的结构都和视图的层级准备对应。但是，应用也可增加图层对象，图层并不需要和视图中的图层层级相关联。你也许会在优化你应用的内容表现的情境下这么做，它不需要叠加在视图上。图1-9展示了一个简单应用的图层分解。示例中的窗口包含一个内容视图，它自身包含一个按钮视图和两个单独的图层对象。每个视图都有相应的图层对象，它们形成图层层级。</p>
-
-<p>图1-9 窗口关联的图层</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="sublayer_hierarchy_2x" src="http://DamianSheldon.github.io/images/sublayer_hierarchy_2x.png" width="626" height="380" >
-
-</div>
-
-
-<p>图层树上的每一个对象，表示树和渲染树上都有相对应的对象，就像图1-10看到的那样。前面提到过，应用主要和图层树上的对象交互，但是有时也会访问表示树上的对象。特别的，访问图层树对象的<strong>presentationLayer</strong>属性可以返回表示树上相应对象。你也许会想访问这些对象去获取动画运行中的当前属性值。</p>
-
-<p>图1-10 窗口的图层树</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="sublayer_hierarchies_2x" src="http://DamianSheldon.github.io/images/sublayer_hierarchies_2x.png" width="712" height="560" >
-
-</div>
-
-
-<p>重要提醒：你应该只在动画运行中去访问表示树的对象。当动画在运行中，表示树包含出现在屏幕上的图层的瞬时值。这个行为和图层树是不同的，它只反映你代码设置的最终值，等于动画的最终状态。</p>
-
-<h4>图层和视图之间的关系</h4>
-
-<p>图层不是用来替代你应用的视图的，你不能单独基于图层创建可视界面。图层为你的视图提供基础设施。特别地，图层让绘画更容易和高效，动画视图内容时维持高帧率。然而，有很多事情图层是做不了的。图层不处理事件，绘画内容，参与响应链，还有其他很多事情。出于这个原因，每个应用仍然要有一个或多个视图来处理这种交互。</p>
-
-<p>在iOS中，每个视图都已备份一个相应的图层对象，但是在OS X中，你必须决定哪些视图应该拥有图层。OS X v10.8及以后的版本，为你所有的视图增加图层可能是有意义的。然而，这么做不是必须的，你仍然可以在叠加到视图是不需要的地方禁止图层。图层某种程度上会增加你应用的内存使用，但是它的好处通常会多于坏处，所以在禁用图层之前测试应用的性能是最好的方法。</p>
-
-<p>当你为视图使能了图层支持，你创建的就是所谓的图层后备视图。在图层后备视图中，创建底层的图层对象和保持图层与视图同步是系统的责任。所有的iOS视图以及大多数OS X视图都是图层后备视图。然而，在OS X中，你也可以创建图层托管视图，它是自己为自己提供图层的视图。对于图层托管视图，AppKit提供了便利化的方法去管理图层，并不修改它来响应视图改变。</p>
-
-<p>Note:对于图层后备视图，推荐你任何时候都优先操作视图而不是图层。在iOS中，视图仅仅是图层外面的轻薄包装，所以通常你对图层的操作是能正常工作的。<strong>但是iOS和OS X中都存在操作图层来代替视图时也许不能得到期望结果的地方。</strong>任何可能之处，本文档都会指出这些陷阱并且尝试提供方法帮助你处理它们。</p>
-
-<p><strong>都有哪些地方呢？</strong></p>
-
-<p>除了关联你视图的图层，你也可以创建没有相应视图的图层对象。你可以将这些单独图层嵌入到你应用的其他图层中，包括那些有关联视图的图层。通常使用单独图层作为特定优化路径的一部分。例如，如果你想在多个地方使用同一张图片，你可以加载一次这张图片，把它和多个单独图层对象关联起来，然后把这些对象回到图层树上。每个图层都引用原图而不是在内存中创建自己的副本。</p>
-
-<h3>图层动画</h3>
-
-<p>1)图层本身属性的动画可以通过CABasicAnimation和CAKeyframeAnimation添加；  <br/>
-2)图层自定义属性动画可以参看<a href="http://objccn.io/issue-12-2/">Layer 中自定义属性的动画</a>。</p>
-
-<h3>Reference</h3>
-
-<p>Core Animation Programing Guide <br/>
-动画解释(<a href="http://objccn.io/issue-12-1/">http://objccn.io/issue-12-1/</a>)  <br/>
-Layer 中自定义属性的动画(<a href="http://objccn.io/issue-12-2/">http://objccn.io/issue-12-2/</a>)</p>
 ]]></content>
   </entry>
   

@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS Development--Certificates, Provisioning Profiles  | Hello World</title>
+	<title>(翻译)How to Play, Record, and Edit Videos in iOS  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Private Key, Certificate Signing Request, CSR, Certificates, Provisioning Profiles">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Play, Record, Edit, Video, iOS">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -106,104 +106,56 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS Development--Certificates, Provisioning Profiles</h2>
-	<div class="entry-content"><p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
+	<h2 class="title">(翻译)How to Play, Record, and Edit Videos in iOS</h2>
+	<div class="entry-content"><h4>AVAsset</h4>
 
-<div style="text-align: center" markdown="1"> 
-    <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
-</div>
+<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
 
+<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
 
-<p>开发过程的真机调试需要：</p>
+<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
 
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
+<h4>AVComposition</h4>
 
-<p>发布到 App Store 需要：</p>
+<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
 
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
+<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
 
-<p>通过 Ad Hoc 发布需要：</p>
+<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
 
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
+<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
 
-<!-- more -->
+<p>AVMutableComposition and AVMutableCompositionTrack</p>
 
+<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
 
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
+<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
 
-<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
+<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
 
-<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
+<p>And the Rest</p>
 
-<div style="text-align: center" markdown="1"> 
+<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
 
-    <img name="Certificate" src="/images/Certificate.png" width="696" height="471"> 
+<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
 
-</div>
+<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
 
+<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
 
-<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
+<p>Conclusion</p>
 
-<div style="text-align: center" markdown="1"> 
+<p>To sum it all up:</p>
 
-    <img name="ProvisioningProfile" src="/images/ProvisioningProfile.png" width="618" height="377">  
+<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
 
-</div>
+<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
 
+<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
 
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
+<p>Each layer instruction is used to apply a certain transform to a given track.</p>
 
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
-
-<p>Certificate制作具体步骤：</p>
-
-<ul>
-<li>Certificate Signing Request (CSR)<br/>
-KeyChain Access > Certificate Assitant > Request a Certificate From a Certificate      Authority&hellip;</li>
-</ul>
-
-
-<p>Certificate Infomation</p>
-
-<p>User Email Address:xxx(you favarite address)
-Common Name:xxx(you name)
-CA Email:(Keep empty)
-Request is: save to disk</p>
-
-<p>之后会弹出保存路径选择对话框，选择你想保存的目标路径。</p>
-
-<ul>
-<li><p>制作Certificate<br/>
-developer.apple.com > Certificates, Identifiers &amp; Profiles > Certificates > + > 选择需要的Certificate类型 > 上传之前创建的CSR > 得到Certificate</p></li>
-<li><p>安装Certificate<br/>
-下载生成的Certificate > 保存好（如改个容易识别的名字，保存到安全的地方） > 双击它，安装到Key Chain.</p></li>
-<li><p>导出Private Key<br/>
-从KeyChain中导出Private Key，团队其他成员可以省略制作Certificate的繁琐操作。</p></li>
-</ul>
-
-
-<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
-
-<h3>Tips</h3>
-
-<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
-
-<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
-
-<div style="text-align: center" markdown="1"> 
-
-    <img name="TeamProvisioningProfile" src="/images/TeamProvisioningProfile.png" width="712" height="406">  
-</div>
-
+<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
 </div>
 
 
@@ -220,12 +172,12 @@ developer.apple.com > Certificates, Identifiers &amp; Profiles > Certificates > 
   
 
 
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
+<time datetime="2015-01-22T16:48:25+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2015</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archive/'>Archive</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 

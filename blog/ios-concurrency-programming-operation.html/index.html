@@ -107,7 +107,9 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">iOS Concurrency Programming--Operation</h2>
-	<div class="entry-content"><p>Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。</p>
+	<div class="entry-content"><p>iOS Concurrency 的实现方式大致有3种：1,NSOperation;2,GCD;3,Thread.上述的顺序也是推荐使用的顺序。</p>
+
+<p>Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。</p>
 
 <h2>Foundation框架中的Operation类</h2>
 
@@ -265,6 +267,23 @@ $(document).ready(
 <li>把Operations加入到Operation Queues;</li>
 <li>手动执行Operations.</li>
 </ol>
+
+
+<h2>Operation Queues</h2>
+
+<p>Operation Queues是NSOperationQueue的实例，它默认是并发队列，调用setMaxConcurrentOperationCount:，传入参数1可以将队列强制变成串行队列。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create Concurrent Operation Queue</span>
+</span><span class='line'><span class="n">NSOperationQueue</span><span class="o">*</span> <span class="n">aQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Force Concurrent Operation Queue To Serail Queue</span>
+</span><span class='line'><span class="p">[</span><span class="n">aQueue</span> <span class="nl">setMaxConcurrentOperationCount:</span><span class="mi">1</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>辨析Start和main方法</h2>

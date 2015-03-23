@@ -111,24 +111,45 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/install-and-configure-openfire-on-mac-osx-mavericks.html/">
+		<a href="/blog/git-summary.html/">
 		
-			在Mac OSX Mavericks上安装和配置Openfire</a>
+			Git 小结</a>
 	</h2>
 	<div class="entry-content">
-		<h3>安装</h3>
+		<h1>Git</h1>
 
-<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
+<ol>
+<li>Git是什么？</li>
+<li>为什么使用Git?</li>
+<li>如何使用Git?</li>
+</ol>
 
-<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
-  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
 
-<h3>配置</h3>
+<h2>Git是什么？</h2>
 
-<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
+<p>git &ndash; the stupid content tracker</p>
+
+<p>这是man git中对它的介绍，我们看到它的核心是content tracker。Git是一个分布式的版本控制系统，项目是出于维护Linux内核源码的需求, 由Linus Torvalds启动的，现在已经成为最流行的版本管理系统，学会Git几乎成了开发者的必备技能。</p>
+
+<h2>为什么使用Git?</h2>
+
+<ol>
+<li>系统稳定，安全性高，不会丢失辛苦的劳动成果；</li>
+<li>操作十分快速；</li>
+<li>功能强大；</li>
+<li>&hellip;</li>
+</ol>
+
+
+<h2>如何使用Git?</h2>
+
+<h3>安装Git</h3>
+
+<p>安装Git主要有两种方法：一种是通过编译源代码来安装;另一种是使用为特定平台预编译好的安装包。</p>
+
 
 		
-		
+		<a href="/blog/git-summary.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -145,7 +166,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-09-11T09:15:32+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time></div>
+<time datetime="2014-11-05T10:13:13+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -162,76 +183,32 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/core-animation-bi-ji.html/">
+		<a href="/blog/variable-sized-items-in-uicollectionview.html/">
 		
-			Core Animation 笔记</a>
+			(翻译)Variable-Sized Items in UICollectionView</a>
 	</h2>
 	<div class="entry-content">
-		<h2>Core Animation介绍</h2>
+		<h3>基本训练</h3>
 
-<blockquote><p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app. &mdash; Apple</p></blockquote>
+<p>我们以“Single View Application”为模板新建一个工程。在ViewController.xib上添加一个UICollectionView让它覆盖整个view。</p>
 
-<p>Core Animation是iOS和OS X上的图形渲染和动画的基础，你可以用它为视图以及应用的其他可见元素加上动画。</p>
+<p><img name="Variable-Sized_Items_in_UICollectionView01" src="/images/Variable-Sized_Items_in_UICollectionView01.png" width="1110" height="783"></p>
 
-<h2>什么时候使用Core Animation?</h2>
+<p>Collection View和它的祖父类似，有delegate和dataSource两个outlet,我们把它们连接到“File’s Owner”,这里的“File’s Owner”是ViewController类。这样Collection View的内容和交互就受ViewController控制。我们也需要一个outlet来引用Collection View,所以用Assistant editor增加一个。刚在ViewController.h中添加的outlet property可以是weak，因为作为ViewController的视图的子视图，它也会被充分的保留。</p>
 
-<blockquote><p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p></blockquote>
+<h3>单元格</h3>
 
-<p>在你想要执行更加复杂的动画，或者UIView类不支持的动画时，你可以使用Core Animation和视图底下的layer去创建动画。因为view和layer复杂地联系在一起，改变视图的layer会影响视图本身。</p>
+<p>我们需要设计一个Cell原型来显示内容。如果你的Collection View是在View controller’s XIB ,你必须在先在代码中注册Cell才能使用。如果你是在Storyboard中新建的CollectionView，并在CollectionView的区域内创建的原型Cell,那么你就不需要注册Cell identifier了。因为我们并没有从Storyboard中开始，所以需要手动来创建。</p>
 
-<p>UIView内置可动画的属性如下表：</p>
+<p>我们在Interface Builder中创建一个原型Cell，设置它的背影为白色，添加一个UILabel，添加Label到父视图边缘的约束，分别是5 points的距离。因为我们想让Label的文字来决定它的尺寸，所以选中Label,然后从Editor menu中选择“Size to Fit Content”。后面我们会看到它是否会按照我们想像的那样工作。</p>
 
-<table>
-<thead>
-<tr>
-<th></th>
-<th align="center"> Property </th>
-<th align="left"> Changes you can make                                                                                       </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="center"> frame    </td>
-<td align="left"> Modify this property to change the view’s size and position relative to its superview’s coordinate system. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> bounds   </td>
-<td align="left"> Modify this property to change the view’s size. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> center   </td>
-<td align="left"> Modify this property to change the view’s position relative to its superview’s coordinate system. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> transform</td>
-<td align="left"> Modify this property to scale, rotate, or translate the view relative to its center point. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> alpha    </td>
-<td align="left"> Modify this property to gradually change the transparency of the view. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> backgroundColor </td>
-<td align="left"> Modify this property to change the view’s background color. </td>
-</tr>
-<tr>
-<td></td>
-<td align="center"> contentStretch </td>
-<td align="left"> Modify this property to change the way the view’s contents are stretched to fill the available space. </td>
-</tr>
-</tbody>
-</table>
+<p><img name="Variable-Sized_Items_in_UICollectionView02" src="/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
 
+<p>我们设置Identifier为“TagCell”以便我们能在设计中引用。</p>
 
 
 		
-		<a href="/blog/core-animation-bi-ji.html/" class="more-link">继续阅读</a>
+		<a href="/blog/variable-sized-items-in-uicollectionview.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -248,7 +225,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-09-03T09:59:58+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2014</time></div>
+<time datetime="2014-11-04T11:27:12+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -265,33 +242,36 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/">
+		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html/">
 		
-			iOS App 开发问题汇总（持续更新）</a>
+			iTunes 歌曲信息乱码的解决办法</a>
 	</h2>
 	<div class="entry-content">
-		<h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
+		<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
+1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
+2)安装Mutagen;</p>
 
-<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
+</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Reference:<br/>
-o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
 
-<h3>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</h3>
+<p>3)先将所有歌曲备份，防止操作出错；<br/>
+4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
 
-<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
 
-<h3>问题描述：创建Group style的UITalbeView的顶端有很大一块空白。</h3>
+<p>5)将iTunes中的音乐清空，重新添加。</p>
 
-<p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck &ndash; Adjust scroll view insets</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
-
+<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
 
 		
-		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/" class="more-link">继续阅读</a>
+		
 	</div>
 
 
@@ -308,12 +288,12 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
   
 
 
-<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2014</time></div>
+<time datetime="2014-11-03T10:23:29+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 

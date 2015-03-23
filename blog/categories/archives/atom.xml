@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-01-21T16:22:44+08:00</updated>
+  <updated>2015-03-23T11:34:00+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,235 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux命令行整理]]></title>
+    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line.html/"/>
+    <updated>2015-03-18T21:12:56+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line</id>
+    <content type="html"><![CDATA[<h3>Create new account</h3>
+
+<p><code>
+sudo adduser --home /home/username --shell /bin/bash --ingroup git username
+</code></p>
+
+<h3>List all groups and the user names that were in each group</h3>
+
+<p><code>``
+for u in</code>cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort</p>
+
+<p>groups $(cut -f1 -d":&ldquo; /etc/passwd) | sort
+```</p>
+
+<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
+
+<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
+
+<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
+
+<ul>
+<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
+This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
+<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
+If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
+You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Thread笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/nsthread-thechnology-notes.html/"/>
+    <updated>2015-03-16T16:27:17+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/nsthread-thechnology-notes</id>
+    <content type="html"><![CDATA[<ol>
+<li>Thread是什么？</li>
+<li>iOS中怎么使用Thread？</li>
+</ol>
+
+
+<h3>Thread是什么</h3>
+
+<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
+
+<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
+
+<h3>iOS中怎么使用Thread</h3>
+
+<p>iOS中的Thread技术主要有以下两种：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Technology </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Cocoa threads </td>
+<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
+</tr>
+<tr>
+<td></td>
+<td> POSIX threads </td>
+<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>Creating a Thread</h4>
+
+<ol>
+<li><p>Using NSThread</p>
+
+<ul>
+<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
+<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
+</ul>
+</li>
+<li><p>Using POSIX Threads</p>
+
+<ul>
+<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
+</ul>
+</li>
+<li><p>Using NSObject to Spawn a Thread</p>
+
+<ul>
+<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>Configuring Thread Attributes</h4>
+
+<p>Thread的配置项有：</p>
+
+<ul>
+<li>Stack Size of a Thread</li>
+<li>Thread-Local Storage</li>
+<li>Detached State of a Thread</li>
+<li>Thread Priority</li>
+</ul>
+
+
+<h4>Writing Your Thread Entry Routine</h4>
+
+<p>编写Thread的入口程序通常需要做如下事项：</p>
+
+<ul>
+<li>Creating an Autorelease Pool</li>
+<li>Setting Up an Exception Handler</li>
+<li>Setting Up a Run Loop</li>
+</ul>
+
+
+<h4>Terminating a Thread</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（二）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-problems-part-2.html/"/>
+    <updated>2015-03-16T16:14:50+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-problems-part-2</id>
+    <content type="html"><![CDATA[<h3>问题描述：Ad Hoc分发应用</h3>
+
+<p>导出Ad Hoc授权应用
+Xcode > Product > Archive > Export</p>
+
+<p>安装Ad Hoc分发的应用
+Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
+
+<h3>问题描述：Xcode编译出现如下警告提示：</h3>
+
+<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
+
+<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
+
+<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
+
+<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
+
+<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
+
+<p>解决办法：</p>
+
+<ol>
+<li>Plug in your iPad/iPhone</li>
+<li>Open Image Capture</li>
+<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
+<li>Press the triangle in square symbol in the lower left corner.</li>
+<li>Select &ldquo;No application&rdquo; in the menu.</li>
+</ol>
+
+
+<p>iPhoto:
+Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
+set it to &ldquo;No Application&rdquo;</p>
+
+<!--more-->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何创建私有的Pod]]></title>
+    <link href="http://DamianSheldon.github.io/blog/private-pods.html/"/>
+    <updated>2015-03-11T17:23:04+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/private-pods</id>
+    <content type="html"><![CDATA[<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
+
+<p>Cocoa Pods工作依赖于两个文件：<br/>
+1. podspec:一个pod的配置是什么，pod的代码放在哪里
+2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
+
+<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
+
+<p><code>
+pod spec create --verbose project
+</code></p>
+
+<!--more-->
+
+
+<p>然后编辑podspecs文件，这里有几个地方需要注意：</p>
+
+<p>```
+// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
+s.source  = { :git => &ldquo;ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.iOS&rdquo;, :tag => &ldquo;2.0.0&rdquo; }</p>
+
+<p>// s.source_files指定哪些源文件需要包含在pod中
+s.source_files  = &ldquo;AJFrame.iOS/*.{h,m}&rdquo;</p>
+
+<p>// pod的依赖
+s.dependency &ldquo;JSONKit&rdquo;, &ldquo;~> 1.4&rdquo;</p>
+
+<p>```</p>
+
+<p>podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来在需要依赖这个pod的工程的Podfile文件中指定podspec的存放路径。</p>
+
+<p><code>
+pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'
+</code></p>
+
+<h3>Reference</h3>
+
+<p><a href="http://guides.cocoapods.org/making/using-pod-lib-create">Using Pod Lib Create</a><br/>
+<a href="http://guides.cocoapods.org/using/the-podfile.html">The Podfile</a><br/>
+<a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
+<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
+<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Technical Interview Part 1]]></title>
@@ -147,282 +376,6 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 
 
 <p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android开发问题汇总]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development.html/"/>
-    <updated>2014-12-17T09:38:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-of-android-development</id>
-    <content type="html"><![CDATA[<h3>Android Studio SDK Components安装提示操作超时</h3>
-
-<p><code>
-// MacOS
-$ vim /etc/hosts
-203.208.46.146 dl.google.com
-203.208.46.146 dl-ssl.google.com
-</code></p>
-
-<h3>Android Studio Check Updates提示连接出错</h3>
-
-<p>```
-// MacOS
-$ vim /Applications/Android\ Studio.app/Contents/Info.plist</p>
-
-<p>// 搜索 VMOptions</p>
-
-<p>// 添加如下内容
--Djava.net.preferIPv4Stack=true
--Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
--Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a></p>
-
-<p>// 结果
-<key>VMOptions</key>
-<string>
--Dfile.encoding=UTF-8 -ea
--Dsun.io.useCanonCaches=false
--Djava.net.preferIPv4Stack=true
- -Djna.nosys=true
- -Djna.boot.library.path=<br/>
- -Djna.debug_load=true
- -Djna.debug_load.jna=true
- -Djsse.enableSNIExtension=false
- -XX:+UseCodeCacheFlushing
- -XX:+UseConcMarkSweepGC
- -XX:SoftRefLRUPolicyMSPerMB=50
- -Xverify:none -Xbootclasspath/a:../lib/boot.jar
- -Djava.net.preferIPv4Stack=true
- -Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
- -Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a>
- </string></p>
-
-<p>// 重启 Android Studio
-```</p>
-
-<h3>设置Gradle home</h3>
-
-<p><code>
-// Mac OS X
-Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle
-</code></p>
-
-<h3>The project is using an unsupported version of Gradle</h3>
-
-<p>```
-The project is using an unsupported version of Gradle.
-Please point to a supported Gradle version in the project&rsquo;s Gradle settings or in the project&rsquo;s Gradle wrapper (if applicable.)</p>
-
-<p>Consult IDE log for more details (Help | Show Log)
-```</p>
-
-<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[App如何与Server安全交互]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server.html/"/>
-    <updated>2014-12-15T11:53:11+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server</id>
-    <content type="html"><![CDATA[<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
-
-<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
-
-<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
-
-<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
-
-<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
-
-<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
-
-<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App State Preservation and Restoration]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration.html/"/>
-    <updated>2014-12-08T11:55:48+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration</id>
-    <content type="html"><![CDATA[<ol>
-<li>什么是State Preservation and Restoration？</li>
-<li>为什么要用State Preservation and Restoration？</li>
-<li>如何使用State Preservation and Restoration？</li>
-</ol>
-
-
-<h3>什么是State Preservation and Restoration？</h3>
-
-<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
-
-<h3>为什么要用State Preservation and Restoration？</h3>
-
-<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
-
-<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
-
-<!-- more -->
-
-
-<h3>如何使用State Preservation and Restoration？</h3>
-
-<p>State Restoreation成功的前提条件如下： <br/>
-1. <strong>状态保留必须成功。</strong>也就是说应用终止前必须进入后台运行状态。 <br/>
-2. <strong>应用不可以强制退出。</strong> <br/>
-3. <strong>从最近一次状态保留开始，应用必须没有启动失败过。</strong></p>
-
-<p>Checklist for Implementing State Preservation and Restoration</p>
-
-<ol>
-<li>(Required) Implement the <code>application:shouldSaveApplicationState:</code> and <code>application:shouldRestoreApplicationState:</code>methods in your app delegate;</li>
-<li>(Required) Assign restoration identifiers to each view controller you want to preserve by assigning a non empty string to their <code>restorationIdentifier</code> property;If you want to save the state of specific views too, assign non empty strings to their <code>restorationIdentifier</code> properties;</li>
-<li>(Required) Show your app’s window from the <code>application:willFinishLaunchingWithOptions:</code> method of your app delegate. The state restoration machinery needs the window so that it can restore scroll positions and other relevant bits of your app’s interface.</li>
-<li>Assign restoration classes to the appropriate view controllers. (If you do not do this, your app delegate is asked to provide the corresponding view controller at restore time.)</li>
-<li>(Recommended) Encode and decode the state of your views and view controllers using the <code>encodeRestorableStateWithCoder:</code> and <code>decodeRestorableStateWithCoder:</code> methods of those objects;</li>
-<li>Encode and decode any version information or additional state information for your app using the <code>application:willEncodeRestorableStateWithCoder:</code> and <code>application:didDecodeRestorableStateWithCoder:</code> methods of your app delegate;</li>
-<li>Objects that act as data sources for table views and collection views should implement the <strong>UIDataSourceModelAssociation</strong> protocol. Although not required, this protocol helps preserve the selected and visible items in those types of views.</li>
-</ol>
-
-
-<h3>注意事项</h3>
-
-<div style="text-align: center" markdown="1">
-
-    <img name="state_vc_caveats_2x" src="http://DamianSheldon.github.io/images/state_vc_caveats_2x.png" width="594" height="862">
-
-</div>
-
-
-<p>上图有颜色的视图控制器的状态是不会被保存和恢复的。</p>
-
-<h3>Reference</h3>
-
-<p>App Programming Guide for iOS</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何创建自定义的Xcode 6 工程模板]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-creating-custom-xcode-6-project-templates.html/"/>
-    <updated>2014-12-05T14:34:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-creating-custom-xcode-6-project-templates</id>
-    <content type="html"><![CDATA[<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
-
-<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
-
-<p>```
-// Step 1:
-$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/</p>
-
-<p>// Step 2:
-$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/</p>
-
-<p>```</p>
-
-<!-- more -->
-
-
-<p>现在我们有了一个和Single View Application一样的模板，但这和我们目标还相差很远。接下来我们要做就是修改<strong>TemplateInfo.plist</strong>，让模板为我们做更多准备工作。</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> Keys </th>
-<th> Advice </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Ancestors   </td>
-<td> No          | Import settings from another Project Template.</td>
-</tr>
-<tr>
-<td></td>
-<td> Concrete    </td>
-<td> Recommended | Visible or hide Template form New Project Window.</td>
-</tr>
-<tr>
-<td></td>
-<td> Definitions </td>
-<td> No          | Work with workplace. Can write to file example source code.</td>
-</tr>
-<tr>
-<td></td>
-<td> Description </td>
-<td> Recommended | New Project Window &ndash; Project Template Description.</td>
-</tr>
-<tr>
-<td></td>
-<td> Identifier  </td>
-<td> Yes         | Project Template Unique Identifier.</td>
-</tr>
-<tr>
-<td></td>
-<td> Kind        </td>
-<td> Yes         | XCode Template Kind. Project or File.</td>
-</tr>
-<tr>
-<td></td>
-<td> Nodes       </td>
-<td> Recommended | Create or Copy Files to Project. Copy works</td>
-</tr>
-<tr>
-<td></td>
-<td> Options     </td>
-<td> Recommended | New Project Wizard >> Choose Options for Project. Add Text Fields, Combo Boxes.</td>
-</tr>
-<tr>
-<td></td>
-<td> Platforms   </td>
-<td> Recommended | Set Platform.</td>
-</tr>
-<tr>
-<td></td>
-<td> Project     </td>
-<td> Yes         | Set Project Build Settings.</td>
-</tr>
-<tr>
-<td></td>
-<td> Targets     </td>
-<td> Recommended | Set Build Settings, Build Phases for Targets. Link Libraries.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>上面列出了TemplateInfo.plist大部分键，详细介绍在<a href="https://snipt.net/yonishin/about-xcode-4-project-template/">这里</a>。</p>
-
-<p>我自己新建的模板主要用到Definitions和Nodes，它们俩组合起来可以控制模板会新建哪些文件。例如我想让模板包含Models目录：</p>
-
-<p>```
-// Step 1:
-$ cd ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/</p>
-
-<p>// Step 2:
-$ mkdir -p Models</p>
-
-<p>// Step 3: 编辑TemplateInfo.plist 如下图所示。</p>
-
-<p>```</p>
-
-<div style="text-align: center" markdown="1">
-
-    <img name="PropertyList" src="http://DamianSheldon.github.io/images/PropertyList.png" width="623" height="836">
-
-</div>
-
-
-<p>完整的模板放在<a href="https://github.com/DamianSheldon/Xcode-6-Project-Templates">这里</a>。</p>
-
-<h2>Reference</h2>
-
-<p><a href="http://meandmark.com/blog/2011/12/creating-custom-xcode-4-project-templates/">Creating Custom Xcode 4 Project Templates</a><br/>
-<a href="https://snipt.net/yonishin/about-xcode-4-project-template/">About XCode 4 Project Template (How To Create Custom Project Template)</a><br/>
-<a href="https://github.com/reidmain/Xcode-6-Project-Templates">Xcode-6-Project-Templates</a></p>
 ]]></content>
   </entry>
   

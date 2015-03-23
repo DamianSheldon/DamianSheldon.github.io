@@ -111,17 +111,29 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/tips-and-techniques-for-framework-developers-translation.html/">
+		<a href="/blog/ios-concurrency-programming-gcd.html/">
 		
-			Tips and Techniques for Framework Developers(Translation)</a>
+			iOS Concurrency Programming&#8211;GCD</a>
 	</h2>
 	<div class="entry-content">
-		<h2>Initialization</h2>
+		<h2>GCD是什么？</h2>
 
-<h3>Class initialization</h3>
+<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
+* 直接简单的编程接口；<br/>
+* 自动、整体的线程池管理；<br/>
+* 高效的内存管理；<br/>
+* 负载时不干扰内核；<br/>
+* 异步分发任务到分派队列不会造成死锁；<br/>
+* 优雅地处理竞争；<br/>
+* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
 
-<p>initialize 类方法是一个一次性，懒散的执行一些代码的地方，它会在类的其他方法被调用之前调用。最典型的应用是设置类的版本号。
-动态系统给继承链上每一个类发送initialize方法，即使方法没有实现。因此它可能会被调用多次（例如，一个子类没有实现它。）。通常我们只想初始化代码被执行一次。一种实现的方法是使用dispatch_once();</p>
+<h2>如何使用GCD？</h2>
+
+<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
+
+<h3>1）单个任务；</h3>
+
+<p>我们通常是通过调用以下API来执行任务：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -132,42 +144,21 @@ $(document).ready(
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// the initializing code</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>Note:因为动态系统发送initialize给每一个类，所以它很可能会在子类的上下文中调用—如果子类没有实现initialize，会调用父类的实现。如果在相关类的上下文中有特殊的初始化需求，我们可以进行如下操作而不仅仅是使用dispatch_once();</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="n">class</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// the initializing code</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
+</span><span class='line'><span class="n">dispatch_async_f</span>
+</span><span class='line'><span class="n">dispatch_sync</span>
+</span><span class='line'><span class="n">dispatch_sync_f</span>
+</span><span class='line'><span class="n">dispatch_after</span>
+</span><span class='line'><span class="n">dispatch_after_f</span>
+</span><span class='line'><span class="n">dispatch_apply</span>
+</span><span class='line'><span class="n">dispatch_apply_f</span>
+</span><span class='line'><span class="n">dispatch_once</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 
 		
-		<a href="/blog/tips-and-techniques-for-framework-developers-translation.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-concurrency-programming-gcd.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -184,7 +175,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -201,14 +192,33 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/objective-c-class-and-object.html/">
+		<a href="/blog/ios-concurrency-programming-operation.html/">
 		
-			Objective-C Class and Object</a>
+			iOS Concurrency Programming&#8211;Operation</a>
 	</h2>
 	<div class="entry-content">
-		<p>Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。</p>
+		<p>iOS Concurrency 的实现方式大致有3种：1,NSOperation;2,GCD;3,Thread.上述的顺序也是推荐使用的顺序。</p>
 
-<h2>1,Class</h2>
+<p>Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。</p>
+
+<h2>Foundation框架中的Operation类</h2>
+
+<ol>
+<li>NSInvocationOperation类方便我们基于应用的对象和选择器创建operation对象。</li>
+<li>NSBlockOperation类方便我们同时执行一个或多个block对象。</li>
+<li>NSOperation类是自定义operation对象的基类。</li>
+</ol>
+
+
+<h2>并发 VS 非并发Operation</h2>
+
+<ol>
+<li>并发Operation是指Operation在调用线程中同步运行的。</li>
+<li>非并发Operation是指Operation与调用线程是异步运行的。</li>
+</ol>
+
+
+<h2>创建一个NSInvocationOperation对象</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -223,39 +233,25 @@ $(document).ready(
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
-</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span>
+</span><span class='line'>                    <span class="nl">selector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod:</span><span class="p">)</span> <span class="nl">object:</span><span class="n">data</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
-</span><span class='line'><span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="cp">#if !__OBJC2__</span>
-</span><span class='line'><span class="n">Class</span> <span class="n">super_class</span>                                           <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span>                                             <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="kt">long</span> <span class="n">version</span>                                               <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="kt">long</span> <span class="n">info</span>                                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="kt">long</span> <span class="n">instance_size</span>                                         <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span><span class="n">ivars</span>                              <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">**</span><span class="n">methodLists</span>                     <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span><span class="n">cache</span>                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span><span class="n">protocols</span>                      <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="cp">#endif</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span> <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Perform the task.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 
-
-
 		
-		<a href="/blog/objective-c-class-and-object.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-concurrency-programming-operation.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -272,7 +268,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-05-10T07:54:58+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
+<time datetime="2014-05-20T09:31:07+08:00" pubdate data-updated="true">May 20<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -289,61 +285,32 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/hello-octopress.html/">
+		<a href="/blog/iosde-hui-tu-xi-tong.html/">
 		
-			Hello Octopress</a>
+			iOS的绘图系统</a>
 	</h2>
 	<div class="entry-content">
-		<blockquote><p>Octopress:A blogging framework for hackers.</p></blockquote>
+		<h2>iOS的绘图框架</h2>
 
-<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
 
-<h1>问题1</h1>
+<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
-</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
-</span></code></pre></td></tr></table></div></figure>
+<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
 
+<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
 
-<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
+<h2>Drawing Destinations(iOS-Only)</h2>
 
-<h1>问题2</h1>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
-</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
-</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
-</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
-</span><span class='line'>brew doctor
-</span><span class='line'><span class="nb">cd </span>root_path_octopress
-</span><span class='line'>git pull octopress master
-</span><span class='line'>rm Gemfile.lock
-</span><span class='line'>vim Gemfile
-</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
-</span></code></pre></td></tr></table></div></figure>
-
+<p>1)View Graphics Context<br/>
+2)Layer<br/>
+3)Bitmap<br/>
+4)PDF<br/>
+5)Printer</p>
 
 
 		
-		<a href="/blog/hello-octopress.html/" class="more-link">继续阅读</a>
+		<a href="/blog/iosde-hui-tu-xi-tong.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -360,12 +327,12 @@ $(document).ready(
   
 
 
-<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true">May 9<span>th</span>, 2014</time></div>
+<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 
@@ -377,6 +344,8 @@ $(document).ready(
     
         <a href="/blog/page/10/" class="prev">Prev</a>
     
+    
+        <a href="/blog/page/12/" class="next">Next</a>
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>

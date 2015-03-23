@@ -111,23 +111,26 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/">
+		<a href="/blog/auto-layout.html/">
 		
-			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+			Auto Layout</a>
 	</h2>
 	<div class="entry-content">
-		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
-当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+		<h3>前言</h3>
 
-<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
 
-<h3>当方法被废弃了</h3>
+<h3>Auto Layout 是什么</h3>
 
-<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
+  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
+
+<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
+  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
 
 
 		
-		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/" class="more-link">继续阅读</a>
+		<a href="/blog/auto-layout.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -144,7 +147,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
+<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -161,33 +164,42 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/swift-learning-notes-properties.html/">
+		<a href="/blog/ios-development-certificates.html/">
 		
-			Swift Learning Notes &#8211; Properties</a>
+			iOS Development&#8211;Certificates, Provisioning Profiles</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Properties</h3>
+		<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
 
-<p>“Properties associate values with a particular class, structure, or enumeration. ” &mdash; Apple</p>
+<div style="text-align: center" markdown="1"> 
+    <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
+</div>
 
-<h4>Type Properties</h4>
 
-<p>属于类型本身的properties称为Type Property.</p>
+<p>开发过程的真机调试需要：</p>
 
-<p>1)Value Type Properties (keyword: static)<br/>
-structrue, enumeration可以定义Stroed 和Computed type properties.</p>
+<pre><code>Private Key -- 私钥
+iPhone Development Certificate -- 开发证书
+Development Provisioning profile
+</code></pre>
 
-<p>Stored type properties for value types can be variables or constants.<br/>
-NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
+<p>发布到 App Store 需要：</p>
 
-<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
+<pre><code>私钥
+iPhone Distribution Certificate
+App Store Distribution Provisioning profile
+</code></pre>
 
-<p>2)Reference Type Properties (keyword: class)<br/>
-class只可以定义Computed type properties.</p>
+<p>通过 Ad Hoc 发布需要：</p>
+
+<pre><code>私钥
+iPhone Distribution Certificate
+Ad Hoc Distribution Provisioning profile
+</code></pre>
 
 
 		
-		<a href="/blog/swift-learning-notes-properties.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-development-certificates.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -204,7 +216,7 @@ class只可以定义Computed type properties.</p>
   
 
 
-<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
+<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -221,37 +233,24 @@ class只可以定义Computed type properties.</p>
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/swift-learning-notes-initialization.html/">
+		<a href="/blog/install-and-configure-openfire-on-mac-osx-mavericks.html/">
 		
-			Swift Learning Notes &#8211; Initialization</a>
+			在Mac OSX Mavericks上安装和配置Openfire</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Initialization</h3>
+		<h3>安装</h3>
 
-<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
+<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
 
-<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
-1，为实例的每一个存储属性设置初始值;  <br/>
-2，进行其他必要的准备工作.</p>
+<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
+  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
 
-<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
+<h3>配置</h3>
 
-<h3>Value Type Initialization</h3>
-
-<p>1)为存储属性设置默认值；</p>
-
-<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
-structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
-</code></pre>
-
-<p>2)初始化方法。</p>
-
-<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
-</code></pre>
-
+<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
 
 		
-		<a href="/blog/swift-learning-notes-initialization.html/" class="more-link">继续阅读</a>
+		
 	</div>
 
 
@@ -268,12 +267,12 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
   
 
 
-<time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
+<time datetime="2014-09-11T09:15:32+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 

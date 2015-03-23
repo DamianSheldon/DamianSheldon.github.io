@@ -111,148 +111,43 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-technical-interview-part-1.html/">
+		<a href="/blog/linux-useful-command-line.html/">
 		
-			iOS Technical Interview Part 1</a>
+			Linux命令行整理</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Explain method swizzling. When you would use it?</h3>
+		<h3>Create new account</h3>
 
-<h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
-
-<p>Answer:循环保留导致内存泄漏。</p>
-
-<h3>What happens when you invoke a method on a nil pointer?</h3>
-
-<p>Answer:返回0</p>
-
-<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
-
-<h3>Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
-
-<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
-
-<ol>
-<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
-<li>产品代码中不应该包含无用代码。</li>
-</ol>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Explain your process for tracing and fixing a memory leak.</h3>
-
-<ol>
-<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
-<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
-</ol>
-
-
-<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
-
-<h3>Explain how an autorelease pool works at the runtime level.</h3>
-
-<h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
-
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
+<h3>List all groups and the user names that were in each group</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@property CGRect domain;
+</pre></td><td class='code'><pre><code class=''><span class='line'>for u in `cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort
 </span><span class='line'>
-</span><span class='line'>&lt;b&gt;thread 1:&lt;/b&gt; puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
-</span><span class='line'>&lt;b&gt;thread 2:&lt;/b&gt; puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);
-</span><span class='line'>
-</span><span class='line'>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。
-</span><span class='line'>
-</span><span class='line'>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
 
 
-<p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
+<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
 
-<h3>In C, how would you reverse a string as quickly as possible?</h3>
+<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
 
-<h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
+<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
 
-<p>NSArray</p>
-
-<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
-
-<h3>Explain how code signing works.</h3>
-
-<h3>What is posing in Objective-C?</h3>
-
-<h3>List six instruments that are part of the standard.</h3>
-
-<ol>
-<li>Allocations</li>
-<li>Core Animation</li>
-<li>Leaks</li>
-<li></li>
-</ol>
+<ul>
+<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
+This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
+<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
+If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
+You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
+</ul>
 
 
-<h3>What are the differences between copy and retain?</h3>
-
-<p>copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
-
-<h3>What is the difference between frames and bounds?</h3>
-
-<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
-The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
-
-<h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
-
-<p>The object gets released twice when the autorelease pool is destroyed.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
-
-<h3>List the five iOS app states.</h3>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> State </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Not Running </td>
-<td> The app has not been launched or was running but was terminated by the system.</td>
-</tr>
-<tr>
-<td></td>
-<td> Inactive </td>
-<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
-</tr>
-<tr>
-<td></td>
-<td> Active </td>
-<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
-</tr>
-<tr>
-<td></td>
-<td> Background </td>
-<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
-</tr>
-<tr>
-<td></td>
-<td> Suspended </td>
-<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
+<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
 
 		
 		
@@ -272,7 +167,136 @@ The bounds property contains the bounds rectangle, which specifies the size of t
   
 
 
-<time datetime="2015-01-05T15:44:07+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2015</time></div>
+<time datetime="2015-03-18T21:12:56+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/nsthread-thechnology-notes.html/">
+		
+			iOS Thread笔记</a>
+	</h2>
+	<div class="entry-content">
+		<ol>
+<li>Thread是什么？</li>
+<li>iOS中怎么使用Thread？</li>
+</ol>
+
+
+<h3>Thread是什么</h3>
+
+<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
+
+<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
+
+<h3>iOS中怎么使用Thread</h3>
+
+<p>iOS中的Thread技术主要有以下两种：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Technology </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Cocoa threads </td>
+<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
+</tr>
+<tr>
+<td></td>
+<td> POSIX threads </td>
+<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>Creating a Thread</h4>
+
+<ol>
+<li><p>Using NSThread</p>
+
+<ul>
+<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
+<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
+</ul>
+</li>
+<li><p>Using POSIX Threads</p>
+
+<ul>
+<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
+</ul>
+</li>
+<li><p>Using NSObject to Spawn a Thread</p>
+
+<ul>
+<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>Configuring Thread Attributes</h4>
+
+<p>Thread的配置项有：</p>
+
+<ul>
+<li>Stack Size of a Thread</li>
+<li>Thread-Local Storage</li>
+<li>Detached State of a Thread</li>
+<li>Thread Priority</li>
+</ul>
+
+
+<h4>Writing Your Thread Entry Routine</h4>
+
+<p>编写Thread的入口程序通常需要做如下事项：</p>
+
+<ul>
+<li>Creating an Autorelease Pool</li>
+<li>Setting Up an Exception Handler</li>
+<li>Setting Up a Run Loop</li>
+</ul>
+
+
+<h4>Terminating a Thread</h4>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
@@ -289,113 +313,49 @@ The bounds property contains the bounds rectangle, which specifies the size of t
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/problems-of-android-development.html/">
+		<a href="/blog/ios-app-problems-part-2.html/">
 		
-			Android开发问题汇总</a>
+			iOS App 开发问题汇总（二）</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Android Studio SDK Components安装提示操作超时</h3>
+		<h3>问题描述：Ad Hoc分发应用</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
-</span><span class='line'>$ vim /etc/hosts
-</span><span class='line'>203.208.46.146 dl.google.com
-</span><span class='line'>203.208.46.146 dl-ssl.google.com</span></code></pre></td></tr></table></div></figure>
+<p>导出Ad Hoc授权应用
+Xcode > Product > Archive > Export</p>
 
+<p>安装Ad Hoc分发的应用
+Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
 
-<h3>Android Studio Check Updates提示连接出错</h3>
+<h3>问题描述：Xcode编译出现如下警告提示：</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
-</span><span class='line'>$ vim /Applications/Android\ Studio.app/Contents/Info.plist
-</span><span class='line'>
-</span><span class='line'>// 搜索 VMOptions
-</span><span class='line'>
-</span><span class='line'>// 添加如下内容
-</span><span class='line'>-Djava.net.preferIPv4Stack=true
-</span><span class='line'>-Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml
-</span><span class='line'>-Didea.patches.url=http://dl.google.com/android/studio/patches/
-</span><span class='line'>
-</span><span class='line'>// 结果
-</span><span class='line'>&lt;key&gt;VMOptions&lt;/key&gt;
-</span><span class='line'>&lt;string&gt;
-</span><span class='line'>-Dfile.encoding=UTF-8 -ea 
-</span><span class='line'>-Dsun.io.useCanonCaches=false 
-</span><span class='line'>-Djava.net.preferIPv4Stack=true
-</span><span class='line'> -Djna.nosys=true 
-</span><span class='line'> -Djna.boot.library.path=  
-</span><span class='line'> -Djna.debug_load=true 
-</span><span class='line'> -Djna.debug_load.jna=true 
-</span><span class='line'> -Djsse.enableSNIExtension=false 
-</span><span class='line'> -XX:+UseCodeCacheFlushing 
-</span><span class='line'> -XX:+UseConcMarkSweepGC 
-</span><span class='line'> -XX:SoftRefLRUPolicyMSPerMB=50 
-</span><span class='line'> -Xverify:none -Xbootclasspath/a:../lib/boot.jar 
-</span><span class='line'> -Djava.net.preferIPv4Stack=true 
-</span><span class='line'> -Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml 
-</span><span class='line'> -Didea.patches.url=http://dl.google.com/android/studio/patches/
-</span><span class='line'> &lt;/string&gt;
-</span><span class='line'>
-</span><span class='line'>// 重启 Android Studio</span></code></pre></td></tr></table></div></figure>
+<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
+
+<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
+
+<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
+
+<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
+
+<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
+
+<p>解决办法：</p>
+
+<ol>
+<li>Plug in your iPad/iPhone</li>
+<li>Open Image Capture</li>
+<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
+<li>Press the triangle in square symbol in the lower left corner.</li>
+<li>Select &ldquo;No application&rdquo; in the menu.</li>
+</ol>
 
 
-<h3>设置Gradle home</h3>
+<p>iPhoto:
+Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
+set it to &ldquo;No Application&rdquo;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Mac OS X
-</span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>The project is using an unsupported version of Gradle</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>The project is using an unsupported version of Gradle.
-</span><span class='line'>Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
-</span><span class='line'>
-</span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
 
 		
-		
+		<a href="/blog/ios-app-problems-part-2.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -412,61 +372,7 @@ The bounds property contains the bounds rectangle, which specifies the size of t
   
 
 
-<time datetime="2014-12-17T09:38:20+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android/'>Android</a>, <a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-does-app-security-communicate-with-server.html/">
-		
-			App如何与Server安全交互</a>
-	</h2>
-	<div class="entry-content">
-		<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
-
-<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
-
-<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
-
-<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
-
-<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
-
-<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
-
-<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2014</time></div>
+<time datetime="2015-03-16T16:14:50+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Archive | Hello World]]></title>
+  <link href="http://DamianSheldon.github.io/blog/categories/archive/atom.xml" rel="self"/>
+  <link href="http://DamianSheldon.github.io/"/>
+  <updated>2015-03-23T11:34:00+08:00</updated>
+  <id>http://DamianSheldon.github.io/</id>
+  <author>
+    <name><![CDATA[Sheldon]]></name>
+    <email><![CDATA[dongmeilianghy@sina.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[(翻译)How to Play, Record, and Edit Videos in iOS]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-play.html/"/>
+    <updated>2015-01-22T16:48:25+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-play</id>
+    <content type="html"><![CDATA[<h4>AVAsset</h4>
+
+<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
+
+<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
+
+<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
+
+<h4>AVComposition</h4>
+
+<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
+
+<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
+
+<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
+
+<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack</p>
+
+<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
+
+<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
+
+<p>And the Rest</p>
+
+<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
+
+<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
+
+<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
+
+<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
+
+<p>Conclusion</p>
+
+<p>To sum it all up:</p>
+
+<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
+
+<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
+
+<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
+
+<p>Each layer instruction is used to apply a certain transform to a given track.</p>
+
+<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
+]]></content>
+  </entry>
+  
+</feed>

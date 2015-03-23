@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>English  | Hello World</title>
+	<title>Linux命令行整理  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Linux Useful Command Line">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -105,128 +105,102 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-    
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Linux命令行整理</h2>
+	<div class="entry-content"><h3>Create new account</h3>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>List all groups and the user names that were in each group</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for u in `cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort
+</span><span class='line'>
+</span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
+
+<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
+
+<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
+
+<ul>
+<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
+This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
+<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
+If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
+You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-18T21:12:56+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time></div>
 	
-	
-		</section>
-	
-	<section class="archives"><h1 class="year">2014</h1>
-
-<article>
-	<h2 class="title"><a href="/blog/english-sentence.html/">英语句子结构</a></h2>
-	<div class="meta">
-		<div class="date">Nov 27</div>
-		
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/english/'>English</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 
 
-	    
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
 	</div>
-</article>
-    
-
-    
-        
-
-
-<article>
-	<h2 class="title"><a href="/blog/english-basic.html/">英语起步</a></h2>
-	<div class="meta">
-		<div class="date">Nov 26</div>
-		
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/english/'>English</a>
-
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	    
-	</div>
-</article>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2015
 

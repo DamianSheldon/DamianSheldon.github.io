@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS Development--Certificates, Provisioning Profiles  | Hello World</title>
+	<title>如何创建私有的Pod  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Private Key, Certificate Signing Request, CSR, Certificates, Provisioning Profiles">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Cocoa pods, private pods">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -106,104 +106,56 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS Development--Certificates, Provisioning Profiles</h2>
-	<div class="entry-content"><p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
+	<h2 class="title">如何创建私有的Pod</h2>
+	<div class="entry-content"><p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
 
-<div style="text-align: center" markdown="1"> 
-    <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
-</div>
+<p>Cocoa Pods工作依赖于两个文件：<br/>
+1. podspec:一个pod的配置是什么，pod的代码放在哪里
+2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
 
+<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
 
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
-
-<!-- more -->
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create --verbose project</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
-
-<p>Private Key &mdash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
-
-<p>Certificate &mdash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
-
-<div style="text-align: center" markdown="1"> 
-
-    <img name="Certificate" src="/images/Certificate.png" width="696" height="471"> 
-
-</div>
+<!--more-->
 
 
-<p>Provisioning Profile &mdash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
+<p>然后编辑podspecs文件，这里有几个地方需要注意：</p>
 
-<div style="text-align: center" markdown="1"> 
-
-    <img name="ProvisioningProfile" src="/images/ProvisioningProfile.png" width="618" height="377">  
-
-</div>
-
-
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
-
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
-
-<p>Certificate制作具体步骤：</p>
-
-<ul>
-<li>Certificate Signing Request (CSR)<br/>
-KeyChain Access > Certificate Assitant > Request a Certificate From a Certificate      Authority&hellip;</li>
-</ul>
-
-
-<p>Certificate Infomation</p>
-
-<p>User Email Address:xxx(you favarite address)
-Common Name:xxx(you name)
-CA Email:(Keep empty)
-Request is: save to disk</p>
-
-<p>之后会弹出保存路径选择对话框，选择你想保存的目标路径。</p>
-
-<ul>
-<li><p>制作Certificate<br/>
-developer.apple.com > Certificates, Identifiers &amp; Profiles > Certificates > + > 选择需要的Certificate类型 > 上传之前创建的CSR > 得到Certificate</p></li>
-<li><p>安装Certificate<br/>
-下载生成的Certificate > 保存好（如改个容易识别的名字，保存到安全的地方） > 双击它，安装到Key Chain.</p></li>
-<li><p>导出Private Key<br/>
-从KeyChain中导出Private Key，团队其他成员可以省略制作Certificate的繁琐操作。</p></li>
-</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
+</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.iOS", :tag =&gt; "2.0.0" }
+</span><span class='line'>
+</span><span class='line'>// s.source_files指定哪些源文件需要包含在pod中
+</span><span class='line'>s.source_files  = "AJFrame.iOS/*.{h,m}"
+</span><span class='line'>
+</span><span class='line'>// pod的依赖
+</span><span class='line'>s.dependency "JSONKit", "~&gt; 1.4"
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。</p>
+<p>podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来在需要依赖这个pod的工程的Podfile文件中指定podspec的存放路径。</p>
 
-<h3>Tips</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'</span></code></pre></td></tr></table></div></figure>
 
-<p>团队开发时，我们可以通过邮件等方式分发Private Key，这样只需要制作一次 Private Key, Certificate, Provisioning Profile。</p>
 
-<p>Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含一个Wildcard App ID(*, 匹配所有应用程序)，Team中所有的Development Certificates和所有开发设备信息，增加新设备后，Xcode会自动更新Team Provisioning Profile, 因此， 团队成员可以通过设置Xcode的Provisioning Profile为Team Provisioning Profile，从而可以在所有的开发设备上调试应用程序。</p>
+<h3>Reference</h3>
 
-<div style="text-align: center" markdown="1"> 
-
-    <img name="TeamProvisioningProfile" src="/images/TeamProvisioningProfile.png" width="712" height="406">  
-</div>
-
+<p><a href="http://guides.cocoapods.org/making/using-pod-lib-create">Using Pod Lib Create</a><br/>
+<a href="http://guides.cocoapods.org/using/the-podfile.html">The Podfile</a><br/>
+<a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
+<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
+<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
 </div>
 
 
@@ -220,7 +172,7 @@ developer.apple.com > Certificates, Identifiers &amp; Profiles > Certificates > 
   
 
 
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
+<time datetime="2015-03-11T17:23:04+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">

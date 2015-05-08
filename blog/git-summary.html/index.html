@@ -1190,6 +1190,37 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi">http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi</a></p>
 
+<h4>warning: remote HEAD refers to nonexistent ref, unable to checkout</h4>
+
+<p>Solution:问题的原因是远程仓库的默认分支名不为master。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Login to remote server
+</span><span class='line'>git branch -a
+</span><span class='line'>git branch -m branchName master
+</span><span class='line'>
+</span><span class='line'>// <span class="nb">local</span>
+</span><span class='line'>git clone .... // Now the warn will be disappear
+</span><span class='line'>
+</span><span class='line'>git fetch
+</span><span class='line'>git add .
+</span><span class='line'>git commit
+</span><span class='line'>git push ...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://blog.csdn.net/gracioushe/article/details/6142793">http://blog.csdn.net/gracioushe/article/details/6142793</a></p>
+
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>

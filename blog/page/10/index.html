@@ -111,6 +111,56 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/">
+		
+			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+	</h2>
+	<div class="entry-content">
+		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+
+<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+
+<h3>当方法被废弃了</h3>
+
+<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+
+
+		
+		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/swift-learning-notes-properties.html/">
 		
 			Swift Learning Notes &#8211; Properties</a>
@@ -219,73 +269,6 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
 
 
 <time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/core-data-chu-bu.html/">
-		
-			Core Data 初步</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>Core Data是什么？</li>
-<li>为什么使用Core Data?</li>
-<li>如何使用Core Data?</li>
-</ol>
-
-
-<h2>Core Data是什么？</h2>
-
-<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
-
-<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
-
-<h2>为什么使用Core Data？</h2>
-
-<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
-
-<ul>
-<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
-<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
-<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
-<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
-<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
-</ul>
-
-
-
-		
-		<a href="/blog/core-data-chu-bu.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time></div>
 	
 
 <div class="tags">

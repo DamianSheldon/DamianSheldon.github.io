@@ -144,6 +144,131 @@ set it to &ldquo;No Application&rdquo;</p>
 
 <!--more-->
 
+
+<h3>问题描述:ld: warning: directory not found for option &lsquo;-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator&rsquo;</h3>
+
+<p>Undefined symbols for architecture x86_64:
+  &ldquo;_DDExtractFileNameWithoutExtension&rdquo;, referenced from:</p>
+
+<pre><code>  ___57-[AJSocketBinaryClientChannel setupReadTimerWithTimeout:]_block_invoke76 in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+  -[AJSocketBinaryClientChannel doReadTimeout] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+  -[AJSocketBinaryClientChannel endCurrentRead] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+</code></pre>
+
+<p>  &ldquo;<em>OBJC_CLASS</em>$_DDLog&rdquo;, referenced from:</p>
+
+<pre><code>  objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+</code></pre>
+
+<p>  &ldquo;<em>OBJC_CLASS</em>$_GCDAsyncSocket&rdquo;, referenced from:</p>
+
+<pre><code>  objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJTcpConnector.o)
+</code></pre>
+
+<p>ld: symbol(s) not found for architecture x86_64</p>
+
+<p>解决办法：从输出的日志可以看出问题是出在链接，由Cocoapods管理的第三方库安装后链接配置项没有设置正确，需要手动设置没有被自动链接的库，例如这里我需要链接：-l&#8221;Pods-CocoaAsyncSocket&#8221;。</p>
+
+<h3>问题描述:dyld: could not load inserted library &lsquo;/usr/lib/libgmalloc.dylib&rsquo; because image not found</h3>
+
+<p>解决办法：Edit Scheme > Run > Diagnostics > Memory Managerment</p>
+
+<p>Malloc uncheck Enable Scribble</p>
+
+<pre><code>    uncheck Enable Guard Edges  
+    uncheck Enable Guard Malloc  
+</code></pre>
+
+<p>Reference:<a href="http://blog.csdn.net/chocolateloveme/article/details/18258443">http://blog.csdn.net/chocolateloveme/article/details/18258443</a></p>
+
+<h3>问题描述：APNs服务器地址</h3>
+
+<p>答案：
+gateway.push.apple.com 2195 (Product)<br/>
+gateway.sandbox.push.apple.com 2195 (Development)</p>
+
+<h3>问题描述：/Users/user/XCodeWork/iPhoneDev/MyAppSourceFolder/en.lproj/MainWindow-iPhone.xib:</h3>
+
+<p>  Compilation failed. Unable to write to path:      <br/>
+  /Users/user/Library/Developer/Xcode/DerivedData/MYAPPNAME-
+  dudnhxzgpqtcnqcgaguirvkhmvco/Build/Intermediates/ArchiveIntermediates/
+  MYAPPNAME/InstallationBuildProductsLocation/Applications/MyAppname.app/
+  en.lproj/MainWindow-iPhone.nib</p>
+
+<p>解决办法：For every xib&rsquo;s that we&rsquo;ve problems, in the right panel go to the first tab, &ldquo;Interface Builder Document&rdquo; &ndash;> &ldquo;Builds for&rdquo; and select &ldquo;iOS 7.0 and Later&rdquo;. My old configuration was &ldquo;iOS 4.3 and Later&rdquo;.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path">http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path</a></p>
+
+<h3>问题描述:duplicate symbol <em>OBJC_METACLASS</em>$_SDWebImagePrefetcher in:</h3>
+
+<pre><code>/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-weima-SDWebImage.a(SDWebImagePrefetcher.o)
+/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-SDWebImage.a(SDWebImagePrefetcher.o)
+</code></pre>
+
+<p>ld: 727 duplicate symbols for architecture x86_64</p>
+
+<p>解决办法：问题出现的原因是我用CocoaPods管理第三方库，在Build Settings > Linking > Other Linker Flags 里面即显示指定了-l&#8221;Pods-SDWebImagePrefetcher&#8221;,又设置了变量$(inherited)。我去掉$(inherited)就好。</p>
+
+<h3>问题描述:2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument</h3>
+
+<p>2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument
+libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
+
+<h3>Cannot send push notifications using Javapns/Javaapns SSL handshake failure</h3>
+
+<p>解决办法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>developer_identity.cer &lt;= download from Apple (aps cert)
+</span><span class='line'>mykey.p12 &lt;= Your private key (CSR generate private key or install aps cert get a private key both ok)
+</span><span class='line'>
+</span><span class='line'>openssl x509 -in developer_identity.cer -inform DER -out developer_identity.pem -outform PEM
+</span><span class='line'>openssl pkcs12 -nocerts -in mykey.p12 -out mykey.pem
+</span><span class='line'>openssl pkcs12 -export -inkey mykey.pem -in developer_identity.pem -out iphone_dev.p12</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure">http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure</a></p>
+
+<h3>导航栏如何显示两行文本？</h3>
+
+<p>解决办法：After setting up your titleView or titleLabel, call sizeToFit on it, also make sure titleLabel.textAlignment = UITextAlignmentCenter. It&rsquo;ll be centered in the width of the navbar rather than in the space between the button edge and far edge of navbar.</p>
+
+<p>Reference <a href="http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame">http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame</a></p>
+
+<h3>SVN how to resolve “local unversioned, incoming add upon update”</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ svn status
+</span><span class='line'>D     C logs
+</span><span class='line'>      &gt;   local unversioned, incoming add upon update
+</span><span class='line'>Summary of conflicts:
+</span><span class='line'>  Tree conflicts: 1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ svn resolve --accept working logs
+</span><span class='line'>Resolved conflicted state of 'logs'
+</span><span class='line'>$ svn revert logs
+</span><span class='line'>Reverted 'logs'
+</span><span class='line'>$ svn status</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
 </div>
 
 

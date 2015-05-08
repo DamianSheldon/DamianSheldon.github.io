@@ -205,6 +205,11 @@ $(document).ready(
 </span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
 
 
+
+
+<!--more-->
+
+
 <h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
 
 <h3>Project&#8217;X&#8217; is missing required Java project &lsquo;Y&rsquo;</h3>
@@ -240,6 +245,62 @@ $(document).ready(
 <h3>Android studio Offline document path</h3>
 
 <p>Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html</p>
+
+<h3>Error:Execution failed for task &lsquo;:app:processDebugManifest&rsquo;. Manifest merger failed : uses-sdk element cannot have a &ldquo;tools:node&rdquo; attribute</h3>
+
+<p>Solution:Add this line to uses-sdk tag like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;uses-sdk
+</span><span class='line'>    tools:node="merge"   &lt;----This line do the magic
+</span><span class='line'>    android:minSdkVersion="14"
+</span><span class='line'>    android:targetSdkVersion="19" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And add the tools name space in manifest :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>xmlns:tools="http://schemas.android.com/tools" .....
+</span><span class='line'>.../&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute">http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute</a></p>
+
+<h3>Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Error:(27, 0) Gradle DSL method not found: 'runProguard()'
+</span><span class='line'>**Possible causes:
+</span><span class='line'>The project 'Atomic4Mobile' may be using a version of Gradle that does not contain the method.
+</span><span class='line'>**Gradle settings**
+</span><span class='line'>The build file may be missing a Gradle plugin.
+</span><span class='line'>**Apply Gradle plugin**</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:runProguard was renamed to minifyEnabled in version 0.14.0.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard">http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard</a></p>
+
+<h3>error “Library projects cannot set applicationId”</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:Removing applicationId variable from the library&rsquo;s build.gradle file should resolve the issue.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid">http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid</a></p>
 </div>
 
 

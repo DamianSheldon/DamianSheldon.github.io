@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-03-23T11:34:00+08:00</updated>
+  <updated>2015-05-08T17:18:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Enumerated constants]]></title>
+    <link href="http://DamianSheldon.github.io/blog/enumerated-constants.html/"/>
+    <updated>2015-05-08T16:38:20+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/enumerated-constants</id>
+    <content type="html"><![CDATA[<p>Objective-C中的枚举常量大致有以下四种情形：</p>
+
+<p>```
+// 1. unnamed enumerations
+enum {</p>
+
+<pre><code>NSBorderlessWindowMask      = 0,
+NSTitledWindowMask          = 1 &lt;&lt; 0,
+NSClosableWindowMask        = 1 &lt;&lt; 1,
+NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+NSResizableWindowMask       = 1 &lt;&lt; 3
+</code></pre>
+
+<p>};</p>
+
+<p><code>- (void)setStyleMask:(NSUInteger)styleMask</code></p>
+
+<p>// 2
+typedef enum _NSMatrixMode {</p>
+
+<pre><code>NSRadioModeMatrix           = 0,
+NSHighlightModeMatrix       = 1,
+NSListModeMatrix            = 2,
+NSTrackModeMatrix           = 3
+</code></pre>
+
+<p>} NSMatrixMode;</p>
+
+<p>// 3
+typedef NS_ENUM(NSInteger, UITableViewCellStyle) {</p>
+
+<pre><code>UITableViewCellStyleDefault,
+UITableViewCellStyleValue1,
+UITableViewCellStyleValue2,
+UITableViewCellStyleSubtitle
+</code></pre>
+
+<p>};</p>
+
+<p>// 4
+typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {</p>
+
+<pre><code>NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
+NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
+NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
+NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
+NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
+NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
+NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
+NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
+NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
+NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
+NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
+
+NSLayoutFormatAlignmentMask = 0xFFFF,
+
+/* choose only one of these three
+ */
+NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
+NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
+NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
+
+NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
+</code></pre>
+
+<p>};</p>
+
+<p>```</p>
+
+<p>情形一相当于定义了常量，但不定义类型;<br/>
+情形二定义了一个NSMatrixMode类型;</p>
+
+<p>情形三定义了一个NSInteger的UITableViewCellStyle类型;<br/>
+情形四支持C++的枚举特性。</p>
+
+<blockquote><p>The NS_OPTIONS macro is defined in different ways if compiling as C++ or not. If it’s not C++, it’s expanded out the same as NS_ENUM. However, if it is C++, it’s expanded out slightly differently. Why? The C++ compiler acts differently when two enumeration values are bitwise OR’ed together. This is something, as shown earlier, that is commonly done with the options type of enumeration. When two values are OR’ed together, C++ considers the resulting value to be of the type the enumeration represents: NSUInteger. It also doesn’t allow the implicit cast to the enumeration type.</p></blockquote>
+
+<p>Reference:<br/>
+Effective Objective-C 2.0<br/>
+<a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Thread笔记]]></title>
@@ -151,6 +239,118 @@ set it to &ldquo;No Application&rdquo;</p>
 
 <!--more-->
 
+
+<h3>问题描述:ld: warning: directory not found for option &lsquo;-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator&rsquo;</h3>
+
+<p>Undefined symbols for architecture x86_64:
+  &ldquo;_DDExtractFileNameWithoutExtension&rdquo;, referenced from:</p>
+
+<pre><code>  ___57-[AJSocketBinaryClientChannel setupReadTimerWithTimeout:]_block_invoke76 in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+  -[AJSocketBinaryClientChannel doReadTimeout] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+  -[AJSocketBinaryClientChannel endCurrentRead] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+</code></pre>
+
+<p>  &ldquo;<em>OBJC_CLASS</em>$_DDLog&rdquo;, referenced from:</p>
+
+<pre><code>  objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+</code></pre>
+
+<p>  &ldquo;<em>OBJC_CLASS</em>$_GCDAsyncSocket&rdquo;, referenced from:</p>
+
+<pre><code>  objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJTcpConnector.o)
+</code></pre>
+
+<p>ld: symbol(s) not found for architecture x86_64</p>
+
+<p>解决办法：从输出的日志可以看出问题是出在链接，由Cocoapods管理的第三方库安装后链接配置项没有设置正确，需要手动设置没有被自动链接的库，例如这里我需要链接：-l"Pods-CocoaAsyncSocket"。</p>
+
+<h3>问题描述:dyld: could not load inserted library &lsquo;/usr/lib/libgmalloc.dylib&rsquo; because image not found</h3>
+
+<p>解决办法：Edit Scheme > Run > Diagnostics > Memory Managerment</p>
+
+<p>Malloc uncheck Enable Scribble</p>
+
+<pre><code>    uncheck Enable Guard Edges  
+    uncheck Enable Guard Malloc  
+</code></pre>
+
+<p>Reference:<a href="http://blog.csdn.net/chocolateloveme/article/details/18258443">http://blog.csdn.net/chocolateloveme/article/details/18258443</a></p>
+
+<h3>问题描述：APNs服务器地址</h3>
+
+<p>答案：
+gateway.push.apple.com 2195 (Product)<br/>
+gateway.sandbox.push.apple.com 2195 (Development)</p>
+
+<h3>问题描述：/Users/user/XCodeWork/iPhoneDev/MyAppSourceFolder/en.lproj/MainWindow-iPhone.xib:</h3>
+
+<p>  Compilation failed. Unable to write to path:      <br/>
+  /Users/user/Library/Developer/Xcode/DerivedData/MYAPPNAME-
+  dudnhxzgpqtcnqcgaguirvkhmvco/Build/Intermediates/ArchiveIntermediates/
+  MYAPPNAME/InstallationBuildProductsLocation/Applications/MyAppname.app/
+  en.lproj/MainWindow-iPhone.nib</p>
+
+<p>解决办法：For every xib&rsquo;s that we&rsquo;ve problems, in the right panel go to the first tab, &ldquo;Interface Builder Document&rdquo; &ndash;> &ldquo;Builds for&rdquo; and select &ldquo;iOS 7.0 and Later&rdquo;. My old configuration was &ldquo;iOS 4.3 and Later&rdquo;.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path">http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path</a></p>
+
+<h3>问题描述:duplicate symbol <em>OBJC_METACLASS</em>$_SDWebImagePrefetcher in:</h3>
+
+<pre><code>/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-weima-SDWebImage.a(SDWebImagePrefetcher.o)
+/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-SDWebImage.a(SDWebImagePrefetcher.o)
+</code></pre>
+
+<p>ld: 727 duplicate symbols for architecture x86_64</p>
+
+<p>解决办法：问题出现的原因是我用CocoaPods管理第三方库，在Build Settings > Linking > Other Linker Flags 里面即显示指定了-l"Pods-SDWebImagePrefetcher",又设置了变量$(inherited)。我去掉$(inherited)就好。</p>
+
+<h3>问题描述:2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument</h3>
+
+<p>2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument
+libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
+
+<h3>Cannot send push notifications using Javapns/Javaapns SSL handshake failure</h3>
+
+<p>解决办法：
+```
+developer_identity.cer &lt;= download from Apple (aps cert)
+mykey.p12 &lt;= Your private key (CSR generate private key or install aps cert get a private key both ok)</p>
+
+<p>openssl x509 -in developer_identity.cer -inform DER -out developer_identity.pem -outform PEM
+openssl pkcs12 -nocerts -in mykey.p12 -out mykey.pem
+openssl pkcs12 -export -inkey mykey.pem -in developer_identity.pem -out iphone_dev.p12
+```
+Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure">http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure</a></p>
+
+<h3>导航栏如何显示两行文本？</h3>
+
+<p>解决办法：After setting up your titleView or titleLabel, call sizeToFit on it, also make sure titleLabel.textAlignment = UITextAlignmentCenter. It&rsquo;ll be centered in the width of the navbar rather than in the space between the button edge and far edge of navbar.</p>
+
+<p>Reference <a href="http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame">http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame</a></p>
+
+<h3>SVN how to resolve “local unversioned, incoming add upon update”</h3>
+
+<p>```
+$ svn status
+D     C logs</p>
+
+<pre><code>  &gt;   local unversioned, incoming add upon update
+</code></pre>
+
+<p>Summary of conflicts:
+  Tree conflicts: 1
+```</p>
+
+<p>解决办法:</p>
+
+<p><code>
+$ svn resolve --accept working logs
+Resolved conflicted state of 'logs'
+$ svn revert logs
+Reverted 'logs'
+$ svn status
+</code>
+Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
 ]]></content>
   </entry>
   
@@ -258,143 +458,6 @@ pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :t
 <p>Each layer instruction is used to apply a certain transform to a given track.</p>
 
 <h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Technical Interview Part 1]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-1.html/"/>
-    <updated>2015-01-05T15:44:07+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-1</id>
-    <content type="html"><![CDATA[<h3>Explain method swizzling. When you would use it?</h3>
-
-<h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
-
-<p>Answer:循环保留导致内存泄漏。</p>
-
-<h3>What happens when you invoke a method on a nil pointer?</h3>
-
-<p>Answer:返回0</p>
-
-<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
-
-<h3>Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
-
-<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
-
-<ol>
-<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
-<li>产品代码中不应该包含无用代码。</li>
-</ol>
-
-
-<h3>Explain your process for tracing and fixing a memory leak.</h3>
-
-<ol>
-<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
-<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
-</ol>
-
-
-<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
-
-<h3>Explain how an autorelease pool works at the runtime level.</h3>
-
-<h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
-
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
-
-<p>```
-@property CGRect domain;</p>
-
-<p><b>thread 1:</b> puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
-<b>thread 2:</b> puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);</p>
-
-<p>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。</p>
-
-<p>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。</p>
-
-<p>```
-再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
-
-<h3>In C, how would you reverse a string as quickly as possible?</h3>
-
-<h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
-
-<p>NSArray</p>
-
-<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
-
-<h3>Explain how code signing works.</h3>
-
-<h3>What is posing in Objective-C?</h3>
-
-<h3>List six instruments that are part of the standard.</h3>
-
-<ol>
-<li>Allocations</li>
-<li>Core Animation</li>
-<li>Leaks</li>
-<li></li>
-</ol>
-
-
-<h3>What are the differences between copy and retain?</h3>
-
-<p>copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
-
-<h3>What is the difference between frames and bounds?</h3>
-
-<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
-The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
-
-<h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
-
-<p>The object gets released twice when the autorelease pool is destroyed.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
-
-<h3>List the five iOS app states.</h3>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> State </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Not Running </td>
-<td> The app has not been launched or was running but was terminated by the system.</td>
-</tr>
-<tr>
-<td></td>
-<td> Inactive </td>
-<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
-</tr>
-<tr>
-<td></td>
-<td> Active </td>
-<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
-</tr>
-<tr>
-<td></td>
-<td> Background </td>
-<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
-</tr>
-<tr>
-<td></td>
-<td> Suspended </td>
-<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
 ]]></content>
   </entry>
   

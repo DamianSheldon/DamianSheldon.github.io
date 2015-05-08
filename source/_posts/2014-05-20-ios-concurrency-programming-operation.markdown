@@ -7,6 +7,8 @@ categories: [Archives, iOS Development]
 keywords: iOS, Concurrency Programming, Operation
 description: Introduce iOS Concurrency Programming Operation
 ---
+iOS Concurrency 的实现方式大致有3种：1,NSOperation;2,GCD;3,Thread.上述的顺序也是推荐使用的顺序。
+
 Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。
 
 ##Foundation框架中的Operation类
@@ -37,6 +39,7 @@ Operation对象是NSOperation类的实例，用来封装你想让应用做的工
 <!-- more -->
 
 ##创建一个NSBlockOperation对象
+
 ``` objective-c
 NSBlockOperation* theOp = [NSBlockOperation blockOperationWithBlock: ^{
       NSLog(@"Beginning operation.\n");
@@ -82,6 +85,19 @@ NSBlockOperation* theOp = [NSBlockOperation blockOperationWithBlock: ^{
 
 1. 把Operations加入到Operation Queues;  
 2. 手动执行Operations.
+
+##Operation Queues
+
+Operation Queues是NSOperationQueue的实例，它默认是并发队列，调用setMaxConcurrentOperationCount:，传入参数1可以将队列强制变成串行队列。
+
+```
+// Create Concurrent Operation Queue
+NSOperationQueue* aQueue = [[NSOperationQueue alloc] init];
+
+// Force Concurrent Operation Queue To Serail Queue
+[aQueue setMaxConcurrentOperationCount:1];
+```
+
 
 ##辨析Start和main方法
 >start -- Begins the execution of the operation.     

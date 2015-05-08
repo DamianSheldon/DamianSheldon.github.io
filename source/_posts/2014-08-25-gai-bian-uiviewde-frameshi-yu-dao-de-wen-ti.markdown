@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS App 开发问题汇总（持续更新）"
+title: "iOS App 开发问题汇总（一）"
 date: 2014-08-25 17:09:49 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -105,7 +105,7 @@ I converted the default case-sensitive HFS+ partition to a case insensitive one 
 
 Reference:http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive
 
-####问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] *** Terminating app due to uncaught exception 'NSGenericException', reason: '*** Collection <__NSArrayM: 0x174253710> was mutated while being enumerated.'
+###问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] *** Terminating app due to uncaught exception 'NSGenericException', reason: '*** Collection <__NSArrayM: 0x174253710> was mutated while being enumerated.'
 *** First throw call stack:
 (0x18734259c 0x197a500e4 0x187341f50 0x1002ebd00 0x1001e8e94 0x1001e9e90 0x18bb28d34 0x18bb11e48 0x18bb286d0 0x18bb2835c 0x18bb218b0 0x18baf4fa8 0x18bd93f58 0x18baf3510 0x1872fa9ec 0x1872f9c90 0x1872f7d40 0x1872250a4 0x1903cf5a4 0x18bb5a3c0 0x100220370 0x1980bea08)
 libc++abi.dylib: terminating with uncaught exception of type NSException
@@ -118,4 +118,52 @@ libc++abi.dylib: terminating with uncaught exception of type NSException
         [self.bmapView removeAnnotation:annotation];
     }
 ```
+
+###问题描述：AView上面有个TableView，点击TableView的Cell弹出一个小的BView，BView上面有三个小的View和一个button，现在希望点击TableView能隐藏BView，而BView上面的点击手势仍然是可以识别的。
+
+解决办法：AView,BView上都添加Tap手势，将ViewController设置成AView的Tap手势的代理，实现代理中的：
+
+```
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (touch.view == self.BView) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+```
+
+###问题描述：Build failed:
+
+```
+Undefined symbols for architecture x86_64:
+  "_deflate", referenced from:
+      -[NSData(GZIP) gzippedDataWithCompressionLevel:] in libAJFrame.iOS.a(GZIP.o)
+  "_deflateEnd", referenced from:
+      -[NSData(GZIP) gzippedDataWithCompressionLevel:] in libAJFrame.iOS.a(GZIP.o)
+  "_deflateInit2_", referenced from:
+      -[NSData(GZIP) gzippedDataWithCompressionLevel:] in libAJFrame.iOS.a(GZIP.o)
+  "_inflate", referenced from:
+      -[NSData(GZIP) gunzippedData] in libAJFrame.iOS.a(GZIP.o)
+  "_inflateEnd", referenced from:
+      -[NSData(GZIP) gunzippedData] in libAJFrame.iOS.a(GZIP.o)
+  "_inflateInit2_", referenced from:
+      -[NSData(GZIP) gunzippedData] in libAJFrame.iOS.a(GZIP.o)
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: file: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk/usr/lib/libz.dylib is a dynamic library, not added to the static library
+warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: file: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk/usr/lib/libz.dylib is a dynamic library, not added to the static library
+```
+解决办法：问题出在libz.dylib，我把它加在静态库的Target上并不管用，应该把它加在实际应用的Target上，个人觉得这里的添加方法有点奇怪。
+
+Reference:http://stackoverflow.com/questions/18053546/undefined-symbols-for-architecture-i386-deflate-referenced-from-platcompres  
+
+http://stackoverflow.com/questions/22572610/how-to-fix-is-a-dynamic-library-not-added-to-the-static-library-warning  
+
+###问题描述：如何查看服务器某个端口是否打开？
+解决办法：1. nmap -PN 80 example.com
+2. nc -vz google.com 80
+3. telnet google.com 80 (To close your session, hit ctrl-])
 

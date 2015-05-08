@@ -51,13 +51,25 @@ $ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 $ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 $ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
+// Preparation & Accounts Setup
+$ sudo useradd -G git -d /home/john -m -s /bin/bash john
+$ sudo useradd -G git -d /home/andrew -m -s /bin/bash andrew
+$ sudo useradd -G git -d /home/robert -m -s /bin/bash robert
+
+// Exist user change his primary group by newgrp command
+$ sudo newgrp -g git john
+
+
 // Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
 $sudo mkdir /opt/git
 $sudo chown -R git /opt/git
 $ cd /opt/git
 $ mkdir project.git 
 $ cd project.git
-$ git --bare init
+$ git --bare --shared=group init
+
+// if forget init with --shared=group, we can config with command:
+$ git config -- core.sharedRepository ture
 
 // Mac 下需要开启ssh并允许remote login
 $launchctl start sshd
@@ -594,34 +606,39 @@ $git rm --cached filenameYourDontWantTracked
 $ git add --update
 ```
 
-####fatal: unresolved deltas left after unpacking
+####insufficient permission for adding an object to repository database ./objects
 
 ```
-helloworld:iCycling dongmeiliang$ git push --verbose origin dev:dev
-Pushing to ssh://meiliang@202.114.177.31/git/iCycling.git
-Counting objects: 27, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (16/16), done.
-Writing objects: 100% (16/16), 1.11 MiB | 0 bytes/s, done.
-Total 16 (delta 10), reused 0 (delta 0)
-fatal: unresolved deltas left after unpacking
-error: unpack failed: unpack-objects abnormal exit
-To ssh://meiliang@202.114.177.31/git/iCycling.git
- ! [remote rejected] dev -> dev (n/a (unpacker error))
-error: failed to push some refs to 'ssh://meiliang@202.114.177.31/git/iCycling.git'
-```
+ssh me@myserver
+cd repository.git
 
-Solution:
+sudo chmod -R g+w *
+
+git config core.sharedRepository true
 
 ```
-helloworld:iCycling dongmeiliang$ git pull --verbose origin dev
-From ssh://202.114.177.31/git/iCycling
- * branch            dev        -> FETCH_HEAD
- = [up to date]      dev        -> origin/dev
-Already up-to-date.
 
+Reference:http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi
+
+#### warning: remote HEAD refers to nonexistent ref, unable to checkout
+
+Solution:问题的原因是远程仓库的默认分支名不为master。
 
 ```
+// Login to remote server
+git branch -a 
+git branch -m branchName master
+
+// local
+git clone .... // Now the warn will be disappear
+
+git fetch 
+git add .
+git commit
+git push ...
+
+```
+Reference:http://blog.csdn.net/gracioushe/article/details/6142793
 
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

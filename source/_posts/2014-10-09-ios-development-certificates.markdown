@@ -54,7 +54,30 @@ Provisioning Profile --供应配置文件，它包含证书， App ID, 设备信
 
 ### Private Key, Certificate, Provisioning Profile 的制作过程  
 
-使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。  
+使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。 
+
+Certificate制作具体步骤：
+
+* Certificate Signing Request (CSR)  
+KeyChain Access > Certificate Assitant > Request a Certificate From a Certificate      Authority...
+
+Certificate Infomation
+
+User Email Address:xxx(you favarite address)
+Common Name:xxx(you name)
+CA Email:(Keep empty)
+Request is: save to disk
+
+之后会弹出保存路径选择对话框，选择你想保存的目标路径。
+
+* 制作Certificate  
+developer.apple.com > Certificates, Identifiers & Profiles > Certificates > + > 选择需要的Certificate类型 > 上传之前创建的CSR > 得到Certificate
+
+* 安装Certificate  
+下载生成的Certificate > 保存好（如改个容易识别的名字，保存到安全的地方） > 双击它，安装到Key Chain.
+
+* 导出Private Key  
+从KeyChain中导出Private Key，团队其他成员可以省略制作Certificate的繁琐操作。
 
 Provisioning Profile的制作要复杂些，它要包含App 相应的Certificate， App ID, Development Provision Profile 还会包含 Device 信息。  
 

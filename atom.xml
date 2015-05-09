@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-05-08T17:18:28+08:00</updated>
+  <updated>2015-05-09T11:40:02+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -178,6 +178,14 @@ You should then be able to use ssh to log in to the remote server without being 
 
 
 <p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
+
+<h3>Finding all files containing a text string on Linux</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -rnw 'directory' -e "pattern"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
 ]]></content>
   </entry>
   
@@ -444,6 +452,12 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 
 
 <p>Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
+
+<h3>问题描述：Calling a C function from within a function in a .mm file</h3>
+
+<p>解决办法：The .mm file is looking to call a mangled version of the function name. You need either <strong>BEGIN_DECLS and </strong>END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern &ldquo;C&rdquo; when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.</p>
+
+<p>Referenc: <a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file</a></p>
 ]]></content>
   </entry>
   

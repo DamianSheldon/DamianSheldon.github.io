@@ -269,6 +269,12 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 
 
 <p>Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
+
+<h3>问题描述：Calling a C function from within a function in a .mm file</h3>
+
+<p>解决办法：The .mm file is looking to call a mangled version of the function name. You need either <strong>BEGIN_DECLS and </strong>END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern &ldquo;C&rdquo; when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.</p>
+
+<p>Referenc: <a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file</a></p>
 </div>
 
 

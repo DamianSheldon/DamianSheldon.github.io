@@ -35,3 +35,11 @@ If you are a developer and you want to access debian.org systems with such a key
 You should then be able to use ssh to log in to the remote server without being asked for a password.
 
 Reference:https://www.debian.org/devel/passwordlessssh
+
+###Finding all files containing a text string on Linux
+
+```
+grep -rnw 'directory' -e "pattern"
+```
+
+Reference: http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux

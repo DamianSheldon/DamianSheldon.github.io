@@ -132,3 +132,9 @@ $ svn status
 ```
 Reference http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html
 
+###问题描述：Calling a C function from within a function in a .mm file
+
+解决办法：The .mm file is looking to call a mangled version of the function name. You need either __BEGIN_DECLS and __END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern "C" when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.
+
+Referenc: http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file
+

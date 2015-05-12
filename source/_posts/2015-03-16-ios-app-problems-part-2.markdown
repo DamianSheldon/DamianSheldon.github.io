@@ -138,3 +138,22 @@ Reference http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-loca
 
 Referenc: http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file
 
+###问题描述：Compilation failed. Unable to write to path
+
+```
+    Underlying Errors:
+        Description: The file “objects.nib” doesn’t exist.
+        Failure Reason: The file doesn’t exist.
+        Underlying Errors:
+            Description: The operation couldn’t be completed. No such file or directory
+            Failure Reason: No such file or directory
+        Description: “DMLUserElementCell~iphone.nib” couldn’t be removed.
+        Failure Reason: The file doesn’t exist.
+        Underlying Errors:
+            Description: The operation couldn’t be completed. No such file or directory
+            Failure Reason: No such file or directory
+```
+
+解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。
+
+Reference:http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure

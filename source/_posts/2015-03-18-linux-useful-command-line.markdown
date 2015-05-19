@@ -43,3 +43,43 @@ grep -rnw 'directory' -e "pattern"
 ```
 
 Reference: http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux
+
+###Show bash script commands without executing them
+
+There are two useful debug outputs for that task (both are written to stderr):
+
+set -v mode (set -o verbose)
+prints commands to be executed to stderr just like they are read from input (script file or keyboard)
+prints everything before anything ( substitutions and expansions, …) big is applied
+set -x mode (set -o xtrace)
+prints everything like it really is executed, after substitutions and expansions applied
+indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
+indicates the recognized words after word splitting by marking them like 'x y'
+in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout
+
+Hint: These modes can be entered when calling Bash:
+
+from commandline: bash -vx ./myscript
+eventually (OS dependant) from shebang: #!/bin/bash -vx
+
+Reference:http://wiki.bash-hackers.org/scripting/debuggingtips
+
+###Toggle Web Sharing on or off in OSX 10.10
+
+```
+// Start
+sudo apachectl start
+
+// Stop
+sudo apachectl stop
+
+// Restart
+sudo apachectl restart
+
+// find the Apache version
+httpd -v
+
+// After starting Apache – test to see if the webserver is working in the browser – http://localhost – you should see the “It Works!” text.
+
+```
+Reference:http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/  

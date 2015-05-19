@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-05-09T11:40:02+08:00</updated>
+  <updated>2015-05-19T08:33:33+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -144,6 +144,46 @@ grep -rnw 'directory' -e "pattern"
 </code></p>
 
 <p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
+
+<h3>Show bash script commands without executing them</h3>
+
+<p>There are two useful debug outputs for that task (both are written to stderr):</p>
+
+<p>set -v mode (set -o verbose)
+prints commands to be executed to stderr just like they are read from input (script file or keyboard)
+prints everything before anything ( substitutions and expansions, …) big is applied
+set -x mode (set -o xtrace)
+prints everything like it really is executed, after substitutions and expansions applied
+indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
+indicates the recognized words after word splitting by marking them like &lsquo;x y&rsquo;
+in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout</p>
+
+<p>Hint: These modes can be entered when calling Bash:</p>
+
+<p>from commandline: bash -vx ./myscript
+eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
+
+<p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
+
+<h3>Toggle Web Sharing on or off in OSX 10.10</h3>
+
+<p>```
+// Start
+sudo apachectl start</p>
+
+<p>// Stop
+sudo apachectl stop</p>
+
+<p>// Restart
+sudo apachectl restart</p>
+
+<p>// find the Apache version
+httpd -v</p>
+
+<p>// After starting Apache – test to see if the webserver is working in the browser – <a href="http://localhost">http://localhost</a> – you should see the “It Works!” text.</p>
+
+<p>```
+Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
 ]]></content>
   </entry>
   
@@ -403,6 +443,29 @@ Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict
 <p>解决办法：The .mm file is looking to call a mangled version of the function name. You need either <strong>BEGIN_DECLS and </strong>END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern &ldquo;C&rdquo; when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.</p>
 
 <p>Referenc: <a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file</a></p>
+
+<h3>问题描述：Compilation failed. Unable to write to path</h3>
+
+<p>```</p>
+
+<pre><code>Underlying Errors:
+    Description: The file “objects.nib” doesn’t exist.
+    Failure Reason: The file doesn’t exist.
+    Underlying Errors:
+        Description: The operation couldn’t be completed. No such file or directory
+        Failure Reason: No such file or directory
+    Description: “DMLUserElementCell~iphone.nib” couldn’t be removed.
+    Failure Reason: The file doesn’t exist.
+    Underlying Errors:
+        Description: The operation couldn’t be completed. No such file or directory
+        Failure Reason: No such file or directory
+</code></pre>
+
+<p>```</p>
+
+<p>解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure">http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure</a></p>
 ]]></content>
   </entry>
   

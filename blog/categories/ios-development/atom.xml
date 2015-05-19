@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-05-09T11:40:02+08:00</updated>
+  <updated>2015-05-19T08:33:33+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -357,6 +357,29 @@ Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict
 <p>解决办法：The .mm file is looking to call a mangled version of the function name. You need either <strong>BEGIN_DECLS and </strong>END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern &ldquo;C&rdquo; when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.</p>
 
 <p>Referenc: <a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file</a></p>
+
+<h3>问题描述：Compilation failed. Unable to write to path</h3>
+
+<p>```</p>
+
+<pre><code>Underlying Errors:
+    Description: The file “objects.nib” doesn’t exist.
+    Failure Reason: The file doesn’t exist.
+    Underlying Errors:
+        Description: The operation couldn’t be completed. No such file or directory
+        Failure Reason: No such file or directory
+    Description: “DMLUserElementCell~iphone.nib” couldn’t be removed.
+    Failure Reason: The file doesn’t exist.
+    Underlying Errors:
+        Description: The operation couldn’t be completed. No such file or directory
+        Failure Reason: No such file or directory
+</code></pre>
+
+<p>```</p>
+
+<p>解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure">http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure</a></p>
 ]]></content>
   </entry>
   

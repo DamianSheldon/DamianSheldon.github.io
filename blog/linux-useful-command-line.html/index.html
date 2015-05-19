@@ -147,6 +147,59 @@ You should then be able to use ssh to log in to the remote server without being 
 
 
 <p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
+
+<h3>Show bash script commands without executing them</h3>
+
+<p>There are two useful debug outputs for that task (both are written to stderr):</p>
+
+<p>set -v mode (set -o verbose)
+prints commands to be executed to stderr just like they are read from input (script file or keyboard)
+prints everything before anything ( substitutions and expansions, …) big is applied
+set -x mode (set -o xtrace)
+prints everything like it really is executed, after substitutions and expansions applied
+indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
+indicates the recognized words after word splitting by marking them like &lsquo;x y&rsquo;
+in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout</p>
+
+<p>Hint: These modes can be entered when calling Bash:</p>
+
+<p>from commandline: bash -vx ./myscript
+eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
+
+<p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
+
+<h3>Toggle Web Sharing on or off in OSX 10.10</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Start
+</span><span class='line'>sudo apachectl start
+</span><span class='line'>
+</span><span class='line'>// Stop
+</span><span class='line'>sudo apachectl stop
+</span><span class='line'>
+</span><span class='line'>// Restart
+</span><span class='line'>sudo apachectl restart
+</span><span class='line'>
+</span><span class='line'>// find the Apache version
+</span><span class='line'>httpd -v
+</span><span class='line'>
+</span><span class='line'>// After starting Apache – test to see if the webserver is working in the browser – http://localhost – you should see the “It Works!” text.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
 </div>
 
 

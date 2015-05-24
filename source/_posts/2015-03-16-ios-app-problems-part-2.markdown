@@ -157,3 +157,29 @@ Referenc: http://stackoverflow.com/questions/4984523/calling-a-c-function-from-w
 解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。
 
 Reference:http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure
+
+###问题描述：Where iPhoto Pictures are Located and How to Access the iPhoto Library and Picture Files
+
+解决办法：iPhoto 11 (9.0) Photo Library Storage Location:~/Pictures/iPhoto Library.photolibrary/Masters/
+
+Reference:http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/
+
+###Checking the Entitlements for an iOS app Submission to the App Store
+
+Making an Inspectable .ipa file  
+In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.  
+When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.  
+When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.  
+Checking the Entitlements of an .ipa file  
+Find the .ipa file and change its the extension to .zip.  
+Expand the .zip file. This will produce a Payload folder containing your .app bundle.  
+Use the codesign tool to check the entitlements on the .app bundle like this:
+$ codesign -d --entitlements :- "Payload/YourApp.app"
+where YourApp.app is the actual name of your .app bundle.  
+Use the security tool to check the entitlements of the app's embedded provisioning profile:
+// should add cms, Apple may be a typo
+$ security cms -D -i "Payload/YourApp.app/embedded.mobileprovision"
+
+where YourApp.app is the actual name of your .app bundle.
+
+

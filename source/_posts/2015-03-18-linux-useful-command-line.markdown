@@ -83,3 +83,10 @@ httpd -v
 
 ```
 Reference:http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/  
+
+###List open ports on your machine (Mac OS X)
+
+```
+sudo lsof -i -P | grep -i "listen"
+```
+Reference:http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/  

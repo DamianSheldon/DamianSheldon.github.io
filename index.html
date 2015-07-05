@@ -111,6 +111,94 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/">
+		
+			如何使能 Yosemite 内置 Apache 的 HTTPS/SSL</a>
+	</h2>
+	<div class="entry-content">
+		<p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
+
+<p>我的环境：<br/>
+OS: OS X 10.10.3 (14D136)<br/>
+Apache: Apache/2.4.10 (Unix)</p>
+
+<p>详细步骤：</p>
+
+<ol>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
+</ol>
+
+
+
+		
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/enumerated-constants.html/">
 		
 			Enumerated Constants</a>
@@ -379,6 +467,38 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 
 <p>Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
 
+<h3>What do the numbers in a man page mean?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MANUAL SECTIONS
+</span><span class='line'>    The standard sections of the manual include:
+</span><span class='line'>
+</span><span class='line'>    1      User Commands
+</span><span class='line'>    2      System Calls
+</span><span class='line'>    3      C Library Functions
+</span><span class='line'>    4      Devices and Special Files
+</span><span class='line'>    5      File Formats and Conventions
+</span><span class='line'>    6      Games et. Al.
+</span><span class='line'>    7      Miscellanea
+</span><span class='line'>    8      System Administration tools and Deamons
+</span><span class='line'>
+</span><span class='line'>    Distributions customize the manual section to their specifics,
+</span><span class='line'>    which often include additional sections.</span></code></pre></td></tr></table></div></figure>
+
+
 		
 		
 	</div>
@@ -403,135 +523,6 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/nsthread-thechnology-notes.html/">
-		
-			iOS Thread笔记</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>Thread是什么？</li>
-<li>iOS中怎么使用Thread？</li>
-</ol>
-
-
-<h3>Thread是什么</h3>
-
-<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
-
-<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
-
-<h3>iOS中怎么使用Thread</h3>
-
-<p>iOS中的Thread技术主要有以下两种：</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> Technology </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
-</tr>
-<tr>
-<td></td>
-<td> POSIX threads </td>
-<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>Creating a Thread</h4>
-
-<ol>
-<li><p>Using NSThread</p>
-
-<ul>
-<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
-<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
-</ul>
-</li>
-<li><p>Using POSIX Threads</p>
-
-<ul>
-<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
-</ul>
-</li>
-<li><p>Using NSObject to Spawn a Thread</p>
-
-<ul>
-<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>Configuring Thread Attributes</h4>
-
-<p>Thread的配置项有：</p>
-
-<ul>
-<li>Stack Size of a Thread</li>
-<li>Thread-Local Storage</li>
-<li>Detached State of a Thread</li>
-<li>Thread Priority</li>
-</ul>
-
-
-<h4>Writing Your Thread Entry Routine</h4>
-
-<p>编写Thread的入口程序通常需要做如下事项：</p>
-
-<ul>
-<li>Creating an Autorelease Pool</li>
-<li>Setting Up an Exception Handler</li>
-<li>Setting Up a Run Loop</li>
-</ul>
-
-
-<h4>Terminating a Thread</h4>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 

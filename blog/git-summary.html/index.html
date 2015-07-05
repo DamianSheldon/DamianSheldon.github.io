@@ -1221,6 +1221,52 @@ c)提交更新,将保存在暂存区域的文件快照转储到 git 目录中.</
 
 <p>Reference:<a href="http://blog.csdn.net/gracioushe/article/details/6142793">http://blog.csdn.net/gracioushe/article/details/6142793</a></p>
 
+<h4>如何让单个文件回退到指定的版本</h4>
+
+<ol>
+<li>进入到文件所在文件目录，或者能找到文件的路径</li>
+<li>回退到指定的版本</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git reset a4e215234aa4927c85693dca7b68e9976948a35e MainActivity.java
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>提交到本地参考</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;revert old file because yjl commmit have a bug&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>更新到工作目录</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout MainActivity.java
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>提交到远程仓库</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git push origin master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+Reference:<a href="http://blog.csdn.net/b_h_l/article/details/17266849">http://blog.csdn.net/b_h_l/article/details/17266849</a></p>
+
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>

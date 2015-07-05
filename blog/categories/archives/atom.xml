@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-05-24T11:56:03+08:00</updated>
+  <updated>2015-07-05T22:08:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何使能 Yosemite 内置 Apache 的 HTTPS/SSL]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/"/>
+    <updated>2015-07-05T21:24:55+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite</id>
+    <content type="html"><![CDATA[<p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
+
+<p>我的环境：<br/>
+OS: OS X 10.10.3 (14D136)<br/>
+Apache: Apache/2.4.10 (Unix)</p>
+
+<p>详细步骤：</p>
+
+<ol>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
+</ol>
+
+
+<!--more-->
+
+
+<ol>
+<li><p>制作自签名的证书</p>
+
+<p> 1) Generate a Private Key<br/>
+ <code>
+ openssl genrsa -des3 -out server.key 1024
+</code></p>
+
+<p> 2) Generate a CSR (Certificate Signing Request)<br/>
+ <code>
+ openssl req -new -key server.key -out server.csr
+</code></p>
+
+<p> 3) Remove Passphrase from Key<br/>
+ <code>
+ cp server.key server.key.org  
+</code><br/>
+ <code>
+ openssl rsa -in server.key.org -out server.key
+</code></p>
+
+<p> 4) Generating a Self-Signed Certificate<br/>
+ <code>
+ openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
+</code></p></li>
+<li><p>拷贝证书到配置文件指定的目录下<br/>
+<code>
+sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
+sudo cp server.key /private/etc/apache2/ssl/ssl.key
+</code></p></li>
+<li><p>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</p></li>
+</ol>
+
+
+<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
+解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
+
+<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
+<a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Enumerated constants]]></title>
@@ -191,6 +289,28 @@ Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpm
 sudo lsof -i -P | grep -i "listen"
 </code>
 Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
+
+<h3>What do the numbers in a man page mean?</h3>
+
+<p>```
+MANUAL SECTIONS</p>
+
+<pre><code>The standard sections of the manual include:
+
+1      User Commands
+2      System Calls
+3      C Library Functions
+4      Devices and Special Files
+5      File Formats and Conventions
+6      Games et. Al.
+7      Miscellanea
+8      System Administration tools and Deamons
+
+Distributions customize the manual section to their specifics,
+which often include additional sections.
+</code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -480,7 +600,7 @@ Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict
 
 <p>Reference:<a href="http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/">http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/</a></p>
 
-<h3>Checking the Entitlements for an iOS app Submission to the App Store</h3>
+<h3>问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
 
 <p>Making an Inspectable .ipa file<br/>
 In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
@@ -497,56 +617,6 @@ Use the security tool to check the entitlements of the app&rsquo;s embedded prov
 $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
 
 <p>where YourApp.app is the actual name of your .app bundle.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何创建私有的Pod]]></title>
-    <link href="http://DamianSheldon.github.io/blog/private-pods.html/"/>
-    <updated>2015-03-11T17:23:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/private-pods</id>
-    <content type="html"><![CDATA[<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
-
-<p>Cocoa Pods工作依赖于两个文件：<br/>
-1. podspec:一个pod的配置是什么，pod的代码放在哪里
-2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
-
-<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
-
-<p><code>
-pod spec create --verbose project
-</code></p>
-
-<!--more-->
-
-
-<p>然后编辑podspecs文件，这里有几个地方需要注意：</p>
-
-<p>```
-// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
-s.source  = { :git => &ldquo;ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.iOS&rdquo;, :tag => &ldquo;2.0.0&rdquo; }</p>
-
-<p>// s.source_files指定哪些源文件需要包含在pod中
-s.source_files  = &ldquo;AJFrame.iOS/*.{h,m}&rdquo;</p>
-
-<p>// pod的依赖
-s.dependency &ldquo;JSONKit&rdquo;, &ldquo;~> 1.4&rdquo;</p>
-
-<p>```</p>
-
-<p>podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来在需要依赖这个pod的工程的Podfile文件中指定podspec的存放路径。</p>
-
-<p><code>
-pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'
-</code></p>
-
-<h3>Reference</h3>
-
-<p><a href="http://guides.cocoapods.org/making/using-pod-lib-create">Using Pod Lib Create</a><br/>
-<a href="http://guides.cocoapods.org/using/the-podfile.html">The Podfile</a><br/>
-<a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
-<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
-<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
 ]]></content>
   </entry>
   

@@ -111,41 +111,61 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/english-sentence.html/">
+		<a href="/blog/hello-octopress.html/">
 		
-			英语句子结构</a>
+			Hello Octopress</a>
 	</h2>
 	<div class="entry-content">
-		<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
+		<blockquote><p>Octopress:A blogging framework for hackers.</p></blockquote>
 
-<ol>
-<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
-<li>SVP (P:predicative)主语+谓语+表语</li>
-<li>SVO (O:object)主语+谓语+宾语</li>
-<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
-<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
-<li>There＋系动词＋主语</li>
-</ol>
+<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+
+<h1>问题1</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
+</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
+<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
 
-<p>John sleeps.<br/>
-Jill is eating.<br/>
-Jack will arrive next week.<br/>
-The tlephone rang.<br/>
-His father might have died.<br/>
-Sandy walks in the playground evening.<br/>
-He never gives up easily.<br/>
-The children listened carefully.<br/>
-Our Manager has arrived in pairs.<br/>
-The water in the jar has ran out.<br/>
-My brother will talk on the phone.<br/>
-Mummy won&rsquo;t agree.</p>
+<h1>问题2</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
+</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
+</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew doctor
+</span><span class='line'><span class="nb">cd </span>root_path_octopress
+</span><span class='line'>git pull octopress master
+</span><span class='line'>rm Gemfile.lock
+</span><span class='line'>vim Gemfile
+</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
+</span></code></pre></td></tr></table></div></figure>
+
 
 
 		
-		<a href="/blog/english-sentence.html/" class="more-link">继续阅读</a>
+		<a href="/blog/hello-octopress.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -162,123 +182,12 @@ Mummy won&rsquo;t agree.</p>
   
 
 
-<time datetime="2014-11-27T20:19:06+08:00" pubdate data-updated="true">Nov 27<span>th</span>, 2014</time></div>
+<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true">May 9<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/english/'>English</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/english-basic.html/">
-		
-			英语起步</a>
-	</h2>
-	<div class="entry-content">
-		<p>如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。</p>
-
-<p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
-
-<p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-26T22:01:08+08:00" pubdate data-updated="true">Nov 26<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/english/'>English</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-cache.html/">
-		
-			iOS App Cache</a>
-	</h2>
-	<div class="entry-content">
-		<p>在互联网时代的今天，iOS App几乎都要联网，缓存可以解决网络连接不良甚至无网络所造成的性能问题，而且还可以节约用户的流量。我们可以采用两种缓存策略：预缓存和按需缓存。预缓存就是应用启动以后开个后台线程去把需要用到的数据先取下来。按需缓存就是应用请求网络数据后在本地保存一份，只要本地数据没有过期就使用本地数据。</p>
-
-<h3>预缓存</h3>
-
-<p>实现预缓存可能需要一个后台线程访问数据并以有意义的格式保存，以便本地缓存无需连接服务器即可被编辑。Core Data(或者任何结构化存储)是实现这种缓存的一种方式。</p>
-
-<h3>按需缓存</h3>
-
-<p>按需缓存工作原理类似于浏览器缓存，它允许我们查看以前访问过的内容，主要有四种实现方法：</p>
-
-<ol>
-<li>URL缓存；</li>
-<li>数据模型缓存；</li>
-<li>Core Data;</li>
-<li>SQLite。</li>
-</ol>
-
-
-<p>上述的序号是推荐使用的顺序。</p>
-
-<h4>URL缓存</h4>
-
-<p>如果服务器设计得体，遵循HTTP 1.1的缓存规范时，URL缓存效果最好，通常网络库会提供支持。</p>
-
-
-		
-		<a href="/blog/ios-app-cache.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-25T16:36:04+08:00" pubdate data-updated="true">Nov 25<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 
@@ -288,10 +197,8 @@ Mummy won&rsquo;t agree.</p>
 
 <nav id="pagenavi">
     
-        <a href="/blog/page/4/" class="prev">Prev</a>
+        <a href="/blog/page/13/" class="prev">Prev</a>
     
-    
-        <a href="/blog/page/6/" class="next">Next</a>
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>

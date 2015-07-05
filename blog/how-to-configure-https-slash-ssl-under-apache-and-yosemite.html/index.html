@@ -1,0 +1,301 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>如何使能 Yosemite 内置 Apache 的 HTTPS/SSL  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="https, ssl, yosemite, apache">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><!-- System header -->
+<h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/Android">Android</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+
+<!-- System navigation -->
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/Android">Android</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+
+<!-- System navigation -->
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">如何使能 Yosemite 内置 Apache 的 HTTPS/SSL</h2>
+	<div class="entry-content"><p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
+
+<p>我的环境：<br/>
+OS: OS X 10.10.3 (14D136)<br/>
+Apache: Apache/2.4.10 (Unix)</p>
+
+<p>详细步骤：</p>
+
+<ol>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
+</ol>
+
+
+<!--more-->
+
+
+<ol>
+<li><p>制作自签名的证书</p>
+
+<p> 1) Generate a Private Key<br/>
+ <code>
+ openssl genrsa -des3 -out server.key 1024
+</code></p>
+
+<p> 2) Generate a CSR (Certificate Signing Request)<br/>
+ <code>
+ openssl req -new -key server.key -out server.csr
+</code></p>
+
+<p> 3) Remove Passphrase from Key<br/>
+ <code>
+ cp server.key server.key.org  
+</code><br/>
+ <code>
+ openssl rsa -in server.key.org -out server.key
+</code></p>
+
+<p> 4) Generating a Self-Signed Certificate<br/>
+ <code>
+ openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
+</code></p></li>
+<li><p>拷贝证书到配置文件指定的目录下</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
+</span><span class='line'>sudo cp server.key /private/etc/apache2/ssl/ssl.key</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</li>
+</ol>
+
+
+<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
+解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
+
+<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
+<a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Sheldon
+
+
+- 署名 - 非商业 - 非衍生 - Powered by Octopress.</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-52345084-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

@@ -85,8 +85,27 @@ httpd -v
 Reference:http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/  
 
 ###List open ports on your machine (Mac OS X)
-
+ 
 ```
 sudo lsof -i -P | grep -i "listen"
 ```
 Reference:http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/  
+
+###What do the numbers in a man page mean?
+
+```
+MANUAL SECTIONS
+    The standard sections of the manual include:
+
+    1      User Commands
+    2      System Calls
+    3      C Library Functions
+    4      Devices and Special Files
+    5      File Formats and Conventions
+    6      Games et. Al.
+    7      Miscellanea
+    8      System Administration tools and Deamons
+
+    Distributions customize the manual section to their specifics,
+    which often include additional sections.
+```

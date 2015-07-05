@@ -640,5 +640,26 @@ git push ...
 ```
 Reference:http://blog.csdn.net/gracioushe/article/details/6142793
 
+####如何让单个文件回退到指定的版本
+
+1. 进入到文件所在文件目录，或者能找到文件的路径  
+2. 回退到指定的版本  
+```
+$ git reset a4e215234aa4927c85693dca7b68e9976948a35e MainActivity.java
+```
+3. 提交到本地参考  
+```
+$ git commit -m "revert old file because yjl commmit have a bug"
+```
+4. 更新到工作目录  
+```
+$ git checkout MainActivity.java
+```
+5. 提交到远程仓库  
+```
+$ git push origin master
+```  
+Reference:http://blog.csdn.net/b_h_l/article/details/17266849
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

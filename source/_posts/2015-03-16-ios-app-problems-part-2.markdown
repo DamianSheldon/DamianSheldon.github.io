@@ -164,7 +164,7 @@ Reference:http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile
 
 Reference:http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/
 
-###Checking the Entitlements for an iOS app Submission to the App Store
+###问题描述：Checking the Entitlements for an iOS app Submission to the App Store
 
 Making an Inspectable .ipa file  
 In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.  
@@ -181,5 +181,4 @@ Use the security tool to check the entitlements of the app's embedded provisioni
 $ security cms -D -i "Payload/YourApp.app/embedded.mobileprovision"
 
 where YourApp.app is the actual name of your .app bundle.
-
 

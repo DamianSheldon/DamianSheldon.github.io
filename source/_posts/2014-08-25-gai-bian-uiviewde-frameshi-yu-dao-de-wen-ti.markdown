@@ -163,7 +163,9 @@ Reference:http://stackoverflow.com/questions/18053546/undefined-symbols-for-arch
 http://stackoverflow.com/questions/22572610/how-to-fix-is-a-dynamic-library-not-added-to-the-static-library-warning  
 
 ###问题描述：如何查看服务器某个端口是否打开？
-解决办法：1. nmap -PN 80 example.com
-2. nc -vz google.com 80
-3. telnet google.com 80 (To close your session, hit ctrl-])
+解决办法：1. nmap -PN 80 example.com  
+2. nc -vz google.com 80  
+3. telnet google.com 80 (To close your session, hit ctrl-])  
+
+
 

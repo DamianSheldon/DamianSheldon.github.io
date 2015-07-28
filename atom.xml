@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-07-05T22:08:28+08:00</updated>
+  <updated>2015-07-28T20:51:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -720,7 +720,7 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
     <content type="html"><![CDATA[<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
 
 <p>Cocoa Pods工作依赖于两个文件：<br/>
-1. podspec:一个pod的配置是什么，pod的代码放在哪里
+1. podspec:一个pod的配置是什么，pod的代码放在哪里<br/>
 2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
 
 <p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
@@ -758,6 +758,63 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>s.dependency 如何依赖私有 Pod？</h3>
+
+<ol>
+<li>Create a Private Spec Repo</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd /opt/git  
+</span><span class='line'>$ mkdir Specs.git  
+</span><span class='line'>$ cd Specs.git
+</span><span class='line'>$ git init --bare</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Add your Private Repo to your CocoaPods installation</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ pod repo add artsy-specs git@github:artsy/Specs.git
+</span><span class='line'>
+</span><span class='line'>$ pod repo add aijian-specs ssh://192.168.1.105:/git/ICW/Git/Specs.git --verbose</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Check your installation is successful and ready to go:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~/.cocoapods/repos/artsy-specs
+</span><span class='line'>$ pod repo lint .</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Add your Podspec to your repo</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod repo push artsy-specs ~/Desktop/Artsy+OSSUIFonts.podspec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Your private Pod is ready to be used in a Podfile. You can use the spec repository with the source directive in your Podfile as shown in the following example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source 'URL_TO_REPOSITORY'</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://stackoverflow.com/questions/25759170/how-to-add-a-private-cocoapod-as-a-dependency-in-another-pod-podspec-file">Solution Reference</a></p>
 
 <h3>Reference</h3>
 

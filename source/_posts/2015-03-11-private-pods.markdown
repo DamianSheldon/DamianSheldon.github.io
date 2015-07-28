@@ -11,8 +11,8 @@ discription: How to create a private pod
 公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。  
 
 Cocoa Pods工作依赖于两个文件：  
-1. podspec:一个pod的配置是什么，pod的代码放在哪里
-2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里  
+1. podspec:一个pod的配置是什么，pod的代码放在哪里  
+2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里    
 
 Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:
 
@@ -40,6 +40,45 @@ podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来
 ```
 pod 'AJFrame.iOS', :git => 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag => '2.0.0'
 ```
+
+### s.dependency 如何依赖私有 Pod？
+
+1. Create a Private Spec Repo  
+
+```
+$ cd /opt/git  
+$ mkdir Specs.git  
+$ cd Specs.git
+$ git init --bare
+```
+
+2. Add your Private Repo to your CocoaPods installation 
+
+```
+$ pod repo add artsy-specs git@github:artsy/Specs.git
+
+$ pod repo add aijian-specs ssh://192.168.1.105:/git/ICW/Git/Specs.git --verbose
+``` 
+
+Check your installation is successful and ready to go:
+
+```
+$ cd ~/.cocoapods/repos/artsy-specs
+$ pod repo lint .
+```
+
+3. Add your Podspec to your repo
+
+```
+pod repo push artsy-specs ~/Desktop/Artsy+OSSUIFonts.podspec
+```
+Your private Pod is ready to be used in a Podfile. You can use the spec repository with the source directive in your Podfile as shown in the following example:
+
+```
+source 'URL_TO_REPOSITORY'
+```
+
+[Solution Reference](http://stackoverflow.com/questions/25759170/how-to-add-a-private-cocoapod-as-a-dependency-in-another-pod-podspec-file)
 
 ###Reference  
 

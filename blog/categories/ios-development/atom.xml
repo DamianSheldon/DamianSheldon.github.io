@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-07-28T20:51:38+08:00</updated>
+  <updated>2015-07-30T11:51:52+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（三）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problem-part-3.html/"/>
+    <updated>2015-07-30T11:36:57+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problem-part-3</id>
+    <content type="html"><![CDATA[<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
+
+<p>Making an Inspectable .ipa file<br/>
+In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
+When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
+When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
+Checking the Entitlements of an .ipa file<br/>
+Find the .ipa file and change its the extension to .zip.<br/>
+Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
+Use the codesign tool to check the entitlements on the .app bundle like this:
+$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
+where YourApp.app is the actual name of your .app bundle.<br/>
+Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
+// should add cms, Apple may be a typo
+$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
+
+<p>where YourApp.app is the actual name of your .app bundle.</p>
+
+<h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
+
+<p>解决办法：
+1. I opened the .pbxproj file in a text editor.<br/>
+a. Go to your .xcodeproj<br/>
+b. Right click &ndash;> Show package contents<br/>
+c. Open .pbxproj with a text editor.<br/>
+2. I searched for the UUID.<br/>
+3. Turns out that is a static library folder already removed from reference.<br/>
+4. I readd folder that contain the static library.<br/>
+5. Rerun pod installation.<br/>
+6. Issue not happening anymore! :D</p>
+
+<p>Reference:<a href="https://github.com/CocoaPods/CocoaPods/issues/1822">https://github.com/CocoaPods/CocoaPods/issues/1822</a></p>
+
+<h3>3.How do I return to an older version of our code in Subversion?</h3>
+
+<p>解决办法:</p>
+
+<p><code>
+svn update
+svn merge -r 150:140 .
+svn commit -m "Rolled back to r140"
+</code>
+Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Enumerated constants]]></title>
@@ -386,24 +437,6 @@ Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict
 <p>解决办法：iPhoto 11 (9.0) Photo Library Storage Location:~/Pictures/iPhoto Library.photolibrary/Masters/</p>
 
 <p>Reference:<a href="http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/">http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/</a></p>
-
-<h3>问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
-
-<p>Making an Inspectable .ipa file<br/>
-In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
-When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
-When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
-Checking the Entitlements of an .ipa file<br/>
-Find the .ipa file and change its the extension to .zip.<br/>
-Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
-Use the codesign tool to check the entitlements on the .app bundle like this:
-$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
-where YourApp.app is the actual name of your .app bundle.<br/>
-Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
-// should add cms, Apple may be a typo
-$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
-
-<p>where YourApp.app is the actual name of your .app bundle.</p>
 ]]></content>
   </entry>
   
@@ -502,63 +535,6 @@ source 'URL_TO_REPOSITORY'
 <a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
 <a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
 <a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[(翻译)How to Play, Record, and Edit Videos in iOS]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-play.html/"/>
-    <updated>2015-01-22T16:48:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-play</id>
-    <content type="html"><![CDATA[<h4>AVAsset</h4>
-
-<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
-
-<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
-
-<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
-
-<h4>AVComposition</h4>
-
-<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
-
-<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
-
-<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
-
-<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
-
-<p>AVMutableComposition and AVMutableCompositionTrack</p>
-
-<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
-
-<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
-
-<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
-
-<p>And the Rest</p>
-
-<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
-
-<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
-
-<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
-
-<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
-
-<p>Conclusion</p>
-
-<p>To sum it all up:</p>
-
-<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
-
-<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
-
-<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
-
-<p>Each layer instruction is used to apply a certain transform to a given track.</p>
-
-<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
 ]]></content>
   </entry>
   

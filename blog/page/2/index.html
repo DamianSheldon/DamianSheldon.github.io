@@ -111,144 +111,168 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/linux-useful-command-line.html/">
+		<a href="/blog/ios-development-problem-part-3.html/">
 		
-			Linux命令行整理</a>
+			iOS App 开发问题汇总（三）</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Create new account</h3>
+		<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
+<p>Making an Inspectable .ipa file<br/>
+In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
+When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
+When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
+Checking the Entitlements of an .ipa file<br/>
+Find the .ipa file and change its the extension to .zip.<br/>
+Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
+Use the codesign tool to check the entitlements on the .app bundle like this:
+$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
+where YourApp.app is the actual name of your .app bundle.<br/>
+Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
+// should add cms, Apple may be a typo
+$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
 
+<p>where YourApp.app is the actual name of your .app bundle.</p>
 
-<h3>List all groups and the user names that were in each group</h3>
+<h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
+
+<p>解决办法：
+1. I opened the .pbxproj file in a text editor.<br/>
+a. Go to your .xcodeproj<br/>
+b. Right click &ndash;> Show package contents<br/>
+c. Open .pbxproj with a text editor.<br/>
+2. I searched for the UUID.<br/>
+3. Turns out that is a static library folder already removed from reference.<br/>
+4. I readd folder that contain the static library.<br/>
+5. Rerun pod installation.<br/>
+6. Issue not happening anymore! :D</p>
+
+<p>Reference:<a href="https://github.com/CocoaPods/CocoaPods/issues/1822">https://github.com/CocoaPods/CocoaPods/issues/1822</a></p>
+
+<h3>3.How do I return to an older version of our code in Subversion?</h3>
+
+<p>解决办法:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for u in `cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort
-</span><span class='line'>
-</span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn update
+</span><span class='line'>svn merge -r 150:140 .
+</span><span class='line'>svn commit -m "Rolled back to r140"</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
+<p>Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
 
-<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
+<h3>4. Add top layout guide in NIB file</h3>
 
-<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
-
-<ul>
-<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
-This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
-<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
-If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
-You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
-
-<h3>Finding all files containing a text string on Linux</h3>
+<p>解决办法：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -rnw 'directory' -e "pattern"</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)viewDidLoad {
+</span><span class='line'>      if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+</span><span class='line'>         self.edgesForExtendedLayout = UIRectEdgeNone;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
 
-<h3>Show bash script commands without executing them</h3>
+<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
 
-<p>There are two useful debug outputs for that task (both are written to stderr):</p>
+<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
 
-<p>set -v mode (set -o verbose)
-prints commands to be executed to stderr just like they are read from input (script file or keyboard)
-prints everything before anything ( substitutions and expansions, …) big is applied
-set -x mode (set -o xtrace)
-prints everything like it really is executed, after substitutions and expansions applied
-indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
-indicates the recognized words after word splitting by marking them like &lsquo;x y&rsquo;
-in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout</p>
+<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
 
-<p>Hint: These modes can be entered when calling Bash:</p>
+<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
 
-<p>from commandline: bash -vx ./myscript
-eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
+<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
 
-<p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1. Rename any .m file to .mm file;
+</span><span class='line'>2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".</span></code></pre></td></tr></table></div></figure>
 
-<h3>Toggle Web Sharing on or off in OSX 10.10</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
+
+<h3>8.How do I change the status bar content to white?</h3>
+
+<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
+
+<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
+Select the very first node in the Project Navigator to display the Project Editor.
+Select your app under Targets.
+Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
+
+<p>Next, you need to modify your project&rsquo;s .plist file.
+In the Project Navigator, expand the Supporting Files node.
+Select the <My Project Name>-Info.plist file.
+Click on the very first entry (Information Property List).
+Click the plus (+) sign that appears in the first column.
+At the bottom of the popup list, select View controller-based status bar appearance.
+Make sure the Value column is set to NO.
+If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
+In Swift:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Objective-C:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
+
+<p>In Swift:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override func preferredStatusBarStyle() -&gt; UIStatusBarStyle {
+</span><span class='line'>        return UIStatusBarStyle.LightContent
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Objective-C:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
+
+<h3>Expression</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Start
-</span><span class='line'>sudo apachectl start
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) expr NSString *$str = (NSString *)[[NSString alloc] initWithData:data encoding:4]
+</span><span class='line'>(lldb) po $str
 </span><span class='line'>
-</span><span class='line'>// Stop
-</span><span class='line'>sudo apachectl stop
-</span><span class='line'>
-</span><span class='line'>// Restart
-</span><span class='line'>sudo apachectl restart
-</span><span class='line'>
-</span><span class='line'>// find the Apache version
-</span><span class='line'>httpd -v
-</span><span class='line'>
-</span><span class='line'>// After starting Apache – test to see if the webserver is working in the browser – http://localhost – you should see the “It Works!” text.
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>(lldb) e NSArray *$array = @[ @"Saturday", @"Sunday", @"Monday" ]
+</span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
+<h3>4.fastlane add Slack Notifications</h3>
 
-<h3>List open ports on your machine (Mac OS X)</h3>
+<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lsof -i -P | grep -i "listen"</span></code></pre></td></tr></table></div></figure>
+<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
 
-
-<p>Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
-
-<h3>What do the numbers in a man page mean?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MANUAL SECTIONS
-</span><span class='line'>    The standard sections of the manual include:
-</span><span class='line'>
-</span><span class='line'>    1      User Commands
-</span><span class='line'>    2      System Calls
-</span><span class='line'>    3      C Library Functions
-</span><span class='line'>    4      Devices and Special Files
-</span><span class='line'>    5      File Formats and Conventions
-</span><span class='line'>    6      Games et. Al.
-</span><span class='line'>    7      Miscellanea
-</span><span class='line'>    8      System Administration tools and Deamons
-</span><span class='line'>
-</span><span class='line'>    Distributions customize the manual section to their specifics,
-</span><span class='line'>    which often include additional sections.</span></code></pre></td></tr></table></div></figure>
-
+<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
 
 		
 		
@@ -268,136 +292,7 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
   
 
 
-<time datetime="2015-03-18T21:12:56+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/nsthread-thechnology-notes.html/">
-		
-			iOS Thread笔记</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>Thread是什么？</li>
-<li>iOS中怎么使用Thread？</li>
-</ol>
-
-
-<h3>Thread是什么</h3>
-
-<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
-
-<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
-
-<h3>iOS中怎么使用Thread</h3>
-
-<p>iOS中的Thread技术主要有以下两种：</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> Technology </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
-</tr>
-<tr>
-<td></td>
-<td> POSIX threads </td>
-<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>Creating a Thread</h4>
-
-<ol>
-<li><p>Using NSThread</p>
-
-<ul>
-<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
-<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
-</ul>
-</li>
-<li><p>Using POSIX Threads</p>
-
-<ul>
-<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
-</ul>
-</li>
-<li><p>Using NSObject to Spawn a Thread</p>
-
-<ul>
-<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>Configuring Thread Attributes</h4>
-
-<p>Thread的配置项有：</p>
-
-<ul>
-<li>Stack Size of a Thread</li>
-<li>Thread-Local Storage</li>
-<li>Detached State of a Thread</li>
-<li>Thread Priority</li>
-</ul>
-
-
-<h4>Writing Your Thread Entry Routine</h4>
-
-<p>编写Thread的入口程序通常需要做如下事项：</p>
-
-<ul>
-<li>Creating an Autorelease Pool</li>
-<li>Setting Up an Exception Handler</li>
-<li>Setting Up a Run Loop</li>
-</ul>
-
-
-<h4>Terminating a Thread</h4>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
+<time datetime="2015-07-30T11:36:57+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
@@ -414,49 +309,61 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-app-problems-part-2.html/">
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/">
 		
-			iOS App 开发问题汇总（二）</a>
+			如何使能 Yosemite 内置 Apache 的 HTTPS/SSL</a>
 	</h2>
 	<div class="entry-content">
-		<h3>问题描述：Ad Hoc分发应用</h3>
+		<p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
 
-<p>导出Ad Hoc授权应用
-Xcode > Product > Archive > Export</p>
+<p>我的环境：<br/>
+OS: OS X 10.10.3 (14D136)<br/>
+Apache: Apache/2.4.10 (Unix)</p>
 
-<p>安装Ad Hoc分发的应用
-Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
-
-<h3>问题描述：Xcode编译出现如下警告提示：</h3>
-
-<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
-
-<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
-
-<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
-
-<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
-
-<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
-
-<p>解决办法：</p>
+<p>详细步骤：</p>
 
 <ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
 </ol>
 
 
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
 
 		
-		<a href="/blog/ios-app-problems-part-2.html/" class="more-link">继续阅读</a>
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -473,7 +380,168 @@ set it to &ldquo;No Application&rdquo;</p>
   
 
 
-<time datetime="2015-03-16T16:14:50+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
+<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/enumerated-constants.html/">
+		
+			Enumerated Constants</a>
+	</h2>
+	<div class="entry-content">
+		<p>Objective-C中的枚举常量大致有以下四种情形：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. unnamed enumerations
+</span><span class='line'>enum {
+</span><span class='line'>    NSBorderlessWindowMask      = 0,
+</span><span class='line'>    NSTitledWindowMask          = 1 &lt;&lt; 0,
+</span><span class='line'>    NSClosableWindowMask        = 1 &lt;&lt; 1,
+</span><span class='line'>    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+</span><span class='line'>    NSResizableWindowMask       = 1 &lt;&lt; 3
+</span><span class='line'> 
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>`- (void)setStyleMask:(NSUInteger)styleMask`
+</span><span class='line'>
+</span><span class='line'>// 2 
+</span><span class='line'>typedef enum _NSMatrixMode {
+</span><span class='line'>    NSRadioModeMatrix           = 0,
+</span><span class='line'>    NSHighlightModeMatrix       = 1,
+</span><span class='line'>    NSListModeMatrix            = 2,
+</span><span class='line'>    NSTrackModeMatrix           = 3
+</span><span class='line'>} NSMatrixMode;
+</span><span class='line'>
+</span><span class='line'>// 3
+</span><span class='line'>typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
+</span><span class='line'>    UITableViewCellStyleDefault,
+</span><span class='line'>    UITableViewCellStyleValue1,
+</span><span class='line'>    UITableViewCellStyleValue2,
+</span><span class='line'>    UITableViewCellStyleSubtitle
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// 4
+</span><span class='line'>typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {
+</span><span class='line'>    NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
+</span><span class='line'>    NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
+</span><span class='line'>    NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
+</span><span class='line'>    NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
+</span><span class='line'>    NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
+</span><span class='line'>    NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
+</span><span class='line'>    NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
+</span><span class='line'>    NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
+</span><span class='line'>    NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
+</span><span class='line'>    NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
+</span><span class='line'>    NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
+</span><span class='line'>    
+</span><span class='line'>    NSLayoutFormatAlignmentMask = 0xFFFF,
+</span><span class='line'>    
+</span><span class='line'>    /* choose only one of these three
+</span><span class='line'>     */
+</span><span class='line'>    NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
+</span><span class='line'>    NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
+</span><span class='line'>    NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
+</span><span class='line'>    
+</span><span class='line'>    NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
+</span><span class='line'>};
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>情形一相当于定义了常量，但不定义类型;<br/>
+情形二定义了一个NSMatrixMode类型;</p>
+
+<p>情形三定义了一个NSInteger的UITableViewCellStyle类型;<br/>
+情形四支持C++的枚举特性。</p>
+
+<blockquote><p>The NS_OPTIONS macro is defined in different ways if compiling as C++ or not. If it’s not C++, it’s expanded out the same as NS_ENUM. However, if it is C++, it’s expanded out slightly differently. Why? The C++ compiler acts differently when two enumeration values are bitwise OR’ed together. This is something, as shown earlier, that is commonly done with the options type of enumeration. When two values are OR’ed together, C++ considers the resulting value to be of the type the enumeration represents: NSUInteger. It also doesn’t allow the implicit cast to the enumeration type.</p></blockquote>
+
+<p>Reference:<br/>
+Effective Objective-C 2.0<br/>
+<a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-08T16:38:20+08:00" pubdate data-updated="true">May 8<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">

@@ -111,26 +111,45 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/auto-layout.html/">
+		<a href="/blog/git-summary.html/">
 		
-			Auto Layout</a>
+			Git 小结</a>
 	</h2>
 	<div class="entry-content">
-		<h3>前言</h3>
+		<h1>Git</h1>
 
-<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
+<ol>
+<li>Git是什么？</li>
+<li>为什么使用Git?</li>
+<li>如何使用Git?</li>
+</ol>
 
-<h3>Auto Layout 是什么</h3>
 
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
+<h2>Git是什么？</h2>
 
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
+<p>git &ndash; the stupid content tracker</p>
+
+<p>这是man git中对它的介绍，我们看到它的核心是content tracker。Git是一个分布式的版本控制系统，项目是出于维护Linux内核源码的需求, 由Linus Torvalds启动的，现在已经成为最流行的版本管理系统，学会Git几乎成了开发者的必备技能。</p>
+
+<h2>为什么使用Git?</h2>
+
+<ol>
+<li>系统稳定，安全性高，不会丢失辛苦的劳动成果；</li>
+<li>操作十分快速；</li>
+<li>功能强大；</li>
+<li>&hellip;</li>
+</ol>
+
+
+<h2>如何使用Git?</h2>
+
+<h3>安装Git</h3>
+
+<p>安装Git主要有两种方法：一种是通过编译源代码来安装;另一种是使用为特定平台预编译好的安装包。</p>
 
 
 		
-		<a href="/blog/auto-layout.html/" class="more-link">继续阅读</a>
+		<a href="/blog/git-summary.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -147,7 +166,66 @@ $(document).ready(
   
 
 
-<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2014</time></div>
+<time datetime="2014-11-05T10:13:13+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/variable-sized-items-in-uicollectionview.html/">
+		
+			(翻译)Variable-Sized Items in UICollectionView</a>
+	</h2>
+	<div class="entry-content">
+		<h3>基本训练</h3>
+
+<p>我们以“Single View Application”为模板新建一个工程。在ViewController.xib上添加一个UICollectionView让它覆盖整个view。</p>
+
+<p><img name="Variable-Sized_Items_in_UICollectionView01" src="/images/Variable-Sized_Items_in_UICollectionView01.png" width="1110" height="783"></p>
+
+<p>Collection View和它的祖父类似，有delegate和dataSource两个outlet,我们把它们连接到“File’s Owner”,这里的“File’s Owner”是ViewController类。这样Collection View的内容和交互就受ViewController控制。我们也需要一个outlet来引用Collection View,所以用Assistant editor增加一个。刚在ViewController.h中添加的outlet property可以是weak，因为作为ViewController的视图的子视图，它也会被充分的保留。</p>
+
+<h3>单元格</h3>
+
+<p>我们需要设计一个Cell原型来显示内容。如果你的Collection View是在View controller’s XIB ,你必须在先在代码中注册Cell才能使用。如果你是在Storyboard中新建的CollectionView，并在CollectionView的区域内创建的原型Cell,那么你就不需要注册Cell identifier了。因为我们并没有从Storyboard中开始，所以需要手动来创建。</p>
+
+<p>我们在Interface Builder中创建一个原型Cell，设置它的背影为白色，添加一个UILabel，添加Label到父视图边缘的约束，分别是5 points的距离。因为我们想让Label的文字来决定它的尺寸，所以选中Label,然后从Editor menu中选择“Size to Fit Content”。后面我们会看到它是否会按照我们想像的那样工作。</p>
+
+<p><img name="Variable-Sized_Items_in_UICollectionView02" src="/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
+
+<p>我们设置Identifier为“TagCell”以便我们能在设计中引用。</p>
+
+
+		
+		<a href="/blog/variable-sized-items-in-uicollectionview.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-04T11:27:12+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -164,90 +242,33 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-development-certificates.html/">
+		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html/">
 		
-			iOS Development&#8211;Certificates, Provisioning Profiles</a>
+			iTunes 歌曲信息乱码的解决办法</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
+		<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
+1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
+2)安装Mutagen;</p>
 
-<div style="text-align: center" markdown="1"> 
-    <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
-</div>
-
-
-<p>开发过程的真机调试需要：</p>
-
-<pre><code>Private Key -- 私钥
-iPhone Development Certificate -- 开发证书
-Development Provisioning profile
-</code></pre>
-
-<p>发布到 App Store 需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-App Store Distribution Provisioning profile
-</code></pre>
-
-<p>通过 Ad Hoc 发布需要：</p>
-
-<pre><code>私钥
-iPhone Distribution Certificate
-Ad Hoc Distribution Provisioning profile
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
+</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
+</span></code></pre></td></tr></table></div></figure>
 
 
-		
-		<a href="/blog/ios-development-certificates.html/" class="more-link">继续阅读</a>
-	</div>
+<p>3)先将所有歌曲备份，防止操作出错；<br/>
+4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<div class="meta">
-	<div class="date">
+<p>5)将iTunes中的音乐清空，重新添加。</p>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/install-and-configure-openfire-on-mac-osx-mavericks.html/">
-		
-			在Mac OSX Mavericks上安装和配置Openfire</a>
-	</h2>
-	<div class="entry-content">
-		<h3>安装</h3>
-
-<p>  Openfire的官方安装文档并没有详细说明如何在Mac OSX上安装。经过查找，它安装的路径在/usr/local下面，需要更改下它的所有者和用户组，并且openfire.sh也要加上可执行属性。</p>
-
-<p>  常见问题：用浏览器打开localhost:9090，报错。<br/>
-  解决办法：查看openfire的日志发现是因为端口被占用了，使用sudo lsof -i:9090命令，查看占用端口的程序，用kill -9 pid，终止它们，通常是安装完openfire后，它默认以root的权限启动了一个副本。再次重启openfire，应该可以正常运行了。</p>
-
-<h3>配置</h3>
-
-<p>   配置时需要注意，创建用户时的username，只需填写名字即可，不需要加上@domainname,否则客户端会一直提示密码不正确。查找了很久原因，才知道是这么回事。</p>
+<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
 
 		
 		
@@ -267,7 +288,7 @@ Ad Hoc Distribution Provisioning profile
   
 
 
-<time datetime="2014-09-11T09:15:32+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time></div>
+<time datetime="2014-11-03T10:23:29+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time></div>
 	
 
 <div class="tags">

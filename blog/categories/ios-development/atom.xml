@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-07-30T11:51:52+08:00</updated>
+  <updated>2015-09-14T15:06:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -61,6 +61,108 @@ svn merge -r 150:140 .
 svn commit -m "Rolled back to r140"
 </code>
 Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
+
+<h3>4. Add top layout guide in NIB file</h3>
+
+<p>解决办法：</p>
+
+<p>```
+&ndash;(void)viewDidLoad {</p>
+
+<pre><code>  if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+     self.edgesForExtendedLayout = UIRectEdgeNone;
+</code></pre>
+
+<p>}
+```
+Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
+
+<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
+
+<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
+
+<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
+
+<p><code>
+1. Rename any .m file to .mm file;
+2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".
+</code></p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
+
+<h3>8.How do I change the status bar content to white?</h3>
+
+<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
+
+<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
+Select the very first node in the Project Navigator to display the Project Editor.
+Select your app under Targets.
+Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
+
+<p>Next, you need to modify your project&rsquo;s .plist file.
+In the Project Navigator, expand the Supporting Files node.
+Select the <My Project Name>-Info.plist file.
+Click on the very first entry (Information Property List).
+Click the plus (+) sign that appears in the first column.
+At the bottom of the popup list, select View controller-based status bar appearance.
+Make sure the Value column is set to NO.
+If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
+In Swift:</p>
+
+<p><code>
+UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+</code>
+In Objective-C:</p>
+
+<p><code>
+[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+</code>
+If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
+
+<p>In Swift:</p>
+
+<p>```
+override func preferredStatusBarStyle() &ndash;> UIStatusBarStyle {</p>
+
+<pre><code>    return UIStatusBarStyle.LightContent
+</code></pre>
+
+<p>}
+```
+In Objective-C:</p>
+
+<p>```
+&ndash; (UIStatusBarStyle)preferredStatusBarStyle
+{</p>
+
+<pre><code>return UIStatusBarStyleLightContent;
+</code></pre>
+
+<p>}
+```
+Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
+
+<h3>Expression</h3>
+
+<p>```
+(lldb) expr NSString <em>$str = (NSString </em>)[[NSString alloc] initWithData:data encoding:4]
+(lldb) po $str</p>
+
+<p>(lldb) e NSArray *$array = @[ @&ldquo;Saturday&rdquo;, @&ldquo;Sunday&rdquo;, @&ldquo;Monday&rdquo; ]
+(lldb) p [$array count]
+```</p>
+
+<h3>4.fastlane add Slack Notifications</h3>
+
+<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
+
+<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
+
+<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
 ]]></content>
   </entry>
   

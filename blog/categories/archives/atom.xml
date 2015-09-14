@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-07-30T11:51:52+08:00</updated>
+  <updated>2015-09-14T15:06:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vim]]></title>
+    <link href="http://DamianSheldon.github.io/blog/vim.html/"/>
+    <updated>2015-09-10T21:09:05+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/vim</id>
+    <content type="html"><![CDATA[<h3>1.查看帮助</h3>
+
+<p>:help</p>
+
+<h3>2.查看quickref</h3>
+
+<p>：help quickref</p>
+
+<h3>3.语法高亮</h3>
+
+<p>|:syn-on|       :syntax on              start using syntax highlighting
+|:syn-off|      :syntax off             stop using syntax highlighting</p>
+
+<h3>4.Move cursor to its last position</h3>
+
+<p>The quickest way is to hit either:</p>
+
+<p>&lsquo;&rsquo;
+(two apostrophes) or:</p>
+
+<p>``
+(two backticks).</p>
+
+<h3>5.Multi-window commands</h3>
+
+<p>Q_wi*          Multi-window commands</p>
+
+<p>|CTRL-W_s|      CTRL-W s  or  :split    split window into two parts
+|:split_f|      :split {file}           split window and edit {file} in one of</p>
+
+<pre><code>                                       them
+</code></pre>
+
+<p>|:vsplit|       :vsplit {file}          same, but split vertically
+|:vertical|     :vertical {cmd}         make {cmd} split vertically</p>
+
+<p>|:sfind|        :sf[ind] {file}         split window, find {file} in &lsquo;path&rsquo;</p>
+
+<pre><code>                                       and edit it
+</code></pre>
+
+<p>|CTRL-W_]|      CTRL-W ]                split window and jump to tag under</p>
+
+<pre><code>                                       cursor
+</code></pre>
+
+<p>|CTRL-W_f|      CTRL-W f                split window and edit file name under</p>
+
+<pre><code>                                       the cursor
+</code></pre>
+
+<p>|CTRL-W_^|      CTRL-W ^                split window and edit alternate file
+|CTRL-W_n|      CTRL-W n  or  :new      create new empty window
+|CTRL-W_q|      CTRL-W q  or  :q[uit]   quit editing and close window
+|CTRL-W_c|      CTRL-W c  or  :cl[ose]  make buffer hidden and close window
+|CTRL-W_o|      CTRL-W o  or  :on[ly]   make current window only one on the</p>
+
+<pre><code>                                       screen
+</code></pre>
+
+<p>|CTRL-W_j|      CTRL-W j                move cursor to window below
+|CTRL-W_k|      CTRL-W k                move cursor to window above
+|CTRL-W_CTRL-W| CTRL-W CTRL-W           move cursor to window below (wrap)
+|CTRL-W_W|      CTRL-W W                move cursor to window above (wrap)
+|CTRL-W_t|      CTRL-W t                move cursor to top window
+|CTRL-W_b|      CTRL-W b                move cursor to bottom window
+|CTRL-W_p|      CTRL-W p                move cursor to previous active window</p>
+
+<p>|CTRL-W_r|      CTRL-W r                rotate windows downwards
+|CTRL-W_R|      CTRL-W R                rotate windows upwards
+|CTRL-W_x|      CTRL-W x                exchange current window with next one</p>
+
+<p>|CTRL-W<em>=|      CTRL-W =                make all windows equal height
+|CTRL-W</em>&ndash;|      CTRL-W &ndash;                decrease current window height
+|CTRL-W_+|      CTRL-W +                increase current window height
+|CTRL-W__|      CTRL-W _                set current window height (default:</p>
+
+<pre><code>                                       very high)
+</code></pre>
+
+<p>1, set number
+2, set autoindent
+4, set background=dark
+5, set background=light</p>
+
+<p>6, 0, ^ line head</p>
+
+<p>7, $, g_ line foot</p>
+
+<p>8, ctl + f forword page</p>
+
+<p>9, ctl + b back page</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（三）]]></title>
@@ -61,6 +161,108 @@ svn merge -r 150:140 .
 svn commit -m "Rolled back to r140"
 </code>
 Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
+
+<h3>4. Add top layout guide in NIB file</h3>
+
+<p>解决办法：</p>
+
+<p>```
+&ndash;(void)viewDidLoad {</p>
+
+<pre><code>  if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+     self.edgesForExtendedLayout = UIRectEdgeNone;
+</code></pre>
+
+<p>}
+```
+Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
+
+<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
+
+<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
+
+<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
+
+<p><code>
+1. Rename any .m file to .mm file;
+2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".
+</code></p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
+
+<h3>8.How do I change the status bar content to white?</h3>
+
+<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
+
+<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
+Select the very first node in the Project Navigator to display the Project Editor.
+Select your app under Targets.
+Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
+
+<p>Next, you need to modify your project&rsquo;s .plist file.
+In the Project Navigator, expand the Supporting Files node.
+Select the <My Project Name>-Info.plist file.
+Click on the very first entry (Information Property List).
+Click the plus (+) sign that appears in the first column.
+At the bottom of the popup list, select View controller-based status bar appearance.
+Make sure the Value column is set to NO.
+If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
+In Swift:</p>
+
+<p><code>
+UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+</code>
+In Objective-C:</p>
+
+<p><code>
+[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+</code>
+If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
+
+<p>In Swift:</p>
+
+<p>```
+override func preferredStatusBarStyle() &ndash;> UIStatusBarStyle {</p>
+
+<pre><code>    return UIStatusBarStyle.LightContent
+</code></pre>
+
+<p>}
+```
+In Objective-C:</p>
+
+<p>```
+&ndash; (UIStatusBarStyle)preferredStatusBarStyle
+{</p>
+
+<pre><code>return UIStatusBarStyleLightContent;
+</code></pre>
+
+<p>}
+```
+Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
+
+<h3>Expression</h3>
+
+<p>```
+(lldb) expr NSString <em>$str = (NSString </em>)[[NSString alloc] initWithData:data encoding:4]
+(lldb) po $str</p>
+
+<p>(lldb) e NSArray *$array = @[ @&ldquo;Saturday&rdquo;, @&ldquo;Sunday&rdquo;, @&ldquo;Monday&rdquo; ]
+(lldb) p [$array count]
+```</p>
+
+<h3>4.fastlane add Slack Notifications</h3>
+
+<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
+
+<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
+
+<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
 ]]></content>
   </entry>
   
@@ -255,13 +457,13 @@ Effective Objective-C 2.0<br/>
     <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line.html/"/>
     <updated>2015-03-18T21:12:56+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/linux-useful-command-line</id>
-    <content type="html"><![CDATA[<h3>Create new account</h3>
+    <content type="html"><![CDATA[<h3>1.Create new account</h3>
 
 <p><code>
 sudo adduser --home /home/username --shell /bin/bash --ingroup git username
 </code></p>
 
-<h3>List all groups and the user names that were in each group</h3>
+<h3>2.List all groups and the user names that were in each group</h3>
 
 <p><code>``
 for u in</code>cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort</p>
@@ -269,7 +471,7 @@ for u in</code>cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort<
 <p>groups $(cut -f1 -d":&ldquo; /etc/passwd) | sort
 ```</p>
 
-<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
+<h3>3.How to set up ssh so you aren&rsquo;t asked for a password</h3>
 
 <p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
 
@@ -286,7 +488,7 @@ You should then be able to use ssh to log in to the remote server without being 
 
 <p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
 
-<h3>Finding all files containing a text string on Linux</h3>
+<h3>4.Finding all files containing a text string on Linux</h3>
 
 <p><code>
 grep -rnw 'directory' -e "pattern"
@@ -294,7 +496,7 @@ grep -rnw 'directory' -e "pattern"
 
 <p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
 
-<h3>Show bash script commands without executing them</h3>
+<h3>5.Show bash script commands without executing them</h3>
 
 <p>There are two useful debug outputs for that task (both are written to stderr):</p>
 
@@ -314,7 +516,7 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 
 <p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
 
-<h3>Toggle Web Sharing on or off in OSX 10.10</h3>
+<h3>6.Toggle Web Sharing on or off in OSX 10.10</h3>
 
 <p>```
 // Start
@@ -334,14 +536,14 @@ httpd -v</p>
 <p>```
 Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
 
-<h3>List open ports on your machine (Mac OS X)</h3>
+<h3>7.List open ports on your machine (Mac OS X)</h3>
 
 <p><code>
 sudo lsof -i -P | grep -i "listen"
 </code>
 Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
 
-<h3>What do the numbers in a man page mean?</h3>
+<h3>8.What do the numbers in a man page mean?</h3>
 
 <p>```
 MANUAL SECTIONS</p>
@@ -362,102 +564,103 @@ which often include additional sections.
 </code></pre>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Thread笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/nsthread-thechnology-notes.html/"/>
-    <updated>2015-03-16T16:27:17+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/nsthread-thechnology-notes</id>
-    <content type="html"><![CDATA[<ol>
-<li>Thread是什么？</li>
-<li>iOS中怎么使用Thread？</li>
-</ol>
 
+<h3>9.jenkins</h3>
 
-<h3>Thread是什么</h3>
+<p>```
+Note: When using launchctl the port will be 8080.</p>
 
-<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
+<p>To have launchd start jenkins at login:
+  ln -sfv /usr/local/opt/jenkins/*.plist ~/Library/LaunchAgents
+Then to load jenkins now:
+  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+Or, if you don&rsquo;t want/need launchctl, you can just run:
+  jenkins
+```</p>
 
-<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
+<h3>10.Mac 上 Openssl 的配置文件路径</h3>
 
-<h3>iOS中怎么使用Thread</h3>
+<p>/System/Library/OpenSSL/openssl.cnf</p>
 
-<p>iOS中的Thread技术主要有以下两种：</p>
+<h3>11.Find</h3>
 
-<table>
-<thead>
-<tr>
-<th></th>
-<th> Technology </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
-</tr>
-<tr>
-<td></td>
-<td> POSIX threads </td>
-<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
-</tr>
-</tbody>
-</table>
+<p>find的使用实例：
+　　$ find . -name &lsquo;my<em>&rsquo;
+搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。
+　　$ find . -name &lsquo;my</em>&rsquo; -ls
+搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。
+　　$ find . -type f -mmin -10
+搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
 
+<p>Reference:<a href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></p>
 
-<h4>Creating a Thread</h4>
+<h3>12.Enable Debian server pptpd&rsquo;s log and debug</h3>
 
-<ol>
-<li><p>Using NSThread</p>
+<p>To diagnose faults, enable the options debug dump in /etc/ppp/pptpd-options. The change is effective on the next connection. The debug output goes to /var/log/debug, and the dump output and usual output to /var/log/messages.</p>
 
-<ul>
-<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
-<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
-</ul>
-</li>
-<li><p>Using POSIX Threads</p>
+<p>Referenc:<a href="http://poptop.sourceforge.net/dox/debian-howto.phtml">http://poptop.sourceforge.net/dox/debian-howto.phtml</a></p>
 
-<ul>
-<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
-</ul>
-</li>
-<li><p>Using NSObject to Spawn a Thread</p>
+<h3>13.iptables remove specific rules</h3>
 
-<ul>
-<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
-</ul>
-</li>
-</ol>
+<p>Execute the same commands but replace the &ldquo;-A&rdquo; with &ldquo;-D&rdquo;. For example:</p>
 
+<p>iptables -A INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT
+becomes</p>
 
-<h4>Configuring Thread Attributes</h4>
+<p>iptables -D INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT</p>
 
-<p>Thread的配置项有：</p>
+<h3>14.How to use tcpdump?</h3>
 
-<ul>
-<li>Stack Size of a Thread</li>
-<li>Thread-Local Storage</li>
-<li>Detached State of a Thread</li>
-<li>Thread Priority</li>
-</ul>
+<p>tcpdump can be used to capture the packets exchanged between the PPTP Client and the PPTP Server. By comparing the packets with what should be happening, you may determine what the cause of a problem might be.
+Give to tcpdump the name of the network interface that connects to the PPTP Server, which for dial-up users would be ppp0, and for ADSL users eth0. Then, in another window or console, start the tunnel.</p>
 
+<p>Start tcpdump in one window:    Then run pppd in the other window:</p>
 
-<h4>Writing Your Thread Entry Routine</h4>
+<h1>tcpdump -i eth0</h1>
 
-<p>编写Thread的入口程序通常需要做如下事项：</p>
+<h1>pppd call tunnel</h1>
 
-<ul>
-<li>Creating an Autorelease Pool</li>
-<li>Setting Up an Exception Handler</li>
-<li>Setting Up a Run Loop</li>
-</ul>
+<p>The tcpdump command should show you the packets as they are received or transmitted. Press Control/C when you do not need to capture any more packets.</p>
 
+<p>You should see a connection to port 1723, followed by GRE packets in both directions. If you can see this, then you have full network connectivity. If you can&rsquo;t, you must find the problem.</p>
 
-<h4>Terminating a Thread</h4>
+<p>Note: if you get an error:</p>
+
+<p>tcpdump: pcap_loop: read: Network is down
+then you may be using tcpdump on the wrong interface. Use ifconfig to list the available interfaces and choose the one through which your client must contact the server. See our diagrams if you&rsquo;re still confused.</p>
+
+<p>The above technique is useful for quick checking, but for detailed analysis a binary tcpdump is required.</p>
+
+<p>Security Warning
+Internet addresses of your client and server, usernames and passwords are included in a binary tcpdump. This information may allow someone to gain equivalent access to protected networks. If you do not want to give away this information, convert it to text and remove it before sending the log to someone else.
+If you have been asked to capture a complete tcpdump packet trace, for analysis by someone else, you should:</p>
+
+<p>add -w file to tell it to save the packets to the file file,
+add -s 0 to capture all of each packet,
+and add tcp port 1723 or proto 47 to keep only the PPTP packets, if the client is performing other network traffic at the time.
+For example:</p>
+
+<h1>tcpdump -i eth0 -w my.tcpdump -s 0 tcp port 1723 or proto 47</h1>
+
+<p>Again, once the packets have been collected, use Control/C to stop the tcpdump process. The file containing the packets can then be e-mailed or analysed.</p>
+
+<p>You may analyse it using ethereal.</p>
+
+<h1>ethereal my.tcpdump</h1>
+
+<p>Note: when using ethereal, clicking on a byte in the hex dump will highlight the field name of the data in the packet, and vice versa. You may also analyse it using tcpdump:</p>
+
+<h1>tcpdump -n -r my.tcpdump > my.tcpdump.txt</h1>
+
+<p>This converts it to text, saving the output into a file my.tcpdump.txt. This often hides the username and password. You may wish to globally substitute the IP addresses. Check your results to ensure your security.</p>
+
+<h3>15.Viewing all iptables rules</h3>
+
+<p>You just need to specify the appropriate table:</p>
+
+<p>iptables &mdash;table nat &mdash;list
+iptables -t nat -L
+If you don&rsquo;t specify a table, the filter table is used as the default. You can get even more information by including the -v or &mdash;verbose option.</p>
 ]]></content>
   </entry>
   

@@ -111,30 +111,29 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html/">
+		<a href="/blog/ios-concurrency-programming-gcd.html/">
 		
-			iOS UIWebView与JavaScript交互</a>
+			iOS Concurrency Programming&#8211;GCD</a>
 	</h2>
 	<div class="entry-content">
-		<h2>1.UIWebView调用JavaScript</h2>
+		<h2>GCD是什么？</h2>
 
-<h3>1.1调用html中已有的JavaScript function</h3>
+<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
+* 直接简单的编程接口；<br/>
+* 自动、整体的线程池管理；<br/>
+* 高效的内存管理；<br/>
+* 负载时不干扰内核；<br/>
+* 异步分发任务到分派队列不会造成死锁；<br/>
+* 优雅地处理竞争；<br/>
+* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
 
-<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
+<h2>如何使用GCD？</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
 
+<h3>1）单个任务；</h3>
 
-<h3>1.2注入JavaScript function,然后调用</h3>
-
-<p>我们还可以先向html中注入JavaScript function,然后调用。
-通常可以在UIWebViewDelegate中注入。示例如下：</p>
+<p>我们通常是通过调用以下API来执行任务：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -143,19 +142,23 @@ $(document).ready(
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
+</span><span class='line'><span class="n">dispatch_async_f</span>
+</span><span class='line'><span class="n">dispatch_sync</span>
+</span><span class='line'><span class="n">dispatch_sync_f</span>
+</span><span class='line'><span class="n">dispatch_after</span>
+</span><span class='line'><span class="n">dispatch_after_f</span>
+</span><span class='line'><span class="n">dispatch_apply</span>
+</span><span class='line'><span class="n">dispatch_apply_f</span>
+</span><span class='line'><span class="n">dispatch_once</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 
 		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-concurrency-programming-gcd.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -172,7 +175,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-05-14T11:05:53+08:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time></div>
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -189,95 +192,33 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/property-values.html/">
+		<a href="/blog/ios-concurrency-programming-operation.html/">
 		
-			Property Values</a>
+			iOS Concurrency Programming&#8211;Operation</a>
 	</h2>
 	<div class="entry-content">
-		<p>  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。</p>
+		<p>iOS Concurrency 的实现方式大致有3种：1,NSOperation;2,GCD;3,Thread.上述的顺序也是推荐使用的顺序。</p>
 
-<p> Property的attribute关键字有以下几类：<br/>
- 1）API Control；</p>
+<p>Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。</p>
 
-<pre><code>getter = methodname
-setter = mehtodname:
-</code></pre>
+<h2>Foundation框架中的Operation类</h2>
 
-<p> 2）Write Serialization(not general thread safety);</p>
-
-<pre><code>nonatomic
-atomic (default)
-</code></pre>
-
-<p> 3) Mutability;</p>
-
-<pre><code>readonly
-readwrite (default)
-</code></pre>
-
-<p> 4) Memory Management(ARC);</p>
-
-<pre><code>copy
-strong (default)
-weak
-unsafe_unretained
-assign
-</code></pre>
-
-<p> 5) Memory Management(Traditional)</p>
-
-<pre><code>copy
-retain
-assign (default)
-</code></pre>
+<ol>
+<li>NSInvocationOperation类方便我们基于应用的对象和选择器创建operation对象。</li>
+<li>NSBlockOperation类方便我们同时执行一个或多个block对象。</li>
+<li>NSOperation类是自定义operation对象的基类。</li>
+</ol>
 
 
-		
-		<a href="/blog/property-values.html/" class="more-link">继续阅读</a>
-	</div>
+<h2>并发 VS 非并发Operation</h2>
+
+<ol>
+<li>并发Operation是指Operation在调用线程中同步运行的。</li>
+<li>非并发Operation是指Operation与调用线程是异步运行的。</li>
+</ol>
 
 
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-10T14:41:40+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/tips-and-techniques-for-framework-developers-translation.html/">
-		
-			Tips and Techniques for Framework Developers(Translation)</a>
-	</h2>
-	<div class="entry-content">
-		<h2>Initialization</h2>
-
-<h3>Class initialization</h3>
-
-<p>initialize 类方法是一个一次性，懒散的执行一些代码的地方，它会在类的其他方法被调用之前调用。最典型的应用是设置类的版本号。
-动态系统给继承链上每一个类发送initialize方法，即使方法没有实现。因此它可能会被调用多次（例如，一个子类没有实现它。）。通常我们只想初始化代码被执行一次。一种实现的方法是使用dispatch_once();</p>
+<h2>创建一个NSInvocationOperation对象</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -290,40 +231,27 @@ assign (default)
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span>
+</span><span class='line'>                    <span class="nl">selector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod:</span><span class="p">)</span> <span class="nl">object:</span><span class="n">data</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// the initializing code</span>
-</span><span class='line'>
+</span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
+</span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Perform the task.</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>Note:因为动态系统发送initialize给每一个类，所以它很可能会在子类的上下文中调用—如果子类没有实现initialize，会调用父类的实现。如果在相关类的上下文中有特殊的初始化需求，我们可以进行如下操作而不仅仅是使用dispatch_once();</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="n">class</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// the initializing code</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 
 		
-		<a href="/blog/tips-and-techniques-for-framework-developers-translation.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-concurrency-programming-operation.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -340,7 +268,66 @@ assign (default)
   
 
 
-<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">May 10<span>th</span>, 2014</time></div>
+<time datetime="2014-05-20T09:31:07+08:00" pubdate data-updated="true">May 20<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/iosde-hui-tu-xi-tong.html/">
+		
+			iOS的绘图系统</a>
+	</h2>
+	<div class="entry-content">
+		<h2>iOS的绘图框架</h2>
+
+<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
+
+<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
+
+<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
+
+<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
+
+<h2>Drawing Destinations(iOS-Only)</h2>
+
+<p>1)View Graphics Context<br/>
+2)Layer<br/>
+3)Bitmap<br/>
+4)PDF<br/>
+5)Printer</p>
+
+
+		
+		<a href="/blog/iosde-hui-tu-xi-tong.html/" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">

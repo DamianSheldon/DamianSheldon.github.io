@@ -111,26 +111,251 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/private-pods.html/">
+		<a href="/blog/linux-useful-command-line.html/">
 		
-			如何创建私有的Pod</a>
+			Linux命令行整理</a>
 	</h2>
 	<div class="entry-content">
-		<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
-
-<p>Cocoa Pods工作依赖于两个文件：<br/>
-1. podspec:一个pod的配置是什么，pod的代码放在哪里<br/>
-2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
-
-<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
+		<h3>1.Create new account</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create --verbose project</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>2.List all groups and the user names that were in each group</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for u in `cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort
+</span><span class='line'>
+</span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.How to set up ssh so you aren&rsquo;t asked for a password</h3>
+
+<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
+
+<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
+
+<ul>
+<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
+This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
+<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
+If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
+You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
+
+<h3>4.Finding all files containing a text string on Linux</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -rnw 'directory' -e "pattern"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
+
+<h3>5.Show bash script commands without executing them</h3>
+
+<p>There are two useful debug outputs for that task (both are written to stderr):</p>
+
+<p>set -v mode (set -o verbose)
+prints commands to be executed to stderr just like they are read from input (script file or keyboard)
+prints everything before anything ( substitutions and expansions, …) big is applied
+set -x mode (set -o xtrace)
+prints everything like it really is executed, after substitutions and expansions applied
+indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
+indicates the recognized words after word splitting by marking them like &lsquo;x y&rsquo;
+in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout</p>
+
+<p>Hint: These modes can be entered when calling Bash:</p>
+
+<p>from commandline: bash -vx ./myscript
+eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
+
+<p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
+
+<h3>6.Toggle Web Sharing on or off in OSX 10.10</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Start
+</span><span class='line'>sudo apachectl start
+</span><span class='line'>
+</span><span class='line'>// Stop
+</span><span class='line'>sudo apachectl stop
+</span><span class='line'>
+</span><span class='line'>// Restart
+</span><span class='line'>sudo apachectl restart
+</span><span class='line'>
+</span><span class='line'>// find the Apache version
+</span><span class='line'>httpd -v
+</span><span class='line'>
+</span><span class='line'>// After starting Apache – test to see if the webserver is working in the browser – http://localhost – you should see the “It Works!” text.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
+
+<h3>7.List open ports on your machine (Mac OS X)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lsof -i -P | grep -i "listen"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
+
+<h3>8.What do the numbers in a man page mean?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MANUAL SECTIONS
+</span><span class='line'>    The standard sections of the manual include:
+</span><span class='line'>
+</span><span class='line'>    1      User Commands
+</span><span class='line'>    2      System Calls
+</span><span class='line'>    3      C Library Functions
+</span><span class='line'>    4      Devices and Special Files
+</span><span class='line'>    5      File Formats and Conventions
+</span><span class='line'>    6      Games et. Al.
+</span><span class='line'>    7      Miscellanea
+</span><span class='line'>    8      System Administration tools and Deamons
+</span><span class='line'>
+</span><span class='line'>    Distributions customize the manual section to their specifics,
+</span><span class='line'>    which often include additional sections.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9.jenkins</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Note: When using launchctl the port will be 8080.
+</span><span class='line'>
+</span><span class='line'>To have launchd start jenkins at login:
+</span><span class='line'>  ln -sfv /usr/local/opt/jenkins/*.plist ~/Library/LaunchAgents
+</span><span class='line'>Then to load jenkins now:
+</span><span class='line'>  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span><span class='line'>Or, if you don't want/need launchctl, you can just run:
+</span><span class='line'>  jenkins</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>10.Mac 上 Openssl 的配置文件路径</h3>
+
+<p>/System/Library/OpenSSL/openssl.cnf</p>
+
+<h3>11.Find</h3>
+
+<p>find的使用实例：
+　　$ find . -name &lsquo;my<em>&rsquo;
+搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。
+　　$ find . -name &lsquo;my</em>&rsquo; -ls
+搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。
+　　$ find . -type f -mmin -10
+搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
+
+<p>Reference:<a href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></p>
+
+<h3>12.Enable Debian server pptpd&rsquo;s log and debug</h3>
+
+<p>To diagnose faults, enable the options debug dump in /etc/ppp/pptpd-options. The change is effective on the next connection. The debug output goes to /var/log/debug, and the dump output and usual output to /var/log/messages.</p>
+
+<p>Referenc:<a href="http://poptop.sourceforge.net/dox/debian-howto.phtml">http://poptop.sourceforge.net/dox/debian-howto.phtml</a></p>
+
+<h3>13.iptables remove specific rules</h3>
+
+<p>Execute the same commands but replace the &ldquo;-A&rdquo; with &ldquo;-D&rdquo;. For example:</p>
+
+<p>iptables -A INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT
+becomes</p>
+
+<p>iptables -D INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT</p>
+
+<h3>14.How to use tcpdump?</h3>
+
+<p>tcpdump can be used to capture the packets exchanged between the PPTP Client and the PPTP Server. By comparing the packets with what should be happening, you may determine what the cause of a problem might be.
+Give to tcpdump the name of the network interface that connects to the PPTP Server, which for dial-up users would be ppp0, and for ADSL users eth0. Then, in another window or console, start the tunnel.</p>
+
+<p>Start tcpdump in one window:    Then run pppd in the other window:</p>
+
+<h1>tcpdump -i eth0</h1>
+
+<h1>pppd call tunnel</h1>
+
+<p>The tcpdump command should show you the packets as they are received or transmitted. Press Control/C when you do not need to capture any more packets.</p>
+
+<p>You should see a connection to port 1723, followed by GRE packets in both directions. If you can see this, then you have full network connectivity. If you can&rsquo;t, you must find the problem.</p>
+
+<p>Note: if you get an error:</p>
+
+<p>tcpdump: pcap_loop: read: Network is down
+then you may be using tcpdump on the wrong interface. Use ifconfig to list the available interfaces and choose the one through which your client must contact the server. See our diagrams if you&rsquo;re still confused.</p>
+
+<p>The above technique is useful for quick checking, but for detailed analysis a binary tcpdump is required.</p>
+
+<p>Security Warning
+Internet addresses of your client and server, usernames and passwords are included in a binary tcpdump. This information may allow someone to gain equivalent access to protected networks. If you do not want to give away this information, convert it to text and remove it before sending the log to someone else.
+If you have been asked to capture a complete tcpdump packet trace, for analysis by someone else, you should:</p>
+
+<p>add -w file to tell it to save the packets to the file file,
+add -s 0 to capture all of each packet,
+and add tcp port 1723 or proto 47 to keep only the PPTP packets, if the client is performing other network traffic at the time.
+For example:</p>
+
+<h1>tcpdump -i eth0 -w my.tcpdump -s 0 tcp port 1723 or proto 47</h1>
+
+<p>Again, once the packets have been collected, use Control/C to stop the tcpdump process. The file containing the packets can then be e-mailed or analysed.</p>
+
+<p>You may analyse it using ethereal.</p>
+
+<h1>ethereal my.tcpdump</h1>
+
+<p>Note: when using ethereal, clicking on a byte in the hex dump will highlight the field name of the data in the packet, and vice versa. You may also analyse it using tcpdump:</p>
+
+<h1>tcpdump -n -r my.tcpdump > my.tcpdump.txt</h1>
+
+<p>This converts it to text, saving the output into a file my.tcpdump.txt. This often hides the username and password. You may wish to globally substitute the IP addresses. Check your results to ensure your security.</p>
+
+<h3>15.Viewing all iptables rules</h3>
+
+<p>You just need to specify the appropriate table:</p>
+
+<p>iptables &mdash;table nat &mdash;list
+iptables -t nat -L
+If you don&rsquo;t specify a table, the filter table is used as the default. You can get even more information by including the -v or &mdash;verbose option.</p>
 
 		
-		<a href="/blog/private-pods.html/" class="more-link">继续阅读</a>
+		
 	</div>
 
 
@@ -147,7 +372,136 @@ $(document).ready(
   
 
 
-<time datetime="2015-03-11T17:23:04+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2015</time></div>
+<time datetime="2015-03-18T21:12:56+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/nsthread-thechnology-notes.html/">
+		
+			iOS Thread笔记</a>
+	</h2>
+	<div class="entry-content">
+		<ol>
+<li>Thread是什么？</li>
+<li>iOS中怎么使用Thread？</li>
+</ol>
+
+
+<h3>Thread是什么</h3>
+
+<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
+
+<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
+
+<h3>iOS中怎么使用Thread</h3>
+
+<p>iOS中的Thread技术主要有以下两种：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Technology </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Cocoa threads </td>
+<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
+</tr>
+<tr>
+<td></td>
+<td> POSIX threads </td>
+<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>Creating a Thread</h4>
+
+<ol>
+<li><p>Using NSThread</p>
+
+<ul>
+<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
+<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
+</ul>
+</li>
+<li><p>Using POSIX Threads</p>
+
+<ul>
+<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
+</ul>
+</li>
+<li><p>Using NSObject to Spawn a Thread</p>
+
+<ul>
+<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>Configuring Thread Attributes</h4>
+
+<p>Thread的配置项有：</p>
+
+<ul>
+<li>Stack Size of a Thread</li>
+<li>Thread-Local Storage</li>
+<li>Detached State of a Thread</li>
+<li>Thread Priority</li>
+</ul>
+
+
+<h4>Writing Your Thread Entry Routine</h4>
+
+<p>编写Thread的入口程序通常需要做如下事项：</p>
+
+<ul>
+<li>Creating an Autorelease Pool</li>
+<li>Setting Up an Exception Handler</li>
+<li>Setting Up a Run Loop</li>
+</ul>
+
+
+<h4>Terminating a Thread</h4>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
@@ -164,63 +518,49 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/how-to-play.html/">
+		<a href="/blog/ios-app-problems-part-2.html/">
 		
-			(翻译)How to Play, Record, and Edit Videos in iOS</a>
+			iOS App 开发问题汇总（二）</a>
 	</h2>
 	<div class="entry-content">
-		<h4>AVAsset</h4>
+		<h3>问题描述：Ad Hoc分发应用</h3>
 
-<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
+<p>导出Ad Hoc授权应用
+Xcode > Product > Archive > Export</p>
 
-<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
+<p>安装Ad Hoc分发的应用
+Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
 
-<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
+<h3>问题描述：Xcode编译出现如下警告提示：</h3>
 
-<h4>AVComposition</h4>
+<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
 
-<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
+<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
 
-<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
+<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
 
-<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
+<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
 
-<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
+<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
 
-<p>AVMutableComposition and AVMutableCompositionTrack</p>
+<p>解决办法：</p>
 
-<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
+<ol>
+<li>Plug in your iPad/iPhone</li>
+<li>Open Image Capture</li>
+<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
+<li>Press the triangle in square symbol in the lower left corner.</li>
+<li>Select &ldquo;No application&rdquo; in the menu.</li>
+</ol>
 
-<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
 
-<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
+<p>iPhoto:
+Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
+set it to &ldquo;No Application&rdquo;</p>
 
-<p>And the Rest</p>
-
-<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
-
-<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
-
-<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
-
-<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
-
-<p>Conclusion</p>
-
-<p>To sum it all up:</p>
-
-<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
-
-<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
-
-<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
-
-<p>Each layer instruction is used to apply a certain transform to a given track.</p>
-
-<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
 
 		
-		
+		<a href="/blog/ios-app-problems-part-2.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -237,185 +577,7 @@ $(document).ready(
   
 
 
-<time datetime="2015-01-22T16:48:25+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2015</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archive/'>Archive</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-technical-interview-part-1.html/">
-		
-			iOS Technical Interview Part 1</a>
-	</h2>
-	<div class="entry-content">
-		<h3>Explain method swizzling. When you would use it?</h3>
-
-<h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
-
-<p>Answer:循环保留导致内存泄漏。</p>
-
-<h3>What happens when you invoke a method on a nil pointer?</h3>
-
-<p>Answer:返回0</p>
-
-<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
-
-<h3>Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
-
-<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
-
-<ol>
-<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
-<li>产品代码中不应该包含无用代码。</li>
-</ol>
-
-
-<h3>Explain your process for tracing and fixing a memory leak.</h3>
-
-<ol>
-<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
-<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
-</ol>
-
-
-<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
-
-<h3>Explain how an autorelease pool works at the runtime level.</h3>
-
-<h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
-
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@property CGRect domain;
-</span><span class='line'>
-</span><span class='line'>&lt;b&gt;thread 1:&lt;/b&gt; puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
-</span><span class='line'>&lt;b&gt;thread 2:&lt;/b&gt; puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);
-</span><span class='line'>
-</span><span class='line'>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。
-</span><span class='line'>
-</span><span class='line'>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
-
-<h3>In C, how would you reverse a string as quickly as possible?</h3>
-
-<h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
-
-<p>NSArray</p>
-
-<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
-
-<h3>Explain how code signing works.</h3>
-
-<h3>What is posing in Objective-C?</h3>
-
-<h3>List six instruments that are part of the standard.</h3>
-
-<ol>
-<li>Allocations</li>
-<li>Core Animation</li>
-<li>Leaks</li>
-<li></li>
-</ol>
-
-
-<h3>What are the differences between copy and retain?</h3>
-
-<p>copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
-
-<h3>What is the difference between frames and bounds?</h3>
-
-<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
-The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
-
-<h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
-
-<p>The object gets released twice when the autorelease pool is destroyed.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
-
-<h3>List the five iOS app states.</h3>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> State </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Not Running </td>
-<td> The app has not been launched or was running but was terminated by the system.</td>
-</tr>
-<tr>
-<td></td>
-<td> Inactive </td>
-<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
-</tr>
-<tr>
-<td></td>
-<td> Active </td>
-<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
-</tr>
-<tr>
-<td></td>
-<td> Background </td>
-<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
-</tr>
-<tr>
-<td></td>
-<td> Suspended </td>
-<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-05T15:44:07+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2015</time></div>
+<time datetime="2015-03-16T16:14:50+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">

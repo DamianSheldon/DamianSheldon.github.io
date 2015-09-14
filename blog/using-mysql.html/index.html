@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Android  | Hello World</title>
+	<title>Using MySQL  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -105,120 +105,107 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-    
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Using MySQL</h2>
+	<div class="entry-content"><h3>1.查看所有的用户</h3>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select user, host from user;</span></code></pre></td></tr></table></div></figure>
 
 
-	
-	
-		</section>
-	
-	<section class="archives"><h1 class="year">2014</h1>
+<h3>2.查看用户的权限</h3>
 
-<article>
-	<h2 class="title"><a href="/blog/problems-of-android-development.html/">Android开发问题汇总</a></h2>
-	<div class="meta">
-		<div class="date">Dec 17</div>
-		
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show grants for 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
 
-<div class="tags">
 
-	<a class='category' href='/blog/categories/android/'>Android</a>, <a class='category' href='/blog/categories/archives/'>Archives</a>
+<h3>3.为用户添加操作某个数据库的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.SQL COUNT() Function</h3>
+
+<p>SQL COUNT(column_name) Syntax
+The COUNT(column_name) function returns the number of values (NULL values will not be counted) of the specified column:</p>
+
+<p>SELECT COUNT(column_name) FROM table_name;
+SQL COUNT(<em>) Syntax
+The COUNT(</em>) function returns the number of records in a table:</p>
+
+<p>SELECT COUNT(*) FROM table_name;
+SQL COUNT(DISTINCT column_name) Syntax
+The COUNT(DISTINCT column_name) function returns the number of distinct values of the specified column:</p>
+
+<p>SELECT COUNT(DISTINCT column_name) FROM table_name;</p>
+
+<h3>5.SQL Limit</h3>
+
+<p>[LIMIT {[offset,] row_count | row_count OFFSET offset}]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select Host, Db from db limit 2, 2;
+</span><span class='line'>
+</span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
 
-	    
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true">Aug 12<span>th</span>, 2015</time></div>
+	
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
 	</div>
-</article>
-    
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2015

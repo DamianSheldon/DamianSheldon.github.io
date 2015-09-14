@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-07-30T11:51:52+08:00</updated>
+  <updated>2015-09-14T15:06:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,243 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux Useful Command Line Part 2]]></title>
+    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line-part-2.html/"/>
+    <updated>2015-09-11T09:30:16+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line-part-2</id>
+    <content type="html"><![CDATA[<h3>1.Rails Error: ImageMagick/GraphicsMagick is not installed</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install graphicsmagick
+</span><span class='line'>brew install ImageMagick</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed">http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed</a></p>
+
+<h3>2.Transfer file via scp (or sftp) between two Mac</h3>
+
+<p>Via scp:
+1.Enable Enable SSH</p>
+
+<pre><code> System Preferences &gt; Sharing &gt; enable the “Remote Login” feature
+</code></pre>
+
+<p>2.scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/</p>
+
+<p>Via s<a href="ftp:">ftp:</a></p>
+
+<p>1.sftp <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#100;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#x69;&#97;&#110;&#x67;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#46;&#x32;&#53;&#53;">&#100;&#x6f;&#x6e;&#103;&#x6d;&#101;&#x69;&#x6c;&#105;&#97;&#110;&#x67;&#64;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;</a>
+2.cd path
+  Change remote directory to path.</p>
+
+<p>3.lcd path
+  Change local directory to path.</p>
+
+<p>4.get [-Ppr] remote-path [local-path]</p>
+
+<p>5.lpwd    Print local working directory.</p>
+
+<p>6.pwd     Display remote working directory.</p>
+
+<p>7.put [-Ppr] local-path [remote-path]</p>
+
+<p>8.lls [ls-options [path]]</p>
+
+<pre><code>         Display local directory listing of either path or current directory if path is not specified.  ls-options may con-
+         tain any flags supported by the local system's ls(1) command.  path may contain glob(3) characters and may match
+         multiple files.
+</code></pre>
+
+<p>9.ls [-1afhlnrSt] [path]</p>
+
+<pre><code>         Display a remote directory listing of either path or the current directory if path is not specified.  path may con-
+         tain glob(3) characters and may match multiple files.
+</code></pre>
+
+<p>10.Quit sftp</p>
+
+<p>bye
+exit
+quit</p>
+
+<h3>3.Installing Apps with Homebrew Cask</h3>
+
+<p><a href="http://caskroom.io/">Homebrew Cask</a> is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.</p>
+
+<p>After you have homebrew installed, you&rsquo;ll want to install Homebrew Cask:</p>
+
+<p>brew install caskroom/cask/brew-cask</p>
+
+<h3>4.复制目录及子目录下的某种类型文件</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cp  ~/Documents/HJKApp/srsApp/srsApp/Sections/Home/Main.xcassets/**/*.png  ~/Pictures/HJKApp/OnlyHaveScale2/</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5.Recursive copy of specific files in Unix/Linux?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux">http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim]]></title>
+    <link href="http://DamianSheldon.github.io/blog/vim.html/"/>
+    <updated>2015-09-10T21:09:05+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/vim</id>
+    <content type="html"><![CDATA[<h3>1.查看帮助</h3>
+
+<p>:help</p>
+
+<h3>2.查看quickref</h3>
+
+<p>：help quickref</p>
+
+<h3>3.语法高亮</h3>
+
+<p>|:syn-on|       :syntax on              start using syntax highlighting
+|:syn-off|      :syntax off             stop using syntax highlighting</p>
+
+<h3>4.Move cursor to its last position</h3>
+
+<p>The quickest way is to hit either:</p>
+
+<p>&lsquo;&rsquo;
+(two apostrophes) or:</p>
+
+<p>&#8220;
+(two backticks).</p>
+
+<h3>5.Multi-window commands</h3>
+
+<p>Q_wi*          Multi-window commands</p>
+
+<p>|CTRL-W_s|      CTRL-W s  or  :split    split window into two parts
+|:split_f|      :split {file}           split window and edit {file} in one of</p>
+
+<pre><code>                                       them
+</code></pre>
+
+<p>|:vsplit|       :vsplit {file}          same, but split vertically
+|:vertical|     :vertical {cmd}         make {cmd} split vertically</p>
+
+<p>|:sfind|        :sf[ind] {file}         split window, find {file} in &lsquo;path&rsquo;</p>
+
+<pre><code>                                       and edit it
+</code></pre>
+
+<p>|CTRL-W_]|      CTRL-W ]                split window and jump to tag under</p>
+
+<pre><code>                                       cursor
+</code></pre>
+
+<p>|CTRL-W_f|      CTRL-W f                split window and edit file name under</p>
+
+<pre><code>                                       the cursor
+</code></pre>
+
+<p>|CTRL-W_^|      CTRL-W ^                split window and edit alternate file
+|CTRL-W_n|      CTRL-W n  or  :new      create new empty window
+|CTRL-W_q|      CTRL-W q  or  :q[uit]   quit editing and close window
+|CTRL-W_c|      CTRL-W c  or  :cl[ose]  make buffer hidden and close window
+|CTRL-W_o|      CTRL-W o  or  :on[ly]   make current window only one on the</p>
+
+<pre><code>                                       screen
+</code></pre>
+
+<p>|CTRL-W_j|      CTRL-W j                move cursor to window below
+|CTRL-W_k|      CTRL-W k                move cursor to window above
+|CTRL-W_CTRL-W| CTRL-W CTRL-W           move cursor to window below (wrap)
+|CTRL-W_W|      CTRL-W W                move cursor to window above (wrap)
+|CTRL-W_t|      CTRL-W t                move cursor to top window
+|CTRL-W_b|      CTRL-W b                move cursor to bottom window
+|CTRL-W_p|      CTRL-W p                move cursor to previous active window</p>
+
+<p>|CTRL-W_r|      CTRL-W r                rotate windows downwards
+|CTRL-W_R|      CTRL-W R                rotate windows upwards
+|CTRL-W_x|      CTRL-W x                exchange current window with next one</p>
+
+<p>|CTRL-W<em>=|      CTRL-W =                make all windows equal height
+|CTRL-W</em>&ndash;|      CTRL-W &ndash;                decrease current window height
+|CTRL-W_+|      CTRL-W +                increase current window height
+|CTRL-W__|      CTRL-W _                set current window height (default:</p>
+
+<pre><code>                                       very high)
+</code></pre>
+
+<p>1, set number
+2, set autoindent
+4, set background=dark
+5, set background=light</p>
+
+<p>6, 0, ^ line head</p>
+
+<p>7, $, g_ line foot</p>
+
+<p>8, ctl + f forword page</p>
+
+<p>9, ctl + b back page</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Using MySQL]]></title>
+    <link href="http://DamianSheldon.github.io/blog/using-mysql.html/"/>
+    <updated>2015-08-12T22:01:09+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/using-mysql</id>
+    <content type="html"><![CDATA[<h3>1.查看所有的用户</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select user, host from user;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.查看用户的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show grants for 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.为用户添加操作某个数据库的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.SQL COUNT() Function</h3>
+
+<p>SQL COUNT(column_name) Syntax
+The COUNT(column_name) function returns the number of values (NULL values will not be counted) of the specified column:</p>
+
+<p>SELECT COUNT(column_name) FROM table_name;
+SQL COUNT(<em>) Syntax
+The COUNT(</em>) function returns the number of records in a table:</p>
+
+<p>SELECT COUNT(*) FROM table_name;
+SQL COUNT(DISTINCT column_name) Syntax
+The COUNT(DISTINCT column_name) function returns the number of distinct values of the specified column:</p>
+
+<p>SELECT COUNT(DISTINCT column_name) FROM table_name;</p>
+
+<h3>5.SQL Limit</h3>
+
+<p>[LIMIT {[offset,] row_count | row_count OFFSET offset}]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select Host, Db from db limit 2, 2;
+</span><span class='line'>
+</span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（三）]]></title>
@@ -64,6 +301,117 @@ c. Open .pbxproj with a text editor.<br/>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
+
+<h3>4. Add top layout guide in NIB file</h3>
+
+<p>解决办法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)viewDidLoad {
+</span><span class='line'>      if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+</span><span class='line'>         self.edgesForExtendedLayout = UIRectEdgeNone;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
+
+<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
+
+<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
+
+<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1. Rename any .m file to .mm file;
+</span><span class='line'>2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
+
+<h3>8.How do I change the status bar content to white?</h3>
+
+<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
+
+<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
+Select the very first node in the Project Navigator to display the Project Editor.
+Select your app under Targets.
+Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
+
+<p>Next, you need to modify your project&rsquo;s .plist file.
+In the Project Navigator, expand the Supporting Files node.
+Select the <My Project Name>-Info.plist file.
+Click on the very first entry (Information Property List).
+Click the plus (+) sign that appears in the first column.
+At the bottom of the popup list, select View controller-based status bar appearance.
+Make sure the Value column is set to NO.
+If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
+In Swift:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Objective-C:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
+
+<p>In Swift:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override func preferredStatusBarStyle() -&gt; UIStatusBarStyle {
+</span><span class='line'>        return UIStatusBarStyle.LightContent
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Objective-C:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
+
+<h3>Expression</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) expr NSString *$str = (NSString *)[[NSString alloc] initWithData:data encoding:4]
+</span><span class='line'>(lldb) po $str
+</span><span class='line'>
+</span><span class='line'>(lldb) e NSArray *$array = @[ @"Saturday", @"Sunday", @"Monday" ]
+</span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.fastlane add Slack Notifications</h3>
+
+<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
+
+<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
+
+<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
 ]]></content>
   </entry>
   
@@ -304,13 +652,13 @@ Effective Objective-C 2.0<br/>
     <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line.html/"/>
     <updated>2015-03-18T21:12:56+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/linux-useful-command-line</id>
-    <content type="html"><![CDATA[<h3>Create new account</h3>
+    <content type="html"><![CDATA[<h3>1.Create new account</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>List all groups and the user names that were in each group</h3>
+<h3>2.List all groups and the user names that were in each group</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -320,7 +668,7 @@ Effective Objective-C 2.0<br/>
 </span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>How to set up ssh so you aren&rsquo;t asked for a password</h3>
+<h3>3.How to set up ssh so you aren&rsquo;t asked for a password</h3>
 
 <p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
 
@@ -337,7 +685,7 @@ You should then be able to use ssh to log in to the remote server without being 
 
 <p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
 
-<h3>Finding all files containing a text string on Linux</h3>
+<h3>4.Finding all files containing a text string on Linux</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>grep -rnw 'directory' -e "pattern"</span></code></pre></td></tr></table></div></figure>
@@ -345,7 +693,7 @@ You should then be able to use ssh to log in to the remote server without being 
 
 <p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
 
-<h3>Show bash script commands without executing them</h3>
+<h3>5.Show bash script commands without executing them</h3>
 
 <p>There are two useful debug outputs for that task (both are written to stderr):</p>
 
@@ -365,7 +713,7 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 
 <p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
 
-<h3>Toggle Web Sharing on or off in OSX 10.10</h3>
+<h3>6.Toggle Web Sharing on or off in OSX 10.10</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -398,7 +746,7 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 
 <p>Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
 
-<h3>List open ports on your machine (Mac OS X)</h3>
+<h3>7.List open ports on your machine (Mac OS X)</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sudo lsof -i -P | grep -i "listen"</span></code></pre></td></tr></table></div></figure>
@@ -406,7 +754,7 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 
 <p>Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
 
-<h3>What do the numbers in a man page mean?</h3>
+<h3>8.What do the numbers in a man page mean?</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -437,6 +785,110 @@ eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
 </span><span class='line'>    Distributions customize the manual section to their specifics,
 </span><span class='line'>    which often include additional sections.</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>9.jenkins</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Note: When using launchctl the port will be 8080.
+</span><span class='line'>
+</span><span class='line'>To have launchd start jenkins at login:
+</span><span class='line'>  ln -sfv /usr/local/opt/jenkins/*.plist ~/Library/LaunchAgents
+</span><span class='line'>Then to load jenkins now:
+</span><span class='line'>  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span><span class='line'>Or, if you don't want/need launchctl, you can just run:
+</span><span class='line'>  jenkins</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>10.Mac 上 Openssl 的配置文件路径</h3>
+
+<p>/System/Library/OpenSSL/openssl.cnf</p>
+
+<h3>11.Find</h3>
+
+<p>find的使用实例：
+　　$ find . -name &lsquo;my<em>&rsquo;
+搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。
+　　$ find . -name &lsquo;my</em>&rsquo; -ls
+搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。
+　　$ find . -type f -mmin -10
+搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
+
+<p>Reference:<a href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></p>
+
+<h3>12.Enable Debian server pptpd&rsquo;s log and debug</h3>
+
+<p>To diagnose faults, enable the options debug dump in /etc/ppp/pptpd-options. The change is effective on the next connection. The debug output goes to /var/log/debug, and the dump output and usual output to /var/log/messages.</p>
+
+<p>Referenc:<a href="http://poptop.sourceforge.net/dox/debian-howto.phtml">http://poptop.sourceforge.net/dox/debian-howto.phtml</a></p>
+
+<h3>13.iptables remove specific rules</h3>
+
+<p>Execute the same commands but replace the &ldquo;-A&rdquo; with &ldquo;-D&rdquo;. For example:</p>
+
+<p>iptables -A INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT
+becomes</p>
+
+<p>iptables -D INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT</p>
+
+<h3>14.How to use tcpdump?</h3>
+
+<p>tcpdump can be used to capture the packets exchanged between the PPTP Client and the PPTP Server. By comparing the packets with what should be happening, you may determine what the cause of a problem might be.
+Give to tcpdump the name of the network interface that connects to the PPTP Server, which for dial-up users would be ppp0, and for ADSL users eth0. Then, in another window or console, start the tunnel.</p>
+
+<p>Start tcpdump in one window:    Then run pppd in the other window:</p>
+
+<h1>tcpdump -i eth0</h1>
+
+<h1>pppd call tunnel</h1>
+
+<p>The tcpdump command should show you the packets as they are received or transmitted. Press Control/C when you do not need to capture any more packets.</p>
+
+<p>You should see a connection to port 1723, followed by GRE packets in both directions. If you can see this, then you have full network connectivity. If you can&rsquo;t, you must find the problem.</p>
+
+<p>Note: if you get an error:</p>
+
+<p>tcpdump: pcap_loop: read: Network is down
+then you may be using tcpdump on the wrong interface. Use ifconfig to list the available interfaces and choose the one through which your client must contact the server. See our diagrams if you&rsquo;re still confused.</p>
+
+<p>The above technique is useful for quick checking, but for detailed analysis a binary tcpdump is required.</p>
+
+<p>Security Warning
+Internet addresses of your client and server, usernames and passwords are included in a binary tcpdump. This information may allow someone to gain equivalent access to protected networks. If you do not want to give away this information, convert it to text and remove it before sending the log to someone else.
+If you have been asked to capture a complete tcpdump packet trace, for analysis by someone else, you should:</p>
+
+<p>add -w file to tell it to save the packets to the file file,
+add -s 0 to capture all of each packet,
+and add tcp port 1723 or proto 47 to keep only the PPTP packets, if the client is performing other network traffic at the time.
+For example:</p>
+
+<h1>tcpdump -i eth0 -w my.tcpdump -s 0 tcp port 1723 or proto 47</h1>
+
+<p>Again, once the packets have been collected, use Control/C to stop the tcpdump process. The file containing the packets can then be e-mailed or analysed.</p>
+
+<p>You may analyse it using ethereal.</p>
+
+<h1>ethereal my.tcpdump</h1>
+
+<p>Note: when using ethereal, clicking on a byte in the hex dump will highlight the field name of the data in the packet, and vice versa. You may also analyse it using tcpdump:</p>
+
+<h1>tcpdump -n -r my.tcpdump > my.tcpdump.txt</h1>
+
+<p>This converts it to text, saving the output into a file my.tcpdump.txt. This often hides the username and password. You may wish to globally substitute the IP addresses. Check your results to ensure your security.</p>
+
+<h3>15.Viewing all iptables rules</h3>
+
+<p>You just need to specify the appropriate table:</p>
+
+<p>iptables &mdash;table nat &mdash;list
+iptables -t nat -L
+If you don&rsquo;t specify a table, the filter table is used as the default. You can get even more information by including the -v or &mdash;verbose option.</p>
 ]]></content>
   </entry>
   
@@ -1817,1083 +2269,6 @@ iOS 6 Programming Pushing the Limits<br/>
 <a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
 <a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
 <a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 数据持久化]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-app-data-persistence.html/"/>
-    <updated>2014-11-13T15:06:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-app-data-persistence</id>
-    <content type="html"><![CDATA[<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
-
-<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
-
-<h2>文件系统基础</h2>
-
-<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
-我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
-
-<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
-
-<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
-
-</div>
-
-
-
-
-<!-- more -->
-
-
-<p>iOS应用常用的目录列表：</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Directory </th>
-<th align="left"> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> AppName.app </td>
-<td align="left"> This is the app’s bundle</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> Documents/ </td>
-<td align="left"> Use this directory to store user-generated content.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> Documents/Inbox </td>
-<td align="left"> Use this directory to access files that your app was asked to open by outside entities.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> Library/ </td>
-<td align="left"> This is the top-level directory for any files that are not user data files.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> tmp/ </td>
-<td align="left"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h3>数据的建议存储位置</h3>
-
-<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
-
-<h3>数据持久化的方法</h3>
-
-<ol>
-<li>NSUserDefaults;</li>
-<li>Property Lists;</li>
-<li>Archive;</li>
-<li>数据库;</li>
-<li>Core Data。</li>
-</ol>
-
-
-<h4>NSUserDefaults</h4>
-
-<p>NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许应用去自定义它的行为来符合用户的偏好。所以它主要是用来存储些配置信息。
-它支持的数据类型有：floats，doubles，integers，Booleans，URLs，NSData，NSString，NSNumber，NSDate，NSArray和NSDictionary。如果还想存储其他类型的对象，需要使用NSData对它们进行归档。</p>
-
-<h4>Property Lists</h4>
-
-<p>当我们的需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们对象的全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。</p>
-
-<p>Property list有三种存储方式：XML, binary format, &ldquo;old-style&rdquo; ASCII format inherited from OpenStep。old-style format的序列化API是只读的。</p>
-
-<p>XML property list比binary格式的可移植性好，可以手动编辑，但是binary property lists兼容性好，需要的存储空间少，读写速度要优于XML property lists。通常来说，如果你的property list相对较小，XML property lists的优点会战胜它相对binary property lists的I/O速度，难兼容的缺点。如果你有大量数据，binary property lists, keyed archives，或自定义数据格式会是更好的解决方案。</p>
-
-<h4>Archive</h4>
-
-<p>Archives提供了一种把对象和值转成结构独立的字节流，它保留了对象与值，以及对象与对象的关系信息。</p>
-
-<p>Cocoa archives可以持有Objective-c对象，标量，数组，结构体和字符串。它不能持有和平台相关的类型，例如union, void *, function pointers, 和long chains of pointers。</p>
-
-<p>对象写入archive和从archive读出是使用coder对象。Coder对象是抽象类NSCoder具体子类的实例。它通过给对象发送NSCoding协议定义的encodeWithCoder: 和initWithCoder:方法分别写入或读出archiver。只有支持NSCoding协议的对象才能写入archiver。</p>
-
-<h4>数据库</h4>
-
-<p>iOS中有了以上数据持久化方法，我们为什么还需要数据库？</p>
-
-<p>目前在iOS App开发中，SQLite是个不错的选择。</p>
-
-<hr />
-
-<p>SQLite</p>
-
-<blockquote><p>SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.</p></blockquote>
-
-<p>SQLite在众多数据库中脱颖而出，目前是个不错的选择，但由于它是C接口，操作略显繁琐，就有了很多对它的封装，FMDB是个不错的选择。</p>
-
-<h4>Core Data</h4>
-
-<p>Core Data是Apple为我们提供的一种持久化方法，比较强大也比较复杂。</p>
-
-<h1>Reference</h1>
-
-<p>File System Programming Guide <br/>
-Property List Programming Guide   <br/>
-Archives and Serializations Programming Guide  <br/>
-<a href="http://www.infoq.com/cn/articles/data-storage-in-ios">对比iOS中的四种数据存储</a>  <br/>
-<a href="http://www.cnblogs.com/kenshincui/p/3885689.html#archiver">IOS开发系列—Objective-C之Foundation框架</a>  <br/>
-<a href="http://www.cnblogs.com/kenshincui/p/4077833.html">iOS开发系列&mdash;数据存取</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Key-Value Coding &amp; Key-Value Observing]]></title>
-    <link href="http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing.html/"/>
-    <updated>2014-11-12T16:06:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/key-value-coding-and-key-value-observing</id>
-    <content type="html"><![CDATA[<h2>Key-Value Coding</h2>
-
-<ol>
-<li>Key-Value Coding是什么？</li>
-<li>为什么要用Key-Value Coding？</li>
-<li>如何使用Key-Value Coding?</li>
-</ol>
-
-
-<h3>Key-Value Coding是什么？</h3>
-
-<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
-
-<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
-
-<h3>为什么要用Key-Value Coding？</h3>
-
-<ol>
-<li>Scripting（OS X）;</li>
-<li>简化代码和提高灵活性；</li>
-</ol>
-
-
-<h3>如何使用Key-Value Coding?</h3>
-
-<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
-
-<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
-
-<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
-
-<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
-
-<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
-
-<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
-
-<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
-
-<!-- more -->
-
-
-<h4>使用key-value coding读取attribute值</h4>
-
-<p>NSKeyValueCoding中定义的的attribute读取方法有：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)valueForKey:(NSString *)key;
-</span><span class='line'>
-</span><span class='line'>- (NSMutableArray *)mutableArrayValueForKey:(NSString *)key;
-</span><span class='line'>
-</span><span class='line'>- (id)valueForKeyPath:(NSString *)keyPath;
-</span><span class='line'>
-</span><span class='line'>- (NSMutableArray *)mutableArrayValueForKeyPath:(NSString *)keyPath;
-</span><span class='line'>
-</span><span class='line'>- (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys;
-</span><span class='line'>
-</span><span class='line'>- (id)valueForUndefinedKey:(NSString *)key;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>使用key-value coding存储attribute值</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)setValue:(id)value forKey:(NSString *)key;
-</span><span class='line'>
-</span><span class='line'>- (NSMutableSet *)mutableSetValueForKey:(NSString *)key;
-</span><span class='line'>
-</span><span class='line'>- (void)setValue:(id)value forKeyPath:(NSString *)keyPath;
-</span><span class='line'>
-</span><span class='line'>- (NSMutableSet *)mutableSetValueForKeyPath:(NSString *)keyPath;
-</span><span class='line'>
-</span><span class='line'>- (void)setValue:(id)value forUndefinedKey:(NSString *)key;
-</span><span class='line'>
-</span><span class='line'>- (void)setNilValueForKey:(NSString *)key;
-</span><span class='line'>
-</span><span class='line'>- (void)setValuesForKeysWithDictionary:(NSDictionary *)keyedValues;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你需要考虑一个额外的问题就是当你尝试设置非对象的property为nil。这种情况下，接收者给它自己发送一个setNilValueForKey:消息。它默认的实现是抛出NSInvalidArgumentException异常。你的应用可以覆盖这个方法替换默认值或标记值，然后你用新值调用setValue:forKey:。</p>
-
-<p>现在，我们知道怎么用key-value coding去间接访问对象的property了。但是，如果想让我们自定义的类的property也支持key-value coding的话，我们应该怎么做呢？</p>
-
-<h4>如何让自定义类的属性支持key-value coding?</h4>
-
-<blockquote><p>Key-value coding attempts to use accessor methods to get and set values, before resorting to directly accessing the instance variable.</p></blockquote>
-
-<p>在依靠直接访问实例变量之前，key-value coding尝试使用存取方法去访问和设置值。也就是说我们最好实现相应的存取方法，至少也要存在合适的实例变量。</p>
-
-<p>前面提到key-value coding支持三个类型的attribute,针对三种类型的attribute,key-value coding分别是怎么来搜索存取方法和实例变量的呢？</p>
-
-<ol>
-<li>简单attributes存取方法搜索模式；</li>
-<li>顺序集合存取方法的搜索模式；</li>
-<li>唯一顺序集合存取方法的搜索模式；</li>
-<li>无序集合存取方法的搜索模式。</li>
-</ol>
-
-
-<p>搜索的细节可以查阅Key-Value Coding Programming Guide。</p>
-
-<h2>Key-Value Observing</h2>
-
-<ol>
-<li>Key-Value Observing是什么？</li>
-<li>为什么要用Key-Value Observing？</li>
-<li>如何使用Key-Value Observing?</li>
-</ol>
-
-
-<h3>Key-Value Observing是什么？</h3>
-
-<blockquote><p>Key-value observing is a mechanism that allows objects to be notified of changes to specified properties of other objects.</p></blockquote>
-
-<p>Key-value observing是一种允许一对对象的特定属性改变时另一个对象被通知的机制。</p>
-
-<h3>为什么要用Key-Value Observing？</h3>
-
-<p>KVO的主要好处是你不需要实现一套属性每次改变发送通知的机制。</p>
-
-<h3>如何使用Key-Value Observing?</h3>
-
-<ol>
-<li>Registering as an Observer;</li>
-<li>Receiving Notification of a Change;</li>
-<li>Removing an Object as an Observer.</li>
-</ol>
-
-
-<p>同样，自定义的类如何才能让其他的开发者能使用KVO呢？我们要做的是符合KVO标准。</p>
-
-<h4>KVO Compliance</h4>
-
-<ul>
-<li>The class must be <strong>key-value coding compliant</strong> for the property, as specified in <strong>Ensuring KVC Compliance</strong> in <strong>Key-Value Coding Programming Guide</strong>.</li>
-<li>The class emits KVO change notifications for the property.</li>
-<li>Dependent keys are registered appropriately (see <strong>Registering Dependent Keys</strong>).</li>
-</ul>
-
-
-<hr />
-
-<p>There are two techniques for ensuring the change notifications are emitted. Automatic support is provided by NSObject and is by default available for all properties of a class that are key-value coding compliant. Typically, if you follow standard Cocoa coding and naming conventions, you can use automatic change notifications—you don’t have to write any additional code.</p>
-
-<p>Manual change notification provides additional control over when notifications are emitted, and requires additional coding. You can control automatic notifications for properties of your subclass by implementing the class method automaticallyNotifiesObserversForKey:.</p>
-
-<hr />
-
-<h4>One more thing</h4>
-
-<p>Key-Value Observing Implementation Details</p>
-
-<p>Automatic key-value observing is implemented using a technique called <strong>isa-swizzling</strong>.</p>
-
-<p>The <strong>isa</strong> pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.</p>
-
-<p>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.</p>
-
-<p>You should never rely on the <strong>isa</strong> pointer to determine class membership. Instead, you should use the <strong>class</strong> method to determine the class of an object instance.</p>
-
-<p>So how does <strong>class</strong> method determine the class of an object?</p>
-
-<h1>Reference</h1>
-
-<p>Key-Value Coding Programming Guide <br/>
-Key-Value Observing Programming Guide</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[(翻译)iOS 设计模式]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-design-patterns.html/"/>
-    <updated>2014-11-10T08:35:43+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-design-patterns</id>
-    <content type="html"><![CDATA[<p>iOS设计模式&mdash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
-
-<p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
-
-<p>如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握iOS的主要（次要）设计模式，它们在Cocoa中很常用。</p>
-
-<p>教程分成多个部分，每部分包含一种设计模式。在每部分，你会看到如下顺序的解释：</p>
-
-<ul>
-<li>该设计模式是什么；</li>
-<li>你为什么应该使用它；</li>
-<li>如何使用它，以及什么场景合适，使用时需要留意的常见陷阱；</li>
-</ul>
-
-
-<p>这篇教程中，你将创建一个Music Library应用，它会显示你的专辑和它们相关的信息。</p>
-
-<p>在开发应用的过程中，你会慢慢熟悉多数常见的Cocoa设计模式：</p>
-
-<ul>
-<li>构造类：单例(Singleton)和 抽象工厂(Abstract Factory);</li>
-<li>架构类：模型-视图-控制器(MVC), 修饰(Decorator), 适配器(Adapter), 门面(Facade)和合成（Composite);</li>
-<li>行为类：观察者(Observer), 记忆(Memento), 响应链(Chain of Responsibility)和命令（Command）。</li>
-</ul>
-
-
-<p>别被误导认为这是篇纯理论的文章；你会在你音乐应用中使用这些应用模式中的大多数。你的应用最终看起来像这样：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="finalapp-180x320" src="http://DamianSheldon.github.io/images/finalapp-180x320.png" width="180" height="320">  
-
-</div>
-
-
-
-
-<!-- more -->
-
-
-<h3>开始吧</h3>
-
-<p>下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动工程</a>,解压ZIP文件内容，然后在Xcode中打开。</p>
-
-<p>里面内容不多，仅仅是默认的ViewController和一个未实现的简单HTTP客户端。</p>
-
-<p><strong>Note</strong>:你知道吗？当你创建一个新的工程你的代码就已经符合设计模式了。MVC, Delegate, Protocol, Singleton&mdash;你免费得到全部！:]</p>
-
-<p>在你深入第一个设计模式之前，你必须创建两个类去持有和显示专辑数据。</p>
-
-<p>导航到<strong>“File\New\File…”</strong>(或简单地按Command+N)。选中<strong>iOS > Cocoa Touch</strong>，然后<strong>Objective-C class</strong>和单击<strong>Next</strong>。设置类名为<strong>Album</strong>并继承<strong>NSObject</strong>。单击<strong>Next</strong>然后<strong>Create</strong>。</p>
-
-<p>打开<strong>Album.h</strong>，然后添加如下属性和方法原型到<strong>@interface</strong> 和 <strong>@end</strong>间:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@property (nonatomic, copy, readonly) NSString *title, *artist, *genre, *coverUrl, *year;
-</span><span class='line'> 
-</span><span class='line'>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl year:(NSString*)year;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意到所有的属性都是可读的，因为Album对象被创建之后不需要被改变。</p>
-
-<p>方法是对象的初始化方法。当你创建一个新alum，你将传入album name, artist, album cover URL和year。</p>
-
-<p>现在打开<strong>Album.m</strong>,添加下列代码到<strong>@implementation</strong>和<strong>@end</strong>中间:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl year:(NSString*)year
-</span><span class='line'>{
-</span><span class='line'>    self = [super init];
-</span><span class='line'>    if (self)
-</span><span class='line'>    {
-</span><span class='line'>        _title = title;
-</span><span class='line'>        _artist = artist;
-</span><span class='line'>        _coverUrl = coverUrl;
-</span><span class='line'>        _year = year;
-</span><span class='line'>        _genre = @"Pop";
-</span><span class='line'>    }
-</span><span class='line'>    return self;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里没有什么神奇的；仅仅是一个简单的init方法去创建一个新Album实例。</p>
-
-<p>再次导航到<strong>File\New\File…</strong>。选择<strong>Cocoa Touch</strong>然后<strong>Objective-C class</strong>，点击<strong>Next</strong>。设置类名为<strong>AlbumView</strong>，但是这次设置它为<strong>UIView</strong>的子类。点击<strong>Next</strong>然后<strong>Create</strong>。</p>
-
-<p><strong>Note</strong>:如果你发现快捷键更容易用的话，<strong>Command+N</strong>将创建新的文件，<strong>Command+Option+N</strong>将创建新组，<strong>Command+B</strong>将编译你的工程，<strong>Command+R</strong>将运行工程。</p>
-
-<p>打开<strong>AlbumView.h</strong>,然后添加下列方法原型到<strong>@interface</strong>和<strong>@end</strong>的中间。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now open AlbumView.m and replace all the code after @implementation with the following code:</p>
-
-<p>现在打开<strong>AlbumView.m</strong>，用下面的代码替换<strong>@implementation</strong>之后的内容：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@implementation AlbumView
-</span><span class='line'>{
-</span><span class='line'>    UIImageView *coverImage;
-</span><span class='line'>    UIActivityIndicatorView *indicator;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover
-</span><span class='line'>{
-</span><span class='line'>    self = [super initWithFrame:frame];
-</span><span class='line'>    if (self)
-</span><span class='line'>    {
-</span><span class='line'> 
-</span><span class='line'>        self.backgroundColor = [UIColor blackColor];
-</span><span class='line'>        // the coverImage has a 5 pixels margin from its frame
-</span><span class='line'>        coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, frame.size.width-10, frame.size.height-10)];
-</span><span class='line'>        [self addSubview:coverImage];
-</span><span class='line'> 
-</span><span class='line'>        indicator = [[UIActivityIndicatorView alloc] init];
-</span><span class='line'>        indicator.center = self.center;
-</span><span class='line'>        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-</span><span class='line'>        [indicator startAnimating];
-</span><span class='line'>        [self addSubview:indicator];
-</span><span class='line'>    }
-</span><span class='line'>    return self;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你注意到的第一件事是这里有个名为coverImage的实例变量。变量代表专辑的封面图片。第二个变量是一个指示器，当专辑在下载时它转动指示器。</p>
-
-<p>在初始化方法的实现中，你设置背影为黑色，创建一个与主视图周边有5个点距离的图片视图，创建并添加了一个活动指示器。</p>
-
-<p><strong>Note</strong>:很奇怪为什么把私有变量定义在实现文件中而不是接口文件中？这是因为AlbumView类之外的其他类并不需要知道这些变量的存在，它们仅被类的内部实现中使用。如果你是在开发库或框架让其他开发者使用，这个惯例极其重要。</p>
-
-<p>编译你的工程（<strong>Command+B</strong>）确认所有事情都准备就绪。都好了吗？然后准备迎接你的第一个设计模式！:]</p>
-
-<h3>模型&mdash;视图&mdash;控制器，设计模式之王</h3>
-
-<div style="text-align:center" markdown="1">
-
-<img name="mvcking" src="http://DamianSheldon.github.io/images/mvcking.png" width="293" height="196">  
-
-</div>
-
-
-<p>模型&mdash;视图&mdash;控制器（MVC）是Cocoa的一个基石，它毫无疑问是被用得最多的设计模式。它依据应用中类的角色给它们分类，鼓励基于角色简洁地分隔代码。</p>
-
-<p>这三个角色是：</p>
-
-<ul>
-<li><p>模型：持有你应用数据并定义如何操作它们的对象。例如，这个应用中的模型是你的Album类。</p></li>
-<li><p>视图：控制模型类的可视显示以及和用户的交互的对象;所有的UIView和它们的子类基本上都是。在你这个应用中AlbumView代表视图。</p></li>
-<li><p>控制器：控制器是中间件，它协调所有的工作。它从模型类访问数据并显示到视图上，监听事件，在需要时操作数据。你能猜到哪个类是你的控制器吗？对，是ViewController。</p></li>
-</ul>
-
-
-<p>你应用中这个设计模式好的实现意味着每个对象都会是三者之一。</p>
-
-<p>视图和模型的通信可以被最佳描述成下图：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="mvc0" src="http://DamianSheldon.github.io/images/mvc0.png" width="424" height="194">  
-
-</div>
-
-
-<p>任何数据发生改变模型类便通知控制器，接下来，控制器将数据更新到视图上。视图接收到用户的动作时可以通知控制器，控制器会根据需要更新模型数据或获取任何请求的数据。</p>
-
-<p>你也许会奇怪为什么不拿掉Controller,在同一个类中实现视图和模型，这看起来更容易。</p>
-
-<p>这都来源于代码的去藕合和可可复用。理想情况下，视图应该完全和模型隔离，这样它可以被不同的模型复用去展示其他的数据。</p>
-
-<p>例如，如果未来你也想添加电影或书本到你的收藏库中，你仍然可以使用相同的AlbumView去展示你的电影和图书对象。此外，如果你创建了一个新的对象，它和专辑有些关系，你可以简单地复用你的Album类，因为它不依赖任何视图。这就是MVC的强大之处！</p>
-
-<h3>如何使用MVC设计模式</h3>
-
-<p>首先，你需要保证你工程中的类是Controller，View, Model三者之一；不要混合两个角色的功能到一个类中。你创建的<strong>Album</strong>和<strong>AlbumView</strong>到目前为止都做的很好。</p>
-
-<p>其次，为了确保你习惯这种工作方式，你应该创建三个工程组来持有你的代码，每组对应一个类别。</p>
-
-<p>导航到<strong>File\New\Group</strong>（或按<strong>Command+Option+N</strong>）并命名为Model，用相同的方法创建<strong>View</strong>和<strong>Controller</strong>组。</p>
-
-<p>现在拖拽<strong>Album.h</strong>和<strong>Album.m</strong>到<strong>Model</strong>组。拖拽<strong>AlbumView.h</strong>和<strong>AlbumView.m</strong>到<strong>View</strong>组，最后拖拽<strong>ViewController.h</strong>和<strong>ViewController.m</strong>到<strong>Controller</strong>组。</p>
-
-<p>目前你的工程结构应该看起来像这样：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="mvc2-255x320" src="http://DamianSheldon.github.io/images/mvc2-255x320.png" width="255" height="320">  
-
-</div>
-
-
-<p>你的工程已经没有混乱的文件了看起来好多了。你明显能拥有其他的组和类，但这三个类别中的类是应用的核心。</p>
-
-<p>现在你的组件被组织起来了，你需要从其他地方得到你的专辑数据。你将创建一个API类用于全部代码的数据管理&mdash;这提供了一个机会和你探讨下一个设计模式&mdash;单例。</p>
-
-<h3>单例设计模式</h3>
-
-<p>单例设计模式确保对于指定的类仅存在一个实例，全局的访问都指向它。它经常使用懒散加载，只有第一次需要时才创建这个实例。</p>
-
-<p><strong>Note</strong>:Apple大量使用这种方法。例如：<strong>[NSUserDefaults standardUserDefaults]</strong>, <strong>[UIApplication sharedApplication]</strong>, <strong>[UIScreen mainScreen]</strong>, <strong>[NSFileManager defaultManager]</strong> 全都返回单例对象。</p>
-
-<p>你也许会奇怪为什么你要关心一个类是不是只有一个实例，毕竟代码和内存都很便宜，对不对？</p>
-
-<p>有些场景对于类只存在一个实例是有意义的。例如，没有必要存在多个Logger实例，除非你想同时输出多个log文件。以或者来看一个全局配置处理类：像配置文件，对于单个共享资源实现线程安全访问要比在同时可能有很多配置文件修改时容易的多。</p>
-
-<h3>如何使用单例设计模式</h3>
-
-<p>看下下面这个图：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="singleton" src="http://DamianSheldon.github.io/images/singleton.png" width="233" height="152">  
-
-</div>
-
-
-<p>上图示例了一个Logger类，它有一个属性（它就是这个单独的实例），和两个方法：sharedInstance和init。</p>
-
-<p>客户端第一次发送sharedInstance消息，属性的实例还没被初始化，所以你创建类的一个新的实例，然后返回它的一个引用。</p>
-
-<p>下次调用sharedInstance，实例会立即返回不用初始化。这个逻辑保证任何时候都只仅存在一个实例。</p>
-
-<p>你将实现这种模式通过创建一个单例类来管理专辑的所有数据。</p>
-
-<p>你将注意到工程里有一个组叫<strong>API</strong>；这是你放所有将为应用提供服务类的地方。在组里用<strong>iOS\Cocoa Touch\Objective-C class</strong>模板创建一个新的类。命名为<strong>LibraryAPI</strong>，设置它是<strong>NSObject</strong>的子类。</p>
-
-<p>打开<strong>LibraryAPI.h</strong>,用如下内容替代它：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@interface LibraryAPI : NSObject
-</span><span class='line'> 
-</span><span class='line'>+ (LibraryAPI*)sharedInstance;
-</span><span class='line'> 
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now go to LibraryAPI.m and insert this method right after the @implentation line:</p>
-
-<p>现在到<strong>LibraryAPI.m</strong>，在<strong>@implentation</strong>之后插入这个方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+ (LibraryAPI*)sharedInstance
-</span><span class='line'>{
-</span><span class='line'>    // 1
-</span><span class='line'>    static LibraryAPI *_sharedInstance = nil;
-</span><span class='line'> 
-</span><span class='line'>    // 2
-</span><span class='line'>    static dispatch_once_t oncePredicate;
-</span><span class='line'> 
-</span><span class='line'>    // 3
-</span><span class='line'>    dispatch_once(&oncePredicate, ^{
-</span><span class='line'>        _sharedInstance = [[LibraryAPI alloc] init];
-</span><span class='line'>    });
-</span><span class='line'>    return _sharedInstance;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>简短的方法里有不少内容：</p>
-
-<ol>
-<li><p>声明了一个静态变量来持有你类的实例，确保它在你的类中是全局可用的。</p></li>
-<li><p>声明了一个<strong>dispatch_once_t</strong>静态变量，它确保初始化方法只会被执行一次。</p></li>
-<li><p>使用Grand Central Dispatch (GCD)来执行块，它初始化了一个<strong>LibraryAPI</strong>的实例。这是单例设计模式的要义：类被实例化之后初始化方法就不会被调用了。</p></li>
-</ol>
-
-
-<p>下次你调用<strong>sharedInstance</strong>，在<strong>dispatch_once</strong>块中代码就不会被执行了（因为它已经被执行过一次了），你会得到一个之前创建的<strong>LibraryAPI</strong>的实例引用。</p>
-
-<p>Note:想了解更多GCD内容以及它的用法，看下网站中的这两篇教程：<a href="http://www.raywenderlich.com/?p=4295">Multithreading and Grand Central Dispatch</a>和<a href="http://www.raywenderlich.com/?p=9328">How to Use Blocks</a>。</p>
-
-<p>你现在有一个单例对象作为入口去管理专辑。我们把它进一步完善，创建一个类来处理你收藏库数据的持久化。</p>
-
-<p>以<strong>iOS\Cocoa Touch\Objective-C class</strong>为模板在API组中创建一个新的类，命名为<strong>PersistencyManager</strong>，设置它为<strong>NSObject</strong>的子类。</p>
-
-<p>打开<strong>PersistencyManager.h</strong>，添加下列引用到文件的顶端:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "Album.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, add the following code to PersistencyManager.h after the @interface line:</p>
-
-<p>然后，添加下列代码到<strong>PersistencyManager.h</strong>中<strong>@interface</strong>后面：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSArray*)getAlbums;
-</span><span class='line'>- (void)addAlbum:(Album*)album atIndex:(int)index;
-</span><span class='line'>- (void)deleteAlbumAtIndex:(int)index;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面是你处理专辑数据的三个方法原型。</p>
-
-<p>打开PersistencyManager.m，添加下列代码到@implementation前面：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@interface PersistencyManager () {
-</span><span class='line'>    // an array of all albums
-</span><span class='line'>    NSMutableArray *albums;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面添加了一个类的扩展，它是另一种给类添加私有方法和变量而不会暴露给外部类的方法。这里你声明了一个<strong>NSMutableArray</strong>来持有专辑数据。数组的可变性可以让你很容易添加和删除专辑数据。</p>
-
-<p>现在添加下现代码实现到PersistencyManager.m文件中@implementation的后面：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)init
-</span><span class='line'>{
-</span><span class='line'>    self = [super init];
-</span><span class='line'>    if (self) {
-</span><span class='line'>      // a dummy list of albums
-</span><span class='line'>        albums = [NSMutableArray arrayWithArray:
-</span><span class='line'>                 @[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
-</span><span class='line'>                 [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
-</span><span class='line'>                 [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
-</span><span class='line'>                 [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
-</span><span class='line'>                 [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
-</span><span class='line'>    }
-</span><span class='line'>    return self;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在init中，你用5个样本专辑填充了数组。如果上面的专辑你不喜欢，用你喜欢的音乐替换它们吧. :]</p>
-
-<p>现在添加下面三个方法到<strong>PersistencyManager.m</strong>：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSArray*)getAlbums
-</span><span class='line'>{
-</span><span class='line'>    return albums;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>- (void)addAlbum:(Album*)album atIndex:(int)index
-</span><span class='line'>{
-</span><span class='line'>    if (albums.count &gt;= index)
-</span><span class='line'>      [albums insertObject:album atIndex:index];
-</span><span class='line'>    else
-</span><span class='line'>      [albums addObject:album];
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>- (void)deleteAlbumAtIndex:(int)index
-</span><span class='line'>{
-</span><span class='line'>    [albums removeObjectAtIndex:index];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这些方法能让你获取，添加，删除专辑。</p>
-
-<p>编译你的工程，确保所有的文件仍然能成功被编译。</p>
-
-<p>到这，你可能会奇怪<strong>PersistencyManager</strong>来看哪里呢？它又不是单例。<strong>LibraryAPI</strong>和<strong>PersistencyManager</strong>的关系，我们在下一节会进一步揭示，你还会看到<strong>门面</strong>设计模式。</p>
-
-<h3>门面设计模式</h3>
-
-<div style="text-align:center" markdown="1">
-
-<img name="facade" src="http://DamianSheldon.github.io/images/facade.jpg" width="300" height="212">  
-
-</div>
-
-
-<p>门面设计模式为复杂的子系统提供一个单一的接口。与其把一系列类和它们的API暴露给用户，还不如仅仅暴露给它们一个简单统一的API。</p>
-
-<p>下图解释了这种理念：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="facade2-480x241" src="http://DamianSheldon.github.io/images/facade2-480x241.png" width="480" height="241">  
-
-</div>
-
-
-<p>API的使用者们完全感觉不到它后面的复杂。当很多类协作时，这种设计模式十分理想，特别是当它们对用户很复杂或很难理解。</p>
-
-<p>门面模式让使用系统的代码从接口和你隐藏实现的类解藕；它也减少了外部代码对内部子系统工作的依赖。当门面底下的类想改变时，这也很有用，因为门面能保留相同的API，尽管后面的代码已经改变了。</p>
-
-<p>例如，如果有一天你想替换你的后端服务，你不需要去修改使用你API的代码。</p>
-
-<h3>如何使用门面设计模式</h3>
-
-<p>目前你有<strong>PersistencyManager</strong>保存专辑数据到本地，<strong>HTTPClient</strong>处理远程交互。工程中其他的类不应该意识到这个逻辑的存在。</p>
-
-<p>为了实现这个设计模式，仅<strong>LibraryAPI</strong>应该持有<strong>PersistencyManager</strong>和<strong>HTTPClient</strong>的实例。然后，<strong>LibraryAPI</strong>会对其他的服务暴露一个简单的API。</p>
-
-<p><strong>Note</strong>:通常，单例在整个应用的生命周期都存在。你不应该让单例保持大多其他对象的强引用，因为他们直到应用关闭才会被释放。</p>
-
-<p>设计看起来像下面这样：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="design-patterns-facade-uml-480x71" src="http://DamianSheldon.github.io/images/design-patterns-facade-uml-480x71.png" width="480" height="71">  
-
-</div>
-
-
-<p><strong>LibraryAPI</strong>将暴露给其他代码，但是会对应用的其他部分隐藏<strong>HTTPClient</strong>和<strong>PersistencyManager</strong>的复杂。</p>
-
-<p>打开<strong>LibraryAPI.h</strong>，添加下列引用到文件的顶端：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "Album.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后，添加下列方法定义到<strong>LibraryAPI.h</strong>：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSArray*)getAlbums;
-</span><span class='line'>- (void)addAlbum:(Album*)album atIndex:(int)index;
-</span><span class='line'>- (void)deleteAlbumAtIndex:(int)index;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在，这些方法是你会暴露给其他类的。</p>
-
-<p>到LibraryAPI.m中，添加下面两个引用：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "PersistencyManager.h"
-</span><span class='line'>#import "HTTPClient.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这将是你唯一导入这些类的地方。记住：你的API将会是唯一的入口去访问你&#8221;复杂&#8221;的系统。</p>
-
-<p>现在，通过类的扩展添加些私有变量（在@implementation上面）：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@interface LibraryAPI () {
-</span><span class='line'>    PersistencyManager *persistencyManager;
-</span><span class='line'>    HTTPClient *httpClient;
-</span><span class='line'>    BOOL isOnline;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>isOnline</strong>决定任何专辑列表的改变，例如，添加或删除专辑，是否应该被更新到服务器。</p>
-
-<p>你现在需要通过<strong>init</strong>来初始化这些变量。添加下列代码到<strong>LibraryAPI.m</strong>：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)init
-</span><span class='line'>{
-</span><span class='line'>    self = [super init];
-</span><span class='line'>    if (self) {
-</span><span class='line'>        persistencyManager = [[PersistencyManager alloc] init];
-</span><span class='line'>        httpClient = [[HTTPClient alloc] init];
-</span><span class='line'>        isOnline = NO;
-</span><span class='line'>    }
-</span><span class='line'>    return self;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>HTTP Client最终不会和真实的服务器交互，这里仅仅是为示例门面模式的使用，所以<strong>isOnline</strong>将一直是<strong>NO</strong>。</p>
-
-<p>下一步，添加下面三个方法到<strong>LibraryAPI.m</strong>：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSArray*)getAlbums
-</span><span class='line'>{
-</span><span class='line'>    return [persistencyManager getAlbums];
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>- (void)addAlbum:(Album*)album atIndex:(int)index
-</span><span class='line'>{
-</span><span class='line'>    [persistencyManager addAlbum:album atIndex:index];
-</span><span class='line'>    if (isOnline)
-</span><span class='line'>    {
-</span><span class='line'>        [httpClient postRequest:@"/api/addAlbum" body:[album description]];
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>- (void)deleteAlbumAtIndex:(int)index
-</span><span class='line'>{
-</span><span class='line'>    [persistencyManager deleteAlbumAtIndex:index];
-</span><span class='line'>    if (isOnline)
-</span><span class='line'>    {
-</span><span class='line'>        [httpClient postRequest:@"/api/deleteAlbum" body:[@(index) description]];
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看一眼<strong>addAlbum:atIndex:</strong>。类首先更新本地数据，然后如果是联网的话，更新远程服务器。这是门面的真正力量；当你系统外面添加一个新专辑，它不知道，也不需要知道这底下的复杂。</p>
-
-<p><strong>Note</strong>:当你为子系统的类设计门面时，记住没任何东西防止客户端直接访问隐藏的类。不要吝啬你的防御代码，不要假设所有客户端按门面相同的方式使用这些类是必须的。</p>
-
-<p>编译并运行你的应用。你会看到像下面这样令人兴奋和无法置信的空的黑色屏幕。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="2013-09-01_12-08-44-211x320" src="http://DamianSheldon.github.io/images/2013-09-01_12-08-44-211x320.png" width="211" height="320">  
-
-</div>
-
-
-<p>你将会需要些东西来显示专辑数据到屏幕上&mdash;这是个完美的使用场景对于你的下个设计模式：修饰。</p>
-
-<h3>修饰设计模式</h3>
-
-<p>修饰设计模式动态添加行为和能力到一个对象而不需要修改它的代码。它是不同于子类那样通过包装到另一个对象来修改类的行为的方法。</p>
-
-<p>在Objective-C中，这种设计模式有两个很常见的实现：<strong>Category</strong>和<strong>Delegation</strong>。</p>
-
-<h4>Category</h4>
-
-<p>Category是一个极其强大的机制，它允许你添加方法到已经存在的类而不需要子类化。新的方法在编译时被添加，可以像扩展类的普通方法一样被执行。它和经典的修饰模式有点不同，因为一个Category不能持有扩展类的实例。</p>
-
-<p><strong>Note</strong>:除了扩展你自己的类，你还可以添加方法到任意Cocoa拥有的类。</p>
-
-<h4>如何使用Categories</h4>
-
-<p>想像这么一个场景，你有一个Album对象，你想让它显示在一个表格视图中:</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="design-patterns-category1" src="http://DamianSheldon.github.io/images/design-patterns-category1.png" width="310" height="188">  
-
-</div>
-
-
-<p>专辑标题是从哪来的呢？<strong>Album</strong>是一个模型对象，所以它不关心你如何展示数据。你将需要些外部代码来为<strong>Album</strong>类添加该功能，但是不能直接修改类。</p>
-
-<p>你将创建一个category，这是Album的扩展；它将定义一个新方法，这个新方法会返回一个让UITableView很容易使用的数据结构。</p>
-
-<p>The data structure will look like the following:</p>
-
-<p>这个数据结构会看起来像这样：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="delegate2-480x67" src="http://DamianSheldon.github.io/images/delegate2-480x67.png" width="480" height="67">  
-
-</div>
-
-
-<p>为了添加<strong>Category</strong>到<strong>Album</strong>，导航到<strong>File\New\File…</strong>，选择<strong>Objective-C category</strong>模板&mdash;不要习惯性地选择了<strong>Objective-C class</strong>！输入<strong>TableRepresentation</strong>到<strong>Category</strong>字段，<strong>Album</strong>到<strong>Category on</strong>字段。</p>
-
-<p>Note:你有没注意到新文件的名字？<strong>Album+TableRepresentation</strong>意味着你正在扩展<strong>Album</strong>类。这个惯例很重要，因为它易读并且它防止和你事其他人可能创建的categories冲突。</p>
-
-<p>Go to Album+TableRepresentation.h and add the following method prototype:</p>
-
-<p>进入Album+TableRepresentation.h，添加如下方法原型：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSDictionary*)tr_tableRepresentation;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意这里的方法名前有个<strong>tr_</strong>，是<strong>category:TableRepresentation</strong>的缩写。再次提醒，像这样的惯例将防止和其他方法冲突！</p>
-
-<p><strong>Note</strong>:如果你在category中声明的方法和源类，或都同一个类其他的category（甚至父类）方法相同，运行时会使用哪个方法实现是示定义的。这种情况在你使用自己拥有类的category时很少发生，但是当使用categories添加方法到标准的Cocoa或Cocoa Touch类时能导致严重问题。</p>
-
-<p>Go to Album+TableRepresentation.m and add the following method:</p>
-
-<p>进入<strong>Album+TableRepresentation.m</strong>，添加如下方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSDictionary*)tr_tableRepresentation
-</span><span class='line'>{
-</span><span class='line'>    return @{@"titles":@[@"Artist", @"Album", @"Genre", @"Year"],
-</span><span class='line'>             @"values":@[self.artist, self.title, self.genre, self.year]};
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Consider for a moment how powerful this pattern can be:</p>
-
-<p>思考下这种模式在某个时刻有多强大：</p>
-
-<ul>
-<li>你正在使用直接来自Album属性。</li>
-<li>你添加了内容到Album类，但是你并没有子类化它。如果你需要子类化Album，你仍然也可以这么做。</li>
-<li>这个简单的额外内容让你能返回一个UITableView式的专辑，并没有修改Album的代码。</li>
-</ul>
-
-
-<p>Apple在Foundation类中大量使用Categories。打开<strong>NSString.h</strong>看下他们是如何做的。找到 <strong>@interface NSString</strong>，你将会看到总共定义了三个categories：<strong>NSStringExtensionMethods</strong>, <strong>NSExtendedStringPropertyListParsing</strong> 和 <strong>NSStringDeprecated</strong>。Categories帮助方法组织和分隔到各个部分。</p>
-
-<h4>Delegation</h4>
-
-<p>另一个修饰设计模式，Delegation，是一种一个对象的行为代表或协调另一个对象。例如，当你使用<strong>UITableView</strong>，你必须实现的方法之一是<strong>tableView:numberOfRowsInSection:</strong>。</p>
-
-<p>你不能期望UITableView知道你想每个部分有多少行，因为这是应用特定的。因此，计算每个部分有多少行的任务传递给了UITableView delegate。它允许UITableView类独立于它显示的数据。</p>
-
-<p>这里有一个当你创建一个UITableView时是如何进行的虚拟场景解释：</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="delegate-480x252" src="http://DamianSheldon.github.io/images/delegate-480x252.png" width="480" height="252">  
-
-</div>
-
-
-<p>UITableView对象的工作是显示table view。但是，最终它将需要一些它没有的信息。然后，它救助于它的delegates，发送消息询问额外的信息。在Objective-C中实现delegate模式，一个类通过protocol可以声明可选和必选的方法。你将教程的稍候全面了解protocols。</p>
-
-<p>表面看起来仅仅去继承一个对象然后覆盖必要的方法要简单，但是考虑下你只能继承单一的一个类。如果你想让某个类成为两或多个对象的delegate，这是不能通过继承实现的。</p>
-
-<p>Note:这是个很重要的模式。Apple应用这种方法到大多数UIKit类：<strong>UITableView</strong>, <strong>UITextView</strong>, <strong>UITextField</strong>, <strong>UIWebView</strong>, <strong>UIAlert</strong>, <strong>UIActionSheet</strong>, <strong>UICollectionView</strong>, <strong>UIPickerView</strong>, <strong>UIGestureRecognizer</strong>, <strong>UIScrollView</strong>。列表还在继续。</p>
-
-<p>未完待续&hellip;</p>
-
-<h3>原文</h3>
-
-<p>iOS Design Patterns（<a href="http://www.raywenderlich.com/46988/ios-design-patterns%EF%BC%89">http://www.raywenderlich.com/46988/ios-design-patterns%EF%BC%89</a></p>
 ]]></content>
   </entry>
   

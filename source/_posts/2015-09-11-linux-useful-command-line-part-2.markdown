@@ -17,13 +17,13 @@ Reference:http://stackoverflow.com/questions/29377651/rails-error-imagemagick-gr
 
 ###2.Transfer file via scp (or sftp) between two Mac
 
-Via scp:
+Via scp:  
 1.Enable Enable SSH
 	 System Preferences > Sharing > enable the “Remote Login” feature
 	
 2.scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/
 
-Via sftp:
+Via sftp:  
 
 1.sftp dongmeiliang@192.168.1.255
 2.cd path
@@ -76,3 +76,11 @@ rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir
 
 Reference:http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux
 
+###6.Uploading directories with sftp?
+
+I don't know why sftp does this but you can only recursive copy if the destination directory already exists. So do this...
+
+sftp> mkdir bin
+sftp> put -r bin
+
+Reference:http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp

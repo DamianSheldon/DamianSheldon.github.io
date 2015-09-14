@@ -1,0 +1,80 @@
+---
+layout: post
+title: "Vim"
+date: 2015-09-10 21:09:05 +0800
+comments: true
+categories: [Archives]
+keywords: 
+discription: 
+---
+###1.查看帮助
+:help
+
+###2.查看quickref
+：help quickref
+
+###3.语法高亮
+|:syn-on|       :syntax on              start using syntax highlighting
+|:syn-off|      :syntax off             stop using syntax highlighting
+
+###4.Move cursor to its last position
+
+The quickest way is to hit either:
+
+''
+(two apostrophes) or:
+
+``
+(two backticks).
+
+###5.Multi-window commands
+Q_wi*          Multi-window commands
+
+|CTRL-W_s|      CTRL-W s  or  :split    split window into two parts
+|:split_f|      :split {file}           split window and edit {file} in one of
+                                           them
+|:vsplit|       :vsplit {file}          same, but split vertically
+|:vertical|     :vertical {cmd}         make {cmd} split vertically
+
+|:sfind|        :sf[ind] {file}         split window, find {file} in 'path'
+                                           and edit it
+|CTRL-W_]|      CTRL-W ]                split window and jump to tag under
+                                           cursor
+|CTRL-W_f|      CTRL-W f                split window and edit file name under
+                                           the cursor
+|CTRL-W_^|      CTRL-W ^                split window and edit alternate file
+|CTRL-W_n|      CTRL-W n  or  :new      create new empty window
+|CTRL-W_q|      CTRL-W q  or  :q[uit]   quit editing and close window
+|CTRL-W_c|      CTRL-W c  or  :cl[ose]  make buffer hidden and close window
+|CTRL-W_o|      CTRL-W o  or  :on[ly]   make current window only one on the
+                                           screen
+|CTRL-W_j|      CTRL-W j                move cursor to window below
+|CTRL-W_k|      CTRL-W k                move cursor to window above
+|CTRL-W_CTRL-W| CTRL-W CTRL-W           move cursor to window below (wrap)
+|CTRL-W_W|      CTRL-W W                move cursor to window above (wrap)
+|CTRL-W_t|      CTRL-W t                move cursor to top window
+|CTRL-W_b|      CTRL-W b                move cursor to bottom window
+|CTRL-W_p|      CTRL-W p                move cursor to previous active window
+
+|CTRL-W_r|      CTRL-W r                rotate windows downwards
+|CTRL-W_R|      CTRL-W R                rotate windows upwards
+|CTRL-W_x|      CTRL-W x                exchange current window with next one
+
+|CTRL-W_=|      CTRL-W =                make all windows equal height
+|CTRL-W_-|      CTRL-W -                decrease current window height
+|CTRL-W_+|      CTRL-W +                increase current window height
+|CTRL-W__|      CTRL-W _                set current window height (default:
+                                           very high)
+                                           
+1, set number
+2, set autoindent
+4, set background=dark
+5, set background=light
+
+6, 0, ^ line head
+
+7, $, g_ line foot
+
+8, ctl + f forword page
+
+9, ctl + b back page

@@ -86,6 +86,35 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 问题：Invalid command 'SSLMutex', perhaps misspelled or defined by a module not included in the server configuration  
 解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。
 
+###添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don't have permission to access / on this server”
+
+Solution:
+I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:
+
+Options Indexes FollowSymLinks Includes ExecCGI
+By default, your global directory settings is (httpd.conf line ~188):
+
+<Directory />
+    Options FollowSymLinks
+    AllowOverride All
+    Order deny,allow
+    Allow from all
+</Directory>
+set the options to : Options Indexes FollowSymLinks Includes ExecCGI
+
+Finally, it should look like:
+
+<Directory />
+    #Options FollowSymLinks
+    Options Indexes FollowSymLinks Includes ExecCGI
+    AllowOverride All
+    Order deny,allow
+    Allow from all
+</Directory>
+Also try changing "Order deny,allow" and "Allow from all" lines by "Require all granted"
+
+Reference:http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server
+
 Reference:http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/   
 http://www.akadia.com/services/ssh_test_certificate.html  
 http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  

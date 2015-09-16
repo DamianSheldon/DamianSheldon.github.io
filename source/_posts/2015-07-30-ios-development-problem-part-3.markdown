@@ -127,7 +127,7 @@ In Objective-C:
 ```
 Reference:http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0
 
-###Expression
+###9.Expression
 
 ```
 (lldb) expr NSString *$str = (NSString *)[[NSString alloc] initWithData:data encoding:4]
@@ -137,7 +137,7 @@ Reference:http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0
 (lldb) p [$array count]
 ```
 
-###4.fastlane add Slack Notifications
+###10.fastlane add Slack Notifications
 Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.
 
 Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.

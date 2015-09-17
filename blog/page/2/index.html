@@ -111,6 +111,85 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/using-mysql.html/">
+		
+			Using MySQL</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.查看所有的用户</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select user, host from user;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.查看用户的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show grants for 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.为用户添加操作某个数据库的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.SQL COUNT() Function</h3>
+
+<p>SQL COUNT(column_name) Syntax
+The COUNT(column_name) function returns the number of values (NULL values will not be counted) of the specified column:</p>
+
+<p>SELECT COUNT(column_name) FROM table_name;
+SQL COUNT(<em>) Syntax
+The COUNT(</em>) function returns the number of records in a table:</p>
+
+<p>SELECT COUNT(*) FROM table_name;
+SQL COUNT(DISTINCT column_name) Syntax
+The COUNT(DISTINCT column_name) function returns the number of distinct values of the specified column:</p>
+
+<p>SELECT COUNT(DISTINCT column_name) FROM table_name;</p>
+
+<h3>5.SQL Limit</h3>
+
+<p>[LIMIT {[offset,] row_count | row_count OFFSET offset}]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>select Host, Db from db limit 2, 2;
+</span><span class='line'>
+</span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true">Aug 12<span>th</span>, 2015</time></div>
+	
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problem-part-3.html/">
 		
 			iOS App 开发问题汇总（三）</a>
@@ -252,7 +331,7 @@ In Swift:</p>
 
 <p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
 
-<h3>Expression</h3>
+<h3>9.Expression</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -266,13 +345,30 @@ In Swift:</p>
 </span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>4.fastlane add Slack Notifications</h3>
+<h3>10.fastlane add Slack Notifications</h3>
 
 <p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
 
 <p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
 
 <p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
+
+<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; &#8221;</h3>
+
+<p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
+
+<p>directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks&rsquo;
+Actually I found something when comparing a new project vs an older one&hellip;</p>
+
+<p>In the old project, the warning was only being produced by the test target of my projects. Under &lsquo;Search Paths&rsquo;, I found it was including two items under &lsquo;Framework Search Paths&rsquo;:</p>
+
+<p>$(SDKROOT)/Developer/Library/Frameworks
+$(inherited)
+The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
+
+<p>Deleting those entries in my older project then removed the warning.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
 
 		
 		
@@ -386,167 +482,6 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/enumerated-constants.html/">
-		
-			Enumerated Constants</a>
-	</h2>
-	<div class="entry-content">
-		<p>Objective-C中的枚举常量大致有以下四种情形：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. unnamed enumerations
-</span><span class='line'>enum {
-</span><span class='line'>    NSBorderlessWindowMask      = 0,
-</span><span class='line'>    NSTitledWindowMask          = 1 &lt;&lt; 0,
-</span><span class='line'>    NSClosableWindowMask        = 1 &lt;&lt; 1,
-</span><span class='line'>    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
-</span><span class='line'>    NSResizableWindowMask       = 1 &lt;&lt; 3
-</span><span class='line'> 
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>`- (void)setStyleMask:(NSUInteger)styleMask`
-</span><span class='line'>
-</span><span class='line'>// 2 
-</span><span class='line'>typedef enum _NSMatrixMode {
-</span><span class='line'>    NSRadioModeMatrix           = 0,
-</span><span class='line'>    NSHighlightModeMatrix       = 1,
-</span><span class='line'>    NSListModeMatrix            = 2,
-</span><span class='line'>    NSTrackModeMatrix           = 3
-</span><span class='line'>} NSMatrixMode;
-</span><span class='line'>
-</span><span class='line'>// 3
-</span><span class='line'>typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
-</span><span class='line'>    UITableViewCellStyleDefault,
-</span><span class='line'>    UITableViewCellStyleValue1,
-</span><span class='line'>    UITableViewCellStyleValue2,
-</span><span class='line'>    UITableViewCellStyleSubtitle
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>// 4
-</span><span class='line'>typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {
-</span><span class='line'>    NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
-</span><span class='line'>    NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
-</span><span class='line'>    NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
-</span><span class='line'>    NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
-</span><span class='line'>    NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
-</span><span class='line'>    NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
-</span><span class='line'>    NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
-</span><span class='line'>    NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
-</span><span class='line'>    NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
-</span><span class='line'>    NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
-</span><span class='line'>    NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
-</span><span class='line'>    
-</span><span class='line'>    NSLayoutFormatAlignmentMask = 0xFFFF,
-</span><span class='line'>    
-</span><span class='line'>    /* choose only one of these three
-</span><span class='line'>     */
-</span><span class='line'>    NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
-</span><span class='line'>    NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
-</span><span class='line'>    NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
-</span><span class='line'>    
-</span><span class='line'>    NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
-</span><span class='line'>};
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>情形一相当于定义了常量，但不定义类型;<br/>
-情形二定义了一个NSMatrixMode类型;</p>
-
-<p>情形三定义了一个NSInteger的UITableViewCellStyle类型;<br/>
-情形四支持C++的枚举特性。</p>
-
-<blockquote><p>The NS_OPTIONS macro is defined in different ways if compiling as C++ or not. If it’s not C++, it’s expanded out the same as NS_ENUM. However, if it is C++, it’s expanded out slightly differently. Why? The C++ compiler acts differently when two enumeration values are bitwise OR’ed together. This is something, as shown earlier, that is commonly done with the options type of enumeration. When two values are OR’ed together, C++ considers the resulting value to be of the type the enumeration represents: NSUInteger. It also doesn’t allow the implicit cast to the enumeration type.</p></blockquote>
-
-<p>Reference:<br/>
-Effective Objective-C 2.0<br/>
-<a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-08T16:38:20+08:00" pubdate data-updated="true">May 8<span>th</span>, 2015</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 

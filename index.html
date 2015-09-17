@@ -111,6 +111,118 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-wireshark.html/">
+		
+			Notes of Wireshark</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Capture HTTP traffic on your server</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Capture &gt; Capture Filters... &gt; New &gt; OK
+</span><span class='line'>Capture &gt; Options... &gt; Capture Filter(Set to appropriate filter) &gt; Start
+</span><span class='line'>
+</span><span class='line'>host www.baidu.com
+</span><span class='line'>
+</span><span class='line'>curl -d "name=test&page=1" http://www.baidu.com</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST / HTTP/1.1
+</span><span class='line'>User-Agent: curl/7.37.1
+</span><span class='line'>Host: www.baidu.com
+</span><span class='line'>Accept: */*
+</span><span class='line'>Content-Length: 16
+</span><span class='line'>Content-Type: application/x-www-form-urlencoded
+</span><span class='line'>
+</span><span class='line'>name=test&page=1
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>HTTP/1.1 302 Moved Temporarily
+</span><span class='line'>Date: Tue, 15 Sep 2015 00:56:03 GMT
+</span><span class='line'>Content-Type: text/html
+</span><span class='line'>Content-Length: 215
+</span><span class='line'>Connection: Keep-Alive
+</span><span class='line'>Location: http://www.baidu.com/search/error.html
+</span><span class='line'>Server: BWS/1.1
+</span><span class='line'>X-UA-Compatible: IE=Edge,chrome=1
+</span><span class='line'>BDPAGETYPE: 3
+</span><span class='line'>Set-Cookie: BDSVRTM=0; path=/
+</span><span class='line'>
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;&lt;title&gt;302 Found&lt;/title&gt;&lt;/head&gt;
+</span><span class='line'>&lt;body bgcolor="white"&gt;
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;302 Found&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;hr&gt;&lt;center&gt;pr-nginx_1-0-245_BRANCH Branch
+</span><span class='line'>Time : Thu Sep 10 11:36:26 CST 2015&lt;/center&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-15T09:05:51+08:00" pubdate data-updated="true">Sep 15<span>th</span>, 2015</time></div>
+	
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/linux-useful-command-line-part-2.html/">
 		
 			Linux Useful Command Line Part 2</a>
@@ -138,7 +250,7 @@ $(document).ready(
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#x6f;&#x6e;&#103;&#x6d;&#x65;&#105;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#x2e;&#49;&#x2e;&#50;&#53;&#x35;">&#100;&#111;&#x6e;&#103;&#109;&#101;&#105;&#x6c;&#105;&#x61;&#110;&#103;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#46;&#50;&#53;&#x35;</a>
+<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#x67;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#x67;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#x35;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#x6c;&#x69;&#x61;&#x6e;&#103;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;</a>
 2.cd path
   Change remote directory to path.</p>
 
@@ -356,85 +468,6 @@ sftp> put -r bin</p>
 	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/using-mysql.html/">
-		
-			Using MySQL</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.查看所有的用户</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select user, host from user;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.查看用户的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show grants for 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3.为用户添加操作某个数据库的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.SQL COUNT() Function</h3>
-
-<p>SQL COUNT(column_name) Syntax
-The COUNT(column_name) function returns the number of values (NULL values will not be counted) of the specified column:</p>
-
-<p>SELECT COUNT(column_name) FROM table_name;
-SQL COUNT(<em>) Syntax
-The COUNT(</em>) function returns the number of records in a table:</p>
-
-<p>SELECT COUNT(*) FROM table_name;
-SQL COUNT(DISTINCT column_name) Syntax
-The COUNT(DISTINCT column_name) function returns the number of distinct values of the specified column:</p>
-
-<p>SELECT COUNT(DISTINCT column_name) FROM table_name;</p>
-
-<h3>5.SQL Limit</h3>
-
-<p>[LIMIT {[offset,] row_count | row_count OFFSET offset}]</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select Host, Db from db limit 2, 2;
-</span><span class='line'>
-</span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true">Aug 12<span>th</span>, 2015</time></div>
-	
 
 
 	

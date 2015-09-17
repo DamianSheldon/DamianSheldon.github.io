@@ -243,7 +243,7 @@ In Swift:</p>
 
 <p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
 
-<h3>Expression</h3>
+<h3>9.Expression</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -257,13 +257,30 @@ In Swift:</p>
 </span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>4.fastlane add Slack Notifications</h3>
+<h3>10.fastlane add Slack Notifications</h3>
 
 <p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
 
 <p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
 
 <p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
+
+<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; &#8221;</h3>
+
+<p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
+
+<p>directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks&rsquo;
+Actually I found something when comparing a new project vs an older one&hellip;</p>
+
+<p>In the old project, the warning was only being produced by the test target of my projects. Under &lsquo;Search Paths&rsquo;, I found it was including two items under &lsquo;Framework Search Paths&rsquo;:</p>
+
+<p>$(SDKROOT)/Developer/Library/Frameworks
+$(inherited)
+The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
+
+<p>Deleting those entries in my older project then removed the warning.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
 </div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-09-14T19:47:25+08:00</updated>
+  <updated>2015-09-17T16:38:24+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Notes of Wireshark]]></title>
+    <link href="http://DamianSheldon.github.io/blog/notes-of-wireshark.html/"/>
+    <updated>2015-09-15T09:05:51+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/notes-of-wireshark</id>
+    <content type="html"><![CDATA[<h3>1.Capture HTTP traffic on your server</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Capture &gt; Capture Filters... &gt; New &gt; OK
+</span><span class='line'>Capture &gt; Options... &gt; Capture Filter(Set to appropriate filter) &gt; Start
+</span><span class='line'>
+</span><span class='line'>host www.baidu.com
+</span><span class='line'>
+</span><span class='line'>curl -d "name=test&page=1" http://www.baidu.com</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST / HTTP/1.1
+</span><span class='line'>User-Agent: curl/7.37.1
+</span><span class='line'>Host: www.baidu.com
+</span><span class='line'>Accept: */*
+</span><span class='line'>Content-Length: 16
+</span><span class='line'>Content-Type: application/x-www-form-urlencoded
+</span><span class='line'>
+</span><span class='line'>name=test&page=1
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>HTTP/1.1 302 Moved Temporarily
+</span><span class='line'>Date: Tue, 15 Sep 2015 00:56:03 GMT
+</span><span class='line'>Content-Type: text/html
+</span><span class='line'>Content-Length: 215
+</span><span class='line'>Connection: Keep-Alive
+</span><span class='line'>Location: http://www.baidu.com/search/error.html
+</span><span class='line'>Server: BWS/1.1
+</span><span class='line'>X-UA-Compatible: IE=Edge,chrome=1
+</span><span class='line'>BDPAGETYPE: 3
+</span><span class='line'>Set-Cookie: BDSVRTM=0; path=/
+</span><span class='line'>
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;&lt;title&gt;302 Found&lt;/title&gt;&lt;/head&gt;
+</span><span class='line'>&lt;body bgcolor="white"&gt;
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;302 Found&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;hr&gt;&lt;center&gt;pr-nginx_1-0-245_BRANCH Branch
+</span><span class='line'>Time : Thu Sep 10 11:36:26 CST 2015&lt;/center&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux Useful Command Line Part 2]]></title>
@@ -40,7 +125,7 @@
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#x6f;&#x6e;&#103;&#x6d;&#x65;&#105;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#x2e;&#49;&#x2e;&#50;&#53;&#x35;">&#100;&#111;&#x6e;&#103;&#109;&#101;&#105;&#x6c;&#105;&#x61;&#110;&#103;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#46;&#50;&#53;&#x35;</a>
+<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#x67;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#x67;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#x35;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#x6c;&#x69;&#x61;&#x6e;&#103;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;</a>
 2.cd path
   Change remote directory to path.</p>
 
@@ -400,7 +485,7 @@ In Swift:</p>
 
 <p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
 
-<h3>Expression</h3>
+<h3>9.Expression</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -414,13 +499,30 @@ In Swift:</p>
 </span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>4.fastlane add Slack Notifications</h3>
+<h3>10.fastlane add Slack Notifications</h3>
 
 <p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
 
 <p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
 
 <p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
+
+<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; &#8221;</h3>
+
+<p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
+
+<p>directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks&rsquo;
+Actually I found something when comparing a new project vs an older one&hellip;</p>
+
+<p>In the old project, the warning was only being produced by the test target of my projects. Under &lsquo;Search Paths&rsquo;, I found it was including two items under &lsquo;Framework Search Paths&rsquo;:</p>
+
+<p>$(SDKROOT)/Developer/Library/Frameworks
+$(inherited)
+The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
+
+<p>Deleting those entries in my older project then removed the warning.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
 ]]></content>
   </entry>
   
@@ -521,6 +623,41 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 
 <p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
 解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
+
+<h3>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h3>
+
+<p>Solution:
+I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
+
+<p>Options Indexes FollowSymLinks Includes ExecCGI
+By default, your global directory settings is (httpd.conf line ~188):</p>
+
+<p><Directory /></p>
+
+<pre><code>Options FollowSymLinks
+AllowOverride All
+Order deny,allow
+Allow from all
+</code></pre>
+
+<p></Directory>
+set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
+
+<p>Finally, it should look like:</p>
+
+<p><Directory /></p>
+
+<pre><code>#Options FollowSymLinks
+Options Indexes FollowSymLinks Includes ExecCGI
+AllowOverride All
+Order deny,allow
+Allow from all
+</code></pre>
+
+<p></Directory>
+Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
 
 <p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
 <a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
@@ -2107,177 +2244,6 @@ There are many types of businesses in a free-market economy.</p>
 <h2>Reference</h2>
 
 <p>iOS 6 Programming Push the Limits</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode 调试技巧（持续更新）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/xcode-debug-tips.html/"/>
-    <updated>2014-11-24T17:14:52+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/xcode-debug-tips</id>
-    <content type="html"><![CDATA[<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
-
-<h3>崩溃在main( )</h3>
-
-<p>添加Exception Breakpoint</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
-
-<h3>符号断点</h3>
-
-<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
-
-<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
-
-<h3>打印方法名</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>控制台打印</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
-</span><span class='line'>(lldb) p (int)self.myAge
-</span><span class='line'>(lldb) p (CGPoint)self.view.center
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>(lldb) po // 打印对象
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<h3>打印异常信息</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/*
-</span><span class='line'>The symbol $eax refers to one of the CPU registers.    
-</span><span class='line'>In the case of an exception,   
-</span><span class='line'>this register will contain a pointer to the NSException object.   
-</span><span class='line'>Note: $eax only works for the simulator,   
-</span><span class='line'>if you’re debugging on the device you’ll need to use register $r0.  
-</span><span class='line'>*/
-</span><span class='line'>// Simulator
-</span><span class='line'>
-</span><span class='line'>(lldb) po [$eax class]
-</span><span class='line'>
-</span><span class='line'>(lldb) po [$eax name]
-</span><span class='line'>
-</span><span class='line'>(lldb) po [$eax reason]
-</span><span class='line'>
-</span><span class='line'>// Real Device
-</span><span class='line'>(lldb) po $r0</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>输出View结构</h3>
-
-<p>任意时刻暂停App，在lldb中输入:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po [[[[UIApplication sharedApplication] delegate] window] recursiveDescription]
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>SIGABRT</h3>
-
-<p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>
-
-<h3>EXC_BAD_ACCESS</h3>
-
-<p>它出现的原因是因为访问一个已经释放的对象或向它发送消息。通常可以开启Zombie Objects(Toolbar > Edit Scheme&hellip; > Run > Diagnostics > Enabled Zombie Objects)重新运行程序以定位问题。</p>
-
-<p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
-
-<p>Enabled Zombie Objects后，控制台通常会打印出<code>*** -[CFNumber respondsToSelector:]: message sent to deallocated instance 0x31ab5cfe0</code>类似的信息，那么问题来了，我们怎么知道0x31ab5cfe0是哪个对象？</p>
-
-<p>Apple Memory Usage Performace Guidelines中介绍了记录内存分配历史的方法，简述如下：</p>
-
-<ol>
-<li>设置环境变量： MallocStackLogging，MallocStackLoggingNoCompact为1；</li>
-</ol>
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Environment" src="http://DamianSheldon.github.io/images/Environment.png" width="448" height="252">
-
-</div>
-
-
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Zombie" src="http://DamianSheldon.github.io/images/Zombie.png" width="448" height="252">
-
-</div>
-
-
-<ol>
-<li>使用malloc_history命令找到相应的对象。</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>malloc_history &lt;pid/partial-process-name&gt; [options] &lt;mode&gt; [&lt;address&gt; ...]
-</span><span class='line'>
-</span><span class='line'>// pid/partial-process-name是当前上下文NSLog输出时的前面[]的对应数字
-</span><span class='line'>2014-12-02 14:44:39.355 srsApp[7946:300216] selector:0x1014d70b3, jsonValue:0x31a896fd0
-</span><span class='line'>
-</span><span class='line'>malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Malloc_history" src="http://DamianSheldon.github.io/images/Malloc_history.png" width="720" height="106">
-
-</div>
-
-
-<p>Reference:</p>
-
-<p>Memory Usage Performace Guidelines <br/>
-iOS 6 Programming Pushing the Limits<br/>
-<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
-<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
-<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
-<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
 ]]></content>
   </entry>
   

@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>如何使能 Yosemite 内置 Apache 的 HTTPS/SSL  | Hello World</title>
+	<title>Notes of Wireshark  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="https, ssl, yosemite, apache">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -106,138 +106,84 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">如何使能 Yosemite 内置 Apache 的 HTTPS/SSL</h2>
-	<div class="entry-content"><p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
+	<h2 class="title">Notes of Wireshark</h2>
+	<div class="entry-content"><h3>1.Capture HTTP traffic on your server</h3>
 
-<p>我的环境：<br/>
-OS: OS X 10.10.3 (14D136)<br/>
-Apache: Apache/2.4.10 (Unix)</p>
-
-<p>详细步骤：</p>
-
-<ol>
-<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
-
-<ul>
-<li>去掉 SSL 模块前的注释使能它:<br/>
-<code>
-LoadModule ssl_module libexec/apache2/mod_ssl.so
-</code></li>
-<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
-<code>
-Include /private/etc/apache2/extra/httpd-ssl.conf
-</code></li>
-</ul>
-</li>
-<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
-
-<ul>
-<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
-<code>
-DocumentRoot "/Users/dongmeiliang/Sites"
-</code></p></li>
-<li><p>修改 ServerName 成类似这样:<br/>
-<code>
-ServerName localhost:443
-</code></p></li>
-<li><p>指定 SSLCertificateFile<br/>
-<code>
-SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
-</code></p></li>
-<li><p>指定 SSLCertificateKeyFile <br/>
-<code>
-SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
-</code></p></li>
-<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
-</ul>
-</li>
-</ol>
-
-
-<!--more-->
-
-
-<ol>
-<li><p>制作自签名的证书</p>
-
-<p> 1) Generate a Private Key<br/>
- <code>
- openssl genrsa -des3 -out server.key 1024
-</code></p>
-
-<p> 2) Generate a CSR (Certificate Signing Request)<br/>
- <code>
- openssl req -new -key server.key -out server.csr
-</code></p>
-
-<p> 3) Remove Passphrase from Key<br/>
- <code>
- cp server.key server.key.org  
-</code><br/>
- <code>
- openssl rsa -in server.key.org -out server.key
-</code></p>
-
-<p> 4) Generating a Self-Signed Certificate<br/>
- <code>
- openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
-</code></p></li>
-<li><p>拷贝证书到配置文件指定的目录下</p></li>
-</ol>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Capture &gt; Capture Filters... &gt; New &gt; OK
+</span><span class='line'>Capture &gt; Options... &gt; Capture Filter(Set to appropriate filter) &gt; Start
+</span><span class='line'>
+</span><span class='line'>host www.baidu.com
+</span><span class='line'>
+</span><span class='line'>curl -d "name=test&page=1" http://www.baidu.com</span></code></pre></td></tr></table></div></figure>
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
-</span><span class='line'>sudo cp server.key /private/etc/apache2/ssl/ssl.key</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST / HTTP/1.1
+</span><span class='line'>User-Agent: curl/7.37.1
+</span><span class='line'>Host: www.baidu.com
+</span><span class='line'>Accept: */*
+</span><span class='line'>Content-Length: 16
+</span><span class='line'>Content-Type: application/x-www-form-urlencoded
+</span><span class='line'>
+</span><span class='line'>name=test&page=1
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>HTTP/1.1 302 Moved Temporarily
+</span><span class='line'>Date: Tue, 15 Sep 2015 00:56:03 GMT
+</span><span class='line'>Content-Type: text/html
+</span><span class='line'>Content-Length: 215
+</span><span class='line'>Connection: Keep-Alive
+</span><span class='line'>Location: http://www.baidu.com/search/error.html
+</span><span class='line'>Server: BWS/1.1
+</span><span class='line'>X-UA-Compatible: IE=Edge,chrome=1
+</span><span class='line'>BDPAGETYPE: 3
+</span><span class='line'>Set-Cookie: BDSVRTM=0; path=/
+</span><span class='line'>
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;&lt;title&gt;302 Found&lt;/title&gt;&lt;/head&gt;
+</span><span class='line'>&lt;body bgcolor="white"&gt;
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;302 Found&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;hr&gt;&lt;center&gt;pr-nginx_1-0-245_BRANCH Branch
+</span><span class='line'>Time : Thu Sep 10 11:36:26 CST 2015&lt;/center&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</li>
-</ol>
-
-
-<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
-解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
-
-<h3>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h3>
-
-<p>Solution:
-I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
-
-<p>Options Indexes FollowSymLinks Includes ExecCGI
-By default, your global directory settings is (httpd.conf line ~188):</p>
-
-<p><Directory /></p>
-
-<pre><code>Options FollowSymLinks
-AllowOverride All
-Order deny,allow
-Allow from all
-</code></pre>
-
-<p></Directory>
-set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
-
-<p>Finally, it should look like:</p>
-
-<p><Directory /></p>
-
-<pre><code>#Options FollowSymLinks
-Options Indexes FollowSymLinks Includes ExecCGI
-AllowOverride All
-Order deny,allow
-Allow from all
-</code></pre>
-
-<p></Directory>
-Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
-
-<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
-<a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a></p>
+<p>Reference:<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
 </div>
 
 
@@ -254,14 +200,8 @@ Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo
   
 
 
-<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2015</time></div>
+<time datetime="2015-09-15T09:05:51+08:00" pubdate data-updated="true">Sep 15<span>th</span>, 2015</time></div>
 	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
-
-</div>
 
 
 	

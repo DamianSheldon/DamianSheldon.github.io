@@ -160,3 +160,10 @@ The new project kept the 'Framework Search Paths' empty.
 Deleting those entries in my older project then removed the warning.
 
 Reference:http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning
+
+###12.ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+
+Solution:disable bitcode for this target.
+App target > Build Settings > Enable Bitcode > NO
+
+Reference:http://stackoverflow.com/questions/30848208/new-warnings-in-ios9

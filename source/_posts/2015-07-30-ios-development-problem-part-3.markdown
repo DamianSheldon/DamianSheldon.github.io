@@ -143,3 +143,20 @@ Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #
 Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.
 
 Reference:https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications
+
+###11.directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
+
+Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :
+
+directory not found for option '-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks'
+Actually I found something when comparing a new project vs an older one...
+
+In the old project, the warning was only being produced by the test target of my projects. Under 'Search Paths', I found it was including two items under 'Framework Search Paths':
+
+$(SDKROOT)/Developer/Library/Frameworks
+$(inherited)
+The new project kept the 'Framework Search Paths' empty.
+
+Deleting those entries in my older project then removed the warning.
+
+Reference:http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning

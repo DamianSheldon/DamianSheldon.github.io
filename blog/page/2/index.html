@@ -111,6 +111,139 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/vim.html/">
+		
+			Vim</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.查看帮助</h3>
+
+<p>:help</p>
+
+<h3>2.查看quickref</h3>
+
+<p>：help quickref</p>
+
+<h3>3.语法高亮</h3>
+
+<p>|:syn-on|       :syntax on              start using syntax highlighting
+|:syn-off|      :syntax off             stop using syntax highlighting</p>
+
+<h3>4.Move cursor to its last position</h3>
+
+<p>The quickest way is to hit either:</p>
+
+<p>&lsquo;&rsquo;
+(two apostrophes) or:</p>
+
+<p>&#8220;
+(two backticks).</p>
+
+<h3>5.Multi-window commands</h3>
+
+<p>Q_wi*          Multi-window commands</p>
+
+<p>|CTRL-W_s|      CTRL-W s  or  :split    split window into two parts
+|:split_f|      :split {file}           split window and edit {file} in one of</p>
+
+<pre><code>                                       them
+</code></pre>
+
+<p>|:vsplit|       :vsplit {file}          same, but split vertically
+|:vertical|     :vertical {cmd}         make {cmd} split vertically</p>
+
+<p>|:sfind|        :sf[ind] {file}         split window, find {file} in &lsquo;path&rsquo;</p>
+
+<pre><code>                                       and edit it
+</code></pre>
+
+<p>|CTRL-W_]|      CTRL-W ]                split window and jump to tag under</p>
+
+<pre><code>                                       cursor
+</code></pre>
+
+<p>|CTRL-W_f|      CTRL-W f                split window and edit file name under</p>
+
+<pre><code>                                       the cursor
+</code></pre>
+
+<p>|CTRL-W_^|      CTRL-W ^                split window and edit alternate file
+|CTRL-W_n|      CTRL-W n  or  :new      create new empty window
+|CTRL-W_q|      CTRL-W q  or  :q[uit]   quit editing and close window
+|CTRL-W_c|      CTRL-W c  or  :cl[ose]  make buffer hidden and close window
+|CTRL-W_o|      CTRL-W o  or  :on[ly]   make current window only one on the</p>
+
+<pre><code>                                       screen
+</code></pre>
+
+<p>|CTRL-W_j|      CTRL-W j                move cursor to window below
+|CTRL-W_k|      CTRL-W k                move cursor to window above
+|CTRL-W_CTRL-W| CTRL-W CTRL-W           move cursor to window below (wrap)
+|CTRL-W_W|      CTRL-W W                move cursor to window above (wrap)
+|CTRL-W_t|      CTRL-W t                move cursor to top window
+|CTRL-W_b|      CTRL-W b                move cursor to bottom window
+|CTRL-W_p|      CTRL-W p                move cursor to previous active window</p>
+
+<p>|CTRL-W_r|      CTRL-W r                rotate windows downwards
+|CTRL-W_R|      CTRL-W R                rotate windows upwards
+|CTRL-W_x|      CTRL-W x                exchange current window with next one</p>
+
+<p>|CTRL-W<em>=|      CTRL-W =                make all windows equal height
+|CTRL-W</em>&ndash;|      CTRL-W &ndash;                decrease current window height
+|CTRL-W_+|      CTRL-W +                increase current window height
+|CTRL-W__|      CTRL-W _                set current window height (default:</p>
+
+<pre><code>                                       very high)
+</code></pre>
+
+<p>1, set number
+2, set autoindent
+4, set background=dark
+5, set background=light</p>
+
+<p>6, 0, ^ line head</p>
+
+<p>7, $, g_ line foot</p>
+
+<p>8, ctl + f forword page</p>
+
+<p>9, ctl + b back page</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-10T21:09:05+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/using-mysql.html/">
 		
 			Using MySQL</a>
@@ -370,6 +503,13 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
 
+<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
+
+<p>Solution:disable bitcode for this target.
+App target > Build Settings > Enable Bitcode > NO</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
+
 		
 		
 	</div>
@@ -394,94 +534,6 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/">
-		
-			如何使能 Yosemite 内置 Apache 的 HTTPS/SSL</a>
-	</h2>
-	<div class="entry-content">
-		<p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
-
-<p>我的环境：<br/>
-OS: OS X 10.10.3 (14D136)<br/>
-Apache: Apache/2.4.10 (Unix)</p>
-
-<p>详细步骤：</p>
-
-<ol>
-<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
-
-<ul>
-<li>去掉 SSL 模块前的注释使能它:<br/>
-<code>
-LoadModule ssl_module libexec/apache2/mod_ssl.so
-</code></li>
-<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
-<code>
-Include /private/etc/apache2/extra/httpd-ssl.conf
-</code></li>
-</ul>
-</li>
-<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
-
-<ul>
-<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
-<code>
-DocumentRoot "/Users/dongmeiliang/Sites"
-</code></p></li>
-<li><p>修改 ServerName 成类似这样:<br/>
-<code>
-ServerName localhost:443
-</code></p></li>
-<li><p>指定 SSLCertificateFile<br/>
-<code>
-SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
-</code></p></li>
-<li><p>指定 SSLCertificateKeyFile <br/>
-<code>
-SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
-</code></p></li>
-<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
-</ul>
-</li>
-</ol>
-
-
-
-		
-		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2015</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 

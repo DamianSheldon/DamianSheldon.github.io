@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-09-17T16:38:24+08:00</updated>
+  <updated>2015-09-19T22:31:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Set up PHP development environment]]></title>
+    <link href="http://DamianSheldon.github.io/blog/set-up-php-development-environment.html/"/>
+    <updated>2015-09-19T22:25:19+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/set-up-php-development-environment</id>
+    <content type="html"><![CDATA[<h3>Notes of Set up PHP development environment</h3>
+
+<ol>
+<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
+<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>;</li>
+<li><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Notes of Wireshark]]></title>
@@ -125,7 +141,7 @@
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#x67;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#x67;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#x35;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#x6c;&#x69;&#x61;&#x6e;&#103;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;</a>
+<p>1.sftp <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#100;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#108;&#105;&#97;&#110;&#x67;&#x40;&#49;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#49;&#x2e;&#50;&#53;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#x65;&#105;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#50;&#x35;&#53;</a>
 2.cd path
   Change remote directory to path.</p>
 
@@ -523,6 +539,13 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 <p>Deleting those entries in my older project then removed the warning.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
+
+<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
+
+<p>Solution:disable bitcode for this target.
+App target > Build Settings > Enable Bitcode > NO</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
 ]]></content>
   </entry>
   
@@ -2192,58 +2215,6 @@ There are many types of businesses in a free-market economy.</p>
 <p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
 
 <p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App Cache]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-app-cache.html/"/>
-    <updated>2014-11-25T16:36:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-app-cache</id>
-    <content type="html"><![CDATA[<p>在互联网时代的今天，iOS App几乎都要联网，缓存可以解决网络连接不良甚至无网络所造成的性能问题，而且还可以节约用户的流量。我们可以采用两种缓存策略：预缓存和按需缓存。预缓存就是应用启动以后开个后台线程去把需要用到的数据先取下来。按需缓存就是应用请求网络数据后在本地保存一份，只要本地数据没有过期就使用本地数据。</p>
-
-<h3>预缓存</h3>
-
-<p>实现预缓存可能需要一个后台线程访问数据并以有意义的格式保存，以便本地缓存无需连接服务器即可被编辑。Core Data(或者任何结构化存储)是实现这种缓存的一种方式。</p>
-
-<h3>按需缓存</h3>
-
-<p>按需缓存工作原理类似于浏览器缓存，它允许我们查看以前访问过的内容，主要有四种实现方法：</p>
-
-<ol>
-<li>URL缓存；</li>
-<li>数据模型缓存；</li>
-<li>Core Data;</li>
-<li>SQLite。</li>
-</ol>
-
-
-<p>上述的序号是推荐使用的顺序。</p>
-
-<h4>URL缓存</h4>
-
-<p>如果服务器设计得体，遵循HTTP 1.1的缓存规范时，URL缓存效果最好，通常网络库会提供支持。</p>
-
-<!-- more -->
-
-
-<h4>数据模型缓存</h4>
-
-<p>数据模型缓存是把模型对象用NSKeyedArchiver归档，模型类需要实现NSCoding协议。</p>
-
-<p>使用数据模型缓存时，有个小技巧，可以为它创建内存缓存。这样有两点好处：一是可以延长闪存的使用寿命；二是可以略微提高性能。</p>
-
-<h4>Core Data</h4>
-
-<p>使用Core Data进行按需缓存，需要权衡Core Data的复杂度是否值得。</p>
-
-<h4>SQLite</h4>
-
-<p>使用SQLite时，要注意当前的二进制包是否是线程安全的。</p>
-
-<h2>Reference</h2>
-
-<p>iOS 6 Programming Push the Limits</p>
 ]]></content>
   </entry>
   

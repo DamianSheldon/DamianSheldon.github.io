@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-09-17T16:38:24+08:00</updated>
+  <updated>2015-09-19T22:31:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Set up PHP development environment]]></title>
+    <link href="http://DamianSheldon.github.io/blog/set-up-php-development-environment.html/"/>
+    <updated>2015-09-19T22:25:19+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/set-up-php-development-environment</id>
+    <content type="html"><![CDATA[<h3>Notes of Set up PHP development environment</h3>
+
+<ol>
+<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
+<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>;</li>
+<li><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Vim]]></title>
@@ -280,6 +296,13 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 <p>Deleting those entries in my older project then removed the warning.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
+
+<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
+
+<p>Solution:disable bitcode for this target.
+App target > Build Settings > Enable Bitcode > NO</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
 ]]></content>
   </entry>
   
@@ -501,218 +524,6 @@ NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,
 <p>Reference:<br/>
 Effective Objective-C 2.0<br/>
 <a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux命令行整理]]></title>
-    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line.html/"/>
-    <updated>2015-03-18T21:12:56+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line</id>
-    <content type="html"><![CDATA[<h3>1.Create new account</h3>
-
-<p><code>
-sudo adduser --home /home/username --shell /bin/bash --ingroup git username
-</code></p>
-
-<h3>2.List all groups and the user names that were in each group</h3>
-
-<p><code>``
-for u in</code>cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort</p>
-
-<p>groups $(cut -f1 -d":&ldquo; /etc/passwd) | sort
-```</p>
-
-<h3>3.How to set up ssh so you aren&rsquo;t asked for a password</h3>
-
-<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
-
-<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
-
-<ul>
-<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
-This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
-<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
-If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
-You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
-
-<h3>4.Finding all files containing a text string on Linux</h3>
-
-<p><code>
-grep -rnw 'directory' -e "pattern"
-</code></p>
-
-<p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
-
-<h3>5.Show bash script commands without executing them</h3>
-
-<p>There are two useful debug outputs for that task (both are written to stderr):</p>
-
-<p>set -v mode (set -o verbose)
-prints commands to be executed to stderr just like they are read from input (script file or keyboard)
-prints everything before anything ( substitutions and expansions, …) big is applied
-set -x mode (set -o xtrace)
-prints everything like it really is executed, after substitutions and expansions applied
-indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
-indicates the recognized words after word splitting by marking them like &lsquo;x y&rsquo;
-in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout</p>
-
-<p>Hint: These modes can be entered when calling Bash:</p>
-
-<p>from commandline: bash -vx ./myscript
-eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
-
-<p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
-
-<h3>6.Toggle Web Sharing on or off in OSX 10.10</h3>
-
-<p>```
-// Start
-sudo apachectl start</p>
-
-<p>// Stop
-sudo apachectl stop</p>
-
-<p>// Restart
-sudo apachectl restart</p>
-
-<p>// find the Apache version
-httpd -v</p>
-
-<p>// After starting Apache – test to see if the webserver is working in the browser – <a href="http://localhost">http://localhost</a> – you should see the “It Works!” text.</p>
-
-<p>```
-Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
-
-<h3>7.List open ports on your machine (Mac OS X)</h3>
-
-<p><code>
-sudo lsof -i -P | grep -i "listen"
-</code>
-Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
-
-<h3>8.What do the numbers in a man page mean?</h3>
-
-<p>```
-MANUAL SECTIONS</p>
-
-<pre><code>The standard sections of the manual include:
-
-1      User Commands
-2      System Calls
-3      C Library Functions
-4      Devices and Special Files
-5      File Formats and Conventions
-6      Games et. Al.
-7      Miscellanea
-8      System Administration tools and Deamons
-
-Distributions customize the manual section to their specifics,
-which often include additional sections.
-</code></pre>
-
-<p>```</p>
-
-<h3>9.jenkins</h3>
-
-<p>```
-Note: When using launchctl the port will be 8080.</p>
-
-<p>To have launchd start jenkins at login:
-  ln -sfv /usr/local/opt/jenkins/*.plist ~/Library/LaunchAgents
-Then to load jenkins now:
-  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-Or, if you don&rsquo;t want/need launchctl, you can just run:
-  jenkins
-```</p>
-
-<h3>10.Mac 上 Openssl 的配置文件路径</h3>
-
-<p>/System/Library/OpenSSL/openssl.cnf</p>
-
-<h3>11.Find</h3>
-
-<p>find的使用实例：
-　　$ find . -name &lsquo;my<em>&rsquo;
-搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。
-　　$ find . -name &lsquo;my</em>&rsquo; -ls
-搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。
-　　$ find . -type f -mmin -10
-搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录。</p>
-
-<p>Reference:<a href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></p>
-
-<h3>12.Enable Debian server pptpd&rsquo;s log and debug</h3>
-
-<p>To diagnose faults, enable the options debug dump in /etc/ppp/pptpd-options. The change is effective on the next connection. The debug output goes to /var/log/debug, and the dump output and usual output to /var/log/messages.</p>
-
-<p>Referenc:<a href="http://poptop.sourceforge.net/dox/debian-howto.phtml">http://poptop.sourceforge.net/dox/debian-howto.phtml</a></p>
-
-<h3>13.iptables remove specific rules</h3>
-
-<p>Execute the same commands but replace the &ldquo;-A&rdquo; with &ldquo;-D&rdquo;. For example:</p>
-
-<p>iptables -A INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT
-becomes</p>
-
-<p>iptables -D INPUT -i eth0 -p tcp &mdash;dport 443 -j ACCEPT</p>
-
-<h3>14.How to use tcpdump?</h3>
-
-<p>tcpdump can be used to capture the packets exchanged between the PPTP Client and the PPTP Server. By comparing the packets with what should be happening, you may determine what the cause of a problem might be.
-Give to tcpdump the name of the network interface that connects to the PPTP Server, which for dial-up users would be ppp0, and for ADSL users eth0. Then, in another window or console, start the tunnel.</p>
-
-<p>Start tcpdump in one window:    Then run pppd in the other window:</p>
-
-<h1>tcpdump -i eth0</h1>
-
-<h1>pppd call tunnel</h1>
-
-<p>The tcpdump command should show you the packets as they are received or transmitted. Press Control/C when you do not need to capture any more packets.</p>
-
-<p>You should see a connection to port 1723, followed by GRE packets in both directions. If you can see this, then you have full network connectivity. If you can&rsquo;t, you must find the problem.</p>
-
-<p>Note: if you get an error:</p>
-
-<p>tcpdump: pcap_loop: read: Network is down
-then you may be using tcpdump on the wrong interface. Use ifconfig to list the available interfaces and choose the one through which your client must contact the server. See our diagrams if you&rsquo;re still confused.</p>
-
-<p>The above technique is useful for quick checking, but for detailed analysis a binary tcpdump is required.</p>
-
-<p>Security Warning
-Internet addresses of your client and server, usernames and passwords are included in a binary tcpdump. This information may allow someone to gain equivalent access to protected networks. If you do not want to give away this information, convert it to text and remove it before sending the log to someone else.
-If you have been asked to capture a complete tcpdump packet trace, for analysis by someone else, you should:</p>
-
-<p>add -w file to tell it to save the packets to the file file,
-add -s 0 to capture all of each packet,
-and add tcp port 1723 or proto 47 to keep only the PPTP packets, if the client is performing other network traffic at the time.
-For example:</p>
-
-<h1>tcpdump -i eth0 -w my.tcpdump -s 0 tcp port 1723 or proto 47</h1>
-
-<p>Again, once the packets have been collected, use Control/C to stop the tcpdump process. The file containing the packets can then be e-mailed or analysed.</p>
-
-<p>You may analyse it using ethereal.</p>
-
-<h1>ethereal my.tcpdump</h1>
-
-<p>Note: when using ethereal, clicking on a byte in the hex dump will highlight the field name of the data in the packet, and vice versa. You may also analyse it using tcpdump:</p>
-
-<h1>tcpdump -n -r my.tcpdump > my.tcpdump.txt</h1>
-
-<p>This converts it to text, saving the output into a file my.tcpdump.txt. This often hides the username and password. You may wish to globally substitute the IP addresses. Check your results to ensure your security.</p>
-
-<h3>15.Viewing all iptables rules</h3>
-
-<p>You just need to specify the appropriate table:</p>
-
-<p>iptables &mdash;table nat &mdash;list
-iptables -t nat -L
-If you don&rsquo;t specify a table, the filter table is used as the default. You can get even more information by including the -v or &mdash;verbose option.</p>
 ]]></content>
   </entry>
   

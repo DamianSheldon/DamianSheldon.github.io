@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-09-20T12:27:58+08:00</updated>
+  <updated>2015-09-21T09:05:00+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -47,12 +47,95 @@
 </li>
 </ul>
 </li>
+<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Run > Debug Configurations > Select PHP Web Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Test with PHPUnit</p>
+
+<ul>
+<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
+[Main]
+Location:/usr/local/bin/phpunit
+Working Directory:${workspace_loc:/Backend/tests}
+Apply > Run
+<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
+</ul>
+</li>
+<li><p>Integrate MakeGood (failure)</p>
+
+<ul>
+<li>Installing Prerequisite Software
+
+<ul>
+<li>PHP 5.5.27 (cli)</li>
+<li>xdebug-2.3.2</li>
+<li>eclipse mars(4.5.0)</li>
+<li>PDT(3.5.0)</li>
+<li>PHPUnit (4.8.6)</li>
+</ul>
+</li>
+<li><p>Installing MakeGood
+  Help &ndash;> Install New Software&hellip; &ndash;> Add&hellip; &ndash;> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
+<li><p>Selecting a Testing Framework</p></li>
+<li><p>Resolving the Dependencies to the Testing Framework</p>
+
+<pre><code>  * Defining User Libraries 
+      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
+      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
+  * Adding User Libraries to the Project
+</code></pre>
+
+<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
+</ul>
+
+
+<p> *Testing Framework Specific Configuration<br/>
+     PHPUnit</p>
+
+<pre><code> * Open the properties for the project.
+ * Select MakeGood.
+ * Select PHPUnit.
+ * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
+</code></pre>
+
+<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
 </ol>
 
 
 <h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
 
 <p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
+
+<h3>Wait for XDebug session</h3>
+
+<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
+
+<p>```
+sudo cp /etc/php.ini.default /etc/php.ini</p>
+
+<p>// Add follow content to php.ini
+[XDebug]
+zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
+xdebug.remote_enable=On
+xdebug.remote_handler=dbgp
+xdebug.remote_host=helloworld.local
+xdebug.remote_port=9000
+;xdebug.remote_connect_back=1
+xdebug.remote_mode=&ldquo;req&rdquo;
+xdebug.remote_log=&ldquo;/var/log/xdebug.log&rdquo;</p>
+
+<p>sudo apachectl restart
+```</p>
 ]]></content>
   </entry>
   

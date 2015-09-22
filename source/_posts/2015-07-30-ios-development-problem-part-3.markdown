@@ -167,3 +167,11 @@ Solution:disable bitcode for this target.
 App target > Build Settings > Enable Bitcode > NO
 
 Reference:http://stackoverflow.com/questions/30848208/new-warnings-in-ios9
+
+###13.*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
+2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.'
+
+Solution:Target > Lister > iCloud > Fix issue
+			Target > App Group > Fix issue
+			
+Reference:http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che

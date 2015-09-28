@@ -175,3 +175,18 @@ Solution:Target > Lister > iCloud > Fix issue
 			Target > App Group > Fix issue
 			
 Reference:http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che
+
+###14.How can I conditionally include a file based on build configuration in Xcode?
+
+For each target for which you want to conditionally include the settings bundle, choose its Project from the source list, choose the target, and switch to the "Build Phases" tab.
+
+Click the "Add Build Phase" button and choose "Add Run Script".
+
+Then enter the following for the script:
+
+```
+if [ "${CONFIGURATION}" == "Debug" ]; then
+    cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
+fi
+```
+Reference:http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode

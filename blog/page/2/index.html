@@ -521,6 +521,24 @@ App target > Build Settings > Enable Bitcode > NO</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che">http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che</a></p>
 
+<h3>14.How can I conditionally include a file based on build configuration in Xcode?</h3>
+
+<p>For each target for which you want to conditionally include the settings bundle, choose its Project from the source list, choose the target, and switch to the &ldquo;Build Phases&rdquo; tab.</p>
+
+<p>Click the &ldquo;Add Build Phase&rdquo; button and choose &ldquo;Add Run Script&rdquo;.</p>
+
+<p>Then enter the following for the script:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if [ "${CONFIGURATION}" == "Debug" ]; then
+</span><span class='line'>    cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
+
 		
 		
 	</div>

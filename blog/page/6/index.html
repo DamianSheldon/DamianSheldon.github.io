@@ -111,143 +111,68 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/how-does-app-security-communicate-with-server.html/">
+		<a href="/blog/private-pods.html/">
 		
-			App如何与Server安全交互</a>
+			如何创建私有的Pod</a>
 	</h2>
 	<div class="entry-content">
-		<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
+		<p>公司的框架代码大多数时候是需要保密的，而手动的复制导入比较麻烦，这时候我们可以创建私有 Pod 来方便我们的日常开发工作，本文是我创建私有 Pod 的笔记。</p>
 
-<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
-
-<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
-
-<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
-
-<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
-
-<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
-
-<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-state-preservation-and-restoration.html/">
-		
-			iOS App State Preservation and Restoration</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>什么是State Preservation and Restoration？</li>
-<li>为什么要用State Preservation and Restoration？</li>
-<li>如何使用State Preservation and Restoration？</li>
-</ol>
-
-
-<h3>什么是State Preservation and Restoration？</h3>
-
-<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
-
-<h3>为什么要用State Preservation and Restoration？</h3>
-
-<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
-
-<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
-
-
-		
-		<a href="/blog/ios-app-state-preservation-and-restoration.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-08T11:55:48+08:00" pubdate data-updated="true">Dec 8<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html/">
-		
-			如何创建自定义的Xcode 6 工程模板</a>
-	</h2>
-	<div class="entry-content">
-		<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
-
-<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
+<p>Cocoapods 提供了 pod lib create [pod name] 来创建私有库工程，但是有个 embedded dylibs/frameworks are only supported on iOS 8.0 and later 的问题。 意思是只有部署 iOS 8 以上的应用才能使用它，所以要支持 iOS 8 以下的应用的 Pod 我们还是得手动创建，详细步骤如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
-</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir AJFrame
 </span><span class='line'>
-</span><span class='line'>// Step 2:
-</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>// Create static library
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Framework & Library &gt; Cocoa Touch Static Libray 
+</span><span class='line'>
+</span><span class='line'>// Create dev app
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Single View 
+</span><span class='line'>
+</span><span class='line'>// Result 
+</span><span class='line'>AJFrame
+</span><span class='line'>├── AJFrame
+</span><span class='line'>│   ├── AJFrame.xcodeproj
+</span><span class='line'>│   ├── AJFrameTests
+</span><span class='line'>│   ├── Classes
+</span><span class='line'>├── AJFrame.podspec
+</span><span class='line'>├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp.xcodeproj
+</span><span class='line'>│   ├── AJFrameDevApp.xcworkspace
+</span><span class='line'>│   ├── AJFrameDevAppTests
+</span><span class='line'>│   ├── Podfile
+</span><span class='line'>│   ├── Podfile.lock
+</span><span class='line'>│   └── Pods
+</span><span class='line'>└── LICENSE</span></code></pre></td></tr></table></div></figure>
 
 
 
 		
-		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html/" class="more-link">继续阅读</a>
+		<a href="/blog/private-pods.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -264,7 +189,275 @@ $(document).ready(
   
 
 
-<time datetime="2014-12-05T14:34:04+08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2014</time></div>
+<time datetime="2015-03-11T17:23:04+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/how-to-play.html/">
+		
+			(翻译)How to Play, Record, and Edit Videos in iOS</a>
+	</h2>
+	<div class="entry-content">
+		<h4>AVAsset</h4>
+
+<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
+
+<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
+
+<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
+
+<h4>AVComposition</h4>
+
+<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
+
+<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
+
+<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
+
+<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack</p>
+
+<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
+
+<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
+
+<p>And the Rest</p>
+
+<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
+
+<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
+
+<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
+
+<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
+
+<p>Conclusion</p>
+
+<p>To sum it all up:</p>
+
+<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
+
+<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
+
+<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
+
+<p>Each layer instruction is used to apply a certain transform to a given track.</p>
+
+<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-22T16:48:25+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archive/'>Archive</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-technical-interview-part-1.html/">
+		
+			iOS Technical Interview Part 1</a>
+	</h2>
+	<div class="entry-content">
+		<h3>Explain method swizzling. When you would use it?</h3>
+
+<h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
+
+<p>Answer:循环保留导致内存泄漏。</p>
+
+<h3>What happens when you invoke a method on a nil pointer?</h3>
+
+<p>Answer:返回0</p>
+
+<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
+
+<h3>Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+
+<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
+
+<ol>
+<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
+<li>产品代码中不应该包含无用代码。</li>
+</ol>
+
+
+<h3>Explain your process for tracing and fixing a memory leak.</h3>
+
+<ol>
+<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
+<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
+</ol>
+
+
+<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
+
+<h3>Explain how an autorelease pool works at the runtime level.</h3>
+
+<h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
+
+<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@property CGRect domain;
+</span><span class='line'>
+</span><span class='line'>&lt;b&gt;thread 1:&lt;/b&gt; puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
+</span><span class='line'>&lt;b&gt;thread 2:&lt;/b&gt; puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);
+</span><span class='line'>
+</span><span class='line'>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。
+</span><span class='line'>
+</span><span class='line'>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
+
+<h3>In C, how would you reverse a string as quickly as possible?</h3>
+
+<h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
+
+<p>NSArray</p>
+
+<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
+
+<h3>Explain how code signing works.</h3>
+
+<h3>What is posing in Objective-C?</h3>
+
+<h3>List six instruments that are part of the standard.</h3>
+
+<ol>
+<li>Allocations</li>
+<li>Core Animation</li>
+<li>Leaks</li>
+<li></li>
+</ol>
+
+
+<h3>What are the differences between copy and retain?</h3>
+
+<p>copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
+
+<h3>What is the difference between frames and bounds?</h3>
+
+<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
+The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
+
+<h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+
+<p>The object gets released twice when the autorelease pool is destroyed.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
+
+<h3>List the five iOS app states.</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> State </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> Not Running </td>
+<td> The app has not been launched or was running but was terminated by the system.</td>
+</tr>
+<tr>
+<td></td>
+<td> Inactive </td>
+<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
+</tr>
+<tr>
+<td></td>
+<td> Active </td>
+<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
+</tr>
+<tr>
+<td></td>
+<td> Background </td>
+<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
+</tr>
+<tr>
+<td></td>
+<td> Suspended </td>
+<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-05T15:44:07+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">

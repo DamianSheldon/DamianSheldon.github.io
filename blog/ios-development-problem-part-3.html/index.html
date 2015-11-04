@@ -125,6 +125,9 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
 
 <p>where YourApp.app is the actual name of your .app bundle.</p>
 
+<!-- more -->
+
+
 <h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
 
 <p>解决办法：
@@ -317,6 +320,16 @@ App target > Build Settings > Enable Bitcode > NO</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
+
+<h3>15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0</h3>
+
+<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning
+2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right
+3. Find the Object ID of the UILabel
+4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel
+5. Explictit set preferred layout width</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8">http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8</a></p>
 </div>
 
 

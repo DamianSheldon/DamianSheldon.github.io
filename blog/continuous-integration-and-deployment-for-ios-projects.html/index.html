@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Here's where it all happens for me.  | Hello World</title>
+	<title>iOS 项目持续集成和部署笔记  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS, Continuous Integration, Deployment">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -105,18 +105,9 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html/">
-		
-			iOS 项目持续集成和部署笔记</a>
-	</h2>
-	<div class="entry-content">
-		<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">iOS 项目持续集成和部署笔记</h2>
+	<div class="entry-content"><p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
 
 <h3>安装工具</h3>
 
@@ -342,10 +333,7 @@ $(document).ready(
 <a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
 <a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
 <a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
-
-		
-		
-	</div>
+</div>
 
 
 <div class="meta">
@@ -374,157 +362,40 @@ $(document).ready(
 	
 </div></article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-devleopment-problems-part-4.html/">
-		
-			iOS App 开发问题汇总（四）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1. Suppressing deprecated warnings</h3>
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
 
-<h1>pragma clang diagnostic push</h1>
-
-<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
-
-<p>[reciver deprecatedMethod];</p>
-
-<h1>pragma clang diagnostic pop</h1>
-
-<h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
-</span><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
-</span><span class='line'>Undefined symbols for architecture arm64:
-</span><span class='line'>  "_Decoder_Interface_init", referenced from:
-</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Decoder_Interface_Decode", referenced from:
-</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Decoder_Interface_exit", referenced from:
-</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Encoder_Interface_init", referenced from:
-</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "___gxx_personality_v0", referenced from:
-</span><span class='line'>      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</span><span class='line'>      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</span><span class='line'>  "_Encoder_Interface_Encode", referenced from:
-</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Encoder_Interface_exit", referenced from:
-</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
-
-
-		
-		<a href="/blog/ios-devleopment-problems-part-4.html/" class="more-link">继续阅读</a>
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
 	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-15T15:04:13+08:00" pubdate data-updated="true">Oct 15<span>th</span>, 2015</time></div>
-	
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-when-use-mac.html/">
-		
-			使用 Mac 遇到的问题</a>
-	</h2>
-	<div class="entry-content">
-		<h2>1. How to enable the three finger drag on OS X 10.11</h2>
-
-<p>Step 1: Open System Preferences</p>
-
-<p>Step 2: Click Accessibility</p>
-
-<p>Step 3: Click Mouse &amp; Trackpad</p>
-
-<p>Step 4: Click Trackpad Options…</p>
-
-<p>Step 5: Click Enable dragging</p>
-
-<p>Step 6: Select “three finger drag” in the drop down box</p>
-
-<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
-
-
-		
-		<a href="/blog/problems-when-use-mac.html/" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-10T08:49:37+08:00" pubdate data-updated="true">Oct 10<span>th</span>, 2015</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
-
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-        <a href="/blog/page/2/" class="next">Next</a>
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
+</div>
 	<footer id="footer" class="inner">Copyright &copy; 2015
 
     Sheldon

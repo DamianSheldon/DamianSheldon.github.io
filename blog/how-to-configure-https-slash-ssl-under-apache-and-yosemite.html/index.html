@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>如何使能 Yosemite 内置 Apache 的 HTTPS/SSL  | Hello World</title>
+	<title>如何在 Mac 上开启 Apache, PHP, MySQL  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="https, ssl, yosemite, apache">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="https, SSL, Mac, Apache, MySQL">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -106,14 +106,18 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">如何使能 Yosemite 内置 Apache 的 HTTPS/SSL</h2>
-	<div class="entry-content"><p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
+	<h2 class="title">如何在 Mac 上开启 Apache, PHP, MySQL</h2>
+	<div class="entry-content"><h2>Apache</h2>
 
-<p>我的环境：<br/>
-OS: OS X 10.10.3 (14D136)<br/>
-Apache: Apache/2.4.10 (Unix)</p>
+<h3>开启 Apache</h3>
 
-<p>详细步骤：</p>
+<ol>
+<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
+<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
+</ol>
+
+
+<h3>配置 HTTPS 的详细步骤：</h3>
 
 <ol>
 <li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
@@ -154,7 +158,7 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 </ol>
 
 
-<!--more-->
+<!-- more -->
 
 
 <ol>
@@ -200,6 +204,56 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 <p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
 解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
 
+<h2>PHP</h2>
+
+<ol>
+<li>Open /etc/apache2/httpd.conf with your favorite editor (eg: Vim);</li>
+<li>Uncomment LoadModule php5_module libexec/apache2/libphp5.so</li>
+<li><code>sudo apachectl restart</code></li>
+<li>Test with phpinfo.php, its content is &ldquo;&lt;?php phpinfo(); ?>&rdquo;</li>
+</ol>
+
+
+<h2>MySQL</h2>
+
+<ol>
+<li><a href="http://dev.mysql.com/downloads/mysql/">Download from the MySQL site</a>, click No thanks, just take me to the downloads!;</li>
+<li>Choose Mac OS X ver. 10.9 (x86, 64-bit), DMG Archive, because there is an issue with this version and El Capitan in that it won’t start on reboot – it will need to be started via command line explained below.</li>
+<li>Starting MySQL
+
+<ul>
+<li>Via Preference Pane</li>
+<li>Command line
+  <code>
+  sudo /usr/local/mysql/support-files/mysql.server start
+ </code></li>
+</ul>
+</li>
+<li><p>Add MySQL directory to shell path</p>
+
+<ul>
+<li>Open ~/.bash_profile</li>
+<li>export PATH=&ldquo;/usr/local/mysql/bin:$PATH&rdquo;</li>
+<li>source ~/.bash_profile</li>
+</ul>
+</li>
+<li><p>Change root password
+ <code>
+ mysql -u root -p
+ mysql&gt; SET PASSWORD FOR
+ -&gt; 'root'@'localhost' = PASSWORD('mypass');
+</code></p></li>
+<li><p>Fix the 2002 MySQL Socket error
+ Fix the looming 2002 socket error – which is linking where MySQL places the socket and where OSX thinks it should be, MySQL puts it in /tmp and OSX looks for it in /var/mysql the socket is a type of file that allows mysql client/server communication.</p>
+
+<ul>
+<li>sudo mkdir /var/mysql</li>
+<li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
+</ul>
+</li>
+</ol>
+
+
 <h3>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h3>
 
 <p>Solution:
@@ -210,10 +264,8 @@ By default, your global directory settings is (httpd.conf line ~188):</p>
 
 <p><Directory /></p>
 
-<pre><code>Options FollowSymLinks
-AllowOverride All
-Order deny,allow
-Allow from all
+<pre><code> AllowOverride none
+ Require all granted
 </code></pre>
 
 <p></Directory>
@@ -223,11 +275,9 @@ set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
 
 <p><Directory /></p>
 
-<pre><code>#Options FollowSymLinks
-Options Indexes FollowSymLinks Includes ExecCGI
-AllowOverride All
-Order deny,allow
-Allow from all
+<pre><code> Options Indexes FollowSymLinks Includes ExecCGI
+ AllowOverride All
+ Require all granted
 </code></pre>
 
 <p></Directory>
@@ -237,7 +287,8 @@ Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo
 
 <p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
 <a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a></p>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  ">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  </a>
+<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/</a></p>
 </div>
 
 

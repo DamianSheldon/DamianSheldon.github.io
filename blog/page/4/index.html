@@ -111,102 +111,32 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/nsthread-thechnology-notes.html/">
+		<a href="/blog/ios-development-problem-part-3.html/">
 		
-			iOS Thread笔记</a>
+			iOS App 开发问题汇总（三）</a>
 	</h2>
 	<div class="entry-content">
-		<ol>
-<li>Thread是什么？</li>
-<li>iOS中怎么使用Thread？</li>
-</ol>
+		<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
 
+<p>Making an Inspectable .ipa file<br/>
+In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
+When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
+When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
+Checking the Entitlements of an .ipa file<br/>
+Find the .ipa file and change its the extension to .zip.<br/>
+Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
+Use the codesign tool to check the entitlements on the .app bundle like this:
+$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
+where YourApp.app is the actual name of your .app bundle.<br/>
+Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
+// should add cms, Apple may be a typo
+$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
 
-<h3>Thread是什么</h3>
+<p>where YourApp.app is the actual name of your .app bundle.</p>
 
-<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
-
-<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
-
-<h3>iOS中怎么使用Thread</h3>
-
-<p>iOS中的Thread技术主要有以下两种：</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> Technology </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
-</tr>
-<tr>
-<td></td>
-<td> POSIX threads </td>
-<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>Creating a Thread</h4>
-
-<ol>
-<li><p>Using NSThread</p>
-
-<ul>
-<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
-<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
-</ul>
-</li>
-<li><p>Using POSIX Threads</p>
-
-<ul>
-<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
-</ul>
-</li>
-<li><p>Using NSObject to Spawn a Thread</p>
-
-<ul>
-<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>Configuring Thread Attributes</h4>
-
-<p>Thread的配置项有：</p>
-
-<ul>
-<li>Stack Size of a Thread</li>
-<li>Thread-Local Storage</li>
-<li>Detached State of a Thread</li>
-<li>Thread Priority</li>
-</ul>
-
-
-<h4>Writing Your Thread Entry Routine</h4>
-
-<p>编写Thread的入口程序通常需要做如下事项：</p>
-
-<ul>
-<li>Creating an Autorelease Pool</li>
-<li>Setting Up an Exception Handler</li>
-<li>Setting Up a Run Loop</li>
-</ul>
-
-
-<h4>Terminating a Thread</h4>
 
 		
-		
+		<a href="/blog/ios-development-problem-part-3.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -223,7 +153,7 @@ $(document).ready(
   
 
 
-<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
+<time datetime="2015-07-30T11:36:57+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
@@ -240,49 +170,65 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-app-problems-part-2.html/">
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/">
 		
-			iOS App 开发问题汇总（二）</a>
+			如何在 Mac 上开启 Apache, PHP, MySQL</a>
 	</h2>
 	<div class="entry-content">
-		<h3>问题描述：Ad Hoc分发应用</h3>
+		<h2>Apache</h2>
 
-<p>导出Ad Hoc授权应用
-Xcode > Product > Archive > Export</p>
-
-<p>安装Ad Hoc分发的应用
-Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
-
-<h3>问题描述：Xcode编译出现如下警告提示：</h3>
-
-<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
-
-<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
-
-<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
-
-<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
-
-<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
-
-<p>解决办法：</p>
+<h3>开启 Apache</h3>
 
 <ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
+<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
+<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
 </ol>
 
 
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
+<h3>配置 HTTPS 的详细步骤：</h3>
+
+<ol>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
+</ol>
+
 
 
 		
-		<a href="/blog/ios-app-problems-part-2.html/" class="more-link">继续阅读</a>
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -299,12 +245,12 @@ set it to &ldquo;No Application&rdquo;</p>
   
 
 
-<time datetime="2015-03-16T16:14:50+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time></div>
+<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
 
 </div>
 
@@ -316,26 +262,134 @@ set it to &ldquo;No Application&rdquo;</p>
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/private-pods.html/">
+		<a href="/blog/enumerated-constants.html/">
 		
-			如何创建私有的Pod</a>
+			Enumerated Constants</a>
 	</h2>
 	<div class="entry-content">
-		<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
-
-<p>Cocoa Pods工作依赖于两个文件：<br/>
-1. podspec:一个pod的配置是什么，pod的代码放在哪里<br/>
-2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
-
-<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
+		<p>Objective-C中的枚举常量大致有以下四种情形：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create --verbose project</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. unnamed enumerations
+</span><span class='line'>enum {
+</span><span class='line'>    NSBorderlessWindowMask      = 0,
+</span><span class='line'>    NSTitledWindowMask          = 1 &lt;&lt; 0,
+</span><span class='line'>    NSClosableWindowMask        = 1 &lt;&lt; 1,
+</span><span class='line'>    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+</span><span class='line'>    NSResizableWindowMask       = 1 &lt;&lt; 3
+</span><span class='line'> 
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>`- (void)setStyleMask:(NSUInteger)styleMask`
+</span><span class='line'>
+</span><span class='line'>// 2 
+</span><span class='line'>typedef enum _NSMatrixMode {
+</span><span class='line'>    NSRadioModeMatrix           = 0,
+</span><span class='line'>    NSHighlightModeMatrix       = 1,
+</span><span class='line'>    NSListModeMatrix            = 2,
+</span><span class='line'>    NSTrackModeMatrix           = 3
+</span><span class='line'>} NSMatrixMode;
+</span><span class='line'>
+</span><span class='line'>// 3
+</span><span class='line'>typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
+</span><span class='line'>    UITableViewCellStyleDefault,
+</span><span class='line'>    UITableViewCellStyleValue1,
+</span><span class='line'>    UITableViewCellStyleValue2,
+</span><span class='line'>    UITableViewCellStyleSubtitle
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// 4
+</span><span class='line'>typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {
+</span><span class='line'>    NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
+</span><span class='line'>    NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
+</span><span class='line'>    NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
+</span><span class='line'>    NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
+</span><span class='line'>    NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
+</span><span class='line'>    NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
+</span><span class='line'>    NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
+</span><span class='line'>    NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
+</span><span class='line'>    NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
+</span><span class='line'>    NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
+</span><span class='line'>    NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
+</span><span class='line'>    
+</span><span class='line'>    NSLayoutFormatAlignmentMask = 0xFFFF,
+</span><span class='line'>    
+</span><span class='line'>    /* choose only one of these three
+</span><span class='line'>     */
+</span><span class='line'>    NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
+</span><span class='line'>    NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
+</span><span class='line'>    NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
+</span><span class='line'>    
+</span><span class='line'>    NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
+</span><span class='line'>};
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>情形一相当于定义了常量，但不定义类型;<br/>
+情形二定义了一个NSMatrixMode类型;</p>
+
+<p>情形三定义了一个NSInteger的UITableViewCellStyle类型;<br/>
+情形四支持C++的枚举特性。</p>
+
+<blockquote><p>The NS_OPTIONS macro is defined in different ways if compiling as C++ or not. If it’s not C++, it’s expanded out the same as NS_ENUM. However, if it is C++, it’s expanded out slightly differently. Why? The C++ compiler acts differently when two enumeration values are bitwise OR’ed together. This is something, as shown earlier, that is commonly done with the options type of enumeration. When two values are OR’ed together, C++ considers the resulting value to be of the type the enumeration represents: NSUInteger. It also doesn’t allow the implicit cast to the enumeration type.</p></blockquote>
+
+<p>Reference:<br/>
+Effective Objective-C 2.0<br/>
+<a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
 
 		
-		<a href="/blog/private-pods.html/" class="more-link">继续阅读</a>
+		
 	</div>
 
 
@@ -352,7 +406,7 @@ set it to &ldquo;No Application&rdquo;</p>
   
 
 
-<time datetime="2015-03-11T17:23:04+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2015</time></div>
+<time datetime="2015-05-08T16:38:20+08:00" pubdate data-updated="true">May 8<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">

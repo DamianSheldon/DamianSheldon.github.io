@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-09-28T10:54:49+08:00</updated>
+  <updated>2015-11-04T20:56:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,404 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 项目持续集成和部署笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects.html/"/>
+    <updated>2015-11-04T09:38:13+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects</id>
+    <content type="html"><![CDATA[<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
+
+<h3>安装工具</h3>
+
+<ol>
+<li><a href="http://jenkins-ci.org/">jenkins</a>;</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew update && brew install jenkins</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><a href="https://github.com/fastlane/fastlane">fastlane</a>;</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo gem install fastlane --verbose</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo gem install fir-cli</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>fastlane 自动构建</h3>
+
+<ul>
+<li>cd [your_project_folder]</li>
+<li>fastlane init</li>
+<li>Follow the setup assistant, which will set up fastlane for you</li>
+<li>Edit Fastfile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fastlane_version "1.25.0"
+</span><span class='line'>
+</span><span class='line'>default_platform :ios
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>platform :ios do
+</span><span class='line'>  before_all do
+</span><span class='line'>    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+</span><span class='line'>    #cocoapods
+</span><span class='line'>
+</span><span class='line'>    increment_build_number
+</span><span class='line'>
+</span><span class='line'>    gym(scheme: "srsApp") # Build your app - more options available
+</span><span class='line'>
+</span><span class='line'>    # xctool # run the tests of your app
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  desc "Runs all the tests"
+</span><span class='line'>  lane :test do
+</span><span class='line'>    snapshot
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  desc "Submit a new Beta Build to fir"
+</span><span class='line'>  desc "This will also make sure the profile is up to date"
+</span><span class='line'>  lane :fir do
+</span><span class='line'>    #snapshot
+</span><span class='line'>    sh "sigh --team_id your_team_id"
+</span><span class='line'>    #deliver(beta: true)
+</span><span class='line'>
+</span><span class='line'>    #"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
+</span><span class='line'>
+</span><span class='line'>    #"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
+</span><span class='line'>
+</span><span class='line'>    # sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
+</span><span class='line'>    # You can also use other beta testing services here
+</span><span class='line'>    sh "fir p ../srsApp.ipa -T USER_TOKEN"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  desc "Submit a new Beta Build to pgyer "
+</span><span class='line'>  desc "This will also make sure the profile is up to date"
+</span><span class='line'>  lane :pgyer do
+</span><span class='line'>    #snapshot
+</span><span class='line'>    sh "sigh --team_id your_team_id"
+</span><span class='line'>    #deliver(beta: true)
+</span><span class='line'>
+</span><span class='line'>    # You can also use other beta testing services here
+</span><span class='line'>    sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # You can define as many lanes as you want
+</span><span class='line'>
+</span><span class='line'>  after_all do |lane|
+</span><span class='line'>    # This block is called, only if the executed lane was successful
+</span><span class='line'>
+</span><span class='line'>     slack(
+</span><span class='line'>       message: "Successfully deployed new App Update."
+</span><span class='line'>     )
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  error do |lane, exception|
+</span><span class='line'>     slack(
+</span><span class='line'>       message: exception.message,
+</span><span class='line'>       success: false
+</span><span class='line'>     )
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 <code>fastlane fir</code>测试能否正常构建。</p>
+
+<h3>自动测试</h3>
+
+<p>可以利用 xcodebuild 命令来实现自动测试。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>jenkins 持续集成</h3>
+
+<ol>
+<li><p>创建自动构建 job</p></li>
+<li><p>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</p></li>
+<li><p>Install plugins</p>
+
+<ul>
+<li>HTML Publisher Plugin</li>
+<li>AnsiColor Plugin</li>
+<li>Rebuild Plugin</li>
+<li>GIT Plugin</li>
+</ul>
+</li>
+<li><p>Create job > input item name > Freestyle project > OK</p></li>
+<li><p>Configuration
+  Source Code Management
+  Git
+  Repository URL /Users/dongmeiliang/Documents/HJKApp
+  Branches to build */test
+  Add build step > Execute shell</p>
+
+<p>  <code>
+  #!/bin/bash
+  source ~/.bash_profile
+  cd srsApp/
+  fastlane  fir
+ </code></p></li>
+<li><p>Save > build</p></li>
+<li><p>创建自动测试 job</p></li>
+</ol>
+
+
+<h2>Reference</h2>
+
+<p>Testing with Xcode
+<a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
+<a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
+<a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（四）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4.html/"/>
+    <updated>2015-10-15T15:04:13+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4</id>
+    <content type="html"><![CDATA[<h3>1. Suppressing deprecated warnings</h3>
+
+<h1>pragma clang diagnostic push</h1>
+
+<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
+
+<p>[reciver deprecatedMethod];</p>
+
+<h1>pragma clang diagnostic pop</h1>
+
+<h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
+</span><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
+</span><span class='line'>Undefined symbols for architecture arm64:
+</span><span class='line'>  "_Decoder_Interface_init", referenced from:
+</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Decoder_Interface_Decode", referenced from:
+</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Decoder_Interface_exit", referenced from:
+</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Encoder_Interface_init", referenced from:
+</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "___gxx_personality_v0", referenced from:
+</span><span class='line'>      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</span><span class='line'>      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</span><span class='line'>  "_Encoder_Interface_Encode", referenced from:
+</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Encoder_Interface_exit", referenced from:
+</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
+
+<!-- more -->
+
+
+<h3>3. Undefined symbols for architecture arm64:</h3>
+
+<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
+
+<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</code></pre>
+
+<p>ld: symbol(s) not found for architecture arm64</p>
+
+<p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l&#8221;stdc++&#8221;</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode">http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用 Mac 遇到的问题]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac.html/"/>
+    <updated>2015-10-10T08:49:37+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac</id>
+    <content type="html"><![CDATA[<h2>1. How to enable the three finger drag on OS X 10.11</h2>
+
+<p>Step 1: Open System Preferences</p>
+
+<p>Step 2: Click Accessibility</p>
+
+<p>Step 3: Click Mouse &amp; Trackpad</p>
+
+<p>Step 4: Click Trackpad Options…</p>
+
+<p>Step 5: Click Enable dragging</p>
+
+<p>Step 6: Select “three finger drag” in the drop down box</p>
+
+<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
+
+<!-- more -->
+
+
+<h2>2. How to find computer name on Mac</h2>
+
+<ol>
+<li><p>GUI
+System Preference > Sharing</p></li>
+<li><p>Command Line
+hostname</p></li>
+</ol>
+
+
+<p> ./configure &mdash;prefix=/usr/local/php &mdash;with-mysql=/usr/local/mysql &mdash;with-apxs=/usr/local/apache/bin/apxs &mdash;with-config-file-path=/usr/local/apache/conf &mdash;enable-mbstring</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 安装 OS X El Capitan]]></title>
+    <link href="http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html/"/>
+    <updated>2015-10-09T18:00:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment</id>
+    <content type="html"><![CDATA[<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &mdash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
+
+<h2>备份数据</h2>
+
+<p>我用 sftp 把数据备份到另一台 Mac 上, 之前也试过 Migration Assitant 都是卡在最后一分钟，不知道现在这个问题改善了没有。 用 sftp 备份中间也中断了好多次，但手头也没移动硬盘也只能这么将就着了。</p>
+
+<h2>Install OS X El Capitan</h2>
+
+<ol>
+<li>需要一个 8GB 左右的 U 盘，因为 El Capitan 的大小超过 6GB ;</li>
+<li>从 App Store 下载 El Capitan;</li>
+<li>制作安装盘：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>重新启动，按住 option 键，选择通过U盘启动，之后先进入磁盘工具里面把硬盘格式化了（你也可以选择不格式化，这样就是覆盖安装）;</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>安装常用软件</h2>
+
+<ol>
+<li>Download Xcode in App Store;</li>
+<li>iTerm;</li>
+<li>Chrome;</li>
+<li>LibreOffice;</li>
+<li>Microsoft Remote Desktop Connection;</li>
+<li>Homebrew;</li>
+<li>ruby;</li>
+<li>Set up web development envrionment</li>
+</ol>
+
+
+<p>Reference:<a href="http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/">http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Set up PHP development environment]]></title>
@@ -264,7 +662,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#x6f;&#110;&#x67;&#x6d;&#101;&#x69;&#108;&#x69;&#x61;&#x6e;&#x67;&#x40;&#49;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#x31;&#46;&#50;&#x35;&#53;">&#100;&#111;&#x6e;&#x67;&#109;&#101;&#105;&#108;&#x69;&#97;&#110;&#103;&#64;&#x31;&#57;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x2e;&#50;&#53;&#x35;</a>
+<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#100;&#x6f;&#110;&#x67;&#109;&#x65;&#105;&#108;&#x69;&#97;&#x6e;&#x67;&#64;&#49;&#57;&#x32;&#46;&#49;&#x36;&#56;&#46;&#x31;&#x2e;&#x32;&#53;&#53;">&#100;&#111;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#105;&#x61;&#110;&#103;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#46;&#x32;&#x35;&#53;</a>
 2.cd path
   Change remote directory to path.</p>
 
@@ -480,6 +878,8 @@ The COUNT(DISTINCT column_name) function returns the number of distinct values o
 </span><span class='line'>
 </span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
 
+
+
 ]]></content>
   </entry>
   
@@ -505,6 +905,9 @@ Use the security tool to check the entitlements of the app&rsquo;s embedded prov
 $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
 
 <p>where YourApp.app is the actual name of your .app bundle.</p>
+
+<!-- more -->
+
 
 <h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
 
@@ -698,21 +1101,35 @@ App target > Build Settings > Enable Bitcode > NO</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
+
+<h3>15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0</h3>
+
+<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning
+2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right
+3. Find the Object ID of the UILabel
+4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel
+5. Explictit set preferred layout width</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8">http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8</a></p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[如何使能 Yosemite 内置 Apache 的 HTTPS/SSL]]></title>
+    <title type="html"><![CDATA[如何在 Mac 上开启 Apache, PHP, MySQL]]></title>
     <link href="http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/"/>
     <updated>2015-07-05T21:24:55+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite</id>
-    <content type="html"><![CDATA[<p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
+    <content type="html"><![CDATA[<h2>Apache</h2>
 
-<p>我的环境：<br/>
-OS: OS X 10.10.3 (14D136)<br/>
-Apache: Apache/2.4.10 (Unix)</p>
+<h3>开启 Apache</h3>
 
-<p>详细步骤：</p>
+<ol>
+<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
+<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
+</ol>
+
+
+<h3>配置 HTTPS 的详细步骤：</h3>
 
 <ol>
 <li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
@@ -753,7 +1170,7 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 </ol>
 
 
-<!--more-->
+<!-- more -->
 
 
 <ol>
@@ -799,6 +1216,56 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 <p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
 解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
 
+<h2>PHP</h2>
+
+<ol>
+<li>Open /etc/apache2/httpd.conf with your favorite editor (eg: Vim);</li>
+<li>Uncomment LoadModule php5_module libexec/apache2/libphp5.so</li>
+<li><code>sudo apachectl restart</code></li>
+<li>Test with phpinfo.php, its content is &ldquo;&lt;?php phpinfo(); ?>&rdquo;</li>
+</ol>
+
+
+<h2>MySQL</h2>
+
+<ol>
+<li><a href="http://dev.mysql.com/downloads/mysql/">Download from the MySQL site</a>, click No thanks, just take me to the downloads!;</li>
+<li>Choose Mac OS X ver. 10.9 (x86, 64-bit), DMG Archive, because there is an issue with this version and El Capitan in that it won’t start on reboot – it will need to be started via command line explained below.</li>
+<li>Starting MySQL
+
+<ul>
+<li>Via Preference Pane</li>
+<li>Command line
+  <code>
+  sudo /usr/local/mysql/support-files/mysql.server start
+ </code></li>
+</ul>
+</li>
+<li><p>Add MySQL directory to shell path</p>
+
+<ul>
+<li>Open ~/.bash_profile</li>
+<li>export PATH=&ldquo;/usr/local/mysql/bin:$PATH&rdquo;</li>
+<li>source ~/.bash_profile</li>
+</ul>
+</li>
+<li><p>Change root password
+ <code>
+ mysql -u root -p
+ mysql&gt; SET PASSWORD FOR
+ -&gt; 'root'@'localhost' = PASSWORD('mypass');
+</code></p></li>
+<li><p>Fix the 2002 MySQL Socket error
+ Fix the looming 2002 socket error – which is linking where MySQL places the socket and where OSX thinks it should be, MySQL puts it in /tmp and OSX looks for it in /var/mysql the socket is a type of file that allows mysql client/server communication.</p>
+
+<ul>
+<li>sudo mkdir /var/mysql</li>
+<li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
+</ul>
+</li>
+</ol>
+
+
 <h3>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h3>
 
 <p>Solution:
@@ -809,10 +1276,8 @@ By default, your global directory settings is (httpd.conf line ~188):</p>
 
 <p><Directory /></p>
 
-<pre><code>Options FollowSymLinks
-AllowOverride All
-Order deny,allow
-Allow from all
+<pre><code> AllowOverride none
+ Require all granted
 </code></pre>
 
 <p></Directory>
@@ -822,11 +1287,9 @@ set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
 
 <p><Directory /></p>
 
-<pre><code>#Options FollowSymLinks
-Options Indexes FollowSymLinks Includes ExecCGI
-AllowOverride All
-Order deny,allow
-Allow from all
+<pre><code> Options Indexes FollowSymLinks Includes ExecCGI
+ AllowOverride All
+ Require all granted
 </code></pre>
 
 <p></Directory>
@@ -836,7 +1299,8 @@ Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo
 
 <p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
 <a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a></p>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  ">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  </a>
+<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/</a></p>
 ]]></content>
   </entry>
   
@@ -1526,22 +1990,81 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
     <link href="http://DamianSheldon.github.io/blog/private-pods.html/"/>
     <updated>2015-03-11T17:23:04+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/private-pods</id>
-    <content type="html"><![CDATA[<p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
+    <content type="html"><![CDATA[<p>公司的框架代码大多数时候是需要保密的，而手动的复制导入比较麻烦，这时候我们可以创建私有 Pod 来方便我们的日常开发工作，本文是我创建私有 Pod 的笔记。</p>
 
-<p>Cocoa Pods工作依赖于两个文件：<br/>
-1. podspec:一个pod的配置是什么，pod的代码放在哪里<br/>
-2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
-
-<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
+<p>Cocoapods 提供了 pod lib create [pod name] 来创建私有库工程，但是有个 embedded dylibs/frameworks are only supported on iOS 8.0 and later 的问题。 意思是只有部署 iOS 8 以上的应用才能使用它，所以要支持 iOS 8 以下的应用的 Pod 我们还是得手动创建，详细步骤如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create --verbose project</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir AJFrame
+</span><span class='line'>
+</span><span class='line'>// Create static library
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Framework & Library &gt; Cocoa Touch Static Libray 
+</span><span class='line'>
+</span><span class='line'>// Create dev app
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Single View 
+</span><span class='line'>
+</span><span class='line'>// Result 
+</span><span class='line'>AJFrame
+</span><span class='line'>├── AJFrame
+</span><span class='line'>│   ├── AJFrame.xcodeproj
+</span><span class='line'>│   ├── AJFrameTests
+</span><span class='line'>│   ├── Classes
+</span><span class='line'>├── AJFrame.podspec
+</span><span class='line'>├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp.xcodeproj
+</span><span class='line'>│   ├── AJFrameDevApp.xcworkspace
+</span><span class='line'>│   ├── AJFrameDevAppTests
+</span><span class='line'>│   ├── Podfile
+</span><span class='line'>│   ├── Podfile.lock
+</span><span class='line'>│   └── Pods
+</span><span class='line'>└── LICENSE</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>Cocoapods 工作依赖于两个文件：</p>
+
+<ol>
+<li>podspec:一个pod的配置是什么，pod的代码放在哪里</li>
+<li>Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</li>
+</ol>
+
+
+<h3>创建podspec文件</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create [NAME|https://github.com/USER/REPO] --verbose</span></code></pre></td></tr></table></div></figure>
 
 
 <!--more-->
 
 
-<p>然后编辑podspecs文件，这里有几个地方需要注意：</p>
+<p>然后编辑podspecs文件，具体可以参考它的<a href="https://guides.cocoapods.org/syntax/podspec.html">详细语法</a>，这里有几个地方需要注意：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1552,20 +2075,117 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
-</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.iOS", :tag =&gt; "2.0.0" }
+</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git", :tag =&gt; "2.0.0" }
 </span><span class='line'>
 </span><span class='line'>// s.source_files指定哪些源文件需要包含在pod中
-</span><span class='line'>s.source_files  = "AJFrame.iOS/*.{h,m}"
+</span><span class='line'>s.source_files  = "AJFrame/classes/*.{h,m}"
 </span><span class='line'>
 </span><span class='line'>// pod的依赖
 </span><span class='line'>s.dependency "JSONKit", "~&gt; 1.4"
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来在需要依赖这个pod的工程的Podfile文件中指定podspec的存放路径。</p>
+<p>可以使用命令 <code>pod lib lint --verbose</code> 来验证 podspecs 文件。</p>
+
+<h3>开发静态库</h3>
+
+<p>编辑辅助开发静态库应用工程的 Podfile，具体可以参考它的<a href="https://guides.cocoapods.org/syntax/podfile.html">详细语法</a> ,让它使用安装链接静态库.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>target 'AJFrameDevApp' do
+</span><span class='line'>    pod 'AJFrame', :path =&gt; '../'
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>$ cd ~/Documents/AJFrame/AJFrameDevApp/
+</span><span class='line'>$ pod install --no-repo-update --verbose</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>测试</h3>
+
+<p>开发完成以后，可以创建一个测试工程来测试私有 Pod 是否能正常工作，具体而言,通常是在创建一个远程仓库，把私有 Pod 的代码推送上去，然后创建一个新的工程，让它安装这个私有 Pod ，然后写些测试代码，测试它能否正常工作。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Remote 
+</span><span class='line'>$ cd /Git
+</span><span class='line'>$ git init --bare AJFrame.git
+</span><span class='line'>
+</span><span class='line'>// Local
+</span><span class='line'>$ cd ~/Documents/AJFrame
+</span><span class='line'>$ git init 
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit
+</span><span class='line'>$ git tag &lt;tagname&gt;
+</span><span class='line'>$ git remote add origin &lt;url&gt;
+</span><span class='line'>$ git push -u origin master --tags --verbose
+</span><span class='line'>
+</span><span class='line'>// Edit dependency project's Podfile, add a similary line
+</span><span class='line'>pod 'AJFrame', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.git', :tag =&gt; '2.0.0'
+</span><span class='line'>$ pod install --no-repo-update --verbose
+</span><span class='line'>$ write code and test</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>发布</h3>
+
+<p>发布是可选的，但是当我们有其他的 Pod 想依赖开发的这个私有 Pod 时就变成必须的，所以我们还是得会发布一个私有 Pod。具体步骤如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a Private Spec Repo  
+</span><span class='line'>$ cd /Git  
+</span><span class='line'>$ git init --bare Specs.git
+</span><span class='line'>
+</span><span class='line'>// Add your Private Repo to your CocoaPods installation
+</span><span class='line'>$ pod repo add aijian-specs ssh://192.168.1.105:/git/ICW/Git/Specs.git --verbose
+</span><span class='line'>
+</span><span class='line'>// Check your installation is successful and ready to go
+</span><span class='line'>$ cd ~/.cocoapods/repos/aijian-specs
+</span><span class='line'>$ pod repo lint .
+</span><span class='line'>
+</span><span class='line'>// Add your Podspec to your repo
+</span><span class='line'>pod repo push aijian-specs AJFrame.podspec
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在工程中使用它时，编辑 Podfile， 加入如下内容：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source ssh://192.168.1.105:/git/ICW/Git/Specs.git
+</span><span class='line'>
+</span><span class='line'>pod 'AJFrame', '~&gt; 2.0.0' </span></code></pre></td></tr></table></div></figure>
 
 
 <h3>s.dependency 如何依赖私有 Pod？</h3>
@@ -2057,316 +2677,6 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 <p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
 
 <p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App State Preservation and Restoration]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration.html/"/>
-    <updated>2014-12-08T11:55:48+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-app-state-preservation-and-restoration</id>
-    <content type="html"><![CDATA[<ol>
-<li>什么是State Preservation and Restoration？</li>
-<li>为什么要用State Preservation and Restoration？</li>
-<li>如何使用State Preservation and Restoration？</li>
-</ol>
-
-
-<h3>什么是State Preservation and Restoration？</h3>
-
-<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
-
-<h3>为什么要用State Preservation and Restoration？</h3>
-
-<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
-
-<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
-
-<!-- more -->
-
-
-<h3>如何使用State Preservation and Restoration？</h3>
-
-<p>State Restoreation成功的前提条件如下： <br/>
-1. <strong>状态保留必须成功。</strong>也就是说应用终止前必须进入后台运行状态。 <br/>
-2. <strong>应用不可以强制退出。</strong> <br/>
-3. <strong>从最近一次状态保留开始，应用必须没有启动失败过。</strong></p>
-
-<p>Checklist for Implementing State Preservation and Restoration</p>
-
-<ol>
-<li>(Required) Implement the <code>application:shouldSaveApplicationState:</code> and <code>application:shouldRestoreApplicationState:</code>methods in your app delegate;</li>
-<li>(Required) Assign restoration identifiers to each view controller you want to preserve by assigning a non empty string to their <code>restorationIdentifier</code> property;If you want to save the state of specific views too, assign non empty strings to their <code>restorationIdentifier</code> properties;</li>
-<li>(Required) Show your app’s window from the <code>application:willFinishLaunchingWithOptions:</code> method of your app delegate. The state restoration machinery needs the window so that it can restore scroll positions and other relevant bits of your app’s interface.</li>
-<li>Assign restoration classes to the appropriate view controllers. (If you do not do this, your app delegate is asked to provide the corresponding view controller at restore time.)</li>
-<li>(Recommended) Encode and decode the state of your views and view controllers using the <code>encodeRestorableStateWithCoder:</code> and <code>decodeRestorableStateWithCoder:</code> methods of those objects;</li>
-<li>Encode and decode any version information or additional state information for your app using the <code>application:willEncodeRestorableStateWithCoder:</code> and <code>application:didDecodeRestorableStateWithCoder:</code> methods of your app delegate;</li>
-<li>Objects that act as data sources for table views and collection views should implement the <strong>UIDataSourceModelAssociation</strong> protocol. Although not required, this protocol helps preserve the selected and visible items in those types of views.</li>
-</ol>
-
-
-<h3>注意事项</h3>
-
-<div style="text-align: center" markdown="1">
-
-    <img name="state_vc_caveats_2x" src="http://DamianSheldon.github.io/images/state_vc_caveats_2x.png" width="594" height="862">
-
-</div>
-
-
-<p>上图有颜色的视图控制器的状态是不会被保存和恢复的。</p>
-
-<h3>Reference</h3>
-
-<p>App Programming Guide for iOS</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何创建自定义的Xcode 6 工程模板]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-creating-custom-xcode-6-project-templates.html/"/>
-    <updated>2014-12-05T14:34:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-creating-custom-xcode-6-project-templates</id>
-    <content type="html"><![CDATA[<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
-
-<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
-</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span><span class='line'>
-</span><span class='line'>// Step 2:
-</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<p>现在我们有了一个和Single View Application一样的模板，但这和我们目标还相差很远。接下来我们要做就是修改<strong>TemplateInfo.plist</strong>，让模板为我们做更多准备工作。</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> Keys </th>
-<th> Advice </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Ancestors   </td>
-<td> No          | Import settings from another Project Template.</td>
-</tr>
-<tr>
-<td></td>
-<td> Concrete    </td>
-<td> Recommended | Visible or hide Template form New Project Window.</td>
-</tr>
-<tr>
-<td></td>
-<td> Definitions </td>
-<td> No          | Work with workplace. Can write to file example source code.</td>
-</tr>
-<tr>
-<td></td>
-<td> Description </td>
-<td> Recommended | New Project Window &ndash; Project Template Description.</td>
-</tr>
-<tr>
-<td></td>
-<td> Identifier  </td>
-<td> Yes         | Project Template Unique Identifier.</td>
-</tr>
-<tr>
-<td></td>
-<td> Kind        </td>
-<td> Yes         | XCode Template Kind. Project or File.</td>
-</tr>
-<tr>
-<td></td>
-<td> Nodes       </td>
-<td> Recommended | Create or Copy Files to Project. Copy works</td>
-</tr>
-<tr>
-<td></td>
-<td> Options     </td>
-<td> Recommended | New Project Wizard >> Choose Options for Project. Add Text Fields, Combo Boxes.</td>
-</tr>
-<tr>
-<td></td>
-<td> Platforms   </td>
-<td> Recommended | Set Platform.</td>
-</tr>
-<tr>
-<td></td>
-<td> Project     </td>
-<td> Yes         | Set Project Build Settings.</td>
-</tr>
-<tr>
-<td></td>
-<td> Targets     </td>
-<td> Recommended | Set Build Settings, Build Phases for Targets. Link Libraries.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>上面列出了TemplateInfo.plist大部分键，详细介绍在<a href="https://snipt.net/yonishin/about-xcode-4-project-template/">这里</a>。</p>
-
-<p>我自己新建的模板主要用到Definitions和Nodes，它们俩组合起来可以控制模板会新建哪些文件。例如我想让模板包含Models目录：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
-</span><span class='line'>$ cd ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span><span class='line'>
-</span><span class='line'>// Step 2:
-</span><span class='line'>$ mkdir -p Models
-</span><span class='line'>
-</span><span class='line'>// Step 3: 编辑TemplateInfo.plist 如下图所示。
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="PropertyList" src="http://DamianSheldon.github.io/images/PropertyList.png" width="623" height="836">
-
-</div>
-
-
-<p>完整的模板放在<a href="https://github.com/DamianSheldon/Xcode-6-Project-Templates">这里</a>。</p>
-
-<h2>Reference</h2>
-
-<p><a href="http://meandmark.com/blog/2011/12/creating-custom-xcode-4-project-templates/">Creating Custom Xcode 4 Project Templates</a><br/>
-<a href="https://snipt.net/yonishin/about-xcode-4-project-template/">About XCode 4 Project Template (How To Create Custom Project Template)</a><br/>
-<a href="https://github.com/reidmain/Xcode-6-Project-Templates">Xcode-6-Project-Templates</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[英语句子结构]]></title>
-    <link href="http://DamianSheldon.github.io/blog/english-sentence.html/"/>
-    <updated>2014-11-27T20:19:06+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/english-sentence</id>
-    <content type="html"><![CDATA[<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
-
-<ol>
-<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
-<li>SVP (P:predicative)主语+谓语+表语</li>
-<li>SVO (O:object)主语+谓语+宾语</li>
-<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
-<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
-<li>There＋系动词＋主语</li>
-</ol>
-
-
-<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
-
-<p>John sleeps.<br/>
-Jill is eating.<br/>
-Jack will arrive next week.<br/>
-The tlephone rang.<br/>
-His father might have died.<br/>
-Sandy walks in the playground evening.<br/>
-He never gives up easily.<br/>
-The children listened carefully.<br/>
-Our Manager has arrived in pairs.<br/>
-The water in the jar has ran out.<br/>
-My brother will talk on the phone.<br/>
-Mummy won&rsquo;t agree.</p>
-
-<!-- more -->
-
-
-<h3>SVP (P:predicative)主语+谓语+表语</h3>
-
-<p>The plan sounds perfect.<br/>
-Frank is an artist.<br/>
-John runs too slowly.<br/>
-I am a student.<br/>
-The story sounds boring.<br/>
-The parcel feels soft.<br/>
-The candy tastes sweet.<br/>
-The girl seems interested in the film.<br/>
-He appears a normal person perfectly.<br/>
-Dinner smells good.<br/>
-My son has grown almost an inch in the past month.<br/>
-The strong fellow has suddenly fallen ill.<br/>
-The tiger got more and more angry.<br/>
-The weather has turned cold and windy.</p>
-
-<h3>SVO (O:object)主语+谓语+宾语</h3>
-
-<p>I saw a bird.<br/>
-My sister enjoyed the plan.<br/>
-Father phones me. <br/>
-I finished work at 6 p.m.<br/>
-He draws a picture every morning.<br/>
-The family sing a song in concert every year.<br/>
-I saw a dog in the garden just now.<br/>
-They built the house three years ago.<br/>
-They stopped talking.<br/>
-Both sides agree to discuss it next time.<br/>
-They&rsquo;ve put up a tent in open air.<br/>
-The nurses have taken good care of these old people.<br/>
-Mary will find the truth soon.</p>
-
-<h3>SVOiOd 主语+谓语+直接宾语+间接宾语</h3>
-
-<p>The lady gave jack a watch.<br/>
-My father bought me a bicycle.<br/>
-When waiting in the queue, show me your ID card, please.<br/>
-Get me my coat, please.<br/>
-She ask me a question/a question of me.<br/>
-He give me a case/a case to me.<br/>
-My brother bought me some money/some money to me.<br/>
-He offered me a seat/ a seat to me.<br/>
-They allow me three days to do the work.<br/>
-Throw me a towel, please.<br/>
-She cooked herself a meal.<br/>
-I&rsquo;ll choose you some books.<br/>
-My wife has ordered me a new suit.<br/>
-Please sing us a folk song.</p>
-
-<h3>SVOC(C:complement) 主语+谓语+宾语+补语</h3>
-
-<p>They called him a fool.<br/>
-She found the children fast sleep.</p>
-
-<h3>There＋系动词＋主语</h3>
-
-<p>There is a man. <br/>
-There are three apples on the table.<br/>
-There are many types of businesses in a free-market economy.</p>
-
-<p>那么主语、谓语&hellip;分别是什么呢？它们分别可以由哪些元素充当呢？下一篇我们来梳理下这个知识点。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[英语起步]]></title>
-    <link href="http://DamianSheldon.github.io/blog/english-basic.html/"/>
-    <updated>2014-11-26T22:01:08+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/english-basic</id>
-    <content type="html"><![CDATA[<p>如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。</p>
-
-<p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
-
-<p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
 ]]></content>
   </entry>
   

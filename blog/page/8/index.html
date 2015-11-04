@@ -111,56 +111,31 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/xcode-debug-tips.html/">
+		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html/">
 		
-			Xcode 调试技巧（持续更新）</a>
+			如何创建自定义的Xcode 6 工程模板</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
+		<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
 
-<h3>崩溃在main( )</h3>
-
-<p>添加Exception Breakpoint</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
-
-<h3>符号断点</h3>
-
-<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
-
-<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
-
-<h3>打印方法名</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>控制台打印</h3>
+<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
-</span><span class='line'>(lldb) p (int)self.myAge
-</span><span class='line'>(lldb) p (CGPoint)self.view.center
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
+</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
 </span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>(lldb) po // 打印对象
+</span><span class='line'>// Step 2:
+</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
 </span></code></pre></td></tr></table></div></figure>
 
 
 
 		
-		<a href="/blog/xcode-debug-tips.html/" class="more-link">继续阅读</a>
+		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -177,7 +152,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-24T17:14:52+08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2014</time></div>
+<time datetime="2014-12-05T14:34:04+08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -194,36 +169,41 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-app-data-persistence.html/">
+		<a href="/blog/english-sentence.html/">
 		
-			iOS App 数据持久化</a>
+			英语句子结构</a>
 	</h2>
 	<div class="entry-content">
-		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
+		<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
 
-<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
-
-<h2>文件系统基础</h2>
-
-<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
-我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
-
-<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
-
-<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
-
-</div>
+<ol>
+<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
+<li>SVP (P:predicative)主语+谓语+表语</li>
+<li>SVO (O:object)主语+谓语+宾语</li>
+<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
+<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
+<li>There＋系动词＋主语</li>
+</ol>
 
 
+<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
 
+<p>John sleeps.<br/>
+Jill is eating.<br/>
+Jack will arrive next week.<br/>
+The tlephone rang.<br/>
+His father might have died.<br/>
+Sandy walks in the playground evening.<br/>
+He never gives up easily.<br/>
+The children listened carefully.<br/>
+Our Manager has arrived in pairs.<br/>
+The water in the jar has ran out.<br/>
+My brother will talk on the phone.<br/>
+Mummy won&rsquo;t agree.</p>
 
 
 		
-		<a href="/blog/ios-app-data-persistence.html/" class="more-link">继续阅读</a>
+		<a href="/blog/english-sentence.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -240,12 +220,12 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time></div>
+<time datetime="2014-11-27T20:19:06+08:00" pubdate data-updated="true">Nov 27<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/english/'>English</a>
 
 </div>
 
@@ -257,53 +237,19 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/key-value-coding-and-key-value-observing.html/">
+		<a href="/blog/english-basic.html/">
 		
-			Key-Value Coding &amp; Key-Value Observing</a>
+			英语起步</a>
 	</h2>
 	<div class="entry-content">
-		<h2>Key-Value Coding</h2>
+		<p>如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。</p>
 
-<ol>
-<li>Key-Value Coding是什么？</li>
-<li>为什么要用Key-Value Coding？</li>
-<li>如何使用Key-Value Coding?</li>
-</ol>
+<p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
 
-
-<h3>Key-Value Coding是什么？</h3>
-
-<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
-
-<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
-
-<h3>为什么要用Key-Value Coding？</h3>
-
-<ol>
-<li>Scripting（OS X）;</li>
-<li>简化代码和提高灵活性；</li>
-</ol>
-
-
-<h3>如何使用Key-Value Coding?</h3>
-
-<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
-
-<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
-
-<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
-
-<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
-
-<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
-
-<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
-
-<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
-
+<p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
 
 		
-		<a href="/blog/key-value-coding-and-key-value-observing.html/" class="more-link">继续阅读</a>
+		
 	</div>
 
 
@@ -320,12 +266,12 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time></div>
+<time datetime="2014-11-26T22:01:08+08:00" pubdate data-updated="true">Nov 26<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
+	<a class='category' href='/blog/categories/english/'>English</a>
 
 </div>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-09-28T10:54:49+08:00</updated>
+  <updated>2015-11-04T20:56:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,271 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 项目持续集成和部署笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects.html/"/>
+    <updated>2015-11-04T09:38:13+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects</id>
+    <content type="html"><![CDATA[<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
+
+<h3>安装工具</h3>
+
+<ol>
+<li><a href="http://jenkins-ci.org/">jenkins</a>;</li>
+</ol>
+
+
+<p><code>
+$ brew update &amp;&amp; brew install jenkins
+</code></p>
+
+<ol>
+<li><a href="https://github.com/fastlane/fastlane">fastlane</a>;</li>
+</ol>
+
+
+<p><code>
+$ sudo gem install fastlane --verbose
+</code></p>
+
+<ol>
+<li><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</li>
+</ol>
+
+
+<p><code>
+$ sudo gem install fir-cli
+</code></p>
+
+<h3>fastlane 自动构建</h3>
+
+<ul>
+<li>cd [your_project_folder]</li>
+<li>fastlane init</li>
+<li>Follow the setup assistant, which will set up fastlane for you</li>
+<li>Edit Fastfile</li>
+</ul>
+
+
+<p>```
+fastlane_version &ldquo;1.25.0&rdquo;</p>
+
+<p>default_platform :ios</p>
+
+<p>platform :ios do
+  before_all do</p>
+
+<pre><code>ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+#cocoapods
+
+increment_build_number
+
+gym(scheme: "srsApp") # Build your app - more options available
+
+# xctool # run the tests of your app
+</code></pre>
+
+<p>  end</p>
+
+<p>  desc &ldquo;Runs all the tests&rdquo;
+  lane :test do</p>
+
+<pre><code>snapshot
+</code></pre>
+
+<p>  end</p>
+
+<p>  desc &ldquo;Submit a new Beta Build to fir&rdquo;
+  desc &ldquo;This will also make sure the profile is up to date&rdquo;
+  lane :fir do</p>
+
+<pre><code>#snapshot
+sh "sigh --team_id your_team_id"
+#deliver(beta: true)
+
+#"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
+
+#"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
+
+# sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
+# You can also use other beta testing services here
+sh "fir p ../srsApp.ipa -T USER_TOKEN"
+</code></pre>
+
+<p>  end</p>
+
+<p>  desc &ldquo;Submit a new Beta Build to pgyer &rdquo;
+  desc &ldquo;This will also make sure the profile is up to date&rdquo;
+  lane :pgyer do</p>
+
+<pre><code>#snapshot
+sh "sigh --team_id your_team_id"
+#deliver(beta: true)
+
+# You can also use other beta testing services here
+sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
+</code></pre>
+
+<p>  end</p>
+
+<p>  # You can define as many lanes as you want</p>
+
+<p>  after_all do |lane|</p>
+
+<pre><code># This block is called, only if the executed lane was successful
+
+ slack(
+   message: "Successfully deployed new App Update."
+ )
+</code></pre>
+
+<p>  end</p>
+
+<p>  error do |lane, exception|</p>
+
+<pre><code> slack(
+   message: exception.message,
+   success: false
+ )
+</code></pre>
+
+<p>  end
+end
+<code>``
+使用</code>fastlane fir`测试能否正常构建。</p>
+
+<h3>自动测试</h3>
+
+<p>可以利用 xcodebuild 命令来实现自动测试。
+<code>
+$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
+</code></p>
+
+<h3>jenkins 持续集成</h3>
+
+<ol>
+<li><p>创建自动构建 job</p></li>
+<li><p>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</p></li>
+<li><p>Install plugins</p>
+
+<ul>
+<li>HTML Publisher Plugin</li>
+<li>AnsiColor Plugin</li>
+<li>Rebuild Plugin</li>
+<li>GIT Plugin</li>
+</ul>
+</li>
+<li><p>Create job > input item name > Freestyle project > OK</p></li>
+<li><p>Configuration
+  Source Code Management
+  Git
+  Repository URL /Users/dongmeiliang/Documents/HJKApp
+  Branches to build */test
+  Add build step > Execute shell</p>
+
+<p>  <code>
+  #!/bin/bash
+  source ~/.bash_profile
+  cd srsApp/
+  fastlane  fir
+ </code></p></li>
+<li><p>Save > build</p></li>
+<li><p>创建自动测试 job</p></li>
+</ol>
+
+
+<h2>Reference</h2>
+
+<p>Testing with Xcode
+<a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
+<a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
+<a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用 Mac 遇到的问题]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac.html/"/>
+    <updated>2015-10-10T08:49:37+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac</id>
+    <content type="html"><![CDATA[<h2>1. How to enable the three finger drag on OS X 10.11</h2>
+
+<p>Step 1: Open System Preferences</p>
+
+<p>Step 2: Click Accessibility</p>
+
+<p>Step 3: Click Mouse &amp; Trackpad</p>
+
+<p>Step 4: Click Trackpad Options…</p>
+
+<p>Step 5: Click Enable dragging</p>
+
+<p>Step 6: Select “three finger drag” in the drop down box</p>
+
+<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
+
+<!-- more -->
+
+
+<h2>2. How to find computer name on Mac</h2>
+
+<ol>
+<li><p>GUI
+System Preference > Sharing</p></li>
+<li><p>Command Line
+hostname</p></li>
+</ol>
+
+
+<p> ./configure &mdash;prefix=/usr/local/php &mdash;with-mysql=/usr/local/mysql &mdash;with-apxs=/usr/local/apache/bin/apxs &mdash;with-config-file-path=/usr/local/apache/conf &mdash;enable-mbstring</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 安装 OS X El Capitan]]></title>
+    <link href="http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html/"/>
+    <updated>2015-10-09T18:00:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment</id>
+    <content type="html"><![CDATA[<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &mdash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
+
+<h2>备份数据</h2>
+
+<p>我用 sftp 把数据备份到另一台 Mac 上, 之前也试过 Migration Assitant 都是卡在最后一分钟，不知道现在这个问题改善了没有。 用 sftp 备份中间也中断了好多次，但手头也没移动硬盘也只能这么将就着了。</p>
+
+<h2>Install OS X El Capitan</h2>
+
+<ol>
+<li>需要一个 8GB 左右的 U 盘，因为 El Capitan 的大小超过 6GB ;</li>
+<li>从 App Store 下载 El Capitan;</li>
+<li>制作安装盘：
+<code>
+sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction
+</code></li>
+<li>重新启动，按住 option 键，选择通过U盘启动，之后先进入磁盘工具里面把硬盘格式化了（你也可以选择不格式化，这样就是覆盖安装）;</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>安装常用软件</h2>
+
+<ol>
+<li>Download Xcode in App Store;</li>
+<li>iTerm;</li>
+<li>Chrome;</li>
+<li>LibreOffice;</li>
+<li>Microsoft Remote Desktop Connection;</li>
+<li>Homebrew;</li>
+<li>ruby;</li>
+<li>Set up web development envrionment</li>
+</ol>
+
+
+<p>Reference:<a href="http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/">http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Set up PHP development environment]]></title>
@@ -236,433 +501,6 @@ xdebug.remote_log=&ldquo;/var/log/xdebug.log&rdquo;</p>
 <p>8, ctl + f forword page</p>
 
 <p>9, ctl + b back page</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（三）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problem-part-3.html/"/>
-    <updated>2015-07-30T11:36:57+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problem-part-3</id>
-    <content type="html"><![CDATA[<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
-
-<p>Making an Inspectable .ipa file<br/>
-In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
-When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
-When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
-Checking the Entitlements of an .ipa file<br/>
-Find the .ipa file and change its the extension to .zip.<br/>
-Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
-Use the codesign tool to check the entitlements on the .app bundle like this:
-$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
-where YourApp.app is the actual name of your .app bundle.<br/>
-Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
-// should add cms, Apple may be a typo
-$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
-
-<p>where YourApp.app is the actual name of your .app bundle.</p>
-
-<h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
-
-<p>解决办法：
-1. I opened the .pbxproj file in a text editor.<br/>
-a. Go to your .xcodeproj<br/>
-b. Right click &ndash;> Show package contents<br/>
-c. Open .pbxproj with a text editor.<br/>
-2. I searched for the UUID.<br/>
-3. Turns out that is a static library folder already removed from reference.<br/>
-4. I readd folder that contain the static library.<br/>
-5. Rerun pod installation.<br/>
-6. Issue not happening anymore! :D</p>
-
-<p>Reference:<a href="https://github.com/CocoaPods/CocoaPods/issues/1822">https://github.com/CocoaPods/CocoaPods/issues/1822</a></p>
-
-<h3>3.How do I return to an older version of our code in Subversion?</h3>
-
-<p>解决办法:</p>
-
-<p><code>
-svn update
-svn merge -r 150:140 .
-svn commit -m "Rolled back to r140"
-</code>
-Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
-
-<h3>4. Add top layout guide in NIB file</h3>
-
-<p>解决办法：</p>
-
-<p>```
-&ndash;(void)viewDidLoad {</p>
-
-<pre><code>  if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-     self.edgesForExtendedLayout = UIRectEdgeNone;
-</code></pre>
-
-<p>}
-```
-Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
-
-<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
-
-<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
-
-<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
-
-<p><code>
-1. Rename any .m file to .mm file;
-2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".
-</code></p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
-
-<h3>8.How do I change the status bar content to white?</h3>
-
-<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
-
-<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
-Select the very first node in the Project Navigator to display the Project Editor.
-Select your app under Targets.
-Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
-
-<p>Next, you need to modify your project&rsquo;s .plist file.
-In the Project Navigator, expand the Supporting Files node.
-Select the <My Project Name>-Info.plist file.
-Click on the very first entry (Information Property List).
-Click the plus (+) sign that appears in the first column.
-At the bottom of the popup list, select View controller-based status bar appearance.
-Make sure the Value column is set to NO.
-If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
-In Swift:</p>
-
-<p><code>
-UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-</code>
-In Objective-C:</p>
-
-<p><code>
-[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-</code>
-If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
-
-<p>In Swift:</p>
-
-<p>```
-override func preferredStatusBarStyle() &ndash;> UIStatusBarStyle {</p>
-
-<pre><code>    return UIStatusBarStyle.LightContent
-</code></pre>
-
-<p>}
-```
-In Objective-C:</p>
-
-<p>```
-&ndash; (UIStatusBarStyle)preferredStatusBarStyle
-{</p>
-
-<pre><code>return UIStatusBarStyleLightContent;
-</code></pre>
-
-<p>}
-```
-Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
-
-<h3>9.Expression</h3>
-
-<p>```
-(lldb) expr NSString <em>$str = (NSString </em>)[[NSString alloc] initWithData:data encoding:4]
-(lldb) po $str</p>
-
-<p>(lldb) e NSArray *$array = @[ @&ldquo;Saturday&rdquo;, @&ldquo;Sunday&rdquo;, @&ldquo;Monday&rdquo; ]
-(lldb) p [$array count]
-```</p>
-
-<h3>10.fastlane add Slack Notifications</h3>
-
-<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
-
-<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
-
-<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
-
-<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; "</h3>
-
-<p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
-
-<p>directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks&rsquo;
-Actually I found something when comparing a new project vs an older one&hellip;</p>
-
-<p>In the old project, the warning was only being produced by the test target of my projects. Under &lsquo;Search Paths&rsquo;, I found it was including two items under &lsquo;Framework Search Paths&rsquo;:</p>
-
-<p>$(SDKROOT)/Developer/Library/Frameworks
-$(inherited)
-The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
-
-<p>Deleting those entries in my older project then removed the warning.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
-
-<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
-
-<p>Solution:disable bitcode for this target.
-App target > Build Settings > Enable Bitcode > NO</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
-
-<h3>13.*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33</h3>
-
-<p>2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.&rsquo;</p>
-
-<p>Solution:Target > Lister > iCloud > Fix issue</p>
-
-<pre><code>        Target &gt; App Group &gt; Fix issue
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che">http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che</a></p>
-
-<h3>14.How can I conditionally include a file based on build configuration in Xcode?</h3>
-
-<p>For each target for which you want to conditionally include the settings bundle, choose its Project from the source list, choose the target, and switch to the &ldquo;Build Phases&rdquo; tab.</p>
-
-<p>Click the &ldquo;Add Build Phase&rdquo; button and choose &ldquo;Add Run Script&rdquo;.</p>
-
-<p>Then enter the following for the script:</p>
-
-<p>```
-if [ &ldquo;${CONFIGURATION}&rdquo; == &ldquo;Debug&rdquo; ]; then</p>
-
-<pre><code>cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
-</code></pre>
-
-<p>fi
-```
-Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何使能 Yosemite 内置 Apache 的 HTTPS/SSL]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html/"/>
-    <updated>2015-07-05T21:24:55+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite</id>
-    <content type="html"><![CDATA[<p>本文是我使能 Yosemite 内置 Apache 的 HTTPS/SSL的笔记。</p>
-
-<p>我的环境：<br/>
-OS: OS X 10.10.3 (14D136)<br/>
-Apache: Apache/2.4.10 (Unix)</p>
-
-<p>详细步骤：</p>
-
-<ol>
-<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
-
-<ul>
-<li>去掉 SSL 模块前的注释使能它:<br/>
-<code>
-LoadModule ssl_module libexec/apache2/mod_ssl.so
-</code></li>
-<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
-<code>
-Include /private/etc/apache2/extra/httpd-ssl.conf
-</code></li>
-</ul>
-</li>
-<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
-
-<ul>
-<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
-<code>
-DocumentRoot "/Users/dongmeiliang/Sites"
-</code></p></li>
-<li><p>修改 ServerName 成类似这样:<br/>
-<code>
-ServerName localhost:443
-</code></p></li>
-<li><p>指定 SSLCertificateFile<br/>
-<code>
-SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
-</code></p></li>
-<li><p>指定 SSLCertificateKeyFile <br/>
-<code>
-SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
-</code></p></li>
-<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
-</ul>
-</li>
-</ol>
-
-
-<!--more-->
-
-
-<ol>
-<li><p>制作自签名的证书</p>
-
-<p> 1) Generate a Private Key<br/>
- <code>
- openssl genrsa -des3 -out server.key 1024
-</code></p>
-
-<p> 2) Generate a CSR (Certificate Signing Request)<br/>
- <code>
- openssl req -new -key server.key -out server.csr
-</code></p>
-
-<p> 3) Remove Passphrase from Key<br/>
- <code>
- cp server.key server.key.org  
-</code><br/>
- <code>
- openssl rsa -in server.key.org -out server.key
-</code></p>
-
-<p> 4) Generating a Self-Signed Certificate<br/>
- <code>
- openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
-</code></p></li>
-<li><p>拷贝证书到配置文件指定的目录下<br/>
-<code>
-sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
-sudo cp server.key /private/etc/apache2/ssl/ssl.key
-</code></p></li>
-<li><p>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</p></li>
-</ol>
-
-
-<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
-解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
-
-<h3>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h3>
-
-<p>Solution:
-I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
-
-<p>Options Indexes FollowSymLinks Includes ExecCGI
-By default, your global directory settings is (httpd.conf line ~188):</p>
-
-<p><Directory /></p>
-
-<pre><code>Options FollowSymLinks
-AllowOverride All
-Order deny,allow
-Allow from all
-</code></pre>
-
-<p></Directory>
-set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
-
-<p>Finally, it should look like:</p>
-
-<p><Directory /></p>
-
-<pre><code>#Options FollowSymLinks
-Options Indexes FollowSymLinks Includes ExecCGI
-AllowOverride All
-Order deny,allow
-Allow from all
-</code></pre>
-
-<p></Directory>
-Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
-
-<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
-<a href="http://www.akadia.com/services/ssh_test_certificate.html  ">http://www.akadia.com/services/ssh_test_certificate.html  </a>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Enumerated constants]]></title>
-    <link href="http://DamianSheldon.github.io/blog/enumerated-constants.html/"/>
-    <updated>2015-05-08T16:38:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/enumerated-constants</id>
-    <content type="html"><![CDATA[<p>Objective-C中的枚举常量大致有以下四种情形：</p>
-
-<p>```
-// 1. unnamed enumerations
-enum {</p>
-
-<pre><code>NSBorderlessWindowMask      = 0,
-NSTitledWindowMask          = 1 &lt;&lt; 0,
-NSClosableWindowMask        = 1 &lt;&lt; 1,
-NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
-NSResizableWindowMask       = 1 &lt;&lt; 3
-</code></pre>
-
-<p>};</p>
-
-<p><code>- (void)setStyleMask:(NSUInteger)styleMask</code></p>
-
-<p>// 2
-typedef enum _NSMatrixMode {</p>
-
-<pre><code>NSRadioModeMatrix           = 0,
-NSHighlightModeMatrix       = 1,
-NSListModeMatrix            = 2,
-NSTrackModeMatrix           = 3
-</code></pre>
-
-<p>} NSMatrixMode;</p>
-
-<p>// 3
-typedef NS_ENUM(NSInteger, UITableViewCellStyle) {</p>
-
-<pre><code>UITableViewCellStyleDefault,
-UITableViewCellStyleValue1,
-UITableViewCellStyleValue2,
-UITableViewCellStyleSubtitle
-</code></pre>
-
-<p>};</p>
-
-<p>// 4
-typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {</p>
-
-<pre><code>NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
-NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
-NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
-NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
-NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
-NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
-NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
-NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
-NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
-NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
-NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
-
-NSLayoutFormatAlignmentMask = 0xFFFF,
-
-/* choose only one of these three
- */
-NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
-NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
-NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
-
-NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
-</code></pre>
-
-<p>};</p>
-
-<p>```</p>
-
-<p>情形一相当于定义了常量，但不定义类型;<br/>
-情形二定义了一个NSMatrixMode类型;</p>
-
-<p>情形三定义了一个NSInteger的UITableViewCellStyle类型;<br/>
-情形四支持C++的枚举特性。</p>
-
-<blockquote><p>The NS_OPTIONS macro is defined in different ways if compiling as C++ or not. If it’s not C++, it’s expanded out the same as NS_ENUM. However, if it is C++, it’s expanded out slightly differently. Why? The C++ compiler acts differently when two enumeration values are bitwise OR’ed together. This is something, as shown earlier, that is commonly done with the options type of enumeration. When two values are OR’ed together, C++ considers the resulting value to be of the type the enumeration represents: NSUInteger. It also doesn’t allow the implicit cast to the enumeration type.</p></blockquote>
-
-<p>Reference:<br/>
-Effective Objective-C 2.0<br/>
-<a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
 ]]></content>
   </entry>
   

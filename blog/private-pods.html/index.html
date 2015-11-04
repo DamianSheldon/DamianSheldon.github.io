@@ -107,22 +107,81 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">如何创建私有的Pod</h2>
-	<div class="entry-content"><p>公司的代码经常是需要保密的，我们可以创建私有的pod来方便我们的日常开发工作。</p>
+	<div class="entry-content"><p>公司的框架代码大多数时候是需要保密的，而手动的复制导入比较麻烦，这时候我们可以创建私有 Pod 来方便我们的日常开发工作，本文是我创建私有 Pod 的笔记。</p>
 
-<p>Cocoa Pods工作依赖于两个文件：<br/>
-1. podspec:一个pod的配置是什么，pod的代码放在哪里<br/>
-2. Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</p>
-
-<p>Cocoa Pods提供创建静态库pod的方法pod lib create [Pod name]，但这次我由于各种原因不是这样开始的，而是手动先创建了静态库，然后再新建开发工程的方式。于是我需要手动创建podspec文件:</p>
+<p>Cocoapods 提供了 pod lib create [pod name] 来创建私有库工程，但是有个 embedded dylibs/frameworks are only supported on iOS 8.0 and later 的问题。 意思是只有部署 iOS 8 以上的应用才能使用它，所以要支持 iOS 8 以下的应用的 Pod 我们还是得手动创建，详细步骤如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create --verbose project</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir AJFrame
+</span><span class='line'>
+</span><span class='line'>// Create static library
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Framework & Library &gt; Cocoa Touch Static Libray 
+</span><span class='line'>
+</span><span class='line'>// Create dev app
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Single View 
+</span><span class='line'>
+</span><span class='line'>// Result 
+</span><span class='line'>AJFrame
+</span><span class='line'>├── AJFrame
+</span><span class='line'>│   ├── AJFrame.xcodeproj
+</span><span class='line'>│   ├── AJFrameTests
+</span><span class='line'>│   ├── Classes
+</span><span class='line'>├── AJFrame.podspec
+</span><span class='line'>├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp.xcodeproj
+</span><span class='line'>│   ├── AJFrameDevApp.xcworkspace
+</span><span class='line'>│   ├── AJFrameDevAppTests
+</span><span class='line'>│   ├── Podfile
+</span><span class='line'>│   ├── Podfile.lock
+</span><span class='line'>│   └── Pods
+</span><span class='line'>└── LICENSE</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>Cocoapods 工作依赖于两个文件：</p>
+
+<ol>
+<li>podspec:一个pod的配置是什么，pod的代码放在哪里</li>
+<li>Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</li>
+</ol>
+
+
+<h3>创建podspec文件</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod spec create [NAME|https://github.com/USER/REPO] --verbose</span></code></pre></td></tr></table></div></figure>
 
 
 <!--more-->
 
 
-<p>然后编辑podspecs文件，这里有几个地方需要注意：</p>
+<p>然后编辑podspecs文件，具体可以参考它的<a href="https://guides.cocoapods.org/syntax/podspec.html">详细语法</a>，这里有几个地方需要注意：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -133,20 +192,117 @@ $(document).ready(
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
-</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.iOS", :tag =&gt; "2.0.0" }
+</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git", :tag =&gt; "2.0.0" }
 </span><span class='line'>
 </span><span class='line'>// s.source_files指定哪些源文件需要包含在pod中
-</span><span class='line'>s.source_files  = "AJFrame.iOS/*.{h,m}"
+</span><span class='line'>s.source_files  = "AJFrame/classes/*.{h,m}"
 </span><span class='line'>
 </span><span class='line'>// pod的依赖
 </span><span class='line'>s.dependency "JSONKit", "~&gt; 1.4"
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>podspecs完成之后, pod spec lint命令可以检查有没有错误。接下来在需要依赖这个pod的工程的Podfile文件中指定podspec的存放路径。</p>
+<p>可以使用命令 <code>pod lib lint --verbose</code> 来验证 podspecs 文件。</p>
+
+<h3>开发静态库</h3>
+
+<p>编辑辅助开发静态库应用工程的 Podfile，具体可以参考它的<a href="https://guides.cocoapods.org/syntax/podfile.html">详细语法</a> ,让它使用安装链接静态库.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pod 'AJFrame.iOS', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.iOS', :tag =&gt; '2.0.0'</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>target 'AJFrameDevApp' do
+</span><span class='line'>    pod 'AJFrame', :path =&gt; '../'
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>$ cd ~/Documents/AJFrame/AJFrameDevApp/
+</span><span class='line'>$ pod install --no-repo-update --verbose</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>测试</h3>
+
+<p>开发完成以后，可以创建一个测试工程来测试私有 Pod 是否能正常工作，具体而言,通常是在创建一个远程仓库，把私有 Pod 的代码推送上去，然后创建一个新的工程，让它安装这个私有 Pod ，然后写些测试代码，测试它能否正常工作。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Remote 
+</span><span class='line'>$ cd /Git
+</span><span class='line'>$ git init --bare AJFrame.git
+</span><span class='line'>
+</span><span class='line'>// Local
+</span><span class='line'>$ cd ~/Documents/AJFrame
+</span><span class='line'>$ git init 
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit
+</span><span class='line'>$ git tag &lt;tagname&gt;
+</span><span class='line'>$ git remote add origin &lt;url&gt;
+</span><span class='line'>$ git push -u origin master --tags --verbose
+</span><span class='line'>
+</span><span class='line'>// Edit dependency project's Podfile, add a similary line
+</span><span class='line'>pod 'AJFrame', :git =&gt; 'ssh://192.168.1.100:/git/ICW/Git/AJFrame.git', :tag =&gt; '2.0.0'
+</span><span class='line'>$ pod install --no-repo-update --verbose
+</span><span class='line'>$ write code and test</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>发布</h3>
+
+<p>发布是可选的，但是当我们有其他的 Pod 想依赖开发的这个私有 Pod 时就变成必须的，所以我们还是得会发布一个私有 Pod。具体步骤如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a Private Spec Repo  
+</span><span class='line'>$ cd /Git  
+</span><span class='line'>$ git init --bare Specs.git
+</span><span class='line'>
+</span><span class='line'>// Add your Private Repo to your CocoaPods installation
+</span><span class='line'>$ pod repo add aijian-specs ssh://192.168.1.105:/git/ICW/Git/Specs.git --verbose
+</span><span class='line'>
+</span><span class='line'>// Check your installation is successful and ready to go
+</span><span class='line'>$ cd ~/.cocoapods/repos/aijian-specs
+</span><span class='line'>$ pod repo lint .
+</span><span class='line'>
+</span><span class='line'>// Add your Podspec to your repo
+</span><span class='line'>pod repo push aijian-specs AJFrame.podspec
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在工程中使用它时，编辑 Podfile， 加入如下内容：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source ssh://192.168.1.105:/git/ICW/Git/Specs.git
+</span><span class='line'>
+</span><span class='line'>pod 'AJFrame', '~&gt; 2.0.0' </span></code></pre></td></tr></table></div></figure>
 
 
 <h3>s.dependency 如何依赖私有 Pod？</h3>

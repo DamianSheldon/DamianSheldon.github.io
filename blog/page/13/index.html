@@ -111,37 +111,76 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/swift-learning-notes-initialization.html/">
+		<a href="/blog/core-animation-bi-ji.html/">
 		
-			Swift Learning Notes &#8211; Initialization</a>
+			Core Animation 笔记</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Initialization</h3>
+		<h2>Core Animation介绍</h2>
 
-<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &mdash; Apple Inc.</p>
+<blockquote><p>Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app. &mdash; Apple</p></blockquote>
 
-<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
-1，为实例的每一个存储属性设置初始值;  <br/>
-2，进行其他必要的准备工作.</p>
+<p>Core Animation是iOS和OS X上的图形渲染和动画的基础，你可以用它为视图以及应用的其他可见元素加上动画。</p>
 
-<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
+<h2>什么时候使用Core Animation?</h2>
 
-<h3>Value Type Initialization</h3>
+<blockquote><p>In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.</p></blockquote>
 
-<p>1)为存储属性设置默认值；</p>
+<p>在你想要执行更加复杂的动画，或者UIView类不支持的动画时，你可以使用Core Animation和视图底下的layer去创建动画。因为view和layer复杂地联系在一起，改变视图的layer会影响视图本身。</p>
 
-<pre><code>Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
-structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。
-</code></pre>
+<p>UIView内置可动画的属性如下表：</p>
 
-<p>2)初始化方法。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="center"> Property </th>
+<th align="left"> Changes you can make                                                                                       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td align="center"> frame    </td>
+<td align="left"> Modify this property to change the view’s size and position relative to its superview’s coordinate system. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> bounds   </td>
+<td align="left"> Modify this property to change the view’s size. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> center   </td>
+<td align="left"> Modify this property to change the view’s position relative to its superview’s coordinate system. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> transform</td>
+<td align="left"> Modify this property to scale, rotate, or translate the view relative to its center point. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> alpha    </td>
+<td align="left"> Modify this property to gradually change the transparency of the view. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> backgroundColor </td>
+<td align="left"> Modify this property to change the view’s background color. </td>
+</tr>
+<tr>
+<td></td>
+<td align="center"> contentStretch </td>
+<td align="left"> Modify this property to change the way the view’s contents are stretched to fill the available space. </td>
+</tr>
+</tbody>
+</table>
 
-<pre><code>NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。
-</code></pre>
 
 
 		
-		<a href="/blog/swift-learning-notes-initialization.html/" class="more-link">继续阅读</a>
+		<a href="/blog/core-animation-bi-ji.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -158,7 +197,7 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
   
 
 
-<time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
+<time datetime="2014-09-03T09:59:58+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -175,40 +214,33 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/core-data-chu-bu.html/">
+		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/">
 		
-			Core Data 初步</a>
+			iOS App 开发问题汇总（一）</a>
 	</h2>
 	<div class="entry-content">
-		<ol>
-<li>Core Data是什么？</li>
-<li>为什么使用Core Data?</li>
-<li>如何使用Core Data?</li>
-</ol>
+		<h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
 
+<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
 
-<h2>Core Data是什么？</h2>
+<p>Reference:<br/>
+o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
 
-<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
+<h3>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</h3>
 
-<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
+<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
 
-<h2>为什么使用Core Data？</h2>
+<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
 
-<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
+<h3>问题描述：创建Group style的UITalbeView的顶端有很大一块空白。</h3>
 
-<ul>
-<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
-<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
-<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
-<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
-<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
-</ul>
+<p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck &ndash; Adjust scroll view insets</p>
 
+<p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
 
 
 		
-		<a href="/blog/core-data-chu-bu.html/" class="more-link">继续阅读</a>
+		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -225,7 +257,7 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
   
 
 
-<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time></div>
+<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -242,54 +274,23 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-concurrency-programming-gcd.html/">
+		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/">
 		
-			iOS Concurrency Programming&#8211;GCD</a>
+			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
 	</h2>
 	<div class="entry-content">
-		<h2>GCD是什么？</h2>
+		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
 
-<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
-* 直接简单的编程接口；<br/>
-* 自动、整体的线程池管理；<br/>
-* 高效的内存管理；<br/>
-* 负载时不干扰内核；<br/>
-* 异步分发任务到分派队列不会造成死锁；<br/>
-* 优雅地处理竞争；<br/>
-* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
+<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
 
-<h2>如何使用GCD？</h2>
+<h3>当方法被废弃了</h3>
 
-<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
-
-<h3>1）单个任务；</h3>
-
-<p>我们通常是通过调用以下API来执行任务：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
-</span><span class='line'><span class="n">dispatch_async_f</span>
-</span><span class='line'><span class="n">dispatch_sync</span>
-</span><span class='line'><span class="n">dispatch_sync_f</span>
-</span><span class='line'><span class="n">dispatch_after</span>
-</span><span class='line'><span class="n">dispatch_after_f</span>
-</span><span class='line'><span class="n">dispatch_apply</span>
-</span><span class='line'><span class="n">dispatch_apply_f</span>
-</span><span class='line'><span class="n">dispatch_once</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
 
 
 		
-		<a href="/blog/ios-concurrency-programming-gcd.html/" class="more-link">继续阅读</a>
+		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -306,7 +307,7 @@ structure在所有存储属性都设置了默认值的情况下自动接受Membe
   
 
 
-<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time></div>
+<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">

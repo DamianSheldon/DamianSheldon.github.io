@@ -111,51 +111,38 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-design-patterns.html/">
+		<a href="/blog/ios-app-cache.html/">
 		
-			(翻译)iOS 设计模式</a>
+			iOS App Cache</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS设计模式&mdash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
+		<p>在互联网时代的今天，iOS App几乎都要联网，缓存可以解决网络连接不良甚至无网络所造成的性能问题，而且还可以节约用户的流量。我们可以采用两种缓存策略：预缓存和按需缓存。预缓存就是应用启动以后开个后台线程去把需要用到的数据先取下来。按需缓存就是应用请求网络数据后在本地保存一份，只要本地数据没有过期就使用本地数据。</p>
 
-<p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
+<h3>预缓存</h3>
 
-<p>如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握iOS的主要（次要）设计模式，它们在Cocoa中很常用。</p>
+<p>实现预缓存可能需要一个后台线程访问数据并以有意义的格式保存，以便本地缓存无需连接服务器即可被编辑。Core Data(或者任何结构化存储)是实现这种缓存的一种方式。</p>
 
-<p>教程分成多个部分，每部分包含一种设计模式。在每部分，你会看到如下顺序的解释：</p>
+<h3>按需缓存</h3>
 
-<ul>
-<li>该设计模式是什么；</li>
-<li>你为什么应该使用它；</li>
-<li>如何使用它，以及什么场景合适，使用时需要留意的常见陷阱；</li>
-</ul>
+<p>按需缓存工作原理类似于浏览器缓存，它允许我们查看以前访问过的内容，主要有四种实现方法：</p>
 
-
-<p>这篇教程中，你将创建一个Music Library应用，它会显示你的专辑和它们相关的信息。</p>
-
-<p>在开发应用的过程中，你会慢慢熟悉多数常见的Cocoa设计模式：</p>
-
-<ul>
-<li>构造类：单例(Singleton)和 抽象工厂(Abstract Factory);</li>
-<li>架构类：模型-视图-控制器(MVC), 修饰(Decorator), 适配器(Adapter), 门面(Facade)和合成（Composite);</li>
-<li>行为类：观察者(Observer), 记忆(Memento), 响应链(Chain of Responsibility)和命令（Command）。</li>
-</ul>
+<ol>
+<li>URL缓存；</li>
+<li>数据模型缓存；</li>
+<li>Core Data;</li>
+<li>SQLite。</li>
+</ol>
 
 
-<p>别被误导认为这是篇纯理论的文章；你会在你音乐应用中使用这些应用模式中的大多数。你的应用最终看起来像这样：</p>
+<p>上述的序号是推荐使用的顺序。</p>
 
-<div style="text-align:center" markdown="1">
+<h4>URL缓存</h4>
 
-<img name="finalapp-180x320" src="/images/finalapp-180x320.png" width="180" height="320">  
-
-</div>
-
-
-
+<p>如果服务器设计得体，遵循HTTP 1.1的缓存规范时，URL缓存效果最好，通常网络库会提供支持。</p>
 
 
 		
-		<a href="/blog/ios-design-patterns.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-app-cache.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -172,7 +159,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-10T08:35:43+08:00" pubdate data-updated="true">Nov 10<span>th</span>, 2014</time></div>
+<time datetime="2014-11-25T16:36:04+08:00" pubdate data-updated="true">Nov 25<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
@@ -189,32 +176,56 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html/">
+		<a href="/blog/xcode-debug-tips.html/">
 		
-			为MacBook Pro配置一个像guake的终端</a>
+			Xcode 调试技巧（持续更新）</a>
 	</h2>
 	<div class="entry-content">
-		<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
+		<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
 
-<h3>让iTerm2的行为像guake</h3>
+<h3>崩溃在main( )</h3>
 
-<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
+<p>添加Exception Breakpoint</p>
 
-<p>2)打开iTerm2,然后iTerm2&mdash;>Prefences&hellip;&ndash;>Profiles;</p>
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
 
-<p>3)创建一个新Profiles,命名为guake;</p>
+<h3>符号断点</h3>
 
-<p>4)在Window选项中根据自己的喜好配置;</p>
+<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
 
-<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
 
-<p>5)在Keys选项中激活&#8221;Show/hide iTerm2 with a system-wide hotkey&#8221;,由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
+<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
 
-<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
+<h3>打印方法名</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>控制台打印</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
+</span><span class='line'>(lldb) p (int)self.myAge
+</span><span class='line'>(lldb) p (CGPoint)self.view.center
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>(lldb) po // 打印对象
+</span></code></pre></td></tr></table></div></figure>
+
 
 
 		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html/" class="more-link">继续阅读</a>
+		<a href="/blog/xcode-debug-tips.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -231,12 +242,12 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2014</time></div>
+<time datetime="2014-11-24T17:14:52+08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 
@@ -248,45 +259,36 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/git-summary.html/">
+		<a href="/blog/ios-app-data-persistence.html/">
 		
-			Git 小结</a>
+			iOS App 数据持久化</a>
 	</h2>
 	<div class="entry-content">
-		<h1>Git</h1>
+		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
 
-<ol>
-<li>Git是什么？</li>
-<li>为什么使用Git?</li>
-<li>如何使用Git?</li>
-</ol>
+<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
 
+<h2>文件系统基础</h2>
 
-<h2>Git是什么？</h2>
+<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
+我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
 
-<p>git &ndash; the stupid content tracker</p>
+<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
 
-<p>这是man git中对它的介绍，我们看到它的核心是content tracker。Git是一个分布式的版本控制系统，项目是出于维护Linux内核源码的需求, 由Linus Torvalds启动的，现在已经成为最流行的版本管理系统，学会Git几乎成了开发者的必备技能。</p>
+<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
 
-<h2>为什么使用Git?</h2>
+<div style="text-align:center" markdown="1">
 
-<ol>
-<li>系统稳定，安全性高，不会丢失辛苦的劳动成果；</li>
-<li>操作十分快速；</li>
-<li>功能强大；</li>
-<li>&hellip;</li>
-</ol>
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+
+</div>
 
 
-<h2>如何使用Git?</h2>
 
-<h3>安装Git</h3>
-
-<p>安装Git主要有两种方法：一种是通过编译源代码来安装;另一种是使用为特定平台预编译好的安装包。</p>
 
 
 		
-		<a href="/blog/git-summary.html/" class="more-link">继续阅读</a>
+		<a href="/blog/ios-app-data-persistence.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -303,12 +305,12 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-05T10:13:13+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time></div>
+<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>Archives</a>
+	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
 
 </div>
 

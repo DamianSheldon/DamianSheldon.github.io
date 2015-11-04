@@ -111,106 +111,38 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/vim.html/">
+		<a href="/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html/">
 		
-			Vim</a>
+			Mac 安装 OS X El Capitan</a>
 	</h2>
 	<div class="entry-content">
-		<h3>1.查看帮助</h3>
+		<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &mdash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
 
-<p>:help</p>
+<h2>备份数据</h2>
 
-<h3>2.查看quickref</h3>
+<p>我用 sftp 把数据备份到另一台 Mac 上, 之前也试过 Migration Assitant 都是卡在最后一分钟，不知道现在这个问题改善了没有。 用 sftp 备份中间也中断了好多次，但手头也没移动硬盘也只能这么将就着了。</p>
 
-<p>：help quickref</p>
+<h2>Install OS X El Capitan</h2>
 
-<h3>3.语法高亮</h3>
+<ol>
+<li>需要一个 8GB 左右的 U 盘，因为 El Capitan 的大小超过 6GB ;</li>
+<li>从 App Store 下载 El Capitan;</li>
+<li>制作安装盘：</li>
+</ol>
 
-<p>|:syn-on|       :syntax on              start using syntax highlighting
-|:syn-off|      :syntax off             stop using syntax highlighting</p>
 
-<h3>4.Move cursor to its last position</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction</span></code></pre></td></tr></table></div></figure>
 
-<p>The quickest way is to hit either:</p>
 
-<p>&lsquo;&rsquo;
-(two apostrophes) or:</p>
+<ol>
+<li>重新启动，按住 option 键，选择通过U盘启动，之后先进入磁盘工具里面把硬盘格式化了（你也可以选择不格式化，这样就是覆盖安装）;</li>
+</ol>
 
-<p>&#8220;
-(two backticks).</p>
 
-<h3>5.Multi-window commands</h3>
-
-<p>Q_wi*          Multi-window commands</p>
-
-<p>|CTRL-W_s|      CTRL-W s  or  :split    split window into two parts
-|:split_f|      :split {file}           split window and edit {file} in one of</p>
-
-<pre><code>                                       them
-</code></pre>
-
-<p>|:vsplit|       :vsplit {file}          same, but split vertically
-|:vertical|     :vertical {cmd}         make {cmd} split vertically</p>
-
-<p>|:sfind|        :sf[ind] {file}         split window, find {file} in &lsquo;path&rsquo;</p>
-
-<pre><code>                                       and edit it
-</code></pre>
-
-<p>|CTRL-W_]|      CTRL-W ]                split window and jump to tag under</p>
-
-<pre><code>                                       cursor
-</code></pre>
-
-<p>|CTRL-W_f|      CTRL-W f                split window and edit file name under</p>
-
-<pre><code>                                       the cursor
-</code></pre>
-
-<p>|CTRL-W_^|      CTRL-W ^                split window and edit alternate file
-|CTRL-W_n|      CTRL-W n  or  :new      create new empty window
-|CTRL-W_q|      CTRL-W q  or  :q[uit]   quit editing and close window
-|CTRL-W_c|      CTRL-W c  or  :cl[ose]  make buffer hidden and close window
-|CTRL-W_o|      CTRL-W o  or  :on[ly]   make current window only one on the</p>
-
-<pre><code>                                       screen
-</code></pre>
-
-<p>|CTRL-W_j|      CTRL-W j                move cursor to window below
-|CTRL-W_k|      CTRL-W k                move cursor to window above
-|CTRL-W_CTRL-W| CTRL-W CTRL-W           move cursor to window below (wrap)
-|CTRL-W_W|      CTRL-W W                move cursor to window above (wrap)
-|CTRL-W_t|      CTRL-W t                move cursor to top window
-|CTRL-W_b|      CTRL-W b                move cursor to bottom window
-|CTRL-W_p|      CTRL-W p                move cursor to previous active window</p>
-
-<p>|CTRL-W_r|      CTRL-W r                rotate windows downwards
-|CTRL-W_R|      CTRL-W R                rotate windows upwards
-|CTRL-W_x|      CTRL-W x                exchange current window with next one</p>
-
-<p>|CTRL-W<em>=|      CTRL-W =                make all windows equal height
-|CTRL-W</em>&ndash;|      CTRL-W &ndash;                decrease current window height
-|CTRL-W_+|      CTRL-W +                increase current window height
-|CTRL-W__|      CTRL-W _                set current window height (default:</p>
-
-<pre><code>                                       very high)
-</code></pre>
-
-<p>1, set number
-2, set autoindent
-4, set background=dark
-5, set background=light</p>
-
-<p>6, 0, ^ line head</p>
-
-<p>7, $, g_ line foot</p>
-
-<p>8, ctl + f forword page</p>
-
-<p>9, ctl + b back page</p>
 
 		
-		
+		<a href="/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -227,7 +159,7 @@ $(document).ready(
   
 
 
-<time datetime="2015-09-10T21:09:05+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2015</time></div>
+<time datetime="2015-10-09T18:00:22+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
@@ -244,54 +176,141 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/using-mysql.html/">
+		<a href="/blog/set-up-php-development-environment.html/">
 		
-			Using MySQL</a>
+			Set Up PHP Development Environment</a>
 	</h2>
 	<div class="entry-content">
-		<h3>1.查看所有的用户</h3>
+		<h3>Notes of Set up PHP development environment</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select user, host from user;</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
+<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>, php.ini locate in /etc on Yosemite;</li>
+<li><p><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;
+ Addition configure for Yosemite</p>
+
+<ul>
+<li><code>sudo cp /etc/php.ini.default /etc/php.ini</code></li>
+<li>add &ldquo;zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so&rdquo; to php.ini</li>
+</ul>
+</li>
+<li><p>Debugging Local PHP Files (PHP CLI Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Set a breakpoint in PHP file;</li>
+<li>Save file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</li>
+<li>Run > Debug Configurations > Select PHP CLI Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Run > Debug Configurations > Select PHP Web Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Test with PHPUnit</p>
+
+<ul>
+<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
+[Main]
+Location:/usr/local/bin/phpunit
+Working Directory:${workspace_loc:/Backend/tests}
+Apply > Run
+<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
+</ul>
+</li>
+<li><p>Integrate MakeGood (failure)</p>
+
+<ul>
+<li>Installing Prerequisite Software
+
+<ul>
+<li>PHP 5.5.27 (cli)</li>
+<li>xdebug-2.3.2</li>
+<li>eclipse mars(4.5.0)</li>
+<li>PDT(3.5.0)</li>
+<li>PHPUnit (4.8.6)</li>
+</ul>
+</li>
+<li><p>Installing MakeGood
+  Help &ndash;> Install New Software&hellip; &ndash;> Add&hellip; &ndash;> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
+<li><p>Selecting a Testing Framework</p></li>
+<li><p>Resolving the Dependencies to the Testing Framework</p>
+
+<pre><code>  * Defining User Libraries 
+      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
+      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
+  * Adding User Libraries to the Project
+</code></pre>
+
+<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
+</ul>
 
 
-<h3>2.查看用户的权限</h3>
+<p> *Testing Framework Specific Configuration<br/>
+     PHPUnit</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show grants for 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
+<pre><code> * Open the properties for the project.
+ * Select MakeGood.
+ * Select PHPUnit.
+ * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
+</code></pre>
+
+<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
+</ol>
 
 
-<h3>3.为用户添加操作某个数据库的权限</h3>
+<h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
+<p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
 
+<h3>Wait for XDebug session</h3>
 
-<h3>4.SQL COUNT() Function</h3>
-
-<p>SQL COUNT(column_name) Syntax
-The COUNT(column_name) function returns the number of values (NULL values will not be counted) of the specified column:</p>
-
-<p>SELECT COUNT(column_name) FROM table_name;
-SQL COUNT(<em>) Syntax
-The COUNT(</em>) function returns the number of records in a table:</p>
-
-<p>SELECT COUNT(*) FROM table_name;
-SQL COUNT(DISTINCT column_name) Syntax
-The COUNT(DISTINCT column_name) function returns the number of distinct values of the specified column:</p>
-
-<p>SELECT COUNT(DISTINCT column_name) FROM table_name;</p>
-
-<h3>5.SQL Limit</h3>
-
-<p>[LIMIT {[offset,] row_count | row_count OFFSET offset}]</p>
+<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select Host, Db from db limit 2, 2;
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp /etc/php.ini.default /etc/php.ini
 </span><span class='line'>
-</span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>// Add follow content to php.ini
+</span><span class='line'>[XDebug]
+</span><span class='line'>zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
+</span><span class='line'>xdebug.remote_enable=On
+</span><span class='line'>xdebug.remote_handler=dbgp
+</span><span class='line'>xdebug.remote_host=helloworld.local
+</span><span class='line'>xdebug.remote_port=9000
+</span><span class='line'>;xdebug.remote_connect_back=1
+</span><span class='line'>xdebug.remote_mode="req"
+</span><span class='line'>xdebug.remote_log="/var/log/xdebug.log"
+</span><span class='line'>
+</span><span class='line'>sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
 
 
 		
@@ -312,8 +331,14 @@ The COUNT(DISTINCT column_name) function returns the number of distinct values o
   
 
 
-<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true">Aug 12<span>th</span>, 2015</time></div>
+<time datetime="2015-09-19T22:25:19+08:00" pubdate data-updated="true">Sep 19<span>th</span>, 2015</time></div>
 	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>Archives</a>
+
+</div>
 
 
 	
@@ -323,221 +348,88 @@ The COUNT(DISTINCT column_name) function returns the number of distinct values o
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-development-problem-part-3.html/">
+		<a href="/blog/notes-of-wireshark.html/">
 		
-			iOS App 开发问题汇总（三）</a>
+			Notes of Wireshark</a>
 	</h2>
 	<div class="entry-content">
-		<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
-
-<p>Making an Inspectable .ipa file<br/>
-In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
-When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
-When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
-Checking the Entitlements of an .ipa file<br/>
-Find the .ipa file and change its the extension to .zip.<br/>
-Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
-Use the codesign tool to check the entitlements on the .app bundle like this:
-$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
-where YourApp.app is the actual name of your .app bundle.<br/>
-Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
-// should add cms, Apple may be a typo
-$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
-
-<p>where YourApp.app is the actual name of your .app bundle.</p>
-
-<h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
-
-<p>解决办法：
-1. I opened the .pbxproj file in a text editor.<br/>
-a. Go to your .xcodeproj<br/>
-b. Right click &ndash;> Show package contents<br/>
-c. Open .pbxproj with a text editor.<br/>
-2. I searched for the UUID.<br/>
-3. Turns out that is a static library folder already removed from reference.<br/>
-4. I readd folder that contain the static library.<br/>
-5. Rerun pod installation.<br/>
-6. Issue not happening anymore! :D</p>
-
-<p>Reference:<a href="https://github.com/CocoaPods/CocoaPods/issues/1822">https://github.com/CocoaPods/CocoaPods/issues/1822</a></p>
-
-<h3>3.How do I return to an older version of our code in Subversion?</h3>
-
-<p>解决办法:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn update
-</span><span class='line'>svn merge -r 150:140 .
-</span><span class='line'>svn commit -m "Rolled back to r140"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
-
-<h3>4. Add top layout guide in NIB file</h3>
-
-<p>解决办法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)viewDidLoad {
-</span><span class='line'>      if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-</span><span class='line'>         self.edgesForExtendedLayout = UIRectEdgeNone;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
-
-<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
-
-<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
-
-<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1. Rename any .m file to .mm file;
-</span><span class='line'>2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
-
-<h3>8.How do I change the status bar content to white?</h3>
-
-<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
-
-<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
-Select the very first node in the Project Navigator to display the Project Editor.
-Select your app under Targets.
-Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
-
-<p>Next, you need to modify your project&rsquo;s .plist file.
-In the Project Navigator, expand the Supporting Files node.
-Select the <My Project Name>-Info.plist file.
-Click on the very first entry (Information Property List).
-Click the plus (+) sign that appears in the first column.
-At the bottom of the popup list, select View controller-based status bar appearance.
-Make sure the Value column is set to NO.
-If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
-In Swift:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Objective-C:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
-
-<p>In Swift:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override func preferredStatusBarStyle() -&gt; UIStatusBarStyle {
-</span><span class='line'>        return UIStatusBarStyle.LightContent
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Objective-C:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
-</span><span class='line'>{
-</span><span class='line'>    return UIStatusBarStyleLightContent;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
-
-<h3>9.Expression</h3>
+		<h3>1.Capture HTTP traffic on your server</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) expr NSString *$str = (NSString *)[[NSString alloc] initWithData:data encoding:4]
-</span><span class='line'>(lldb) po $str
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Capture &gt; Capture Filters... &gt; New &gt; OK
+</span><span class='line'>Capture &gt; Options... &gt; Capture Filter(Set to appropriate filter) &gt; Start
 </span><span class='line'>
-</span><span class='line'>(lldb) e NSArray *$array = @[ @"Saturday", @"Sunday", @"Monday" ]
-</span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>host www.baidu.com
+</span><span class='line'>
+</span><span class='line'>curl -d "name=test&page=1" http://www.baidu.com</span></code></pre></td></tr></table></div></figure>
 
-
-<h3>10.fastlane add Slack Notifications</h3>
-
-<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
-
-<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
-
-<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
-
-<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; &#8221;</h3>
-
-<p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
-
-<p>directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks&rsquo;
-Actually I found something when comparing a new project vs an older one&hellip;</p>
-
-<p>In the old project, the warning was only being produced by the test target of my projects. Under &lsquo;Search Paths&rsquo;, I found it was including two items under &lsquo;Framework Search Paths&rsquo;:</p>
-
-<p>$(SDKROOT)/Developer/Library/Frameworks
-$(inherited)
-The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
-
-<p>Deleting those entries in my older project then removed the warning.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
-
-<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
-
-<p>Solution:disable bitcode for this target.
-App target > Build Settings > Enable Bitcode > NO</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
-
-<h3>13.*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33</h3>
-
-<p>2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.&rsquo;</p>
-
-<p>Solution:Target > Lister > iCloud > Fix issue</p>
-
-<pre><code>        Target &gt; App Group &gt; Fix issue
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che">http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che</a></p>
-
-<h3>14.How can I conditionally include a file based on build configuration in Xcode?</h3>
-
-<p>For each target for which you want to conditionally include the settings bundle, choose its Project from the source list, choose the target, and switch to the &ldquo;Build Phases&rdquo; tab.</p>
-
-<p>Click the &ldquo;Add Build Phase&rdquo; button and choose &ldquo;Add Run Script&rdquo;.</p>
-
-<p>Then enter the following for the script:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if [ "${CONFIGURATION}" == "Debug" ]; then
-</span><span class='line'>    cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
-</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST / HTTP/1.1
+</span><span class='line'>User-Agent: curl/7.37.1
+</span><span class='line'>Host: www.baidu.com
+</span><span class='line'>Accept: */*
+</span><span class='line'>Content-Length: 16
+</span><span class='line'>Content-Type: application/x-www-form-urlencoded
+</span><span class='line'>
+</span><span class='line'>name=test&page=1
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>HTTP/1.1 302 Moved Temporarily
+</span><span class='line'>Date: Tue, 15 Sep 2015 00:56:03 GMT
+</span><span class='line'>Content-Type: text/html
+</span><span class='line'>Content-Length: 215
+</span><span class='line'>Connection: Keep-Alive
+</span><span class='line'>Location: http://www.baidu.com/search/error.html
+</span><span class='line'>Server: BWS/1.1
+</span><span class='line'>X-UA-Compatible: IE=Edge,chrome=1
+</span><span class='line'>BDPAGETYPE: 3
+</span><span class='line'>Set-Cookie: BDSVRTM=0; path=/
+</span><span class='line'>
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;&lt;title&gt;302 Found&lt;/title&gt;&lt;/head&gt;
+</span><span class='line'>&lt;body bgcolor="white"&gt;
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;302 Found&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;hr&gt;&lt;center&gt;pr-nginx_1-0-245_BRANCH Branch
+</span><span class='line'>Time : Thu Sep 10 11:36:26 CST 2015&lt;/center&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
+<p>Reference:<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
 
 		
 		
@@ -557,14 +449,8 @@ App target > Build Settings > Enable Bitcode > NO</p>
   
 
 
-<time datetime="2015-07-30T11:36:57+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2015</time></div>
+<time datetime="2015-09-15T09:05:51+08:00" pubdate data-updated="true">Sep 15<span>th</span>, 2015</time></div>
 	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>Archives</a>, <a class='category' href='/blog/categories/ios-development/'>iOS Development</a>
-
-</div>
 
 
 	

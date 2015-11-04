@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Using MySQL  | Hello World</title>
+	<title>iOS App 开发问题汇总（四）  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -106,53 +106,75 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Using MySQL</h2>
-	<div class="entry-content"><h3>1.查看所有的用户</h3>
+	<h2 class="title">iOS App 开发问题汇总（四）</h2>
+	<div class="entry-content"><h3>1. Suppressing deprecated warnings</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select user, host from user;</span></code></pre></td></tr></table></div></figure>
+<h1>pragma clang diagnostic push</h1>
 
+<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
 
-<h3>2.查看用户的权限</h3>
+<p>[reciver deprecatedMethod];</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show grants for 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
+<h1>pragma clang diagnostic pop</h1>
 
-
-<h3>3.为用户添加操作某个数据库的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.SQL COUNT() Function</h3>
-
-<p>SQL COUNT(column_name) Syntax
-The COUNT(column_name) function returns the number of values (NULL values will not be counted) of the specified column:</p>
-
-<p>SELECT COUNT(column_name) FROM table_name;
-SQL COUNT(<em>) Syntax
-The COUNT(</em>) function returns the number of records in a table:</p>
-
-<p>SELECT COUNT(*) FROM table_name;
-SQL COUNT(DISTINCT column_name) Syntax
-The COUNT(DISTINCT column_name) function returns the number of distinct values of the specified column:</p>
-
-<p>SELECT COUNT(DISTINCT column_name) FROM table_name;</p>
-
-<h3>5.SQL Limit</h3>
-
-<p>[LIMIT {[offset,] row_count | row_count OFFSET offset}]</p>
+<h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>select Host, Db from db limit 2, 2;
-</span><span class='line'>
-</span><span class='line'>select Host, Db from db limit 2 offset 2;</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
+</span><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
+</span><span class='line'>Undefined symbols for architecture arm64:
+</span><span class='line'>  "_Decoder_Interface_init", referenced from:
+</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Decoder_Interface_Decode", referenced from:
+</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Decoder_Interface_exit", referenced from:
+</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Encoder_Interface_init", referenced from:
+</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "___gxx_personality_v0", referenced from:
+</span><span class='line'>      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</span><span class='line'>      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</span><span class='line'>  "_Encoder_Interface_Encode", referenced from:
+</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</span><span class='line'>  "_Encoder_Interface_exit", referenced from:
+</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
 
+<!-- more -->
+
+
+<h3>3. Undefined symbols for architecture arm64:</h3>
+
+<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
+
+<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</code></pre>
+
+<p>ld: symbol(s) not found for architecture arm64</p>
+
+<p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l&#8221;stdc++&#8221;</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode">http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode</a></p>
 </div>
 
 
@@ -169,7 +191,7 @@ The COUNT(DISTINCT column_name) function returns the number of distinct values o
   
 
 
-<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true">Aug 12<span>th</span>, 2015</time></div>
+<time datetime="2015-10-15T15:04:13+08:00" pubdate data-updated="true">Oct 15<span>th</span>, 2015</time></div>
 	
 
 

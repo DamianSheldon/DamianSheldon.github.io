@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-11-04T20:56:48+08:00</updated>
+  <updated>2015-11-05T10:11:31+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -23,31 +23,26 @@
 <h3>安装工具</h3>
 
 <ol>
-<li><a href="http://jenkins-ci.org/">jenkins</a>;</li>
+<li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
+
+<p> <code>
+ $ brew update &amp;&amp; brew install jenkins
+</code></p></li>
+<li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
+
+<p> <code>
+ $ sudo gem install fastlane --verbose
+</code></p></li>
+<li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
+
+<p> <code>
+ $ sudo gem install fir-cli
+</code></p></li>
 </ol>
 
 
-<p><code>
-$ brew update &amp;&amp; brew install jenkins
-</code></p>
+<!-- more -->
 
-<ol>
-<li><a href="https://github.com/fastlane/fastlane">fastlane</a>;</li>
-</ol>
-
-
-<p><code>
-$ sudo gem install fastlane --verbose
-</code></p>
-
-<ol>
-<li><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</li>
-</ol>
-
-
-<p><code>
-$ sudo gem install fir-cli
-</code></p>
 
 <h3>fastlane 自动构建</h3>
 
@@ -156,8 +151,10 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
 <h3>jenkins 持续集成</h3>
 
 <ol>
-<li><p>创建自动构建 job</p></li>
-<li><p>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</p></li>
+<li><p>创建自动构建 job</p>
+
+<ul>
+<li>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</li>
 <li><p>Install plugins</p>
 
 <ul>
@@ -181,8 +178,18 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
   cd srsApp/
   fastlane  fir
  </code></p></li>
-<li><p>Save > build</p></li>
-<li><p>创建自动测试 job</p></li>
+<li>Save > build</li>
+</ul>
+</li>
+<li><p>创建自动测试 job</p>
+
+<p> Add build step > Execute shell</p>
+
+<p> <code>
+ #!/bin/bash
+ source ~/.bash_profile
+ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
+</code></p></li>
 </ol>
 
 

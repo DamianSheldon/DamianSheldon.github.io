@@ -109,13 +109,15 @@ $(document).ready(
 	<h2 class="title">iOS App 开发问题汇总（四）</h2>
 	<div class="entry-content"><h3>1. Suppressing deprecated warnings</h3>
 
-<h1>pragma clang diagnostic push</h1>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#pragma clang diagnostic push
+</span><span class='line'>#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+</span><span class='line'>[reciver deprecatedMethod];
+</span><span class='line'>#pragma clang diagnostic pop</span></code></pre></td></tr></table></div></figure>
 
-<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
-
-<p>[reciver deprecatedMethod];</p>
-
-<h1>pragma clang diagnostic pop</h1>
 
 <h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
 

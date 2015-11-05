@@ -121,230 +121,27 @@ $(document).ready(
 <h3>安装工具</h3>
 
 <ol>
-<li><a href="http://jenkins-ci.org/">jenkins</a>;</li>
+<li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
+
+<p> <code>
+ $ brew update &amp;&amp; brew install jenkins
+</code></p></li>
+<li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
+
+<p> <code>
+ $ sudo gem install fastlane --verbose
+</code></p></li>
+<li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
+
+<p> <code>
+ $ sudo gem install fir-cli
+</code></p></li>
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew update && brew install jenkins</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li><a href="https://github.com/fastlane/fastlane">fastlane</a>;</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo gem install fastlane --verbose</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo gem install fir-cli</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>fastlane 自动构建</h3>
-
-<ul>
-<li>cd [your_project_folder]</li>
-<li>fastlane init</li>
-<li>Follow the setup assistant, which will set up fastlane for you</li>
-<li>Edit Fastfile</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fastlane_version "1.25.0"
-</span><span class='line'>
-</span><span class='line'>default_platform :ios
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>platform :ios do
-</span><span class='line'>  before_all do
-</span><span class='line'>    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-</span><span class='line'>    #cocoapods
-</span><span class='line'>
-</span><span class='line'>    increment_build_number
-</span><span class='line'>
-</span><span class='line'>    gym(scheme: "srsApp") # Build your app - more options available
-</span><span class='line'>
-</span><span class='line'>    # xctool # run the tests of your app
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  desc "Runs all the tests"
-</span><span class='line'>  lane :test do
-</span><span class='line'>    snapshot
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  desc "Submit a new Beta Build to fir"
-</span><span class='line'>  desc "This will also make sure the profile is up to date"
-</span><span class='line'>  lane :fir do
-</span><span class='line'>    #snapshot
-</span><span class='line'>    sh "sigh --team_id your_team_id"
-</span><span class='line'>    #deliver(beta: true)
-</span><span class='line'>
-</span><span class='line'>    #"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
-</span><span class='line'>
-</span><span class='line'>    #"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
-</span><span class='line'>
-</span><span class='line'>    # sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
-</span><span class='line'>    # You can also use other beta testing services here
-</span><span class='line'>    sh "fir p ../srsApp.ipa -T USER_TOKEN"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  desc "Submit a new Beta Build to pgyer "
-</span><span class='line'>  desc "This will also make sure the profile is up to date"
-</span><span class='line'>  lane :pgyer do
-</span><span class='line'>    #snapshot
-</span><span class='line'>    sh "sigh --team_id your_team_id"
-</span><span class='line'>    #deliver(beta: true)
-</span><span class='line'>
-</span><span class='line'>    # You can also use other beta testing services here
-</span><span class='line'>    sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # You can define as many lanes as you want
-</span><span class='line'>
-</span><span class='line'>  after_all do |lane|
-</span><span class='line'>    # This block is called, only if the executed lane was successful
-</span><span class='line'>
-</span><span class='line'>     slack(
-</span><span class='line'>       message: "Successfully deployed new App Update."
-</span><span class='line'>     )
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  error do |lane, exception|
-</span><span class='line'>     slack(
-</span><span class='line'>       message: exception.message,
-</span><span class='line'>       success: false
-</span><span class='line'>     )
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用 <code>fastlane fir</code>测试能否正常构建。</p>
-
-<h3>自动测试</h3>
-
-<p>可以利用 xcodebuild 命令来实现自动测试。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>jenkins 持续集成</h3>
-
-<ol>
-<li><p>创建自动构建 job</p></li>
-<li><p>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</p></li>
-<li><p>Install plugins</p>
-
-<ul>
-<li>HTML Publisher Plugin</li>
-<li>AnsiColor Plugin</li>
-<li>Rebuild Plugin</li>
-<li>GIT Plugin</li>
-</ul>
-</li>
-<li><p>Create job > input item name > Freestyle project > OK</p></li>
-<li><p>Configuration
-  Source Code Management
-  Git
-  Repository URL /Users/dongmeiliang/Documents/HJKApp
-  Branches to build */test
-  Add build step > Execute shell</p>
-
-<p>  <code>
-  #!/bin/bash
-  source ~/.bash_profile
-  cd srsApp/
-  fastlane  fir
- </code></p></li>
-<li><p>Save > build</p></li>
-<li><p>创建自动测试 job</p></li>
-</ol>
-
-
-<h2>Reference</h2>
-
-<p>Testing with Xcode
-<a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
-<a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
-<a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
 
 		
-		
+		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html/" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -385,13 +182,15 @@ $(document).ready(
 	<div class="entry-content">
 		<h3>1. Suppressing deprecated warnings</h3>
 
-<h1>pragma clang diagnostic push</h1>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#pragma clang diagnostic push
+</span><span class='line'>#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+</span><span class='line'>[reciver deprecatedMethod];
+</span><span class='line'>#pragma clang diagnostic pop</span></code></pre></td></tr></table></div></figure>
 
-<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
-
-<p>[reciver deprecatedMethod];</p>
-
-<h1>pragma clang diagnostic pop</h1>
 
 <h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
 

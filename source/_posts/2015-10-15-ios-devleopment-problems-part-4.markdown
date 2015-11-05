@@ -8,10 +8,12 @@ keywords:
 discription: 
 ---
 ### 1. Suppressing deprecated warnings
+```
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 [reciver deprecatedMethod];
 #pragma clang diagnostic pop
+```
 
 ### 2. Warning libopencore-amrnb.a, missing required architecture arm64
 ```

@@ -13,22 +13,22 @@ discription: Continuous Integration & Deployment for iOS Projects
 
 1. [jenkins](http://jenkins-ci.org/);
 
-```
-$ brew update && brew install jenkins
-```
+	```
+	$ brew update && brew install jenkins
+	```
 
 2. [fastlane](https://github.com/fastlane/fastlane);
 
-```
-$ sudo gem install fastlane --verbose
-```
+	```
+	$ sudo gem install fastlane --verbose
+	```
 
 3. [fir-cli](https://github.com/FIRHQ/fir-cli/blob/master/README.md);
 
-```
-$ sudo gem install fir-cli
-``` 
-
+	```
+	$ sudo gem install fir-cli
+	``` 
+<!-- more -->
 ### fastlane 自动构建
 
 * cd [your_project_folder]
@@ -116,31 +116,38 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
 
 1. 创建自动构建 job
 
-* Open http://localhost:8080 with safari
-* Install plugins
-	* HTML Publisher Plugin
-	* AnsiColor Plugin
-	* Rebuild Plugin
-	* GIT Plugin
-	
-* Create job > input item name > Freestyle project > OK
-* Configuration
-	Source Code Management
-	Git
-	Repository URL /Users/dongmeiliang/Documents/HJKApp
-	Branches to build */test
+	* Open http://localhost:8080 with safari
+	* Install plugins
+		* HTML Publisher Plugin
+		* AnsiColor Plugin
+		* Rebuild Plugin
+		* GIT Plugin
+		
+	* Create job > input item name > Freestyle project > OK
+	* Configuration
+		Source Code Management
+		Git
+		Repository URL /Users/dongmeiliang/Documents/HJKApp
+		Branches to build */test
+		Add build step > Execute shell
+		
+		```
+		#!/bin/bash 
+		source ~/.bash_profile
+		cd srsApp/
+		fastlane  fir
+		```
+	* Save > build
+
+2. 创建自动测试 job
+
 	Add build step > Execute shell
 	
 	```
 	#!/bin/bash 
 	source ~/.bash_profile
-	cd srsApp/
-	fastlane  fir
+	$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
 	```
-* Save > build
-
-2. 创建自动测试 job
-
 
 ##Reference  
 Testing with Xcode

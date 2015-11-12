@@ -3,7 +3,7 @@ layout: post
 title: "Linux Useful Command Line Part 2"
 date: 2015-09-11 09:30:16 +0800
 comments: true
-categories: 
+categories: [Archives]
 keywords: 
 discription: 
 ---
@@ -21,18 +21,22 @@ Via scp:
 1.Enable Enable SSH
 	 System Preferences > Sharing > enable the “Remote Login” feature
 	
-2.scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/
+2.type scp command
+
+```
+scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/
+```
 
 Via sftp:  
 
-1.sftp dongmeiliang@192.168.1.255
-2.cd path
-  Change remote directory to path.
+1.sftp dongmeiliang@192.168.1.255  
+2.cd path  
+  Change remote directory to path.  
  
-3.lcd path
-  Change local directory to path.
+3.lcd path  
+  Change local directory to path.  
   
-4.get [-Ppr] remote-path [local-path]
+4.get [-Ppr] remote-path [local-path]  
 
 5.lpwd    Print local working directory.
 
@@ -51,27 +55,29 @@ Via sftp:
 
 10.Quit sftp
 
-bye
-exit
-quit
+bye  
+exit  
+quit  
 
 ###3.Installing Apps with Homebrew Cask
 [Homebrew Cask](http://caskroom.io/) is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.
 
 After you have homebrew installed, you'll want to install Homebrew Cask:
 
-brew install caskroom/cask/brew-cask
+```
+$ brew install caskroom/cask/brew-cask
+```
 
 ###4.复制目录及子目录下的某种类型文件
 
 ```
-cp  ~/Documents/HJKApp/srsApp/srsApp/Sections/Home/Main.xcassets/**/*.png  ~/Pictures/HJKApp/OnlyHaveScale2/
+$ cp  ~/Documents/HJKApp/srsApp/srsApp/Sections/Home/Main.xcassets/**/*.png  ~/Pictures/HJKApp/OnlyHaveScale2/
 ```
 
 ###5.Recursive copy of specific files in Unix/Linux?
 
 ```
-rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir
+$ rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir
 ```
 
 Reference:http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux
@@ -80,7 +86,11 @@ Reference:http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-
 
 I don't know why sftp does this but you can only recursive copy if the destination directory already exists. So do this...
 
-sftp> mkdir bin
+```
+sftp> mkdir bin  
 sftp> put -r bin
+```
 
 Reference:http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp
+
+

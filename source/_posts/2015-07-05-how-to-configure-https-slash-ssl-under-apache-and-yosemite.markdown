@@ -117,7 +117,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	* sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock
 
 
-### 添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don't have permission to access / on this server”
+#### 添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don't have permission to access / on this server”
 
 Solution:
 I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:

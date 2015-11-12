@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Linux命令行整理"
+title: "Linux Useful Command Line"
 date: 2015-03-18 21:12:56 +0800
 comments: true
 categories: [Archives]
@@ -128,12 +128,24 @@ Or, if you don't want/need launchctl, you can just run:
 ###11.Find
 
 find的使用实例：
+
+搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件:
+
+```
 　　$ find . -name 'my*'
-搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。
+```
+
+搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息:
+
+```
 　　$ find . -name 'my*' -ls
-搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。
+```
+
+搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录:
+
+```
 　　$ find . -type f -mmin -10
-搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录。
+```
 
 Reference:http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html
 
@@ -145,18 +157,24 @@ Referenc:http://poptop.sourceforge.net/dox/debian-howto.phtml
 ###13.iptables remove specific rules
 Execute the same commands but replace the "-A" with "-D". For example:
 
-iptables -A INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
+```
+$ iptables -A INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
 becomes
 
-iptables -D INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
+$ iptables -D INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
+```
 
 ###14.How to use tcpdump?
 tcpdump can be used to capture the packets exchanged between the PPTP Client and the PPTP Server. By comparing the packets with what should be happening, you may determine what the cause of a problem might be.
 Give to tcpdump the name of the network interface that connects to the PPTP Server, which for dial-up users would be ppp0, and for ADSL users eth0. Then, in another window or console, start the tunnel.
 
 Start tcpdump in one window:	Then run pppd in the other window:
+
+```
 # tcpdump -i eth0
 # pppd call tunnel
+```
+
 The tcpdump command should show you the packets as they are received or transmitted. Press Control/C when you do not need to capture any more packets.
 
 You should see a connection to port 1723, followed by GRE packets in both directions. If you can see this, then you have full network connectivity. If you can't, you must find the problem.
@@ -176,20 +194,32 @@ add -w file to tell it to save the packets to the file file,
 add -s 0 to capture all of each packet,
 and add tcp port 1723 or proto 47 to keep only the PPTP packets, if the client is performing other network traffic at the time.
 For example:
+
+```
 # tcpdump -i eth0 -w my.tcpdump -s 0 tcp port 1723 or proto 47
+
+```
 Again, once the packets have been collected, use Control/C to stop the tcpdump process. The file containing the packets can then be e-mailed or analysed.
 
 You may analyse it using ethereal.
 
+```
 # ethereal my.tcpdump
+```
 Note: when using ethereal, clicking on a byte in the hex dump will highlight the field name of the data in the packet, and vice versa. You may also analyse it using tcpdump:
 
+```
 # tcpdump -n -r my.tcpdump > my.tcpdump.txt
+```
 This converts it to text, saving the output into a file my.tcpdump.txt. This often hides the username and password. You may wish to globally substitute the IP addresses. Check your results to ensure your security.
 
 ###15.Viewing all iptables rules
 You just need to specify the appropriate table:
 
-iptables --table nat --list
-iptables -t nat -L
+```
+$ iptables --table nat --list
+$ iptables -t nat -L
+```
 If you don't specify a table, the filter table is used as the default. You can get even more information by including the -v or --verbose option.
+
+

@@ -19,7 +19,7 @@ $ mkdir AJFrame
 Xcode > File > New > Project... > Framework & Library > Cocoa Touch Static Libray 
 
 // Create dev app
-Xcode > File > New > Project... > Single View 
+Xcode > File > New > Project... > Single View Application
 
 // Result 
 AJFrame
@@ -55,7 +55,7 @@ pod spec create [NAME|https://github.com/USER/REPO] --verbose
 
 ```
 // s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
-s.source  = { :git => "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git", :tag => "2.0.0" }
+s.source  = { :git => "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git", :tag => s.version.to_s }
 
 // s.source_files指定哪些源文件需要包含在pod中
 s.source_files  = "AJFrame/classes/*.{h,m}"

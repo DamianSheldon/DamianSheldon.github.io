@@ -12,8 +12,8 @@ discription:
 
 1. Install [Eclipse PDT](https://eclipse.org/pdt/#download);  
 2. [Install PEAR and PECL on Mac OS X](http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/), php.ini locate in /etc on Yosemite;  
-3. [Install Xdebug through PEAR/PECL](http://www.xdebug.org/docs/install);
-	Addition configure for Yosemite  
+3. [Install Xdebug through PEAR/PECL](http://www.xdebug.org/docs/install);  
+	Addition configure for Yosemite   
 	* `sudo cp /etc/php.ini.default /etc/php.ini`  
 	* add "zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" to php.ini
 	
@@ -94,3 +94,4 @@ xdebug.remote_log="/var/log/xdebug.log"
 
 sudo apachectl restart
 ```
+

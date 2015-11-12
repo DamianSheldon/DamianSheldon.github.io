@@ -25,13 +25,15 @@ Reference:http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x
 <!-- more -->
 
 ## 2. How to find computer name on Mac
-1. GUI
+1. GUI  
  System Preference > Sharing
  
 2. Command Line
- hostname
+	
+	```
+	$ hostname
+	```
 
- ./configure --prefix=/usr/local/php --with-mysql=/usr/local/mysql --with-apxs=/usr/local/apache/bin/apxs --with-config-file-path=/usr/local/apache/conf --enable-mbstring
 
 
 

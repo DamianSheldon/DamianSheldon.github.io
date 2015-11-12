@@ -132,10 +132,10 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
 		Add build step > Execute shell
 		
 		```
-		#!/bin/bash 
-		source ~/.bash_profile
-		cd srsApp/
-		fastlane  fir
+		#!/bin/bash   
+		source ~/.bash_profile  
+		cd srsApp/  
+		fastlane  fir  
 		```
 	* Save > build
 
@@ -144,8 +144,8 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
 	Add build step > Execute shell
 	
 	```
-	#!/bin/bash 
-	source ~/.bash_profile
+	#!/bin/bash   
+	source ~/.bash_profile  
 	$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
 	```
 

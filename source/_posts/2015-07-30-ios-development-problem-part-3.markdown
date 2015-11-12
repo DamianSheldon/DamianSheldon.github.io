@@ -26,7 +26,11 @@ $ security cms -D -i "Payload/YourApp.app/embedded.mobileprovision"
 
 where YourApp.app is the actual name of your .app bundle.
 <!-- more -->
-### 2.问题描述：`<PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`>` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.
+### 2.问题描述：
+
+```
+`<PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`>` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.
+```
 
 解决办法：
 1. I opened the .pbxproj file in a text editor.  
@@ -144,7 +148,11 @@ Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration 
 
 Reference:https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications
 
-###11.directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
+###11.问题描述：
+
+```
+directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
+```
 
 Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :
 
@@ -161,15 +169,23 @@ Deleting those entries in my older project then removed the warning.
 
 Reference:http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning
 
-###12.ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+###12.问题描述：
+
+```
+ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+```
 
 Solution:disable bitcode for this target.
 App target > Build Settings > Enable Bitcode > NO
 
 Reference:http://stackoverflow.com/questions/30848208/new-warnings-in-ios9
 
-###13.*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
+###13.问题描述：
+
+```
+*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
 2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.'
+```
 
 Solution:Target > Lister > iCloud > Fix issue
 			Target > App Group > Fix issue
@@ -191,11 +207,11 @@ fi
 ```
 Reference:http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode
 ### 15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0
-Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning 
-2. Locate the warning(s) (search for "Automatic Preferred Max Layout") and press expand button on the right
-3. Find the Object ID of the UILabel
-4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel
-5. Explictit set preferred layout width
+Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning   
+2. Locate the warning(s) (search for "Automatic Preferred Max Layout") and press expand button on the right  
+3. Find the Object ID of the UILabel  
+4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel  
+5. Explictit set preferred layout width  
 
 Reference:http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8
 

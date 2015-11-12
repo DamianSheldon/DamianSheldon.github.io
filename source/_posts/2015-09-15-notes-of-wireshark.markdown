@@ -3,9 +3,9 @@ layout: post
 title: "Notes of Wireshark"
 date: 2015-09-15 09:05:51 +0800
 comments: true
-categories: 
-keywords: 
-discription: 
+categories: [Archives]
+keywords: Wireshark, Capture package
+discription: Notes of Using Wireshark
 ---
 
 ###1.Capture HTTP traffic on your server
@@ -51,3 +51,4 @@ Time : Thu Sep 10 11:36:26 CST 2015</center>
 ```
 
 Reference:https://wiki.wireshark.org/CaptureFilters
+

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS Development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-11-05T10:11:31+08:00</updated>
+  <updated>2015-11-12T11:39:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（四）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4.html/"/>
+    <updated>2015-10-15T15:04:13+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4</id>
+    <content type="html"><![CDATA[<h3>1. Suppressing deprecated warnings</h3>
+
+<p>```</p>
+
+<h1>pragma clang diagnostic push</h1>
+
+<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
+
+<p>[reciver deprecatedMethod];</p>
+
+<h1>pragma clang diagnostic pop</h1>
+
+<p>```</p>
+
+<h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
+
+<p>```
+ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
+ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
+Undefined symbols for architecture arm64:
+  &ldquo;_Decoder_Interface_init&rdquo;, referenced from:</p>
+
+<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</code></pre>
+
+<p>  &ldquo;_Decoder_Interface_Decode&rdquo;, referenced from:</p>
+
+<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</code></pre>
+
+<p>  &ldquo;_Decoder_Interface_exit&rdquo;, referenced from:</p>
+
+<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+</code></pre>
+
+<p>  &ldquo;_Encoder_Interface_init&rdquo;, referenced from:</p>
+
+<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</code></pre>
+
+<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
+
+<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</code></pre>
+
+<p>  &ldquo;_Encoder_Interface_Encode&rdquo;, referenced from:</p>
+
+<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</code></pre>
+
+<p>  &ldquo;_Encoder_Interface_exit&rdquo;, referenced from:</p>
+
+<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+</code></pre>
+
+<p>```
+Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
+
+<!-- more -->
+
+
+<h3>3. Undefined symbols for architecture arm64:</h3>
+
+<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
+
+<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+</code></pre>
+
+<p>ld: symbol(s) not found for architecture arm64</p>
+
+<p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l"stdc++"</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode">http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（三）]]></title>
@@ -39,7 +122,11 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
 <!-- more -->
 
 
-<h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
+<h3>2.问题描述：</h3>
+
+<p><code>
+`&lt;PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`&gt;` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.
+</code></p>
 
 <p>解决办法：
 1. I opened the .pbxproj file in a text editor.<br/>
@@ -167,7 +254,11 @@ Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=155
 
 <p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
 
-<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; "</h3>
+<h3>11.问题描述：</h3>
+
+<p><code>
+directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
+</code></p>
 
 <p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
 
@@ -184,16 +275,23 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
 
-<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
+<h3>12.问题描述：</h3>
+
+<p><code>
+ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+</code></p>
 
 <p>Solution:disable bitcode for this target.
 App target > Build Settings > Enable Bitcode > NO</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
 
-<h3>13.*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33</h3>
+<h3>13.问题描述：</h3>
 
-<p>2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.&rsquo;</p>
+<p><code>
+*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
+2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.'
+</code></p>
 
 <p>Solution:Target > Lister > iCloud > Fix issue</p>
 
@@ -222,10 +320,10 @@ Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditio
 
 <h3>15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0</h3>
 
-<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning
-2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right
-3. Find the Object ID of the UILabel
-4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel
+<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning <br/>
+2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right<br/>
+3. Find the Object ID of the UILabel<br/>
+4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel<br/>
 5. Explictit set preferred layout width</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8">http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8</a></p>
@@ -605,204 +703,6 @@ Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict
 <p>解决办法：iPhoto 11 (9.0) Photo Library Storage Location:~/Pictures/iPhoto Library.photolibrary/Masters/</p>
 
 <p>Reference:<a href="http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/">http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何创建私有的Pod]]></title>
-    <link href="http://DamianSheldon.github.io/blog/private-pods.html/"/>
-    <updated>2015-03-11T17:23:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/private-pods</id>
-    <content type="html"><![CDATA[<p>公司的框架代码大多数时候是需要保密的，而手动的复制导入比较麻烦，这时候我们可以创建私有 Pod 来方便我们的日常开发工作，本文是我创建私有 Pod 的笔记。</p>
-
-<p>Cocoapods 提供了 pod lib create [pod name] 来创建私有库工程，但是有个 embedded dylibs/frameworks are only supported on iOS 8.0 and later 的问题。 意思是只有部署 iOS 8 以上的应用才能使用它，所以要支持 iOS 8 以下的应用的 Pod 我们还是得手动创建，详细步骤如下：</p>
-
-<p>```
-$ mkdir AJFrame</p>
-
-<p>// Create static library
-Xcode > File > New > Project&hellip; > Framework &amp; Library > Cocoa Touch Static Libray</p>
-
-<p>// Create dev app
-Xcode > File > New > Project&hellip; > Single View</p>
-
-<p>// Result
-AJFrame
-├── AJFrame
-│   ├── AJFrame.xcodeproj
-│   ├── AJFrameTests
-│   ├── Classes
-├── AJFrame.podspec
-├── AJFrameDevApp
-│   ├── AJFrameDevApp
-│   ├── AJFrameDevApp.xcodeproj
-│   ├── AJFrameDevApp.xcworkspace
-│   ├── AJFrameDevAppTests
-│   ├── Podfile
-│   ├── Podfile.lock
-│   └── Pods
-└── LICENSE
-```</p>
-
-<!-- more -->
-
-
-<p>Cocoapods 工作依赖于两个文件：</p>
-
-<ol>
-<li>podspec:一个pod的配置是什么，pod的代码放在哪里</li>
-<li>Podfile:项目依赖哪个pod，以何种方式依赖，它的podspec放在哪里</li>
-</ol>
-
-
-<h3>创建podspec文件</h3>
-
-<p><code>
-pod spec create [NAME|https://github.com/USER/REPO] --verbose
-</code></p>
-
-<!--more-->
-
-
-<p>然后编辑podspecs文件，具体可以参考它的<a href="https://guides.cocoapods.org/syntax/podspec.html">详细语法</a>，这里有几个地方需要注意：</p>
-
-<p>```
-// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
-s.source  = { :git => &ldquo;ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git&rdquo;, :tag => &ldquo;2.0.0&rdquo; }</p>
-
-<p>// s.source_files指定哪些源文件需要包含在pod中
-s.source_files  = &ldquo;AJFrame/classes/*.{h,m}&rdquo;</p>
-
-<p>// pod的依赖
-s.dependency &ldquo;JSONKit&rdquo;, &ldquo;~> 1.4&rdquo;</p>
-
-<p><code>``
-可以使用命令</code>pod lib lint &mdash;verbose` 来验证 podspecs 文件。</p>
-
-<h3>开发静态库</h3>
-
-<p>编辑辅助开发静态库应用工程的 Podfile，具体可以参考它的<a href="https://guides.cocoapods.org/syntax/podfile.html">详细语法</a> ,让它使用安装链接静态库.</p>
-
-<p>```
-target &lsquo;AJFrameDevApp&rsquo; do</p>
-
-<pre><code>pod 'AJFrame', :path =&gt; '../'
-</code></pre>
-
-<p>end</p>
-
-<p>$ cd ~/Documents/AJFrame/AJFrameDevApp/
-$ pod install &mdash;no-repo-update &mdash;verbose
-```</p>
-
-<h3>测试</h3>
-
-<p>开发完成以后，可以创建一个测试工程来测试私有 Pod 是否能正常工作，具体而言,通常是在创建一个远程仓库，把私有 Pod 的代码推送上去，然后创建一个新的工程，让它安装这个私有 Pod ，然后写些测试代码，测试它能否正常工作。</p>
-
-<p>```
-// Remote
-$ cd /Git
-$ git init &mdash;bare AJFrame.git</p>
-
-<p>// Local
-$ cd ~/Documents/AJFrame
-$ git init
-$ git add .
-$ git commit
-$ git tag <tagname>
-$ git remote add origin <url>
-$ git push -u origin master &mdash;tags &mdash;verbose</p>
-
-<p>// Edit dependency project&rsquo;s Podfile, add a similary line
-pod &lsquo;AJFrame&rsquo;, :git => &lsquo;ssh://192.168.1.100:/git/ICW/Git/AJFrame.git&rsquo;, :tag => &lsquo;2.0.0&rsquo;
-$ pod install &mdash;no-repo-update &mdash;verbose
-$ write code and test
-```</p>
-
-<h3>发布</h3>
-
-<p>发布是可选的，但是当我们有其他的 Pod 想依赖开发的这个私有 Pod 时就变成必须的，所以我们还是得会发布一个私有 Pod。具体步骤如下：</p>
-
-<p>```
-// Create a Private Spec Repo<br/>
-$ cd /Git<br/>
-$ git init &mdash;bare Specs.git</p>
-
-<p>// Add your Private Repo to your CocoaPods installation
-$ pod repo add aijian-specs ssh://192.168.1.105:/git/ICW/Git/Specs.git &mdash;verbose</p>
-
-<p>// Check your installation is successful and ready to go
-$ cd ~/.cocoapods/repos/aijian-specs
-$ pod repo lint .</p>
-
-<p>// Add your Podspec to your repo
-pod repo push aijian-specs AJFrame.podspec</p>
-
-<p>```</p>
-
-<p>在工程中使用它时，编辑 Podfile， 加入如下内容：</p>
-
-<p>```
-source ssh://192.168.1.105:/git/ICW/Git/Specs.git</p>
-
-<p>pod &lsquo;AJFrame&rsquo;, &lsquo;~> 2.0.0&rsquo;
-```</p>
-
-<h3>s.dependency 如何依赖私有 Pod？</h3>
-
-<ol>
-<li>Create a Private Spec Repo</li>
-</ol>
-
-
-<p><code>
-$ cd /opt/git  
-$ mkdir Specs.git  
-$ cd Specs.git
-$ git init --bare
-</code></p>
-
-<ol>
-<li>Add your Private Repo to your CocoaPods installation</li>
-</ol>
-
-
-<p>```
-$ pod repo add artsy-specs git@github:artsy/Specs.git</p>
-
-<p>$ pod repo add aijian-specs ssh://192.168.1.105:/git/ICW/Git/Specs.git &mdash;verbose
-```</p>
-
-<p>Check your installation is successful and ready to go:</p>
-
-<p><code>
-$ cd ~/.cocoapods/repos/artsy-specs
-$ pod repo lint .
-</code></p>
-
-<ol>
-<li>Add your Podspec to your repo</li>
-</ol>
-
-
-<p><code>
-pod repo push artsy-specs ~/Desktop/Artsy+OSSUIFonts.podspec
-</code>
-Your private Pod is ready to be used in a Podfile. You can use the spec repository with the source directive in your Podfile as shown in the following example:</p>
-
-<p><code>
-source 'URL_TO_REPOSITORY'
-</code></p>
-
-<p><a href="http://stackoverflow.com/questions/25759170/how-to-add-a-private-cocoapod-as-a-dependency-in-another-pod-podspec-file">Solution Reference</a></p>
-
-<h3>Reference</h3>
-
-<p><a href="http://guides.cocoapods.org/making/using-pod-lib-create">Using Pod Lib Create</a><br/>
-<a href="http://guides.cocoapods.org/using/the-podfile.html">The Podfile</a><br/>
-<a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
-<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
-<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
 ]]></content>
   </entry>
   

@@ -141,7 +141,7 @@ $(document).ready(
 </span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Framework & Library &gt; Cocoa Touch Static Libray 
 </span><span class='line'>
 </span><span class='line'>// Create dev app
-</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Single View 
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Single View Application
 </span><span class='line'>
 </span><span class='line'>// Result 
 </span><span class='line'>AJFrame
@@ -192,7 +192,7 @@ $(document).ready(
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// s.source指定工程的源码地址,这里路径有些怪异是因为我的git server是布署在Windows上的。
-</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git", :tag =&gt; "2.0.0" }
+</span><span class='line'>s.source  = { :git =&gt; "ssh://dongmeiliang@192.168.1.100:/git/ICW/Git/AJFrame.git", :tag =&gt; s.version.to_s }
 </span><span class='line'>
 </span><span class='line'>// s.source_files指定哪些源文件需要包含在pod中
 </span><span class='line'>s.source_files  = "AJFrame/classes/*.{h,m}"

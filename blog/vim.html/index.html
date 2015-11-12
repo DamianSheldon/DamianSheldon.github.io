@@ -130,75 +130,39 @@ $(document).ready(
 <p>&#8220;
 (two backticks).</p>
 
-<h3>5.Multi-window commands</h3>
+<h3>5.Show line number</h3>
 
-<p>Q_wi*          Multi-window commands</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set number</span></code></pre></td></tr></table></div></figure>
 
-<p>|CTRL-W_s|      CTRL-W s  or  :split    split window into two parts
-|:split_f|      :split {file}           split window and edit {file} in one of</p>
 
-<pre><code>                                       them
-</code></pre>
+<h3>6.Auto indent</h3>
 
-<p>|:vsplit|       :vsplit {file}          same, but split vertically
-|:vertical|     :vertical {cmd}         make {cmd} split vertically</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set autoindent</span></code></pre></td></tr></table></div></figure>
 
-<p>|:sfind|        :sf[ind] {file}         split window, find {file} in &lsquo;path&rsquo;</p>
 
-<pre><code>                                       and edit it
-</code></pre>
+<h3>7.Set background</h3>
 
-<p>|CTRL-W_]|      CTRL-W ]                split window and jump to tag under</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set background=dark
+</span><span class='line'>:set background=light</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>                                       cursor
-</code></pre>
 
-<p>|CTRL-W_f|      CTRL-W f                split window and edit file name under</p>
+<h3>8.Common move command</h3>
 
-<pre><code>                                       the cursor
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0, ^ line head
+</span><span class='line'>$, g_ line foot
+</span><span class='line'>ctl + f forword page
+</span><span class='line'>ctl + b back page</span></code></pre></td></tr></table></div></figure>
 
-<p>|CTRL-W_^|      CTRL-W ^                split window and edit alternate file
-|CTRL-W_n|      CTRL-W n  or  :new      create new empty window
-|CTRL-W_q|      CTRL-W q  or  :q[uit]   quit editing and close window
-|CTRL-W_c|      CTRL-W c  or  :cl[ose]  make buffer hidden and close window
-|CTRL-W_o|      CTRL-W o  or  :on[ly]   make current window only one on the</p>
 
-<pre><code>                                       screen
-</code></pre>
 
-<p>|CTRL-W_j|      CTRL-W j                move cursor to window below
-|CTRL-W_k|      CTRL-W k                move cursor to window above
-|CTRL-W_CTRL-W| CTRL-W CTRL-W           move cursor to window below (wrap)
-|CTRL-W_W|      CTRL-W W                move cursor to window above (wrap)
-|CTRL-W_t|      CTRL-W t                move cursor to top window
-|CTRL-W_b|      CTRL-W b                move cursor to bottom window
-|CTRL-W_p|      CTRL-W p                move cursor to previous active window</p>
-
-<p>|CTRL-W_r|      CTRL-W r                rotate windows downwards
-|CTRL-W_R|      CTRL-W R                rotate windows upwards
-|CTRL-W_x|      CTRL-W x                exchange current window with next one</p>
-
-<p>|CTRL-W<em>=|      CTRL-W =                make all windows equal height
-|CTRL-W</em>&ndash;|      CTRL-W &ndash;                decrease current window height
-|CTRL-W_+|      CTRL-W +                increase current window height
-|CTRL-W__|      CTRL-W _                set current window height (default:</p>
-
-<pre><code>                                       very high)
-</code></pre>
-
-<p>1, set number
-2, set autoindent
-4, set background=dark
-5, set background=light</p>
-
-<p>6, 0, ^ line head</p>
-
-<p>7, $, g_ line foot</p>
-
-<p>8, ctl + f forword page</p>
-
-<p>9, ctl + b back page</p>
 </div>
 
 

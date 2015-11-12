@@ -128,7 +128,11 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
 <!-- more -->
 
 
-<h3>2.问题描述：<code>&lt;PBXGroup path=</code>Vendors<code>UUID=</code>4931326E1B4A0EBF00741B49<code>&gt;</code> attempted to initialize an object with an unknown UUID. <code>4920B77E1B58900100C9789C</code> for attribute: <code>children</code>. This can be the result of a merge and  the unknown UUID is being discarded.</h3>
+<h3>2.问题描述：</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>`&lt;PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`&gt;` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.</span></code></pre></td></tr></table></div></figure>
+
 
 <p>解决办法：
 1. I opened the .pbxproj file in a text editor.<br/>
@@ -268,7 +272,11 @@ In Swift:</p>
 
 <p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
 
-<h3>11.directory not found for option &lsquo;-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks&rsquo; &#8221;</h3>
+<h3>11.问题描述：</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
 
@@ -285,16 +293,24 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
 
-<h3>12.ld: &lsquo;/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)&rsquo; does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</h3>
+<h3>12.问题描述：</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Solution:disable bitcode for this target.
 App target > Build Settings > Enable Bitcode > NO</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
 
-<h3>13.*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33</h3>
+<h3>13.问题描述：</h3>
 
-<p>2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception &lsquo;NSInternalInconsistencyException&rsquo;, reason: &lsquo;The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.&rsquo;</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
+</span><span class='line'>2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.'</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Solution:Target > Lister > iCloud > Fix issue</p>
 
@@ -323,10 +339,10 @@ App target > Build Settings > Enable Bitcode > NO</p>
 
 <h3>15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0</h3>
 
-<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning
-2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right
-3. Find the Object ID of the UILabel
-4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel
+<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning <br/>
+2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right<br/>
+3. Find the Object ID of the UILabel<br/>
+4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel<br/>
 5. Explictit set preferred layout width</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8">http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8</a></p>

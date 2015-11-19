@@ -307,13 +307,17 @@ $(document).ready(
 
 <h3>定期更新 master repo</h3>
 
-<p>使用过 pod 的同学应该都知道如果在安装的时候去更新 master repo 的话安装过程比较久，那我们能不能定时去预先更新 master repo 呢？当然可以。我们可以写个更新脚本让 launchd 定时去执行，详细步骤如下：<br/>
-1. 编写更新 master repo 脚本</p>
+<p>使用过 pod 的同学应该都知道如果在安装的时候去更新 master repo 的话安装过程比较久，那我们能不能定时去预先更新 master repo 呢？当然可以。我们可以写个更新脚本让 launchd 定时去执行，详细步骤如下：</p>
+
+<ol>
+<li>编写更新 master repo 脚本
 
 <ul>
 <li>脚本我放在 /usr/local/bin</li>
 <li>chmod a+x update-pod-repo</li>
 </ul>
+</li>
+</ol>
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -351,9 +355,9 @@ $(document).ready(
 
 
 <ol>
-<li><p>定时执行脚本<br/>
-Mac 下推荐的定时执行脚本的方法是 launchd，所以这里我们使用 launchd 来定时执行我们的脚本。</p></li>
-<li><p>编写 launchd.plist</p></li>
+<li>定时执行脚本<br/>
+Mac 下推荐的定时执行脚本的方法是 launchd，所以这里我们使用 launchd 来定时执行我们的脚本。</li>
+<li>编写 launchd.plist</li>
 </ol>
 
 
@@ -385,7 +389,7 @@ Mac 下推荐的定时执行脚本的方法是 launchd，所以这里我们使�
 </span><span class='line'>                &lt;key&gt;Label&lt;/key&gt;
 </span><span class='line'>                &lt;string&gt;com.dongmeiliang.update-pod-repo&lt;/string&gt;
 </span><span class='line'>                &lt;key&gt;Program&lt;/key&gt;
-</span><span class='line'>                &lt;string&gt;/usr/loal/bin/update-pod-repo&lt;/string&gt;
+</span><span class='line'>                &lt;string&gt;/usr/local/bin/update-pod-repo&lt;/string&gt;
 </span><span class='line'>                &lt;key&gt;StartCalendarInterval&lt;/key&gt;
 </span><span class='line'>                &lt;array&gt;
 </span><span class='line'>                        &lt;dict&gt;

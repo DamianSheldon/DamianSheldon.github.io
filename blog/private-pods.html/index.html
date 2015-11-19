@@ -305,6 +305,124 @@ $(document).ready(
 </span><span class='line'>pod 'AJFrame', '~&gt; 2.0.0' </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>定期更新 master repo</h3>
+
+<p>使用过 pod 的同学应该都知道如果在安装的时候去更新 master repo 的话安装过程比较久，那我们能不能定时去预先更新 master repo 呢？当然可以。我们可以写个更新脚本让 launchd 定时去执行，详细步骤如下：<br/>
+1. 编写更新 master repo 脚本</p>
+
+<ul>
+<li>脚本我放在 /usr/local/bin</li>
+<li>chmod a+x update-pod-repo</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'># This script used for update pod repo!
+</span><span class='line'># View log with command: syslog -C
+</span><span class='line'># Reference:http://stackoverflow.com/questions/16818427/write-to-mac-os-x-console-logs-from-shell-script-or-command-line
+</span><span class='line'>
+</span><span class='line'>syslog -s -k Facility com.apple.console \
+</span><span class='line'>             Level Error \
+</span><span class='line'>             Sender update-pod-repo \
+</span><span class='line'>             Message "Starting update master pod repo..."
+</span><span class='line'>
+</span><span class='line'>pod repo update master
+</span><span class='line'>
+</span><span class='line'>syslog -s -k Facility com.apple.console \
+</span><span class='line'>             Level Error \
+</span><span class='line'>             Sender update-pod-repo\
+</span><span class='line'>             Message "Ending update master pod repo."</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>定时执行脚本<br/>
+Mac 下推荐的定时执行脚本的方法是 launchd，所以这里我们使用 launchd 来定时执行我们的脚本。</p></li>
+<li><p>编写 launchd.plist</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+</span><span class='line'>&lt;plist version="1.0"&gt;
+</span><span class='line'>        &lt;dict&gt;
+</span><span class='line'>                &lt;key&gt;Label&lt;/key&gt;
+</span><span class='line'>                &lt;string&gt;com.dongmeiliang.update-pod-repo&lt;/string&gt;
+</span><span class='line'>                &lt;key&gt;Program&lt;/key&gt;
+</span><span class='line'>                &lt;string&gt;/usr/loal/bin/update-pod-repo&lt;/string&gt;
+</span><span class='line'>                &lt;key&gt;StartCalendarInterval&lt;/key&gt;
+</span><span class='line'>                &lt;array&gt;
+</span><span class='line'>                        &lt;dict&gt;
+</span><span class='line'>                                &lt;key&gt;Minute&lt;/key&gt;
+</span><span class='line'>                                &lt;integer&gt;10&lt;/integer&gt;
+</span><span class='line'>                        &lt;/dict&gt;
+</span><span class='line'>                        &lt;dict&gt;
+</span><span class='line'>                                &lt;key&gt;Hour&lt;/key&gt;
+</span><span class='line'>                                &lt;integer&gt;12&lt;/integer&gt;
+</span><span class='line'>                        &lt;/dict&gt;
+</span><span class='line'>                &lt;/array&gt;
+</span><span class='line'>        &lt;/dict&gt;
+</span><span class='line'>&lt;/plist&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>检查 plist 文件语法是否正确</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plutil -lint ~/Library/LaunchAgents/com.dongmeiliang.update-pod-repo.plist</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>加载 plist 文件，以便无需重启机器就能定时执行我们的脚本</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ launchctl load -w ~/Library/LaunchAgents/com.dongmeiliang.update-pod-repo.plist
+</span><span class='line'>// Check plist has been install successfully
+</span><span class='line'>$ launchctl list | grep 'com.dongmeiliang.update-pod-repo'</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>s.dependency 如何依赖私有 Pod？</h3>
 
 <ol>
@@ -368,7 +486,8 @@ $(document).ready(
 <a href="http://guides.cocoapods.org/using/the-podfile.html">The Podfile</a><br/>
 <a href="http://www.iwangke.me/2013/04/18/advanced-cocoapods/">CocoaPods进阶：本地包管理</a><br/>
 <a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
-<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a></p>
+<a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a><br/>
+<a href="http://www.splinter.com.au/using-launchd-to-run-a-script-every-5-mins-on/">Using Launchd to run a script every 5 mins on a Mac</a></p>
 </div>
 
 

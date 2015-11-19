@@ -129,6 +129,74 @@ source ssh://192.168.1.105:/git/ICW/Git/Specs.git
 pod 'AJFrame', '~> 2.0.0' 
 ```
 
+###定期更新 master repo  
+使用过 pod 的同学应该都知道如果在安装的时候去更新 master repo 的话安装过程比较久，那我们能不能定时去预先更新 master repo 呢？当然可以。我们可以写个更新脚本让 launchd 定时去执行，详细步骤如下： 
+ 
+1. 编写更新 master repo 脚本  
+	* 脚本我放在 /usr/local/bin
+	* chmod a+x update-pod-repo
+
+```
+#!/bin/bash
+# This script used for update pod repo!
+# View log with command: syslog -C
+# Reference:http://stackoverflow.com/questions/16818427/write-to-mac-os-x-console-logs-from-shell-script-or-command-line
+
+syslog -s -k Facility com.apple.console \
+             Level Error \
+             Sender update-pod-repo \
+             Message "Starting update master pod repo..."
+
+pod repo update master
+
+syslog -s -k Facility com.apple.console \
+             Level Error \
+             Sender update-pod-repo\
+             Message "Ending update master pod repo."
+```
+
+2. 定时执行脚本  
+Mac 下推荐的定时执行脚本的方法是 launchd，所以这里我们使用 launchd 来定时执行我们的脚本。  
+* 编写 launchd.plist  
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+        <dict>
+                <key>Label</key>
+                <string>com.dongmeiliang.update-pod-repo</string>
+                <key>Program</key>
+                <string>/usr/local/bin/update-pod-repo</string>
+                <key>StartCalendarInterval</key>
+                <array>
+                        <dict>
+                                <key>Minute</key>
+                                <integer>10</integer>
+                        </dict>
+                        <dict>
+                                <key>Hour</key>
+                                <integer>12</integer>
+                        </dict>
+                </array>
+        </dict>
+</plist>
+```
+
+* 检查 plist 文件语法是否正确  
+
+```
+$ plutil -lint ~/Library/LaunchAgents/com.dongmeiliang.update-pod-repo.plist
+```
+
+* 加载 plist 文件，以便无需重启机器就能定时执行我们的脚本  
+
+```
+$ launchctl load -w ~/Library/LaunchAgents/com.dongmeiliang.update-pod-repo.plist
+// Check plist has been install successfully
+$ launchctl list | grep 'com.dongmeiliang.update-pod-repo'
+```
+
 ### s.dependency 如何依赖私有 Pod？
 
 1. Create a Private Spec Repo  
@@ -174,5 +242,6 @@ source 'URL_TO_REPOSITORY'
 [The Podfile](http://guides.cocoapods.org/using/the-podfile.html)  
 [CocoaPods进阶：本地包管理](http://www.iwangke.me/2013/04/18/advanced-cocoapods/)  
 [用CocoaPods做iOS程序的依赖管理](http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/)  
-[Cocoapods 入门](http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/)
+[Cocoapods 入门](http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/)  
+[Using Launchd to run a script every 5 mins on a Mac](http://www.splinter.com.au/using-launchd-to-run-a-script-every-5-mins-on/)  
 

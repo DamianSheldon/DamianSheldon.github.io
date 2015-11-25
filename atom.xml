@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-11-19T10:33:36+08:00</updated>
+  <updated>2015-11-25T20:41:26+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -327,6 +327,20 @@
 <p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l&#8221;stdc++&#8221;</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode">http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode</a></p>
+
+<h3>4. Suppressing performSelector may cause leaks warnings</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#pragma clang diagnostic push
+</span><span class='line'>#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+</span><span class='line'>    [self.ticketTarget performSelector: self.ticketAction withObject: self];
+</span><span class='line'>#pragma clang diagnostic pop</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
 ]]></content>
   </entry>
   
@@ -366,6 +380,14 @@ System Preference > Sharing</p></li>
 </code></p></li>
 </ol>
 
+
+<h2>3. SSH to Server Without Entering Password From Mac</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
 ]]></content>
   </entry>
   
@@ -835,7 +857,9 @@ quit</p>
 </pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>Default options are read from the following files in the given order:</h3>
 
+<p>/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf</p>
 ]]></content>
   </entry>
   

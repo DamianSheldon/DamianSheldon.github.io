@@ -48,4 +48,15 @@ Solution: Project > Targets > Select your product target > Build Settings > Othe
 
 Reference:http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode
 
+### 4. Suppressing performSelector may cause leaks warnings
+
+```
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self.ticketTarget performSelector: self.ticketAction withObject: self];
+#pragma clang diagnostic pop
+```
+
+Reference:http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+
 

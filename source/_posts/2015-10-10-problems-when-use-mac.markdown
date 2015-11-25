@@ -33,7 +33,14 @@ Reference:http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x
 	```
 	$ hostname
 	```
+	
+## 3. SSH to Server Without Entering Password From Mac 
 
+```
+$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+```
+
+Reference:https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/
 
 
 

@@ -25,4 +25,7 @@ show grants for 'username'@'localhost';
 GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';
 ```
 
+### Default options are read from the following files in the given order:
+/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf
+
 

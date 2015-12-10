@@ -94,4 +94,13 @@ xdebug.remote_log="/var/log/xdebug.log"
 
 sudo apachectl restart
 ```
+###/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: 'php.h' file not found
+
+Solution:
+
+```
+$ xcode-select --install
+```
+Reference:http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks
+
 

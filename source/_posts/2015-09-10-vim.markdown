@@ -54,4 +54,12 @@ $, g_ line foot
 ctl + f forword page
 ctl + b back page
 ```
+###9.用vim编辑一个文件，改动了很多内容；最终要保存时却发现没有权限
+
+```
+:w !sudo tee % > /dev/null
+```
+Reference:http://www.caiyiting.com/blog/2014/vim-sudo.html
+
+
 

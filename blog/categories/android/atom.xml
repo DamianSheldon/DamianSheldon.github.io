@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Android | Hello World]]></title>
+  <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-11-25T20:41:26+08:00</updated>
+  <updated>2015-12-11T10:30:25+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -20,64 +20,60 @@
     <id>http://DamianSheldon.github.io/blog/problems-of-android-development</id>
     <content type="html"><![CDATA[<h3>Android Studio SDK Components安装提示操作超时</h3>
 
-<p><code>
-// MacOS
+<pre><code>// MacOS
 $ vim /etc/hosts
 203.208.46.146 dl.google.com
 203.208.46.146 dl-ssl.google.com
-</code></p>
+</code></pre>
 
 <h3>Android Studio Check Updates提示连接出错</h3>
 
-<p>```
-// MacOS
-$ vim /Applications/Android\ Studio.app/Contents/Info.plist</p>
+<pre><code>// MacOS
+$ vim /Applications/Android\ Studio.app/Contents/Info.plist
 
-<p>// 搜索 VMOptions</p>
+// 搜索 VMOptions
 
-<p>// 添加如下内容
+// 添加如下内容
 -Djava.net.preferIPv4Stack=true
--Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
--Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a></p>
+-Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml
+-Didea.patches.url=http://dl.google.com/android/studio/patches/
 
-<p>// 结果
-<key>VMOptions</key>
-<string>
--Dfile.encoding=UTF-8 -ea
--Dsun.io.useCanonCaches=false
+// 结果
+&lt;key&gt;VMOptions&lt;/key&gt;
+&lt;string&gt;
+-Dfile.encoding=UTF-8 -ea 
+-Dsun.io.useCanonCaches=false 
 -Djava.net.preferIPv4Stack=true
- -Djna.nosys=true
- -Djna.boot.library.path=<br/>
- -Djna.debug_load=true
- -Djna.debug_load.jna=true
- -Djsse.enableSNIExtension=false
- -XX:+UseCodeCacheFlushing
- -XX:+UseConcMarkSweepGC
- -XX:SoftRefLRUPolicyMSPerMB=50
- -Xverify:none -Xbootclasspath/a:../lib/boot.jar
- -Djava.net.preferIPv4Stack=true
- -Didea.updates.url=<a href="http://dl.google.com/android/studio/patches/updates.xml">http://dl.google.com/android/studio/patches/updates.xml</a>
- -Didea.patches.url=<a href="http://dl.google.com/android/studio/patches/">http://dl.google.com/android/studio/patches/</a>
- </string></p>
+ -Djna.nosys=true 
+ -Djna.boot.library.path=  
+ -Djna.debug_load=true 
+ -Djna.debug_load.jna=true 
+ -Djsse.enableSNIExtension=false 
+ -XX:+UseCodeCacheFlushing 
+ -XX:+UseConcMarkSweepGC 
+ -XX:SoftRefLRUPolicyMSPerMB=50 
+ -Xverify:none -Xbootclasspath/a:../lib/boot.jar 
+ -Djava.net.preferIPv4Stack=true 
+ -Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml 
+ -Didea.patches.url=http://dl.google.com/android/studio/patches/
+ &lt;/string&gt;
 
-<p>// 重启 Android Studio
-```</p>
+// 重启 Android Studio
+</code></pre>
 
 <h3>设置Gradle home</h3>
 
-<p><code>
-// Mac OS X
+<pre><code>// Mac OS X
 Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle
-</code></p>
+</code></pre>
 
 <h3>The project is using an unsupported version of Gradle</h3>
 
-<p>```
-The project is using an unsupported version of Gradle.
-Please point to a supported Gradle version in the project&rsquo;s Gradle settings or in the project&rsquo;s Gradle wrapper (if applicable.)</p>
+<pre><code>The project is using an unsupported version of Gradle.
+Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
 
-<p>Consult IDE log for more details (Help | Show Log)
-```</p>
+Consult IDE log for more details (Help | Show Log)
+</code></pre>
 
 <!--more-->
 
@@ -122,36 +118,30 @@ Please point to a supported Gradle version in the project&rsquo;s Gradle setting
 
 <p>Solution:Add this line to uses-sdk tag like this:</p>
 
-<p>```
-&lt;uses-sdk</p>
-
-<pre><code>tools:node="merge"   &lt;----This line do the magic
-android:minSdkVersion="14"
-android:targetSdkVersion="19" /&gt;
+<pre><code>&lt;uses-sdk
+    tools:node="merge"   &lt;----This line do the magic
+    android:minSdkVersion="14"
+    android:targetSdkVersion="19" /&gt;
 </code></pre>
-
-<p>```</p>
 
 <p>And add the tools name space in manifest :</p>
 
-<p><code>
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<pre><code>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools" .....
 .../&gt;
-</code></p>
+</code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute">http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute</a></p>
 
 <h3>Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
 
-<p><code>
-Error:(27, 0) Gradle DSL method not found: 'runProguard()'
+<pre><code>Error:(27, 0) Gradle DSL method not found: 'runProguard()'
 **Possible causes:
 The project 'Atomic4Mobile' may be using a version of Gradle that does not contain the method.
 **Gradle settings**
 The build file may be missing a Gradle plugin.
 **Apply Gradle plugin**
-</code></p>
+</code></pre>
 
 <p>Solution:runProguard was renamed to minifyEnabled in version 0.14.0.</p>
 
@@ -159,10 +149,10 @@ The build file may be missing a Gradle plugin.
 
 <h3>error “Library projects cannot set applicationId”</h3>
 
-<p><code>
-Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.
-</code>
-Solution:Removing applicationId variable from the library&rsquo;s build.gradle file should resolve the issue.</p>
+<pre><code>Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.
+</code></pre>
+
+<p>Solution:Removing applicationId variable from the library&rsquo;s build.gradle file should resolve the issue.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid">http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid</a></p>
 ]]></content>

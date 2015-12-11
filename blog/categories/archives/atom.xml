@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Archives | Hello World]]></title>
+  <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-11-25T20:41:26+08:00</updated>
+  <updated>2015-12-11T10:30:25+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -25,19 +25,16 @@
 <ol>
 <li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
 
-<p> <code>
- $ brew update &amp;&amp; brew install jenkins
-</code></p></li>
+<pre><code class="`"> $ brew update &amp;&amp; brew install jenkins
+</code></pre></li>
 <li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
 
-<p> <code>
- $ sudo gem install fastlane --verbose
-</code></p></li>
+<pre><code class="`"> $ sudo gem install fastlane --verbose
+</code></pre></li>
 <li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
 
-<p> <code>
- $ sudo gem install fir-cli
-</code></p></li>
+<pre><code class="`"> $ sudo gem install fir-cli
+</code></pre></li>
 </ol>
 
 
@@ -54,92 +51,75 @@
 </ul>
 
 
-<p>```
-fastlane_version &ldquo;1.25.0&rdquo;</p>
+<pre><code>fastlane_version "1.25.0"
 
-<p>default_platform :ios</p>
+default_platform :ios
 
-<p>platform :ios do
-  before_all do</p>
 
-<pre><code>ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-#cocoapods
+platform :ios do
+  before_all do
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    #cocoapods
 
-increment_build_number
+    increment_build_number
 
-gym(scheme: "srsApp") # Build your app - more options available
+    gym(scheme: "srsApp") # Build your app - more options available
 
-# xctool # run the tests of your app
-</code></pre>
+    # xctool # run the tests of your app
+  end
 
-<p>  end</p>
+  desc "Runs all the tests"
+  lane :test do
+    snapshot
+  end
 
-<p>  desc &ldquo;Runs all the tests&rdquo;
-  lane :test do</p>
+  desc "Submit a new Beta Build to fir"
+  desc "This will also make sure the profile is up to date"
+  lane :fir do
+    #snapshot
+    sh "sigh --team_id your_team_id"
+    #deliver(beta: true)
 
-<pre><code>snapshot
-</code></pre>
+    #"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
 
-<p>  end</p>
+    #"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
 
-<p>  desc &ldquo;Submit a new Beta Build to fir&rdquo;
-  desc &ldquo;This will also make sure the profile is up to date&rdquo;
-  lane :fir do</p>
+    # sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
+    # You can also use other beta testing services here
+    sh "fir p ../srsApp.ipa -T USER_TOKEN"
+  end
 
-<pre><code>#snapshot
-sh "sigh --team_id your_team_id"
-#deliver(beta: true)
+  desc "Submit a new Beta Build to pgyer "
+  desc "This will also make sure the profile is up to date"
+  lane :pgyer do
+    #snapshot
+    sh "sigh --team_id your_team_id"
+    #deliver(beta: true)
 
-#"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
+    # You can also use other beta testing services here
+    sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
+  end
 
-#"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
+  # You can define as many lanes as you want
 
-# sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
-# You can also use other beta testing services here
-sh "fir p ../srsApp.ipa -T USER_TOKEN"
-</code></pre>
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
 
-<p>  end</p>
+     slack(
+       message: "Successfully deployed new App Update."
+     )
+  end
 
-<p>  desc &ldquo;Submit a new Beta Build to pgyer &rdquo;
-  desc &ldquo;This will also make sure the profile is up to date&rdquo;
-  lane :pgyer do</p>
-
-<pre><code>#snapshot
-sh "sigh --team_id your_team_id"
-#deliver(beta: true)
-
-# You can also use other beta testing services here
-sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
-</code></pre>
-
-<p>  end</p>
-
-<p>  # You can define as many lanes as you want</p>
-
-<p>  after_all do |lane|</p>
-
-<pre><code># This block is called, only if the executed lane was successful
-
- slack(
-   message: "Successfully deployed new App Update."
- )
-</code></pre>
-
-<p>  end</p>
-
-<p>  error do |lane, exception|</p>
-
-<pre><code> slack(
-   message: exception.message,
-   success: false
- )
-</code></pre>
-
-<p>  end
+  error do |lane, exception|
+     slack(
+       message: exception.message,
+       success: false
+     )
+  end
 end
-<code>``
-使用</code>fastlane fir`测试能否正常构建。</p>
+</code></pre>
+
+<p>使用 <code>fastlane fir</code>测试能否正常构建。</p>
 
 <h3>自动测试</h3>
 
@@ -172,12 +152,11 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
   Branches to build */test
   Add build step > Execute shell</p>
 
-<p>  <code>
-  #!/bin/bash   
+<pre><code class="``">  #!/bin/bash   
   source ~/.bash_profile  
   cd srsApp/  
   fastlane  fir  
- </code></p></li>
+</code></pre></li>
 <li>Save > build</li>
 </ul>
 </li>
@@ -185,11 +164,10 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
 
 <p> Add build step > Execute shell</p>
 
-<p> <code>
- #!/bin/bash   
+<pre><code class="`"> #!/bin/bash   
  source ~/.bash_profile  
  $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
-</code></p></li>
+</code></pre></li>
 </ol>
 
 
@@ -209,75 +187,45 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
     <id>http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4</id>
     <content type="html"><![CDATA[<h3>1. Suppressing deprecated warnings</h3>
 
-<p>```</p>
-
-<h1>pragma clang diagnostic push</h1>
-
-<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
-
-<p>[reciver deprecatedMethod];</p>
-
-<h1>pragma clang diagnostic pop</h1>
-
-<p>```</p>
+<pre><code>#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+[reciver deprecatedMethod];
+#pragma clang diagnostic pop
+</code></pre>
 
 <h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
 
-<p>```
-ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
+<pre><code>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
 ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
 Undefined symbols for architecture arm64:
-  &ldquo;_Decoder_Interface_init&rdquo;, referenced from:</p>
-
-<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Decoder_Interface_init", referenced from:
+      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Decoder_Interface_Decode", referenced from:
+      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Decoder_Interface_exit", referenced from:
+      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Encoder_Interface_init", referenced from:
+      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+  "___gxx_personality_v0", referenced from:
+      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+  "_Encoder_Interface_Encode", referenced from:
+      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+  "_Encoder_Interface_exit", referenced from:
+      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
 </code></pre>
 
-<p>  &ldquo;_Decoder_Interface_Decode&rdquo;, referenced from:</p>
-
-<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;_Decoder_Interface_exit&rdquo;, referenced from:</p>
-
-<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;_Encoder_Interface_init&rdquo;, referenced from:</p>
-
-<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
-
-<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</code></pre>
-
-<p>  &ldquo;_Encoder_Interface_Encode&rdquo;, referenced from:</p>
-
-<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;_Encoder_Interface_exit&rdquo;, referenced from:</p>
-
-<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>```
-Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
+<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
 
 <!-- more -->
 
 
 <h3>3. Undefined symbols for architecture arm64:</h3>
 
-<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
-
-<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</code></pre>
-
-<p>ld: symbol(s) not found for architecture arm64</p>
+<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:
+      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+ld: symbol(s) not found for architecture arm64</p>
 
 <p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l"stdc++"</p>
 
@@ -285,18 +233,11 @@ Solution: Recompile a static library refer <a href="https://github.com/feuvan/op
 
 <h3>4. Suppressing performSelector may cause leaks warnings</h3>
 
-<p>```</p>
-
-<h1>pragma clang diagnostic push</h1>
-
-<h1>pragma clang diagnostic ignored &ldquo;-Warc-performSelector-leaks&rdquo;</h1>
-
-<pre><code>[self.ticketTarget performSelector: self.ticketAction withObject: self];
+<pre><code>#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self.ticketTarget performSelector: self.ticketAction withObject: self];
+#pragma clang diagnostic pop
 </code></pre>
-
-<h1>pragma clang diagnostic pop</h1>
-
-<p>```</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
 ]]></content>
@@ -333,17 +274,15 @@ Solution: Recompile a static library refer <a href="https://github.com/feuvan/op
 System Preference > Sharing</p></li>
 <li><p>Command Line</p>
 
-<p> <code>
- $ hostname
-</code></p></li>
+<pre><code class="`"> $ hostname
+</code></pre></li>
 </ol>
 
 
 <h2>3. SSH to Server Without Entering Password From Mac</h2>
 
-<p><code>
-$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
-</code></p>
+<pre><code>$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+</code></pre>
 
 <p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
 ]]></content>
@@ -354,7 +293,7 @@ $ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
     <link href="http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html/"/>
     <updated>2015-10-09T18:00:22+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment</id>
-    <content type="html"><![CDATA[<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &mdash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
+    <content type="html"><![CDATA[<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &ndash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
 
 <h2>备份数据</h2>
 
@@ -466,7 +405,7 @@ Apply > Run
 </ul>
 </li>
 <li><p>Installing MakeGood
-  Help &ndash;> Install New Software&hellip; &ndash;> Add&hellip; &ndash;> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
+  Help -> Install New Software&hellip; -> Add&hellip; -> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
 <li><p>Selecting a Testing Framework</p></li>
 <li><p>Resolving the Dependencies to the Testing Framework</p>
 
@@ -501,10 +440,9 @@ Apply > Run
 
 <p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
 
-<p>```
-sudo cp /etc/php.ini.default /etc/php.ini</p>
+<pre><code>sudo cp /etc/php.ini.default /etc/php.ini
 
-<p>// Add follow content to php.ini
+// Add follow content to php.ini
 [XDebug]
 zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
 xdebug.remote_enable=On
@@ -512,11 +450,20 @@ xdebug.remote_handler=dbgp
 xdebug.remote_host=helloworld.local
 xdebug.remote_port=9000
 ;xdebug.remote_connect_back=1
-xdebug.remote_mode=&ldquo;req&rdquo;
-xdebug.remote_log=&ldquo;/var/log/xdebug.log&rdquo;</p>
+xdebug.remote_mode="req"
+xdebug.remote_log="/var/log/xdebug.log"
 
-<p>sudo apachectl restart
-```</p>
+sudo apachectl restart
+</code></pre>
+
+<h3>/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: &lsquo;php.h&rsquo; file not found</h3>
+
+<p>Solution:</p>
+
+<pre><code>$ xcode-select --install
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks">http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks</a></p>
 ]]></content>
   </entry>
   

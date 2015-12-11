@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: iOS Development | Hello World]]></title>
+  <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-11-25T20:41:26+08:00</updated>
+  <updated>2015-12-11T10:30:25+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -20,75 +20,45 @@
     <id>http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4</id>
     <content type="html"><![CDATA[<h3>1. Suppressing deprecated warnings</h3>
 
-<p>```</p>
-
-<h1>pragma clang diagnostic push</h1>
-
-<h1>pragma clang diagnostic ignored &ldquo;-Wdeprecated-declarations&rdquo;</h1>
-
-<p>[reciver deprecatedMethod];</p>
-
-<h1>pragma clang diagnostic pop</h1>
-
-<p>```</p>
+<pre><code>#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+[reciver deprecatedMethod];
+#pragma clang diagnostic pop
+</code></pre>
 
 <h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
 
-<p>```
-ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
+<pre><code>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
 ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
 Undefined symbols for architecture arm64:
-  &ldquo;_Decoder_Interface_init&rdquo;, referenced from:</p>
-
-<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Decoder_Interface_init", referenced from:
+      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Decoder_Interface_Decode", referenced from:
+      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Decoder_Interface_exit", referenced from:
+      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
+  "_Encoder_Interface_init", referenced from:
+      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+  "___gxx_personality_v0", referenced from:
+      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+  "_Encoder_Interface_Encode", referenced from:
+      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
+  "_Encoder_Interface_exit", referenced from:
+      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
 </code></pre>
 
-<p>  &ldquo;_Decoder_Interface_Decode&rdquo;, referenced from:</p>
-
-<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;_Decoder_Interface_exit&rdquo;, referenced from:</p>
-
-<pre><code>  DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;_Encoder_Interface_init&rdquo;, referenced from:</p>
-
-<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
-
-<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</code></pre>
-
-<p>  &ldquo;_Encoder_Interface_Encode&rdquo;, referenced from:</p>
-
-<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>  &ldquo;_Encoder_Interface_exit&rdquo;, referenced from:</p>
-
-<pre><code>  EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>```
-Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
+<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
 
 <!-- more -->
 
 
 <h3>3. Undefined symbols for architecture arm64:</h3>
 
-<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:</p>
-
-<pre><code>  +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-  +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</code></pre>
-
-<p>ld: symbol(s) not found for architecture arm64</p>
+<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:
+      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
+ld: symbol(s) not found for architecture arm64</p>
 
 <p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l"stdc++"</p>
 
@@ -96,18 +66,11 @@ Solution: Recompile a static library refer <a href="https://github.com/feuvan/op
 
 <h3>4. Suppressing performSelector may cause leaks warnings</h3>
 
-<p>```</p>
-
-<h1>pragma clang diagnostic push</h1>
-
-<h1>pragma clang diagnostic ignored &ldquo;-Warc-performSelector-leaks&rdquo;</h1>
-
-<pre><code>[self.ticketTarget performSelector: self.ticketAction withObject: self];
+<pre><code>#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self.ticketTarget performSelector: self.ticketAction withObject: self];
+#pragma clang diagnostic pop
 </code></pre>
-
-<h1>pragma clang diagnostic pop</h1>
-
-<p>```</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
 ]]></content>
@@ -128,7 +91,7 @@ Checking the Entitlements of an .ipa file<br/>
 Find the .ipa file and change its the extension to .zip.<br/>
 Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
 Use the codesign tool to check the entitlements on the .app bundle like this:
-$ codesign -d &mdash;entitlements :&ndash; &ldquo;Payload/YourApp.app&rdquo;
+$ codesign -d &ndash;entitlements :- &ldquo;Payload/YourApp.app&rdquo;
 where YourApp.app is the actual name of your .app bundle.<br/>
 Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
 // should add cms, Apple may be a typo
@@ -141,14 +104,13 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
 
 <h3>2.问题描述：</h3>
 
-<p><code>
-`&lt;PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`&gt;` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.
-</code></p>
+<pre><code>`&lt;PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`&gt;` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.
+</code></pre>
 
 <p>解决办法：
 1. I opened the .pbxproj file in a text editor.<br/>
 a. Go to your .xcodeproj<br/>
-b. Right click &ndash;> Show package contents<br/>
+b. Right click -> Show package contents<br/>
 c. Open .pbxproj with a text editor.<br/>
 2. I searched for the UUID.<br/>
 3. Turns out that is a static library folder already removed from reference.<br/>
@@ -162,27 +124,24 @@ c. Open .pbxproj with a text editor.<br/>
 
 <p>解决办法:</p>
 
-<p><code>
-svn update
+<pre><code>svn update
 svn merge -r 150:140 .
 svn commit -m "Rolled back to r140"
-</code>
-Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
 
 <h3>4. Add top layout guide in NIB file</h3>
 
 <p>解决办法：</p>
 
-<p>```
-&ndash;(void)viewDidLoad {</p>
-
-<pre><code>  if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-     self.edgesForExtendedLayout = UIRectEdgeNone;
+<pre><code>-(void)viewDidLoad {
+      if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+         self.edgesForExtendedLayout = UIRectEdgeNone;
+}
 </code></pre>
 
-<p>}
-```
-Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
 
 <h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
 
@@ -194,10 +153,9 @@ Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-na
 
 <h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
 
-<p><code>
-1. Rename any .m file to .mm file;
+<pre><code>1. Rename any .m file to .mm file;
 2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".
-</code></p>
+</code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
 
@@ -220,48 +178,41 @@ Make sure the Value column is set to NO.
 If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
 In Swift:</p>
 
-<p><code>
-UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-</code>
-In Objective-C:</p>
+<pre><code>UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+</code></pre>
 
-<p><code>
-[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-</code>
-If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
+<p>In Objective-C:</p>
+
+<pre><code>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+</code></pre>
+
+<p>If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
 
 <p>In Swift:</p>
 
-<p>```
-override func preferredStatusBarStyle() &ndash;> UIStatusBarStyle {</p>
-
-<pre><code>    return UIStatusBarStyle.LightContent
+<pre><code>override func preferredStatusBarStyle() -&gt; UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+}
 </code></pre>
 
-<p>}
-```
-In Objective-C:</p>
+<p>In Objective-C:</p>
 
-<p>```
-&ndash; (UIStatusBarStyle)preferredStatusBarStyle
-{</p>
-
-<pre><code>return UIStatusBarStyleLightContent;
+<pre><code>- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 </code></pre>
 
-<p>}
-```
-Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
+<p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
 
 <h3>9.Expression</h3>
 
-<p>```
-(lldb) expr NSString <em>$str = (NSString </em>)[[NSString alloc] initWithData:data encoding:4]
-(lldb) po $str</p>
+<pre><code>(lldb) expr NSString *$str = (NSString *)[[NSString alloc] initWithData:data encoding:4]
+(lldb) po $str
 
-<p>(lldb) e NSArray *$array = @[ @&ldquo;Saturday&rdquo;, @&ldquo;Sunday&rdquo;, @&ldquo;Monday&rdquo; ]
+(lldb) e NSArray *$array = @[ @"Saturday", @"Sunday", @"Monday" ]
 (lldb) p [$array count]
-```</p>
+</code></pre>
 
 <h3>10.fastlane add Slack Notifications</h3>
 
@@ -273,9 +224,8 @@ Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=155
 
 <h3>11.问题描述：</h3>
 
-<p><code>
-directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
-</code></p>
+<pre><code>directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
+</code></pre>
 
 <p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
 
@@ -294,9 +244,8 @@ The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
 
 <h3>12.问题描述：</h3>
 
-<p><code>
-ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
-</code></p>
+<pre><code>ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+</code></pre>
 
 <p>Solution:disable bitcode for this target.
 App target > Build Settings > Enable Bitcode > NO</p>
@@ -305,15 +254,12 @@ App target > Build Settings > Enable Bitcode > NO</p>
 
 <h3>13.问题描述：</h3>
 
-<p><code>
-*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
+<pre><code>*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
 2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.'
-</code></p>
-
-<p>Solution:Target > Lister > iCloud > Fix issue</p>
-
-<pre><code>        Target &gt; App Group &gt; Fix issue
 </code></pre>
+
+<p>Solution:Target > Lister > iCloud > Fix issue
+            Target > App Group > Fix issue</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che">http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che</a></p>
 
@@ -325,15 +271,12 @@ App target > Build Settings > Enable Bitcode > NO</p>
 
 <p>Then enter the following for the script:</p>
 
-<p>```
-if [ &ldquo;${CONFIGURATION}&rdquo; == &ldquo;Debug&rdquo; ]; then</p>
-
-<pre><code>cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
+<pre><code>if [ "${CONFIGURATION}" == "Debug" ]; then
+    cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
+fi
 </code></pre>
 
-<p>fi
-```
-Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
 
 <h3>15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0</h3>
 
@@ -354,72 +297,59 @@ Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditio
     <id>http://DamianSheldon.github.io/blog/enumerated-constants</id>
     <content type="html"><![CDATA[<p>Objective-C中的枚举常量大致有以下四种情形：</p>
 
-<p>```
-// 1. unnamed enumerations
-enum {</p>
+<pre><code>// 1. unnamed enumerations
+enum {
+    NSBorderlessWindowMask      = 0,
+    NSTitledWindowMask          = 1 &lt;&lt; 0,
+    NSClosableWindowMask        = 1 &lt;&lt; 1,
+    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+    NSResizableWindowMask       = 1 &lt;&lt; 3
 
-<pre><code>NSBorderlessWindowMask      = 0,
-NSTitledWindowMask          = 1 &lt;&lt; 0,
-NSClosableWindowMask        = 1 &lt;&lt; 1,
-NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
-NSResizableWindowMask       = 1 &lt;&lt; 3
+};
+
+`- (void)setStyleMask:(NSUInteger)styleMask`
+
+// 2 
+typedef enum _NSMatrixMode {
+    NSRadioModeMatrix           = 0,
+    NSHighlightModeMatrix       = 1,
+    NSListModeMatrix            = 2,
+    NSTrackModeMatrix           = 3
+} NSMatrixMode;
+
+// 3
+typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+
+// 4
+typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {
+    NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
+    NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
+    NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
+    NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
+    NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
+    NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
+    NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
+    NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
+    NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
+    NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
+    NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
+
+    NSLayoutFormatAlignmentMask = 0xFFFF,
+
+    /* choose only one of these three
+     */
+    NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
+    NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
+    NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
+
+    NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
+};
 </code></pre>
-
-<p>};</p>
-
-<p><code>- (void)setStyleMask:(NSUInteger)styleMask</code></p>
-
-<p>// 2
-typedef enum _NSMatrixMode {</p>
-
-<pre><code>NSRadioModeMatrix           = 0,
-NSHighlightModeMatrix       = 1,
-NSListModeMatrix            = 2,
-NSTrackModeMatrix           = 3
-</code></pre>
-
-<p>} NSMatrixMode;</p>
-
-<p>// 3
-typedef NS_ENUM(NSInteger, UITableViewCellStyle) {</p>
-
-<pre><code>UITableViewCellStyleDefault,
-UITableViewCellStyleValue1,
-UITableViewCellStyleValue2,
-UITableViewCellStyleSubtitle
-</code></pre>
-
-<p>};</p>
-
-<p>// 4
-typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {</p>
-
-<pre><code>NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
-NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
-NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
-NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
-NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
-NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
-NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
-NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
-NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
-NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
-NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
-
-NSLayoutFormatAlignmentMask = 0xFFFF,
-
-/* choose only one of these three
- */
-NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
-NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
-NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
-
-NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
-</code></pre>
-
-<p>};</p>
-
-<p>```</p>
 
 <p>情形一相当于定义了常量，但不定义类型;<br/>
 情形二定义了一个NSMatrixMode类型;</p>
@@ -459,19 +389,16 @@ Effective Objective-C 2.0<br/>
 <table>
 <thead>
 <tr>
-<th></th>
 <th> Technology </th>
 <th> Description </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads. </td>
+<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads.</td>
 </tr>
 <tr>
-<td></td>
 <td> POSIX threads </td>
 <td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
 </tr>
@@ -577,24 +504,15 @@ set it to &ldquo;No Application&rdquo;</p>
 <h3>问题描述:ld: warning: directory not found for option &lsquo;-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator&rsquo;</h3>
 
 <p>Undefined symbols for architecture x86_64:
-  &ldquo;_DDExtractFileNameWithoutExtension&rdquo;, referenced from:</p>
-
-<pre><code>  ___57-[AJSocketBinaryClientChannel setupReadTimerWithTimeout:]_block_invoke76 in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-  -[AJSocketBinaryClientChannel doReadTimeout] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-  -[AJSocketBinaryClientChannel endCurrentRead] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-</code></pre>
-
-<p>  &ldquo;<em>OBJC_CLASS</em>$_DDLog&rdquo;, referenced from:</p>
-
-<pre><code>  objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-</code></pre>
-
-<p>  &ldquo;<em>OBJC_CLASS</em>$_GCDAsyncSocket&rdquo;, referenced from:</p>
-
-<pre><code>  objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJTcpConnector.o)
-</code></pre>
-
-<p>ld: symbol(s) not found for architecture x86_64</p>
+  &ldquo;<em>DDExtractFileNameWithoutExtension&rdquo;, referenced from:
+      </em><em><em>57-[AJSocketBinaryClientChannel setupReadTimerWithTimeout:]</em>block_invoke76 in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+      -[AJSocketBinaryClientChannel doReadTimeout] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+      -[AJSocketBinaryClientChannel endCurrentRead] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+  &ldquo;</em>OBJC_CLASS<em>$</em>DDLog&rdquo;, referenced from:
+      objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
+  &ldquo;<em>OBJC_CLASS</em>$_GCDAsyncSocket&rdquo;, referenced from:
+      objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJTcpConnector.o)
+ld: symbol(s) not found for architecture x86_64</p>
 
 <p>解决办法：从输出的日志可以看出问题是出在链接，由Cocoapods管理的第三方库安装后链接配置项没有设置正确，需要手动设置没有被自动链接的库，例如这里我需要链接：-l"Pods-CocoaAsyncSocket"。</p>
 
@@ -602,11 +520,9 @@ set it to &ldquo;No Application&rdquo;</p>
 
 <p>解决办法：Edit Scheme > Run > Diagnostics > Memory Managerment</p>
 
-<p>Malloc uncheck Enable Scribble</p>
-
-<pre><code>    uncheck Enable Guard Edges  
-    uncheck Enable Guard Malloc  
-</code></pre>
+<p>Malloc uncheck Enable Scribble<br/>
+        uncheck Enable Guard Edges<br/>
+        uncheck Enable Guard Malloc</p>
 
 <p>Reference:<a href="http://blog.csdn.net/chocolateloveme/article/details/18258443">http://blog.csdn.net/chocolateloveme/article/details/18258443</a></p>
 
@@ -624,7 +540,7 @@ gateway.sandbox.push.apple.com 2195 (Development)</p>
   MYAPPNAME/InstallationBuildProductsLocation/Applications/MyAppname.app/
   en.lproj/MainWindow-iPhone.nib</p>
 
-<p>解决办法：For every xib&rsquo;s that we&rsquo;ve problems, in the right panel go to the first tab, &ldquo;Interface Builder Document&rdquo; &ndash;> &ldquo;Builds for&rdquo; and select &ldquo;iOS 7.0 and Later&rdquo;. My old configuration was &ldquo;iOS 4.3 and Later&rdquo;.</p>
+<p>解决办法：For every xib&rsquo;s that we&rsquo;ve problems, in the right panel go to the first tab, &ldquo;Interface Builder Document&rdquo; -> &ldquo;Builds for&rdquo; and select &ldquo;iOS 7.0 and Later&rdquo;. My old configuration was &ldquo;iOS 4.3 and Later&rdquo;.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path">http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path</a></p>
 
@@ -646,14 +562,18 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 <h3>Cannot send push notifications using Javapns/Javaapns SSL handshake failure</h3>
 
 <p>解决办法：
-```
-developer_identity.cer &lt;= download from Apple (aps cert)
-mykey.p12 &lt;= Your private key (CSR generate private key or install aps cert get a private key both ok)</p>
-
-<p>openssl x509 -in developer_identity.cer -inform DER -out developer_identity.pem -outform PEM
-openssl pkcs12 -nocerts -in mykey.p12 -out mykey.pem
-openssl pkcs12 -export -inkey mykey.pem -in developer_identity.pem -out iphone_dev.p12
-```
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>developer_identity.cer &lt;= download from Apple (aps cert)
+</span><span class='line'>mykey.p12 &lt;= Your private key (CSR generate private key or install aps cert get a private key both ok)&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;openssl x509 -in developer_identity.cer -inform DER -out developer_identity.pem -outform PEM
+</span><span class='line'>openssl pkcs12 -nocerts -in mykey.p12 -out mykey.pem
+</span><span class='line'>openssl pkcs12 -export -inkey mykey.pem -in developer_identity.pem -out iphone_dev.p12</span></code></pre></td></tr></table></div></figure>
 Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure">http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure</a></p>
 
 <h3>导航栏如何显示两行文本？</h3>
@@ -664,27 +584,23 @@ Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-
 
 <h3>SVN how to resolve “local unversioned, incoming add upon update”</h3>
 
-<p>```
-$ svn status
-D     C logs</p>
-
-<pre><code>  &gt;   local unversioned, incoming add upon update
-</code></pre>
-
-<p>Summary of conflicts:
+<pre><code>$ svn status
+D     C logs
+      &gt;   local unversioned, incoming add upon update
+Summary of conflicts:
   Tree conflicts: 1
-```</p>
+</code></pre>
 
 <p>解决办法:</p>
 
-<p><code>
-$ svn resolve --accept working logs
+<pre><code>$ svn resolve --accept working logs
 Resolved conflicted state of 'logs'
 $ svn revert logs
 Reverted 'logs'
 $ svn status
-</code>
-Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
+</code></pre>
+
+<p>Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
 
 <h3>问题描述：Calling a C function from within a function in a .mm file</h3>
 
@@ -694,22 +610,18 @@ Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict
 
 <h3>问题描述：Compilation failed. Unable to write to path</h3>
 
-<p>```</p>
-
-<pre><code>Underlying Errors:
-    Description: The file “objects.nib” doesn’t exist.
-    Failure Reason: The file doesn’t exist.
-    Underlying Errors:
-        Description: The operation couldn’t be completed. No such file or directory
-        Failure Reason: No such file or directory
-    Description: “DMLUserElementCell~iphone.nib” couldn’t be removed.
-    Failure Reason: The file doesn’t exist.
-    Underlying Errors:
-        Description: The operation couldn’t be completed. No such file or directory
-        Failure Reason: No such file or directory
+<pre><code>    Underlying Errors:
+        Description: The file “objects.nib” doesn’t exist.
+        Failure Reason: The file doesn’t exist.
+        Underlying Errors:
+            Description: The operation couldn’t be completed. No such file or directory
+            Failure Reason: No such file or directory
+        Description: “DMLUserElementCell~iphone.nib” couldn’t be removed.
+        Failure Reason: The file doesn’t exist.
+        Underlying Errors:
+            Description: The operation couldn’t be completed. No such file or directory
+            Failure Reason: No such file or directory
 </code></pre>
-
-<p>```</p>
 
 <p>解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。</p>
 

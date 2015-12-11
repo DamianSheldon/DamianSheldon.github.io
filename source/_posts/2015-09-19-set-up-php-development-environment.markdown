@@ -3,9 +3,9 @@ layout: post
 title: "Set up PHP development environment"
 date: 2015-09-19 22:25:19 +0800
 comments: true
-categories: [Archives]
-keywords: 
-discription: 
+categories: [Archives, Web Development]
+keywords:
+discription:
 ---
 
 ###Notes of Set up PHP development environment
@@ -16,7 +16,7 @@ discription:
 	Addition configure for Yosemite   
 	* `sudo cp /etc/php.ini.default /etc/php.ini`  
 	* add "zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" to php.ini
-	
+
 4. Debugging Local PHP Files (PHP CLI Application)
 
 	* Create a PHP project;
@@ -26,13 +26,13 @@ discription:
 	* Create a new debug configuration;
 		* Eclipse > Preference... > PHP Executables > Add (Executable path: `which php`)
 		* Run > Debug Configurations > Select PHP CLI Application > New   
-		
+
 5. Debugging PHP Web Applications (PHP Web Application)
 	* Create a PHP project;
 	* Create a PHP file;
 	* Create a new debug configuration;
-		* Run > Debug Configurations > Select PHP Web Application > New 
-	
+		* Run > Debug Configurations > Select PHP Web Application > New
+
 6. Test with PHPUnit
 	* Run > External Tools > External Tools Configurations... > Program > New
 	[Main]
@@ -50,26 +50,26 @@ discription:
 		* PHPUnit (4.8.6)
 	* Installing MakeGood
 		Help -> Install New Software... -> Add... -> http://eclipse.piece-framework.com/
-		
+
 	* Selecting a Testing Framework  
-		
-	* Resolving the Dependencies to the Testing Framework 
-			* Defining User Libraries 
+
+	* Resolving the Dependencies to the Testing Framework
+			* Defining User Libraries
 				Eclipse -> Preferences... > PHP -> PHP Libraries > New... > OK
 				Add External folder... > [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
 			* Adding User Libraries to the Project
-		 
+
 		 fail with PHPUnit_Framework_TestCase class is not available. Fix..., I doubt that MakeGood doesn't support eclipse mars.
-	
+
 	*Testing Framework Specific Configuration  
 		PHPUnit
 		* Open the properties for the project.
 		* Select MakeGood.
 		* Select PHPUnit.
 		* Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
-	
+
 	[Reference](http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0)
-	
+
 ###Throw java.lang.NullPointerException when create a new debug configuration
 
 Solution: Add a PHP Executable, Eclipse > Preference... > PHP Executables > Add (Executable path: `which php`)
@@ -102,5 +102,3 @@ Solution:
 $ xcode-select --install
 ```
 Reference:http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks
-
-

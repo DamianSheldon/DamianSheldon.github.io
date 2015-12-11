@@ -3,18 +3,18 @@ layout: post
 title: "如何在 Mac 上开启 Apache, PHP, MySQL"
 date: 2015-07-05 21:24:55 +0800
 comments: true
-categories: [Archives]
+categories: [Archives, Web Development]
 keywords: https, SSL, Mac, Apache, MySQL
-discription: 
+discription:
 ---
 ## Apache
-### 开启 Apache 
+### 开启 Apache
 1. Applications > Utilities > Terminal > `sudo apachectl start`
 2. Open http://localhost with safari you can see "It's works!".
 
 ### 配置 HTTPS 的详细步骤：  
 
-1. 在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf 
+1. 在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf
 
 	* 去掉 SSL 模块前的注释使能它:  
 	```
@@ -40,7 +40,7 @@ discription:
 	```
 	SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
 	```
-	
+
 	* 指定 SSLCertificateKeyFile   
 	```
 	SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
@@ -53,12 +53,12 @@ discription:
 	```
 	openssl genrsa -des3 -out server.key 1024
 	```
-	
+
 	2) Generate a CSR (Certificate Signing Request)  
 	```
 	openssl req -new -key server.key -out server.csr
 	```
-	
+
 	3) Remove Passphrase from Key  
 	```
 	cp server.key server.key.org  
@@ -66,7 +66,7 @@ discription:
 	```
 	openssl rsa -in server.key.org -out server.key
 	```
-	
+
 	4) Generating a Self-Signed Certificate  
 	```
 	openssl x509 -req -days 365 -in server.csr -signkey server.key -out 	server.crt
@@ -95,7 +95,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 2. Choose Mac OS X ver. 10.9 (x86, 64-bit), DMG Archive, because there is an issue with this version and El Capitan in that it won’t start on reboot – it will need to be started via command line explained below.
 3. Starting MySQL
 	* Via Preference Pane
-	* Command line 
+	* Command line
 		```
 		sudo /usr/local/mysql/support-files/mysql.server start
 		```
@@ -110,7 +110,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	mysql> SET PASSWORD FOR
     -> 'root'@'localhost' = PASSWORD('mypass');
 	```
-	
+
 6. Fix the 2002 MySQL Socket error
 	Fix the looming 2002 socket error – which is linking where MySQL places the socket and where OSX thinks it should be, MySQL puts it in /tmp and OSX looks for it in /var/mysql the socket is a type of file that allows mysql client/server communication.
 	* sudo mkdir /var/mysql
@@ -146,4 +146,3 @@ Reference:http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountai
 http://www.akadia.com/services/ssh_test_certificate.html  
 http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  
 http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/
-

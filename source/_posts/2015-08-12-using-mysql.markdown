@@ -3,7 +3,7 @@ layout: post
 title: "Using MySQL"
 date: 2015-08-12 22:01:09 +0800
 comments: true
-categories: [Archives]
+categories: [Archives, Web Development]
 keywords: MySQL
 discription: 
 ---
@@ -34,9 +34,9 @@ GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'
 
 ```
 mysql > CREATE TABLE IF NOT EXISTS categories (
-	id SMALLINT NOT NULL AUTO_INCREMENT, 
-	category VARCHAR(30) NOT NULL, 
-	PRIMARY KEY (id), 
+	id SMALLINT NOT NULL AUTO_INCREMENT,
+	category VARCHAR(30) NOT NULL,
+	PRIMARY KEY (id),
 	UNIQUE KEY category (category)
 )ENGINE = MyISAM DEFAULT CHARSET = utf8;
 ```
@@ -50,17 +50,16 @@ mysql > CREATE TABLE IF NOT EXISTS categories (
 
 ```
 mysql > CREATE TABLE IF NOT EXISTS orders (
-	id INT UNSIGNED NOT NULL, 
-	user_id INT UNSIGNED NOT NULL, 
-	transaction_id VARCHAR(19) NOT NULL, 
-	payment_status VARCHAR(15) NOT NULL, 
-	payment_amount DECIMAL(6,2) UNSIGNED NOT NULL, 
-	payment_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-	PRIMARY KEY(id), 
+	id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+	transaction_id VARCHAR(19) NOT NULL,
+	payment_status VARCHAR(15) NOT NULL,
+	payment_amount DECIMAL(6,2) UNSIGNED NOT NULL,
+	payment_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(id),
 	KEY user_id (user_id)
 )ENGINE = MyISAM DEFAULT CHARSET = utf8;
 ```
 
 * KEY is normally a synonym for INDEX. The key attribute PRIMARY KEY can also be specified as just KEY when given in a column definition. This was implemented for compatibility with other database systems.  
 * INDEX
-

@@ -3,8 +3,8 @@ layout: default
 title: "English"
 ---
 
-{% for post in site.posts reverse %}
-    {% if post.categories contains 'English' %}
+{% for post in site.posts %}
+    {% if post.categories contains 'english' %}
         {% include archive_post.html %}
     {% endif %}
 {% endfor %}

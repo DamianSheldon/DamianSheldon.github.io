@@ -3,8 +3,8 @@ layout: default
 title: "iOS Development"
 ---
 
-{% for post in site.posts reverse %}
-    {% if post.categories contains 'iOS Development' %}
+{% for post in site.posts %}
+    {% if post.categories contains 'ios development' %}
         {% include archive_post.html %}
     {% endif %}
 {% endfor %}

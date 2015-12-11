@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: web development | Hello World]]></title>
+  <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
+  <link href="http://DamianSheldon.github.io/"/>
+  <updated>2015-12-11T11:28:53+08:00</updated>
+  <id>http://DamianSheldon.github.io/</id>
+  <author>
+    <name><![CDATA[Sheldon]]></name>
+    <email><![CDATA[dongmeilianghy@sina.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Set up PHP development environment]]></title>
+    <link href="http://DamianSheldon.github.io/blog/set-up-php-development-environment.html"/>
+    <updated>2015-09-19T22:25:19+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/set-up-php-development-environment</id>
+    <content type="html"><![CDATA[<h3>Notes of Set up PHP development environment</h3>
+
+<ol>
+<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
+<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>, php.ini locate in /etc on Yosemite;</li>
+<li><p><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;<br/>
+ Addition configure for Yosemite</p>
+
+<ul>
+<li><code>sudo cp /etc/php.ini.default /etc/php.ini</code></li>
+<li>add &ldquo;zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so&rdquo; to php.ini</li>
+</ul>
+</li>
+<li><p>Debugging Local PHP Files (PHP CLI Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Set a breakpoint in PHP file;</li>
+<li>Save file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</li>
+<li>Run > Debug Configurations > Select PHP CLI Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Run > Debug Configurations > Select PHP Web Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Test with PHPUnit</p>
+
+<ul>
+<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
+[Main]
+Location:/usr/local/bin/phpunit
+Working Directory:${workspace_loc:/Backend/tests}
+Apply > Run
+<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
+</ul>
+</li>
+<li><p>Integrate MakeGood (failure)</p>
+
+<ul>
+<li>Installing Prerequisite Software
+
+<ul>
+<li>PHP 5.5.27 (cli)</li>
+<li>xdebug-2.3.2</li>
+<li>eclipse mars(4.5.0)</li>
+<li>PDT(3.5.0)</li>
+<li>PHPUnit (4.8.6)</li>
+</ul>
+</li>
+<li><p>Installing MakeGood
+  Help -> Install New Software&hellip; -> Add&hellip; -> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
+<li><p>Selecting a Testing Framework</p></li>
+<li><p>Resolving the Dependencies to the Testing Framework</p>
+
+<pre><code>  * Defining User Libraries
+      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
+      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
+  * Adding User Libraries to the Project
+</code></pre>
+
+<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
+</ul>
+
+
+<p> *Testing Framework Specific Configuration<br/>
+     PHPUnit</p>
+
+<pre><code> * Open the properties for the project.
+ * Select MakeGood.
+ * Select PHPUnit.
+ * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
+</code></pre>
+
+<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
+</ol>
+
+
+<h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
+
+<p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
+
+<h3>Wait for XDebug session</h3>
+
+<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
+
+<pre><code>sudo cp /etc/php.ini.default /etc/php.ini
+
+// Add follow content to php.ini
+[XDebug]
+zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
+xdebug.remote_enable=On
+xdebug.remote_handler=dbgp
+xdebug.remote_host=helloworld.local
+xdebug.remote_port=9000
+;xdebug.remote_connect_back=1
+xdebug.remote_mode="req"
+xdebug.remote_log="/var/log/xdebug.log"
+
+sudo apachectl restart
+</code></pre>
+
+<h3>/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: &lsquo;php.h&rsquo; file not found</h3>
+
+<p>Solution:</p>
+
+<pre><code>$ xcode-select --install
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks">http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Using MySQL]]></title>
+    <link href="http://DamianSheldon.github.io/blog/using-mysql.html"/>
+    <updated>2015-08-12T22:01:09+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/using-mysql</id>
+    <content type="html"><![CDATA[<h3>1.查看所有的用户</h3>
+
+<pre><code>$ mysql -u user -p
+mysql &gt; USE mysql;
+mysql &gt; SELECT user, host FROM user;
+</code></pre>
+
+<h3>2.查看用户的权限</h3>
+
+<pre><code>mysql &gt; SHOW GRANTS FOR 'username'@'localhost';
+</code></pre>
+
+<h3>3.为用户添加操作某个数据库的权限</h3>
+
+<pre><code>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';
+</code></pre>
+
+<h3>4.Default options are read from the following files in the given order:</h3>
+
+<p>/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf</p>
+
+<h3>5.</h3>
+
+<pre><code>mysql &gt; CREATE TABLE IF NOT EXISTS categories (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    category VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY category (category)
+)ENGINE = MyISAM DEFAULT CHARSET = utf8;
+</code></pre>
+
+<ul>
+<li>VARCHAR(30):can hold up to 30 characters.</li>
+<li>A UNIQUE index creates a constraint such that all values in the index must be distinct. An error occurs if you try to add a new row with a key value that matches an existing row. For all engines, a UNIQUE index permits multiple NULL values for columns that can contain NULL.</li>
+<li>DEFAULT CHARSET</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h3>6.</h3>
+
+<pre><code>mysql &gt; CREATE TABLE IF NOT EXISTS orders (
+    id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    transaction_id VARCHAR(19) NOT NULL,
+    payment_status VARCHAR(15) NOT NULL,
+    payment_amount DECIMAL(6,2) UNSIGNED NOT NULL,
+    payment_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id),
+    KEY user_id (user_id)
+)ENGINE = MyISAM DEFAULT CHARSET = utf8;
+</code></pre>
+
+<ul>
+<li>KEY is normally a synonym for INDEX. The key attribute PRIMARY KEY can also be specified as just KEY when given in a column definition. This was implemented for compatibility with other database systems.</li>
+<li>INDEX</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何在 Mac 上开启 Apache, PHP, MySQL]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html"/>
+    <updated>2015-07-05T21:24:55+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite</id>
+    <content type="html"><![CDATA[<h2>Apache</h2>
+
+<h3>开启 Apache</h3>
+
+<ol>
+<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
+<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
+</ol>
+
+
+<h3>配置 HTTPS 的详细步骤：</h3>
+
+<ol>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
+</ol>
+
+
+<!-- more -->
+
+
+<ol>
+<li><p>制作自签名的证书</p>
+
+<p> 1) Generate a Private Key<br/>
+ <code>
+ openssl genrsa -des3 -out server.key 1024
+</code></p>
+
+<p> 2) Generate a CSR (Certificate Signing Request)<br/>
+ <code>
+ openssl req -new -key server.key -out server.csr
+</code></p>
+
+<p> 3) Remove Passphrase from Key<br/>
+ <code>
+ cp server.key server.key.org  
+</code><br/>
+ <code>
+ openssl rsa -in server.key.org -out server.key
+</code></p>
+
+<p> 4) Generating a Self-Signed Certificate<br/>
+ <code>
+ openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
+</code></p></li>
+<li><p>拷贝证书到配置文件指定的目录下<br/>
+<code>
+sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
+sudo cp server.key /private/etc/apache2/ssl/ssl.key
+</code></p></li>
+<li><p>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</p></li>
+</ol>
+
+
+<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
+解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
+
+<h2>PHP</h2>
+
+<ol>
+<li>Open /etc/apache2/httpd.conf with your favorite editor (eg: Vim);</li>
+<li>Uncomment LoadModule php5_module libexec/apache2/libphp5.so</li>
+<li><code>sudo apachectl restart</code></li>
+<li>Test with phpinfo.php, its content is &ldquo;&lt;?php phpinfo(); ?>&rdquo;</li>
+</ol>
+
+
+<h2>MySQL</h2>
+
+<ol>
+<li><a href="http://dev.mysql.com/downloads/mysql/">Download from the MySQL site</a>, click No thanks, just take me to the downloads!;</li>
+<li>Choose Mac OS X ver. 10.9 (x86, 64-bit), DMG Archive, because there is an issue with this version and El Capitan in that it won’t start on reboot – it will need to be started via command line explained below.</li>
+<li>Starting MySQL
+
+<ul>
+<li>Via Preference Pane</li>
+<li>Command line
+  <code>
+  sudo /usr/local/mysql/support-files/mysql.server start
+ </code></li>
+</ul>
+</li>
+<li><p>Add MySQL directory to shell path</p>
+
+<ul>
+<li>Open ~/.bash_profile</li>
+<li>export PATH=&ldquo;/usr/local/mysql/bin:$PATH&rdquo;</li>
+<li>source ~/.bash_profile</li>
+</ul>
+</li>
+<li><p>Change root password
+ <code>
+ mysql -u root -p
+ mysql&gt; SET PASSWORD FOR
+ -&gt; 'root'@'localhost' = PASSWORD('mypass');
+</code></p></li>
+<li><p>Fix the 2002 MySQL Socket error
+ Fix the looming 2002 socket error – which is linking where MySQL places the socket and where OSX thinks it should be, MySQL puts it in /tmp and OSX looks for it in /var/mysql the socket is a type of file that allows mysql client/server communication.</p>
+
+<ul>
+<li>sudo mkdir /var/mysql</li>
+<li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h4>
+
+<p>Solution:
+I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
+
+<p>Options Indexes FollowSymLinks Includes ExecCGI
+By default, your global directory settings is (httpd.conf line ~188):</p>
+
+<p><Directory />
+     AllowOverride none
+     Require all granted
+</Directory>
+set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
+
+<p>Finally, it should look like:</p>
+
+<p><Directory />
+     Options Indexes FollowSymLinks Includes ExecCGI
+     AllowOverride All
+     Require all granted
+</Directory>
+Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
+
+<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
+<a href="http://www.akadia.com/services/ssh_test_certificate.html">http://www.akadia.com/services/ssh_test_certificate.html</a><br/>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a><br/>
+<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/</a></p>
+]]></content>
+  </entry>
+  
+</feed>

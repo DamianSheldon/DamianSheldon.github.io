@@ -69,6 +69,7 @@ $(document).ready(
     <li><a href="/archives">Archive</a></li>
     <li><a href="/ios-development">iOS Development</a></li>
     <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
 </ul>
@@ -81,6 +82,7 @@ $(document).ready(
     <li><a href="/archives">Archive</a></li>
     <li><a href="/ios-development">iOS Development</a></li>
     <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
 </ul>
@@ -137,9 +139,9 @@ $(document).ready(
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; CREATE TABLE IF NOT EXISTS categories (
-</span><span class='line'>  id SMALLINT NOT NULL AUTO_INCREMENT, 
-</span><span class='line'>  category VARCHAR(30) NOT NULL, 
-</span><span class='line'>  PRIMARY KEY (id), 
+</span><span class='line'>  id SMALLINT NOT NULL AUTO_INCREMENT,
+</span><span class='line'>  category VARCHAR(30) NOT NULL,
+</span><span class='line'>  PRIMARY KEY (id),
 </span><span class='line'>  UNIQUE KEY category (category)
 </span><span class='line'>)ENGINE = MyISAM DEFAULT CHARSET = utf8;</span></code></pre></td></tr></table></div></figure>
 
@@ -167,13 +169,13 @@ $(document).ready(
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; CREATE TABLE IF NOT EXISTS orders (
-</span><span class='line'>  id INT UNSIGNED NOT NULL, 
-</span><span class='line'>  user_id INT UNSIGNED NOT NULL, 
-</span><span class='line'>  transaction_id VARCHAR(19) NOT NULL, 
-</span><span class='line'>  payment_status VARCHAR(15) NOT NULL, 
-</span><span class='line'>  payment_amount DECIMAL(6,2) UNSIGNED NOT NULL, 
-</span><span class='line'>  payment_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-</span><span class='line'>  PRIMARY KEY(id), 
+</span><span class='line'>  id INT UNSIGNED NOT NULL,
+</span><span class='line'>  user_id INT UNSIGNED NOT NULL,
+</span><span class='line'>  transaction_id VARCHAR(19) NOT NULL,
+</span><span class='line'>  payment_status VARCHAR(15) NOT NULL,
+</span><span class='line'>  payment_amount DECIMAL(6,2) UNSIGNED NOT NULL,
+</span><span class='line'>  payment_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+</span><span class='line'>  PRIMARY KEY(id),
 </span><span class='line'>  KEY user_id (user_id)
 </span><span class='line'>)ENGINE = MyISAM DEFAULT CHARSET = utf8;</span></code></pre></td></tr></table></div></figure>
 
@@ -204,7 +206,7 @@ $(document).ready(
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>archives</a>
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
 
 </div>
 

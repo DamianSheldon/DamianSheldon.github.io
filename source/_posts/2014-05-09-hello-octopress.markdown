@@ -11,13 +11,17 @@ description: 用Octopress搭建自己博客过程中的常见问题及解决办�
 
 看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。
 
-#问题1  
+#问题1(Update 2015.12.11)  
 ```bash
 	An error occurred while installing RedCloth (4.2.9), and Bundler cannot continue.  
 	Make sure that gem install RedCloth -v '4.2.9' succeeds before bundling.  
 ```
 
-Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。
+Solution:  
+
+```
+$ sudo gem install RedCloth -v '4.2.9' --verbose
+```
 
 #问题2  
 ```bash
@@ -56,19 +60,32 @@ Solution:我的解决办法是在_deploy路径下同步master分支，解决合�
 	rake generate
 	rake deploy
 ```
-	
-##问题5(Update 2014.5.21)
+
+##问题5(Update 2015.12.11)
 怎么把文章放到navigation对应的分类组织中呢？
 
-Solution:我在navigation中加了一个iOS Devlopment的分类是这么做的： 
-```bash 
-rake new_page[categories/iOS_Development]  
-vim source/_includes/custom/navigation.html
-```
-增加`<li><a href="{{ root_url }}/blog/categories/ios-development">iOS Development</a></li>`
+Solution:我在navigation中加了一个iOS Devlopment的分类是这么做的：
+```bash
+$ rake new_page[categories/iOS_Development]  
+// Edit source/ios-development/index.html, file's eventually content is:
+---
+layout: default
+title: "iOS Development"
+---
+// Note: % has been escaped
+{\% for post in site.posts \%}
+    {\% if post.categories contains 'ios development' \%}
+        {\% include archive_post.html \%}
+    {\% endif \%}
+{\% endfor \%}
 
-然后在文章的头部：
-`categories: [iOS Development]`
+$ vim source/_includes/custom/navigation.html
+// Add follow content
+<li><a href="{{ root_url }}/blog/categories/ios-development">iOS Development</a></li>
+
+// When you write a post add follow contents to YAML head:
+categories: [iOS Development]
+```
 
 ##问题6(Update 2014-11-22)
 怎么把侧边栏放到左边去呢？
@@ -76,9 +93,9 @@ vim source/_includes/custom/navigation.html
 Solution:要想把侧边栏放到左边来，就得知道Octopress是如何布局的。Octopress是基于jkeyll。  
 > Jekyll 的核心其实是一个文本转换引擎。它的概念其实就是：你用你最喜欢的标记语言来写文章，可以是 Markdown, 也可以是 Textile, 或者就是简单的 HTML, 然后 Jekyll 就会帮你套入一个或一系列的布局中。在整个过程中你可以设置 URL 路径，你的文本在布局中的显示样式等等。这些都可以通过纯文本编辑来实现，最终生成的静态页面就是你的成品了。
 
-我们写的文章在source的_post目录下，每篇文章头部yaml信息指定转换的参数，其中layout就是布局的模板，sass目录下screen.scss是css信息的总入口，我们可以调整这些值得到我们想要的布局。 
+我们写的文章在source的_post目录下，每篇文章头部yaml信息指定转换的参数，其中layout就是布局的模板，sass目录下screen.scss是css信息的总入口，我们可以调整这些值得到我们想要的布局。
 
-	
+
 ##问题7  
 ```bash
 	Error fetching https://ruby.taobao.org/:

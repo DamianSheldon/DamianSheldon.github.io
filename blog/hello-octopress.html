@@ -106,7 +106,7 @@ $(document).ready(
 
 <p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
 
-<h1>问题1</h1>
+<h1>问题1(Update 2015.12.11)</h1>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -115,7 +115,12 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Solution:这个问题不知道怎么回事，网上找了很久也没有找到解决办法。看到Octopress需要ruby1.9.3以上，而我系统上的ruby是一个通用的版本，我试着用rbenv装了个2.1.1版本，并设置成全局版本，问题解决了，不过还是没有弄明白是什么原因。</p>
+<p>Solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> --verbose
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h1>问题2</h1>
 
@@ -178,7 +183,7 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>问题5(Update 2014.5.21)</h2>
+<h2>问题5(Update 2015.12.11)</h2>
 
 <p>怎么把文章放到navigation对应的分类组织中呢？</p>
 
@@ -186,15 +191,44 @@ $(document).ready(
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>categories/iOS_Development<span class="o">]</span>
-</span><span class='line'>vim <span class="nb">source</span>/_includes/custom/navigation.html
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake new_page<span class="o">[</span>categories/iOS_Development<span class="o">]</span>
+</span><span class='line'>// Edit <span class="nb">source</span>/ios-development/index.html, file<span class="s1">&#39;s eventually content is:</span>
+</span><span class='line'><span class="s1">---</span>
+</span><span class='line'><span class="s1">layout: default</span>
+</span><span class='line'><span class="s1">title: &quot;iOS Development&quot;</span>
+</span><span class='line'><span class="s1">---</span>
+</span><span class='line'><span class="s1">// Note: % has been escaped</span>
+</span><span class='line'><span class="s1">{\% for post in site.posts \%}</span>
+</span><span class='line'><span class="s1">    {\% if post.categories contains &#39;</span>ios development<span class="err">&#39;</span> <span class="se">\%</span><span class="o">}</span>
+</span><span class='line'>        <span class="o">{</span><span class="se">\%</span> include archive_post.html <span class="se">\%</span><span class="o">}</span>
+</span><span class='line'>    <span class="o">{</span><span class="se">\%</span> endif <span class="se">\%</span><span class="o">}</span>
+</span><span class='line'><span class="o">{</span><span class="se">\%</span> endfor <span class="se">\%</span><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>vim <span class="nb">source</span>/_includes/custom/navigation.html
+</span><span class='line'>// Add follow content
+</span><span class='line'>&lt;li&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;/blog/categories/ios-development&quot;</span>&gt;iOS Development&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>
+</span><span class='line'>// When you write a post add follow contents to YAML head:
+</span><span class='line'>categories: <span class="o">[</span>iOS Development<span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-<p>增加<code>&lt;li&gt;&lt;a href="/blog/categories/ios-development"&gt;iOS Development&lt;/a&gt;&lt;/li&gt;</code></p>
-
-<p>然后在文章的头部：
-<code>categories: [iOS Development]</code></p>
 
 <h2>问题6(Update 2014-11-22)</h2>
 

@@ -116,6 +116,80 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	* sudo mkdir /var/mysql
 	* sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock
 
+7. How to Start & Stop MySQL Manually in OS X
+
+	```
+	// Start MySQL
+	$ sudo /usr/local/mysql/support-files/mysql.server start
+
+	// Stop MySQL
+	$ sudo /usr/local/mysql/support-files/mysql.server stop
+
+	// Restart MySQL
+	$ sudo /usr/local/mysql/support-files/mysql.server restart
+	```
+
+	8. Where is MySQL's error log
+	Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.
+
+	9. View MySQL's status
+
+	```
+	$ sudo /usr/local/mysql/support-files/mysql.server status
+	```
+
+  10. ERROR 2002 (HY000): Can ' t connect to local MySQL server through socket '/tmp/mysql.sock'
+
+	```
+	// View MySQL status
+	$ /usr/local/mysql/support-files/mysql.server status
+	/usr/local/mysql/support-files/mysql.server: line 365: pidof: command not found
+ 	ERROR! MySQL is not running
+
+	// View MySQL's error log
+	$ sudo vim /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
+
+	// Find today's log
+	2015-12-12T11:21:14.012289Z 0 [ERROR] InnoDB: Unable to lock ./ibdata1 error: 35
+	2015-12-12T11:21:14.012335Z 0 [Note] InnoDB: Check that you do not already have another mysqld process using the same InnoDB data or log files.
+
+	// Is there mysql process
+	$ sudo pstress | grep 'mysql'
+
+	|-+= 30102 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+	| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
+	|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
+
+	// Unfortunate, there are indeed two mysql procee, so kill one
+	$ sudo kill -9  30102
+
+	// Check we succeed kill a mysql process
+	$ sudo pstress | grep 'mysql'
+
+	// Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
+	|-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+	| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
+	|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
+
+	// Figure out who auto start mysql
+	$ sudo launchctl list | grep 'mysql'
+	30102	0	com.mysql.mysqld
+	30374	1	com.oracle.oss.mysql.mysqld
+
+	// Unloads mysql auto start service
+	$ sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysql.plist
+	$ sudo launchctl unload -w /Library/LaunchDaemons/com.oracle.oss.mysql.mysqld.plist
+
+	// Stop mysql service
+	$ sudo launchctl stop com.mysql.mysqld
+	$ sudo launchctl stop com.oracle.oss.mysql.mysqld
+
+	// Start mysql
+	$ sudo /usr/local/mysql/support-files/mysql.server start
+	Starting MySQL
+	. SUCCESS!
+	
+	```
 
 #### 添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don't have permission to access / on this server”
 

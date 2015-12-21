@@ -77,3 +77,9 @@ UIImage *userImage = [UIImage imageNamed:@"User"];
 userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];
 ```
+
+### 6. UIWebView's cache doesn't work
+Solution:
+> Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.
+
+Reference:http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working

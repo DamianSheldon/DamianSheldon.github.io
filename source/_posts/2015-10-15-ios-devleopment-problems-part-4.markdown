@@ -68,3 +68,12 @@ So we can cut a 1x1 pixel pure color image, set this image as navigation bar's s
 
 Reference:http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline  
 http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line
+
+### 5. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色  
+Solution:
+
+```
+UIImage *userImage = [UIImage imageNamed:@"User"];
+userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];
+```

@@ -4,8 +4,8 @@ title: "Linux Useful Command Line Part 2"
 date: 2015-09-11 09:30:16 +0800
 comments: true
 categories: [Archives]
-keywords: 
-discription: 
+keywords:
+discription:
 ---
 ###1.Rails Error: ImageMagick/GraphicsMagick is not installed
 
@@ -20,7 +20,7 @@ Reference:http://stackoverflow.com/questions/29377651/rails-error-imagemagick-gr
 Via scp:  
 1.Enable Enable SSH
 	 System Preferences > Sharing > enable the “Remote Login” feature
-	
+
 2.type scp command
 
 ```
@@ -32,10 +32,10 @@ Via sftp:
 1.sftp dongmeiliang@192.168.1.255  
 2.cd path  
   Change remote directory to path.  
- 
+
 3.lcd path  
   Change local directory to path.  
-  
+
 4.get [-Ppr] remote-path [local-path]  
 
 5.lpwd    Print local working directory.
@@ -48,7 +48,7 @@ Via sftp:
              Display local directory listing of either path or current directory if path is not specified.  ls-options may con-
              tain any flags supported by the local system's ls(1) command.  path may contain glob(3) characters and may match
              multiple files.
-             
+
 9.ls [-1afhlnrSt] [path]
              Display a remote directory listing of either path or the current directory if path is not specified.  path may con-
              tain glob(3) characters and may match multiple files.
@@ -93,4 +93,23 @@ sftp> put -r bin
 
 Reference:http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp
 
+###7.Scanning machine's specified ports
 
+```
+$ nmap -p 37099 192.168.3.214
+// -Pn: Treat all hosts as online -- skip host discovery
+$ nmap -Pn 192.168.3.214
+```
+
+###8.Reverse search history command
+
+```
+// Execute last command
+$ !!
+
+Ctrl + r
+(reverse-i-search)`': pull
+(reverse-i-search)`': git
+```
+
+Reference:http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash

@@ -59,4 +59,12 @@ Reference:http://stackoverflow.com/questions/2846679/creating-an-objective-c-sta
 
 Reference:http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
 
+###4.How to remove UINavigationBar and UISearchBar hairline?
+Solution:  
 
+> For a custom shadow image to be shown, a custom background image must also be set with the setBackgroundImage:forBarMetrics: method. If the default background image is used, then the default shadow image will be used regardless of the value of this property.
+
+So we can cut a 1x1 pixel pure color image, set this image as navigation bar's shadow image.
+
+Reference:http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline  
+http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line

@@ -83,3 +83,38 @@ Solution:
 > Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.
 
 Reference:http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working
+
+###7.How to only show bottom border of UITextField
+Solution:
+
+```
+var bottomLine = CALayer()
+bottomLine.frame = CGRectMake(0.0, myTextField.frame.height - 1, myTextField.frame.width, 1.0)
+bottomLine.backgroundColor = UIColor.whiteColor().CGColor
+myTextField.borderStyle = UITextBorderStyle.None
+myTextField.layer.addSublayer(bottomLine)
+```
+
+Reference:http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift
+
+### 7. 让Button的大小比它的内容略大
+Solution:
+
+```
+_loginViaSMSButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20);
+
+```
+
+### 8. UITableViewStyleGrouped style UITableView has extra space at top
+
+Solution:
+
+> UITableViewStyleGrouped divides each section into a "group" by inserting that extra padding…similar to what it did pre-iOS7, but clear instead of colored by default, and just at the top instead of all the way around. If you don't want the padding by default, use UITableViewStylePlain.
+
+Otherwise, if you need to keep the style the same, do what this other posted from that link recommended and change the content inset:
+
+```
+self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+
+```
+Reference:http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple

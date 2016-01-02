@@ -118,3 +118,32 @@ self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
 
 ```
 Reference:http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple
+
+### 9. 使用 UISearchDisplayController 遇到的问题
+
+使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：
+
+```
+@property(nonatomic, readonly, strong) UISearchDisplayController *searchDisplayController
+```
+
+理论上来讲既然是 strong 那么这个对象应该会存在才对，但不知道什么原因，这样并不行，它会在内存中被销毁，还是得在扩展里用一个属性来持有它。
+
+```
+*.m
+
+@property (nonatomic) UISearchDisplayController *wt_searchDisplayController;
+
+self.wt_searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+self.wt_searchDisplayController.delegate = self;
+self.wt_searchDisplayController.searchResultsDataSource = self.searchCoordinator;
+self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
+[self.wt_searchDisplayController.searchResultsTableView registerClass:[RCConversationCell class] forCellReuseIdentifier:sSearchCellIdentifier];
+
+```
+
+问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.
+
+### 10. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。
+
+Solution:在自定义视图的初始化方法中设置 opaque 为 NO。

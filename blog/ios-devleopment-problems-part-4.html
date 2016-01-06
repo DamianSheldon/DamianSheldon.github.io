@@ -185,6 +185,146 @@ ld: symbol(s) not found for architecture arm64</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
+
+<h3>4.How to remove UINavigationBar and UISearchBar hairline?</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>For a custom shadow image to be shown, a custom background image must also be set with the setBackgroundImage:forBarMetrics: method. If the default background image is used, then the default shadow image will be used regardless of the value of this property.</p></blockquote>
+
+<p>So we can cut a 1x1 pixel pure color image, set this image as navigation bar&rsquo;s shadow image.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
+<a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
+
+<h3>5. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIImage *userImage = [UIImage imageNamed:@"User"];
+</span><span class='line'>userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+</span><span class='line'>UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.</p></blockquote>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working">http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working</a></p>
+
+<h3>7.How to only show bottom border of UITextField</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var bottomLine = CALayer()
+</span><span class='line'>bottomLine.frame = CGRectMake(0.0, myTextField.frame.height - 1, myTextField.frame.width, 1.0)
+</span><span class='line'>bottomLine.backgroundColor = UIColor.whiteColor().CGColor
+</span><span class='line'>myTextField.borderStyle = UITextBorderStyle.None
+</span><span class='line'>myTextField.layer.addSublayer(bottomLine)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift">http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift</a></p>
+
+<h3>8. 让Button的大小比它的内容略大</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_loginViaSMSButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9. UITableViewStyleGrouped style UITableView has extra space at top</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>UITableViewStyleGrouped divides each section into a &ldquo;group&rdquo; by inserting that extra padding…similar to what it did pre-iOS7, but clear instead of colored by default, and just at the top instead of all the way around. If you don&rsquo;t want the padding by default, use UITableViewStylePlain.</p></blockquote>
+
+<p>Otherwise, if you need to keep the style the same, do what this other posted from that link recommended and change the content inset:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple">http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple</a></p>
+
+<h3>10. 使用 UISearchDisplayController 遇到的问题</h3>
+
+<p>使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@property(nonatomic, readonly, strong) UISearchDisplayController *searchDisplayController</span></code></pre></td></tr></table></div></figure>
+
+
+<p>理论上来讲既然是 strong 那么这个对象应该会存在才对，但不知道什么原因，这样并不行，它会在内存中被销毁，还是得在扩展里用一个属性来持有它。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*.m
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic) UISearchDisplayController *wt_searchDisplayController;
+</span><span class='line'>
+</span><span class='line'>self.wt_searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+</span><span class='line'>self.wt_searchDisplayController.delegate = self;
+</span><span class='line'>self.wt_searchDisplayController.searchResultsDataSource = self.searchCoordinator;
+</span><span class='line'>self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
+</span><span class='line'>[self.wt_searchDisplayController.searchResultsTableView registerClass:[RCConversationCell class] forCellReuseIdentifier:sSearchCellIdentifier];
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.</p>
+
+<h3>11. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
+
+<p>Solution:在自定义视图的初始化方法中设置 opaque 为 NO。</p>
+
+<h3>12. You are not authorized to use this service.</h3>
+
+<p>Solution: I recently enable Apple ID two-step verification. When I upload app to App Store via Xcode it inform me &ldquo;You are not authorized to use this service.&rdquo; I feel very strange. I decide to use Application Loader after search with google.  Sign in Application Loader need app-specific password, you can get it follow instructs:</p>
+
+<ol>
+<li>Sign in to your <a href="https://appleid.apple.com/account/home">Apple ID account page</a>;</li>
+<li>In the Security section, click Edit.</li>
+<li>Click Generate Password and follow the steps on your screen.</li>
+</ol>
+
+
+<p>Reference:<a href="https://support.apple.com/en-us/HT204397">https://support.apple.com/en-us/HT204397</a></p>
+
+<p>Now we can upload app with Application Loader:
+1. Xcode > Open Developer Tool > Application Loader
+2. Sign in Application Loader with app-specific password
+3. Click on &ldquo;Choose&rdquo;
+4. Pick the IPA you have just exported
+5. Follow submission process</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error">http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error</a></p>
+
+<h3>13.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/sohiOSApp.app/TencentOpenApi_IOS_Bundle.bundle' does not contain a bundle executable. If this bundle intentionally does not contain an executable, consider removing the CFBundleExecutable key from its Info.plist and using a CFBundlePackageType of BNDL. If this bundle is part of a third-party framework, consider contacting the developer of the framework for an update to address this issue."</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
 </div>
 
 
@@ -248,7 +388,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2015
+	<footer id="footer" class="inner">Copyright &copy; 2016
 
     Sheldon
 

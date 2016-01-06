@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-12-11T11:28:53+08:00</updated>
+  <updated>2016-01-06T11:04:34+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用 Wireshark 抓 iPhone 网络请求的数据包]]></title>
+    <link href="http://DamianSheldon.github.io/blog/capturing-iphone-traffic-on-wireshark.html"/>
+    <updated>2016-01-04T14:43:00+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/capturing-iphone-traffic-on-wireshark</id>
+    <content type="html"><![CDATA[<p>开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？</p>
+
+<blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
+
+<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.
+If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).
+In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
+
+<p>这里我使用的是第三种方法：remote virtual interface。</p>
+
+<p>iOS 5 added a remote virtual interface (RVI) facility that lets you use OS X packet trace programs to capture traces from an iOS device. The basic strategy is:</p>
+
+<ol>
+<li>Connect your iOS device to your Mac via USB.</li>
+<li>Set up an RVI for that device. This creates a virtual network interface on your Mac that represents the iOS device&rsquo;s networking stack.</li>
+<li>Run your OS X packet trace program, and point it at the RVI created in the previous step.</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ # First get the current list of interfaces.
+</span><span class='line'>$ ifconfig -l
+</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0
+</span><span class='line'>$ # Get connected device's UDID follow: Xcode &gt; Window &gt; Devices &gt; Select connected device &gt; identifier
+</span><span class='line'>$ # Then run the tool with the UDID of the device.
+</span><span class='line'>$ rvictl -s 74bd53c647548234ddcef0ee3abee616005051ed
+</span><span class='line'> 
+</span><span class='line'>Starting device 74bd53c647548234ddcef0ee3abee616005051ed [SUCCEEDED]
+</span><span class='line'> 
+</span><span class='line'>$ # Get the list of interfaces again, and you can see the new virtual
+</span><span class='line'>$ # network interface, rvi0, added by the previous command.
+</span><span class='line'>$ ifconfig -l
+</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0 rvi0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打开 Wireshark, 选择 rvi0 作为待抓包的接口。</p>
+
+<h1>Reference</h1>
+
+<p><a href="https://developer.apple.com/library/mac/qa/qa1176/_index.html">Getting a Packet Trace</a><br/>
+<a href="http://stackoverflow.com/questions/9555403/capturing-mobile-phone-traffic-on-wireshark">Capturing mobile phone traffic on wireshark</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Web Development Notes Part One]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-one.html"/>
+    <updated>2015-12-12T22:27:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-one</id>
+    <content type="html"><![CDATA[<h3>1. What is href=“#” and why is it used?</h3>
+
+<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
+href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+
+<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+
+<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
+
+<h3>2. How to debug your web page, technology stack is LAMP.</h3>
+
+<p>Solution:View log, figure out what cause problems.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/apache2/error_log
+</span><span class='line'>[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
+</span><span class='line'>[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
+</span><span class='line'>[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 项目持续集成和部署笔记]]></title>
@@ -333,6 +426,146 @@ ld: symbol(s) not found for architecture arm64</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
+
+<h3>4.How to remove UINavigationBar and UISearchBar hairline?</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>For a custom shadow image to be shown, a custom background image must also be set with the setBackgroundImage:forBarMetrics: method. If the default background image is used, then the default shadow image will be used regardless of the value of this property.</p></blockquote>
+
+<p>So we can cut a 1x1 pixel pure color image, set this image as navigation bar&rsquo;s shadow image.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
+<a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
+
+<h3>5. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIImage *userImage = [UIImage imageNamed:@"User"];
+</span><span class='line'>userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+</span><span class='line'>UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.</p></blockquote>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working">http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working</a></p>
+
+<h3>7.How to only show bottom border of UITextField</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var bottomLine = CALayer()
+</span><span class='line'>bottomLine.frame = CGRectMake(0.0, myTextField.frame.height - 1, myTextField.frame.width, 1.0)
+</span><span class='line'>bottomLine.backgroundColor = UIColor.whiteColor().CGColor
+</span><span class='line'>myTextField.borderStyle = UITextBorderStyle.None
+</span><span class='line'>myTextField.layer.addSublayer(bottomLine)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift">http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift</a></p>
+
+<h3>8. 让Button的大小比它的内容略大</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_loginViaSMSButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9. UITableViewStyleGrouped style UITableView has extra space at top</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>UITableViewStyleGrouped divides each section into a &ldquo;group&rdquo; by inserting that extra padding…similar to what it did pre-iOS7, but clear instead of colored by default, and just at the top instead of all the way around. If you don&rsquo;t want the padding by default, use UITableViewStylePlain.</p></blockquote>
+
+<p>Otherwise, if you need to keep the style the same, do what this other posted from that link recommended and change the content inset:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple">http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple</a></p>
+
+<h3>10. 使用 UISearchDisplayController 遇到的问题</h3>
+
+<p>使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@property(nonatomic, readonly, strong) UISearchDisplayController *searchDisplayController</span></code></pre></td></tr></table></div></figure>
+
+
+<p>理论上来讲既然是 strong 那么这个对象应该会存在才对，但不知道什么原因，这样并不行，它会在内存中被销毁，还是得在扩展里用一个属性来持有它。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*.m
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic) UISearchDisplayController *wt_searchDisplayController;
+</span><span class='line'>
+</span><span class='line'>self.wt_searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+</span><span class='line'>self.wt_searchDisplayController.delegate = self;
+</span><span class='line'>self.wt_searchDisplayController.searchResultsDataSource = self.searchCoordinator;
+</span><span class='line'>self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
+</span><span class='line'>[self.wt_searchDisplayController.searchResultsTableView registerClass:[RCConversationCell class] forCellReuseIdentifier:sSearchCellIdentifier];
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.</p>
+
+<h3>11. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
+
+<p>Solution:在自定义视图的初始化方法中设置 opaque 为 NO。</p>
+
+<h3>12. You are not authorized to use this service.</h3>
+
+<p>Solution: I recently enable Apple ID two-step verification. When I upload app to App Store via Xcode it inform me &ldquo;You are not authorized to use this service.&rdquo; I feel very strange. I decide to use Application Loader after search with google.  Sign in Application Loader need app-specific password, you can get it follow instructs:</p>
+
+<ol>
+<li>Sign in to your <a href="https://appleid.apple.com/account/home">Apple ID account page</a>;</li>
+<li>In the Security section, click Edit.</li>
+<li>Click Generate Password and follow the steps on your screen.</li>
+</ol>
+
+
+<p>Reference:<a href="https://support.apple.com/en-us/HT204397">https://support.apple.com/en-us/HT204397</a></p>
+
+<p>Now we can upload app with Application Loader:
+1. Xcode > Open Developer Tool > Application Loader
+2. Sign in Application Loader with app-specific password
+3. Click on &ldquo;Choose&rdquo;
+4. Pick the IPA you have just exported
+5. Follow submission process</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error">http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error</a></p>
+
+<h3>13.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/sohiOSApp.app/TencentOpenApi_IOS_Bundle.bundle' does not contain a bundle executable. If this bundle intentionally does not contain an executable, consider removing the CFBundleExecutable key from its Info.plist and using a CFBundlePackageType of BNDL. If this bundle is part of a third-party framework, consider contacting the developer of the framework for an update to address this issue."</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
 ]]></content>
   </entry>
   
@@ -695,7 +928,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#100;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#108;&#x69;&#x61;&#110;&#103;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#46;&#x32;&#x35;&#53;">&#100;&#111;&#110;&#103;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#49;&#x39;&#x32;&#46;&#x31;&#x36;&#56;&#46;&#49;&#x2e;&#50;&#x35;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#100;&#x6f;&#110;&#103;&#x6d;&#x65;&#105;&#x6c;&#105;&#x61;&#110;&#103;&#x40;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#x32;&#53;&#53;">&#x64;&#111;&#x6e;&#x67;&#x6d;&#x65;&#105;&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#x2e;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -760,6 +993,34 @@ quit</p>
 
 
 <p>Reference:<a href="http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp">http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp</a></p>
+
+<h3>7.Scanning machine&rsquo;s specified ports</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ nmap -p 37099 192.168.3.214
+</span><span class='line'>// -Pn: Treat all hosts as online -- skip host discovery
+</span><span class='line'>$ nmap -Pn 192.168.3.214</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8.Reverse search history command</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Execute last command
+</span><span class='line'>$ !!
+</span><span class='line'>
+</span><span class='line'>Ctrl + r
+</span><span class='line'>(reverse-i-search)`': pull
+</span><span class='line'>(reverse-i-search)`': git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash">http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash</a></p>
 ]]></content>
   </entry>
   
@@ -1316,6 +1577,77 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 <li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
 </ul>
 </li>
+<li><p>How to Start &amp; Stop MySQL Manually in OS X</p>
+
+<pre><code class="`"> // Start MySQL
+ $ sudo /usr/local/mysql/support-files/mysql.server start
+
+ // Stop MySQL
+ $ sudo /usr/local/mysql/support-files/mysql.server stop
+
+ // Restart MySQL
+ $ sudo /usr/local/mysql/support-files/mysql.server restart
+</code></pre>
+
+<ol>
+<li><p>Where is MySQL&rsquo;s error log
+Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p></li>
+<li><p>View MySQL&rsquo;s status</p></li>
+</ol>
+
+
+<pre><code class="`"> $ sudo /usr/local/mysql/support-files/mysql.server status
+</code></pre></li>
+<li><p>ERROR 2002 (HY000): Can &lsquo; t connect to local MySQL server through socket &rsquo;/tmp/mysql.sock'</p>
+
+<pre><code>// View MySQL status
+$ /usr/local/mysql/support-files/mysql.server status
+/usr/local/mysql/support-files/mysql.server: line 365: pidof: command not found
+ERROR! MySQL is not running
+
+// View MySQL's error log
+$ sudo vim /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
+
+// Find today's log
+2015-12-12T11:21:14.012289Z 0 [ERROR] InnoDB: Unable to lock ./ibdata1 error: 35
+2015-12-12T11:21:14.012335Z 0 [Note] InnoDB: Check that you do not already have another mysqld process using the same InnoDB data or log files.
+
+// Is there mysql process
+$ sudo pstress | grep 'mysql'
+
+|-+= 30102 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
+|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
+
+// Unfortunate, there are indeed two mysql procee, so kill one
+$ sudo kill -9  30102
+
+// Check we succeed kill a mysql process
+$ sudo pstress | grep 'mysql'
+
+// Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
+|-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
+|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
+
+// Figure out who auto start mysql
+$ sudo launchctl list | grep 'mysql'
+30102   0   com.mysql.mysqld
+30374   1   com.oracle.oss.mysql.mysqld
+
+// Unloads mysql auto start service
+$ sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysql.plist
+$ sudo launchctl unload -w /Library/LaunchDaemons/com.oracle.oss.mysql.mysqld.plist
+
+// Stop mysql service
+$ sudo launchctl stop com.mysql.mysqld
+$ sudo launchctl stop com.oracle.oss.mysql.mysqld
+
+// Start mysql
+$ sudo /usr/local/mysql/support-files/mysql.server start
+Starting MySQL
+. SUCCESS!
+</code></pre></li>
 </ol>
 
 
@@ -2609,229 +2941,6 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 | Background | The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background
 | Suspended | The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.
 When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android开发问题汇总]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development.html"/>
-    <updated>2014-12-17T09:38:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-of-android-development</id>
-    <content type="html"><![CDATA[<h3>Android Studio SDK Components安装提示操作超时</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
-</span><span class='line'>$ vim /etc/hosts
-</span><span class='line'>203.208.46.146 dl.google.com
-</span><span class='line'>203.208.46.146 dl-ssl.google.com</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Android Studio Check Updates提示连接出错</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
-</span><span class='line'>$ vim /Applications/Android\ Studio.app/Contents/Info.plist
-</span><span class='line'>
-</span><span class='line'>// 搜索 VMOptions
-</span><span class='line'>
-</span><span class='line'>// 添加如下内容
-</span><span class='line'>-Djava.net.preferIPv4Stack=true
-</span><span class='line'>-Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml
-</span><span class='line'>-Didea.patches.url=http://dl.google.com/android/studio/patches/
-</span><span class='line'>
-</span><span class='line'>// 结果
-</span><span class='line'>&lt;key&gt;VMOptions&lt;/key&gt;
-</span><span class='line'>&lt;string&gt;
-</span><span class='line'>-Dfile.encoding=UTF-8 -ea 
-</span><span class='line'>-Dsun.io.useCanonCaches=false 
-</span><span class='line'>-Djava.net.preferIPv4Stack=true
-</span><span class='line'> -Djna.nosys=true 
-</span><span class='line'> -Djna.boot.library.path=  
-</span><span class='line'> -Djna.debug_load=true 
-</span><span class='line'> -Djna.debug_load.jna=true 
-</span><span class='line'> -Djsse.enableSNIExtension=false 
-</span><span class='line'> -XX:+UseCodeCacheFlushing 
-</span><span class='line'> -XX:+UseConcMarkSweepGC 
-</span><span class='line'> -XX:SoftRefLRUPolicyMSPerMB=50 
-</span><span class='line'> -Xverify:none -Xbootclasspath/a:../lib/boot.jar 
-</span><span class='line'> -Djava.net.preferIPv4Stack=true 
-</span><span class='line'> -Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml 
-</span><span class='line'> -Didea.patches.url=http://dl.google.com/android/studio/patches/
-</span><span class='line'> &lt;/string&gt;
-</span><span class='line'>
-</span><span class='line'>// 重启 Android Studio</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>设置Gradle home</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Mac OS X
-</span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>The project is using an unsupported version of Gradle</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>The project is using an unsupported version of Gradle.
-</span><span class='line'>Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
-</span><span class='line'>
-</span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!--more-->
-
-
-<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
-
-<h3>Project'X' is missing required Java project &lsquo;Y&rsquo;</h3>
-
-<p>Solution: Open Java project &lsquo;Y&rsquo;</p>
-
-<h3>Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
-
-<p>Solution: Eclipse > Preferences > Java > Installed JREs > Add > Standar VM > Select JRE Directory</p>
-
-<p>My Mac JRE Directory is here:/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home/</p>
-
-<h3>Eclipse Can&rsquo;t detect Android Device</h3>
-
-<p>Solution: Disable device&rsquo;s usb debuggin then enable, It then prompted me for authorization for that computer, select ok, and then it worked fine.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device">http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device</a></p>
-
-<h3>Unable to resolve target &ldquo;Android-5&rdquo;</h3>
-
-<p>Solution:Android SDK Manager > Android 1.6 (API 4) > Intall</p>
-
-<p>Eclipse > Preferences&hellip; > Android > Apply > OK</p>
-
-<p>Project > Properties > Android > Project Build Target</p>
-
-<h3>error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
-
-<p>Solution:Project > Properties > Android > Project Build Target > 21</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml">http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml</a></p>
-
-<h3>Android studio Offline document path</h3>
-
-<p>Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html</p>
-
-<h3>Error:Execution failed for task &lsquo;:app:processDebugManifest&rsquo;. Manifest merger failed : uses-sdk element cannot have a &ldquo;tools:node&rdquo; attribute</h3>
-
-<p>Solution:Add this line to uses-sdk tag like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;uses-sdk
-</span><span class='line'>    tools:node="merge"   &lt;----This line do the magic
-</span><span class='line'>    android:minSdkVersion="14"
-</span><span class='line'>    android:targetSdkVersion="19" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And add the tools name space in manifest :</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>xmlns:tools="http://schemas.android.com/tools" .....
-</span><span class='line'>.../&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute">http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute</a></p>
-
-<h3>Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Error:(27, 0) Gradle DSL method not found: 'runProguard()'
-</span><span class='line'>**Possible causes:
-</span><span class='line'>The project 'Atomic4Mobile' may be using a version of Gradle that does not contain the method.
-</span><span class='line'>**Gradle settings**
-</span><span class='line'>The build file may be missing a Gradle plugin.
-</span><span class='line'>**Apply Gradle plugin**</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:runProguard was renamed to minifyEnabled in version 0.14.0.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard">http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard</a></p>
-
-<h3>error “Library projects cannot set applicationId”</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:Removing applicationId variable from the library&rsquo;s build.gradle file should resolve the issue.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid">http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[App如何与Server安全交互]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server.html"/>
-    <updated>2014-12-15T11:53:11+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-does-app-security-communicate-with-server</id>
-    <content type="html"><![CDATA[<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
-
-<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
-
-<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLConnection进行配置以接受该自签名证书。</p>
-
-<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
-
-<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
-
-<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
-
-<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
 ]]></content>
   </entry>
   

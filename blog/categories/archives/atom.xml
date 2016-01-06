@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-12-11T11:28:53+08:00</updated>
+  <updated>2016-01-06T11:04:34+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用 Wireshark 抓 iPhone 网络请求的数据包]]></title>
+    <link href="http://DamianSheldon.github.io/blog/capturing-iphone-traffic-on-wireshark.html"/>
+    <updated>2016-01-04T14:43:00+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/capturing-iphone-traffic-on-wireshark</id>
+    <content type="html"><![CDATA[<p>开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？</p>
+
+<blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
+
+<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.
+If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).
+In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
+
+<p>这里我使用的是第三种方法：remote virtual interface。</p>
+
+<p>iOS 5 added a remote virtual interface (RVI) facility that lets you use OS X packet trace programs to capture traces from an iOS device. The basic strategy is:</p>
+
+<ol>
+<li>Connect your iOS device to your Mac via USB.</li>
+<li>Set up an RVI for that device. This creates a virtual network interface on your Mac that represents the iOS device&rsquo;s networking stack.</li>
+<li>Run your OS X packet trace program, and point it at the RVI created in the previous step.</li>
+</ol>
+
+
+<pre><code>$ # First get the current list of interfaces.
+$ ifconfig -l
+lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0
+$ # Get connected device's UDID follow: Xcode &gt; Window &gt; Devices &gt; Select connected device &gt; identifier
+$ # Then run the tool with the UDID of the device.
+$ rvictl -s 74bd53c647548234ddcef0ee3abee616005051ed
+
+Starting device 74bd53c647548234ddcef0ee3abee616005051ed [SUCCEEDED]
+
+$ # Get the list of interfaces again, and you can see the new virtual
+$ # network interface, rvi0, added by the previous command.
+$ ifconfig -l
+lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0 rvi0
+</code></pre>
+
+<p>打开 Wireshark, 选择 rvi0 作为待抓包的接口。</p>
+
+<h1>Reference</h1>
+
+<p><a href="https://developer.apple.com/library/mac/qa/qa1176/_index.html">Getting a Packet Trace</a><br/>
+<a href="http://stackoverflow.com/questions/9555403/capturing-mobile-phone-traffic-on-wireshark">Capturing mobile phone traffic on wireshark</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Web Development Notes Part One]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-one.html"/>
+    <updated>2015-12-12T22:27:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-one</id>
+    <content type="html"><![CDATA[<h3>1. What is href=“#” and why is it used?</h3>
+
+<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
+href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+
+<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+
+<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
+
+<h3>2. How to debug your web page, technology stack is LAMP.</h3>
+
+<p>Solution:View log, figure out what cause problems.</p>
+
+<pre><code>$ tail -f /var/log/apache2/error_log
+[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
+[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
+[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 项目持续集成和部署笔记]]></title>
@@ -240,6 +316,122 @@ ld: symbol(s) not found for architecture arm64</p>
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
+
+<h3>4.How to remove UINavigationBar and UISearchBar hairline?</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>For a custom shadow image to be shown, a custom background image must also be set with the setBackgroundImage:forBarMetrics: method. If the default background image is used, then the default shadow image will be used regardless of the value of this property.</p></blockquote>
+
+<p>So we can cut a 1x1 pixel pure color image, set this image as navigation bar&rsquo;s shadow image.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
+<a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
+
+<h3>5. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
+
+<p>Solution:</p>
+
+<pre><code>UIImage *userImage = [UIImage imageNamed:@"User"];
+userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];
+</code></pre>
+
+<h3>6. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.</p></blockquote>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working">http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working</a></p>
+
+<h3>7.How to only show bottom border of UITextField</h3>
+
+<p>Solution:</p>
+
+<pre><code>var bottomLine = CALayer()
+bottomLine.frame = CGRectMake(0.0, myTextField.frame.height - 1, myTextField.frame.width, 1.0)
+bottomLine.backgroundColor = UIColor.whiteColor().CGColor
+myTextField.borderStyle = UITextBorderStyle.None
+myTextField.layer.addSublayer(bottomLine)
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift">http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift</a></p>
+
+<h3>8. 让Button的大小比它的内容略大</h3>
+
+<p>Solution:</p>
+
+<pre><code>_loginViaSMSButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20);
+</code></pre>
+
+<h3>9. UITableViewStyleGrouped style UITableView has extra space at top</h3>
+
+<p>Solution:</p>
+
+<blockquote><p>UITableViewStyleGrouped divides each section into a &ldquo;group&rdquo; by inserting that extra padding…similar to what it did pre-iOS7, but clear instead of colored by default, and just at the top instead of all the way around. If you don&rsquo;t want the padding by default, use UITableViewStylePlain.</p></blockquote>
+
+<p>Otherwise, if you need to keep the style the same, do what this other posted from that link recommended and change the content inset:</p>
+
+<pre><code>self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple">http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple</a></p>
+
+<h3>10. 使用 UISearchDisplayController 遇到的问题</h3>
+
+<p>使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：</p>
+
+<pre><code>@property(nonatomic, readonly, strong) UISearchDisplayController *searchDisplayController
+</code></pre>
+
+<p>理论上来讲既然是 strong 那么这个对象应该会存在才对，但不知道什么原因，这样并不行，它会在内存中被销毁，还是得在扩展里用一个属性来持有它。</p>
+
+<pre><code>*.m
+
+@property (nonatomic) UISearchDisplayController *wt_searchDisplayController;
+
+self.wt_searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+self.wt_searchDisplayController.delegate = self;
+self.wt_searchDisplayController.searchResultsDataSource = self.searchCoordinator;
+self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
+[self.wt_searchDisplayController.searchResultsTableView registerClass:[RCConversationCell class] forCellReuseIdentifier:sSearchCellIdentifier];
+</code></pre>
+
+<p>问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.</p>
+
+<h3>11. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
+
+<p>Solution:在自定义视图的初始化方法中设置 opaque 为 NO。</p>
+
+<h3>12. You are not authorized to use this service.</h3>
+
+<p>Solution: I recently enable Apple ID two-step verification. When I upload app to App Store via Xcode it inform me &ldquo;You are not authorized to use this service.&rdquo; I feel very strange. I decide to use Application Loader after search with google.  Sign in Application Loader need app-specific password, you can get it follow instructs:</p>
+
+<ol>
+<li>Sign in to your <a href="https://appleid.apple.com/account/home">Apple ID account page</a>;</li>
+<li>In the Security section, click Edit.</li>
+<li>Click Generate Password and follow the steps on your screen.</li>
+</ol>
+
+
+<p>Reference:<a href="https://support.apple.com/en-us/HT204397">https://support.apple.com/en-us/HT204397</a></p>
+
+<p>Now we can upload app with Application Loader:
+1. Xcode > Open Developer Tool > Application Loader
+2. Sign in Application Loader with app-specific password
+3. Click on &ldquo;Choose&rdquo;
+4. Pick the IPA you have just exported
+5. Follow submission process</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error">http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error</a></p>
+
+<h3>13.</h3>
+
+<pre><code>ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/sohiOSApp.app/TencentOpenApi_IOS_Bundle.bundle' does not contain a bundle executable. If this bundle intentionally does not contain an executable, consider removing the CFBundleExecutable key from its Info.plist and using a CFBundlePackageType of BNDL. If this bundle is part of a third-party framework, consider contacting the developer of the framework for an update to address this issue."
+</code></pre>
+
+<p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
 ]]></content>
   </entry>
   
@@ -285,185 +477,6 @@ System Preference > Sharing</p></li>
 </code></pre>
 
 <p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac 安装 OS X El Capitan]]></title>
-    <link href="http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html"/>
-    <updated>2015-10-09T18:00:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment</id>
-    <content type="html"><![CDATA[<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &ndash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
-
-<h2>备份数据</h2>
-
-<p>我用 sftp 把数据备份到另一台 Mac 上, 之前也试过 Migration Assitant 都是卡在最后一分钟，不知道现在这个问题改善了没有。 用 sftp 备份中间也中断了好多次，但手头也没移动硬盘也只能这么将就着了。</p>
-
-<h2>Install OS X El Capitan</h2>
-
-<ol>
-<li>需要一个 8GB 左右的 U 盘，因为 El Capitan 的大小超过 6GB ;</li>
-<li>从 App Store 下载 El Capitan;</li>
-<li>制作安装盘：
-<code>
-sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction
-</code></li>
-<li>重新启动，按住 option 键，选择通过U盘启动，之后先进入磁盘工具里面把硬盘格式化了（你也可以选择不格式化，这样就是覆盖安装）;</li>
-</ol>
-
-
-<!-- more -->
-
-
-<h2>安装常用软件</h2>
-
-<ol>
-<li>Download Xcode in App Store;</li>
-<li>iTerm;</li>
-<li>Chrome;</li>
-<li>LibreOffice;</li>
-<li>Microsoft Remote Desktop Connection;</li>
-<li>Homebrew;</li>
-<li>ruby;</li>
-<li>Set up web development envrionment</li>
-</ol>
-
-
-<p>Reference:<a href="http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/">http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Set up PHP development environment]]></title>
-    <link href="http://DamianSheldon.github.io/blog/set-up-php-development-environment.html"/>
-    <updated>2015-09-19T22:25:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/set-up-php-development-environment</id>
-    <content type="html"><![CDATA[<h3>Notes of Set up PHP development environment</h3>
-
-<ol>
-<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
-<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>, php.ini locate in /etc on Yosemite;</li>
-<li><p><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;<br/>
- Addition configure for Yosemite</p>
-
-<ul>
-<li><code>sudo cp /etc/php.ini.default /etc/php.ini</code></li>
-<li>add &ldquo;zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so&rdquo; to php.ini</li>
-</ul>
-</li>
-<li><p>Debugging Local PHP Files (PHP CLI Application)</p>
-
-<ul>
-<li>Create a PHP project;</li>
-<li>Create a PHP file;</li>
-<li>Set a breakpoint in PHP file;</li>
-<li>Save file;</li>
-<li>Create a new debug configuration;
-
-<ul>
-<li>Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</li>
-<li>Run > Debug Configurations > Select PHP CLI Application > New</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
-
-<ul>
-<li>Create a PHP project;</li>
-<li>Create a PHP file;</li>
-<li>Create a new debug configuration;
-
-<ul>
-<li>Run > Debug Configurations > Select PHP Web Application > New</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Test with PHPUnit</p>
-
-<ul>
-<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
-[Main]
-Location:/usr/local/bin/phpunit
-Working Directory:${workspace_loc:/Backend/tests}
-Apply > Run
-<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
-</ul>
-</li>
-<li><p>Integrate MakeGood (failure)</p>
-
-<ul>
-<li>Installing Prerequisite Software
-
-<ul>
-<li>PHP 5.5.27 (cli)</li>
-<li>xdebug-2.3.2</li>
-<li>eclipse mars(4.5.0)</li>
-<li>PDT(3.5.0)</li>
-<li>PHPUnit (4.8.6)</li>
-</ul>
-</li>
-<li><p>Installing MakeGood
-  Help -> Install New Software&hellip; -> Add&hellip; -> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
-<li><p>Selecting a Testing Framework</p></li>
-<li><p>Resolving the Dependencies to the Testing Framework</p>
-
-<pre><code>  * Defining User Libraries
-      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
-      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
-  * Adding User Libraries to the Project
-</code></pre>
-
-<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
-</ul>
-
-
-<p> *Testing Framework Specific Configuration<br/>
-     PHPUnit</p>
-
-<pre><code> * Open the properties for the project.
- * Select MakeGood.
- * Select PHPUnit.
- * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
-</code></pre>
-
-<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
-</ol>
-
-
-<h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
-
-<p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
-
-<h3>Wait for XDebug session</h3>
-
-<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
-
-<pre><code>sudo cp /etc/php.ini.default /etc/php.ini
-
-// Add follow content to php.ini
-[XDebug]
-zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
-xdebug.remote_enable=On
-xdebug.remote_handler=dbgp
-xdebug.remote_host=helloworld.local
-xdebug.remote_port=9000
-;xdebug.remote_connect_back=1
-xdebug.remote_mode="req"
-xdebug.remote_log="/var/log/xdebug.log"
-
-sudo apachectl restart
-</code></pre>
-
-<h3>/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: &lsquo;php.h&rsquo; file not found</h3>
-
-<p>Solution:</p>
-
-<pre><code>$ xcode-select --install
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks">http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks</a></p>
 ]]></content>
   </entry>
   

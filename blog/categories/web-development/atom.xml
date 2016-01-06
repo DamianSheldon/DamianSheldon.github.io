@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2015-12-11T11:28:53+08:00</updated>
+  <updated>2016-01-06T11:04:34+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web Development Notes Part One]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-one.html"/>
+    <updated>2015-12-12T22:27:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-one</id>
+    <content type="html"><![CDATA[<h3>1. What is href=“#” and why is it used?</h3>
+
+<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
+href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+
+<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+
+<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
+
+<h3>2. How to debug your web page, technology stack is LAMP.</h3>
+
+<p>Solution:View log, figure out what cause problems.</p>
+
+<pre><code>$ tail -f /var/log/apache2/error_log
+[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
+[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
+[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Set up PHP development environment]]></title>
@@ -358,6 +386,77 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 <li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
 </ul>
 </li>
+<li><p>How to Start &amp; Stop MySQL Manually in OS X</p>
+
+<pre><code class="`"> // Start MySQL
+ $ sudo /usr/local/mysql/support-files/mysql.server start
+
+ // Stop MySQL
+ $ sudo /usr/local/mysql/support-files/mysql.server stop
+
+ // Restart MySQL
+ $ sudo /usr/local/mysql/support-files/mysql.server restart
+</code></pre>
+
+<ol>
+<li><p>Where is MySQL&rsquo;s error log
+Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p></li>
+<li><p>View MySQL&rsquo;s status</p></li>
+</ol>
+
+
+<pre><code class="`"> $ sudo /usr/local/mysql/support-files/mysql.server status
+</code></pre></li>
+<li><p>ERROR 2002 (HY000): Can &lsquo; t connect to local MySQL server through socket &rsquo;/tmp/mysql.sock'</p>
+
+<pre><code>// View MySQL status
+$ /usr/local/mysql/support-files/mysql.server status
+/usr/local/mysql/support-files/mysql.server: line 365: pidof: command not found
+ERROR! MySQL is not running
+
+// View MySQL's error log
+$ sudo vim /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
+
+// Find today's log
+2015-12-12T11:21:14.012289Z 0 [ERROR] InnoDB: Unable to lock ./ibdata1 error: 35
+2015-12-12T11:21:14.012335Z 0 [Note] InnoDB: Check that you do not already have another mysqld process using the same InnoDB data or log files.
+
+// Is there mysql process
+$ sudo pstress | grep 'mysql'
+
+|-+= 30102 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
+|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
+
+// Unfortunate, there are indeed two mysql procee, so kill one
+$ sudo kill -9  30102
+
+// Check we succeed kill a mysql process
+$ sudo pstress | grep 'mysql'
+
+// Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
+|-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
+|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
+
+// Figure out who auto start mysql
+$ sudo launchctl list | grep 'mysql'
+30102   0   com.mysql.mysqld
+30374   1   com.oracle.oss.mysql.mysqld
+
+// Unloads mysql auto start service
+$ sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysql.plist
+$ sudo launchctl unload -w /Library/LaunchDaemons/com.oracle.oss.mysql.mysqld.plist
+
+// Stop mysql service
+$ sudo launchctl stop com.mysql.mysqld
+$ sudo launchctl stop com.oracle.oss.mysql.mysqld
+
+// Start mysql
+$ sudo /usr/local/mysql/support-files/mysql.server start
+Starting MySQL
+. SUCCESS!
+</code></pre></li>
 </ol>
 
 

@@ -108,6 +108,120 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/english-sentence.html">
+		
+			英语句子结构</a>
+	</h2>
+	<div class="entry-content">
+		<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
+
+<ol>
+<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
+<li>SVP (P:predicative)主语+谓语+表语</li>
+<li>SVO (O:object)主语+谓语+宾语</li>
+<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
+<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
+<li>There＋系动词＋主语</li>
+</ol>
+
+
+<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
+
+<p>John sleeps.<br/>
+Jill is eating.<br/>
+Jack will arrive next week.<br/>
+The tlephone rang.<br/>
+His father might have died.<br/>
+Sandy walks in the playground evening.<br/>
+He never gives up easily.<br/>
+The children listened carefully.<br/>
+Our Manager has arrived in pairs.<br/>
+The water in the jar has ran out.<br/>
+My brother will talk on the phone.<br/>
+Mummy won&rsquo;t agree.</p>
+
+
+		
+		<a href="/blog/english-sentence.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-27T20:19:06+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/english/'>english</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/english-basic.html">
+		
+			英语起步</a>
+	</h2>
+	<div class="entry-content">
+		<p>如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。</p>
+
+<p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
+
+<p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-26T22:01:08+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/english/'>english</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-app-cache.html">
 		
 			iOS App Cache</a>
@@ -169,152 +283,6 @@ $(document).ready(
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/xcode-debug-tips.html">
-		
-			Xcode 调试技巧（持续更新）</a>
-	</h2>
-	<div class="entry-content">
-		<p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
-
-<h3>崩溃在main( )</h3>
-
-<p>添加Exception Breakpoint</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
-
-<h3>符号断点</h3>
-
-<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
-
-<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
-
-<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
-
-<h3>打印方法名</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>控制台打印</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
-</span><span class='line'>(lldb) p (int)self.myAge
-</span><span class='line'>(lldb) p (CGPoint)self.view.center
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>(lldb) po // 打印对象
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/xcode-debug-tips.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-24T17:14:52+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-data-persistence.html">
-		
-			iOS App 数据持久化</a>
-	</h2>
-	<div class="entry-content">
-		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
-
-<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
-
-<h2>文件系统基础</h2>
-
-<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
-我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
-
-<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
-
-<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
-
-</div>
-
-
-
-
-
-		
-		<a href="/blog/ios-app-data-persistence.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
 <nav id="pagenavi">
     
         <a href="8" class="prev">Prev</a>
@@ -324,7 +292,7 @@ $(document).ready(
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2015
+	<footer id="footer" class="inner">Copyright &copy; 2016
 
     Sheldon
 

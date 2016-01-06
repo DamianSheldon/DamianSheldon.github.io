@@ -117,58 +117,13 @@ $(document).ready(
 
 <blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
 
-<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.
-If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).
+<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.<br/>
+If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).<br/>
 In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
 
-<p>这里我使用的是第三种方法：remote virtual interface。</p>
-
-<p>iOS 5 added a remote virtual interface (RVI) facility that lets you use OS X packet trace programs to capture traces from an iOS device. The basic strategy is:</p>
-
-<ol>
-<li>Connect your iOS device to your Mac via USB.</li>
-<li>Set up an RVI for that device. This creates a virtual network interface on your Mac that represents the iOS device&rsquo;s networking stack.</li>
-<li>Run your OS X packet trace program, and point it at the RVI created in the previous step.</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ # First get the current list of interfaces.
-</span><span class='line'>$ ifconfig -l
-</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0
-</span><span class='line'>$ # Get connected device's UDID follow: Xcode &gt; Window &gt; Devices &gt; Select connected device &gt; identifier
-</span><span class='line'>$ # Then run the tool with the UDID of the device.
-</span><span class='line'>$ rvictl -s 74bd53c647548234ddcef0ee3abee616005051ed
-</span><span class='line'> 
-</span><span class='line'>Starting device 74bd53c647548234ddcef0ee3abee616005051ed [SUCCEEDED]
-</span><span class='line'> 
-</span><span class='line'>$ # Get the list of interfaces again, and you can see the new virtual
-</span><span class='line'>$ # network interface, rvi0, added by the previous command.
-</span><span class='line'>$ ifconfig -l
-</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0 rvi0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>打开 Wireshark, 选择 rvi0 作为待抓包的接口。</p>
-
-<h1>Reference</h1>
-
-<p><a href="https://developer.apple.com/library/mac/qa/qa1176/_index.html">Getting a Packet Trace</a><br/>
-<a href="http://stackoverflow.com/questions/9555403/capturing-mobile-phone-traffic-on-wireshark">Capturing mobile phone traffic on wireshark</a></p>
 
 		
-		
+		<a href="/blog/capturing-iphone-traffic-on-wireshark.html" class="more-link">继续阅读</a>
 	</div>
 
 

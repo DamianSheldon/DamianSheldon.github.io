@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-06T11:08:52+08:00</updated>
+  <updated>2016-01-07T10:14:26+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -240,6 +240,12 @@ self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
 </code></pre>
 
 <p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
+
+<h3>14. Pointer is missing a nullability type specifier</h3>
+
+<p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface">http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface</a></p>
 ]]></content>
   </entry>
   

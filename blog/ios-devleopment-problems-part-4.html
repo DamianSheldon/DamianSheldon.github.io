@@ -325,6 +325,12 @@ ld: symbol(s) not found for architecture arm64</p>
 
 
 <p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
+
+<h3>14. Pointer is missing a nullability type specifier</h3>
+
+<p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface">http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface</a></p>
 </div>
 
 

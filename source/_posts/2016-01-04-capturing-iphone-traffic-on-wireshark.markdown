@@ -9,12 +9,12 @@ discription: How to Capture iPhone traffic on Wireshark
 ---
 开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？
 
-> iOS does not support packet tracing directly. However, if you're developing for iOS you can take a packet trace of your app in a number of different ways:
+> iOS does not support packet tracing directly. However, if you're developing for iOS you can take a packet trace of your app in a number of different ways:  
 
-> If the problem you're trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.
-> If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).
-> In iOS 5 and later you can use the remote virtual interface facility.
-
+> If the problem you're trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.  
+> If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).  
+> In iOS 5 and later you can use the remote virtual interface facility.  
+<!-- more -->
 这里我使用的是第三种方法：remote virtual interface。
 
 iOS 5 added a remote virtual interface (RVI) facility that lets you use OS X packet trace programs to capture traces from an iOS device. The basic strategy is:

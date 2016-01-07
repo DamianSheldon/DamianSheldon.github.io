@@ -174,5 +174,9 @@ ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/soh
 
 Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle's Info.plist and using a CFBundlePackageType of BNDL.
 
+### 14. Pointer is missing a nullability type specifier
+Solution:It's simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.
+
+Reference:http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface
 
 

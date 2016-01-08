@@ -186,7 +186,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
 
-<h3>4.How to remove UINavigationBar and UISearchBar hairline?</h3>
+<h3>5.How to remove UINavigationBar and UISearchBar hairline?</h3>
 
 <p>Solution:</p>
 
@@ -197,7 +197,7 @@ ld: symbol(s) not found for architecture arm64</p>
 <p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
 <a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
 
-<h3>5. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
+<h3>6. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
 
 <p>Solution:</p>
 
@@ -209,7 +209,7 @@ ld: symbol(s) not found for architecture arm64</p>
 </span><span class='line'>UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>6. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
+<h3>7. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
 
 <p>Solution:</p>
 
@@ -217,7 +217,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working">http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working</a></p>
 
-<h3>7.How to only show bottom border of UITextField</h3>
+<h3>8.How to only show bottom border of UITextField</h3>
 
 <p>Solution:</p>
 
@@ -235,7 +235,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift">http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift</a></p>
 
-<h3>8. 让Button的大小比它的内容略大</h3>
+<h3>9. 让Button的大小比它的内容略大</h3>
 
 <p>Solution:</p>
 
@@ -244,7 +244,7 @@ ld: symbol(s) not found for architecture arm64</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>9. UITableViewStyleGrouped style UITableView has extra space at top</h3>
+<h3>10. UITableViewStyleGrouped style UITableView has extra space at top</h3>
 
 <p>Solution:</p>
 
@@ -259,7 +259,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple">http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple</a></p>
 
-<h3>10. 使用 UISearchDisplayController 遇到的问题</h3>
+<h3>11. 使用 UISearchDisplayController 遇到的问题</h3>
 
 <p>使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：</p>
 
@@ -292,11 +292,11 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.</p>
 
-<h3>11. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
+<h3>12. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
 
 <p>Solution:在自定义视图的初始化方法中设置 opaque 为 NO。</p>
 
-<h3>12. You are not authorized to use this service.</h3>
+<h3>13. You are not authorized to use this service.</h3>
 
 <p>Solution: I recently enable Apple ID two-step verification. When I upload app to App Store via Xcode it inform me &ldquo;You are not authorized to use this service.&rdquo; I feel very strange. I decide to use Application Loader after search with google.  Sign in Application Loader need app-specific password, you can get it follow instructs:</p>
 
@@ -318,7 +318,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error">http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error</a></p>
 
-<h3>13.</h3>
+<h3>14.</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/sohiOSApp.app/TencentOpenApi_IOS_Bundle.bundle' does not contain a bundle executable. If this bundle intentionally does not contain an executable, consider removing the CFBundleExecutable key from its Info.plist and using a CFBundlePackageType of BNDL. If this bundle is part of a third-party framework, consider contacting the developer of the framework for an update to address this issue."</span></code></pre></td></tr></table></div></figure>
@@ -326,7 +326,7 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
 
-<h3>14. Pointer is missing a nullability type specifier</h3>
+<h3>15. Pointer is missing a nullability type specifier</h3>
 
 <p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
 

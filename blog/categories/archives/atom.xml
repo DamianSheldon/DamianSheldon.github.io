@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-08T08:41:09+08:00</updated>
+  <updated>2016-01-08T21:55:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Development Problems Part 5]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-5.html"/>
+    <updated>2016-01-08T21:32:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-5</id>
+    <content type="html"><![CDATA[<h3>1.On iOS 7 and later, how do I take a snapshot of my view and save the result in a UIImage?</h3>
+
+<p>Solution:</p>
+
+<pre><code>- (UIImage *)snapshot:(UIView *)view
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0);
+    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return image;
+}
+</code></pre>
+
+<p>Reference:<a href="https://developer.apple.com/library/ios/qa/qa1817/_index.html">https://developer.apple.com/library/ios/qa/qa1817/_index.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[用 Wireshark 抓 iPhone 网络请求的数据包]]></title>
@@ -441,51 +465,6 @@ self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
 <p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface">http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用 Mac 遇到的问题]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac.html"/>
-    <updated>2015-10-10T08:49:37+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac</id>
-    <content type="html"><![CDATA[<h2>1. How to enable the three finger drag on OS X 10.11</h2>
-
-<p>Step 1: Open System Preferences</p>
-
-<p>Step 2: Click Accessibility</p>
-
-<p>Step 3: Click Mouse &amp; Trackpad</p>
-
-<p>Step 4: Click Trackpad Options…</p>
-
-<p>Step 5: Click Enable dragging</p>
-
-<p>Step 6: Select “three finger drag” in the drop down box</p>
-
-<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
-
-<!-- more -->
-
-
-<h2>2. How to find computer name on Mac</h2>
-
-<ol>
-<li><p>GUI<br/>
-System Preference > Sharing</p></li>
-<li><p>Command Line</p>
-
-<pre><code class="`"> $ hostname
-</code></pre></li>
-</ol>
-
-
-<h2>3. SSH to Server Without Entering Password From Mac</h2>
-
-<pre><code>$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
-</code></pre>
-
-<p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
 ]]></content>
   </entry>
   

@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Android  | Hello World</title>
+	<title>iOS Development Problems Part 5  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -102,138 +102,94 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-    
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">iOS Development Problems Part 5</h2>
+	<div class="entry-content"><h3>1.On iOS 7 and later, how do I take a snapshot of my view and save the result in a UIImage?</h3>
 
-    
+<p>Solution:</p>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIImage *)snapshot:(UIView *)view
+</span><span class='line'>{
+</span><span class='line'>    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0);
+</span><span class='line'>    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+</span><span class='line'>    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+</span><span class='line'>    UIGraphicsEndImageContext();
+</span><span class='line'>    
+</span><span class='line'>    return image;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Reference:<a href="https://developer.apple.com/library/ios/qa/qa1817/_index.html">https://developer.apple.com/library/ios/qa/qa1817/_index.html</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-08T21:32:22+08:00" pubdate data-updated="true"></time></div>
 	
-	
-		</section>
-	
-	<section class="archives"><h1 class="year">2014</h1>
-
-<article>
-	<h2 class="title"><a href="/blog/problems-of-android-development.html">Android开发问题汇总</a></h2>
-	<div class="meta">
-		<div class="date">Dec 17</div>
-		
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
 
 </div>
 
 
-	    
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
 	</div>
-</article>
-    
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2016

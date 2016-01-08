@@ -108,6 +108,164 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/linux-useful-command-line-part-2.html">
+		
+			Linux Useful Command Line Part 2</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Rails Error: ImageMagick/GraphicsMagick is not installed</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install graphicsmagick
+</span><span class='line'>brew install ImageMagick</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed">http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed</a></p>
+
+<h3>2.Transfer file via scp (or sftp) between two Mac</h3>
+
+<p>Via scp:<br/>
+1.Enable Enable SSH
+     System Preferences > Sharing > enable the “Remote Login” feature</p>
+
+<p>2.type scp command</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Via s<a href="ftp:">ftp:</a></p>
+
+<p>1.sftp <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#x31;&#57;&#50;&#46;&#49;&#54;&#x38;&#46;&#x31;&#46;&#50;&#53;&#53;">&#x64;&#x6f;&#110;&#x67;&#109;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#x2e;&#x32;&#x35;&#x35;</a><br/>
+2.cd path<br/>
+  Change remote directory to path.</p>
+
+<p>3.lcd path<br/>
+  Change local directory to path.</p>
+
+<p>4.get [-Ppr] remote-path [local-path]</p>
+
+<p>5.lpwd    Print local working directory.</p>
+
+<p>6.pwd     Display remote working directory.</p>
+
+<p>7.put [-Ppr] local-path [remote-path]</p>
+
+<p>8.lls [ls-options [path]]
+             Display local directory listing of either path or current directory if path is not specified.  ls-options may con-
+             tain any flags supported by the local system&rsquo;s ls(1) command.  path may contain glob(3) characters and may match
+             multiple files.</p>
+
+<p>9.ls [-1afhlnrSt] [path]
+             Display a remote directory listing of either path or the current directory if path is not specified.  path may con-
+             tain glob(3) characters and may match multiple files.</p>
+
+<p>10.Quit sftp</p>
+
+<p>bye<br/>
+exit<br/>
+quit</p>
+
+<h3>3.Installing Apps with Homebrew Cask</h3>
+
+<p><a href="http://caskroom.io/">Homebrew Cask</a> is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.</p>
+
+<p>After you have homebrew installed, you&rsquo;ll want to install Homebrew Cask:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install caskroom/cask/brew-cask</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.复制目录及子目录下的某种类型文件</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp  ~/Documents/HJKApp/srsApp/srsApp/Sections/Home/Main.xcassets/**/*.png  ~/Pictures/HJKApp/OnlyHaveScale2/</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5.Recursive copy of specific files in Unix/Linux?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux">http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux</a></p>
+
+<h3>6.Uploading directories with sftp?</h3>
+
+<p>I don&rsquo;t know why sftp does this but you can only recursive copy if the destination directory already exists. So do this&hellip;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sftp&gt; mkdir bin  
+</span><span class='line'>sftp&gt; put -r bin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp">http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp</a></p>
+
+<h3>7.Scanning machine&rsquo;s specified ports</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ nmap -p 37099 192.168.3.214
+</span><span class='line'>// -Pn: Treat all hosts as online -- skip host discovery
+</span><span class='line'>$ nmap -Pn 192.168.3.214</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8.Reverse search history command</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Execute last command
+</span><span class='line'>$ !!
+</span><span class='line'>
+</span><span class='line'>Ctrl + r
+</span><span class='line'>(reverse-i-search)`': pull
+</span><span class='line'>(reverse-i-search)`': git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash">http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-11T09:30:16+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/vim.html">
 		
 			Vim</a>
@@ -290,65 +448,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problem-part-3.html">
-		
-			iOS App 开发问题汇总（三）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
-
-<p>Making an Inspectable .ipa file<br/>
-In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
-When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
-When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
-Checking the Entitlements of an .ipa file<br/>
-Find the .ipa file and change its the extension to .zip.<br/>
-Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
-Use the codesign tool to check the entitlements on the .app bundle like this:
-$ codesign -d &ndash;entitlements :- &ldquo;Payload/YourApp.app&rdquo;
-where YourApp.app is the actual name of your .app bundle.<br/>
-Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
-// should add cms, Apple may be a typo
-$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
-
-<p>where YourApp.app is the actual name of your .app bundle.</p>
-
-
-		
-		<a href="/blog/ios-development-problem-part-3.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-30T11:36:57+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
 
 </div>
 

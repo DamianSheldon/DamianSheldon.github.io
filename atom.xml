@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-08T21:55:40+08:00</updated>
+  <updated>2016-01-09T20:20:09+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS Development Problems Part 5]]></title>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（五）]]></title>
     <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-5.html"/>
     <updated>2016-01-08T21:32:22+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-5</id>
@@ -43,6 +43,52 @@
 
 
 <p>Reference:<a href="https://developer.apple.com/library/ios/qa/qa1817/_index.html">https://developer.apple.com/library/ios/qa/qa1817/_index.html</a></p>
+
+<h3>2.How to present a view controller on iOS7 without the status bar overlapping?</h3>
+
+<p>Solution:The easiest workaround I&rsquo;ve found is to wrap the view controller you want to present inside a navigation controller, and then present that navigation controller.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MyViewController *vc = [MyViewController new];
+</span><span class='line'>UINavigationController *nvc = [[UINavigationController alloc] 
+</span><span class='line'>    initWithRootViewController:vc];
+</span><span class='line'>[self presentViewController:nvc animated:YES completion:nil];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.代码创建 UITableView 时如何使用各种系统样式的 UITableViewCell?</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+</span><span class='line'>{
+</span><span class='line'>    static NSString *sCellID = @"CellID";
+</span><span class='line'>
+</span><span class='line'>    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:sCellID];
+</span><span class='line'>    if (!cell) {
+</span><span class='line'>        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sCellID];
+</span><span class='line'>    }
+</span><span class='line'>    // Configure the cell...
+</span><span class='line'>    
+</span><span class='line'>    return cell;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -970,7 +1016,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#x31;&#57;&#50;&#46;&#49;&#54;&#x38;&#46;&#x31;&#46;&#50;&#53;&#53;">&#x64;&#x6f;&#110;&#x67;&#109;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#x2e;&#x32;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x64;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#105;&#97;&#110;&#x67;&#x40;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#x2e;&#50;&#x35;&#53;">&#100;&#111;&#x6e;&#103;&#x6d;&#101;&#x69;&#108;&#105;&#x61;&#110;&#x67;&#64;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#46;&#x32;&#53;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

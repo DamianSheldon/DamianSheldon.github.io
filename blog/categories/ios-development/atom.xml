@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-08T21:55:40+08:00</updated>
+  <updated>2016-01-09T20:20:09+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS Development Problems Part 5]]></title>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（五）]]></title>
     <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-5.html"/>
     <updated>2016-01-08T21:32:22+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-5</id>
@@ -34,6 +34,34 @@
 </code></pre>
 
 <p>Reference:<a href="https://developer.apple.com/library/ios/qa/qa1817/_index.html">https://developer.apple.com/library/ios/qa/qa1817/_index.html</a></p>
+
+<h3>2.How to present a view controller on iOS7 without the status bar overlapping?</h3>
+
+<p>Solution:The easiest workaround I&rsquo;ve found is to wrap the view controller you want to present inside a navigation controller, and then present that navigation controller.</p>
+
+<pre><code>MyViewController *vc = [MyViewController new];
+UINavigationController *nvc = [[UINavigationController alloc] 
+    initWithRootViewController:vc];
+[self presentViewController:nvc animated:YES completion:nil];
+</code></pre>
+
+<h3>3.代码创建 UITableView 时如何使用各种系统样式的 UITableViewCell?</h3>
+
+<p>Solution:</p>
+
+<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *sCellID = @"CellID";
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:sCellID];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sCellID];
+    }
+    // Configure the cell...
+
+    return cell;
+}
+</code></pre>
 ]]></content>
   </entry>
   

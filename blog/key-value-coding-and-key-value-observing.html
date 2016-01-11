@@ -275,6 +275,27 @@ $(document).ready(
 
 <hr />
 
+<h4>Observing Changes to a mutable array using KVO</h4>
+
+<ul>
+<li>Implement a method named -<key> that returns an array</li>
+<li>Implement one or both of the methods -insertObject:in<Key>AtIndex:</li>
+<li>Implement one or both of the methods -removeObjectFrom<Key>AtIndex:</li>
+</ul>
+
+
+<blockquote><p>Although your application can implement accessor methods for to-many relationship properties using the -<key> and -set<Key>: accessor forms, you should typically only use those to create the collection object. For manipulating the contents of the collection it is best practice to implement the additional accessor methods referred to as the collection accessor methods. You then use the collection accessor methods, or a mutable collection proxy returned by mutableArrayValueForKey: or mutableSetValueForKey:.</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableArray *array = [self.KVOArray mutableArrayValueForKey:@"KVOArray"];
+</span><span class='line'>        
+</span><span class='line'>[array addObject:anObject];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>[KVO Array Demo](<a href="https://github.com/DamianSheldon/KeyValueObservingDemo.git%EF%BC%89">https://github.com/DamianSheldon/KeyValueObservingDemo.git%EF%BC%89</a></p>
+
 <h4>One more thing</h4>
 
 <p>Key-Value Observing Implementation Details</p>

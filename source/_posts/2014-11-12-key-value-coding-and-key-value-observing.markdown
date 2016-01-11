@@ -136,6 +136,22 @@ Manual change notification provides additional control over when notifications a
 
 ---
 
+####Observing Changes to a mutable array using KVO
+
+* Implement a method named -<key> that returns an array
+* Implement one or both of the methods -insertObject:in<Key>AtIndex:
+* Implement one or both of the methods -removeObjectFrom<Key>AtIndex:
+
+> Although your application can implement accessor methods for to-many relationship properties using the -<key> and -set<Key>: accessor forms, you should typically only use those to create the collection object. For manipulating the contents of the collection it is best practice to implement the additional accessor methods referred to as the collection accessor methods. You then use the collection accessor methods, or a mutable collection proxy returned by mutableArrayValueForKey: or mutableSetValueForKey:.
+
+```
+NSMutableArray *array = [self.KVOArray mutableArrayValueForKey:@"KVOArray"];
+        
+[array addObject:anObject];
+```
+
+[KVO Array Demo](https://github.com/DamianSheldon/KeyValueObservingDemo.git）
+
 ####One more thing
 
 Key-Value Observing Implementation Details
@@ -155,3 +171,5 @@ So how does **class** method determine the class of an object?
 
 Key-Value Coding Programming Guide   
 Key-Value Observing Programming Guide
+
+

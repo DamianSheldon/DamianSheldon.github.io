@@ -150,7 +150,7 @@ NSMutableArray *array = [self.KVOArray mutableArrayValueForKey:@"KVOArray"];
 [array addObject:anObject];
 ```
 
-[KVO Array Demo](https://github.com/DamianSheldon/KeyValueObservingDemo.git）
+[KVO Array Demo](https://github.com/DamianSheldon/KeyValueObservingDemo.git)  
 
 ####One more thing
 

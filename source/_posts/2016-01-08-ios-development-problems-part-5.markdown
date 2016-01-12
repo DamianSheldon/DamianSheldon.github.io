@@ -51,4 +51,10 @@ Solution:
     return cell;
 }
 ```
+<!-- more -->
+### 4.Settings bundle not showing up in iPhone settings
+
+Solution:iOS 9.0.x - 9.2 Settings App Bug, Using the App Switch UI (double-press Home button) to kill the Settings App.
+
+Reference:http://stackoverflow.com/questions/2683793/settings-bundle-not-showing-up-in-iphone-settings
 

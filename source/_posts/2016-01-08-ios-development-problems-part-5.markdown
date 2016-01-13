@@ -58,3 +58,7 @@ Solution:iOS 9.0.x - 9.2 Settings App Bug, Using the App Switch UI (double-press
 
 Reference:http://stackoverflow.com/questions/2683793/settings-bundle-not-showing-up-in-iphone-settings
 
+### 5.单元测试的 Target 在测试导航栏里是灰色的不能点击测试。
+
+Solution: Edit Scheme ... > Test > + > Select your test target.
+

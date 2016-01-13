@@ -152,6 +152,8 @@ NSMutableArray *array = [self.KVOArray mutableArrayValueForKey:@"KVOArray"];
 
 [KVO Array Demo](https://github.com/DamianSheldon/KeyValueObservingDemo.git)  
 
+Extension:[如何自己动手实现 KVO](http://tech.glowing.com/cn/implement-kvo/)
+
 ####One more thing
 
 Key-Value Observing Implementation Details

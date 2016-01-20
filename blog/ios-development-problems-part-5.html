@@ -186,6 +186,32 @@ $(document).ready(
 <h3>5.单元测试的 Target 在测试导航栏里是灰色的不能点击测试。</h3>
 
 <p>Solution: Edit Scheme &hellip; > Test > + > Select your test target.</p>
+
+<h3>6.How to change UITableViewCell Image to Circle in UITableView</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Subclass UITableViewCell override layoutSubviews method
+</span><span class='line'>
+</span><span class='line'>- (void)layoutSubviews
+</span><span class='line'>{
+</span><span class='line'>    [super layoutSubviews];
+</span><span class='line'>    
+</span><span class='line'>    self.imageView.layer.cornerRadius = CGRectGetHeight(self.imageView.frame) * 0.5;
+</span><span class='line'>    self.imageView.layer.masksToBounds = YES;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview">http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview</a></p>
 </div>
 
 

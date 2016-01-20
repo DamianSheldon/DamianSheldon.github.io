@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-13T14:12:24+08:00</updated>
+  <updated>2016-01-20T20:25:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -75,6 +75,23 @@ UINavigationController *nvc = [[UINavigationController alloc]
 <h3>5.单元测试的 Target 在测试导航栏里是灰色的不能点击测试。</h3>
 
 <p>Solution: Edit Scheme &hellip; > Test > + > Select your test target.</p>
+
+<h3>6.How to change UITableViewCell Image to Circle in UITableView</h3>
+
+<p>Solution:</p>
+
+<pre><code>// Subclass UITableViewCell override layoutSubviews method
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.imageView.layer.cornerRadius = CGRectGetHeight(self.imageView.frame) * 0.5;
+    self.imageView.layer.masksToBounds = YES;
+}
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview">http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview</a></p>
 ]]></content>
   </entry>
   

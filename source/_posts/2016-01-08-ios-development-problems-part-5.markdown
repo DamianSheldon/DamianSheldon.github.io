@@ -62,3 +62,20 @@ Reference:http://stackoverflow.com/questions/2683793/settings-bundle-not-showing
 
 Solution: Edit Scheme ... > Test > + > Select your test target.
 
+### 6.How to change UITableViewCell Image to Circle in UITableView
+Solution:
+
+```
+// Subclass UITableViewCell override layoutSubviews method
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.imageView.layer.cornerRadius = CGRectGetHeight(self.imageView.frame) * 0.5;
+    self.imageView.layer.masksToBounds = YES;
+}
+```
+
+Reference:http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview
+

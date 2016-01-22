@@ -108,6 +108,167 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/enumerated-constants.html">
+		
+			Enumerated Constants</a>
+	</h2>
+	<div class="entry-content">
+		<p>Objective-C中的枚举常量大致有以下四种情形：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. unnamed enumerations
+</span><span class='line'>enum {
+</span><span class='line'>    NSBorderlessWindowMask      = 0,
+</span><span class='line'>    NSTitledWindowMask          = 1 &lt;&lt; 0,
+</span><span class='line'>    NSClosableWindowMask        = 1 &lt;&lt; 1,
+</span><span class='line'>    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+</span><span class='line'>    NSResizableWindowMask       = 1 &lt;&lt; 3
+</span><span class='line'> 
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>`- (void)setStyleMask:(NSUInteger)styleMask`
+</span><span class='line'>
+</span><span class='line'>// 2 
+</span><span class='line'>typedef enum _NSMatrixMode {
+</span><span class='line'>    NSRadioModeMatrix           = 0,
+</span><span class='line'>    NSHighlightModeMatrix       = 1,
+</span><span class='line'>    NSListModeMatrix            = 2,
+</span><span class='line'>    NSTrackModeMatrix           = 3
+</span><span class='line'>} NSMatrixMode;
+</span><span class='line'>
+</span><span class='line'>// 3
+</span><span class='line'>typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
+</span><span class='line'>    UITableViewCellStyleDefault,
+</span><span class='line'>    UITableViewCellStyleValue1,
+</span><span class='line'>    UITableViewCellStyleValue2,
+</span><span class='line'>    UITableViewCellStyleSubtitle
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// 4
+</span><span class='line'>typedef NS_OPTIONS(NSUInteger, NSLayoutFormatOptions) {
+</span><span class='line'>    NSLayoutFormatAlignAllLeft = (1 &lt;&lt; NSLayoutAttributeLeft),
+</span><span class='line'>    NSLayoutFormatAlignAllRight = (1 &lt;&lt; NSLayoutAttributeRight),
+</span><span class='line'>    NSLayoutFormatAlignAllTop = (1 &lt;&lt; NSLayoutAttributeTop),
+</span><span class='line'>    NSLayoutFormatAlignAllBottom = (1 &lt;&lt; NSLayoutAttributeBottom),
+</span><span class='line'>    NSLayoutFormatAlignAllLeading = (1 &lt;&lt; NSLayoutAttributeLeading),
+</span><span class='line'>    NSLayoutFormatAlignAllTrailing = (1 &lt;&lt; NSLayoutAttributeTrailing),
+</span><span class='line'>    NSLayoutFormatAlignAllCenterX = (1 &lt;&lt; NSLayoutAttributeCenterX),
+</span><span class='line'>    NSLayoutFormatAlignAllCenterY = (1 &lt;&lt; NSLayoutAttributeCenterY),
+</span><span class='line'>    NSLayoutFormatAlignAllBaseline = (1 &lt;&lt; NSLayoutAttributeBaseline),
+</span><span class='line'>    NSLayoutFormatAlignAllLastBaseline = NSLayoutFormatAlignAllBaseline,
+</span><span class='line'>    NSLayoutFormatAlignAllFirstBaseline NS_ENUM_AVAILABLE_IOS(8_0) = (1 &lt;&lt; NSLayoutAttributeFirstBaseline),
+</span><span class='line'>    
+</span><span class='line'>    NSLayoutFormatAlignmentMask = 0xFFFF,
+</span><span class='line'>    
+</span><span class='line'>    /* choose only one of these three
+</span><span class='line'>     */
+</span><span class='line'>    NSLayoutFormatDirectionLeadingToTrailing = 0 &lt;&lt; 16, // default
+</span><span class='line'>    NSLayoutFormatDirectionLeftToRight = 1 &lt;&lt; 16,
+</span><span class='line'>    NSLayoutFormatDirectionRightToLeft = 2 &lt;&lt; 16,  
+</span><span class='line'>    
+</span><span class='line'>    NSLayoutFormatDirectionMask = 0x3 &lt;&lt; 16,  
+</span><span class='line'>};
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>情形一相当于定义了常量，但不定义类型;<br/>
+情形二定义了一个NSMatrixMode类型;</p>
+
+<p>情形三定义了一个NSInteger的UITableViewCellStyle类型;<br/>
+情形四支持C++的枚举特性。</p>
+
+<blockquote><p>The NS_OPTIONS macro is defined in different ways if compiling as C++ or not. If it’s not C++, it’s expanded out the same as NS_ENUM. However, if it is C++, it’s expanded out slightly differently. Why? The C++ compiler acts differently when two enumeration values are bitwise OR’ed together. This is something, as shown earlier, that is commonly done with the options type of enumeration. When two values are OR’ed together, C++ considers the resulting value to be of the type the enumeration represents: NSUInteger. It also doesn’t allow the implicit cast to the enumeration type.</p></blockquote>
+
+<p>Reference:<br/>
+Effective Objective-C 2.0<br/>
+<a href="http://nshipster.cn/ns_enum-ns_options/">NS_ENUM &amp; NS_OPTIONS</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-08T16:38:20+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/linux-useful-command-line.html">
 		
 			Linux Useful Command Line</a>
@@ -526,82 +687,6 @@ For example:</p>
 
 
 <time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-problems-part-2.html">
-		
-			iOS App 开发问题汇总（二）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>问题描述：Ad Hoc分发应用</h3>
-
-<p>导出Ad Hoc授权应用
-Xcode > Product > Archive > Export</p>
-
-<p>安装Ad Hoc分发的应用
-Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
-
-<h3>问题描述：Xcode编译出现如下警告提示：</h3>
-
-<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
-
-<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
-
-<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
-
-<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
-
-<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
-
-<p>解决办法：</p>
-
-<ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
-</ol>
-
-
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
-
-		
-		<a href="/blog/ios-app-problems-part-2.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-16T16:14:50+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

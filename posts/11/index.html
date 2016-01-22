@@ -108,6 +108,69 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-app-data-persistence.html">
+		
+			iOS App 数据持久化</a>
+	</h2>
+	<div class="entry-content">
+		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
+
+<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
+
+<h2>文件系统基础</h2>
+
+<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
+我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
+
+<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
+
+<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+
+</div>
+
+
+
+
+
+		
+		<a href="/blog/ios-app-data-persistence.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/key-value-coding-and-key-value-observing.html">
 		
 			Key-Value Coding &amp; Key-Value Observing</a>
@@ -255,65 +318,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html">
-		
-			为MacBook Pro配置一个像guake的终端</a>
-	</h2>
-	<div class="entry-content">
-		<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
-
-<h3>让iTerm2的行为像guake</h3>
-
-<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
-
-<p>2)打开iTerm2,然后iTerm2&ndash;>Prefences&hellip;->Profiles;</p>
-
-<p>3)创建一个新Profiles,命名为guake;</p>
-
-<p>4)在Window选项中根据自己的喜好配置;</p>
-
-<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
-
-<p>5)在Keys选项中激活"Show/hide iTerm2 with a system-wide hotkey",由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
-
-<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
-
-
-		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

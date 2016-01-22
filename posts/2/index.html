@@ -108,6 +108,71 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-development-notes-part-one.html">
+		
+			Web Development Notes Part One</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1. What is href=“#” and why is it used?</h3>
+
+<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
+href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+
+<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+
+<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
+
+<h3>2. How to debug your web page, technology stack is LAMP.</h3>
+
+<p>Solution:View log, figure out what cause problems.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/apache2/error_log
+</span><span class='line'>[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
+</span><span class='line'>[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
+</span><span class='line'>[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-12T22:27:22+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html">
 		
 			iOS 项目持续集成和部署笔记</a>
@@ -253,63 +318,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-when-use-mac.html">
-		
-			使用 Mac 遇到的问题</a>
-	</h2>
-	<div class="entry-content">
-		<h2>1. How to enable the three finger drag on OS X 10.11</h2>
-
-<p>Step 1: Open System Preferences</p>
-
-<p>Step 2: Click Accessibility</p>
-
-<p>Step 3: Click Mouse &amp; Trackpad</p>
-
-<p>Step 4: Click Trackpad Options…</p>
-
-<p>Step 5: Click Enable dragging</p>
-
-<p>Step 6: Select “three finger drag” in the drop down box</p>
-
-<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
-
-
-		
-		<a href="/blog/problems-when-use-mac.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-10T08:49:37+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

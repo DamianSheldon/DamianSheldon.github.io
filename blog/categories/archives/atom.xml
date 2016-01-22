@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-20T20:25:05+08:00</updated>
+  <updated>2016-01-22T21:54:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,285 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Unit Testing With OCMock]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock.html"/>
+    <updated>2016-01-22T14:19:12+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock</id>
+    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对些也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
+
+<p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
+
+<p>对象的方法在工作的时候可能要依赖其他对象，为了去除依赖对象对测试的影响，我们引入 Mock.</p>
+
+<blockquote><p>Mocks are ‘fake’ objects with pre-defined behavior to stand-in for concrete objects during testing. &ndash; HackaZach</p></blockquote>
+
+<p>引用 Mock 之后，我们在单元测试中如何使用它呢？</p>
+
+<blockquote><p>The general recipe for using mocks in unit-tests is:</p>
+
+<ol>
+<li>Create the mock object</li>
+<li>Specify the expected invocations and return values</li>
+<li>Associate the mock object with the code under test</li>
+<li>Execute the code under test</li>
+<li>Validate that your assertions are correct</li>
+</ol>
+</blockquote>
+
+<!-- more -->
+
+
+<h3>Create the mock object</h3>
+
+<p>OCMock 中创建 Mock 对象的方法如下：</p>
+
+<table>
+<thead>
+<tr>
+<th> Factory Method </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> +mockForClass: </td>
+<td> Create a mock based on the given class </td>
+</tr>
+<tr>
+<td> +mockForProtocol: </td>
+<td> Create a mock based on the given protocol </td>
+</tr>
+<tr>
+<td> +niceMockForClass: </td>
+<td> Create a &ldquo;nice&rdquo; mock based on the given class </td>
+</tr>
+<tr>
+<td> +niceMockForProtocol: </td>
+<td> Create a &ldquo;nice&rdquo; mock based on the given protocol </td>
+</tr>
+<tr>
+<td> +partialMockForObject: </td>
+<td> Create a mock based on the given object </td>
+</tr>
+<tr>
+<td> +observerMock: </td>
+<td> Create a notification observer (more on this later) </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Mock 对象是只是一个空壳，只能调用预先定义的方法，调用没有预先定义的方法会抛出异常；
+Nice Mock 对象也是一个空壳，只是它会忽略没有预先定义的方法不会抛出异常；
+Partial Mock 对象是把一个已有的对象转成 Mock，调用没有预先定义的方法，它会把方法传给已存在的对象；<br/>
+Observer Mock 对象是用来观察通知的。</p>
+
+<h3>Specify the expected invocations and return values</h3>
+
+<blockquote><p>Calling either the -expect or -stub method will return an object that you can use to setup your expectations.</p></blockquote>
+
+<ul>
+<li><p>Specify the expected invocations</p>
+
+<ol>
+<li>不带参数的方法</li>
+</ol>
+</li>
+</ul>
+
+
+<pre><code>
+- (void)testInit {
+  id mockService = [OCMockObject mockForProtocol:@protocol(AVQuoteService)];
+  [[mockService expect] initiateConnection];
+
+  AVStockPortfolio *portfolio = [[AVStockPortfolio alloc] initWithService:mockService];
+
+  [mockService verify];
+}
+</code></pre>
+
+<p></br>
+    2. 带参数的方法</p>
+
+<blockquote><p>You can use any of the following OCMArg class methods in place of a real argument when setting up your method expectations:</p></blockquote>
+
+<table>
+<thead>
+<tr>
+<th> OCMArg method </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> +any </td>
+<td> Any argument is accepted. </td>
+</tr>
+<tr>
+<td> +anyPointer </td>
+<td> Accepts any pointer </td>
+</tr>
+<tr>
+<td> +isNil     </td>
+<td> The given argument must be nil </td>
+</tr>
+<tr>
+<td> +isNotNil  </td>
+<td> The given argument must not be nil </td>
+</tr>
+<tr>
+<td> +isNotEqual:   </td>
+<td> Given argument is not object-equivalent with expectation </td>
+</tr>
+<tr>
+<td> +checkWithSelector: </td>
+<td> onObject:   Check the argument with the given action/target pair </td>
+</tr>
+<tr>
+<td> +checkWithBlock: </td>
+<td> Check the argument with the given block (OS X 10.6 or iOS 4) </td>
+</tr>
+</tbody>
+</table>
+
+
+<blockquote><p>OCMock also provides a few handy macros for argument matching:</p></blockquote>
+
+<table>
+<thead>
+<tr>
+<th> Macro </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> OCMOCK_ANY()   </td>
+<td> Equivalent to [OCMArg any] </td>
+</tr>
+<tr>
+<td> OCMOCK_VALUE(value) </td>
+<td> A quick way to match a non-object argument </td>
+</tr>
+<tr>
+<td> CONSTRAINT(selector) </td>
+<td> Validate with a given selector on self </td>
+</tr>
+<tr>
+<td> CONSTRAINTV(selector,value) </td>
+<td>     Validate with a given selector on self and an additional argument </td>
+</tr>
+</tbody>
+</table>
+
+
+<pre><code>id classMock = OCMClassMock([SomeClass class]);
+OCMExpect([classMock someMethodWithArgument:[OCMArg isNotNil]]);
+
+/* run code under test, which is assumed to call someMethod */
+
+OCMVerifyAll(classMock)
+</code></pre>
+
+<p></br>
+    3. 通知</p>
+
+<pre><code>- (void)testSellSharesInStock {
+  id mock = [OCMockObject observerMock];
+  // OCMock adds a custom methods to NSNotificationCenter via a category
+  [[NSNotificationCenter defaultCenter] addMockObserver:mock
+                                                   name:AVStockSoldNotification
+                                                 object:nil];
+
+  [[mock expect] notificationWithName:AVStockSoldNotification object:[OCMArg any]];
+
+  AVPortfolio *portfolio = [self createPortfolio]; // made-up factory method
+  [portfolio sellShares:100 inStock:@"AAPL"];
+
+  [mock verify];
+}
+</code></pre>
+
+<ul>
+<li>Specify the return values</li>
+</ul>
+
+
+<blockquote><p>If methods on your mocks need to return values, you have a variety of methods to call on the object returned by -expect or -stub.</p></blockquote>
+
+<table>
+<thead>
+<tr>
+<th> Method </th>
+<th> Explanation </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> -andReturn: </td>
+<td> Return the given object </td>
+</tr>
+<tr>
+<td> -andReturnValue: </td>
+<td> Return a non-object value (wrapped in a NSValue) </td>
+</tr>
+<tr>
+<td> -andThrow: </td>
+<td> Throw the given exception </td>
+</tr>
+<tr>
+<td> -andPost: </td>
+<td>   Post the given notification </td>
+</tr>
+<tr>
+<td> -andCall:onObject: </td>
+<td> Call the selector on the given object </td>
+</tr>
+<tr>
+<td> -andDo: </td>
+<td> Invoke the given block (only on OS X 10.6 or iOS 4) </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Execution &amp; Validation</h3>
+
+<ul>
+<li>Associate the mock object with the code under test</li>
+<li>Execute the code under test</li>
+<li>Validate that your assertions are correct</li>
+</ul>
+
+
+<pre><code>- (void)testSellSharesInStock {
+  id quoteService = [[OCMockObject] mockForProtocol:@protocol(AVQuoteService)];
+  [[[quoteService expect] andDo:^(NSInvocation *invocation) {
+    // validate arguments, set return value on the invocation object
+  }] priceForStock:@"AAPL"];
+
+  // Associate the mock object with the code under test
+  AVStockPortfolio *portfolio = [[AVStockPortfolio alloc] initWithService:quoteService];
+  // Execute the code under test
+  [portfolio sellShares:100 inStock:@"AAPL"];
+
+  // Validate that your assertions are correct
+
+  [quoteService verify];
+}
+</code></pre>
+
+<h2>Reference:</h2>
+
+<p><a href="http://ocmock.org">OCMock</a><br/>
+<a href="http://www.archive.alexvollmer.com/posts/2010/06/28/making-fun-of-things-with-ocmock/">Making Fun of Things with OCMock</a><br/>
+<a href="http://hackazach.net/code/2014/03/03/effective-testing-with-ocmock/">OCMock Test Origami</a><br/>
+<a href="http://engineering.aweber.com/improving-ios-unit-tests-with-ocmock/">IMPROVING IOS UNIT TESTS WITH OCMOCK</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（五）]]></title>
@@ -338,191 +617,6 @@ $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ 
 <a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
 <a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
 <a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（四）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4.html"/>
-    <updated>2015-10-15T15:04:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4</id>
-    <content type="html"><![CDATA[<h3>1. Suppressing deprecated warnings</h3>
-
-<pre><code>#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-[reciver deprecatedMethod];
-#pragma clang diagnostic pop
-</code></pre>
-
-<h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
-
-<pre><code>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
-ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
-Undefined symbols for architecture arm64:
-  "_Decoder_Interface_init", referenced from:
-      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-  "_Decoder_Interface_Decode", referenced from:
-      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-  "_Decoder_Interface_exit", referenced from:
-      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-  "_Encoder_Interface_init", referenced from:
-      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-  "___gxx_personality_v0", referenced from:
-      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-  "_Encoder_Interface_Encode", referenced from:
-      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-  "_Encoder_Interface_exit", referenced from:
-      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</code></pre>
-
-<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
-
-<!-- more -->
-
-
-<h3>3. Undefined symbols for architecture arm64:</h3>
-
-<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:
-      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-ld: symbol(s) not found for architecture arm64</p>
-
-<p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l"stdc++"</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode">http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode</a></p>
-
-<h3>4. Suppressing performSelector may cause leaks warnings</h3>
-
-<pre><code>#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [self.ticketTarget performSelector: self.ticketAction withObject: self];
-#pragma clang diagnostic pop
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
-
-<h3>5.How to remove UINavigationBar and UISearchBar hairline?</h3>
-
-<p>Solution:</p>
-
-<blockquote><p>For a custom shadow image to be shown, a custom background image must also be set with the setBackgroundImage:forBarMetrics: method. If the default background image is used, then the default shadow image will be used regardless of the value of this property.</p></blockquote>
-
-<p>So we can cut a 1x1 pixel pure color image, set this image as navigation bar&rsquo;s shadow image.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
-<a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
-
-<h3>6. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
-
-<p>Solution:</p>
-
-<pre><code>UIImage *userImage = [UIImage imageNamed:@"User"];
-userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];
-</code></pre>
-
-<h3>7. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
-
-<p>Solution:</p>
-
-<blockquote><p>Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.</p></blockquote>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working">http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working</a></p>
-
-<h3>8.How to only show bottom border of UITextField</h3>
-
-<p>Solution:</p>
-
-<pre><code>var bottomLine = CALayer()
-bottomLine.frame = CGRectMake(0.0, myTextField.frame.height - 1, myTextField.frame.width, 1.0)
-bottomLine.backgroundColor = UIColor.whiteColor().CGColor
-myTextField.borderStyle = UITextBorderStyle.None
-myTextField.layer.addSublayer(bottomLine)
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift">http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift</a></p>
-
-<h3>9. 让Button的大小比它的内容略大</h3>
-
-<p>Solution:</p>
-
-<pre><code>_loginViaSMSButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20);
-</code></pre>
-
-<h3>10. UITableViewStyleGrouped style UITableView has extra space at top</h3>
-
-<p>Solution:</p>
-
-<blockquote><p>UITableViewStyleGrouped divides each section into a &ldquo;group&rdquo; by inserting that extra padding…similar to what it did pre-iOS7, but clear instead of colored by default, and just at the top instead of all the way around. If you don&rsquo;t want the padding by default, use UITableViewStylePlain.</p></blockquote>
-
-<p>Otherwise, if you need to keep the style the same, do what this other posted from that link recommended and change the content inset:</p>
-
-<pre><code>self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple">http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple</a></p>
-
-<h3>11. 使用 UISearchDisplayController 遇到的问题</h3>
-
-<p>使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：</p>
-
-<pre><code>@property(nonatomic, readonly, strong) UISearchDisplayController *searchDisplayController
-</code></pre>
-
-<p>理论上来讲既然是 strong 那么这个对象应该会存在才对，但不知道什么原因，这样并不行，它会在内存中被销毁，还是得在扩展里用一个属性来持有它。</p>
-
-<pre><code>*.m
-
-@property (nonatomic) UISearchDisplayController *wt_searchDisplayController;
-
-self.wt_searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-self.wt_searchDisplayController.delegate = self;
-self.wt_searchDisplayController.searchResultsDataSource = self.searchCoordinator;
-self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
-[self.wt_searchDisplayController.searchResultsTableView registerClass:[RCConversationCell class] forCellReuseIdentifier:sSearchCellIdentifier];
-</code></pre>
-
-<p>问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.</p>
-
-<h3>12. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
-
-<p>Solution:在自定义视图的初始化方法中设置 opaque 为 NO。</p>
-
-<h3>13. You are not authorized to use this service.</h3>
-
-<p>Solution: I recently enable Apple ID two-step verification. When I upload app to App Store via Xcode it inform me &ldquo;You are not authorized to use this service.&rdquo; I feel very strange. I decide to use Application Loader after search with google.  Sign in Application Loader need app-specific password, you can get it follow instructs:</p>
-
-<ol>
-<li>Sign in to your <a href="https://appleid.apple.com/account/home">Apple ID account page</a>;</li>
-<li>In the Security section, click Edit.</li>
-<li>Click Generate Password and follow the steps on your screen.</li>
-</ol>
-
-
-<p>Reference:<a href="https://support.apple.com/en-us/HT204397">https://support.apple.com/en-us/HT204397</a></p>
-
-<p>Now we can upload app with Application Loader:
-1. Xcode > Open Developer Tool > Application Loader
-2. Sign in Application Loader with app-specific password
-3. Click on &ldquo;Choose&rdquo;
-4. Pick the IPA you have just exported
-5. Follow submission process</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error">http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error</a></p>
-
-<h3>14.</h3>
-
-<pre><code>ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/sohiOSApp.app/TencentOpenApi_IOS_Bundle.bundle' does not contain a bundle executable. If this bundle intentionally does not contain an executable, consider removing the CFBundleExecutable key from its Info.plist and using a CFBundlePackageType of BNDL. If this bundle is part of a third-party framework, consider contacting the developer of the framework for an update to address this issue."
-</code></pre>
-
-<p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
-
-<h3>15. Pointer is missing a nullability type specifier</h3>
-
-<p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface">http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface</a></p>
 ]]></content>
   </entry>
   

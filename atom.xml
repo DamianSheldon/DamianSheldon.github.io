@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-20T20:25:05+08:00</updated>
+  <updated>2016-01-22T21:54:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,329 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Unit Testing With OCMock]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock.html"/>
+    <updated>2016-01-22T14:19:12+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock</id>
+    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对些也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
+
+<p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
+
+<p>对象的方法在工作的时候可能要依赖其他对象，为了去除依赖对象对测试的影响，我们引入 Mock.</p>
+
+<blockquote><p>Mocks are ‘fake’ objects with pre-defined behavior to stand-in for concrete objects during testing. &ndash; HackaZach</p></blockquote>
+
+<p>引用 Mock 之后，我们在单元测试中如何使用它呢？</p>
+
+<blockquote><p>The general recipe for using mocks in unit-tests is:</p>
+
+<ol>
+<li>Create the mock object</li>
+<li>Specify the expected invocations and return values</li>
+<li>Associate the mock object with the code under test</li>
+<li>Execute the code under test</li>
+<li>Validate that your assertions are correct</li>
+</ol>
+</blockquote>
+
+<!-- more -->
+
+
+<h3>Create the mock object</h3>
+
+<p>OCMock 中创建 Mock 对象的方法如下：</p>
+
+<table>
+<thead>
+<tr>
+<th> Factory Method </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> +mockForClass: </td>
+<td> Create a mock based on the given class </td>
+</tr>
+<tr>
+<td> +mockForProtocol: </td>
+<td> Create a mock based on the given protocol </td>
+</tr>
+<tr>
+<td> +niceMockForClass: </td>
+<td> Create a &ldquo;nice&rdquo; mock based on the given class </td>
+</tr>
+<tr>
+<td> +niceMockForProtocol: </td>
+<td> Create a &ldquo;nice&rdquo; mock based on the given protocol </td>
+</tr>
+<tr>
+<td> +partialMockForObject: </td>
+<td> Create a mock based on the given object </td>
+</tr>
+<tr>
+<td> +observerMock: </td>
+<td> Create a notification observer (more on this later) </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Mock 对象是只是一个空壳，只能调用预先定义的方法，调用没有预先定义的方法会抛出异常；
+Nice Mock 对象也是一个空壳，只是它会忽略没有预先定义的方法不会抛出异常；
+Partial Mock 对象是把一个已有的对象转成 Mock，调用没有预先定义的方法，它会把方法传给已存在的对象；<br/>
+Observer Mock 对象是用来观察通知的。</p>
+
+<h3>Specify the expected invocations and return values</h3>
+
+<blockquote><p>Calling either the -expect or -stub method will return an object that you can use to setup your expectations.</p></blockquote>
+
+<ul>
+<li><p>Specify the expected invocations</p>
+
+<ol>
+<li>不带参数的方法</li>
+</ol>
+</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>- (void)testInit {
+</span><span class='line'>  id mockService = [OCMockObject mockForProtocol:@protocol(AVQuoteService)];
+</span><span class='line'>  [[mockService expect] initiateConnection];
+</span><span class='line'>  
+</span><span class='line'>  AVStockPortfolio *portfolio = [[AVStockPortfolio alloc] initWithService:mockService];
+</span><span class='line'>  
+</span><span class='line'>  [mockService verify];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p></br>
+    2. 带参数的方法</p>
+
+<blockquote><p>You can use any of the following OCMArg class methods in place of a real argument when setting up your method expectations:</p></blockquote>
+
+<table>
+<thead>
+<tr>
+<th> OCMArg method </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> +any </td>
+<td> Any argument is accepted. </td>
+</tr>
+<tr>
+<td> +anyPointer </td>
+<td> Accepts any pointer </td>
+</tr>
+<tr>
+<td> +isNil     </td>
+<td> The given argument must be nil </td>
+</tr>
+<tr>
+<td> +isNotNil  </td>
+<td> The given argument must not be nil </td>
+</tr>
+<tr>
+<td> +isNotEqual:   </td>
+<td> Given argument is not object-equivalent with expectation </td>
+</tr>
+<tr>
+<td> +checkWithSelector: </td>
+<td> onObject:   Check the argument with the given action/target pair </td>
+</tr>
+<tr>
+<td> +checkWithBlock: </td>
+<td> Check the argument with the given block (OS X 10.6 or iOS 4) </td>
+</tr>
+</tbody>
+</table>
+
+
+<blockquote><p>OCMock also provides a few handy macros for argument matching:</p></blockquote>
+
+<table>
+<thead>
+<tr>
+<th> Macro </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> OCMOCK_ANY()   </td>
+<td> Equivalent to [OCMArg any] </td>
+</tr>
+<tr>
+<td> OCMOCK_VALUE(value) </td>
+<td> A quick way to match a non-object argument </td>
+</tr>
+<tr>
+<td> CONSTRAINT(selector) </td>
+<td> Validate with a given selector on self </td>
+</tr>
+<tr>
+<td> CONSTRAINTV(selector,value) </td>
+<td>     Validate with a given selector on self and an additional argument </td>
+</tr>
+</tbody>
+</table>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>id classMock = OCMClassMock([SomeClass class]);
+</span><span class='line'>OCMExpect([classMock someMethodWithArgument:[OCMArg isNotNil]]);
+</span><span class='line'>
+</span><span class='line'>/* run code under test, which is assumed to call someMethod */
+</span><span class='line'>
+</span><span class='line'>OCMVerifyAll(classMock)</span></code></pre></td></tr></table></div></figure>
+
+
+<p></br>
+    3. 通知</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)testSellSharesInStock {
+</span><span class='line'>  id mock = [OCMockObject observerMock];
+</span><span class='line'>  // OCMock adds a custom methods to NSNotificationCenter via a category
+</span><span class='line'>  [[NSNotificationCenter defaultCenter] addMockObserver:mock
+</span><span class='line'>                                                   name:AVStockSoldNotification
+</span><span class='line'>                                                 object:nil];
+</span><span class='line'>                                               
+</span><span class='line'>  [[mock expect] notificationWithName:AVStockSoldNotification object:[OCMArg any]];
+</span><span class='line'>
+</span><span class='line'>  AVPortfolio *portfolio = [self createPortfolio]; // made-up factory method
+</span><span class='line'>  [portfolio sellShares:100 inStock:@"AAPL"];
+</span><span class='line'>
+</span><span class='line'>  [mock verify];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Specify the return values</li>
+</ul>
+
+
+<blockquote><p>If methods on your mocks need to return values, you have a variety of methods to call on the object returned by -expect or -stub.</p></blockquote>
+
+<table>
+<thead>
+<tr>
+<th> Method </th>
+<th> Explanation </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> -andReturn: </td>
+<td> Return the given object </td>
+</tr>
+<tr>
+<td> -andReturnValue: </td>
+<td> Return a non-object value (wrapped in a NSValue) </td>
+</tr>
+<tr>
+<td> -andThrow: </td>
+<td> Throw the given exception </td>
+</tr>
+<tr>
+<td> -andPost: </td>
+<td>   Post the given notification </td>
+</tr>
+<tr>
+<td> -andCall:onObject: </td>
+<td> Call the selector on the given object </td>
+</tr>
+<tr>
+<td> -andDo: </td>
+<td> Invoke the given block (only on OS X 10.6 or iOS 4) </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Execution &amp; Validation</h3>
+
+<ul>
+<li>Associate the mock object with the code under test</li>
+<li>Execute the code under test</li>
+<li>Validate that your assertions are correct</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)testSellSharesInStock {
+</span><span class='line'>  id quoteService = [[OCMockObject] mockForProtocol:@protocol(AVQuoteService)];
+</span><span class='line'>  [[[quoteService expect] andDo:^(NSInvocation *invocation) {
+</span><span class='line'>    // validate arguments, set return value on the invocation object
+</span><span class='line'>  }] priceForStock:@"AAPL"];
+</span><span class='line'>  
+</span><span class='line'>  // Associate the mock object with the code under test
+</span><span class='line'>  AVStockPortfolio *portfolio = [[AVStockPortfolio alloc] initWithService:quoteService];
+</span><span class='line'>  // Execute the code under test
+</span><span class='line'>  [portfolio sellShares:100 inStock:@"AAPL"];
+</span><span class='line'>  
+</span><span class='line'>  // Validate that your assertions are correct
+</span><span class='line'>  
+</span><span class='line'>  [quoteService verify];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Reference:</h2>
+
+<p><a href="http://ocmock.org">OCMock</a><br/>
+<a href="http://www.archive.alexvollmer.com/posts/2010/06/28/making-fun-of-things-with-ocmock/">Making Fun of Things with OCMock</a><br/>
+<a href="http://hackazach.net/code/2014/03/03/effective-testing-with-ocmock/">OCMock Test Origami</a><br/>
+<a href="http://engineering.aweber.com/improving-ios-unit-tests-with-ocmock/">IMPROVING IOS UNIT TESTS WITH OCMOCK</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（五）]]></title>
@@ -1057,7 +1380,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x64;&#x6f;&#110;&#103;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#110;&#103;&#64;&#x31;&#57;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x2e;&#50;&#53;&#x35;">&#100;&#111;&#x6e;&#103;&#x6d;&#101;&#x69;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#46;&#50;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x64;&#x6f;&#110;&#103;&#x6d;&#x65;&#x69;&#108;&#105;&#97;&#x6e;&#x67;&#x40;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#49;&#x2e;&#50;&#x35;&#x35;">&#100;&#111;&#110;&#x67;&#109;&#x65;&#105;&#108;&#x69;&#x61;&#110;&#103;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#46;&#50;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -2899,63 +3222,6 @@ Mac 下推荐的定时执行脚本的方法是 launchd，所以这里我们使�
 <a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/">用CocoaPods做iOS程序的依赖管理</a><br/>
 <a href="http://studentdeng.github.io/blog/2013/09/13/cocoapods-tutorial/">Cocoapods 入门</a><br/>
 <a href="http://www.splinter.com.au/using-launchd-to-run-a-script-every-5-mins-on/">Using Launchd to run a script every 5 mins on a Mac</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[(翻译)How to Play, Record, and Edit Videos in iOS]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-play.html"/>
-    <updated>2015-01-22T16:48:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-play</id>
-    <content type="html"><![CDATA[<h4>AVAsset</h4>
-
-<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
-
-<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
-
-<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
-
-<h4>AVComposition</h4>
-
-<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
-
-<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
-
-<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
-
-<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
-
-<p>AVMutableComposition and AVMutableCompositionTrack</p>
-
-<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
-
-<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
-
-<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
-
-<p>And the Rest</p>
-
-<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
-
-<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
-
-<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
-
-<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
-
-<p>Conclusion</p>
-
-<p>To sum it all up:</p>
-
-<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
-
-<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
-
-<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
-
-<p>Each layer instruction is used to apply a certain transform to a given track.</p>
-
-<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
 ]]></content>
   </entry>
   

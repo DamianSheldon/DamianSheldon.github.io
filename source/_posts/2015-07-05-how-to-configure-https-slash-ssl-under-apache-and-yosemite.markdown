@@ -164,7 +164,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	$ sudo kill -9  30102
 
 	// Check we succeed kill a mysql process
-	$ sudo pstress | grep 'mysql'
+	$ sudo pstree | grep 'mysql'
 
 	// Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
 	|-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
@@ -220,3 +220,5 @@ Reference:http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountai
 http://www.akadia.com/services/ssh_test_certificate.html  
 http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  
 http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/
+
+

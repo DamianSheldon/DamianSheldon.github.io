@@ -8,7 +8,7 @@ keywords: Unit Test, OCMock
 discription: iOS Unit Testing With OCMock
 ---
 
-单元测试是我们保障代码质量的重要手段， Apple 对些也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。  
+单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。  
 
 既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。
 
@@ -153,6 +153,41 @@ OCMVerifyAll(classMock)
   [quoteService verify];
 }
 ```
+
+Q:How to mocking singleton?
+A:
+
+```
+// we can replace it with a mock object
+id mockManager = [OCMockObject mockForClass:[ArticleManager class]];
+[ArticleManager setSharedInstance:mockManager];
+// we can reset it so that it returns the actual ArticleManager
+[ArticleManager setSharedInstance:nil];
+
+// Objective-C Singleton Pattern Updated For Testability
+@implementation ArticleManager
+
+static ArticleManager *_sharedInstance = nil;
+static dispatch_once_t once_token = 0;
+
++(instancetype)sharedInstance {
+    dispatch_once(&once_token, ^{
+        if (_sharedInstance == nil) {
+            _sharedInstance = [[ArticleManager alloc] init];
+        }
+    });
+    return _sharedInstance;
+}
+
++(void)setSharedInstance:(ArticleManager *)instance {
+    once_token = 0; // resets the once_token so dispatch_once will run again
+    _sharedInstance = instance;
+}
+
+@end
+```
+
+Reference:[Objective-C Singleton Pattern Updated For Testability](http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/)  
 
 ## Reference:
 [OCMock](http://ocmock.org)  

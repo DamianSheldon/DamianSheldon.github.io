@@ -79,3 +79,28 @@ Solution:
 
 Reference:http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview
 
+###7.How to downgrading Cocoapods?
+A:
+
+```
+// First you can figure out which version of Cocoapods you are on with the command:
+$ pod --version
+
+// You can also see all the version of Cocoapods you have installed with this command:
+$ sudo gem list cocoapods
+
+// Next uninstall Cocoapods. If you have multiple version, you will have the choice of uninstalling all or a specific version.
+$ sudo gem uninstall cocoapods
+
+// Finally you can install the specific version with this command:
+$ sudo gem install cocoapods -v 0.39.0
+```
+
+Reference:https://diego.org/2015/09/24/downgrading-cocoapods/
+
+###8.How to get UISearchDisplayController to search only after search button is pressed？
+A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.
+
+Reference:http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press
+
+

@@ -104,7 +104,7 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">iOS Unit Testing With OCMock</h2>
-	<div class="entry-content"><p>单元测试是我们保障代码质量的重要手段， Apple 对些也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
+	<div class="entry-content"><p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
 
 <p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
 
@@ -412,6 +412,67 @@ Observer Mock 对象是用来观察通知的。</p>
 </span><span class='line'>  [quoteService verify];
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
+
+<p>Q:How to mocking singleton?
+A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// we can replace it with a mock object
+</span><span class='line'>id mockManager = [OCMockObject mockForClass:[ArticleManager class]];
+</span><span class='line'>[ArticleManager setSharedInstance:mockManager];
+</span><span class='line'>// we can reset it so that it returns the actual ArticleManager
+</span><span class='line'>[ArticleManager setSharedInstance:nil];
+</span><span class='line'>
+</span><span class='line'>// Objective-C Singleton Pattern Updated For Testability
+</span><span class='line'>@implementation ArticleManager
+</span><span class='line'>
+</span><span class='line'>static ArticleManager *_sharedInstance = nil;
+</span><span class='line'>static dispatch_once_t once_token = 0;
+</span><span class='line'>
+</span><span class='line'>+(instancetype)sharedInstance {
+</span><span class='line'>    dispatch_once(&once_token, ^{
+</span><span class='line'>        if (_sharedInstance == nil) {
+</span><span class='line'>            _sharedInstance = [[ArticleManager alloc] init];
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>    return _sharedInstance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>+(void)setSharedInstance:(ArticleManager *)instance {
+</span><span class='line'>    once_token = 0; // resets the once_token so dispatch_once will run again
+</span><span class='line'>    _sharedInstance = instance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/">Objective-C Singleton Pattern Updated For Testability</a></p>
 
 <h2>Reference:</h2>
 

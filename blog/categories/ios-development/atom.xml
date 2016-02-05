@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-22T21:54:38+08:00</updated>
+  <updated>2016-02-05T14:24:36+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -18,7 +18,7 @@
     <link href="http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock.html"/>
     <updated>2016-01-22T14:19:12+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock</id>
-    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对些也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
+    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
 
 <p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
 
@@ -283,6 +283,40 @@ OCMVerifyAll(classMock)
 }
 </code></pre>
 
+<p>Q:How to mocking singleton?
+A:</p>
+
+<pre><code>// we can replace it with a mock object
+id mockManager = [OCMockObject mockForClass:[ArticleManager class]];
+[ArticleManager setSharedInstance:mockManager];
+// we can reset it so that it returns the actual ArticleManager
+[ArticleManager setSharedInstance:nil];
+
+// Objective-C Singleton Pattern Updated For Testability
+@implementation ArticleManager
+
+static ArticleManager *_sharedInstance = nil;
+static dispatch_once_t once_token = 0;
+
++(instancetype)sharedInstance {
+    dispatch_once(&amp;once_token, ^{
+        if (_sharedInstance == nil) {
+            _sharedInstance = [[ArticleManager alloc] init];
+        }
+    });
+    return _sharedInstance;
+}
+
++(void)setSharedInstance:(ArticleManager *)instance {
+    once_token = 0; // resets the once_token so dispatch_once will run again
+    _sharedInstance = instance;
+}
+
+@end
+</code></pre>
+
+<p>Reference:<a href="http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/">Objective-C Singleton Pattern Updated For Testability</a></p>
+
 <h2>Reference:</h2>
 
 <p><a href="http://ocmock.org">OCMock</a><br/>
@@ -371,6 +405,31 @@ UINavigationController *nvc = [[UINavigationController alloc]
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview">http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview</a></p>
+
+<h3>7.How to downgrading Cocoapods?</h3>
+
+<p>A:</p>
+
+<pre><code>// First you can figure out which version of Cocoapods you are on with the command:
+$ pod --version
+
+// You can also see all the version of Cocoapods you have installed with this command:
+$ sudo gem list cocoapods
+
+// Next uninstall Cocoapods. If you have multiple version, you will have the choice of uninstalling all or a specific version.
+$ sudo gem uninstall cocoapods
+
+// Finally you can install the specific version with this command:
+$ sudo gem install cocoapods -v 0.39.0
+</code></pre>
+
+<p>Reference:<a href="https://diego.org/2015/09/24/downgrading-cocoapods/">https://diego.org/2015/09/24/downgrading-cocoapods/</a></p>
+
+<h3>8.How to get UISearchDisplayController to search only after search button is pressed？</h3>
+
+<p>A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press">http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press</a></p>
 ]]></content>
   </entry>
   

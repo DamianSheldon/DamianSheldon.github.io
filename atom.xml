@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-01-22T21:54:38+08:00</updated>
+  <updated>2016-02-05T14:24:36+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -18,7 +18,7 @@
     <link href="http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock.html"/>
     <updated>2016-01-22T14:19:12+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock</id>
-    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对些也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
+    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
 
 <p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
 
@@ -327,6 +327,67 @@ Observer Mock 对象是用来观察通知的。</p>
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Q:How to mocking singleton?
+A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// we can replace it with a mock object
+</span><span class='line'>id mockManager = [OCMockObject mockForClass:[ArticleManager class]];
+</span><span class='line'>[ArticleManager setSharedInstance:mockManager];
+</span><span class='line'>// we can reset it so that it returns the actual ArticleManager
+</span><span class='line'>[ArticleManager setSharedInstance:nil];
+</span><span class='line'>
+</span><span class='line'>// Objective-C Singleton Pattern Updated For Testability
+</span><span class='line'>@implementation ArticleManager
+</span><span class='line'>
+</span><span class='line'>static ArticleManager *_sharedInstance = nil;
+</span><span class='line'>static dispatch_once_t once_token = 0;
+</span><span class='line'>
+</span><span class='line'>+(instancetype)sharedInstance {
+</span><span class='line'>    dispatch_once(&once_token, ^{
+</span><span class='line'>        if (_sharedInstance == nil) {
+</span><span class='line'>            _sharedInstance = [[ArticleManager alloc] init];
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>    return _sharedInstance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>+(void)setSharedInstance:(ArticleManager *)instance {
+</span><span class='line'>    once_token = 0; // resets the once_token so dispatch_once will run again
+</span><span class='line'>    _sharedInstance = instance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/">Objective-C Singleton Pattern Updated For Testability</a></p>
+
 <h2>Reference:</h2>
 
 <p><a href="http://ocmock.org">OCMock</a><br/>
@@ -449,6 +510,42 @@ Observer Mock 对象是用来观察通知的。</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview">http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview</a></p>
+
+<h3>7.How to downgrading Cocoapods?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// First you can figure out which version of Cocoapods you are on with the command:
+</span><span class='line'>$ pod --version
+</span><span class='line'>
+</span><span class='line'>// You can also see all the version of Cocoapods you have installed with this command:
+</span><span class='line'>$ sudo gem list cocoapods
+</span><span class='line'>
+</span><span class='line'>// Next uninstall Cocoapods. If you have multiple version, you will have the choice of uninstalling all or a specific version.
+</span><span class='line'>$ sudo gem uninstall cocoapods
+</span><span class='line'>
+</span><span class='line'>// Finally you can install the specific version with this command:
+</span><span class='line'>$ sudo gem install cocoapods -v 0.39.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://diego.org/2015/09/24/downgrading-cocoapods/">https://diego.org/2015/09/24/downgrading-cocoapods/</a></p>
+
+<h3>8.How to get UISearchDisplayController to search only after search button is pressed？</h3>
+
+<p>A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press">http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press</a></p>
 ]]></content>
   </entry>
   
@@ -1380,7 +1477,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x64;&#x6f;&#110;&#103;&#x6d;&#x65;&#x69;&#108;&#105;&#97;&#x6e;&#x67;&#x40;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#49;&#x2e;&#50;&#x35;&#x35;">&#100;&#111;&#110;&#x67;&#109;&#x65;&#105;&#108;&#x69;&#x61;&#110;&#103;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#46;&#50;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#100;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#108;&#105;&#x61;&#110;&#x67;&#64;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#49;&#46;&#x32;&#x35;&#x35;">&#100;&#x6f;&#x6e;&#103;&#x6d;&#x65;&#105;&#108;&#105;&#x61;&#110;&#103;&#x40;&#x31;&#x39;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#49;&#46;&#x32;&#x35;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -1632,6 +1729,97 @@ quit</p>
 <li>INDEX</li>
 </ul>
 
+
+<h3>7.&ndash;log-bin option</h3>
+
+<p>Q:How to check the &ndash;log-bin status of MySQL?
+A:</p>
+
+<blockquote><p>To make incremental backups, we need to save the incremental changes. In MySQL, these changes are represented in the binary log, so the MySQL server should always be started with the &ndash;log-bin option to enable that log.</p></blockquote>
+
+<p>Q:How to enable the &ndash;log-bin option of MySQL?
+A:To enable the binary log, start the server with the &ndash;log-bin[=base_name] option. If no base_name value is given, the default name is the value of the pid-file option (which by default is the name of host machine) followed by -bin. If the base name is given, the server writes the file in the data directory unless the base name is given with a leading absolute path name to specify a different directory. It is recommended that you specify a base name explicitly rather than using the default of the host name;</p>
+
+<h3>8.You have enabled the binary log, but you haven&rsquo;t provided the mandatory server-id.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2016-01-27T14:15:24.323616Z 0 [Note] /usr/local/mysql/bin/mysqld (mysqld 5.7.9-log) starting as process 9709 ...
+</span><span class='line'>2016-01-27T14:15:24.327264Z 0 [Warning] Setting lower_case_table_names=2 because file system for /usr/local/mysql/data/ is case insensitive
+</span><span class='line'>2016-01-27T14:15:24.327888Z 0 [ERROR] You have enabled the binary log, but you haven't provided the mandatory server-id. Please refer to the proper server start-up parameters documentation
+</span><span class='line'>2016-01-27T14:15:24.328034Z 0 [ERROR] Aborting
+</span><span class='line'>
+</span><span class='line'>2016-01-27T14:15:24.328049Z 0 [Note] Binlog end
+</span><span class='line'>2016-01-27T14:15:24.328153Z 0 [Note] /usr/local/mysql/bin/mysqld: Shutdown complete</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: set server-id</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr/local/mysql/data/mysqld.local.err --pid-file=/usr/local/mysql/data/mysqld.local.pid --log-bin --server-id=1</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>When enabling binary logs, the server ID is automatically set to &lsquo;1&rsquo;.  &ndash;(<a href="https://bugs.mysql.com/bug.php?id=56739">https://bugs.mysql.com/bug.php?id=56739</a>)</p></blockquote>
+
+<p>Q:How can i get server_id in MYSQL?
+A:SELECT @@server_id</p>
+
+<h3>9.Q:如何分屏查看输出结果？</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 用 less 分屏查看输出结果
+</span><span class='line'>mysql&gt; pager less;
+</span><span class='line'>
+</span><span class='line'>// 关闭分屏查看
+</span><span class='line'>mysql&gt; nopager;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>10.Q:Scope rules for stored programs and views?</h3>
+
+<p>A:</p>
+
+<h3>11.Q:How to view all Stored Programs and Views in MySQL?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.Stored Routines (Procedures and Functions)
+</span><span class='line'>&gt; Query the ROUTINES table of the INFORMATION_SCHEMA database.
+</span><span class='line'>&gt; The ROUTINES table provides information about stored routines (both procedures and functions). The ROUTINES table does not include user-defined functions (UDFs).
+</span><span class='line'>
+</span><span class='line'>// 2.Triggers
+</span><span class='line'>mysql&gt;SHOW TRIGGERS;
+</span><span class='line'>
+</span><span class='line'>// 3.Event Scheduler
+</span><span class='line'>mysql&gt;SHOW EVENTS;
+</span><span class='line'>
+</span><span class='line'>// 4.Views</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>12.Q:How to view user-defined functions (UDFs)?</h3>
+
+<p>A:</p>
 ]]></content>
   </entry>
   
@@ -2075,7 +2263,7 @@ $ sudo pstress | grep 'mysql'
 $ sudo kill -9  30102
 
 // Check we succeed kill a mysql process
-$ sudo pstress | grep 'mysql'
+$ sudo pstree | grep 'mysql'
 
 // Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
 |-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql

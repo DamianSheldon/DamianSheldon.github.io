@@ -212,6 +212,42 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview">http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview</a></p>
+
+<h3>7.How to downgrading Cocoapods?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// First you can figure out which version of Cocoapods you are on with the command:
+</span><span class='line'>$ pod --version
+</span><span class='line'>
+</span><span class='line'>// You can also see all the version of Cocoapods you have installed with this command:
+</span><span class='line'>$ sudo gem list cocoapods
+</span><span class='line'>
+</span><span class='line'>// Next uninstall Cocoapods. If you have multiple version, you will have the choice of uninstalling all or a specific version.
+</span><span class='line'>$ sudo gem uninstall cocoapods
+</span><span class='line'>
+</span><span class='line'>// Finally you can install the specific version with this command:
+</span><span class='line'>$ sudo gem install cocoapods -v 0.39.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://diego.org/2015/09/24/downgrading-cocoapods/">https://diego.org/2015/09/24/downgrading-cocoapods/</a></p>
+
+<h3>8.How to get UISearchDisplayController to search only after search button is pressed？</h3>
+
+<p>A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press">http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press</a></p>
 </div>
 
 

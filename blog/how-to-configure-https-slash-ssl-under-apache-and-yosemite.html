@@ -294,7 +294,7 @@ $ sudo pstress | grep 'mysql'
 $ sudo kill -9  30102
 
 // Check we succeed kill a mysql process
-$ sudo pstress | grep 'mysql'
+$ sudo pstree | grep 'mysql'
 
 // Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
 |-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql

@@ -185,6 +185,97 @@ $(document).ready(
 <li>INDEX</li>
 </ul>
 
+
+<h3>7.&ndash;log-bin option</h3>
+
+<p>Q:How to check the &ndash;log-bin status of MySQL?
+A:</p>
+
+<blockquote><p>To make incremental backups, we need to save the incremental changes. In MySQL, these changes are represented in the binary log, so the MySQL server should always be started with the &ndash;log-bin option to enable that log.</p></blockquote>
+
+<p>Q:How to enable the &ndash;log-bin option of MySQL?
+A:To enable the binary log, start the server with the &ndash;log-bin[=base_name] option. If no base_name value is given, the default name is the value of the pid-file option (which by default is the name of host machine) followed by -bin. If the base name is given, the server writes the file in the data directory unless the base name is given with a leading absolute path name to specify a different directory. It is recommended that you specify a base name explicitly rather than using the default of the host name;</p>
+
+<h3>8.You have enabled the binary log, but you haven&rsquo;t provided the mandatory server-id.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2016-01-27T14:15:24.323616Z 0 [Note] /usr/local/mysql/bin/mysqld (mysqld 5.7.9-log) starting as process 9709 ...
+</span><span class='line'>2016-01-27T14:15:24.327264Z 0 [Warning] Setting lower_case_table_names=2 because file system for /usr/local/mysql/data/ is case insensitive
+</span><span class='line'>2016-01-27T14:15:24.327888Z 0 [ERROR] You have enabled the binary log, but you haven't provided the mandatory server-id. Please refer to the proper server start-up parameters documentation
+</span><span class='line'>2016-01-27T14:15:24.328034Z 0 [ERROR] Aborting
+</span><span class='line'>
+</span><span class='line'>2016-01-27T14:15:24.328049Z 0 [Note] Binlog end
+</span><span class='line'>2016-01-27T14:15:24.328153Z 0 [Note] /usr/local/mysql/bin/mysqld: Shutdown complete</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: set server-id</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr/local/mysql/data/mysqld.local.err --pid-file=/usr/local/mysql/data/mysqld.local.pid --log-bin --server-id=1</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>When enabling binary logs, the server ID is automatically set to &lsquo;1&rsquo;.  &ndash;(<a href="https://bugs.mysql.com/bug.php?id=56739">https://bugs.mysql.com/bug.php?id=56739</a>)</p></blockquote>
+
+<p>Q:How can i get server_id in MYSQL?
+A:SELECT @@server_id</p>
+
+<h3>9.Q:如何分屏查看输出结果？</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 用 less 分屏查看输出结果
+</span><span class='line'>mysql&gt; pager less;
+</span><span class='line'>
+</span><span class='line'>// 关闭分屏查看
+</span><span class='line'>mysql&gt; nopager;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>10.Q:Scope rules for stored programs and views?</h3>
+
+<p>A:</p>
+
+<h3>11.Q:How to view all Stored Programs and Views in MySQL?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.Stored Routines (Procedures and Functions)
+</span><span class='line'>&gt; Query the ROUTINES table of the INFORMATION_SCHEMA database.
+</span><span class='line'>&gt; The ROUTINES table provides information about stored routines (both procedures and functions). The ROUTINES table does not include user-defined functions (UDFs).
+</span><span class='line'>
+</span><span class='line'>// 2.Triggers
+</span><span class='line'>mysql&gt;SHOW TRIGGERS;
+</span><span class='line'>
+</span><span class='line'>// 3.Event Scheduler
+</span><span class='line'>mysql&gt;SHOW EVENTS;
+</span><span class='line'>
+</span><span class='line'>// 4.Views</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>12.Q:How to view user-defined functions (UDFs)?</h3>
+
+<p>A:</p>
 </div>
 
 

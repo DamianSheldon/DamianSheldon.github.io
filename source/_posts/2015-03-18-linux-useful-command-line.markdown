@@ -132,19 +132,25 @@ find的使用实例：
 搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件:
 
 ```
-　　$ find . -name 'my*'
+$ find . -name 'my*'
 ```
 
 搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息:
 
 ```
-　　$ find . -name 'my*' -ls
+$ find . -name 'my*' -ls
 ```
 
 搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录:
 
 ```
-　　$ find . -type f -mmin -10
+$ find . -type f -mmin -10
+```
+
+搜索当前目录中，所有以my开头的目录：
+
+```
+$ find ~ -type d -name 'my*'
 ```
 
 Reference:http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html

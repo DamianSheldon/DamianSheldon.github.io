@@ -103,4 +103,55 @@ A:Setup a delegate for the search bar and implement the searchBarSearchButtonCli
 
 Reference:http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press
 
+###9.Warning: the running version of Bundler is older than the version that created the lockfile. We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.
+
+A:
+
+```
+$ sudo gem install bundler
+$ bundle install
+
+...
+An error occurred while installing git (1.2.9.1), and Bundler cannot continue.
+Make sure that `gem install git -v '1.2.9.1'` succeeds before bundling.
+
+$ sudo gem install git -v '1.2.9.1'
+$ sudo gem install lowdown -v '0.0.5' --verbose
+...
+ERROR:  Error installing lowdown:
+	lowdown requires Ruby version >= 2.1.0.
+	
+$ ruby --version
+ruby 2.0.0p645 (2015-04-13 revision 50299) [universal.x86_64-darwin15]
+// On OS X machines, you can use third-party tools (rbenv and RVM).
+// Install RVM:
+$ \curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1.8
+
+* To start using RVM you need to run `source /Users/dongmeiliang/.rvm/scripts/rvm`
+    in all your open shell windows, in rare cases you need to reopen all shell windows.
+$ source /Users/dongmeiliang/.rvm/scripts/rvm
+
+// Check rvm has been installed successfully
+$ rvm --help
+
+$ bundle install
+/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'bundler' (>= 0) among 13 total gem(s) (Gem::LoadError)
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
+	from /usr/local/bin/bundle:22:in `<main>'
+	
+We need reinstall bundler after update ruby:
+$ gem install bundler
+Fetching: bundler-1.11.2.gem (100%)
+Successfully installed bundler-1.11.2
+Parsing documentation for bundler-1.11.2
+Installing ri documentation for bundler-1.11.2
+Done installing documentation for bundler after 6 seconds
+1 gem installed
+
+//bundle - Ruby Dependency Management
+//gem -- RubyGems program, RubyGems is a sophisticated package manager for Ruby.
+//rvm - The Ruby Version Manager
+```
+
 

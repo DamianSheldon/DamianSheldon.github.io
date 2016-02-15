@@ -248,6 +248,102 @@ $(document).ready(
 <p>A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press">http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press</a></p>
+
+<h3>9.Warning: the running version of Bundler is older than the version that created the lockfile. We suggest you upgrade to the latest version of Bundler by running <code>gem install bundler</code>.</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo gem install bundler
+</span><span class='line'>$ bundle install
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>An error occurred while installing git (1.2.9.1), and Bundler cannot continue.
+</span><span class='line'>Make sure that `gem install git -v '1.2.9.1'` succeeds before bundling.
+</span><span class='line'>
+</span><span class='line'>$ sudo gem install git -v '1.2.9.1'
+</span><span class='line'>$ sudo gem install lowdown -v '0.0.5' --verbose
+</span><span class='line'>...
+</span><span class='line'>ERROR:  Error installing lowdown:
+</span><span class='line'>  lowdown requires Ruby version &gt;= 2.1.0.
+</span><span class='line'>  
+</span><span class='line'>$ ruby --version
+</span><span class='line'>ruby 2.0.0p645 (2015-04-13 revision 50299) [universal.x86_64-darwin15]
+</span><span class='line'>// On OS X machines, you can use third-party tools (rbenv and RVM).
+</span><span class='line'>// Install RVM:
+</span><span class='line'>$ \curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1.8
+</span><span class='line'>
+</span><span class='line'>* To start using RVM you need to run `source /Users/dongmeiliang/.rvm/scripts/rvm`
+</span><span class='line'>    in all your open shell windows, in rare cases you need to reopen all shell windows.
+</span><span class='line'>$ source /Users/dongmeiliang/.rvm/scripts/rvm
+</span><span class='line'>
+</span><span class='line'>// Check rvm has been installed successfully
+</span><span class='line'>$ rvm --help
+</span><span class='line'>
+</span><span class='line'>$ bundle install
+</span><span class='line'>/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'bundler' (&gt;= 0) among 13 total gem(s) (Gem::LoadError)
+</span><span class='line'>  from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
+</span><span class='line'>  from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
+</span><span class='line'>  from /usr/local/bin/bundle:22:in `&lt;main&gt;'
+</span><span class='line'>  
+</span><span class='line'>We need reinstall bundler after update ruby:
+</span><span class='line'>$ gem install bundler
+</span><span class='line'>Fetching: bundler-1.11.2.gem (100%)
+</span><span class='line'>Successfully installed bundler-1.11.2
+</span><span class='line'>Parsing documentation for bundler-1.11.2
+</span><span class='line'>Installing ri documentation for bundler-1.11.2
+</span><span class='line'>Done installing documentation for bundler after 6 seconds
+</span><span class='line'>1 gem installed
+</span><span class='line'>
+</span><span class='line'>//bundle - Ruby Dependency Management
+</span><span class='line'>//gem -- RubyGems program, RubyGems is a sophisticated package manager for Ruby.
+</span><span class='line'>//rvm - The Ruby Version Manager</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-02-15T20:29:45+08:00</updated>
+  <updated>2016-02-16T11:12:53+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -738,6 +738,297 @@ href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such 
 </span><span class='line'>[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
 </span><span class='line'>[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0</span></code></pre></td></tr></table></div></figure>
 
+
+<!-- more -->
+
+
+<h3>3. Install mcrypt_filter extension on El capitan</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Please make sure the PHP extensions listed below are installed.
+</span><span class='line'>mCrypt
+</span><span class='line'>
+</span><span class='line'>// PECL is a repository of PHP extensions that are made available to you via the » PEAR packaging system. 
+</span><span class='line'>
+</span><span class='line'>// There are several options for downloading PECL extensions, such as:
+</span><span class='line'>o The pecl install extname command downloads the extensions code automatically, so in this case there is no need for a separate download.
+</span><span class='line'>o » http://pecl.php.net/ The PECL web site contains information about the different extensions that are offered by the PHP Development Team. The information available here includes: ChangeLog, release notes, requirements and other similar details.
+</span><span class='line'>o pecl download extname PECL extensions that have releases listed on the PECL web site are available for download and installation using the » pecl command. Specific revisions may also be specified.
+</span><span class='line'>o SVN Most PECL extensions also reside in SVN. A web-based view may be seen at » http://svn.php.net/viewvc/pecl/. To download straight from SVN, the following sequence of commands may be used:
+</span><span class='line'>
+</span><span class='line'>$ pecl search mCrypt
+</span><span class='line'>Retrieving data...0%
+</span><span class='line'>Matched packages, channel pecl.php.net:
+</span><span class='line'>=======================================
+</span><span class='line'>Package       Stable/(Latest) Local
+</span><span class='line'>mcrypt_filter 0.1.0 (beta)          Applies mcrypt symmetric encryption using stream filters
+</span><span class='line'>
+</span><span class='line'>$ pecl install mcrypt_filter
+</span><span class='line'>Failed to download pecl/mcrypt_filter within preferred state "stable", latest release is version 0.1.0, stability "beta", use "channel://pecl.php.net/mcrypt_filter-0.1.0" to install
+</span><span class='line'>install failed
+</span><span class='line'>
+</span><span class='line'>$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter
+</span><span class='line'>Attempting to discover channel "pecl.php.net/mcrypt_filter-0.1.0"...
+</span><span class='line'>Attempting fallback to https instead of http on channel "pecl.php.net/mcrypt_filter-0.1.0"...
+</span><span class='line'>unknown channel "pecl.php.net/mcrypt_filter-0.1.0" in "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
+</span><span class='line'>invalid package name/package file "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
+</span><span class='line'>install failed
+</span><span class='line'>
+</span><span class='line'>$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>Cannot install, php_dir for channel "pecl.php.net" is not writeable by the current user
+</span><span class='line'>DongMeiliangsMacBook-Pro:upload dongmeiliang$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>Password:
+</span><span class='line'>downloading mcrypt_filter-0.1.0.tgz ...
+</span><span class='line'>Starting to download mcrypt_filter-0.1.0.tgz (4,586 bytes)
+</span><span class='line'>...
+</span><span class='line'>checking for mcrypt support... yes, shared
+</span><span class='line'>configure: error: mcrypt.h not found. Please reinstall libmcrypt.
+</span><span class='line'>ERROR: `/private/tmp/pear/install/mcrypt_filter/configure --with-php-config=/usr/bin/php-config' failed
+</span><span class='line'>
+</span><span class='line'>// Resolve configure: error: mcrypt.h not found. Please reinstall libmcrypt.
+</span><span class='line'>Get libmcrypt 2.5.8 from Sourceforge: http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download
+</span><span class='line'>
+</span><span class='line'>$ tar -zxvf libmcrypt-2.5.8.tar.gz
+</span><span class='line'>$ mkdir -p /usr/local/src
+</span><span class='line'>$ mv libmcrypt-2.5.8 /usr/local/src/
+</span><span class='line'>$ cd /usr/local/src/libmcrypt-2.5.8/
+</span><span class='line'>$ ./configure --prefix=/usr/local
+</span><span class='line'>$ make && make install
+</span><span class='line'>
+</span><span class='line'>// Continue install mCrypt extension
+</span><span class='line'>$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>12472464 40 -rwxr-xr-x  1 root  wheel  16704 Feb 15 21:41 /private/tmp/pear/install/pear-build-rootEyJ4Jg/install-mcrypt_filter-0.1.0/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so
+</span><span class='line'>
+</span><span class='line'>Build process completed successfully
+</span><span class='line'>Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
+</span><span class='line'>ERROR: failed to write /usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so (copy(/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so): failed to open stream: Operation not permitted)
+</span><span class='line'>
+</span><span class='line'>We need to disable SIP.
+</span><span class='line'>
+</span><span class='line'>OSX 10.11 El Capitan ships with a new security process referred to as SIP or Security Integrity Protection also known as rootless.
+</span><span class='line'>
+</span><span class='line'>What this essentially does is protect certain system level directories from being changes, notably
+</span><span class='line'>
+</span><span class='line'>o /System
+</span><span class='line'>o /sbin
+</span><span class='line'>o /usr
+</span><span class='line'>o not /usr/local
+</span><span class='line'>
+</span><span class='line'>// Disabling SIP in OSX
+</span><span class='line'>o Reboot your Mac into Recovery Mode by rebooting and holding down ‘command’ + ‘r’
+</span><span class='line'>o Launch a Terminal session and enter csrutil disable
+</span><span class='line'>o Reboot
+</span><span class='line'>
+</span><span class='line'>// Reinstall mCrypt extension
+</span><span class='line'>$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>Build process completed successfully
+</span><span class='line'>Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
+</span><span class='line'>install ok: channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>configuration option "php_ini" is not set to php.ini location
+</span><span class='line'>You should add "extension=mcrypt_filter.so" to php.ini
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.nginx.cn/2196.html">http://www.nginx.cn/2196.html</a>
+<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a></p>
+
+<h3>4.Install mcrypt for php on Mac OSX 10.11 El Capitan</h3>
+
+<p>o Disable SIP/rootless
+You need to disable the new System Integrity Protection to install into some system protected directories – this involves a recovery reboot and disabling with.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ csrutil disable</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Getting it on in OS X El Capitan 10.11</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~ ; mkdir mcrypt ; cd mcrypt</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download">Get libmcrypt 2.5.8 from Sourceforge</a>,  this is direct download link.</p>
+
+<p><a href="http://php.net/releases/index.php">Get the php code in a tar.gz or .bz2 format</a>- (version 5.5.27 is the one that currently ships with OSX 10.11)</p>
+
+<p>Move both of these files that you downloaded into your working directory – mcrypt in this instance, and go back to Terminal</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~/mcrypt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Expand both files via the command line or just double click them in the Finder:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tar -zxvf libmcrypt-2.5.8.tar.gz
+</span><span class='line'>$ tar -zxvf php-5.5.27.tar.gz</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Configuring libmcrypt</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd libmcrypt-2.5.8
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make
+</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Compile mcrypt php Extension</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ../php-5.5.27/ext/mcrypt/
+</span><span class='line'>$ /usr/bin/phpize
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make
+</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Enabling mcrypt.so  php Extension</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Open /etc/php.ini and add the line below at the end
+</span><span class='line'>extension=mcrypt.so
+</span><span class='line'>
+</span><span class='line'>// If there is no php.ini file,  then you need to make one from php.ini.default in the same location like so:
+</span><span class='line'>$ sudo cp /etc/php.ini.default /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// And allow write capability
+</span><span class='line'>$ sudo chmod u+w  /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// Then add the line as above in your favourite text editor:
+</span><span class='line'>$ sudo vi /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// make sure dynamic extensions are set to on…
+</span><span class='line'>extension_dl = On
+</span><span class='line'>
+</span><span class='line'>// If it didn’t load you may need to declare the extensions directory in /etc/php.ini
+</span><span class='line'>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20100525/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Restart Apache</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That’s it, create a php page with the function phpinfo();  to see if it loaded correctly.</p>
+
+<p>Reference:<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a>
+<a href="http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/</a></p>
 ]]></content>
   </entry>
   
@@ -1573,7 +1864,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#100;&#111;&#110;&#103;&#109;&#101;&#x69;&#108;&#x69;&#x61;&#110;&#x67;&#x40;&#49;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#46;&#50;&#53;&#x35;">&#x64;&#111;&#x6e;&#x67;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#x61;&#x6e;&#103;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#x2e;&#49;&#x2e;&#x32;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#100;&#111;&#x6e;&#103;&#109;&#x65;&#x69;&#x6c;&#105;&#x61;&#110;&#x67;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#46;&#50;&#x35;&#53;">&#x64;&#111;&#x6e;&#x67;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#x61;&#110;&#103;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x2e;&#50;&#53;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

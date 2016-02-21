@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-02-16T11:12:53+08:00</updated>
+  <updated>2016-02-21T17:59:01+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Notes Of Using OpenCart]]></title>
+    <link href="http://DamianSheldon.github.io/blog/notes-of-using-opencart.html"/>
+    <updated>2016-02-21T17:50:35+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/notes-of-using-opencart</id>
+    <content type="html"><![CDATA[<h3>1. opencart 安装中文语言包</h3>
+
+<p>A:</p>
+
+<ul>
+<li>[下载中文语言包](<a href="http://www.opencart.cn/thread-9982-1-1.html%EF%BC%89">http://www.opencart.cn/thread-9982-1-1.html%EF%BC%89</a></li>
+<li>解压压缩包，里面有两个文件夹，admin是后台语言包，catalog文件是前台语言包</li>
+<li>把文件上传到对应的目录下</li>
+</ul>
+
+
+<pre><code>$ cd ~/Downloads/
+$ tar -xzvf OpenCart_SimplifiedChinese_language_v2.0.3.1.zip
+$ cp -R OpenCart_SimplifiedChinese_language_v2.0.3.1/upload/catalog/language/zh-CN  ~/Sites/upload/catalog/language/
+$ cp -R OpenCart_SimplifiedChinese_language_v2.0.3.1/upload/admin/language/zh-CN ~/Sites/upload/admin/language/
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Unit Testing With OCMock]]></title>
@@ -731,173 +755,6 @@ extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20100525/"
 
 <p>Reference:<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a>
 <a href="http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 项目持续集成和部署笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects.html"/>
-    <updated>2015-11-04T09:38:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects</id>
-    <content type="html"><![CDATA[<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
-
-<h3>安装工具</h3>
-
-<ol>
-<li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
-
-<pre><code class="`"> $ brew update &amp;&amp; brew install jenkins
-</code></pre></li>
-<li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
-
-<pre><code class="`"> $ sudo gem install fastlane --verbose
-</code></pre></li>
-<li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
-
-<pre><code class="`"> $ sudo gem install fir-cli
-</code></pre></li>
-</ol>
-
-
-<!-- more -->
-
-
-<h3>fastlane 自动构建</h3>
-
-<ul>
-<li>cd [your_project_folder]</li>
-<li>fastlane init</li>
-<li>Follow the setup assistant, which will set up fastlane for you</li>
-<li>Edit Fastfile</li>
-</ul>
-
-
-<pre><code>fastlane_version "1.25.0"
-
-default_platform :ios
-
-
-platform :ios do
-  before_all do
-    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-    #cocoapods
-
-    increment_build_number
-
-    gym(scheme: "srsApp") # Build your app - more options available
-
-    # xctool # run the tests of your app
-  end
-
-  desc "Runs all the tests"
-  lane :test do
-    snapshot
-  end
-
-  desc "Submit a new Beta Build to fir"
-  desc "This will also make sure the profile is up to date"
-  lane :fir do
-    #snapshot
-    sh "sigh --team_id your_team_id"
-    #deliver(beta: true)
-
-    #"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
-
-    #"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
-
-    # sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
-    # You can also use other beta testing services here
-    sh "fir p ../srsApp.ipa -T USER_TOKEN"
-  end
-
-  desc "Submit a new Beta Build to pgyer "
-  desc "This will also make sure the profile is up to date"
-  lane :pgyer do
-    #snapshot
-    sh "sigh --team_id your_team_id"
-    #deliver(beta: true)
-
-    # You can also use other beta testing services here
-    sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
-  end
-
-  # You can define as many lanes as you want
-
-  after_all do |lane|
-    # This block is called, only if the executed lane was successful
-
-     slack(
-       message: "Successfully deployed new App Update."
-     )
-  end
-
-  error do |lane, exception|
-     slack(
-       message: exception.message,
-       success: false
-     )
-  end
-end
-</code></pre>
-
-<p>使用 <code>fastlane fir</code>测试能否正常构建。</p>
-
-<h3>自动测试</h3>
-
-<p>可以利用 xcodebuild 命令来实现自动测试。
-<code>
-$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
-</code></p>
-
-<h3>jenkins 持续集成</h3>
-
-<ol>
-<li><p>创建自动构建 job</p>
-
-<ul>
-<li>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</li>
-<li><p>Install plugins</p>
-
-<ul>
-<li>HTML Publisher Plugin</li>
-<li>AnsiColor Plugin</li>
-<li>Rebuild Plugin</li>
-<li>GIT Plugin</li>
-</ul>
-</li>
-<li><p>Create job > input item name > Freestyle project > OK</p></li>
-<li><p>Configuration
-  Source Code Management
-  Git
-  Repository URL /Users/dongmeiliang/Documents/HJKApp
-  Branches to build */test
-  Add build step > Execute shell</p>
-
-<pre><code class="``">  #!/bin/bash   
-  source ~/.bash_profile  
-  cd srsApp/  
-  fastlane  fir  
-</code></pre></li>
-<li>Save > build</li>
-</ul>
-</li>
-<li><p>创建自动测试 job</p>
-
-<p> Add build step > Execute shell</p>
-
-<pre><code class="`"> #!/bin/bash   
- source ~/.bash_profile  
- $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
-</code></pre></li>
-</ol>
-
-
-<h2>Reference</h2>
-
-<p>Testing with Xcode
-<a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
-<a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
-<a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
 ]]></content>
   </entry>
   

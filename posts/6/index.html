@@ -108,6 +108,98 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html">
+		
+			如何在 Mac 上开启 Apache, PHP, MySQL</a>
+	</h2>
+	<div class="entry-content">
+		<h2>Apache</h2>
+
+<h3>开启 Apache</h3>
+
+<ol>
+<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
+<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
+</ol>
+
+
+<h3>配置 HTTPS 的详细步骤：</h3>
+
+<ol>
+<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
+
+<ul>
+<li>去掉 SSL 模块前的注释使能它:<br/>
+<code>
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+</code></li>
+<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
+<code>
+Include /private/etc/apache2/extra/httpd-ssl.conf
+</code></li>
+</ul>
+</li>
+<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
+
+<ul>
+<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
+<code>
+DocumentRoot "/Users/dongmeiliang/Sites"
+</code></p></li>
+<li><p>修改 ServerName 成类似这样:<br/>
+<code>
+ServerName localhost:443
+</code></p></li>
+<li><p>指定 SSLCertificateFile<br/>
+<code>
+SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
+</code></p></li>
+<li><p>指定 SSLCertificateKeyFile <br/>
+<code>
+SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
+</code></p></li>
+<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
+</ul>
+</li>
+</ol>
+
+
+
+		
+		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/enumerated-constants.html">
 		
 			Enumerated Constants</a>
@@ -572,132 +664,6 @@ For example:</p>
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/nsthread-thechnology-notes.html">
-		
-			iOS Thread笔记</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>Thread是什么？</li>
-<li>iOS中怎么使用Thread？</li>
-</ol>
-
-
-<h3>Thread是什么</h3>
-
-<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
-
-<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
-
-<h3>iOS中怎么使用Thread</h3>
-
-<p>iOS中的Thread技术主要有以下两种：</p>
-
-<table>
-<thead>
-<tr>
-<th> Technology </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads.</td>
-</tr>
-<tr>
-<td> POSIX threads </td>
-<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>Creating a Thread</h4>
-
-<ol>
-<li><p>Using NSThread</p>
-
-<ul>
-<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
-<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
-</ul>
-</li>
-<li><p>Using POSIX Threads</p>
-
-<ul>
-<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
-</ul>
-</li>
-<li><p>Using NSObject to Spawn a Thread</p>
-
-<ul>
-<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>Configuring Thread Attributes</h4>
-
-<p>Thread的配置项有：</p>
-
-<ul>
-<li>Stack Size of a Thread</li>
-<li>Thread-Local Storage</li>
-<li>Detached State of a Thread</li>
-<li>Thread Priority</li>
-</ul>
-
-
-<h4>Writing Your Thread Entry Routine</h4>
-
-<p>编写Thread的入口程序通常需要做如下事项：</p>
-
-<ul>
-<li>Creating an Autorelease Pool</li>
-<li>Setting Up an Exception Handler</li>
-<li>Setting Up a Run Loop</li>
-</ul>
-
-
-<h4>Terminating a Thread</h4>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
 
 </div>
 

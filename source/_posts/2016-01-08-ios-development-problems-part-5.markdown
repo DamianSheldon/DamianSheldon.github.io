@@ -154,4 +154,51 @@ Done installing documentation for bundler after 6 seconds
 //rvm - The Ruby Version Manager
 ```
 
+###10.Attempt to set a non-property-list object
+```
+Attempt to set a non-property-list object <CFBasicHash 0x15809b8d0 [0x19ec23b68]>{type = immutable dict, count = 12,
+
+entries =>
+
+	0 : id = <CFNumber 0xb000000000000043 [0x19ec23b68]>{value = +4, type = kCFNumberSInt64Type}
+
+	1 : <CFString 0x156dda8d0 [0x19ec23b68]>{contents = "allFreeLifeId"} = <CFNull 0x19ec23ea8 [0x19ec23b68]>
+
+	5 : <CFString 0x156fd04d0 [0x19ec23b68]>{contents = "portraitUri"} = <CFNull 0x19ec23ea8 [0x19ec23b68]>
+
+	6 : mobile = <CFString 0x156df0dd0 [0x19ec23b68]>{contents = "18670789602"}
+
+	11 : ryUserId = <CFString 0x156fbef80 [0x19ec23b68]>{contents = "AFL2016020310001627518670789602"}
+
+	13 : birthDay = <CFNull 0x19ec23ea8 [0x19ec23b68]>
+
+	14 : signature = <CFString 0x19a51d480 [0x19ec23b68]>{contents = ""}
+
+	15 : token = <CFString 0x1580a3cc0 [0x19ec23b68]>{contents = "vL9oen0gHgJF7sRMWdaacY9LZ0Y0py8pcDvpcwTzcsCvfbB0kFB1PaDbWZ1c1GGZ8/jRvJ5KfX2oT3Sv+7Wb75r8W7FhoewF9l1Si6GJa2B48Xpc3rElo2a6FVG/X29zQOiOTHRjfiM="}
+
+	16 : password = <CFString 0x1580d5050 [0x19ec23b68]>{contents = "E10ADC3949BA59ABBE56E057F20F883E"}
+
+	20 : email = <CFNull 0x19ec23ea8 [0x19ec23b68]>
+
+	21 : name = Julian
+
+	22 : gender = <CFNull 0x19ec23ea8 [0x19ec23b68]>
+
+}
+
+ as an NSUserDefaults/CFPreferences value for key UserInfo
+```
+
+A:
+
+```
+// Write
+NSData *dataFromUserInfo = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+[[NSUserDefaults standardUserDefaults] setObject:dataFromUserInfo forKey:sUserInfoKey];
+
+// Read
+NSData *dataFromUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:sUserInfoKey];
+NSDictionary *ret = [NSKeyedUnarchiver unarchiveObjectWithData:dataFromUserInfo];
+```
+Reference:http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults
 

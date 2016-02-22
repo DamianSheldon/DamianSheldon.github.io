@@ -207,3 +207,5 @@ That’s it, create a php page with the function phpinfo();  to see if it loaded
 Reference:http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/
 http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/
 
+
+

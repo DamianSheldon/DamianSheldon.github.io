@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-02-21T21:47:33+08:00</updated>
+  <updated>2016-02-22T11:06:07+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -480,6 +480,54 @@ Done installing documentation for bundler after 6 seconds
 //gem -- RubyGems program, RubyGems is a sophisticated package manager for Ruby.
 //rvm - The Ruby Version Manager
 </code></pre>
+
+<h3>10.Attempt to set a non-property-list object</h3>
+
+<pre><code>Attempt to set a non-property-list object &lt;CFBasicHash 0x15809b8d0 [0x19ec23b68]&gt;{type = immutable dict, count = 12,
+
+entries =&gt;
+
+    0 : id = &lt;CFNumber 0xb000000000000043 [0x19ec23b68]&gt;{value = +4, type = kCFNumberSInt64Type}
+
+    1 : &lt;CFString 0x156dda8d0 [0x19ec23b68]&gt;{contents = "allFreeLifeId"} = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+
+    5 : &lt;CFString 0x156fd04d0 [0x19ec23b68]&gt;{contents = "portraitUri"} = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+
+    6 : mobile = &lt;CFString 0x156df0dd0 [0x19ec23b68]&gt;{contents = "18670789602"}
+
+    11 : ryUserId = &lt;CFString 0x156fbef80 [0x19ec23b68]&gt;{contents = "AFL2016020310001627518670789602"}
+
+    13 : birthDay = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+
+    14 : signature = &lt;CFString 0x19a51d480 [0x19ec23b68]&gt;{contents = ""}
+
+    15 : token = &lt;CFString 0x1580a3cc0 [0x19ec23b68]&gt;{contents = "vL9oen0gHgJF7sRMWdaacY9LZ0Y0py8pcDvpcwTzcsCvfbB0kFB1PaDbWZ1c1GGZ8/jRvJ5KfX2oT3Sv+7Wb75r8W7FhoewF9l1Si6GJa2B48Xpc3rElo2a6FVG/X29zQOiOTHRjfiM="}
+
+    16 : password = &lt;CFString 0x1580d5050 [0x19ec23b68]&gt;{contents = "E10ADC3949BA59ABBE56E057F20F883E"}
+
+    20 : email = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+
+    21 : name = Julian
+
+    22 : gender = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+
+}
+
+ as an NSUserDefaults/CFPreferences value for key UserInfo
+</code></pre>
+
+<p>A:</p>
+
+<pre><code>// Write
+NSData *dataFromUserInfo = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+[[NSUserDefaults standardUserDefaults] setObject:dataFromUserInfo forKey:sUserInfoKey];
+
+// Read
+NSData *dataFromUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:sUserInfoKey];
+NSDictionary *ret = [NSKeyedUnarchiver unarchiveObjectWithData:dataFromUserInfo];
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults">http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults</a></p>
 ]]></content>
   </entry>
   

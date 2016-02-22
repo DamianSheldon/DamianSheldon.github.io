@@ -343,7 +343,91 @@ $(document).ready(
 </span><span class='line'>//rvm - The Ruby Version Manager</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>10.Attempt to set a non-property-list object</h3>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Attempt to set a non-property-list object &lt;CFBasicHash 0x15809b8d0 [0x19ec23b68]&gt;{type = immutable dict, count = 12,
+</span><span class='line'>
+</span><span class='line'>entries =&gt;
+</span><span class='line'>
+</span><span class='line'>  0 : id = &lt;CFNumber 0xb000000000000043 [0x19ec23b68]&gt;{value = +4, type = kCFNumberSInt64Type}
+</span><span class='line'>
+</span><span class='line'>  1 : &lt;CFString 0x156dda8d0 [0x19ec23b68]&gt;{contents = "allFreeLifeId"} = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+</span><span class='line'>
+</span><span class='line'>  5 : &lt;CFString 0x156fd04d0 [0x19ec23b68]&gt;{contents = "portraitUri"} = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+</span><span class='line'>
+</span><span class='line'>  6 : mobile = &lt;CFString 0x156df0dd0 [0x19ec23b68]&gt;{contents = "18670789602"}
+</span><span class='line'>
+</span><span class='line'>  11 : ryUserId = &lt;CFString 0x156fbef80 [0x19ec23b68]&gt;{contents = "AFL2016020310001627518670789602"}
+</span><span class='line'>
+</span><span class='line'>  13 : birthDay = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+</span><span class='line'>
+</span><span class='line'>  14 : signature = &lt;CFString 0x19a51d480 [0x19ec23b68]&gt;{contents = ""}
+</span><span class='line'>
+</span><span class='line'>  15 : token = &lt;CFString 0x1580a3cc0 [0x19ec23b68]&gt;{contents = "vL9oen0gHgJF7sRMWdaacY9LZ0Y0py8pcDvpcwTzcsCvfbB0kFB1PaDbWZ1c1GGZ8/jRvJ5KfX2oT3Sv+7Wb75r8W7FhoewF9l1Si6GJa2B48Xpc3rElo2a6FVG/X29zQOiOTHRjfiM="}
+</span><span class='line'>
+</span><span class='line'>  16 : password = &lt;CFString 0x1580d5050 [0x19ec23b68]&gt;{contents = "E10ADC3949BA59ABBE56E057F20F883E"}
+</span><span class='line'>
+</span><span class='line'>  20 : email = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+</span><span class='line'>
+</span><span class='line'>  21 : name = Julian
+</span><span class='line'>
+</span><span class='line'>  22 : gender = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
+</span><span class='line'>
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'> as an NSUserDefaults/CFPreferences value for key UserInfo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Write
+</span><span class='line'>NSData *dataFromUserInfo = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+</span><span class='line'>[[NSUserDefaults standardUserDefaults] setObject:dataFromUserInfo forKey:sUserInfoKey];
+</span><span class='line'>
+</span><span class='line'>// Read
+</span><span class='line'>NSData *dataFromUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:sUserInfoKey];
+</span><span class='line'>NSDictionary *ret = [NSKeyedUnarchiver unarchiveObjectWithData:dataFromUserInfo];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults">http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults</a></p>
 </div>
 
 

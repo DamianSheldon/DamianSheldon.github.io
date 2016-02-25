@@ -202,3 +202,29 @@ NSDictionary *ret = [NSKeyedUnarchiver unarchiveObjectWithData:dataFromUserInfo]
 ```
 Reference:http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults
 
+###11.Missing iOS Distribution signing identity
+A:KeyChain Access > select the System keychain > View > Show Expired Certificates > delete the expired version of the Apple Worldwide Developer Relations Certificate Authority Intermediate certificate (expired on February 14, 2016)
+
+Reference:http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for
+
+###12. FMDB unable to open db under Application Support directory.
+A:Unlike the Documents directory, the Application Support directory does not exist in the app's sandbox by default. You need to create it before you can use it.
+
+```
+NSURL * ApplicationSupportDirectory()
+{
+    NSURL *applicationSupportDir = URLOfDirectory(NSApplicationSupportDirectory);
+    
+    if (applicationSupportDir) {
+        // If the directory does not exist, this method creates it.
+        // This method is only available in OS X v10.7 and iOS 5.0 or later.
+        [[NSFileManager defaultManager] createDirectoryAtURL:applicationSupportDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    return applicationSupportDir;
+}
+```
+
+Reference:http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents
+http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html
+

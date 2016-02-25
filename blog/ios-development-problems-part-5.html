@@ -434,6 +434,39 @@ $(document).ready(
 <p>A:KeyChain Access > select the System keychain > View > Show Expired Certificates > delete the expired version of the Apple Worldwide Developer Relations Certificate Authority Intermediate certificate (expired on February 14, 2016)</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for">http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for</a></p>
+
+<h3>12. FMDB unable to open db under Application Support directory.</h3>
+
+<p>A:Unlike the Documents directory, the Application Support directory does not exist in the app&rsquo;s sandbox by default. You need to create it before you can use it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL * ApplicationSupportDirectory()
+</span><span class='line'>{
+</span><span class='line'>    NSURL *applicationSupportDir = URLOfDirectory(NSApplicationSupportDirectory);
+</span><span class='line'>    
+</span><span class='line'>    if (applicationSupportDir) {
+</span><span class='line'>        // If the directory does not exist, this method creates it.
+</span><span class='line'>        // This method is only available in OS X v10.7 and iOS 5.0 or later.
+</span><span class='line'>        [[NSFileManager defaultManager] createDirectoryAtURL:applicationSupportDir withIntermediateDirectories:YES attributes:nil error:nil];
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return applicationSupportDir;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents">http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents</a>
+<a href="http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html">http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html</a></p>
 </div>
 
 

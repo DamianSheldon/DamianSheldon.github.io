@@ -10,11 +10,8 @@ discription: iOS Technical Interview Part 1
 
 ###Explain method swizzling. When you would use it?
 
-
-
 ###Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.
-Answer:循环保留导致内存泄漏。
-
+A:It causes strong reference cycle, and results as memory leaks.
 
 ###What happens when you invoke a method on a nil pointer?
 Answer:返回0
@@ -58,13 +55,11 @@ noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两
 ```
 再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。
 
-
-
 ###In C, how would you reverse a string as quickly as possible?
 
 
 ###Which is faster: to iterate through an NSArray or an NSSet?
-NSArray
+A: NSArray
 
 Reference:http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html
 
@@ -75,11 +70,16 @@ Reference:http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.
 ###What is posing in Objective-C?
 
 ###List six instruments that are part of the standard.
+A:
 
-1. Allocations
-2. Core Animation
-3. Leaks
-4. 
+1. Time Profiler
+2. Leaks
+3. Zombies
+4. Allocations
+5. Activity Monitor
+6. Core Animation
+7. Network
+
 
 ###What are the differences between copy and retain?
 copy是新创建一个对象副本；retain则是对象引用计数加一。
@@ -106,3 +106,7 @@ Reference:http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-obj
 | Background | The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background
 | Suspended | The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.
 When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.
+
+Reference:
+o [iOS Interview Questions](http://www.raywenderlich.com/53962/ios-interview-questions)
+

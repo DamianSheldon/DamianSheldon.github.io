@@ -14,6 +14,7 @@ discription: iOS App Development
 [reciver deprecatedMethod];
 #pragma clang diagnostic pop
 ```
+Reference:http://nshipster.cn/pragma/
 
 ### 2. Warning libopencore-amrnb.a, missing required architecture arm64
 ```

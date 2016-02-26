@@ -39,7 +39,9 @@ Reference:https://www.debian.org/devel/passwordlessssh
 ###4.Finding all files containing a text string on Linux
 
 ```
-grep -rnw 'directory' -e "pattern"
+$ grep -rnw 'directory' -e "pattern"
+// eg:
+$ grep -rnw source/_posts/  -e "pragma"
 ```
 
 Reference: http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux

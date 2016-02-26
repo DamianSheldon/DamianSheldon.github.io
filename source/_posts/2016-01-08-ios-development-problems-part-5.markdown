@@ -228,3 +228,26 @@ NSURL * ApplicationSupportDirectory()
 Reference:http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents
 http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html
 
+###13.How to NSLog a Call stack when a program is running?
+A:
+
+```
+// 1. Cocoa framework
+NSLog(@"%@", [NSThread callStackSymbols]);
+
+// 2. C API
+#include <execinfo.h>
+
+int size = 256;
+void *stack[size];
+size = backtrace(stack, size);
+
+char **syms = backtrace_symbols(stack, size);
+for (int i = 0; i < size; i++) {
+    printf("Frame #%d: %s\n", i, syms[i]);
+}
+free(syms);
+```
+
+Reference:http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running
+

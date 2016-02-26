@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-02-25T09:19:07+08:00</updated>
+  <updated>2016-02-26T19:03:41+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,697 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Technical Interview Part 3]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-3.html"/>
+    <updated>2016-02-25T18:43:44+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-3</id>
+    <content type="html"><![CDATA[<h3>1.Difference between categories and extensions?</h3>
+
+<p>A:There are two difference beween categories and extensions:</p>
+
+<ol>
+<li>The extension has no name;</li>
+<li>The implementation of the extension must be in the main @implementation block of the file.</li>
+</ol>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
+
+<h3>2.What is advantage of category?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>You can add method to existing class even to that class whose source is not available to you.</li>
+<li>You can extend functionality of a class without subclassing.</li>
+<li>You can split implementation in multiple classes.</li>
+</ul>
+
+
+<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
+
+<h3>3.What are KVO and KVC?</h3>
+
+<p>A:</p>
+
+<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
+Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
+
+<p>Reference:Cocoa Core Competencies</p>
+
+<h3>4.Difference between shallow copy and deep copy?</h3>
+
+<p>A:
+The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):</p>
+
+<p>A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
+A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm</a></p>
+
+<h3>5.When retain count increase?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>When you create an object;</li>
+<li>When you send an object retain message;</li>
+</ul>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases</a></p>
+
+<h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
+
+<p>A: Yes, there is a autorelease pool already provided to us.</p>
+
+<h3>7.When you will create an autorelease pool in your application?</h3>
+
+<p>A:There are three occasions when you might use your own autorelease pool blocks:</p>
+
+<ul>
+<li>If you are writing a program that is not based on a UI framework, such as a command-line tool.</li>
+<li><p>If you write a loop that creates many temporary objects.
+You may use an autorelease pool block inside the loop to dispose of those objects   before the next iteration. Using an autorelease pool block in the loop helps to  reduce the maximum memory footprint of the application.</p></li>
+<li><p>If you spawn a secondary thread.
+You must create your own autorelease pool block as soon as the thread begins executing; otherwise, your application will leak objects.</p></li>
+</ul>
+
+
+<h3>8.How many autorelease pool you can create in your application? Is there any limit?</h3>
+
+<p>A: You can create autorelease pool as much as possible, there is no limit.</p>
+
+<h3>9.What is purpose of delegates?</h3>
+
+<p>A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.</p>
+
+<h3>10.What is difference between NSNotification and protocol?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Protocol is To-one Relationships; NSNotification is To-many Relationships.</li>
+<li>Protocol support bidirectional data-transfer between two classes.</li>
+</ul>
+
+
+<h3>11.Polymorphism？</h3>
+
+<p>A: The ability of different objects to respond, each in its own way, to identical messages is called polymorphism.</p>
+
+<h3>12.Singleton?</h3>
+
+<p>A:A singleton class returns the same instance no matter how many times an application requests it.</p>
+
+<h3>13.Give us example of what are delegate methods and what are data source methods of UITableView?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Delegate methods
+</span><span class='line'>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+</span><span class='line'>- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+</span><span class='line'>- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+</span><span class='line'>
+</span><span class='line'> // Data source methods
+</span><span class='line'> - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
+</span><span class='line'> - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;
+</span><span class='line'> - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>14.What are mutable and immutable types in Objective C?</h3>
+
+<p>A:A mutable object can be mutated or changed. An immutable object cannot.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable</a></p>
+
+<h3>15.When to use NSMutableArray and when to use NSArray?</h3>
+
+<p>A:When collection will mutable you should use NSMutableArray, otherwise use NSArray.</p>
+
+<h3>16.What is convenience constructor?</h3>
+
+<p>A:A convenience constructor is one that performs object allocation &amp; initialization in one step &amp; returns an autoreleased object to the caller.</p>
+
+<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor</a></p>
+
+<h3>17.What is responder chain?</h3>
+
+<p>A:The responder chain is a series of linked responder objects.</p>
+
+<h3>18.What is push notification?</h3>
+
+<p>A:Apple Push Notification service (APNs for short) is the centerpiece of the remote notifications feature. It is a robust and highly efficient service for propagating information to iOS and OS X devices. Each device establishes an accredited and encrypted IP connection with the service and receives notifications over this persistent connection. If a notification for an app arrives when that app is not running, the device alerts the user that the app has data waiting for it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Technical Interview Part 2]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-2.html"/>
+    <updated>2016-02-25T16:54:55+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-2</id>
+    <content type="html"><![CDATA[<ol>
+<li><p>@property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？
+ A:</p>
+
+<ul>
+<li>Write Serialization(not general thread safety): nonatomic atomic (default)</li>
+<li>Mutability: readonly readwrite (default)</li>
+<li>API Contron :getter = methodname setter = mehtodname:</li>
+<li>Memory Management: copy strong (default) weak unsafe_unretained assign</li>
+</ul>
+</li>
+<li><p>ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？
+ A:</p>
+
+<ul>
+<li>Write Serialization: atomic</li>
+<li>Mutability: readwrite</li>
+<li>Memory Management: assign(non-object) strong(object)</li>
+</ul>
+</li>
+<li><p>什么情况使用 weak 关键字，相比 assign 有什么不同？
+ A:
+ 什么情况使用 weak 关键字？</p>
+
+<ul>
+<li>强引用关系的对象会发生循环引用时用weak关键字；</li>
+<li>已经被强引用的对象，如Interface Builder创建的视图被声明为weak。</li>
+</ul>
+
+
+<p> weak 相比 assign 有什么不同？</p>
+
+<ul>
+<li>weak 必须修饰对象，assign还可以修饰非对象；</li>
+<li>weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。</li>
+</ul>
+</li>
+</ol>
+
+
+<!-- more -->
+
+
+<ol>
+<li><p>weak属性需要在dealloc中置nil么？
+ A: 不需要，因为 weak 属性不影响对象的引用计数。</p></li>
+<li><p>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</p>
+
+<ul>
+<li>对非集合类对象的copy操作</li>
+<li>集合类对象的copy与mutableCopy</li>
+</ul>
+
+
+<p> A:
+ 为什么？
+ 因为父类指针可以指向子类对象,而使用 copy 可以让本对象的属性不受外界影响,无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.</p>
+
+<p> 如果改用strong关键字，可能造成什么问题？
+ 如果我们使用是 strong ,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</p>
+
+<p> 非集合类对象的copy与mutableCopy：
+ 对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：</p>
+
+<pre><code class="`"> [immutableObject copy] // 浅复制
+ [immutableObject mutableCopy] //深复制
+ [mutableObject copy] //深复制
+ [mutableObject mutableCopy] //深复制
+</code></pre>
+
+<p> 实例验证：</p>
+
+<pre><code class="`"> NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
+ NSString *stringCopy = [string copy];
+
+ // 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
+ [string appendString:@"origion!"]
+
+ // stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。
+</code></pre>
+
+<p> 集合类对象的copy与mutableCopy:
+ 对 immutable 对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</p>
+
+<pre><code class="`"> [immutableObject copy] // 浅复制
+ [immutableObject mutableCopy] //单层深复制
+ [mutableObject copy] //单层深复制
+ [mutableObject mutableCopy] //单层深复制
+</code></pre>
+
+<p> 实例验证：</p>
+
+<pre><code class="`"> // 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
+ NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
+ NSArray *copyArray = [array copy];
+ NSMutableArray *mCopyArray = [array mutableCopy];
+ // 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址   是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：
+
+ NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString   stringWithString:@"a"],@"b",@"c",nil];
+ NSArray *copyArray = [array copy];
+ NSMutableArray *mCopyArray = [array mutableCopy];
+
+ // 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明    copyArray、mCopyArray 都对 array 进行了内容拷贝。
+</code></pre></li>
+<li><p>这个写法会出什么问题： @property (copy) NSMutableArray *array?
+ A:问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；
+ 问题二：如果是开发 iOS 程序，这会影响性能。</p></li>
+<li><p>怎么用 copy 关键字？
+ A:声明为属性的类遵守 NSCopying 协议，而且我们希望设置新值时保存一份自己的拷贝。</p></li>
+<li><p>如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？
+ A:</p>
+
+<blockquote><p>Any object that you wish to set for a copy property must support NSCopying, which means that it should conform to the NSCopying protocol.
+Only classes that define an “immutable vs. mutable” distinction should adopt this protocol.</p></blockquote></li>
+<li><p>protocol 和 category 中如何使用 @property?
+ A:</p>
+
+<ul>
+<li>protocol 使用 property 和 class 类似，只是 protocol 的 property 只会生成相应 getter 和 setter 方法声明，遵守协议的类需要实现相应的 getter 和 setter 方法；</li>
+<li>category 使用 property 和 class 有点区别，主要原因是 category 不支持添加实例变量，所以 category 中可以声明组合已有类 property 的 readonly 修饰的便捷 property；或者通过关联引用来辅助实现 getter 和 setter 方法。</li>
+</ul>
+</li>
+<li><p>@property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?
+A:@property 的本质是什么？
+    @property = ivar + getter + setter;</p>
+
+<p>ivar、getter、setter 是如何生成并添加到这个类中的?
+“自动合成”( autosynthesis)
+完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p></li>
+<li><p>@synthesize和@dynamic分别有什么作用？
+A:</p>
+
+<ul>
+<li>@synthesize 是告诉编译器怎么去合成相应属性的 getter 和 setter 方法；</li>
+<li>@dynamic 告诉编译器属性的 setter 与 getter 方法由用户自己实现，不自动合成。</li>
+</ul>
+</li>
+<li><p>在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？
+A:</p>
+
+<ul>
+<li>自定义自动合成的实例变量的名称；</li>
+<li>自动合成协议中声明 getter 和 setter 方法。</li>
+</ul>
+</li>
+<li><p>@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为<em>foo的实例变量，那么还会自动合成新变量么？
+A:
+@synthesize合成实例变量的规则是什么？
+假设声明了propertyname的属性，默认会合成</em>propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。</p>
+
+<p>假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
+不会。</p></li>
+<li><p>ARC通过什么方式帮助开发者管理内存？
+A:</p>
+
+<blockquote><p>ARC works by adding code at compile time to ensure that objects live as long as necessary, but no longer.</p></blockquote></li>
+<li><p>objc使用什么机制管理对象内存？
+A: 引用计数机制。</p></li>
+<li><p>不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）
+A: Autorelease对象出了作用域之后，会被添加到最近一次创建的自动释放池中，并会在当前的 runloop 迭代结束时释放。如果在一个vc的viewDidLoad中创建一个 Autorelease对象，那么该对象会在 viewDidAppear 方法执行前就被销毁了。</p></li>
+<li><p>苹果是如何实现autoreleasepool的？
+A:</p></li>
+<li><p>使用block时什么情况会发生引用循环，如何解决？
+A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。
+解决方法是将该对象使用<strong>weak或者</strong>block修饰符修饰之后再在block中使用。</p></li>
+<li><p>id weak weakSelf = self，或者 weak __typeof(self)weakSelf = self</p></li>
+<li><p>id __block weakSelf = self;</p></li>
+<li><p>在block内如何修改block外部变量？
+A:使用 _block 存储类型修饰外部变量。</p></li>
+<li><p>使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？
+A:使用系统的block api要不要考虑引用循环问题取决于它会不会造成引用循环，如果不会造成引用循环则不需要考虑，反之则需要考虑。UIView的block版本写动画时不需要考虑引用循环问题。</p></li>
+<li><p>IBOutlet连出来的视图属性为什么可以被设置成weak?
+A:IBOutlet 连出来的视图是视图层级的组成部分，对它已经有一个强引用，所以它可以被设置为 weak。</p></li>
+<li><p>IB中User Defined Runtime Attributes如何使用？
+A:</p>
+
+<blockquote><p>Add initialization of custom runtime attributes to objects that do not have a corresponding Interface Builder inspector.</p></blockquote></li>
+<li><p>若一个类有实例变量 NSString *<em>foo ，调用setValue:forKey:时，可以以foo还是 </em>foo 作为key？
+A:都可以。</p></li>
+<li><p>KVC的keyPath中的集合运算符如何使用？
+A:</p>
+
+<ul>
+<li>必须是集合对象</li>
+<li>KVC支持的集合运算符</li>
+<li>正确的  Operator key path 格式</li>
+</ul>
+</li>
+<li><p>KVC和KVO的keyPath一定是属性么？
+A:KVO支持实例变量。</p></li>
+<li><p>addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？
+A:</p>
+
+<table>
+<thead>
+<tr>
+<th> Parameter </th>
+<th> Function </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> anObserver </td>
+<td> The object to register for KVO notifications. The observer must implement the key-value observing method observeValueForKeyPath:ofObject:change:context:. </td>
+</tr>
+<tr>
+<td> keyPath </td>
+<td> The key path, relative to the receiver, of the property to observe. This value must not be nil. </td>
+</tr>
+<tr>
+<td> options </td>
+<td> A combination of the NSKeyValueObservingOptions values that specifies what is included in observation notifications. For possible values, see NSKeyValueObservingOptions. </td>
+</tr>
+<tr>
+<td> context </td>
+<td> Arbitrary data that is passed to anObserver in observeValueForKeyPath:ofObject:change:context:. </td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+
+
+<p>observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能获得KVO回调。</p>
+
+<ol>
+<li><p>如何手动触发一个value的KVO?
+A:改变值之前调用 willChangeValueForKey:，改变值之后调用 didChangeValueForKey:。</p></li>
+<li><p>如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？
+A:</p>
+
+<ul>
+<li>A class that implements manual notification must override the NSObject implementation of automaticallyNotifiesObserversForKey:.For properties that perform manual notification, the subclass implementation of automaticallyNotifiesObserversForKey: should return NO.</li>
+<li>To implement manual observer notification, you invoke willChangeValueForKey: before changing the value, and didChangeValueForKey: after changing the value.</li>
+</ul>
+</li>
+<li><p>apple用什么方式实现对一个对象的KVO？
+A:</p>
+
+<blockquote><p>Automatic key-value observing is implemented using a technique called isa-swizzling.</p></blockquote></li>
+<li><p>GCD的队列（dispatch_queue_t）分哪两种类型？
+A:</p>
+
+<ul>
+<li>DISPATCH_QUEUE_SERIAL</li>
+<li>DISPATCH_QUEUE_CONCURRENT</li>
+</ul>
+</li>
+<li><p>如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）
+A:</p>
+
+<blockquote><p>Dispatch groups are a way to block a thread until one or more tasks finish executing.</p></blockquote>
+
+<pre><code>    dispatch_queue_t queue =        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_async(group, queue, ^{ /*加载图片1 */ });
+    dispatch_group_async(group, queue, ^{ /*加载图片2 */ });
+    dispatch_group_async(group, queue, ^{ /*加载图片3 */ }); 
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            // 合并图片
+    });
+</code></pre></li>
+<li><p>dispatch_barrier_async的作用是什么？
+A:</p>
+
+<blockquote><p>Submits a barrier block for asynchronous execution and returns immediately.
+A dispatch barrier allows you to create a synchronization point within a concurrent dispatch queue. When it encounters a barrier, a concurrent queue delays the execution of the barrier block (or any further blocks) until all blocks submitted before the barrier finish executing. At that point, the barrier block executes by itself. Upon completion, the queue resumes its normal execution behavior.</p></blockquote></li>
+<li><p>苹果为什么要废弃dispatch_get_current_queue？
+A:dispatch_get_current_queue 容易造成死锁。</p></li>
+<li><p>以下代码运行结果如何？</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidLoad
+</span><span class='line'>{
+</span><span class='line'>  [super viewDidLoad];
+</span><span class='line'>  NSLog(@"1");
+</span><span class='line'>  dispatch_sync(dispatch_get_main_queue(), ^{
+</span><span class='line'>      NSLog(@"2");
+</span><span class='line'>  });
+</span><span class='line'>  NSLog(@"3");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: 只输出：1 。发生主线程锁死。</p>
+
+<ol>
+<li><p>runloop和线程有什么关系？
+A:</p>
+
+<blockquote><p>Run loops are intended for situations where you want more interactivity with the thread.</p></blockquote>
+
+<p>当我们和线程有很多交互时，可以为线程配置一个 RunLoop.</p>
+
+<pre><code>- (void)networkRunLoopThreadEntry
+// This thread runs all of our network operation run loop callbacks.
+{
+assert( ! [NSThread isMainThread] );
+while (YES) {
+    NSAutoreleasePool * pool;
+
+    pool = [[NSAutoreleasePool alloc] init];
+    assert(pool != nil);
+
+    [[NSRunLoop currentRunLoop] run];
+
+    [pool drain];
+}
+assert(NO);
+}
+</code></pre></li>
+<li><p>runloop的mode作用是什么？
+A:</p>
+
+<blockquote><p>A run loop mode is a collection of input sources and timers to be monitored and a collection of run loop observers to be notified.
+Each time you run your run loop, you specify (either explicitly or implicitly) a particular “mode” in which to run. During that pass of the run loop, only sources associated with that mode are monitored and allowed to deliver their events. (Similarly, only observers associated with that mode are notified of the run loop’s progress.) Sources associated with other modes hold on to any new events until subsequent passes through the loop in the appropriate mode.</p></blockquote></li>
+</ol>
+
+
+<p>mode的作用是设置好需要监控的 input sources 和 timers，以及需要通知的 run loop observers。</p>
+
+<ol>
+<li>以+ scheduledTimerWithTimeInterval&hellip;的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？
+A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以+ scheduledTimerWithTimeInterval&hellip;的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。</li>
+</ol>
+
+
+<p>如何解决？
+解决办法自然是希望 timer 触发的事件不被限制，也就是说在 NSEventTrackingRunLoopMode 下也能被监控，可以通过把 timer 加入到 NSRunLoopCommonModes 中，因为关联到它的 timer 也会被相应关联到 NSEventTrackingRunLoopMode 中。</p>
+
+<blockquote><p>NSRunLoopCommonModes (Cocoa)
+kCFRunLoopCommonModes (Core Foundation)
+This is a configurable group of commonly used modes. Associating an input source with this mode also associates it with each of the modes in the group. For Cocoa applications, this set includes the default, modal, and event tracking modes by default. Core Foundation includes just the default mode initially. You can add custom modes to the set using the CFRunLoopAddCommonMode function.</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//将timer添加到NSDefaultRunLoopMode中
+</span><span class='line'>[NSTimer scheduledTimerWithTimeInterval:1.0
+</span><span class='line'>     target:self
+</span><span class='line'>     selector:@selector(timerTick:)
+</span><span class='line'>     userInfo:nil
+</span><span class='line'>     repeats:YES];
+</span><span class='line'>//然后再添加到NSRunLoopCommonModes里
+</span><span class='line'>NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
+</span><span class='line'>     target:self
+</span><span class='line'>     selector:@selector(timerTick:)
+</span><span class='line'>     userInfo:nil
+</span><span class='line'>     repeats:YES];
+</span><span class='line'>[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>猜想runloop内部是如何实现的？
+A:</p>
+
+<blockquote><p>It is a loop your thread enters and uses to run event handlers in response to incoming events.</p></blockquote></li>
+<li><p>runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？
+A:runtime 对注册的类， 会进行布局，对于 weak 对象会放入一个 hash 表中。 用 weak 指向的对象内存地址作为 key，当此对象的引用计数为0的时候会 dealloc，假如 weak 指向的对象内存地址是a，那么就会以a为键， 在这个 weak 表中搜索，找到所有以a为键的 weak 对象，从而设置为 nil。</p></li>
+<li><p>objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？
+A:</p>
+
+<blockquote><p>In Objective-C, messages aren’t bound to method implementations until runtime.
+The compiler converts a message expression,</p></blockquote></li>
+</ol>
+
+
+<blockquote><p>[receiver message]
+into a call on a messaging function, objc_msgSend.</p></blockquote>
+
+<p>编译器会把向一个对象发送的消息转化成一次objc_msgSend()函数调用。</p>
+
+<ol>
+<li><p>objc中向一个nil对象发送消息将会发生什么？
+A:</p>
+
+<ul>
+<li>如果一个方法返回值是一个对象，那么发送给nil的消息将返回nil;</li>
+<li>如果方法返回值为指针类型，其指针大小为小于或者等于sizeof(void*)，float，double，long double 或者 long long 的整型标量，发送给 nil 的消息将返回0;</li>
+<li>如果方法返回值为结构体,发送给 nil 的消息将返回0。结构体中各个字段的值将都是0</li>
+<li>如果方法的返回值不是上述提到的几种情况，那么发送给 nil 的消息的返回值将是未定义的</li>
+</ul>
+</li>
+<li><p><em>objc_msgForward 函数是做什么的，直接调用它将会发生什么？
+A:当向一个对象发送一条消息，但它并没有实现的时候，</em>objc_msgForward会尝试做消息转发。直接调用_objc_msgForward是非常危险的事，如果用不好会直接导致程序Crash，但是如果用得好，能做很多非常酷的事。</p></li>
+<li><p>能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？
+A:</p></li>
+<li><p>不能向编译后得到的类中增加实例变量；</p></li>
+<li>能向运行时创建的类中添加实例变量；</li>
+</ol>
+
+
+<p>解释:</p>
+
+<ul>
+<li>因为编译后的类已经注册在 runtime 中，类结构体中的 objc_ivar_list 实例变量的链表 和 instance_size 实例变量的内存大小已经确定，同时runtime 会调用 class_setIvarLayout 或 class_setWeakIvarLayout 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；</li>
+<li><p>运行时创建的类是可以添加实例变量，调用 class_addIvar 函数。但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。</p></li>
+<li><p>一个objc对象如何进行内存布局？（考虑有父类的情况）
+A:
+Objective-C 对象的结构图
+ISA指针
+根类的实例变量
+倒数第二层父类的实例变量
+&hellip;
+父类的实例变量
+类的实例变量</p></li>
+<li><p>一个objc对象的isa的指针指向什么？有什么作用？
+A:</p>
+
+<blockquote><p>The isa pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table.</p></blockquote></li>
+</ul>
+
+
+<p>指向对象的类。</p>
+
+<ol>
+<li>下面的代码输出什么？</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@implementation Son : Father
+</span><span class='line'>- (id)init
+</span><span class='line'>{
+</span><span class='line'>    self = [super init];
+</span><span class='line'>    if (self) {
+</span><span class='line'>        NSLog(@"%@", NSStringFromClass([self class]));
+</span><span class='line'>        NSLog(@"%@", NSStringFromClass([super class]));
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:都输出 Son.
+super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去父类的方法，而不是本类里的。</p>
+
+<ol>
+<li><p>什么时候会报unrecognized selector的异常？
+A:当调用该对象上某个方法,而该对象上没有实现这个方法的时候。</p></li>
+<li><p>BAD_ACCESS在什么情况下出现？
+A:</p></li>
+<li>访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。</li>
+<li><p>死循环</p></li>
+<li><p>如何调试BAD_ACCESS错误?
+A:</p></li>
+<li><p>Enable Zombie Objects</p></li>
+<li>Enable Address Sanitizer</li>
+<li><p>重写object的respondsToSelector方法，显示出现EXEC_BAD_ACCESS前访问的最后一个object</p></li>
+<li><p>lldb（gdb）常用的调试命令？
+A:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lldb po
+</span><span class='line'>lldb p
+</span><span class='line'>lldb expression
+</span><span class='line'>lldb bt
+</span><span class='line'>lldb c</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？
+A:不需要。</p></li>
+<li><p>runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）
+A:每一个类对象或对象中有一个方法列表,方法列表中记录着方法的名称,方法实现,以及参数类型,其实selector本质就是方法名称,通过这个方法名称就可以在方法列表中找到对应的方法实现.</p></li>
+<li><p>objc中的类方法和实例方法有什么本质区别和联系？
+A:
+类方法：</p></li>
+</ol>
+
+
+<p>类方法是属于类对象的
+类方法只能通过类对象调用
+类方法中的self是类对象
+类方法可以调用其他的类方法
+类方法中不能访问成员变量
+类方法中不定直接调用对象方法
+实例方法：</p>
+
+<p>实例方法是属于实例对象的
+实例方法只能通过实例对象调用
+实例方法中的self是实例对象
+实例方法中可以访问成员变量
+实例方法中直接调用实例方法
+实例方法中也可以调用类方法(通过类名)</p>
+
+<p>扩展阅读：
+o <a href="http://onevcat.com/2013/04/ios-interview/">上级向的十个iOS面试问题</a>
+o <a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度面试</a></p>
+
+<p>Reference:
+o <a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">http://blog.sunnyxx.com/2015/07/04/ios-interview/</a>
+o <a href="https://github.com/ChenYilong/iOSInterviewQuestions">https://github.com/ChenYilong/iOSInterviewQuestions</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Notes Of Using OpenCart]]></title>
@@ -830,6 +1521,44 @@ A:</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents">http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents</a>
 <a href="http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html">http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html</a></p>
+
+<h3>13.How to NSLog a Call stack when a program is running?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Cocoa framework
+</span><span class='line'>NSLog(@"%@", [NSThread callStackSymbols]);
+</span><span class='line'>
+</span><span class='line'>// 2. C API
+</span><span class='line'>#include &lt;execinfo.h&gt;
+</span><span class='line'>
+</span><span class='line'>int size = 256;
+</span><span class='line'>void *stack[size];
+</span><span class='line'>size = backtrace(stack, size);
+</span><span class='line'>
+</span><span class='line'>char **syms = backtrace_symbols(stack, size);
+</span><span class='line'>for (int i = 0; i &lt; size; i++) {
+</span><span class='line'>    printf("Frame #%d: %s\n", i, syms[i]);
+</span><span class='line'>}
+</span><span class='line'>free(syms);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running">http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running</a></p>
 ]]></content>
   </entry>
   
@@ -1471,6 +2200,8 @@ You need to disable the new System Integrity Protection to install into some sys
 </span><span class='line'>#pragma clang diagnostic pop</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Reference:<a href="http://nshipster.cn/pragma/">http://nshipster.cn/pragma/</a></p>
+
 <h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -2052,7 +2783,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#100;&#111;&#110;&#103;&#109;&#x65;&#x69;&#x6c;&#105;&#x61;&#110;&#x67;&#64;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#53;&#53;">&#x64;&#x6f;&#110;&#103;&#109;&#x65;&#105;&#x6c;&#x69;&#97;&#110;&#103;&#x40;&#49;&#x39;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x2e;&#50;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x64;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#108;&#x69;&#x61;&#110;&#x67;&#64;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x2e;&#50;&#53;&#53;">&#100;&#x6f;&#x6e;&#103;&#109;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#53;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -3067,7 +3798,11 @@ You should then be able to use ssh to log in to the remote server without being 
 <h3>4.Finding all files containing a text string on Linux</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -rnw 'directory' -e "pattern"</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -rnw 'directory' -e "pattern"
+</span><span class='line'>// eg:
+</span><span class='line'>$ grep -rnw source/_posts/  -e "pragma"</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
@@ -3304,300 +4039,6 @@ For example:</p>
 
 
 <p>If you don&rsquo;t specify a table, the filter table is used as the default. You can get even more information by including the -v or &ndash;verbose option.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Thread笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/nsthread-thechnology-notes.html"/>
-    <updated>2015-03-16T16:27:17+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/nsthread-thechnology-notes</id>
-    <content type="html"><![CDATA[<ol>
-<li>Thread是什么？</li>
-<li>iOS中怎么使用Thread？</li>
-</ol>
-
-
-<h3>Thread是什么</h3>
-
-<blockquote><p>Threads are a relatively lightweight way to implement multiple paths of execution inside of an application. At the system level, programs run side by side, with the system doling out execution time to each program based on its needs and the needs of other programs. Inside each program, however, exists one or more threads of execution, which can be used to perform different tasks simultaneously or in a nearly simultaneous manner. The system itself actually manages these threads of execution, scheduling them to run on the available cores and preemptively interrupting them as needed to allow other threads to run.</p>
-
-<p>From a technical standpoint, a thread is a combination of the kernel-level and application-level data structures needed to manage the execution of code. The kernel-level structures coordinate the dispatching of events to the thread and the preemptive scheduling of the thread on one of the available cores. The application-level structures include the call stack for storing function calls and the structures the application needs to manage and manipulate the thread’s attributes and state.</p></blockquote>
-
-<h3>iOS中怎么使用Thread</h3>
-
-<p>iOS中的Thread技术主要有以下两种：</p>
-
-<table>
-<thead>
-<tr>
-<th> Technology </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> Cocoa threads </td>
-<td> Cocoa implements threads using the NSThread class. Cocoa also provides methods on NSObject for spawning new threads and executing code on already-running threads.</td>
-</tr>
-<tr>
-<td> POSIX threads </td>
-<td> POSIX threads provide a C-based interface for creating threads. If you are not writing a Cocoa application, this is the best choice for creating threads. The POSIX interface is relatively simple to use and offers ample flexibility for configuring your threads.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>Creating a Thread</h4>
-
-<ol>
-<li><p>Using NSThread</p>
-
-<ul>
-<li>Use the detachNewThreadSelector:toTarget:withObject: class method to spawn the new thread.</li>
-<li>Create a new NSThread object and call its start method. (Supported only in iOS and OS X v10.5 and later.)</li>
-</ul>
-</li>
-<li><p>Using POSIX Threads</p>
-
-<ul>
-<li>OS X and iOS provide C-based support for creating threads using the POSIX thread API. This technology can actually be used in any type of application (including Cocoa and Cocoa Touch applications) and might be more convenient if you are writing your software for multiple platforms. The POSIX routine you use to create threads is called, appropriately enough, pthread_create.</li>
-</ul>
-</li>
-<li><p>Using NSObject to Spawn a Thread</p>
-
-<ul>
-<li>In iOS and OS X v10.5 and later, all objects have the ability to spawn a new thread and use it to execute one of their methods. The performSelectorInBackground:withObject: method creates a new detached thread and uses the specified method as the entry point for the new thread.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>Configuring Thread Attributes</h4>
-
-<p>Thread的配置项有：</p>
-
-<ul>
-<li>Stack Size of a Thread</li>
-<li>Thread-Local Storage</li>
-<li>Detached State of a Thread</li>
-<li>Thread Priority</li>
-</ul>
-
-
-<h4>Writing Your Thread Entry Routine</h4>
-
-<p>编写Thread的入口程序通常需要做如下事项：</p>
-
-<ul>
-<li>Creating an Autorelease Pool</li>
-<li>Setting Up an Exception Handler</li>
-<li>Setting Up a Run Loop</li>
-</ul>
-
-
-<h4>Terminating a Thread</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（二）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-app-problems-part-2.html"/>
-    <updated>2015-03-16T16:14:50+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-app-problems-part-2</id>
-    <content type="html"><![CDATA[<h3>问题描述：Ad Hoc分发应用</h3>
-
-<p>导出Ad Hoc授权应用
-Xcode > Product > Archive > Export</p>
-
-<p>安装Ad Hoc分发的应用
-Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
-
-<h3>问题描述：Xcode编译出现如下警告提示：</h3>
-
-<p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
-
-<p>解决办法:这是因为检查到有.h文件在编译列表中了。所以只要在列表中去掉就可以了。</p>
-
-<p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
-
-<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
-
-<h3>问题描述：iPhone每次连接Mac都会弹出iPhoto</h3>
-
-<p>解决办法：</p>
-
-<ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
-</ol>
-
-
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
-<!--more-->
-
-
-<h3>问题描述:ld: warning: directory not found for option &lsquo;-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator&rsquo;</h3>
-
-<p>Undefined symbols for architecture x86_64:
-  &ldquo;<em>DDExtractFileNameWithoutExtension&rdquo;, referenced from:
-      </em><em><em>57-[AJSocketBinaryClientChannel setupReadTimerWithTimeout:]</em>block_invoke76 in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-      -[AJSocketBinaryClientChannel doReadTimeout] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-      -[AJSocketBinaryClientChannel endCurrentRead] in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-  &ldquo;</em>OBJC_CLASS<em>$</em>DDLog&rdquo;, referenced from:
-      objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJSocketBinaryClientChannel.o)
-  &ldquo;<em>OBJC_CLASS</em>$_GCDAsyncSocket&rdquo;, referenced from:
-      objc-class-ref in libPods-sohiOSApp-AJFrame.iOS.a(AJTcpConnector.o)
-ld: symbol(s) not found for architecture x86_64</p>
-
-<p>解决办法：从输出的日志可以看出问题是出在链接，由Cocoapods管理的第三方库安装后链接配置项没有设置正确，需要手动设置没有被自动链接的库，例如这里我需要链接：-l"Pods-CocoaAsyncSocket"。</p>
-
-<h3>问题描述:dyld: could not load inserted library &lsquo;/usr/lib/libgmalloc.dylib&rsquo; because image not found</h3>
-
-<p>解决办法：Edit Scheme > Run > Diagnostics > Memory Managerment</p>
-
-<p>Malloc uncheck Enable Scribble<br/>
-        uncheck Enable Guard Edges<br/>
-        uncheck Enable Guard Malloc</p>
-
-<p>Reference:<a href="http://blog.csdn.net/chocolateloveme/article/details/18258443">http://blog.csdn.net/chocolateloveme/article/details/18258443</a></p>
-
-<h3>问题描述：APNs服务器地址</h3>
-
-<p>答案：
-gateway.push.apple.com 2195 (Product)<br/>
-gateway.sandbox.push.apple.com 2195 (Development)</p>
-
-<h3>问题描述：/Users/user/XCodeWork/iPhoneDev/MyAppSourceFolder/en.lproj/MainWindow-iPhone.xib:</h3>
-
-<p>  Compilation failed. Unable to write to path:      <br/>
-  /Users/user/Library/Developer/Xcode/DerivedData/MYAPPNAME-
-  dudnhxzgpqtcnqcgaguirvkhmvco/Build/Intermediates/ArchiveIntermediates/
-  MYAPPNAME/InstallationBuildProductsLocation/Applications/MyAppname.app/
-  en.lproj/MainWindow-iPhone.nib</p>
-
-<p>解决办法：For every xib&rsquo;s that we&rsquo;ve problems, in the right panel go to the first tab, &ldquo;Interface Builder Document&rdquo; -> &ldquo;Builds for&rdquo; and select &ldquo;iOS 7.0 and Later&rdquo;. My old configuration was &ldquo;iOS 4.3 and Later&rdquo;.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path">http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path</a></p>
-
-<h3>问题描述:duplicate symbol <em>OBJC_METACLASS</em>$_SDWebImagePrefetcher in:</h3>
-
-<pre><code>/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-weima-SDWebImage.a(SDWebImagePrefetcher.o)
-/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-SDWebImage.a(SDWebImagePrefetcher.o)
-</code></pre>
-
-<p>ld: 727 duplicate symbols for architecture x86_64</p>
-
-<p>解决办法：问题出现的原因是我用CocoaPods管理第三方库，在Build Settings > Linking > Other Linker Flags 里面即显示指定了-l"Pods-SDWebImagePrefetcher",又设置了变量$(inherited)。我去掉$(inherited)就好。</p>
-
-<h3>问题描述:2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument</h3>
-
-<p>2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument
-libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
-
-<h3>Cannot send push notifications using Javapns/Javaapns SSL handshake failure</h3>
-
-<p>解决办法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>developer_identity.cer &lt;= download from Apple (aps cert)
-</span><span class='line'>mykey.p12 &lt;= Your private key (CSR generate private key or install aps cert get a private key both ok)
-</span><span class='line'>
-</span><span class='line'>openssl x509 -in developer_identity.cer -inform DER -out developer_identity.pem -outform PEM
-</span><span class='line'>openssl pkcs12 -nocerts -in mykey.p12 -out mykey.pem
-</span><span class='line'>openssl pkcs12 -export -inkey mykey.pem -in developer_identity.pem -out iphone_dev.p12</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure">http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure</a></p>
-
-<h3>导航栏如何显示两行文本？</h3>
-
-<p>解决办法：After setting up your titleView or titleLabel, call sizeToFit on it, also make sure titleLabel.textAlignment = UITextAlignmentCenter. It&rsquo;ll be centered in the width of the navbar rather than in the space between the button edge and far edge of navbar.</p>
-
-<p>Reference <a href="http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame">http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame</a></p>
-
-<h3>SVN how to resolve “local unversioned, incoming add upon update”</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ svn status
-</span><span class='line'>D     C logs
-</span><span class='line'>      &gt;   local unversioned, incoming add upon update
-</span><span class='line'>Summary of conflicts:
-</span><span class='line'>  Tree conflicts: 1</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决办法:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ svn resolve --accept working logs
-</span><span class='line'>Resolved conflicted state of 'logs'
-</span><span class='line'>$ svn revert logs
-</span><span class='line'>Reverted 'logs'
-</span><span class='line'>$ svn status</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
-
-<h3>问题描述：Calling a C function from within a function in a .mm file</h3>
-
-<p>解决办法：The .mm file is looking to call a mangled version of the function name. You need either <strong>BEGIN_DECLS and </strong>END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern &ldquo;C&rdquo; when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.</p>
-
-<p>Referenc: <a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file</a></p>
-
-<h3>问题描述：Compilation failed. Unable to write to path</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Underlying Errors:
-</span><span class='line'>    Description: The file “objects.nib” doesn’t exist.
-</span><span class='line'>    Failure Reason: The file doesn’t exist.
-</span><span class='line'>    Underlying Errors:
-</span><span class='line'>        Description: The operation couldn’t be completed. No such file or directory
-</span><span class='line'>        Failure Reason: No such file or directory
-</span><span class='line'>    Description: “DMLUserElementCell~iphone.nib” couldn’t be removed.
-</span><span class='line'>    Failure Reason: The file doesn’t exist.
-</span><span class='line'>    Underlying Errors:
-</span><span class='line'>        Description: The operation couldn’t be completed. No such file or directory
-</span><span class='line'>        Failure Reason: No such file or directory</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure">http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure</a></p>
-
-<h3>问题描述：Where iPhoto Pictures are Located and How to Access the iPhoto Library and Picture Files</h3>
-
-<p>解决办法：iPhoto 11 (9.0) Photo Library Storage Location:~/Pictures/iPhoto Library.photolibrary/Masters/</p>
-
-<p>Reference:<a href="http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/">http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/</a></p>
 ]]></content>
   </entry>
   

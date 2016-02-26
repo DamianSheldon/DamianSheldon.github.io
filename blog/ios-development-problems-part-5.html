@@ -467,6 +467,44 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents">http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents</a>
 <a href="http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html">http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html</a></p>
+
+<h3>13.How to NSLog a Call stack when a program is running?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Cocoa framework
+</span><span class='line'>NSLog(@"%@", [NSThread callStackSymbols]);
+</span><span class='line'>
+</span><span class='line'>// 2. C API
+</span><span class='line'>#include &lt;execinfo.h&gt;
+</span><span class='line'>
+</span><span class='line'>int size = 256;
+</span><span class='line'>void *stack[size];
+</span><span class='line'>size = backtrace(stack, size);
+</span><span class='line'>
+</span><span class='line'>char **syms = backtrace_symbols(stack, size);
+</span><span class='line'>for (int i = 0; i &lt; size; i++) {
+</span><span class='line'>    printf("Frame #%d: %s\n", i, syms[i]);
+</span><span class='line'>}
+</span><span class='line'>free(syms);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running">http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running</a></p>
 </div>
 
 

@@ -108,6 +108,128 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/problems-when-use-mac.html">
+		
+			使用 Mac 遇到的问题</a>
+	</h2>
+	<div class="entry-content">
+		<h2>1. How to enable the three finger drag on OS X 10.11</h2>
+
+<p>Step 1: Open System Preferences</p>
+
+<p>Step 2: Click Accessibility</p>
+
+<p>Step 3: Click Mouse &amp; Trackpad</p>
+
+<p>Step 4: Click Trackpad Options…</p>
+
+<p>Step 5: Click Enable dragging</p>
+
+<p>Step 6: Select “three finger drag” in the drop down box</p>
+
+<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
+
+
+		
+		<a href="/blog/problems-when-use-mac.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-10T08:49:37+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html">
+		
+			Mac 安装 OS X El Capitan</a>
+	</h2>
+	<div class="entry-content">
+		<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &ndash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
+
+<h2>备份数据</h2>
+
+<p>我用 sftp 把数据备份到另一台 Mac 上, 之前也试过 Migration Assitant 都是卡在最后一分钟，不知道现在这个问题改善了没有。 用 sftp 备份中间也中断了好多次，但手头也没移动硬盘也只能这么将就着了。</p>
+
+<h2>Install OS X El Capitan</h2>
+
+<ol>
+<li>需要一个 8GB 左右的 U 盘，因为 El Capitan 的大小超过 6GB ;</li>
+<li>从 App Store 下载 El Capitan;</li>
+<li>制作安装盘：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>重新启动，按住 option 键，选择通过U盘启动，之后先进入磁盘工具里面把硬盘格式化了（你也可以选择不格式化，这样就是覆盖安装）;</li>
+</ol>
+
+
+
+		
+		<a href="/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-09T18:00:22+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/set-up-php-development-environment.html">
 		
 			Set Up PHP Development Environment</a>
@@ -279,282 +401,6 @@ Apply > Run
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/notes-of-wireshark.html">
-		
-			Notes of Wireshark</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Capture HTTP traffic on your server</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Capture &gt; Capture Filters... &gt; New &gt; OK
-</span><span class='line'>Capture &gt; Options... &gt; Capture Filter(Set to appropriate filter) &gt; Start
-</span><span class='line'>
-</span><span class='line'>host www.baidu.com
-</span><span class='line'>
-</span><span class='line'>curl -d "name=test&page=1" http://www.baidu.com</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>POST / HTTP/1.1
-</span><span class='line'>User-Agent: curl/7.37.1
-</span><span class='line'>Host: www.baidu.com
-</span><span class='line'>Accept: */*
-</span><span class='line'>Content-Length: 16
-</span><span class='line'>Content-Type: application/x-www-form-urlencoded
-</span><span class='line'>
-</span><span class='line'>name=test&page=1
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>HTTP/1.1 302 Moved Temporarily
-</span><span class='line'>Date: Tue, 15 Sep 2015 00:56:03 GMT
-</span><span class='line'>Content-Type: text/html
-</span><span class='line'>Content-Length: 215
-</span><span class='line'>Connection: Keep-Alive
-</span><span class='line'>Location: http://www.baidu.com/search/error.html
-</span><span class='line'>Server: BWS/1.1
-</span><span class='line'>X-UA-Compatible: IE=Edge,chrome=1
-</span><span class='line'>BDPAGETYPE: 3
-</span><span class='line'>Set-Cookie: BDSVRTM=0; path=/
-</span><span class='line'>
-</span><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;head&gt;&lt;title&gt;302 Found&lt;/title&gt;&lt;/head&gt;
-</span><span class='line'>&lt;body bgcolor="white"&gt;
-</span><span class='line'>&lt;center&gt;&lt;h1&gt;302 Found&lt;/h1&gt;&lt;/center&gt;
-</span><span class='line'>&lt;hr&gt;&lt;center&gt;pr-nginx_1-0-245_BRANCH Branch
-</span><span class='line'>Time : Thu Sep 10 11:36:26 CST 2015&lt;/center&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-09-15T09:05:51+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/linux-useful-command-line-part-2.html">
-		
-			Linux Useful Command Line Part 2</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Rails Error: ImageMagick/GraphicsMagick is not installed</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>brew install graphicsmagick
-</span><span class='line'>brew install ImageMagick</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed">http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed</a></p>
-
-<h3>2.Transfer file via scp (or sftp) between two Mac</h3>
-
-<p>Via scp:<br/>
-1.Enable Enable SSH
-     System Preferences > Sharing > enable the “Remote Login” feature</p>
-
-<p>2.type scp command</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Via s<a href="ftp:">ftp:</a></p>
-
-<p>1.sftp <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#100;&#111;&#110;&#103;&#109;&#x65;&#x69;&#x6c;&#105;&#x61;&#110;&#x67;&#64;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#53;&#53;">&#x64;&#x6f;&#110;&#103;&#109;&#x65;&#105;&#x6c;&#x69;&#97;&#110;&#103;&#x40;&#49;&#x39;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x2e;&#50;&#x35;&#x35;</a><br/>
-2.cd path<br/>
-  Change remote directory to path.</p>
-
-<p>3.lcd path<br/>
-  Change local directory to path.</p>
-
-<p>4.get [-Ppr] remote-path [local-path]</p>
-
-<p>5.lpwd    Print local working directory.</p>
-
-<p>6.pwd     Display remote working directory.</p>
-
-<p>7.put [-Ppr] local-path [remote-path]</p>
-
-<p>8.lls [ls-options [path]]
-             Display local directory listing of either path or current directory if path is not specified.  ls-options may con-
-             tain any flags supported by the local system&rsquo;s ls(1) command.  path may contain glob(3) characters and may match
-             multiple files.</p>
-
-<p>9.ls [-1afhlnrSt] [path]
-             Display a remote directory listing of either path or the current directory if path is not specified.  path may con-
-             tain glob(3) characters and may match multiple files.</p>
-
-<p>10.Quit sftp</p>
-
-<p>bye<br/>
-exit<br/>
-quit</p>
-
-<h3>3.Installing Apps with Homebrew Cask</h3>
-
-<p><a href="http://caskroom.io/">Homebrew Cask</a> is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.</p>
-
-<p>After you have homebrew installed, you&rsquo;ll want to install Homebrew Cask:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install caskroom/cask/brew-cask</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.复制目录及子目录下的某种类型文件</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp  ~/Documents/HJKApp/srsApp/srsApp/Sections/Home/Main.xcassets/**/*.png  ~/Pictures/HJKApp/OnlyHaveScale2/</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>5.Recursive copy of specific files in Unix/Linux?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux">http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux</a></p>
-
-<h3>6.Uploading directories with sftp?</h3>
-
-<p>I don&rsquo;t know why sftp does this but you can only recursive copy if the destination directory already exists. So do this&hellip;</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sftp&gt; mkdir bin  
-</span><span class='line'>sftp&gt; put -r bin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp">http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp</a></p>
-
-<h3>7.Scanning machine&rsquo;s specified ports</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ nmap -p 37099 192.168.3.214
-</span><span class='line'>// -Pn: Treat all hosts as online -- skip host discovery
-</span><span class='line'>$ nmap -Pn 192.168.3.214</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>8.Reverse search history command</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Execute last command
-</span><span class='line'>$ !!
-</span><span class='line'>
-</span><span class='line'>Ctrl + r
-</span><span class='line'>(reverse-i-search)`': pull
-</span><span class='line'>(reverse-i-search)`': git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash">http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-09-11T09:30:16+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

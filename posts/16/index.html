@@ -108,6 +108,116 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html">
+		
+			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
+	</h2>
+	<div class="entry-content">
+		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
+当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+
+<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+
+<h3>当方法被废弃了</h3>
+
+<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+
+
+		
+		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T16:05:38+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/swift-learning-notes-properties.html">
+		
+			Swift Learning Notes -- Properties</a>
+	</h2>
+	<div class="entry-content">
+		<h3>Properties</h3>
+
+<p>“Properties associate values with a particular class, structure, or enumeration. ” &ndash; Apple</p>
+
+<h4>Type Properties</h4>
+
+<p>属于类型本身的properties称为Type Property.</p>
+
+<p>1)Value Type Properties (keyword: static)<br/>
+structrue, enumeration可以定义Stroed 和Computed type properties.</p>
+
+<p>Stored type properties for value types can be variables or constants.<br/>
+NOTE:Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.</p>
+
+<p>Computed type properties are always declared as variable properties, in the same way as computed instance properties.</p>
+
+<p>2)Reference Type Properties (keyword: class)<br/>
+class只可以定义Computed type properties.</p>
+
+
+		
+		<a href="/blog/swift-learning-notes-properties.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/swift-learning-notes-initialization.html">
 		
 			Swift Learning Notes -- Initialization</a>
@@ -152,154 +262,6 @@ $(document).ready(
 
 
 <time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/core-data-chu-bu.html">
-		
-			Core Data 初步</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>Core Data是什么？</li>
-<li>为什么使用Core Data?</li>
-<li>如何使用Core Data?</li>
-</ol>
-
-
-<h2>Core Data是什么？</h2>
-
-<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
-
-<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
-
-<h2>为什么使用Core Data？</h2>
-
-<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
-
-<ul>
-<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
-<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
-<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
-<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
-<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
-</ul>
-
-
-
-		
-		<a href="/blog/core-data-chu-bu.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-concurrency-programming-gcd.html">
-		
-			iOS Concurrency Programming--GCD</a>
-	</h2>
-	<div class="entry-content">
-		<h2>GCD是什么？</h2>
-
-<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
-* 直接简单的编程接口；<br/>
-* 自动、整体的线程池管理；<br/>
-* 高效的内存管理；<br/>
-* 负载时不干扰内核；<br/>
-* 异步分发任务到分派队列不会造成死锁；<br/>
-* 优雅地处理竞争；<br/>
-* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
-
-<h2>如何使用GCD？</h2>
-
-<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
-
-<h3>1）单个任务；</h3>
-
-<p>我们通常是通过调用以下API来执行任务：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
-</span><span class='line'><span class="n">dispatch_async_f</span>
-</span><span class='line'><span class="n">dispatch_sync</span>
-</span><span class='line'><span class="n">dispatch_sync_f</span>
-</span><span class='line'><span class="n">dispatch_after</span>
-</span><span class='line'><span class="n">dispatch_after_f</span>
-</span><span class='line'><span class="n">dispatch_apply</span>
-</span><span class='line'><span class="n">dispatch_apply_f</span>
-</span><span class='line'><span class="n">dispatch_once</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/ios-concurrency-programming-gcd.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

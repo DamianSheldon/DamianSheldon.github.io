@@ -108,6 +108,149 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-app-data-persistence.html">
+		
+			iOS App 数据持久化</a>
+	</h2>
+	<div class="entry-content">
+		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
+
+<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
+
+<h2>文件系统基础</h2>
+
+<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
+我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
+
+<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
+
+<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+
+</div>
+
+
+
+
+
+		
+		<a href="/blog/ios-app-data-persistence.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/key-value-coding-and-key-value-observing.html">
+		
+			Key-Value Coding &amp; Key-Value Observing</a>
+	</h2>
+	<div class="entry-content">
+		<h2>Key-Value Coding</h2>
+
+<ol>
+<li>Key-Value Coding是什么？</li>
+<li>为什么要用Key-Value Coding？</li>
+<li>如何使用Key-Value Coding?</li>
+</ol>
+
+
+<h3>Key-Value Coding是什么？</h3>
+
+<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
+
+<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
+
+<h3>为什么要用Key-Value Coding？</h3>
+
+<ol>
+<li>Scripting（OS X）;</li>
+<li>简化代码和提高灵活性；</li>
+</ol>
+
+
+<h3>如何使用Key-Value Coding?</h3>
+
+<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
+
+<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
+
+<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
+
+<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
+
+<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
+
+<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
+
+<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+
+
+		
+		<a href="/blog/key-value-coding-and-key-value-observing.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-design-patterns.html">
 		
 			(翻译)iOS 设计模式</a>
@@ -175,760 +318,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html">
-		
-			为MacBook Pro配置一个像guake的终端</a>
-	</h2>
-	<div class="entry-content">
-		<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
-
-<h3>让iTerm2的行为像guake</h3>
-
-<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
-
-<p>2)打开iTerm2,然后iTerm2&ndash;>Prefences&hellip;->Profiles;</p>
-
-<p>3)创建一个新Profiles,命名为guake;</p>
-
-<p>4)在Window选项中根据自己的喜好配置;</p>
-
-<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
-
-<p>5)在Keys选项中激活"Show/hide iTerm2 with a system-wide hotkey",由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
-
-<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
-
-
-		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/git-summary.html">
-		
-			Git 小结</a>
-	</h2>
-	<div class="entry-content">
-		<p>本文是从日常开发的角度对 Git 的总结，主要内容如下：</p>
-
-<ol>
-<li>搭建 Git 服务器</li>
-<li>初始化远程仓库</li>
-<li>多人协作开发</li>
-<li>提交测试</li>
-<li>修复 BUG</li>
-</ol>
-
-
-<h2>搭建 Git 服务器</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
-</span><span class='line'><span class="nv">$ </span>sudo adduser git
-</span><span class='line'><span class="nv">$ </span>su -l git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~
-</span><span class='line'><span class="nv">$ </span>mkdir .ssh
-</span><span class='line'>
-</span><span class='line'>// Step 2:把开发者的 SSH 公钥添加到这个用户的 authorized_keys 文件中。
-</span><span class='line'>// 假设你通过 e-mail 收到了几个 公钥并存到了临时文件里
-</span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.john.pub &gt;&gt; ~/.ssh/authorized_keys
-</span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
-</span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
-</span><span class='line'>
-</span><span class='line'>// Preparation &amp; Accounts Setup
-</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/john -m -s /bin/bash john
-</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/andrew -m -s /bin/bash andrew
-</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/robert -m -s /bin/bash robert
-</span><span class='line'>
-</span><span class='line'>// Exist user change his primary group by newgrp <span class="nb">command</span>
-</span><span class='line'><span class="nv">$ </span>sudo newgrp -g git john
-</span><span class='line'>
-</span><span class='line'>&lt;!-- more --&gt;
-</span><span class='line'>// Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
-</span><span class='line'><span class="nv">$sudo</span> mkdir /git
-</span><span class='line'><span class="nv">$sudo</span> chown -R git /git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /git
-</span><span class='line'><span class="nv">$ </span>mkdir project.git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>project.git
-</span><span class='line'><span class="nv">$ </span>git --bare --shared<span class="o">=</span>group init
-</span><span class='line'>
-</span><span class='line'>// <span class="k">if </span>forget init with --shared<span class="o">=</span>group, we can config with <span class="nb">command</span>:
-</span><span class='line'><span class="nv">$ </span>git config -- core.sharedRepository ture
-</span><span class='line'>
-</span><span class='line'>// Mac 下需要开启ssh并允许remote login
-</span><span class='line'><span class="nv">$launchctl</span> start sshd
-</span><span class='line'>// System Preferences -&gt; Sharing -&gt; Remote Login -&gt; All Users
-</span><span class='line'>
-</span><span class='line'>// Step 4:Join,Josie 或者 Jessica 就可以把它加为远程仓库,
-</span><span class='line'>推送一个分支,从而把第一个版本的工程上 传到仓库里了
-</span><span class='line'><span class="c"># 在 John 的电脑上</span>
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>myproject
-</span><span class='line'><span class="nv">$ </span>git init
-</span><span class='line'><span class="nv">$ </span>git add .
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s1">&#39;initial commit&#39;</span>
-</span><span class='line'><span class="nv">$ </span>git remote add origin git@gitserver:/git/project.git
-</span><span class='line'><span class="nv">$ </span>git push origin master
-</span><span class='line'>
-</span><span class='line'>// Step 5:其他人的克隆和推送也一样变得很简单
-</span><span class='line'><span class="nv">$ </span>git clone git@gitserver:/git/project.git
-</span><span class='line'><span class="nv">$ </span>vim README
-</span><span class='line'><span class="nv">$ </span>git commit -am <span class="s1">&#39;fix for the README file&#39;</span>
-</span><span class='line'><span class="nv">$ </span>git push origin master
-</span><span class='line'>
-</span><span class='line'>// Step 6:用这个方法可以很快捷的为少数几个开发者架设一个可读写的 Git 服务
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>// 如何生成 SSH 公钥？
-</span><span class='line'>// Step 1:首先,确定一下是否已经有一个公钥了。SSH 公钥默认储存 在账户的 ~/.ssh 目录。
-</span><span class='line'>// 进入那里并查看其内容,有没有公钥一目了然:
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/.ssh
-</span><span class='line'><span class="nv">$ </span>ls
-</span><span class='line'>authorized_keys2 id_dsa known_hosts config id_dsa.pub
-</span><span class='line'>
-</span><span class='line'>// Step 2:关键是看有没有用 文件名 和 文件名.pub 来命名的一对文件,
-</span><span class='line'>// 这个 文件名 通常是 id_dsa 或者 id_rsa。 .pub 文件是公钥,另一个文件是密钥。
-</span><span class='line'>// 假如没有这些文件<span class="o">(</span>或者干脆连 .ssh 目录都没有<span class="o">)</span>,你可以用 ssh- keygen 的程序来建立它们,
-</span><span class='line'>// 该程序在 Linux/Mac 系统由 SSH 包提供, 在 Windows 上则包含在 MSysGit 包 里:
-</span><span class='line'><span class="nv">$ </span>ssh-keygen
-</span><span class='line'>Generating public/private rsa key pair.
-</span><span class='line'>Enter file in which to save the key <span class="o">(</span>/Users/schacon/.ssh/id_rsa<span class="o">)</span>:
-</span><span class='line'>Enter passphrase <span class="o">(</span>empty <span class="k">for </span>no passphrase<span class="o">)</span>:
-</span><span class='line'>Enter same passphrase again:
-</span><span class='line'>Your identification has been saved in /Users/schacon/.ssh/id_rsa.
-</span><span class='line'>Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
-</span><span class='line'>The key fingerprint is:
-</span><span class='line'>43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
-</span><span class='line'>
-</span><span class='line'>// Step 3:它先要求你确认保存公钥的位置<span class="o">(</span>.ssh/id_rsa<span class="o">)</span>,然后它会让你重复一个密码两次,
-</span><span class='line'>// 如果不想在使用公钥的 时候输入密码,可以留空。
-</span><span class='line'>// 现在,所有做过这一步的用户都得把它们的公钥给你
-</span><span class='line'>// 或者 Git 服务器的管理者<span class="o">(</span>假设 SSH 服务被设定为使 用公钥机制<span class="o">)</span>。
-</span><span class='line'>// 他们只需要复制 .put 文件的内容然后 e-email 之。公钥的样子大致如下:
-</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/id_rsa.pub
-</span><span class='line'>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
-</span><span class='line'>GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
-</span><span class='line'>Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
-</span><span class='line'>t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
-</span><span class='line'>mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
-</span><span class='line'>NrRFi9wrf+M7Q<span class="o">==</span> schacon@agadorlaptop.local
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>作为一个额外的防范措施,你可以用 Git 自带的 git-shell 简单工具来把 git 用户的活动限制在仅与 Git 相关。把它设为 git 用户登入的 shell,那么该用户就不能拥有主机正常的 shell 访问权。为了实现这一 点,需要指明用户的登入shell 是 git-shell ,而不是 bash 或者 csh。你可能得编辑 /etc/passwd 文件:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:
-</span><span class='line'><span class="nv">$ </span>sudo vim /etc/passwd
-</span><span class='line'>
-</span><span class='line'>// Step 2:在文件末尾,你应该能找到类似这样的行
-</span><span class='line'>git:x:1000:1000::/home/git:/bin/sh
-</span><span class='line'>
-</span><span class='line'>// Step 3:把 bin/sh 改为 /usr/bin/git-shell <span class="o">(</span>或者用 which git-shell 查看它的位置<span class="o">)</span>。该行修改后的样子如下
-</span><span class='line'>git:x:1000:1000::/home/git:/usr/bin/git-shell
-</span><span class='line'>
-</span><span class='line'>// Step 4:现在 git 用户只能用 SSH 连接来推送和获取 Git 仓库,而不能直接使用主机 shell。
-</span><span class='line'>// 尝试登录的话,你会 看到下面这样的拒绝信息
-</span><span class='line'><span class="nv">$ </span>ssh git@gitserver
-</span><span class='line'>fatal: What <span class="k">do </span>you think I am? A shell? <span class="o">(</span>你以为我是个啥?shell吗?<span class="o">)</span>
-</span><span class='line'>Connection to gitserver closed. <span class="o">(</span>gitserver 连接已断开。<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>初始化远程仓库</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>su - git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /git
-</span><span class='line'><span class="nv">$ </span>git init --bare sample.git
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>多人协作开发</h2>
-
-<ol>
-<li>场景一：新建工程</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone git@server:/git/sample.git
-</span><span class='line'><span class="nv">$ </span>git checkout -b develop
-</span><span class='line'><span class="nv">$ </span>add .gitignore （1）
-</span><span class='line'><span class="nv">$ </span>new project
-</span><span class='line'><span class="nv">$ </span>git add .
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Description what you have done.&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push origin develop:develop --verbose
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景二：正常日常开发</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>develop ...
-</span><span class='line'><span class="nv">$ </span>git add .
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Description what you have done.&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git pull origin develop
-</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if </span>need
-</span><span class='line'><span class="nv">$ </span>git push origin develop:develop --verbose
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景三：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout -- file
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景四：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git reset HEAD file
-</span><span class='line'><span class="nv">$ </span>git checkout -- file
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景五：已经提交了不合适的修改到版本库时，想要撤销本次提交，没有推送到远程库</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 回到过去某个版本
-</span><span class='line'><span class="nv">$ </span>git log
-</span><span class='line'><span class="nv">$ </span>git reset --hard commit_id
-</span><span class='line'>
-</span><span class='line'>// 回到过去某个版本之后又想返回未来的版本
-</span><span class='line'><span class="nv">$ </span>git reflog
-</span><span class='line'><span class="nv">$ </span>git reset --hard commit_id
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景六：已经提交了不合适的修改到远程库，想要撤销本次提交</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git rm --cached &lt;file&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景七：修改提交信息</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Change the last commit
-</span><span class='line'><span class="nv">$ </span>git commit --amend
-</span><span class='line'>
-</span><span class='line'>// Change published commit message
-</span><span class='line'><span class="nv">$ </span>git rebase -i HEAD~3
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景八：查看修改</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 查看文件做了哪些修改
-</span><span class='line'><span class="nv">$ </span>git diff &lt;commit&gt; &lt;commit&gt; file
-</span><span class='line'>
-</span><span class='line'>// 先查看同事做了哪些修改，然后再合并
-</span><span class='line'><span class="nv">$ </span>git fetch origin develop --verbose
-</span><span class='line'><span class="nv">$ </span>git diff HEAD FETCH_HEAD
-</span><span class='line'><span class="nv">$ </span>git merge origin/develop
-</span><span class='line'>
-</span><span class='line'>// Various ways to check your working tree
-</span><span class='line'><span class="nv">$ </span>git diff            <span class="o">(</span>1<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>git diff --cached   <span class="o">(</span>2<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>git diff HEAD       <span class="o">(</span>3<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Changes in the working tree not yet staged for the next commit.</li>
-<li>Changes between the index and your last commit; what you would be committing if you run &ldquo;git commit&rdquo; without &ldquo;-a&rdquo; option.</li>
-<li>Changes in the working tree since your last commit; what you would be committing if you run &ldquo;git commit -a&rdquo;</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Comparing with arbitrary commits
-</span><span class='line'><span class="nv">$ </span>git diff <span class="nb">test</span>            <span class="o">(</span>1<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>git diff HEAD -- ./test  <span class="o">(</span>2<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>git diff HEAD^ HEAD      <span class="o">(</span>3<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Instead of using the tip of the current branch, compare with the tip of &ldquo;test&rdquo; branch.</li>
-<li>Instead of comparing with the tip of &ldquo;test&rdquo; branch, compare with the tip of the current branch, but limit the comparison to the file &ldquo;test&rdquo;.</li>
-<li><p>Compare the version before the last commit and the last commit.</p></li>
-<li><p>场景九：打标签归档</p></li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 创建标签
-</span><span class='line'><span class="nv">$ </span>git tag &lt;name&gt;
-</span><span class='line'><span class="nv">$ </span>git tag -a &lt;tagname&gt; -m <span class="s2">&quot;blablabla...&quot;</span>
-</span><span class='line'>
-</span><span class='line'>// 查看标签
-</span><span class='line'><span class="nv">$ </span>git tag
-</span><span class='line'><span class="nv">$ </span>git show &lt;tagname&gt;
-</span><span class='line'>
-</span><span class='line'>// 推送标签
-</span><span class='line'><span class="nv">$ </span>git push origin &lt;tagname&gt;
-</span><span class='line'><span class="nv">$ </span>git push origin develop:develop --tags --verbose
-</span><span class='line'>
-</span><span class='line'>// 删除标签
-</span><span class='line'><span class="nv">$ </span>git tag -d &lt;tagname&gt;
-</span><span class='line'>
-</span><span class='line'>// 删除一个远程标签
-</span><span class='line'><span class="nv">$ </span>git tag -d &lt;tagname&gt;
-</span><span class='line'><span class="nv">$ </span>git push origin :refs/tags/&lt;tagname&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景十：有的命令太长记不住，配置别名</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 配置别名
-</span><span class='line'><span class="nv">$ </span>git config --global alias.last <span class="s1">&#39;log -1&#39;</span>
-</span><span class='line'><span class="nv">$ </span>git config --global alias.lg <span class="s2">&quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</span>
-</span><span class='line'>
-</span><span class='line'>// 使用别名
-</span><span class='line'><span class="nv">$ </span>git last
-</span><span class='line'><span class="nv">$ </span>git lg
-</span><span class='line'>
-</span><span class='line'>// 查看配置了哪些别名
-</span><span class='line'><span class="nv">$ </span>cat ~/.gitconfig
-</span><span class='line'>
-</span><span class='line'>// 删除别名
-</span><span class='line'>vim ~/.gitconfig &gt; 别名就在<span class="o">[</span><span class="nb">alias</span><span class="o">]</span>后面，要删除别名，直接把对应的行删掉即可
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>提交测试</h2>
-
-<ol>
-<li>场景一：尚未创建 test 分支</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout -b <span class="nb">test</span>
-</span><span class='line'><span class="nv">$ </span>git push origin develop:test --verbose
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景二：已创建 test 分支</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git pull origin <span class="nb">test</span> --verbose
-</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if </span>need
-</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">test</span>:test --verbose
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>修复 BUG</h2>
-
-<ol>
-<li>场景一：开发完成后测试反馈 BUG</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout develop
-</span><span class='line'><span class="nv">$ </span>fix bug
-</span><span class='line'><span class="nv">$ </span>git pull origin develop --verbose
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>场景二：开发新功能中反馈紧急 BUG, 需中断开发工作，但开发工作只进行到一半，还没法提交</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git stash
-</span><span class='line'><span class="nv">$ </span>git checkout -b hotfix tag <span class="o">(</span>1<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>git push origin hotfix:develop --verbose
-</span><span class='line'><span class="nv">$ </span>git checkout develop
-</span><span class='line'><span class="nv">$ </span>git stash list
-</span><span class='line'><span class="nv">$ </span>git stash pop <span class="o">(</span>or git stash apply stash_identifier<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>git branch -d hotfix
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>如何将另一分支上的某文件复制到当前分支上来？</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> checkout currentBranch
-</span><span class='line'><span class="nv">$git</span> checkout anotherBranch -- filenameYourWantedCopy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>如何不再控制已经提交到仓库的文件？</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> rm --cached filenameYourDontWantTracked
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>如何将目录覆盖下一级的同名目录？</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 背景
-</span><span class='line'>|-A
-</span><span class='line'>|-B
-</span><span class='line'>  |-A
-</span><span class='line'>
-</span><span class='line'>// 目标
-</span><span class='line'>|-B
-</span><span class='line'>  |-A
-</span><span class='line'>
-</span><span class='line'>// 解决办法
-</span><span class='line'>1. rsync -a A/ B/A
-</span><span class='line'>2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> | <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>不再跟踪已经删除的文件</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add --update
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>insufficient permission for adding an object to repository database ./objects</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh me@myserver
-</span><span class='line'><span class="nb">cd </span>repository.git
-</span><span class='line'>
-</span><span class='line'>sudo chmod -R g+w *
-</span><span class='line'>
-</span><span class='line'>git config core.sharedRepository <span class="nb">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi">http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi</a></p>
-
-<h3>warning: remote HEAD refers to nonexistent ref, unable to checkout</h3>
-
-<p>Solution:问题的原因是远程仓库的默认分支名不为master。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Login to remote server
-</span><span class='line'>git branch -a
-</span><span class='line'>git branch -m branchName master
-</span><span class='line'>
-</span><span class='line'>// <span class="nb">local</span>
-</span><span class='line'>git clone .... // Now the warn will be disappear
-</span><span class='line'>
-</span><span class='line'>git fetch
-</span><span class='line'>git add .
-</span><span class='line'>git commit
-</span><span class='line'>git push ...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://blog.csdn.net/gracioushe/article/details/6142793">http://blog.csdn.net/gracioushe/article/details/6142793</a></p>
-
-<h4>Reference</h4>
-
-<p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-05T10:13:13+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

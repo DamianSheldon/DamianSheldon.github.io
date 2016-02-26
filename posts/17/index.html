@@ -108,6 +108,154 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/core-data-chu-bu.html">
+		
+			Core Data 初步</a>
+	</h2>
+	<div class="entry-content">
+		<ol>
+<li>Core Data是什么？</li>
+<li>为什么使用Core Data?</li>
+<li>如何使用Core Data?</li>
+</ol>
+
+
+<h2>Core Data是什么？</h2>
+
+<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
+
+<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
+
+<h2>为什么使用Core Data？</h2>
+
+<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
+
+<ul>
+<li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
+<li>提供一个记录模型对象改变的架构。它能让你自动支持undo和redo，维护对象之间的关系。</li>
+<li>允许你去维护模型对象不相交集合的编辑。不相交集合很有用，例如，让用户在一个可能会被丢弃的视图中编辑而不在另一个视图中显示的数据。</li>
+<li>允许你在任何时候只在内存中保持模型对象的一个子集。这对保持你应用尽可能地使用少的内存很有用。</li>
+<li>拥有数据存储版本和迁移的架构。该架构让你很容易把旧版本数据文件升级为现在的版本。</li>
+</ul>
+
+
+
+		
+		<a href="/blog/core-data-chu-bu.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T09:53:40+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-concurrency-programming-gcd.html">
+		
+			iOS Concurrency Programming--GCD</a>
+	</h2>
+	<div class="entry-content">
+		<h2>GCD是什么？</h2>
+
+<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
+* 直接简单的编程接口；<br/>
+* 自动、整体的线程池管理；<br/>
+* 高效的内存管理；<br/>
+* 负载时不干扰内核；<br/>
+* 异步分发任务到分派队列不会造成死锁；<br/>
+* 优雅地处理竞争；<br/>
+* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
+
+<h2>如何使用GCD？</h2>
+
+<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
+
+<h3>1）单个任务；</h3>
+
+<p>我们通常是通过调用以下API来执行任务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
+</span><span class='line'><span class="n">dispatch_async_f</span>
+</span><span class='line'><span class="n">dispatch_sync</span>
+</span><span class='line'><span class="n">dispatch_sync_f</span>
+</span><span class='line'><span class="n">dispatch_after</span>
+</span><span class='line'><span class="n">dispatch_after_f</span>
+</span><span class='line'><span class="n">dispatch_apply</span>
+</span><span class='line'><span class="n">dispatch_apply_f</span>
+</span><span class='line'><span class="n">dispatch_once</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/ios-concurrency-programming-gcd.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-concurrency-programming-operation.html">
 		
 			iOS Concurrency Programming--Operation</a>
@@ -185,143 +333,6 @@ $(document).ready(
 
 
 <time datetime="2014-05-20T09:31:07+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/iosde-hui-tu-xi-tong.html">
-		
-			iOS的绘图系统</a>
-	</h2>
-	<div class="entry-content">
-		<h2>iOS的绘图框架</h2>
-
-<p>1)UIKit是Objective-C形式的API，提供基本的2D图形绘制，图片处理，和一些实现用户界面元素动画的方法；</p>
-
-<p>2)Core Graphics是C形式的API，支持向量图形，位图和PDF内容；</p>
-
-<p>3)Core Animation是另一个Objective-C形式的API,它能为用户界面增加流畅的移动和动态的反馈效果；</p>
-
-<p>4)OpenGL ES 是移动端版本的OpenGL,它能实现高性能的2D和3D图形绘制。</p>
-
-<h2>Drawing Destinations(iOS-Only)</h2>
-
-<p>1)View Graphics Context<br/>
-2)Layer<br/>
-3)Bitmap<br/>
-4)PDF<br/>
-5)Printer</p>
-
-
-		
-		<a href="/blog/iosde-hui-tu-xi-tong.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html">
-		
-			iOS UIWebView与JavaScript交互</a>
-	</h2>
-	<div class="entry-content">
-		<h2>1.UIWebView调用JavaScript</h2>
-
-<h3>1.1调用html中已有的JavaScript function</h3>
-
-<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>1.2注入JavaScript function,然后调用</h3>
-
-<p>我们还可以先向html中注入JavaScript function,然后调用。
-通常可以在UIWebViewDelegate中注入。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-14T11:05:53+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

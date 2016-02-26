@@ -140,7 +140,11 @@ You should then be able to use ssh to log in to the remote server without being 
 <h3>4.Finding all files containing a text string on Linux</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -rnw 'directory' -e "pattern"</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -rnw 'directory' -e "pattern"
+</span><span class='line'>// eg:
+</span><span class='line'>$ grep -rnw source/_posts/  -e "pragma"</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>

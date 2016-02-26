@@ -108,7 +108,7 @@ $(document).ready(
 
 <h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
 
-<p>Answer:循环保留导致内存泄漏。</p>
+<p>A:It causes strong reference cycle, and results as memory leaks.</p>
 
 <h3>What happens when you invoke a method on a nil pointer?</h3>
 
@@ -167,7 +167,7 @@ $(document).ready(
 
 <h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
 
-<p>NSArray</p>
+<p>A: NSArray</p>
 
 <p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
 
@@ -177,11 +177,16 @@ $(document).ready(
 
 <h3>List six instruments that are part of the standard.</h3>
 
+<p>A:</p>
+
 <ol>
-<li>Allocations</li>
-<li>Core Animation</li>
+<li>Time Profiler</li>
 <li>Leaks</li>
-<li></li>
+<li>Zombies</li>
+<li>Allocations</li>
+<li>Activity Monitor</li>
+<li>Core Animation</li>
+<li>Network</li>
 </ol>
 
 
@@ -210,6 +215,9 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 | Background | The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background
 | Suspended | The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.
 When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
+
+<p>Reference:
+o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Interview Questions</a></p>
 </div>
 
 

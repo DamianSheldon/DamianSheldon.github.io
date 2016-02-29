@@ -113,3 +113,11 @@ Ctrl + r
 ```
 
 Reference:http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash
+
+###9.How to use rsync upload directory to remote server?
+A:
+
+```
+$ rsync --delete --rsh=ssh -av /Users/dongmeiliang/Sites/upload/ meiliang@remote_ip:/home/meiliang/public_html/upload
+```
+

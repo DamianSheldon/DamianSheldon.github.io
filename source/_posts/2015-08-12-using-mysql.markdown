@@ -128,4 +128,13 @@ mysql>SHOW EVENTS;
 ###12.Q:How to view user-defined functions (UDFs)?
 A:
 
+###13.mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial communication packet', system error: 102 when trying to connect
+
+```
+DongMeiliangsMacBook-Pro:~ dongmeiliang$ mysqldump --single-transaction --databases opencart > opencart_2016_02_27_22_28.sql
+mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial communication packet', system error: 102 when trying to connect
+```
+A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。
+
+
 

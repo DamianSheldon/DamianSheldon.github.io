@@ -46,4 +46,8 @@ Reference:https://thecustomizewindows.com/2014/04/ssh-server-without-entering-pa
 
 Solution:Here's how to make Google open your results in a new tab every time. If you'd rather Google not open your results on the same page, you can set the default by going to Google and clicking on the cog in the upper right-hand corner. Choose "Search Settings" from the list, then scroll down to "Where Results Open".
 
+## 5. 怎么输入千分号？
+Solution:shift-option-R输入‰
+Reference:http://newping.cn/414
+
 

@@ -207,5 +207,11 @@ That’s it, create a php page with the function phpinfo();  to see if it loaded
 Reference:http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/
 http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/
 
+###4. How to set up Apache MySQL PHP on Debian?
+A:https://wiki.debian.org/LaMp
+
+###5. Where is apache error log path on Debian?
+A:/var/log/apache2/error.log
+
 
 

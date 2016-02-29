@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-02-26T19:03:41+08:00</updated>
+  <updated>2016-02-29T20:33:01+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1946,6 +1946,14 @@ You need to disable the new System Integrity Protection to install into some sys
 
 <p>Reference:<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a>
 <a href="http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/</a></p>
+
+<h3>4. How to set up Apache MySQL PHP on Debian?</h3>
+
+<p>A:<a href="https://wiki.debian.org/LaMp">https://wiki.debian.org/LaMp</a></p>
+
+<h3>5. Where is apache error log path on Debian?</h3>
+
+<p>A:/var/log/apache2/error.log</p>
 ]]></content>
   </entry>
   
@@ -2467,6 +2475,11 @@ System Preference > Sharing</p></li>
 <h2>4. How to open google search results in a new tab？</h2>
 
 <p>Solution:Here&rsquo;s how to make Google open your results in a new tab every time. If you&rsquo;d rather Google not open your results on the same page, you can set the default by going to Google and clicking on the cog in the upper right-hand corner. Choose &ldquo;Search Settings&rdquo; from the list, then scroll down to &ldquo;Where Results Open&rdquo;.</p>
+
+<h2>5. 怎么输入千分号？</h2>
+
+<p>Solution:shift-option-R输入‰
+Reference:<a href="http://newping.cn/414">http://newping.cn/414</a></p>
 ]]></content>
   </entry>
   
@@ -2783,7 +2796,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x64;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#108;&#x69;&#x61;&#110;&#x67;&#64;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x2e;&#50;&#53;&#53;">&#100;&#x6f;&#x6e;&#103;&#109;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#53;&#x35;</a><br/>
+<p>1.sftp <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x64;&#x6f;&#x6e;&#103;&#x6d;&#x65;&#x69;&#108;&#105;&#x61;&#110;&#103;&#x40;&#x31;&#x39;&#x32;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#46;&#x32;&#x35;&#53;">&#x64;&#x6f;&#110;&#x67;&#109;&#x65;&#x69;&#x6c;&#105;&#97;&#110;&#x67;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#46;&#x32;&#53;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -2876,6 +2889,16 @@ quit</p>
 
 
 <p>Reference:<a href="http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash">http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash</a></p>
+
+<h3>9.How to use rsync upload directory to remote server?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync --delete --rsh=ssh -av /Users/dongmeiliang/Sites/upload/ meiliang@remote_ip:/home/meiliang/public_html/upload</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -3126,6 +3149,16 @@ A:SELECT @@server_id</p>
 <h3>12.Q:How to view user-defined functions (UDFs)?</h3>
 
 <p>A:</p>
+
+<h3>13.mysqldump: Got error: 2013: Lost connection to MySQL server at &lsquo;reading initial communication packet&rsquo;, system error: 102 when trying to connect</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DongMeiliangsMacBook-Pro:~ dongmeiliang$ mysqldump --single-transaction --databases opencart &gt; opencart_2016_02_27_22_28.sql
+</span><span class='line'>mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial communication packet', system error: 102 when trying to connect</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。</p>
 ]]></content>
   </entry>
   

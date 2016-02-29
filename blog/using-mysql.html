@@ -276,6 +276,16 @@ A:SELECT @@server_id</p>
 <h3>12.Q:How to view user-defined functions (UDFs)?</h3>
 
 <p>A:</p>
+
+<h3>13.mysqldump: Got error: 2013: Lost connection to MySQL server at &lsquo;reading initial communication packet&rsquo;, system error: 102 when trying to connect</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DongMeiliangsMacBook-Pro:~ dongmeiliang$ mysqldump --single-transaction --databases opencart &gt; opencart_2016_02_27_22_28.sql
+</span><span class='line'>mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial communication packet', system error: 102 when trying to connect</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。</p>
 </div>
 
 

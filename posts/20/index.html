@@ -108,88 +108,66 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/capturing-iphone-traffic-on-wireshark.html">
+		<a href="/blog/hello-octopress.html">
 		
-			用 Wireshark 抓 iPhone 网络请求的数据包</a>
+			Hello Octopress</a>
 	</h2>
 	<div class="entry-content">
-		<p>开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？</p>
+		<blockquote><p>Octopress:A blogging framework for hackers.</p></blockquote>
 
-<blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
+<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
 
-<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.<br/>
-If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).<br/>
-In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
+<h1>问题1(Update 2015.12.11)</h1>
 
-
-		
-		<a href="/blog/capturing-iphone-traffic-on-wireshark.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
+</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> --verbose
+</span></code></pre></td></tr></table></div></figure>
 
 
+<h1>问题2</h1>
 
-
-
-
-  
-
-
-<time datetime="2016-01-04T14:43:00+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-development-notes-part-one.html">
-		
-			Web Development Notes Part One</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1. What is href=“#” and why is it used?</h3>
-
-<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
-href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
-
-<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
-
-<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
-
-<h3>2. How to debug your web page, technology stack is LAMP.</h3>
-
-<p>Solution:View log, figure out what cause problems.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/apache2/error_log
-</span><span class='line'>[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
-</span><span class='line'>[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
-</span><span class='line'>[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
+</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
+</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew doctor
+</span><span class='line'><span class="nb">cd </span>root_path_octopress
+</span><span class='line'>git pull octopress master
+</span><span class='line'>rm Gemfile.lock
+</span><span class='line'>vim Gemfile
+</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 		
-		<a href="/blog/web-development-notes-part-one.html" class="more-link">继续阅读</a>
+		<a href="/blog/hello-octopress.html" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -206,68 +184,7 @@ href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such 
   
 
 
-<time datetime="2015-12-12T22:27:22+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html">
-		
-			iOS 项目持续集成和部署笔记</a>
-	</h2>
-	<div class="entry-content">
-		<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
-
-<h3>安装工具</h3>
-
-<ol>
-<li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
-
-<pre><code class="`"> $ brew update &amp;&amp; brew install jenkins
-</code></pre></li>
-<li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
-
-<pre><code class="`"> $ sudo gem install fastlane --verbose
-</code></pre></li>
-<li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
-
-<pre><code class="`"> $ sudo gem install fir-cli
-</code></pre></li>
-</ol>
-
-
-
-		
-		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-11-04T09:38:13+08:00" pubdate data-updated="true"></time></div>
+<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">
@@ -282,10 +199,8 @@ href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such 
 
 <nav id="pagenavi">
     
-        <a href="2" class="prev">Prev</a>
+        <a href="19" class="prev">Prev</a>
     
-    
-        <a href="4" class="next">Next</a>
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>

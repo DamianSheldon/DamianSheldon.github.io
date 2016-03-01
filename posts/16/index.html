@@ -108,6 +108,66 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html">
+		
+			iOS App 开发问题汇总（一）</a>
+	</h2>
+	<div class="entry-content">
+		<h3>问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
+
+<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+
+<p>Reference:<br/>
+o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work</a></p>
+
+<h3>问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。</h3>
+
+<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439</a></p>
+
+<h3>问题描述：创建Group style的UITalbeView的顶端有很大一块空白。</h3>
+
+<p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck - Adjust scroll view insets</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst</a></p>
+
+
+		
+		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html">
 		
 			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
@@ -202,66 +262,6 @@ class只可以定义Computed type properties.</p>
 
 
 <time datetime="2014-06-24T15:28:20+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/swift-learning-notes-initialization.html">
-		
-			Swift Learning Notes -- Initialization</a>
-	</h2>
-	<div class="entry-content">
-		<h3>Initialization</h3>
-
-<p>“Initialization is the process of preparing an instance of a class, structure, or enumeration for use. This process involves setting an initial value for each stored property on that instance and performing any other setup or initialization that is required before the new instance is ready to for use.” &ndash; Apple Inc.</p>
-
-<p>从苹果的介绍我们可以得出初始化的两个要点:<br/>
-1，为实例的每一个存储属性设置初始值;  <br/>
-2，进行其他必要的准备工作.</p>
-
-<p>这里我们主要总结下为实例的存储属性设置初始值。Class, Structure, enumeration的初始化略有不同，主要是因为Class可以继承，而这背后的原因是Class是Reference Type,而Structure, enumeration是Value Type。</p>
-
-<h3>Value Type Initialization</h3>
-
-<p>1)为存储属性设置默认值；
-    Swift会为设置了所有存储属性默认值而没有提供初始化方法的structure提供Default Initializer。
-    structure在所有存储属性都设置了默认值的情况下自动接受Memberwise Initializer。</p>
-
-<p>2)初始化方法。
-    NOTE: Swift会自动将初始化方法的本地参数名生成外部参数名。</p>
-
-
-		
-		<a href="/blog/swift-learning-notes-initialization.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T11:33:28+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

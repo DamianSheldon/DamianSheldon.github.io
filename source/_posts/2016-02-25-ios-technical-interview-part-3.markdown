@@ -31,7 +31,7 @@ A:
 > Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers. 
 
 Reference:Cocoa Core Competencies
-
+<!-- more -->
 ###4.Difference between shallow copy and deep copy?
 A:
 The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):

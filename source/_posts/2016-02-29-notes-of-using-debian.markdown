@@ -53,7 +53,7 @@ PHP Version: 5.6.17-0+deb8u1
 Zend Engine Version: 2.6.0
 Running on: Linux Debian 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt11-1 (2015-05-24) x86_64
 ```
-
+<!-- more -->
 ###2. Install PHP GD extension on Debian
 A:
 

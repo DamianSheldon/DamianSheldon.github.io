@@ -113,13 +113,15 @@ $(document).ready(
 
 <h2>Core Data是什么？</h2>
 
-<blockquote><p>The Core Data framework provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
+<blockquote><p>Core Data is a framework that you use to manage the model layer objects in your application. It provides generalized and automated solutions to common tasks associated with object life-cycle and object graph management, including persistence.</p></blockquote>
 
-<p>Core Data框架为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
+<p>Core Data 是一个你在应用中用来管理模型层对象的框架。 它为关联对象生命周期和对象图管理的常见任务提供了通用的和自动的解决方案，包括持久化。</p>
 
 <h2>为什么使用Core Data？</h2>
 
-<p>Core Data是一个对象图管理和持久化框架。它有以下优点：</p>
+<blockquote><p>There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.</p></blockquote>
+
+<p>Core Data 的优点：</p>
 
 <ul>
 <li>允许你高效地从永久存储中获取模型对象和保存改变。</li>
@@ -133,36 +135,203 @@ $(document).ready(
 <!-- more -->
 
 
-<blockquote><p>There are a number of reasons why it may be appropriate for you to use Core Data. One of the simplest metrics is that, with Core Data, the amount of code you write to support the model layer of your application is typically 50% to 70% smaller as measured by lines of code. This is primarily due to the features listed above—the features Core Data provides are features you don’t have to implement yourself. Moreover they’re features you don’t have to test yourself, and in particular you don’t have to optimize yourself.</p></blockquote>
+<h2>如何使用 Core Data?</h2>
 
-<h2>如何使用Core Data?</h2>
+<p>使用 Core Data 之前需要初始化 Core Data Stack, 它会为我们处理所有和底层数据的交互，而我们只需要关注自己的业务逻辑。</p>
 
-<p>Core Data 有相当多可用的组件,下图示意了这些组件之间的关系：
+<blockquote><p>The Core Data stack is a collection of framework objects that are accessed as part of the initialization of Core Data and that mediate between the objects in your application and external data stores.</p></blockquote>
+
+<p>Core Data Stack 示意图：
  </p>
 
 <div style="text-align:center" markdown="1">
-    <img name="Core Data Stack" src="/images/CoreDataStack.jpg" width="610" height="418"> 
+    <img name="Core Data Stack" src="/images/CoreDataStack.jpg" width="410" height="281"> 
 
 </div>
 
 
-<p>其实我们主要就是对数据进行CRUD操作，我们过一遍创建数据的过程，其他操作也就容易理解了。</p>
+<ul>
+<li>An external persistent store that contains saved records.</li>
+<li>A persistent object store that maps between records in the store and objects in your application.</li>
+<li>A persistent store coordinator that aggregates all the stores.</li>
+<li>A managed object model that describes the entities in the stores.</li>
+<li>A managed object context that provides a scratch pad for managed objects.</li>
+<li><p>A managed object is a model object (in the model-view-controller sense) that represents a record from a persistent store.</p></li>
+<li><p>Store File: 顾名思义即存储文件，它可以是 SQLite, XML 或 binary 文件；</p></li>
+<li>Persistent Object Store: 它负责把从 Store File 读取数据映射成应用能理解的记录，把应用产生的记录根据配置的存储类型写入到 Store File 中；</li>
+<li>Persistent Store Coordinator: 它负责协调有多个 Persistent Object Store 的情况；</li>
+<li>Managed Object Model: 它是实体描述的集合，实体类似于数据库中的表；</li>
+<li>Managed Object Context: 它为 managed objects 提供暂存的空间，也是应用操作 Core Data 的接口；</li>
+<li>Managed Object: 它是代表某个实体的模型对象。</li>
+</ul>
 
-<p>应用的需求会决定应该创建些什么模型类，通常我们会创建模型文件（后缀为xcdatamodeld，当然也可以纯代码），模型文件对应Managed Object Model（NSManagedObjectModel），它是实体的一个集合，实体和模型类一一对应。</p>
 
-<p>应用启动以后会实例化一个Managed Object Context（NSManagedObjectContext），它相当于一个总入口，所有的数据操作都是通过它进行。Managed Object Context会持有一个Persistent Store Coordinator（NSPersistentStoreCoordinator）。</p>
+<p>我是这样理解它们的：Store File 是具体存放二进制数据的地方，二进制数据也有组织方式，所以会引入 SQLite, XML 或 binary，直接操作二进制文件肯定不方便，那自然想到用一个对象来做这个事情，于是引入 Persistent Object Store，这样底层二进制的操作对上层来说就透明了。实体在这里就是一个能被双方理解的数据结构，本来它应该被直接被 Persistent Object Store 持有，有了支持多个 Store 的 Persistent Store Coordinator 后，让 coordinator 来持有它，显得更合理。Managed Object Model 就是所有实体描述的集合。Managed Object 是代表某个实体的模型对象，实体有个类名来关联它。</p>
 
-<p>Persistent Store Coordinator帮我们将固化的文件内容映射成managed model,并且可以管理多个永久存储池（NSPersistentStore），这样managed object context看到的只是单个存储池。</p>
+<p>在具体的使用时，我们可以通过 IB 或者纯代码方式。</p>
 
-<p>当所有的组件都捆绑到一起的时候，我们把它称作 Core Data 堆栈，这个堆栈有两个主要部分。一部分是关于对象图管理，这正是你需要很好掌握的那一部分，并且知道怎么使用。第二部分是关于持久化，比如，保存你模型对象的状态，然后再恢复模型对象的状态。</p>
+<h3>Interface Builder 方式</h3>
 
-<p>在两个部分之间，即堆栈中间，是持久化存储协调器（persistent store coordinator），也被称为中间审查者。它将对象图管理部分和持久化部分捆绑在一起，当它们两者中的任何一部分需要和另一部分交流时，这便需要持久化存储协调器来调节了。</p>
+<ul>
+<li><p>用 Interface Builder 方式创建 Managed Object Model</p></li>
+<li><p>初始化 Core Data Stack</p></li>
+</ul>
 
-<p>对象图管理是你程序模型层的逻辑存在的地方。模型层的对象存在于一个 context 内。在大多数的设置中，存在一个 context ，并且所有的对象存在于那个 context 中。Core Data 支持多个 contexts，不过对于更高级的使用情况才用。注意每个 context 和其他 context 都是完全独立的，一会儿我们将会谈到。需要记住的是，对象和它们的 context 是相关联的。每个被管理的对象都知道自己属于哪个 context，并且每个 context 都知道自己管理着哪些对象。</p>
 
-<p>堆栈的另一部分就是持久了，即 Core Data 从文件系统中读或写数据。每个持久化存储协调器（persistent store coordinator）都有一个属于自己的持久化存储（persistent store），并且这个 store 在文件系统中与 SQLite 数据库交互。为了支持更高级的设置，Core Data 可以将多个 stores 附属于同一个持久化存储协调器，并且除了存储 SQL 格式外，还有很多存储类型(binary,XML)可供选择。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)initializeCoreData
+</span><span class='line'>{
+</span><span class='line'>    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Workspace" withExtension:@"momd"];
+</span><span class='line'>    NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+</span><span class='line'>    NSAssert(mom != nil, @"Error initializing Managed Object Model");
+</span><span class='line'>    
+</span><span class='line'>    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+</span><span class='line'>    NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+</span><span class='line'>    [moc setPersistentStoreCoordinator:psc];
+</span><span class='line'>    [self setManagedObjectContext:moc];
+</span><span class='line'>    
+</span><span class='line'>    NSFileManager *fileManager = [NSFileManager defaultManager];
+</span><span class='line'>    NSURL *documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+</span><span class='line'>    NSURL *storeURL = [documentsURL URLByAppendingPathComponent:@"Workspace.sqlite"];
+</span><span class='line'>    
+</span><span class='line'>    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+</span><span class='line'>        NSError *error = nil;
+</span><span class='line'>        NSPersistentStoreCoordinator *psc = [[self managedObjectContext] persistentStoreCoordinator];
+</span><span class='line'>        NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error];
+</span><span class='line'>        NSAssert(store != nil, @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
+</span><span class='line'>    });
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<h2>代码示例</h2>
+
+<ul>
+<li>对数据进行基本的 CRUD 操作</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Create
+</span><span class='line'>- (BOOL)insertDepartment:(NSDictionary *)department error:(NSError **)error
+</span><span class='line'>{
+</span><span class='line'>    NSManagedObject *departmentMO = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:self.managedObjectContext];
+</span><span class='line'>    [departmentMO setValue:department[@"name"] forKey:@"name"];
+</span><span class='line'>    NSArray *employees = department[@"employees"];
+</span><span class='line'>    if (employees) {
+</span><span class='line'>        [departmentMO setValue:employees forKey:@"employees"];
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return [self.managedObjectContext save:error];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 2. Read
+</span><span class='line'>- (NSArray *)departmentsMayResultWithError:(NSError **)error
+</span><span class='line'>{
+</span><span class='line'>    /*
+</span><span class='line'>     Fetch existing departments.
+</span><span class='line'>     Create a fetch request for the Event entity; add a sort descriptor; then execute the fetch.
+</span><span class='line'>     */
+</span><span class='line'>    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Department"];
+</span><span class='line'>    
+</span><span class='line'>    // Order the department by alpha.
+</span><span class='line'>    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+</span><span class='line'>    NSArray *sortDescriptors = @[sortDescriptor];
+</span><span class='line'>    [request setSortDescriptors:sortDescriptors];
+</span><span class='line'>    
+</span><span class='line'>    // Execute the fetch.
+</span><span class='line'>    NSArray *fetchResults = [self.managedObjectContext executeFetchRequest:request error:error];
+</span><span class='line'>    
+</span><span class='line'>    return fetchResults;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 3. Update 
+</span><span class='line'>// Update department's property
+</span><span class='line'>department.name = ...
+</span><span class='line'>department.employees = ...
+</span><span class='line'>
+</span><span class='line'>- (BOOL)updateDepartment:(NSManagedObject *)department error:(NSError **)error
+</span><span class='line'>{
+</span><span class='line'>    return [self.managedObjectContext save:error];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 4. Delete
+</span><span class='line'>- (BOOL)deleteDepartment:(NSManagedObject *)department error:(NSError **)error
+</span><span class='line'>{
+</span><span class='line'>    [self.managedObjectContext deleteObject:department];
+</span><span class='line'>    
+</span><span class='line'>    return [self.managedObjectContext save:error];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>代码示例</h3>
 
 <p>纯理论的讲我们可能不容易理解，让我们结合代码来看看。</p>
 
@@ -258,8 +427,8 @@ $(document).ready(
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// Assume we have a persistent store coordinator
-</span><span class='line'>        managedObjectContext = [[NSManagedObjectContext alloc] init];
-</span><span class='line'>        [managedObjectContext setPersistentStoreCoordinator: coordinator];</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>managedObjectContext = [[NSManagedObjectContext alloc] init];
+</span><span class='line'>[managedObjectContext setPersistentStoreCoordinator: coordinator];</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>创建Persistent Store Coordinator</h3>
@@ -272,11 +441,11 @@ $(document).ready(
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Locations.sqlite"]];
-</span><span class='line'>
+</span><span class='line'>  
 </span><span class='line'>NSError *error;
 </span><span class='line'>persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
 </span><span class='line'>if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-</span><span class='line'>    // Handle the error.
+</span><span class='line'>   // Handle the error.
 </span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
 
 
@@ -286,7 +455,13 @@ $(document).ready(
 
 <h2>完整示例</h2>
 
-<p>上面是分解开来的示例，我们最后来看过完整的实例，我稍稍修改下苹果的官方示例<a href="https://github.com/DamianSheldon/Locations">Locations</a>.</p>
+<p>上面是分解开来的示例，我们最后来看几个完整的实例:</p>
+
+<ul>
+<li><a href="https://github.com/DamianSheldon/CoreDataDemo">Core Data Demo</a></li>
+<li><a href="https://github.com/DamianSheldon/Locations">Locations</a>.</li>
+</ul>
+
 
 <h2>Reference</h2>
 

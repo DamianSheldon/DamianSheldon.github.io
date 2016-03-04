@@ -251,3 +251,23 @@ free(syms);
 
 Reference:http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running
 
+###14.How does programmatically construct to-one and to-many relationship in Core Data?
+A:
+
+```
+NSRelationshipDescription *department = [NSRelationshipDescription new];
+department.name = @"department";
+department.deleteRule = NSNullifyDeleteRule;
+department.minCount = 0;
+department.maxCount = 1;// max = 1 for to-one relationship
+    
+NSRelationshipDescription *employees = [NSRelationshipDescription new];
+employees.name = @"employees";
+employees.deleteRule = NSNullifyDeleteRule;
+employees.minCount = 0;
+employees.maxCount = 0;// max = 0 for to-many relationship
+```
+
+Reference:http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit
+
+

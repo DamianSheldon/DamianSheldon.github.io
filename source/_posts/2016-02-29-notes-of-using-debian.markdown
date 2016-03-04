@@ -96,4 +96,29 @@ $ sudo aptitude install php5-mcrypt
 $ sudo service apache2 restart
 ```
 
+###5. Default installation layouts for Apache HTTPD on Debian
+A:
+
+```
+ServerRoot              ::      /etc/apache2
+DocumentRoot            ::      /var/www
+Apache Config Files     ::      /etc/apache2/apache2.conf
+                        ::      /etc/apache2/ports.conf
+Default VHost Config    ::      /etc/apache2/sites-available/default, /etc/apache2/sites-enabled/000-default
+Module Locations        ::      /etc/apache2/mods-available, /etc/apache2/mods-enabled
+ErrorLog                ::      /var/log/apache2/error.log
+AccessLog               ::      /var/log/apache2/access.log
+cgi-bin                 ::      /usr/lib/cgi-bin
+binaries (apachectl)    ::      /usr/sbin
+start/stop              ::      /etc/init.d/apache2 (start|stop|restart|reload|force-reload|start-htcacheclean|stop-htcacheclean)
+```
+
+Notes:
+
+1. The Debian/Ubuntu layout is fully documented in /usr/share/doc/apache2/README.Debian
+2. Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called 'a2ensite' and 'a2enmod' which activates vhosts and modules.
+3. The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.
+
+Reference:http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:
+
 

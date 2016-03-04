@@ -150,74 +150,139 @@ department.employees = ...
 ```
 
 
-### 代码示例
-纯理论的讲我们可能不容易理解，让我们结合代码来看看。
+### 代码方式
 
-###创建和加载Managed Object Model
+* 初始化 Core Data Stack
+
 ```
-// 1)You usually create a model in Xcode, as described in Core Data Model Editor Help. 
+// Prepare Managed Object Model
 
-[[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"NameOfCoreDataResource" withExtension:@"momd"]]
+- (NSManagedObjectModel *)employeesMOM
+{
+    static NSManagedObjectModel *sEmployeesMOM;
+    
+    if (sEmployeesMOM) {
+        return sEmployeesMOM;
+    }
+    
+    sEmployeesMOM = [NSManagedObjectModel new];
+    
+    // Create the entity
+    NSEntityDescription *personEntity = [self entityOfPerson];
+    
+    NSEntityDescription *employeeEntity = [self entityOfEmployee];
+    
+    NSEntityDescription *departmentEntity = [self entityOfDepartment];
+    
+    // Construct entity inherit
+    personEntity.subentities = @[employeeEntity];
+    
+    
+    // Construct relationship
+    NSRelationshipDescription *department = employeeEntity.relationshipsByName[@"department"];
+    
+    NSRelationshipDescription *employees = departmentEntity.relationshipsByName[@"employees"];
+    
+    department.destinationEntity = departmentEntity;
+    department.inverseRelationship = employees;
+    
+    employees.destinationEntity = employeeEntity;
+    employees.inverseRelationship = department;
+    
+    sEmployeesMOM.entities = @[personEntity, employeeEntity, departmentEntity];
+    
+    return sEmployeesMOM;
+}
 
-// Another method
-managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
+- (NSEntityDescription *)entityOfPerson
+{
+    NSEntityDescription *personEntity = [NSEntityDescription new];
+    personEntity.name = @"Person";
+    personEntity.managedObjectClassName = @"NSManagedObject";
+    personEntity.abstract = YES;
+    
+    NSAttributeDescription *attributeOfName = [NSAttributeDescription new];
+    attributeOfName.name = @"name";
+    attributeOfName.attributeType = NSStringAttributeType;
+    
+    NSAttributeDescription *attributeOfDateOfBirth = [NSAttributeDescription new];
+    attributeOfDateOfBirth.name = @"dateOfBirth";
+    attributeOfDateOfBirth.attributeType = NSDateAttributeType;
+    
+    personEntity.properties = @[attributeOfName, attributeOfDateOfBirth];
+    
+    return personEntity;
+}
 
-// 2)You can also create a model entirely in code.
-NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] init];
-NSEntityDescription *runEntity = [[NSEntityDescription alloc] init];
-[runEntity setName:@"Run"];
-[runEntity setManagedObjectClassName:@"Run"];
-[mom setEntities:@[runEntity]];
- 
-NSMutableArray *runProperties = [NSMutableArray array];
- 
-NSAttributeDescription *dateAttribute = [[NSAttributeDescription alloc] init];
-[runProperties addObject:dateAttribute];
-[dateAttribute setName:@"date"];
-[dateAttribute setAttributeType:NSDateAttributeType];
-[dateAttribute setOptional:NO];
- 
-NSAttributeDescription *idAttribute= [[NSAttributeDescription alloc] init];
-[runProperties addObject:idAttribute];
-[idAttribute setName:@"processID"];
-[idAttribute setAttributeType:NSInteger32AttributeType];
-[idAttribute setOptional:NO];
-[idAttribute setDefaultValue:@0];
- 
-NSPredicate *validationPredicate = [NSPredicate predicateWithFormat:@"SELF >= 0"];
-NSString *validationWarning = @"Process ID < 0";
-[idAttribute setValidationPredicates:@[validationPredicate]
-    withValidationWarnings:@[validationWarning]];
- 
-[runEntity setProperties:runProperties];
- 
-NSDictionary *localizationDictionary = @{
-    @"Property/processID/Entity/Run" : @"Process ID",
-    @"Property/date/Entity/Run" : @"Date"
-    @"ErrorString/Process ID < 0" : @"Process ID must not be less than 0" };
-[mom setLocalizationDictionary:localizationDictionary];
+- (NSEntityDescription *)entityOfEmployee
+{
+    NSEntityDescription *employeeEntity = [NSEntityDescription new];
+    employeeEntity.name = @"Employee";
+    employeeEntity.managedObjectClassName = @"Employee";
+    
+    NSAttributeDescription *attributeOfStartDate = [NSAttributeDescription new];
+    attributeOfStartDate.name = @"startDate";
+    attributeOfStartDate.attributeType = NSDateAttributeType;
+    
+    NSRelationshipDescription *department = [NSRelationshipDescription new];
+    department.name = @"department";
+    department.deleteRule = NSNullifyDeleteRule;
+    department.minCount = 0;
+    department.maxCount = 1;// max = 1 for to-one relationship
+    
+    employeeEntity.properties = @[attributeOfStartDate, department];
+    
+    return employeeEntity;
+}
+
+- (NSEntityDescription *)entityOfDepartment
+{
+    NSEntityDescription *departmentEntity = [NSEntityDescription new];
+    departmentEntity.name = @"Department";
+    departmentEntity.managedObjectClassName = @"NSManagedObject";
+    
+    NSAttributeDescription *attributOfName = [NSAttributeDescription new];
+    attributOfName.name = @"name";
+    attributOfName.attributeType = NSStringAttributeType;
+    
+    NSRelationshipDescription *employees = [NSRelationshipDescription new];
+    employees.name = @"employees";
+    employees.deleteRule = NSNullifyDeleteRule;
+    employees.minCount = 0;
+    employees.maxCount = 0;// max = 0 for to-many relationship
+    
+    departmentEntity.properties = @[attributOfName, employees];
+    
+    return departmentEntity;
+}
+
+// Initialize Core Data
+- (void)initializeCoreData
+{
+    NSManagedObjectModel *mom = [self employeesMOM];
+
+    NSAssert(mom != nil, @"Error initializing Managed Object Model");
+    
+    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+    NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    [moc setPersistentStoreCoordinator:psc];
+    [self setManagedObjectContext:moc];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [documentsURL URLByAppendingPathComponent:@"Workspace.sqlite"];
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        NSError *error = nil;
+        NSPersistentStoreCoordinator *psc = [[self managedObjectContext] persistentStoreCoordinator];
+        NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error];
+        NSAssert(store != nil, @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
+    });
+}
+
 ```
 
-###创建Managed Object Context
-```
-// Assume we have a persistent store coordinator
-managedObjectContext = [[NSManagedObjectContext alloc] init];
-[managedObjectContext setPersistentStoreCoordinator: coordinator];
-```
-
-###创建Persistent Store Coordinator
-```
-NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Locations.sqlite"]];
-	
-NSError *error;
-persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-   // Handle the error.
-} 
-```
-
-###创建Persistent Store
-我们不直接创建persistent object store。当我们给persistent store coordinator发送addPersistentStoreWithType:configuration:URL:options:error:, Core Data为我们创建合适的store.
+* 数据操作和 IB 方式是一样的
 
 ##完整示例
 上面是分解开来的示例，我们最后来看几个完整的实例:

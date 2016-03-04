@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-03T18:58:49+08:00</updated>
+  <updated>2016-03-04T14:54:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -109,6 +109,34 @@ p   php5-mcrypt                                                                 
 $ sudo aptitude install php5-mcrypt
 $ sudo service apache2 restart
 </code></pre>
+
+<h3>5. Default installation layouts for Apache HTTPD on Debian</h3>
+
+<p>A:</p>
+
+<pre><code>ServerRoot              ::      /etc/apache2
+DocumentRoot            ::      /var/www
+Apache Config Files     ::      /etc/apache2/apache2.conf
+                        ::      /etc/apache2/ports.conf
+Default VHost Config    ::      /etc/apache2/sites-available/default, /etc/apache2/sites-enabled/000-default
+Module Locations        ::      /etc/apache2/mods-available, /etc/apache2/mods-enabled
+ErrorLog                ::      /var/log/apache2/error.log
+AccessLog               ::      /var/log/apache2/access.log
+cgi-bin                 ::      /usr/lib/cgi-bin
+binaries (apachectl)    ::      /usr/sbin
+start/stop              ::      /etc/init.d/apache2 (start|stop|restart|reload|force-reload|start-htcacheclean|stop-htcacheclean)
+</code></pre>
+
+<p>Notes:</p>
+
+<ol>
+<li>The Debian/Ubuntu layout is fully documented in /usr/share/doc/apache2/README.Debian</li>
+<li>Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called &lsquo;a2ensite&rsquo; and &lsquo;a2enmod&rsquo; which activates vhosts and modules.</li>
+<li>The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.</li>
+</ol>
+
+
+<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:</a></p>
 ]]></content>
   </entry>
   

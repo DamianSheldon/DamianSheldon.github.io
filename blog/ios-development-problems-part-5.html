@@ -505,6 +505,36 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running">http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running</a></p>
+
+<h3>14.How does programmatically construct to-one and to-many relationship in Core Data?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSRelationshipDescription *department = [NSRelationshipDescription new];
+</span><span class='line'>department.name = @"department";
+</span><span class='line'>department.deleteRule = NSNullifyDeleteRule;
+</span><span class='line'>department.minCount = 0;
+</span><span class='line'>department.maxCount = 1;// max = 1 for to-one relationship
+</span><span class='line'>    
+</span><span class='line'>NSRelationshipDescription *employees = [NSRelationshipDescription new];
+</span><span class='line'>employees.name = @"employees";
+</span><span class='line'>employees.deleteRule = NSNullifyDeleteRule;
+</span><span class='line'>employees.minCount = 0;
+</span><span class='line'>employees.maxCount = 0;// max = 0 for to-many relationship</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit">http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit</a></p>
 </div>
 
 

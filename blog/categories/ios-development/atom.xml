@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-03T18:58:49+08:00</updated>
+  <updated>2016-03-04T14:54:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1224,6 +1224,25 @@ free(syms);
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running">http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running</a></p>
+
+<h3>14.How does programmatically construct to-one and to-many relationship in Core Data?</h3>
+
+<p>A:</p>
+
+<pre><code>NSRelationshipDescription *department = [NSRelationshipDescription new];
+department.name = @"department";
+department.deleteRule = NSNullifyDeleteRule;
+department.minCount = 0;
+department.maxCount = 1;// max = 1 for to-one relationship
+
+NSRelationshipDescription *employees = [NSRelationshipDescription new];
+employees.name = @"employees";
+employees.deleteRule = NSNullifyDeleteRule;
+employees.minCount = 0;
+employees.maxCount = 0;// max = 0 for to-many relationship
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit">http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit</a></p>
 ]]></content>
   </entry>
   

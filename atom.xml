@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-03T18:58:49+08:00</updated>
+  <updated>2016-03-04T14:54:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -171,7 +171,44 @@
 </span><span class='line'>$ sudo service apache2 restart</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>5. Default installation layouts for Apache HTTPD on Debian</h3>
 
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ServerRoot              ::      /etc/apache2
+</span><span class='line'>DocumentRoot            ::      /var/www
+</span><span class='line'>Apache Config Files     ::      /etc/apache2/apache2.conf
+</span><span class='line'>                        ::      /etc/apache2/ports.conf
+</span><span class='line'>Default VHost Config    ::      /etc/apache2/sites-available/default, /etc/apache2/sites-enabled/000-default
+</span><span class='line'>Module Locations        ::      /etc/apache2/mods-available, /etc/apache2/mods-enabled
+</span><span class='line'>ErrorLog                ::      /var/log/apache2/error.log
+</span><span class='line'>AccessLog               ::      /var/log/apache2/access.log
+</span><span class='line'>cgi-bin                 ::      /usr/lib/cgi-bin
+</span><span class='line'>binaries (apachectl)    ::      /usr/sbin
+</span><span class='line'>start/stop              ::      /etc/init.d/apache2 (start|stop|restart|reload|force-reload|start-htcacheclean|stop-htcacheclean)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notes:</p>
+
+<ol>
+<li>The Debian/Ubuntu layout is fully documented in /usr/share/doc/apache2/README.Debian</li>
+<li>Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called &lsquo;a2ensite&rsquo; and &lsquo;a2enmod&rsquo; which activates vhosts and modules.</li>
+<li>The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.</li>
+</ol>
+
+
+<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:</a></p>
 ]]></content>
   </entry>
   
@@ -1724,6 +1761,36 @@ A:</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running">http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running</a></p>
+
+<h3>14.How does programmatically construct to-one and to-many relationship in Core Data?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSRelationshipDescription *department = [NSRelationshipDescription new];
+</span><span class='line'>department.name = @"department";
+</span><span class='line'>department.deleteRule = NSNullifyDeleteRule;
+</span><span class='line'>department.minCount = 0;
+</span><span class='line'>department.maxCount = 1;// max = 1 for to-one relationship
+</span><span class='line'>    
+</span><span class='line'>NSRelationshipDescription *employees = [NSRelationshipDescription new];
+</span><span class='line'>employees.name = @"employees";
+</span><span class='line'>employees.deleteRule = NSNullifyDeleteRule;
+</span><span class='line'>employees.minCount = 0;
+</span><span class='line'>employees.maxCount = 0;// max = 0 for to-many relationship</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit">http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit</a></p>
 ]]></content>
   </entry>
   
@@ -2961,7 +3028,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#100;&#x6f;&#110;&#x67;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#x61;&#110;&#x67;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#49;&#x2e;&#x32;&#53;&#x35;">&#100;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#x6c;&#x69;&#x61;&#110;&#103;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#50;&#x35;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#100;&#111;&#x6e;&#103;&#109;&#101;&#x69;&#108;&#105;&#x61;&#x6e;&#103;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#49;&#46;&#50;&#53;&#x35;">&#100;&#x6f;&#110;&#103;&#109;&#101;&#105;&#x6c;&#x69;&#97;&#x6e;&#103;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#x35;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

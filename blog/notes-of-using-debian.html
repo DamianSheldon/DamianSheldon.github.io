@@ -257,7 +257,44 @@ $(document).ready(
 </span><span class='line'>$ sudo service apache2 restart</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>5. Default installation layouts for Apache HTTPD on Debian</h3>
 
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ServerRoot              ::      /etc/apache2
+</span><span class='line'>DocumentRoot            ::      /var/www
+</span><span class='line'>Apache Config Files     ::      /etc/apache2/apache2.conf
+</span><span class='line'>                        ::      /etc/apache2/ports.conf
+</span><span class='line'>Default VHost Config    ::      /etc/apache2/sites-available/default, /etc/apache2/sites-enabled/000-default
+</span><span class='line'>Module Locations        ::      /etc/apache2/mods-available, /etc/apache2/mods-enabled
+</span><span class='line'>ErrorLog                ::      /var/log/apache2/error.log
+</span><span class='line'>AccessLog               ::      /var/log/apache2/access.log
+</span><span class='line'>cgi-bin                 ::      /usr/lib/cgi-bin
+</span><span class='line'>binaries (apachectl)    ::      /usr/sbin
+</span><span class='line'>start/stop              ::      /etc/init.d/apache2 (start|stop|restart|reload|force-reload|start-htcacheclean|stop-htcacheclean)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notes:</p>
+
+<ol>
+<li>The Debian/Ubuntu layout is fully documented in /usr/share/doc/apache2/README.Debian</li>
+<li>Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called &lsquo;a2ensite&rsquo; and &lsquo;a2enmod&rsquo; which activates vhosts and modules.</li>
+<li>The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.</li>
+</ol>
+
+
+<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:</a></p>
 </div>
 
 

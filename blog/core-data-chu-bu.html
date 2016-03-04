@@ -331,11 +331,12 @@ $(document).ready(
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>代码示例</h3>
+<h3>代码方式</h3>
 
-<p>纯理论的讲我们可能不容易理解，让我们结合代码来看看。</p>
+<ul>
+<li>初始化 Core Data Stack</li>
+</ul>
 
-<h3>创建和加载Managed Object Model</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -378,80 +379,220 @@ $(document).ready(
 <span class='line-number'>39</span>
 <span class='line-number'>40</span>
 <span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1)You usually create a model in Xcode, as described in Core Data Model Editor Help. 
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Prepare Managed Object Model
 </span><span class='line'>
-</span><span class='line'>[[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"NameOfCoreDataResource" withExtension:@"momd"]]
+</span><span class='line'>- (NSManagedObjectModel *)employeesMOM
+</span><span class='line'>{
+</span><span class='line'>    static NSManagedObjectModel *sEmployeesMOM;
+</span><span class='line'>    
+</span><span class='line'>    if (sEmployeesMOM) {
+</span><span class='line'>        return sEmployeesMOM;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    sEmployeesMOM = [NSManagedObjectModel new];
+</span><span class='line'>    
+</span><span class='line'>    // Create the entity
+</span><span class='line'>    NSEntityDescription *personEntity = [self entityOfPerson];
+</span><span class='line'>    
+</span><span class='line'>    NSEntityDescription *employeeEntity = [self entityOfEmployee];
+</span><span class='line'>    
+</span><span class='line'>    NSEntityDescription *departmentEntity = [self entityOfDepartment];
+</span><span class='line'>    
+</span><span class='line'>    // Construct entity inherit
+</span><span class='line'>    personEntity.subentities = @[employeeEntity];
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    // Construct relationship
+</span><span class='line'>    NSRelationshipDescription *department = employeeEntity.relationshipsByName[@"department"];
+</span><span class='line'>    
+</span><span class='line'>    NSRelationshipDescription *employees = departmentEntity.relationshipsByName[@"employees"];
+</span><span class='line'>    
+</span><span class='line'>    department.destinationEntity = departmentEntity;
+</span><span class='line'>    department.inverseRelationship = employees;
+</span><span class='line'>    
+</span><span class='line'>    employees.destinationEntity = employeeEntity;
+</span><span class='line'>    employees.inverseRelationship = department;
+</span><span class='line'>    
+</span><span class='line'>    sEmployeesMOM.entities = @[personEntity, employeeEntity, departmentEntity];
+</span><span class='line'>    
+</span><span class='line'>    return sEmployeesMOM;
+</span><span class='line'>}
 </span><span class='line'>
-</span><span class='line'>// Another method
-</span><span class='line'>managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
+</span><span class='line'>- (NSEntityDescription *)entityOfPerson
+</span><span class='line'>{
+</span><span class='line'>    NSEntityDescription *personEntity = [NSEntityDescription new];
+</span><span class='line'>    personEntity.name = @"Person";
+</span><span class='line'>    personEntity.managedObjectClassName = @"NSManagedObject";
+</span><span class='line'>    personEntity.abstract = YES;
+</span><span class='line'>    
+</span><span class='line'>    NSAttributeDescription *attributeOfName = [NSAttributeDescription new];
+</span><span class='line'>    attributeOfName.name = @"name";
+</span><span class='line'>    attributeOfName.attributeType = NSStringAttributeType;
+</span><span class='line'>    
+</span><span class='line'>    NSAttributeDescription *attributeOfDateOfBirth = [NSAttributeDescription new];
+</span><span class='line'>    attributeOfDateOfBirth.name = @"dateOfBirth";
+</span><span class='line'>    attributeOfDateOfBirth.attributeType = NSDateAttributeType;
+</span><span class='line'>    
+</span><span class='line'>    personEntity.properties = @[attributeOfName, attributeOfDateOfBirth];
+</span><span class='line'>    
+</span><span class='line'>    return personEntity;
+</span><span class='line'>}
 </span><span class='line'>
-</span><span class='line'>// 2)You can also create a model entirely in code.
-</span><span class='line'>NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] init];
-</span><span class='line'>NSEntityDescription *runEntity = [[NSEntityDescription alloc] init];
-</span><span class='line'>[runEntity setName:@"Run"];
-</span><span class='line'>[runEntity setManagedObjectClassName:@"Run"];
-</span><span class='line'>[mom setEntities:@[runEntity]];
-</span><span class='line'> 
-</span><span class='line'>NSMutableArray *runProperties = [NSMutableArray array];
-</span><span class='line'> 
-</span><span class='line'>NSAttributeDescription *dateAttribute = [[NSAttributeDescription alloc] init];
-</span><span class='line'>[runProperties addObject:dateAttribute];
-</span><span class='line'>[dateAttribute setName:@"date"];
-</span><span class='line'>[dateAttribute setAttributeType:NSDateAttributeType];
-</span><span class='line'>[dateAttribute setOptional:NO];
-</span><span class='line'> 
-</span><span class='line'>NSAttributeDescription *idAttribute= [[NSAttributeDescription alloc] init];
-</span><span class='line'>[runProperties addObject:idAttribute];
-</span><span class='line'>[idAttribute setName:@"processID"];
-</span><span class='line'>[idAttribute setAttributeType:NSInteger32AttributeType];
-</span><span class='line'>[idAttribute setOptional:NO];
-</span><span class='line'>[idAttribute setDefaultValue:@0];
-</span><span class='line'> 
-</span><span class='line'>NSPredicate *validationPredicate = [NSPredicate predicateWithFormat:@"SELF &gt;= 0"];
-</span><span class='line'>NSString *validationWarning = @"Process ID &lt; 0";
-</span><span class='line'>[idAttribute setValidationPredicates:@[validationPredicate]
-</span><span class='line'>    withValidationWarnings:@[validationWarning]];
-</span><span class='line'> 
-</span><span class='line'>[runEntity setProperties:runProperties];
-</span><span class='line'> 
-</span><span class='line'>NSDictionary *localizationDictionary = @{
-</span><span class='line'>    @"Property/processID/Entity/Run" : @"Process ID",
-</span><span class='line'>    @"Property/date/Entity/Run" : @"Date"
-</span><span class='line'>    @"ErrorString/Process ID &lt; 0" : @"Process ID must not be less than 0" };
-</span><span class='line'>[mom setLocalizationDictionary:localizationDictionary];</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>- (NSEntityDescription *)entityOfEmployee
+</span><span class='line'>{
+</span><span class='line'>    NSEntityDescription *employeeEntity = [NSEntityDescription new];
+</span><span class='line'>    employeeEntity.name = @"Employee";
+</span><span class='line'>    employeeEntity.managedObjectClassName = @"Employee";
+</span><span class='line'>    
+</span><span class='line'>    NSAttributeDescription *attributeOfStartDate = [NSAttributeDescription new];
+</span><span class='line'>    attributeOfStartDate.name = @"startDate";
+</span><span class='line'>    attributeOfStartDate.attributeType = NSDateAttributeType;
+</span><span class='line'>    
+</span><span class='line'>    NSRelationshipDescription *department = [NSRelationshipDescription new];
+</span><span class='line'>    department.name = @"department";
+</span><span class='line'>    department.deleteRule = NSNullifyDeleteRule;
+</span><span class='line'>    department.minCount = 0;
+</span><span class='line'>    department.maxCount = 1;// max = 1 for to-one relationship
+</span><span class='line'>    
+</span><span class='line'>    employeeEntity.properties = @[attributeOfStartDate, department];
+</span><span class='line'>    
+</span><span class='line'>    return employeeEntity;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (NSEntityDescription *)entityOfDepartment
+</span><span class='line'>{
+</span><span class='line'>    NSEntityDescription *departmentEntity = [NSEntityDescription new];
+</span><span class='line'>    departmentEntity.name = @"Department";
+</span><span class='line'>    departmentEntity.managedObjectClassName = @"NSManagedObject";
+</span><span class='line'>    
+</span><span class='line'>    NSAttributeDescription *attributOfName = [NSAttributeDescription new];
+</span><span class='line'>    attributOfName.name = @"name";
+</span><span class='line'>    attributOfName.attributeType = NSStringAttributeType;
+</span><span class='line'>    
+</span><span class='line'>    NSRelationshipDescription *employees = [NSRelationshipDescription new];
+</span><span class='line'>    employees.name = @"employees";
+</span><span class='line'>    employees.deleteRule = NSNullifyDeleteRule;
+</span><span class='line'>    employees.minCount = 0;
+</span><span class='line'>    employees.maxCount = 0;// max = 0 for to-many relationship
+</span><span class='line'>    
+</span><span class='line'>    departmentEntity.properties = @[attributOfName, employees];
+</span><span class='line'>    
+</span><span class='line'>    return departmentEntity;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Initialize Core Data
+</span><span class='line'>- (void)initializeCoreData
+</span><span class='line'>{
+</span><span class='line'>    NSManagedObjectModel *mom = [self employeesMOM];
+</span><span class='line'>
+</span><span class='line'>    NSAssert(mom != nil, @"Error initializing Managed Object Model");
+</span><span class='line'>    
+</span><span class='line'>    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+</span><span class='line'>    NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+</span><span class='line'>    [moc setPersistentStoreCoordinator:psc];
+</span><span class='line'>    [self setManagedObjectContext:moc];
+</span><span class='line'>    
+</span><span class='line'>    NSFileManager *fileManager = [NSFileManager defaultManager];
+</span><span class='line'>    NSURL *documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+</span><span class='line'>    NSURL *storeURL = [documentsURL URLByAppendingPathComponent:@"Workspace.sqlite"];
+</span><span class='line'>    
+</span><span class='line'>    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+</span><span class='line'>        NSError *error = nil;
+</span><span class='line'>        NSPersistentStoreCoordinator *psc = [[self managedObjectContext] persistentStoreCoordinator];
+</span><span class='line'>        NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error];
+</span><span class='line'>        NSAssert(store != nil, @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
+</span><span class='line'>    });
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>创建Managed Object Context</h3>
+<ul>
+<li>数据操作和 IB 方式是一样的</li>
+</ul>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Assume we have a persistent store coordinator
-</span><span class='line'>managedObjectContext = [[NSManagedObjectContext alloc] init];
-</span><span class='line'>[managedObjectContext setPersistentStoreCoordinator: coordinator];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Persistent Store Coordinator</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Locations.sqlite"]];
-</span><span class='line'>  
-</span><span class='line'>NSError *error;
-</span><span class='line'>persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-</span><span class='line'>if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-</span><span class='line'>   // Handle the error.
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建Persistent Store</h3>
-
-<p>我们不直接创建persistent object store。当我们给persistent store coordinator发送addPersistentStoreWithType:configuration:URL:options:error:, Core Data为我们创建合适的store.</p>
 
 <h2>完整示例</h2>
 

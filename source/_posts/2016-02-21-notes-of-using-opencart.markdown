@@ -47,4 +47,18 @@ A: 扩展功能 > 模块配置 > 推荐商品 > Home Page > Product Name
 ###4. 如何设置幻灯片？
 A: 设计 > 横幅 > Home Page Slideshow > Edit
 
+###5. OpenCart迁移到新的服务器后布局不正常显示
+A:打开Chrome的Developer Tool,报了很多Failed to load resource: http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js net::ERR_CONNECTION_REFUSED之类的错误，所以我估计错误是 CSS 和 js 没有正确加载，于是修改public_html/upload/config.php
+
+```
+define('HTTP_SERVER', 'http://ip/~meiliang/upload/');
+define('HTTPS_SERVER', 'http://ip/~meiliang/upload/');
+```
+
+###6. 增加语言后，语言图标不显示
+A:
+
+```
+$ cp public_html/upload/image/flags/cn.png public_html/upload/catalog/language/zh-CN/zh-CN.png
+```
 

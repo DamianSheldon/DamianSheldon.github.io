@@ -171,6 +171,26 @@ $(document).ready(
 
 <p>A: 设计 > 横幅 > Home Page Slideshow > Edit</p>
 
+<h3>5. OpenCart迁移到新的服务器后布局不正常显示</h3>
+
+<p>A:打开Chrome的Developer Tool,报了很多Failed to load resource: <a href="http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js">http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js</a> net::ERR_CONNECTION_REFUSED之类的错误，所以我估计错误是 CSS 和 js 没有正确加载，于是修改public_html/upload/config.php</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>define('HTTP_SERVER', 'http://ip/~meiliang/upload/');
+</span><span class='line'>define('HTTPS_SERVER', 'http://ip/~meiliang/upload/');</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6. 增加语言后，语言图标不显示</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp public_html/upload/image/flags/cn.png public_html/upload/catalog/language/zh-CN/zh-CN.png</span></code></pre></td></tr></table></div></figure>
+
+
+
+
 		
 		
 	</div>

@@ -213,5 +213,19 @@ A:https://wiki.debian.org/LaMp
 ###5. Where is apache error log path on Debian?
 A:/var/log/apache2/error.log
 
+###6.
 
+```
+$ php arrayTests.php
+PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/extensions/no-debug-non-zts-20121212/' - dlopen(/usr/lib/php/extensions/no-debug-non-zts-20121212/, 9): no suitable image found.  Did find:
+	/usr/lib/php/extensions/no-debug-non-zts-20121212/: not a file in Unknown on line 0
+```
+
+A:这个问题的原因是本来我应该是设置 extension_dir 的，结果在 php.ini里写成了 extension， 更正之后问题就解决了。
+
+```
+extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20121212/"
+```
+
+Reference:http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library
 

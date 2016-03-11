@@ -427,6 +427,24 @@ You need to disable the new System Integrity Protection to install into some sys
 <h3>5. Where is apache error log path on Debian?</h3>
 
 <p>A:/var/log/apache2/error.log</p>
+
+<h3>6.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ php arrayTests.php
+</span><span class='line'>PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/extensions/no-debug-non-zts-20121212/' - dlopen(/usr/lib/php/extensions/no-debug-non-zts-20121212/, 9): no suitable image found.  Did find:
+</span><span class='line'>  /usr/lib/php/extensions/no-debug-non-zts-20121212/: not a file in Unknown on line 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:这个问题的原因是本来我应该是设置 extension_dir 的，结果在 php.ini里写成了 extension， 更正之后问题就解决了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20121212/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library">http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library</a></p>
 </div>
 
 

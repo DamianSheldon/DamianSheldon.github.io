@@ -445,6 +445,14 @@ You need to disable the new System Integrity Protection to install into some sys
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library">http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library</a></p>
+
+<h3>7.Why should the &lsquo;&amp;&rsquo; (ampersand) character be HTML escaped?</h3>
+
+<p>A:The reason we escape the &amp; is precisely because it is the first character in special characters such as &amp;rsquo. If it is not escaped, some programs may be expecting a special character to begin when they see the ampersand.</p>
+
+<p>But it is only escaped when you actually want the ampersand to show. You would not escape it in a special character. So you would always use &amp;rsquo and never &amp;rsquo.</p>
+
+<p>Reference:<a href="https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped">https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped</a></p>
 </div>
 
 

@@ -229,3 +229,10 @@ extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20121212/"
 
 Reference:http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library
 
+###7.Why should the '&' (ampersand) character be HTML escaped?
+A:The reason we escape the & is precisely because it is the first character in special characters such as &rsquo. If it is not escaped, some programs may be expecting a special character to begin when they see the ampersand.
+
+But it is only escaped when you actually want the ampersand to show. You would not escape it in a special character. So you would always use &rsquo and never &amp;rsquo. 
+
+Reference:https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped
+

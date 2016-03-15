@@ -272,8 +272,6 @@ Reference:http://stackoverflow.com/questions/13743242/adding-relationships-in-ns
 
 ###15.ld: warning: directory not found for option '-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Developer/Library/Frameworks'
 
-warning: /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/ModuleCache/3JYY4ZSZWB9HF/UIKit-1V5UHAPTOD24G.pcm: No such file or directory
-
 A:Delete entries that generate warnings.
 
 UnitTest > Build Settings > Search Paths > Framework Search Paths > 

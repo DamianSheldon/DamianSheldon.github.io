@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-14T21:51:52+08:00</updated>
+  <updated>2016-03-15T15:47:26+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1243,6 +1243,19 @@ employees.maxCount = 0;// max = 0 for to-many relationship
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit">http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit</a></p>
+
+<h3>15.ld: warning: directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Developer/Library/Frameworks&rsquo;</h3>
+
+<p>warning: /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/ModuleCache/3JYY4ZSZWB9HF/UIKit-1V5UHAPTOD24G.pcm: No such file or directory</p>
+
+<p>A:Delete entries that generate warnings.</p>
+
+<p>UnitTest > Build Settings > Search Paths > Framework Search Paths ></p>
+
+<p>$(SDKROOT)/Developer/Library/Frameworks
+$(DEVELOPER_FRAMEWORKS_DIR)</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919">http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919</a></p>
 ]]></content>
   </entry>
   

@@ -270,4 +270,18 @@ employees.maxCount = 0;// max = 0 for to-many relationship
 
 Reference:http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit
 
+###15.ld: warning: directory not found for option '-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Developer/Library/Frameworks'
+
+warning: /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/ModuleCache/3JYY4ZSZWB9HF/UIKit-1V5UHAPTOD24G.pcm: No such file or directory
+
+A:Delete entries that generate warnings.
+
+UnitTest > Build Settings > Search Paths > Framework Search Paths > 
+
+$(SDKROOT)/Developer/Library/Frameworks
+$(DEVELOPER_FRAMEWORKS_DIR)
+
+Reference:http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919
+
+
 

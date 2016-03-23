@@ -901,6 +901,13 @@ $(document).ready(
 
 <p>Reference:<a href="http://blog.csdn.net/gracioushe/article/details/6142793">http://blog.csdn.net/gracioushe/article/details/6142793</a></p>
 
+<h3>How to untrack all delete files?</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git diff-files --diff-filter<span class="o">=</span>D --name-only -z <span class="p">|</span> xargs -0 git rm
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>

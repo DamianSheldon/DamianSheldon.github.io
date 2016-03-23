@@ -143,6 +143,9 @@ System Preference > Sharing</p></li>
 
 <p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
 
+<!-- more -->
+
+
 <h2>4. How to open google search results in a new tab？</h2>
 
 <p>Solution:Here&rsquo;s how to make Google open your results in a new tab every time. If you&rsquo;d rather Google not open your results on the same page, you can set the default by going to Google and clicking on the cog in the upper right-hand corner. Choose &ldquo;Search Settings&rdquo; from the list, then scroll down to &ldquo;Where Results Open&rdquo;.</p>
@@ -151,6 +154,68 @@ System Preference > Sharing</p></li>
 
 <p>Solution:shift-option-R输入‰
 Reference:<a href="http://newping.cn/414">http://newping.cn/414</a></p>
+
+<h2>6. Mac keyboard shortcuts</h2>
+
+<p>Solution:
+Command ⌘
+Shift ⇧
+Option ⌥
+Control ⌃
+Caps Lock ⇪
+Fn</p>
+
+<p>Reference:<a href="https://support.apple.com/en-us/HT201236">https://support.apple.com/en-us/HT201236</a></p>
+
+<h2>7. Add a user to a group</h2>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dscl localhost -append /Local/Default/Groups/thegroupname GroupMembership theusername</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8. To create a group</h2>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dscl / -create /Groups/GROUP
+</span><span class='line'>$ dscl / -create /Groups/GROUP PrimaryGroupID GID
+</span><span class='line'>$ dscl / -create /Groups/GROUP Password \*</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8. To create a user</h2>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dscl / -create /Users/USER
+</span><span class='line'>$ dscl / -create /Users/USER UniqueID UID
+</span><span class='line'>$ dscl / -create /Users/USER UserShell /usr/bin/false
+</span><span class='line'>$ dscl / -create /Users/USER RealName 'DESCRIPTION'
+</span><span class='line'>$ dscl / -create /Users/USER NFSHomeDirectory DIRECTORY
+</span><span class='line'>$ dscl / -create /Users/USER PrimaryGroupID GID
+</span><span class='line'>$ dscl / -create /Users/USER Password \*</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>9. How to view whether port was occupied under mac?</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1) netstat -an | grep 'port'
+</span><span class='line'>2) lsof -i:port</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

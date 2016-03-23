@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-15T17:30:41+08:00</updated>
+  <updated>2016-03-23T11:21:42+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2761,6 +2761,9 @@ System Preference > Sharing</p></li>
 
 <p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
 
+<!-- more -->
+
+
 <h2>4. How to open google search results in a new tab？</h2>
 
 <p>Solution:Here&rsquo;s how to make Google open your results in a new tab every time. If you&rsquo;d rather Google not open your results on the same page, you can set the default by going to Google and clicking on the cog in the upper right-hand corner. Choose &ldquo;Search Settings&rdquo; from the list, then scroll down to &ldquo;Where Results Open&rdquo;.</p>
@@ -2769,6 +2772,68 @@ System Preference > Sharing</p></li>
 
 <p>Solution:shift-option-R输入‰
 Reference:<a href="http://newping.cn/414">http://newping.cn/414</a></p>
+
+<h2>6. Mac keyboard shortcuts</h2>
+
+<p>Solution:
+Command ⌘
+Shift ⇧
+Option ⌥
+Control ⌃
+Caps Lock ⇪
+Fn</p>
+
+<p>Reference:<a href="https://support.apple.com/en-us/HT201236">https://support.apple.com/en-us/HT201236</a></p>
+
+<h2>7. Add a user to a group</h2>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dscl localhost -append /Local/Default/Groups/thegroupname GroupMembership theusername</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8. To create a group</h2>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dscl / -create /Groups/GROUP
+</span><span class='line'>$ dscl / -create /Groups/GROUP PrimaryGroupID GID
+</span><span class='line'>$ dscl / -create /Groups/GROUP Password \*</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8. To create a user</h2>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dscl / -create /Users/USER
+</span><span class='line'>$ dscl / -create /Users/USER UniqueID UID
+</span><span class='line'>$ dscl / -create /Users/USER UserShell /usr/bin/false
+</span><span class='line'>$ dscl / -create /Users/USER RealName 'DESCRIPTION'
+</span><span class='line'>$ dscl / -create /Users/USER NFSHomeDirectory DIRECTORY
+</span><span class='line'>$ dscl / -create /Users/USER PrimaryGroupID GID
+</span><span class='line'>$ dscl / -create /Users/USER Password \*</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>9. How to view whether port was occupied under mac?</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1) netstat -an | grep 'port'
+</span><span class='line'>2) lsof -i:port</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -3083,9 +3148,12 @@ Apply > Run
 </pre></td><td class='code'><pre><code class=''><span class='line'>scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/</span></code></pre></td></tr></table></div></figure>
 
 
+<!-- more -->
+
+
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#100;&#x6f;&#110;&#x67;&#x6d;&#101;&#x69;&#x6c;&#x69;&#97;&#110;&#103;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#x36;&#56;&#46;&#49;&#x2e;&#x32;&#53;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#108;&#x69;&#x61;&#110;&#x67;&#64;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x2e;&#50;&#53;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x64;&#111;&#x6e;&#103;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#97;&#110;&#103;&#64;&#x31;&#x39;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#x31;&#x2e;&#50;&#53;&#x35;">&#100;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#108;&#105;&#x61;&#110;&#x67;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#50;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -3185,6 +3253,103 @@ quit</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync --delete --rsh=ssh -av /Users/dongmeiliang/Sites/upload/ meiliang@remote_ip:/home/meiliang/public_html/upload</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>10.Recursively Search All Files For A String</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// grep command: Recursively Search All Files For A String
+</span><span class='line'>
+</span><span class='line'>cd /path/to/dir
+</span><span class='line'>grep -r "word" .
+</span><span class='line'>
+</span><span class='line'>grep -r "string" .
+</span><span class='line'>
+</span><span class='line'>// Ignore case distinctions:
+</span><span class='line'>grep -ri "word" .
+</span><span class='line'>
+</span><span class='line'>// To display print only the filenames with GNU grep, enter:
+</span><span class='line'>grep -r -l "foo" .
+</span><span class='line'>
+</span><span class='line'>// You can also specify directory name:
+</span><span class='line'>grep -r -l "foo" /path/to/dir/*.c
+</span><span class='line'>
+</span><span class='line'>// find command: Recursively Search All Files For A String
+</span><span class='line'>
+</span><span class='line'>// find command is recommend because of speed and ability to deal with filenames that contain spaces.
+</span><span class='line'>cd /path/to/dir
+</span><span class='line'>find . -type f -exec grep -l "word" {} +
+</span><span class='line'>find . -type f -exec grep -l "seting" {} +
+</span><span class='line'>find . -type f -exec grep -l "foo" {} +
+</span><span class='line'>// Older UNIX version should use xargs to speed up things:
+</span><span class='line'>find /path/to/dir -type f | xargs grep -l "foo"
+</span><span class='line'>
+</span><span class='line'>// It is good idea to pass -print0 option to find command that it can deal with filenames that contain spaces or other metacharacters:
+</span><span class='line'>find /path/to/dir -type f -print0 | xargs -0 grep -l "foo"
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>11. Common terminal shutcuts</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ctrl + A    Go to the beginning of the line you are currently typing on
+</span><span class='line'>Ctrl + E    Go to the end of the line you are currently typing on
+</span><span class='line'>Ctrl + L    Clears the Screen, similar to the clear command
+</span><span class='line'>Ctrl + U    Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
+</span><span class='line'>Ctrl + H    Same as backspace
+</span><span class='line'>Ctrl + R    Let’s you search through previously used commands
+</span><span class='line'>Ctrl + C    Kill whatever you are running
+</span><span class='line'>Ctrl + D    Exit the current shell
+</span><span class='line'>Ctrl + Z    Puts whatever you are running into a suspended background process. fg restores it.
+</span><span class='line'>Ctrl + W    Delete the word before the cursor
+</span><span class='line'>Ctrl + K    Clear the line after the cursor
+</span><span class='line'>Ctrl + T    Swap the last two characters before the cursor
+</span><span class='line'>Esc + T Swap the last two words before the cursor</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>12. 比较目录下同名文件</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ diff -Naur old-dir new-dir</span></code></pre></td></tr></table></div></figure>
 
 
 

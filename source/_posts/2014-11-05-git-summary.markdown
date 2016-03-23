@@ -379,6 +379,12 @@ git push ...
 ```
 Reference:http://blog.csdn.net/gracioushe/article/details/6142793
 
+### How to untrack all delete files?
+
+```
+$ git diff-files --diff-filter=D --name-only -z | xargs -0 git rm
+```
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)
 

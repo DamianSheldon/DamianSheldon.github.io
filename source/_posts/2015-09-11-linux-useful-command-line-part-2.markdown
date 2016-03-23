@@ -26,7 +26,7 @@ Via scp:
 ```
 scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/
 ```
-
+<!-- more -->
 Via sftp:  
 
 1.sftp dongmeiliang@192.168.1.255  
@@ -120,4 +120,63 @@ A:
 ```
 $ rsync --delete --rsh=ssh -av /Users/dongmeiliang/Sites/upload/ meiliang@remote_ip:/home/meiliang/public_html/upload
 ```
+
+###10.Recursively Search All Files For A String
+
+```
+// grep command: Recursively Search All Files For A String
+
+cd /path/to/dir
+grep -r "word" .
+
+grep -r "string" .
+
+// Ignore case distinctions:
+grep -ri "word" .
+
+// To display print only the filenames with GNU grep, enter:
+grep -r -l "foo" .
+
+// You can also specify directory name:
+grep -r -l "foo" /path/to/dir/*.c
+
+// find command: Recursively Search All Files For A String
+
+// find command is recommend because of speed and ability to deal with filenames that contain spaces.
+cd /path/to/dir
+find . -type f -exec grep -l "word" {} +
+find . -type f -exec grep -l "seting" {} +
+find . -type f -exec grep -l "foo" {} +
+// Older UNIX version should use xargs to speed up things:
+find /path/to/dir -type f | xargs grep -l "foo"
+
+// It is good idea to pass -print0 option to find command that it can deal with filenames that contain spaces or other metacharacters:
+find /path/to/dir -type f -print0 | xargs -0 grep -l "foo"
+
+```
+
+###11. Common terminal shutcuts
+
+```
+Ctrl + A    Go to the beginning of the line you are currently typing on
+Ctrl + E    Go to the end of the line you are currently typing on
+Ctrl + L    Clears the Screen, similar to the clear command
+Ctrl + U    Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
+Ctrl + H    Same as backspace
+Ctrl + R    Let’s you search through previously used commands
+Ctrl + C    Kill whatever you are running
+Ctrl + D    Exit the current shell
+Ctrl + Z    Puts whatever you are running into a suspended background process. fg restores it.
+Ctrl + W    Delete the word before the cursor
+Ctrl + K    Clear the line after the cursor
+Ctrl + T    Swap the last two characters before the cursor
+Esc + T Swap the last two words before the cursor
+```
+
+###12. 比较目录下同名文件
+
+```
+$ diff -Naur old-dir new-dir
+```
+
 

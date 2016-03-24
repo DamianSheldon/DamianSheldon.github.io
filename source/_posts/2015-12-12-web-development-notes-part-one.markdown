@@ -236,3 +236,20 @@ But it is only escaped when you actually want the ampersand to show. You would n
 
 Reference:https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped
 
+###8.Evaluate JavaScript in terminal on Mac
+A:
+
+```
+// 1.
+$ osascript test.js
+// 2.
+// Use specified language and evaluate given script file
+$jrunscript -l js -f test.js
+$jrunscript test.js
+```
+
+###9.How to debug JavaScript?
+A:
+Reference:https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript
+
+

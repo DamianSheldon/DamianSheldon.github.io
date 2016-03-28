@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-24T12:00:53+08:00</updated>
+  <updated>2016-03-28T20:24:52+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-6.html"/>
+    <updated>2016-03-28T20:14:53+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-6</id>
+    <content type="html"><![CDATA[<h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
+
+<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1</a></p>
+
+<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
+
+<p>A:</p>
+
+<ul>
+<li>If you manipulated constraints directly, call setNeedsLayout.</li>
+<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
+<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
+</ul>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Technical Interview Part 3]]></title>
@@ -1254,57 +1280,6 @@ employees.maxCount = 0;// max = 0 for to-many relationship
 $(DEVELOPER_FRAMEWORKS_DIR)</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919">http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[用 Wireshark 抓 iPhone 网络请求的数据包]]></title>
-    <link href="http://DamianSheldon.github.io/blog/capturing-iphone-traffic-on-wireshark.html"/>
-    <updated>2016-01-04T14:43:00+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/capturing-iphone-traffic-on-wireshark</id>
-    <content type="html"><![CDATA[<p>开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？</p>
-
-<blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
-
-<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.<br/>
-If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).<br/>
-In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
-
-<!-- more -->
-
-
-<p>这里我使用的是第三种方法：remote virtual interface。</p>
-
-<p>iOS 5 added a remote virtual interface (RVI) facility that lets you use OS X packet trace programs to capture traces from an iOS device. The basic strategy is:</p>
-
-<ol>
-<li>Connect your iOS device to your Mac via USB.</li>
-<li>Set up an RVI for that device. This creates a virtual network interface on your Mac that represents the iOS device&rsquo;s networking stack.</li>
-<li>Run your OS X packet trace program, and point it at the RVI created in the previous step.</li>
-</ol>
-
-
-<pre><code>$ # First get the current list of interfaces.
-$ ifconfig -l
-lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0
-$ # Get connected device's UDID follow: Xcode &gt; Window &gt; Devices &gt; Select connected device &gt; identifier
-$ # Then run the tool with the UDID of the device.
-$ rvictl -s 74bd53c647548234ddcef0ee3abee616005051ed
-
-Starting device 74bd53c647548234ddcef0ee3abee616005051ed [SUCCEEDED]
-
-$ # Get the list of interfaces again, and you can see the new virtual
-$ # network interface, rvi0, added by the previous command.
-$ ifconfig -l
-lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0 rvi0
-</code></pre>
-
-<p>打开 Wireshark, 选择 rvi0 作为待抓包的接口。</p>
-
-<h1>Reference</h1>
-
-<p><a href="https://developer.apple.com/library/mac/qa/qa1176/_index.html">Getting a Packet Trace</a><br/>
-<a href="http://stackoverflow.com/questions/9555403/capturing-mobile-phone-traffic-on-wireshark">Capturing mobile phone traffic on wireshark</a></p>
 ]]></content>
   </entry>
   

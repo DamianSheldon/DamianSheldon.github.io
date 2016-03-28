@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-03-24T12:00:53+08:00</updated>
+  <updated>2016-03-28T20:24:52+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-6.html"/>
+    <updated>2016-03-28T20:14:53+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-6</id>
+    <content type="html"><![CDATA[<h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
+
+<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1</a></p>
+
+<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
+
+<p>A:</p>
+
+<ul>
+<li>If you manipulated constraints directly, call setNeedsLayout.</li>
+<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
+<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
+</ul>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Notes Of Using Debian]]></title>
@@ -859,319 +885,6 @@ define('HTTPS_SERVER', 'http://ip/~meiliang/upload/');
 
 <pre><code>$ cp public_html/upload/image/flags/cn.png public_html/upload/catalog/language/zh-CN/zh-CN.png
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Unit Testing With OCMock]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock.html"/>
-    <updated>2016-01-22T14:19:12+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-unit-testing-with-ocmock</id>
-    <content type="html"><![CDATA[<p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
-
-<p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
-
-<p>对象的方法在工作的时候可能要依赖其他对象，为了去除依赖对象对测试的影响，我们引入 Mock.</p>
-
-<blockquote><p>Mocks are ‘fake’ objects with pre-defined behavior to stand-in for concrete objects during testing. &ndash; HackaZach</p></blockquote>
-
-<p>引用 Mock 之后，我们在单元测试中如何使用它呢？</p>
-
-<blockquote><p>The general recipe for using mocks in unit-tests is:</p>
-
-<ol>
-<li>Create the mock object</li>
-<li>Specify the expected invocations and return values</li>
-<li>Associate the mock object with the code under test</li>
-<li>Execute the code under test</li>
-<li>Validate that your assertions are correct</li>
-</ol>
-</blockquote>
-
-<!-- more -->
-
-
-<h3>Create the mock object</h3>
-
-<p>OCMock 中创建 Mock 对象的方法如下：</p>
-
-<table>
-<thead>
-<tr>
-<th> Factory Method </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> +mockForClass: </td>
-<td> Create a mock based on the given class </td>
-</tr>
-<tr>
-<td> +mockForProtocol: </td>
-<td> Create a mock based on the given protocol </td>
-</tr>
-<tr>
-<td> +niceMockForClass: </td>
-<td> Create a &ldquo;nice&rdquo; mock based on the given class </td>
-</tr>
-<tr>
-<td> +niceMockForProtocol: </td>
-<td> Create a &ldquo;nice&rdquo; mock based on the given protocol </td>
-</tr>
-<tr>
-<td> +partialMockForObject: </td>
-<td> Create a mock based on the given object </td>
-</tr>
-<tr>
-<td> +observerMock: </td>
-<td> Create a notification observer (more on this later) </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>Mock 对象是只是一个空壳，只能调用预先定义的方法，调用没有预先定义的方法会抛出异常；
-Nice Mock 对象也是一个空壳，只是它会忽略没有预先定义的方法不会抛出异常；
-Partial Mock 对象是把一个已有的对象转成 Mock，调用没有预先定义的方法，它会把方法传给已存在的对象；<br/>
-Observer Mock 对象是用来观察通知的。</p>
-
-<h3>Specify the expected invocations and return values</h3>
-
-<blockquote><p>Calling either the -expect or -stub method will return an object that you can use to setup your expectations.</p></blockquote>
-
-<ul>
-<li><p>Specify the expected invocations</p>
-
-<ol>
-<li>不带参数的方法</li>
-</ol>
-</li>
-</ul>
-
-
-<pre><code>
-- (void)testInit {
-  id mockService = [OCMockObject mockForProtocol:@protocol(AVQuoteService)];
-  [[mockService expect] initiateConnection];
-
-  AVStockPortfolio *portfolio = [[AVStockPortfolio alloc] initWithService:mockService];
-
-  [mockService verify];
-}
-</code></pre>
-
-<p></br>
-    2. 带参数的方法</p>
-
-<blockquote><p>You can use any of the following OCMArg class methods in place of a real argument when setting up your method expectations:</p></blockquote>
-
-<table>
-<thead>
-<tr>
-<th> OCMArg method </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> +any </td>
-<td> Any argument is accepted. </td>
-</tr>
-<tr>
-<td> +anyPointer </td>
-<td> Accepts any pointer </td>
-</tr>
-<tr>
-<td> +isNil     </td>
-<td> The given argument must be nil </td>
-</tr>
-<tr>
-<td> +isNotNil  </td>
-<td> The given argument must not be nil </td>
-</tr>
-<tr>
-<td> +isNotEqual:   </td>
-<td> Given argument is not object-equivalent with expectation </td>
-</tr>
-<tr>
-<td> +checkWithSelector: </td>
-<td> onObject:   Check the argument with the given action/target pair </td>
-</tr>
-<tr>
-<td> +checkWithBlock: </td>
-<td> Check the argument with the given block (OS X 10.6 or iOS 4) </td>
-</tr>
-</tbody>
-</table>
-
-
-<blockquote><p>OCMock also provides a few handy macros for argument matching:</p></blockquote>
-
-<table>
-<thead>
-<tr>
-<th> Macro </th>
-<th> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> OCMOCK_ANY()   </td>
-<td> Equivalent to [OCMArg any] </td>
-</tr>
-<tr>
-<td> OCMOCK_VALUE(value) </td>
-<td> A quick way to match a non-object argument </td>
-</tr>
-<tr>
-<td> CONSTRAINT(selector) </td>
-<td> Validate with a given selector on self </td>
-</tr>
-<tr>
-<td> CONSTRAINTV(selector,value) </td>
-<td>     Validate with a given selector on self and an additional argument </td>
-</tr>
-</tbody>
-</table>
-
-
-<pre><code>id classMock = OCMClassMock([SomeClass class]);
-OCMExpect([classMock someMethodWithArgument:[OCMArg isNotNil]]);
-
-/* run code under test, which is assumed to call someMethod */
-
-OCMVerifyAll(classMock)
-</code></pre>
-
-<p></br>
-    3. 通知</p>
-
-<pre><code>- (void)testSellSharesInStock {
-  id mock = [OCMockObject observerMock];
-  // OCMock adds a custom methods to NSNotificationCenter via a category
-  [[NSNotificationCenter defaultCenter] addMockObserver:mock
-                                                   name:AVStockSoldNotification
-                                                 object:nil];
-
-  [[mock expect] notificationWithName:AVStockSoldNotification object:[OCMArg any]];
-
-  AVPortfolio *portfolio = [self createPortfolio]; // made-up factory method
-  [portfolio sellShares:100 inStock:@"AAPL"];
-
-  [mock verify];
-}
-</code></pre>
-
-<ul>
-<li>Specify the return values</li>
-</ul>
-
-
-<blockquote><p>If methods on your mocks need to return values, you have a variety of methods to call on the object returned by -expect or -stub.</p></blockquote>
-
-<table>
-<thead>
-<tr>
-<th> Method </th>
-<th> Explanation </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> -andReturn: </td>
-<td> Return the given object </td>
-</tr>
-<tr>
-<td> -andReturnValue: </td>
-<td> Return a non-object value (wrapped in a NSValue) </td>
-</tr>
-<tr>
-<td> -andThrow: </td>
-<td> Throw the given exception </td>
-</tr>
-<tr>
-<td> -andPost: </td>
-<td>   Post the given notification </td>
-</tr>
-<tr>
-<td> -andCall:onObject: </td>
-<td> Call the selector on the given object </td>
-</tr>
-<tr>
-<td> -andDo: </td>
-<td> Invoke the given block (only on OS X 10.6 or iOS 4) </td>
-</tr>
-</tbody>
-</table>
-
-
-<h3>Execution &amp; Validation</h3>
-
-<ul>
-<li>Associate the mock object with the code under test</li>
-<li>Execute the code under test</li>
-<li>Validate that your assertions are correct</li>
-</ul>
-
-
-<pre><code>- (void)testSellSharesInStock {
-  id quoteService = [[OCMockObject] mockForProtocol:@protocol(AVQuoteService)];
-  [[[quoteService expect] andDo:^(NSInvocation *invocation) {
-    // validate arguments, set return value on the invocation object
-  }] priceForStock:@"AAPL"];
-
-  // Associate the mock object with the code under test
-  AVStockPortfolio *portfolio = [[AVStockPortfolio alloc] initWithService:quoteService];
-  // Execute the code under test
-  [portfolio sellShares:100 inStock:@"AAPL"];
-
-  // Validate that your assertions are correct
-
-  [quoteService verify];
-}
-</code></pre>
-
-<p>Q:How to mocking singleton?
-A:</p>
-
-<pre><code>// we can replace it with a mock object
-id mockManager = [OCMockObject mockForClass:[ArticleManager class]];
-[ArticleManager setSharedInstance:mockManager];
-// we can reset it so that it returns the actual ArticleManager
-[ArticleManager setSharedInstance:nil];
-
-// Objective-C Singleton Pattern Updated For Testability
-@implementation ArticleManager
-
-static ArticleManager *_sharedInstance = nil;
-static dispatch_once_t once_token = 0;
-
-+(instancetype)sharedInstance {
-    dispatch_once(&amp;once_token, ^{
-        if (_sharedInstance == nil) {
-            _sharedInstance = [[ArticleManager alloc] init];
-        }
-    });
-    return _sharedInstance;
-}
-
-+(void)setSharedInstance:(ArticleManager *)instance {
-    once_token = 0; // resets the once_token so dispatch_once will run again
-    _sharedInstance = instance;
-}
-
-@end
-</code></pre>
-
-<p>Reference:<a href="http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/">Objective-C Singleton Pattern Updated For Testability</a></p>
-
-<h2>Reference:</h2>
-
-<p><a href="http://ocmock.org">OCMock</a><br/>
-<a href="http://www.archive.alexvollmer.com/posts/2010/06/28/making-fun-of-things-with-ocmock/">Making Fun of Things with OCMock</a><br/>
-<a href="http://hackazach.net/code/2014/03/03/effective-testing-with-ocmock/">OCMock Test Origami</a><br/>
-<a href="http://engineering.aweber.com/improving-ios-unit-tests-with-ocmock/">IMPROVING IOS UNIT TESTS WITH OCMOCK</a></p>
 ]]></content>
   </entry>
   

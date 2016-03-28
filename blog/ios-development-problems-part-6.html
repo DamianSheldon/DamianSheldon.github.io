@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>web development  | Hello World</title>
+	<title>iOS App 开发问题汇总（六）  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -102,240 +102,86 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner"><article class="page">
-    <div class="entry-content">
-    
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">iOS App 开发问题汇总（六）</h2>
+	<div class="entry-content"><h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
 
-    
+<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
 
-    
+<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1</a></p>
 
-    
+<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
 
-    
-        
+<p>A:</p>
+
+<ul>
+<li>If you manipulated constraints directly, call setNeedsLayout.</li>
+<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
+<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
+</ul>
 
 
+<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-28T20:14:53+08:00" pubdate data-updated="true"></time></div>
 	
-	
-		</section>
-	
-	<section class="archives"><h1 class="year">2016</h1>
-
-<article>
-	<h2 class="title"><a href="/blog/notes-of-using-opencart.html">Notes Of Using OpenCart</a></h2>
-	<div class="meta">
-		<div class="date">Feb 21</div>
-		
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
 
 </div>
-
-
-	    
-	</div>
-</article>
-    
-
-    
-
-    
-
-    
-
-    
-        
 
 
 	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
 	
-		</section>
 	
-	<section class="archives"><h1 class="year">2015</h1>
-
-<article>
-	<h2 class="title"><a href="/blog/web-development-notes-part-one.html">Web Development Notes Part One</a></h2>
-	<div class="meta">
-		<div class="date">Dec 12</div>
-		
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
 
-	    
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
 	</div>
-</article>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        
-
-
-<article>
-	<h2 class="title"><a href="/blog/set-up-php-development-environment.html">Set up PHP development environment</a></h2>
-	<div class="meta">
-		<div class="date">Sep 19</div>
-		
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
-
-
-	    
-	</div>
-</article>
-    
-
-    
-
-    
-
-    
-
-    
-        
-
-
-<article>
-	<h2 class="title"><a href="/blog/using-mysql.html">Using MySQL</a></h2>
-	<div class="meta">
-		<div class="date">Aug 12</div>
-		
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-	    
-	</div>
-</article>
-    
-
-    
-
-    
-        
-
-
-<article>
-	<h2 class="title"><a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html">如何在 Mac 上开启 Apache, PHP, MySQL</a></h2>
-	<div class="meta">
-		<div class="date">Jul  5</div>
-		
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-	    
-	</div>
-</article>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-</div>
-</article>
 
 
 </div>

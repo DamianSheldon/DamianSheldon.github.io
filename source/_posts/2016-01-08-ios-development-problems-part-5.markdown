@@ -4,8 +4,8 @@ title: "iOS App 开发问题汇总（五）"
 date: 2016-01-08 21:32:22 +0800
 comments: true
 categories: [Archives, iOS Development]
-keywords: 
-discription: 
+keywords: iOS
+discription: iOS development problems
 ---
 ### 1.On iOS 7 and later, how do I take a snapshot of my view and save the result in a UIImage?
 Solution:

@@ -127,13 +127,61 @@ $(document).ready(
 
 <p>A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View</p>
 
-<h3>4.</h3>
+<h3>4. Failed to load test bundle from file</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Failed to load test bundle from file:///Users/dongmeiliang/Library/Developer/Xcode/DerivedData/JSQMessages-axyqhmblkssajpgcyzizcquhltft/Build/Products/Debug-iphonesimulator/JSQMessages.app/PlugIns/JSQMessagesTests.xctest/../JSQMessagesTests.xctest/: Error Domain=NSCocoaErrorDomain Code=4 "The bundle “$(PRODUCT_NAME)” couldn’t be loaded because its executable couldn’t be located." UserInfo={NSLocalizedFailureReason=The bundle’s executable couldn’t be located., NSLocalizedRecoverySuggestion=Try reinstalling the bundle., NSBundlePath=/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/JSQMessages-axyqhmblkssajpgcyzizcquhltft/Build/Products/Debug-iphonesimulator/JSQMessages.app/PlugIns/JSQMessagesTests.xctest, NSLocalizedDescription=The bundle “$(PRODUCT_NAME)” couldn’t be loaded because its executable couldn’t be located.}</span></code></pre></td></tr></table></div></figure>
 
 
 <p>A:Tests target > info.plist > delete the row <code>Bundle name $(PRODUCT_NAME)</code>;</p>
+
+<h3>5. pathForResource:ofType:inDirectory:方法有时找不到图片？</h3>
+
+<p>A:原因是这个方法必须要指定完整的名字，比如图片的名称为fail_indicator@2x.png，放在JSQMessagesAssets.bundle的images目录下，那可以用如下代码来获取这张图片：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSBundle *)jsq_messagesBundle
+</span><span class='line'>{
+</span><span class='line'>    return [NSBundle bundleForClass:[JSQMessagesViewController class]];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>+ (NSBundle *)jsq_messagesAssetBundle
+</span><span class='line'>{
+</span><span class='line'>    NSString *bundleResourcePath = [NSBundle jsq_messagesBundle].resourcePath;
+</span><span class='line'>    NSString *assetPath = [bundleResourcePath stringByAppendingPathComponent:@"JSQMessagesAssets.bundle"];
+</span><span class='line'>    return [NSBundle bundleWithPath:assetPath];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>+ (UIImage *)jsq_imageFromMessagesAssetBundleWithName:(NSString *)name
+</span><span class='line'>{
+</span><span class='line'>    NSBundle *bundle = [NSBundle jsq_messagesAssetBundle];
+</span><span class='line'>    NSString *path = [bundle pathForResource:name ofType:@"png" inDirectory:@"Images"];
+</span><span class='line'>    return [UIImage imageWithContentsOfFile:path];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>[UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

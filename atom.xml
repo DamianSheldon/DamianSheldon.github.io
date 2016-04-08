@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-04-06T14:34:36+08:00</updated>
+  <updated>2016-04-08T17:08:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -95,7 +95,31 @@
 </span><span class='line'>[UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>6.自动布局的视图加上遮罩不生效而且视图上UIImageView的图片也不显示了,具体方法如下：</h3>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
+</span><span class='line'>{
+</span><span class='line'>    NSParameterAssert(view != nil);
+</span><span class='line'>    NSParameterAssert(image != nil);
+</span><span class='line'>    
+</span><span class='line'>    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
+</span><span class='line'>    imageViewMask.frame = CGRectInset(view.frame, 2.0f, 2.0f);
+</span><span class='line'>    
+</span><span class='line'>    view.layer.mask = imageViewMask.layer;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:先设置视图的frame。</p>
 ]]></content>
   </entry>
   
@@ -3262,7 +3286,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#100;&#111;&#x6e;&#x67;&#109;&#101;&#x69;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#x2e;&#x32;&#53;&#x35;">&#x64;&#111;&#x6e;&#x67;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#x61;&#x6e;&#103;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x2e;&#x32;&#x35;&#53;</a><br/>
+<p>1.sftp <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#100;&#x6f;&#110;&#x67;&#x6d;&#x65;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#x35;&#x35;">&#100;&#x6f;&#x6e;&#103;&#x6d;&#101;&#x69;&#x6c;&#x69;&#97;&#110;&#x67;&#64;&#x31;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#x31;&#x2e;&#50;&#53;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -3461,7 +3485,15 @@ quit</p>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ diff -Naur old-dir new-dir</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>13. curl Command Download File Example</h3>
 
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl  -o LongM4A.m4a http://download.wavetlan.com/SVV/Media/HTTP/LongM4A.m4a</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/">http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/</a></p>
 ]]></content>
   </entry>
   

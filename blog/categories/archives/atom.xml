@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-04-06T14:34:36+08:00</updated>
+  <updated>2016-04-08T17:08:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -73,6 +73,22 @@
 
 [UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];
 </code></pre>
+
+<h3>6.自动布局的视图加上遮罩不生效而且视图上UIImageView的图片也不显示了,具体方法如下：</h3>
+
+<pre><code>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
+{
+    NSParameterAssert(view != nil);
+    NSParameterAssert(image != nil);
+
+    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
+    imageViewMask.frame = CGRectInset(view.frame, 2.0f, 2.0f);
+
+    view.layer.mask = imageViewMask.layer;
+}
+</code></pre>
+
+<p>A:先设置视图的frame。</p>
 ]]></content>
   </entry>
   

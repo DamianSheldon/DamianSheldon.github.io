@@ -181,7 +181,31 @@ $(document).ready(
 </span><span class='line'>[UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>6.自动布局的视图加上遮罩不生效而且视图上UIImageView的图片也不显示了,具体方法如下：</h3>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
+</span><span class='line'>{
+</span><span class='line'>    NSParameterAssert(view != nil);
+</span><span class='line'>    NSParameterAssert(image != nil);
+</span><span class='line'>    
+</span><span class='line'>    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
+</span><span class='line'>    imageViewMask.frame = CGRectInset(view.frame, 2.0f, 2.0f);
+</span><span class='line'>    
+</span><span class='line'>    view.layer.mask = imageViewMask.layer;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:先设置视图的frame。</p>
 </div>
 
 

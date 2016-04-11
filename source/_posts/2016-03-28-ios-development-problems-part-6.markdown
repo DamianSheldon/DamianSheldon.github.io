@@ -57,5 +57,91 @@ A:原因是这个方法必须要指定完整的名字，比如图片的名称为
 [UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];
 ```
 
+### 6.自动布局的视图加上遮罩不生效而且视图上UIImageView的图片也不显示了,具体方法如下：
+
+```
+- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
+{
+    NSParameterAssert(view != nil);
+    NSParameterAssert(image != nil);
+    
+    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
+    imageViewMask.frame = CGRectInset(view.frame, 2.0f, 2.0f);
+    
+    view.layer.mask = imageViewMask.layer;
+}
+```
+
+A:先设置视图的frame。
+
+### 7. 设置视图的frame后，视图最终的坐标和设置的坐标不一致
+A:问题的原因是将translatesAutoresizingMaskIntoConstraints设置NO，然后再去设置视图的坐标，这样修改的坐标不会生效，解决办法就是使用坐标是不要将translatesAutoresizingMaskIntoConstraints设置为NO.
+
+### 8.设置视图遮罩时，遮罩以宿主视图的origin为原点，所以当宿主视图的origin不是(0, 0)时，设置遮罩的frame时要考虑将宿主视图的origin设置为(0, 0)之后再进行伸缩，最终得到遮罩的frame。
+A:
+
+```
+- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
+{
+    NSParameterAssert(view != nil);
+    NSParameterAssert(image != nil);
+    
+    CGRect baseFrameForMask = view.frame;
+    baseFrameForMask.origin = CGPointZero;
+    
+    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
+    imageViewMask.frame = CGRectInset(baseFrameForMask, 2.0f, 2.0f);
+
+    view.layer.mask = imageViewMask.layer;
+}
+```
+
+### 9.先调用方法二，然后调用方法一，最终的得到图片并没有水平翻转。
+
+```
+// 1.
+- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor
+{
+    NSParameterAssert(maskColor != nil);
+    
+    CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+    UIImage *newImage = nil;
+    
+    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
+    {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        CGContextScaleCTM(context, 1.0f, -1.0f);
+        CGContextTranslateCTM(context, 0.0f, -(imageRect.size.height));
+        
+        CGContextClipToMask(context, imageRect, self.CGImage);
+        CGContextSetFillColorWithColor(context, maskColor.CGColor);
+        CGContextFillRect(context, imageRect);
+        
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+// 2.
++ (UIImage *)imageWithCGImage:(CGImageRef)imageRef
+                        scale:(CGFloat)scale
+                  orientation:(UIImageOrientation)orientation
+```
+
+Code Listing:
+
+```
+UIImage *originImage = /* Get origin image*/
+
+UIImage *upMirroredImage = [UIImage imageWithCGImage:originImage.CGImage scale:originImage.scale orientation:UIImageOrientationUpMirrored];
+
+UIImage *upMirroredImageWithMaskedColor = [upMirroredImage jsq_imageMaskedWithColor:[UIColor grayColor]];
+```
+
+A:调试中发现`+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation` 方法应该没有直接操作图片，而是更改了图片的metadata, 然后`- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor`是直接操作图片时没有考虑图片的metadata,于是最终得到是原图加上指定颜色遮罩的图片。
+
 
 

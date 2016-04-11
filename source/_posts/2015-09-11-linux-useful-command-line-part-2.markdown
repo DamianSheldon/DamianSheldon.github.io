@@ -179,4 +179,14 @@ Esc + T Swap the last two words before the cursor
 $ diff -Naur old-dir new-dir
 ```
 
+###13. curl Command Download File Example
+
+A:
+
+```
+$ curl  -o LongM4A.m4a http://download.wavetlan.com/SVV/Media/HTTP/LongM4A.m4a
+```
+Reference:http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/
+
+
 

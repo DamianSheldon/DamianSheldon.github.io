@@ -216,6 +216,122 @@ $(document).ready(
 
 <p>A:先设置视图的frame。</p>
 
+<h3>7. 设置视图的frame后，视图最终的坐标和设置的坐标不一致</h3>
+
+<p>A:问题的原因是将translatesAutoresizingMaskIntoConstraints设置NO，然后再去设置视图的坐标，这样修改的坐标不会生效，解决办法就是使用坐标是不要将translatesAutoresizingMaskIntoConstraints设置为NO.</p>
+
+<h3>8.设置视图遮罩时，遮罩以宿主视图的origin为原点，所以当宿主视图的origin不是(0, 0)时，设置遮罩的frame时要考虑将宿主视图的origin设置为(0, 0)之后再进行伸缩，最终得到遮罩的frame。</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
+</span><span class='line'>{
+</span><span class='line'>    NSParameterAssert(view != nil);
+</span><span class='line'>    NSParameterAssert(image != nil);
+</span><span class='line'>    
+</span><span class='line'>    CGRect baseFrameForMask = view.frame;
+</span><span class='line'>    baseFrameForMask.origin = CGPointZero;
+</span><span class='line'>    
+</span><span class='line'>    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
+</span><span class='line'>    imageViewMask.frame = CGRectInset(baseFrameForMask, 2.0f, 2.0f);
+</span><span class='line'>
+</span><span class='line'>    view.layer.mask = imageViewMask.layer;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9.先调用方法二，然后调用方法一，最终的得到图片并没有水平翻转。</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.
+</span><span class='line'>- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor
+</span><span class='line'>{
+</span><span class='line'>    NSParameterAssert(maskColor != nil);
+</span><span class='line'>    
+</span><span class='line'>    CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+</span><span class='line'>    UIImage *newImage = nil;
+</span><span class='line'>    
+</span><span class='line'>    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
+</span><span class='line'>    {
+</span><span class='line'>        CGContextRef context = UIGraphicsGetCurrentContext();
+</span><span class='line'>        
+</span><span class='line'>        CGContextScaleCTM(context, 1.0f, -1.0f);
+</span><span class='line'>        CGContextTranslateCTM(context, 0.0f, -(imageRect.size.height));
+</span><span class='line'>        
+</span><span class='line'>        CGContextClipToMask(context, imageRect, self.CGImage);
+</span><span class='line'>        CGContextSetFillColorWithColor(context, maskColor.CGColor);
+</span><span class='line'>        CGContextFillRect(context, imageRect);
+</span><span class='line'>        
+</span><span class='line'>        newImage = UIGraphicsGetImageFromCurrentImageContext();
+</span><span class='line'>    }
+</span><span class='line'>    UIGraphicsEndImageContext();
+</span><span class='line'>    
+</span><span class='line'>    return newImage;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 2.
+</span><span class='line'>+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef
+</span><span class='line'>                        scale:(CGFloat)scale
+</span><span class='line'>                  orientation:(UIImageOrientation)orientation</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Code Listing:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIImage *originImage = /* Get origin image*/
+</span><span class='line'>
+</span><span class='line'>UIImage *upMirroredImage = [UIImage imageWithCGImage:originImage.CGImage scale:originImage.scale orientation:UIImageOrientationUpMirrored];
+</span><span class='line'>
+</span><span class='line'>UIImage *upMirroredImageWithMaskedColor = [upMirroredImage jsq_imageMaskedWithColor:[UIColor grayColor]];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:调试中发现<code>+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation</code> 方法应该没有直接操作图片，而是更改了图片的metadata, 然后<code>- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor</code>是直接操作图片时没有考虑图片的metadata,于是最终得到是原图加上指定颜色遮罩的图片。</p>
+
 		
 		
 	</div>

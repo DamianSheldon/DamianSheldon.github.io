@@ -23,7 +23,7 @@ Reference:http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneeds
 
 ### 3.父类如何关联子类通过nib初始化的属性？
 A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View
-
+<!-- more -->
 ### 4. Failed to load test bundle from file
 
 ```
@@ -143,5 +143,44 @@ UIImage *upMirroredImageWithMaskedColor = [upMirroredImage jsq_imageMaskedWithCo
 
 A:调试中发现`+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation` 方法应该没有直接操作图片，而是更改了图片的metadata, 然后`- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor`是直接操作图片时没有考虑图片的metadata,于是最终得到是原图加上指定颜色遮罩的图片。
 
+### 10. How to determine if an NSDate is today(Prior iOS 8)?
+
+A:
+
+```
+NSDate *today = nil;
+NSDate *beginningOfOtherDate = nil;
+
+NSDate *now = [NSDate date];
+[[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit startDate:&today interval:NULL forDate:now];
+[[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit startDate:&beginningOfOtherDate interval:NULL forDate:otherDate];
+
+if([today compare:beginningOfOtherDate] == NSOrderedSame) {
+    //otherDate is a date in the current day
+}
+```
+Reference:http://stackoverflow.com/questions/2331129/how-to-determine-if-an-nsdate-is-today
+
+### 11. How do you resize an image?
+A:
+
+* UIKit, Core Graphics, and Image I/O all perform well for scaling operations on most images.
+* Core Image is outperformed for image scaling operations. In fact, it is specifically recommended in the Performance Best Practices section of the Core Image Programming Guide to use Core Graphics or Image I/O functions to crop or downsample images beforehand.
+* For general image scaling without any additional functionality, UIGraphicsBeginImageContextWithOptions is probably the best option.
+* If image quality is a consideration, consider using CGBitmapContextCreate in combination with CGContextSetInterpolationQuality.
+* When scaling images with the intent purpose of displaying thumbnails, CGImageSourceCreateThumbnailAtIndex offers a compelling solution for both rendering and caching.
+* Unless you’re already working with vImage, the extra work to use the low-level Accelerate framework for resizing doesn’t pay off.
+
+Reference:http://nshipster.com/image-resizing/
+
+### 12. How can I deal with this warning: hash mismatch?
+
+```
+warning: hash mismatch: this object file was built against a different version of the module /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/ModuleCache/1ZNHC044GWHJS/SystemConfiguration-1U17T3939DDG.pcm
+
+```
+
+A:Clean > Build
+Reference:http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch
 
 

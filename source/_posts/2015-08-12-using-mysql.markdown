@@ -136,5 +136,19 @@ mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial 
 ```
 A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。
 
+###14.How to Create an Admin User Account?
+A:
+
+```
+/* 1. */
+mysql> CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
+    ->     WITH GRANT OPTION;
+
+/* 2. */
+mysql> CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
+    ->     WITH GRANT OPTION;
+```
 
 

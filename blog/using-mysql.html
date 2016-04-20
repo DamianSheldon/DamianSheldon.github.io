@@ -286,6 +286,32 @@ A:SELECT @@server_id</p>
 
 
 <p>A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。</p>
+
+<h3>14.How to Create an Admin User Account?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* 1. */
+</span><span class='line'>mysql&gt; CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+</span><span class='line'>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
+</span><span class='line'>    -&gt;     WITH GRANT OPTION;
+</span><span class='line'>
+</span><span class='line'>/* 2. */
+</span><span class='line'>mysql&gt; CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
+</span><span class='line'>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
+</span><span class='line'>    -&gt;     WITH GRANT OPTION;</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

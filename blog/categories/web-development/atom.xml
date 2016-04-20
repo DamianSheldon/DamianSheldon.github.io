@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-04-11T11:37:06+08:00</updated>
+  <updated>2016-04-20T15:43:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -610,6 +610,21 @@ mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial 
 </code></pre>
 
 <p>A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。</p>
+
+<h3>14.How to Create an Admin User Account?</h3>
+
+<p>A:</p>
+
+<pre><code>/* 1. */
+mysql&gt; CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
+    -&gt;     WITH GRANT OPTION;
+
+/* 2. */
+mysql&gt; CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
+mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
+    -&gt;     WITH GRANT OPTION;
+</code></pre>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-04-20T15:43:43+08:00</updated>
+  <updated>2016-05-03T17:07:30+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
+    <updated>2016-05-03T17:00:04+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
+    <content type="html"><![CDATA[<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
+
+<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
+
+<pre><code>- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    self.translucent = self.navigationController.navigationBar.isTranslucent;
+    self.navigationController.navigationBar.translucent = YES;
+
+    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+
+    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
+    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
+
+    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
+    self.navigationController.navigationBar.shadowImage = newImage;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    self.navigationController.navigationBar.translucent = self.translucent;
+
+    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
+}
+</code></pre>
+
+<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
+<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7</a></p>
+
+<!-- more -->
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
@@ -202,6 +248,27 @@ if([today compare:beginningOfOtherDate] == NSOrderedSame) {
 
 <p>A:Clean > Build
 Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch">http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch</a></p>
+
+<h3>13. Cocoa Coding Style Enforcement</h3>
+
+<p>A:<a href="http://emlyn.net/posts/cocoa-coding-style-enforcement/">http://emlyn.net/posts/cocoa-coding-style-enforcement/</a></p>
+
+<h3>14. Importing Swift into Objective-C Within the Same App Target</h3>
+
+<p>A:</p>
+
+<blockquote><p>When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding &ldquo;-Swift.h&rdquo;. (You’ll learn more about the product module name later, in Naming Your Product Module.)</p></blockquote>
+
+<p>在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 <code>#import "ProductModuleName-Swift.h"</code>, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。</p>
+
+<p>Reference:<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138">https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138</a></p>
+
+<h3>15. Swift 中对应 Objectie-C 中的class 类方法</h3>
+
+<p>A:</p>
+
+<pre><code>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+</code></pre>
 ]]></content>
   </entry>
   
@@ -975,82 +1042,6 @@ o <a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度
 <p>Reference:
 o <a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">http://blog.sunnyxx.com/2015/07/04/ios-interview/</a>
 o <a href="https://github.com/ChenYilong/iOSInterviewQuestions">https://github.com/ChenYilong/iOSInterviewQuestions</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Notes Of Using OpenCart]]></title>
-    <link href="http://DamianSheldon.github.io/blog/notes-of-using-opencart.html"/>
-    <updated>2016-02-21T17:50:35+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/notes-of-using-opencart</id>
-    <content type="html"><![CDATA[<h3>1. opencart 安装中文语言包</h3>
-
-<p>A:</p>
-
-<ul>
-<li>[下载中文语言包](<a href="http://www.opencart.cn/thread-9982-1-1.html%EF%BC%89">http://www.opencart.cn/thread-9982-1-1.html%EF%BC%89</a></li>
-<li>解压压缩包，里面有两个文件夹，admin是后台语言包，catalog文件是前台语言包</li>
-<li>把文件上传到对应的目录下</li>
-</ul>
-
-
-<pre><code>$ cd ~/Downloads/
-$ tar -xzvf OpenCart_SimplifiedChinese_language_v2.0.3.1.zip
-$ cp -R OpenCart_SimplifiedChinese_language_v2.0.3.1/upload/catalog/language/zh-CN  ~/Sites/upload/catalog/language/
-$ cp -R OpenCart_SimplifiedChinese_language_v2.0.3.1/upload/admin/language/zh-CN ~/Sites/upload/admin/language/
-</code></pre>
-
-<ul>
-<li>System > Localisation > languages > + > Chinese(Language Name) > Code(select zh-CN) > Save</li>
-<li>System > Settings > Your Store > Edit > Local > Language (Chinese) > Administration Language (Chinese) > Save</li>
-</ul>
-
-
-<h3>2. opencart如何增加人民币？</h3>
-
-<p>A:</p>
-
-<ul>
-<li><p>系统设置 > 参数设置 > 货币设置 > +</p>
-
-<ul>
-<li>货币名称 人民币</li>
-<li>货币代码 CNY</li>
-<li>左符号 ¥</li>
-<li>右符号</li>
-<li>小数位 2</li>
-<li>汇率 1.00000</li>
-<li>状态 启用</li>
-</ul>
-</li>
-<li><p>系统设置 > 网店设置 > 选择你的网店 > 编辑 > 本地化设置 > 货币设置 > 人民币 > 保存</p></li>
-</ul>
-
-
-<p>Reference:<a href="http://www.opencart-extension.com/opencart-add-renminbi.html">http://www.opencart-extension.com/opencart-add-renminbi.html</a></p>
-
-<h3>3. 如何添加推荐商品？</h3>
-
-<p>A: 扩展功能 > 模块配置 > 推荐商品 > Home Page > Product Name</p>
-
-<h3>4. 如何设置幻灯片？</h3>
-
-<p>A: 设计 > 横幅 > Home Page Slideshow > Edit</p>
-
-<h3>5. OpenCart迁移到新的服务器后布局不正常显示</h3>
-
-<p>A:打开Chrome的Developer Tool,报了很多Failed to load resource: <a href="http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js">http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js</a> net::ERR_CONNECTION_REFUSED之类的错误，所以我估计错误是 CSS 和 js 没有正确加载，于是修改public_html/upload/config.php</p>
-
-<pre><code>define('HTTP_SERVER', 'http://ip/~meiliang/upload/');
-define('HTTPS_SERVER', 'http://ip/~meiliang/upload/');
-</code></pre>
-
-<h3>6. 增加语言后，语言图标不显示</h3>
-
-<p>A:</p>
-
-<pre><code>$ cp public_html/upload/image/flags/cn.png public_html/upload/catalog/language/zh-CN/zh-CN.png
-</code></pre>
 ]]></content>
   </entry>
   

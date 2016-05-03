@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-04-20T15:43:43+08:00</updated>
+  <updated>2016-05-03T17:07:30+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
+    <updated>2016-05-03T17:00:04+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
+    <content type="html"><![CDATA[<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
+
+<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
+
+<pre><code>- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    self.translucent = self.navigationController.navigationBar.isTranslucent;
+    self.navigationController.navigationBar.translucent = YES;
+
+    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+
+    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
+    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
+
+    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
+    self.navigationController.navigationBar.shadowImage = newImage;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    self.navigationController.navigationBar.translucent = self.translucent;
+
+    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
+}
+</code></pre>
+
+<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
+<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7</a></p>
+
+<!-- more -->
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
@@ -202,6 +248,27 @@ if([today compare:beginningOfOtherDate] == NSOrderedSame) {
 
 <p>A:Clean > Build
 Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch">http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch</a></p>
+
+<h3>13. Cocoa Coding Style Enforcement</h3>
+
+<p>A:<a href="http://emlyn.net/posts/cocoa-coding-style-enforcement/">http://emlyn.net/posts/cocoa-coding-style-enforcement/</a></p>
+
+<h3>14. Importing Swift into Objective-C Within the Same App Target</h3>
+
+<p>A:</p>
+
+<blockquote><p>When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding &ldquo;-Swift.h&rdquo;. (You’ll learn more about the product module name later, in Naming Your Product Module.)</p></blockquote>
+
+<p>在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 <code>#import "ProductModuleName-Swift.h"</code>, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。</p>
+
+<p>Reference:<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138">https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138</a></p>
+
+<h3>15. Swift 中对应 Objectie-C 中的class 类方法</h3>
+
+<p>A:</p>
+
+<pre><code>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+</code></pre>
 ]]></content>
   </entry>
   
@@ -1161,291 +1228,6 @@ static dispatch_once_t once_token = 0;
 <a href="http://www.archive.alexvollmer.com/posts/2010/06/28/making-fun-of-things-with-ocmock/">Making Fun of Things with OCMock</a><br/>
 <a href="http://hackazach.net/code/2014/03/03/effective-testing-with-ocmock/">OCMock Test Origami</a><br/>
 <a href="http://engineering.aweber.com/improving-ios-unit-tests-with-ocmock/">IMPROVING IOS UNIT TESTS WITH OCMOCK</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（五）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-5.html"/>
-    <updated>2016-01-08T21:32:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-5</id>
-    <content type="html"><![CDATA[<h3>1.On iOS 7 and later, how do I take a snapshot of my view and save the result in a UIImage?</h3>
-
-<p>Solution:</p>
-
-<pre><code>- (UIImage *)snapshot:(UIView *)view
-{
-    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0);
-    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    return image;
-}
-</code></pre>
-
-<p>Reference:<a href="https://developer.apple.com/library/ios/qa/qa1817/_index.html">https://developer.apple.com/library/ios/qa/qa1817/_index.html</a></p>
-
-<h3>2.How to present a view controller on iOS7 without the status bar overlapping?</h3>
-
-<p>Solution:The easiest workaround I&rsquo;ve found is to wrap the view controller you want to present inside a navigation controller, and then present that navigation controller.</p>
-
-<pre><code>MyViewController *vc = [MyViewController new];
-UINavigationController *nvc = [[UINavigationController alloc] 
-    initWithRootViewController:vc];
-[self presentViewController:nvc animated:YES completion:nil];
-</code></pre>
-
-<h3>3.代码创建 UITableView 时如何使用各种系统样式的 UITableViewCell?</h3>
-
-<p>Solution:</p>
-
-<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *sCellID = @"CellID";
-
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:sCellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sCellID];
-    }
-    // Configure the cell...
-
-    return cell;
-}
-</code></pre>
-
-<!-- more -->
-
-
-<h3>4.Settings bundle not showing up in iPhone settings</h3>
-
-<p>Solution:iOS 9.0.x - 9.2 Settings App Bug, Using the App Switch UI (double-press Home button) to kill the Settings App.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/2683793/settings-bundle-not-showing-up-in-iphone-settings">http://stackoverflow.com/questions/2683793/settings-bundle-not-showing-up-in-iphone-settings</a></p>
-
-<h3>5.单元测试的 Target 在测试导航栏里是灰色的不能点击测试。</h3>
-
-<p>Solution: Edit Scheme &hellip; > Test > + > Select your test target.</p>
-
-<h3>6.How to change UITableViewCell Image to Circle in UITableView</h3>
-
-<p>Solution:</p>
-
-<pre><code>// Subclass UITableViewCell override layoutSubviews method
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-
-    self.imageView.layer.cornerRadius = CGRectGetHeight(self.imageView.frame) * 0.5;
-    self.imageView.layer.masksToBounds = YES;
-}
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview">http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview</a></p>
-
-<h3>7.How to downgrading Cocoapods?</h3>
-
-<p>A:</p>
-
-<pre><code>// First you can figure out which version of Cocoapods you are on with the command:
-$ pod --version
-
-// You can also see all the version of Cocoapods you have installed with this command:
-$ sudo gem list cocoapods
-
-// Next uninstall Cocoapods. If you have multiple version, you will have the choice of uninstalling all or a specific version.
-$ sudo gem uninstall cocoapods
-
-// Finally you can install the specific version with this command:
-$ sudo gem install cocoapods -v 0.39.0
-</code></pre>
-
-<p>Reference:<a href="https://diego.org/2015/09/24/downgrading-cocoapods/">https://diego.org/2015/09/24/downgrading-cocoapods/</a></p>
-
-<h3>8.How to get UISearchDisplayController to search only after search button is pressed？</h3>
-
-<p>A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press">http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press</a></p>
-
-<h3>9.Warning: the running version of Bundler is older than the version that created the lockfile. We suggest you upgrade to the latest version of Bundler by running <code>gem install bundler</code>.</h3>
-
-<p>A:</p>
-
-<pre><code>$ sudo gem install bundler
-$ bundle install
-
-...
-An error occurred while installing git (1.2.9.1), and Bundler cannot continue.
-Make sure that `gem install git -v '1.2.9.1'` succeeds before bundling.
-
-$ sudo gem install git -v '1.2.9.1'
-$ sudo gem install lowdown -v '0.0.5' --verbose
-...
-ERROR:  Error installing lowdown:
-    lowdown requires Ruby version &gt;= 2.1.0.
-
-$ ruby --version
-ruby 2.0.0p645 (2015-04-13 revision 50299) [universal.x86_64-darwin15]
-// On OS X machines, you can use third-party tools (rbenv and RVM).
-// Install RVM:
-$ \curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1.8
-
-* To start using RVM you need to run `source /Users/dongmeiliang/.rvm/scripts/rvm`
-    in all your open shell windows, in rare cases you need to reopen all shell windows.
-$ source /Users/dongmeiliang/.rvm/scripts/rvm
-
-// Check rvm has been installed successfully
-$ rvm --help
-
-$ bundle install
-/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'bundler' (&gt;= 0) among 13 total gem(s) (Gem::LoadError)
-    from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
-    from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
-    from /usr/local/bin/bundle:22:in `&lt;main&gt;'
-
-We need reinstall bundler after update ruby:
-$ gem install bundler
-Fetching: bundler-1.11.2.gem (100%)
-Successfully installed bundler-1.11.2
-Parsing documentation for bundler-1.11.2
-Installing ri documentation for bundler-1.11.2
-Done installing documentation for bundler after 6 seconds
-1 gem installed
-
-//bundle - Ruby Dependency Management
-//gem -- RubyGems program, RubyGems is a sophisticated package manager for Ruby.
-//rvm - The Ruby Version Manager
-</code></pre>
-
-<h3>10.Attempt to set a non-property-list object</h3>
-
-<pre><code>Attempt to set a non-property-list object &lt;CFBasicHash 0x15809b8d0 [0x19ec23b68]&gt;{type = immutable dict, count = 12,
-
-entries =&gt;
-
-    0 : id = &lt;CFNumber 0xb000000000000043 [0x19ec23b68]&gt;{value = +4, type = kCFNumberSInt64Type}
-
-    1 : &lt;CFString 0x156dda8d0 [0x19ec23b68]&gt;{contents = "allFreeLifeId"} = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
-
-    5 : &lt;CFString 0x156fd04d0 [0x19ec23b68]&gt;{contents = "portraitUri"} = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
-
-    6 : mobile = &lt;CFString 0x156df0dd0 [0x19ec23b68]&gt;{contents = "18670789602"}
-
-    11 : ryUserId = &lt;CFString 0x156fbef80 [0x19ec23b68]&gt;{contents = "AFL2016020310001627518670789602"}
-
-    13 : birthDay = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
-
-    14 : signature = &lt;CFString 0x19a51d480 [0x19ec23b68]&gt;{contents = ""}
-
-    15 : token = &lt;CFString 0x1580a3cc0 [0x19ec23b68]&gt;{contents = "vL9oen0gHgJF7sRMWdaacY9LZ0Y0py8pcDvpcwTzcsCvfbB0kFB1PaDbWZ1c1GGZ8/jRvJ5KfX2oT3Sv+7Wb75r8W7FhoewF9l1Si6GJa2B48Xpc3rElo2a6FVG/X29zQOiOTHRjfiM="}
-
-    16 : password = &lt;CFString 0x1580d5050 [0x19ec23b68]&gt;{contents = "E10ADC3949BA59ABBE56E057F20F883E"}
-
-    20 : email = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
-
-    21 : name = Julian
-
-    22 : gender = &lt;CFNull 0x19ec23ea8 [0x19ec23b68]&gt;
-
-}
-
- as an NSUserDefaults/CFPreferences value for key UserInfo
-</code></pre>
-
-<p>A:</p>
-
-<pre><code>// Write
-NSData *dataFromUserInfo = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-[[NSUserDefaults standardUserDefaults] setObject:dataFromUserInfo forKey:sUserInfoKey];
-
-// Read
-NSData *dataFromUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:sUserInfoKey];
-NSDictionary *ret = [NSKeyedUnarchiver unarchiveObjectWithData:dataFromUserInfo];
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults">http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults</a></p>
-
-<h3>11.Missing iOS Distribution signing identity</h3>
-
-<p>A:KeyChain Access > select the System keychain > View > Show Expired Certificates > delete the expired version of the Apple Worldwide Developer Relations Certificate Authority Intermediate certificate (expired on February 14, 2016)</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for">http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for</a></p>
-
-<h3>12. FMDB unable to open db under Application Support directory.</h3>
-
-<p>A:Unlike the Documents directory, the Application Support directory does not exist in the app&rsquo;s sandbox by default. You need to create it before you can use it.</p>
-
-<pre><code>NSURL * ApplicationSupportDirectory()
-{
-    NSURL *applicationSupportDir = URLOfDirectory(NSApplicationSupportDirectory);
-
-    if (applicationSupportDir) {
-        // If the directory does not exist, this method creates it.
-        // This method is only available in OS X v10.7 and iOS 5.0 or later.
-        [[NSFileManager defaultManager] createDirectoryAtURL:applicationSupportDir withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-
-    return applicationSupportDir;
-}
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents">http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents</a>
-<a href="http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html">http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html</a></p>
-
-<h3>13.How to NSLog a Call stack when a program is running?</h3>
-
-<p>A:</p>
-
-<pre><code>// 1. Cocoa framework
-NSLog(@"%@", [NSThread callStackSymbols]);
-
-// 2. C API
-#include &lt;execinfo.h&gt;
-
-int size = 256;
-void *stack[size];
-size = backtrace(stack, size);
-
-char **syms = backtrace_symbols(stack, size);
-for (int i = 0; i &lt; size; i++) {
-    printf("Frame #%d: %s\n", i, syms[i]);
-}
-free(syms);
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running">http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running</a></p>
-
-<h3>14.How does programmatically construct to-one and to-many relationship in Core Data?</h3>
-
-<p>A:</p>
-
-<pre><code>NSRelationshipDescription *department = [NSRelationshipDescription new];
-department.name = @"department";
-department.deleteRule = NSNullifyDeleteRule;
-department.minCount = 0;
-department.maxCount = 1;// max = 1 for to-one relationship
-
-NSRelationshipDescription *employees = [NSRelationshipDescription new];
-employees.name = @"employees";
-employees.deleteRule = NSNullifyDeleteRule;
-employees.minCount = 0;
-employees.maxCount = 0;// max = 0 for to-many relationship
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit">http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit</a></p>
-
-<h3>15.ld: warning: directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Developer/Library/Frameworks&rsquo;</h3>
-
-<p>A:Delete entries that generate warnings.</p>
-
-<p>UnitTest > Build Settings > Search Paths > Framework Search Paths ></p>
-
-<p>$(SDKROOT)/Developer/Library/Frameworks
-$(DEVELOPER_FRAMEWORKS_DIR)</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919">http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919</a></p>
 ]]></content>
   </entry>
   

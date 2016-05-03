@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-04-20T15:43:43+08:00</updated>
+  <updated>2016-05-03T17:07:30+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
+    <updated>2016-05-03T17:00:04+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
+    <content type="html"><![CDATA[<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
+
+<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidAppear:(BOOL)animated
+</span><span class='line'>{
+</span><span class='line'>    [super viewDidAppear:animated];
+</span><span class='line'>    
+</span><span class='line'>    self.translucent = self.navigationController.navigationBar.isTranslucent;
+</span><span class='line'>    self.navigationController.navigationBar.translucent = YES;
+</span><span class='line'>    
+</span><span class='line'>    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>    
+</span><span class='line'>    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
+</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>    
+</span><span class='line'>    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
+</span><span class='line'>    self.navigationController.navigationBar.shadowImage = newImage;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)viewWillDisappear:(BOOL)animated
+</span><span class='line'>{
+</span><span class='line'>    [super viewWillDisappear:animated];
+</span><span class='line'>    
+</span><span class='line'>    self.navigationController.navigationBar.translucent = self.translucent;
+</span><span class='line'>    
+</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
+<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7</a></p>
+
+<!-- more -->
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
@@ -293,6 +364,30 @@
 
 <p>A:Clean > Build
 Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch">http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch</a></p>
+
+<h3>13. Cocoa Coding Style Enforcement</h3>
+
+<p>A:<a href="http://emlyn.net/posts/cocoa-coding-style-enforcement/">http://emlyn.net/posts/cocoa-coding-style-enforcement/</a></p>
+
+<h3>14. Importing Swift into Objective-C Within the Same App Target</h3>
+
+<p>A:</p>
+
+<blockquote><p>When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding &ldquo;-Swift.h&rdquo;. (You’ll learn more about the product module name later, in Naming Your Product Module.)</p></blockquote>
+
+<p>在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 <code>#import "ProductModuleName-Swift.h"</code>, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。</p>
+
+<p>Reference:<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138">https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138</a></p>
+
+<h3>15. Swift 中对应 Objectie-C 中的class 类方法</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -3459,7 +3554,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#100;&#111;&#110;&#x67;&#109;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#103;&#x40;&#x31;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#x2e;&#50;&#x35;&#53;">&#x64;&#111;&#x6e;&#x67;&#109;&#x65;&#x69;&#x6c;&#x69;&#97;&#x6e;&#x67;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#56;&#46;&#x31;&#x2e;&#50;&#53;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#100;&#x6f;&#110;&#103;&#x6d;&#x65;&#x69;&#108;&#105;&#97;&#x6e;&#x67;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#x2e;&#50;&#53;&#x35;">&#x64;&#x6f;&#110;&#x67;&#109;&#101;&#x69;&#x6c;&#105;&#97;&#110;&#x67;&#x40;&#49;&#57;&#50;&#46;&#49;&#x36;&#56;&#46;&#49;&#46;&#x32;&#x35;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -4208,261 +4303,6 @@ App target > Build Settings > Enable Bitcode > NO</p>
 5. Explictit set preferred layout width</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8">http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何在 Mac 上开启 Apache, PHP, MySQL]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html"/>
-    <updated>2015-07-05T21:24:55+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite</id>
-    <content type="html"><![CDATA[<h2>Apache</h2>
-
-<h3>开启 Apache</h3>
-
-<ol>
-<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
-<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
-</ol>
-
-
-<h3>配置 HTTPS 的详细步骤：</h3>
-
-<ol>
-<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
-
-<ul>
-<li>去掉 SSL 模块前的注释使能它:<br/>
-<code>
-LoadModule ssl_module libexec/apache2/mod_ssl.so
-</code></li>
-<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
-<code>
-Include /private/etc/apache2/extra/httpd-ssl.conf
-</code></li>
-</ul>
-</li>
-<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
-
-<ul>
-<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
-<code>
-DocumentRoot "/Users/dongmeiliang/Sites"
-</code></p></li>
-<li><p>修改 ServerName 成类似这样:<br/>
-<code>
-ServerName localhost:443
-</code></p></li>
-<li><p>指定 SSLCertificateFile<br/>
-<code>
-SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
-</code></p></li>
-<li><p>指定 SSLCertificateKeyFile <br/>
-<code>
-SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
-</code></p></li>
-<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
-</ul>
-</li>
-</ol>
-
-
-<!-- more -->
-
-
-<ol>
-<li><p>制作自签名的证书</p>
-
-<p> 1) Generate a Private Key<br/>
- <code>
- openssl genrsa -des3 -out server.key 1024
-</code></p>
-
-<p> 2) Generate a CSR (Certificate Signing Request)<br/>
- <code>
- openssl req -new -key server.key -out server.csr
-</code></p>
-
-<p> 3) Remove Passphrase from Key<br/>
- <code>
- cp server.key server.key.org  
-</code><br/>
- <code>
- openssl rsa -in server.key.org -out server.key
-</code></p>
-
-<p> 4) Generating a Self-Signed Certificate<br/>
- <code>
- openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
-</code></p></li>
-<li><p>拷贝证书到配置文件指定的目录下</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
-</span><span class='line'>sudo cp server.key /private/etc/apache2/ssl/ssl.key</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</li>
-</ol>
-
-
-<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
-解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
-
-<h2>PHP</h2>
-
-<ol>
-<li>Open /etc/apache2/httpd.conf with your favorite editor (eg: Vim);</li>
-<li>Uncomment LoadModule php5_module libexec/apache2/libphp5.so</li>
-<li><code>sudo apachectl restart</code></li>
-<li>Test with phpinfo.php, its content is &ldquo;&lt;?php phpinfo(); ?>&rdquo;</li>
-</ol>
-
-
-<h2>MySQL</h2>
-
-<ol>
-<li><a href="http://dev.mysql.com/downloads/mysql/">Download from the MySQL site</a>, click No thanks, just take me to the downloads!;</li>
-<li>Choose Mac OS X ver. 10.9 (x86, 64-bit), DMG Archive, because there is an issue with this version and El Capitan in that it won’t start on reboot – it will need to be started via command line explained below.</li>
-<li>Starting MySQL
-
-<ul>
-<li>Via Preference Pane</li>
-<li>Command line
-  <code>
-  sudo /usr/local/mysql/support-files/mysql.server start
- </code></li>
-</ul>
-</li>
-<li><p>Add MySQL directory to shell path</p>
-
-<ul>
-<li>Open ~/.bash_profile</li>
-<li>export PATH=&ldquo;/usr/local/mysql/bin:$PATH&rdquo;</li>
-<li>source ~/.bash_profile</li>
-</ul>
-</li>
-<li><p>Change root password
- <code>
- mysql -u root -p
- mysql&gt; SET PASSWORD FOR
- -&gt; 'root'@'localhost' = PASSWORD('mypass');
-</code></p></li>
-<li><p>Fix the 2002 MySQL Socket error
- Fix the looming 2002 socket error – which is linking where MySQL places the socket and where OSX thinks it should be, MySQL puts it in /tmp and OSX looks for it in /var/mysql the socket is a type of file that allows mysql client/server communication.</p>
-
-<ul>
-<li>sudo mkdir /var/mysql</li>
-<li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
-</ul>
-</li>
-<li><p>How to Start &amp; Stop MySQL Manually in OS X</p>
-
-<pre><code class="`"> // Start MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server start
-
- // Stop MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server stop
-
- // Restart MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server restart
-</code></pre>
-
-<ol>
-<li><p>Where is MySQL&rsquo;s error log
-Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p></li>
-<li><p>View MySQL&rsquo;s status</p></li>
-</ol>
-
-
-<pre><code class="`"> $ sudo /usr/local/mysql/support-files/mysql.server status
-</code></pre></li>
-<li><p>ERROR 2002 (HY000): Can &lsquo; t connect to local MySQL server through socket &rsquo;/tmp/mysql.sock'</p>
-
-<pre><code>// View MySQL status
-$ /usr/local/mysql/support-files/mysql.server status
-/usr/local/mysql/support-files/mysql.server: line 365: pidof: command not found
-ERROR! MySQL is not running
-
-// View MySQL's error log
-$ sudo vim /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
-
-// Find today's log
-2015-12-12T11:21:14.012289Z 0 [ERROR] InnoDB: Unable to lock ./ibdata1 error: 35
-2015-12-12T11:21:14.012335Z 0 [Note] InnoDB: Check that you do not already have another mysqld process using the same InnoDB data or log files.
-
-// Is there mysql process
-$ sudo pstress | grep 'mysql'
-
-|-+= 30102 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
-| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
-|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
-
-// Unfortunate, there are indeed two mysql procee, so kill one
-$ sudo kill -9  30102
-
-// Check we succeed kill a mysql process
-$ sudo pstree | grep 'mysql'
-
-// Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
-|-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
-| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
-|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
-
-// Figure out who auto start mysql
-$ sudo launchctl list | grep 'mysql'
-30102   0   com.mysql.mysqld
-30374   1   com.oracle.oss.mysql.mysqld
-
-// Unloads mysql auto start service
-$ sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysql.plist
-$ sudo launchctl unload -w /Library/LaunchDaemons/com.oracle.oss.mysql.mysqld.plist
-
-// Stop mysql service
-$ sudo launchctl stop com.mysql.mysqld
-$ sudo launchctl stop com.oracle.oss.mysql.mysqld
-
-// Start mysql
-$ sudo /usr/local/mysql/support-files/mysql.server start
-Starting MySQL
-. SUCCESS!
-</code></pre></li>
-</ol>
-
-
-<h4>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h4>
-
-<p>Solution:
-I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
-
-<p>Options Indexes FollowSymLinks Includes ExecCGI
-By default, your global directory settings is (httpd.conf line ~188):</p>
-
-<p><Directory />
-     AllowOverride none
-     Require all granted
-</Directory>
-set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
-
-<p>Finally, it should look like:</p>
-
-<p><Directory />
-     Options Indexes FollowSymLinks Includes ExecCGI
-     AllowOverride All
-     Require all granted
-</Directory>
-Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
-
-<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
-<a href="http://www.akadia.com/services/ssh_test_certificate.html">http://www.akadia.com/services/ssh_test_certificate.html</a><br/>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a><br/>
-<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/</a></p>
 ]]></content>
   </entry>
   

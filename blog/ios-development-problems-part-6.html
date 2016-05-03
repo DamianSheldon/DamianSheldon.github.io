@@ -379,6 +379,30 @@ $(document).ready(
 
 <p>A:Clean > Build
 Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch">http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch</a></p>
+
+<h3>13. Cocoa Coding Style Enforcement</h3>
+
+<p>A:<a href="http://emlyn.net/posts/cocoa-coding-style-enforcement/">http://emlyn.net/posts/cocoa-coding-style-enforcement/</a></p>
+
+<h3>14. Importing Swift into Objective-C Within the Same App Target</h3>
+
+<p>A:</p>
+
+<blockquote><p>When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding &ldquo;-Swift.h&rdquo;. (You’ll learn more about the product module name later, in Naming Your Product Module.)</p></blockquote>
+
+<p>在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 <code>#import "ProductModuleName-Swift.h"</code>, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。</p>
+
+<p>Reference:<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138">https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138</a></p>
+
+<h3>15. Swift 中对应 Objectie-C 中的class 类方法</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

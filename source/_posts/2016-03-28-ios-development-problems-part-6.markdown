@@ -183,4 +183,22 @@ warning: hash mismatch: this object file was built against a different version o
 A:Clean > Build
 Reference:http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch
 
+### 13. Cocoa Coding Style Enforcement
+A:http://emlyn.net/posts/cocoa-coding-style-enforcement/
+
+### 14. Importing Swift into Objective-C Within the Same App Target
+A:
+
+> When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding "-Swift.h". (You’ll learn more about the product module name later, in Naming Your Product Module.)
+
+在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 `#import "ProductModuleName-Swift.h"`, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。
+
+Reference:https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138
+
+### 15. Swift 中对应 Objectie-C 中的class 类方法
+A:
+
+```
+tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+```
 

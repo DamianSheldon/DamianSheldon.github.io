@@ -99,3 +99,6 @@ $	dscl / -create /Users/USER Password \*
 2) lsof -i:port
 ```
 
+## 10. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled
+A:https://support.apple.com/en-us/HT204306
+

@@ -204,7 +204,6 @@ $(document).ready(
 <span class='line-number'>85</span>
 <span class='line-number'>86</span>
 <span class='line-number'>87</span>
-<span class='line-number'>88</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
 </span><span class='line'><span class="nv">$ </span>sudo adduser git
 </span><span class='line'><span class="nv">$ </span>su -l git
@@ -217,7 +216,7 @@ $(document).ready(
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
 </span><span class='line'>
-</span><span class='line'>// Preparation &amp; Accounts Setup
+</span><span class='line'>// Preparation <span class="p">&amp;</span> Accounts Setup
 </span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/john -m -s /bin/bash john
 </span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/andrew -m -s /bin/bash andrew
 </span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/robert -m -s /bin/bash robert
@@ -225,7 +224,6 @@ $(document).ready(
 </span><span class='line'>// Exist user change his primary group by newgrp <span class="nb">command</span>
 </span><span class='line'><span class="nv">$ </span>sudo newgrp -g git john
 </span><span class='line'>
-</span><span class='line'>&lt;!-- more --&gt;
 </span><span class='line'>// Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
 </span><span class='line'><span class="nv">$sudo</span> mkdir /git
 </span><span class='line'><span class="nv">$sudo</span> chown -R git /git
@@ -234,7 +232,7 @@ $(document).ready(
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>project.git
 </span><span class='line'><span class="nv">$ </span>git --bare --shared<span class="o">=</span>group init
 </span><span class='line'>
-</span><span class='line'>// <span class="k">if </span>forget init with --shared<span class="o">=</span>group, we can config with <span class="nb">command</span>:
+</span><span class='line'>// <span class="k">if</span> forget init with --shared<span class="o">=</span>group, we can config with <span class="nb">command</span>:
 </span><span class='line'><span class="nv">$ </span>git config -- core.sharedRepository ture
 </span><span class='line'>
 </span><span class='line'>// Mac 下需要开启ssh并允许remote login
@@ -274,7 +272,7 @@ $(document).ready(
 </span><span class='line'><span class="nv">$ </span>ssh-keygen
 </span><span class='line'>Generating public/private rsa key pair.
 </span><span class='line'>Enter file in which to save the key <span class="o">(</span>/Users/schacon/.ssh/id_rsa<span class="o">)</span>:
-</span><span class='line'>Enter passphrase <span class="o">(</span>empty <span class="k">for </span>no passphrase<span class="o">)</span>:
+</span><span class='line'>Enter passphrase <span class="o">(</span>empty <span class="k">for</span> no passphrase<span class="o">)</span>:
 </span><span class='line'>Enter same passphrase again:
 </span><span class='line'>Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 </span><span class='line'>Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
@@ -327,6 +325,9 @@ $(document).ready(
 </span><span class='line'>fatal: What <span class="k">do </span>you think I am? A shell? <span class="o">(</span>你以为我是个啥?shell吗?<span class="o">)</span>
 </span><span class='line'>Connection to gitserver closed. <span class="o">(</span>gitserver 连接已断开。<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
 
 
 <h2>初始化远程仓库</h2>
@@ -761,6 +762,16 @@ $(document).ready(
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git diff-files --diff-filter<span class="o">=</span>D --name-only -z <span class="p">|</span> xargs -0 git rm
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h3>Resolving a &lsquo;both added&rsquo; merge conflict in git?</h3>
+
+<p>A: If you use git rm git will remove all versions of that path from the index so your resolve action will leave you without either version.</p>
+
+<p>You can use git checkout &ndash;ours file to chose the version from the branch onto which you are rebasing or git checkout &ndash;theirs file to chose the version from the branch which you are rebasing.</p>
+
+<p>If you want a blend you need to use a merge tool or edit it manually.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git">http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git</a></p>
 
 <h4>Reference</h4>
 

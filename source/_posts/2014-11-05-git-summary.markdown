@@ -38,7 +38,6 @@ $ sudo useradd -G git -d /home/robert -m -s /bin/bash robert
 // Exist user change his primary group by newgrp command
 $ sudo newgrp -g git john
 
-<!-- more -->
 // Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
 $sudo mkdir /git
 $sudo chown -R git /git
@@ -126,6 +125,7 @@ $ ssh git@gitserver
 fatal: What do you think I am? A shell? (你以为我是个啥?shell吗?) 
 Connection to gitserver closed. (gitserver 连接已断开。)
 ```
+<!-- more -->
 
 ## 初始化远程仓库
 
@@ -384,6 +384,17 @@ Reference:http://blog.csdn.net/gracioushe/article/details/6142793
 ```
 $ git diff-files --diff-filter=D --name-only -z | xargs -0 git rm
 ```
+
+### Resolving a 'both added' merge conflict in git?
+
+A: If you use git rm git will remove all versions of that path from the index so your resolve action will leave you without either version.
+
+You can use git checkout --ours file to chose the version from the branch onto which you are rebasing or git checkout --theirs file to chose the version from the branch which you are rebasing.
+
+If you want a blend you need to use a merge tool or edit it manually.
+
+Reference:http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git
+
 
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

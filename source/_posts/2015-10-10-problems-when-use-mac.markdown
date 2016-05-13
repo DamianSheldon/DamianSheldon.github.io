@@ -102,3 +102,10 @@ $	dscl / -create /Users/USER Password \*
 ## 10. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled
 A:https://support.apple.com/en-us/HT204306
 
+## 11. Disable AAM Updates Notifier
+
+```
+$ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist.disable
+```
+
+

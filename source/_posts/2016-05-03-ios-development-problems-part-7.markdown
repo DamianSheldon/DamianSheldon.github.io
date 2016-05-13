@@ -44,4 +44,6 @@ http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and
 
 <!-- more -->
 
+### 2.自定义的View设置cornerRadius不生效
+
 

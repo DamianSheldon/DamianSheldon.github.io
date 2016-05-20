@@ -44,6 +44,21 @@ http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and
 
 <!-- more -->
 
-### 2.自定义的View设置cornerRadius不生效
+### 2. 自定义的View设置cornerRadius不生效
+
+### 3. CocoaPods 升级到1.0，Xcode 一直报 header file not found.
+A: 仔细查看了 Xcode 的编译过程，头文件的路径是包含了的，于是怀疑是Xcode的自身可能存在问题。经过实验，可以用下面的方法解决：
+
+1. Clean project
+2. Window > Projects > Your Project > Delete Derived Data
+3. Build
+
+### 4. No codesigning identities (i.e. certificate and private key pairs) that match the team ID: xxx
+A:
+
+* Go to Xcode preferences, view details of the Apple ID, and delete the provisioning file that's complaining, redownload.
+* Go to the Keychain Access, and delete the development certificate that's related to the provisioning file you just deleted.
+
+Reference:http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found
 
 

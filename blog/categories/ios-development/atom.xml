@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-05-20T16:05:34+08:00</updated>
+  <updated>2016-05-24T11:50:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -79,6 +79,20 @@
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found">http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found</a></p>
+
+<h3>5. How to load image from CocoaPods resource bundle ?</h3>
+
+<p>A:</p>
+
+<pre><code>  s.resource_bundles = {
+    'DMLSelector' =&gt; ['DMLSelector/Assets/*.png']
+  }
+
+  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+  self.imageView.image = [UIImage imageNamed:@"DMLSelector.bundle/Checked" inBundle:bundle compatibleWithTraitCollection:nil];
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle">http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle</a></p>
 ]]></content>
   </entry>
   

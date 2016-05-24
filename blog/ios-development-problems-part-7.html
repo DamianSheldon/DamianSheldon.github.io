@@ -190,6 +190,26 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found">http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found</a></p>
+
+<h3>5. How to load image from CocoaPods resource bundle ?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  s.resource_bundles = {
+</span><span class='line'>    'DMLSelector' =&gt; ['DMLSelector/Assets/*.png']
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+</span><span class='line'>  self.imageView.image = [UIImage imageNamed:@"DMLSelector.bundle/Checked" inBundle:bundle compatibleWithTraitCollection:nil];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle">http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle</a></p>
 </div>
 
 

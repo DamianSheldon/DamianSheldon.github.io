@@ -61,4 +61,18 @@ A:
 
 Reference:http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found
 
+### 5. How to load image from CocoaPods resource bundle ?
+A:
+
+```
+  s.resource_bundles = {
+    'DMLSelector' => ['DMLSelector/Assets/*.png']
+  }
+  
+  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+  self.imageView.image = [UIImage imageNamed:@"DMLSelector.bundle/Checked" inBundle:bundle compatibleWithTraitCollection:nil];
+```
+
+Reference:http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle
+
 

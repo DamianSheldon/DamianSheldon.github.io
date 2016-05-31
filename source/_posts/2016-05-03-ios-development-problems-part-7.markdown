@@ -75,4 +75,14 @@ A:
 
 Reference:http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle
 
+### 6. How to specify NSLineBreakMode in boundingRectWithSize?
+A: Use NSParagraphStyleAttributeName & NSParagraphStyle:
+
+```
+NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+paragraph.lineBreakMode = NSLineBreakByWordWrapping; //e.g.
+
+CGSize size = [label.text boundingRectWithSize: constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes: @{ NSFontAttributeName: label.font, NSParagraphStyleAttributeName: paragraph } context: nil].size;
+```
+Reference:http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize
 

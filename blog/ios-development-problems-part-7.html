@@ -210,6 +210,22 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle">http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle</a></p>
+
+<h3>6. How to specify NSLineBreakMode in boundingRectWithSize?</h3>
+
+<p>A: Use NSParagraphStyleAttributeName &amp; NSParagraphStyle:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+</span><span class='line'>paragraph.lineBreakMode = NSLineBreakByWordWrapping; //e.g.
+</span><span class='line'>
+</span><span class='line'>CGSize size = [label.text boundingRectWithSize: constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes: @{ NSFontAttributeName: label.font, NSParagraphStyleAttributeName: paragraph } context: nil].size;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize">http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize</a></p>
 </div>
 
 

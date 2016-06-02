@@ -86,3 +86,42 @@ CGSize size = [label.text boundingRectWithSize: constrainedSize options:NSString
 ```
 Reference:http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize
 
+### 7.
+
+```
+INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
+INFO [2016-06-01 15:42:30.78]: --- Step: fir p ../BBCApp.ipa -T token ---
+INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
+INFO [2016-06-01 15:42:30.78]: $ fir p ../BBCApp.ipa -T c977500277789d01cc67d82750057858
+INFO [2016-06-01 15:42:34.31]: ▸ /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'fir-cli' (>= 0) among 206 total gem(s) (Gem::LoadError)
+INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
+INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
+INFO [2016-06-01 15:42:34.31]: ▸ from /usr/local/bin/fir:22:in `<main>'
+```
+
+A: 问题的原因是找不到fir这个命令，可以直接指定绝对路径解决。
+
+```
+sh "/Library/Ruby/Gems/2.0.0/gems/fir-cli-1.5.0/bin/fir p ../BBCApp.ipa -T token"
+```
+
+### 8. 怎么获取iPhone上已安装App的ipa文件？
+A: 可以利用iTunes下载已购的功能。
+
+You can redownload apps on your iPhone or iPod touch, iPad, Mac or PC, or Apple TV (4th generation). You can also redownload some in-app purchases.
+
+On a Mac or PC
+From iTunes
+1. Open iTunes.
+2. Click Sign In, and then enter your Apple ID and password.
+3. Click your name and select Purchased from the menu.
+4. From the upper-right corner of the screen, click Apps.
+5. Click "Not in My Library" to view purchased content that isn't on your computer.
+6. Scroll to find the item that you want to download.
+7. Click the Download icon  in the upper-right corner of the item that you want to download. Your app downloads to your library.
+
+下载需要点时间，所以点开My Apps tab面不能马上看到刚下载的App,右上角有个下载进度提示，点击可以看详情。
+
+Reference:https://support.apple.com/en-qa/HT201272
+
+

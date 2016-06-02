@@ -226,6 +226,52 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize">http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize</a></p>
+
+<h3>7.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
+</span><span class='line'>INFO [2016-06-01 15:42:30.78]: --- Step: fir p ../BBCApp.ipa -T token ---
+</span><span class='line'>INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
+</span><span class='line'>INFO [2016-06-01 15:42:30.78]: $ fir p ../BBCApp.ipa -T c977500277789d01cc67d82750057858
+</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'fir-cli' (&gt;= 0) among 206 total gem(s) (Gem::LoadError)
+</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
+</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
+</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ from /usr/local/bin/fir:22:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: 问题的原因是找不到fir这个命令，可以直接指定绝对路径解决。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh "/Library/Ruby/Gems/2.0.0/gems/fir-cli-1.5.0/bin/fir p ../BBCApp.ipa -T token"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8. 怎么获取iPhone上已安装App的ipa文件？</h3>
+
+<p>A: 可以利用iTunes下载已购的功能。</p>
+
+<p>You can redownload apps on your iPhone or iPod touch, iPad, Mac or PC, or Apple TV (4th generation). You can also redownload some in-app purchases.</p>
+
+<p>On a Mac or PC
+From iTunes
+1. Open iTunes.
+2. Click Sign In, and then enter your Apple ID and password.
+3. Click your name and select Purchased from the menu.
+4. From the upper-right corner of the screen, click Apps.
+5. Click &ldquo;Not in My Library&rdquo; to view purchased content that isn&rsquo;t on your computer.
+6. Scroll to find the item that you want to download.
+7. Click the Download icon  in the upper-right corner of the item that you want to download. Your app downloads to your library.</p>
+
+<p>下载需要点时间，所以点开My Apps tab面不能马上看到刚下载的App,右上角有个下载进度提示，点击可以看详情。</p>
+
+<p>Reference:<a href="https://support.apple.com/en-qa/HT201272">https://support.apple.com/en-qa/HT201272</a></p>
 </div>
 
 

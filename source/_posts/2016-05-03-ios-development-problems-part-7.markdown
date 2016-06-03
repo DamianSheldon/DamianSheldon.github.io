@@ -124,4 +124,12 @@ From iTunes
 
 Reference:https://support.apple.com/en-qa/HT201272
 
+### 9. UICollectionView's cellForItemAtIndexPath is not being called
+A: 
+
+```
+self.automaticallyAdjustsScrollViewInsets = NO;
+```
+
+Reference:http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1
 

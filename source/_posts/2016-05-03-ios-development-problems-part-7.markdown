@@ -133,3 +133,14 @@ self.automaticallyAdjustsScrollViewInsets = NO;
 
 Reference:http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1
 
+### 10. iOS supported audio formats?
+A:
+
+```
+@"aac",@"adts",@"ac3",@"aif",@"aiff",@"aifc",@"caf",@"mp3",@"mp4",@"m4a",@"snd",@"au",@"sd2",@"wav"
+```
+
+Reference:http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone
+https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition
+
+

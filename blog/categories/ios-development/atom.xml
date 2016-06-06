@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-03T16:21:44+08:00</updated>
+  <updated>2016-06-06T16:36:27+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（七）]]></title>
     <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
     <updated>2016-05-03T17:00:04+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
@@ -161,6 +161,24 @@ From iTunes
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone">http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone</a>
 <a href="https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition">https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition</a></p>
+
+<h3>11. How do I put the image on the right side of the text in a UIButton?</h3>
+
+<p>A:</p>
+
+<pre><code>CGFloat spacing          = 3;
+    CGFloat insetAmount      = 0.5 * spacing;
+
+    // First set overall size of the button:
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
+    [button sizeToFit];
+
+    // Then adjust title and image insets so image is flipped to the right and there is spacing between title and image:
+    button.titleEdgeInsets   = UIEdgeInsetsMake(0, -button.imageView.frame.size.width - insetAmount, 0,  button.imageView.frame.size.width  + insetAmount);
+    button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton</a></p>
 ]]></content>
   </entry>
   

@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS App 开发问题汇总（六）  | Hello World</title>
+	<title>iOS App 开发问题汇总（七）  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -103,7 +103,7 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS App 开发问题汇总（六）</h2>
+	<h2 class="title">iOS App 开发问题汇总（七）</h2>
 	<div class="entry-content"><h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
 
 <p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
@@ -293,6 +293,34 @@ From iTunes
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone">http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone</a>
 <a href="https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition">https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition</a></p>
+
+<h3>11. How do I put the image on the right side of the text in a UIButton?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGFloat spacing          = 3;
+</span><span class='line'>    CGFloat insetAmount      = 0.5 * spacing;
+</span><span class='line'>
+</span><span class='line'>    // First set overall size of the button:
+</span><span class='line'>    button.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
+</span><span class='line'>    [button sizeToFit];
+</span><span class='line'>
+</span><span class='line'>    // Then adjust title and image insets so image is flipped to the right and there is spacing between title and image:
+</span><span class='line'>    button.titleEdgeInsets   = UIEdgeInsetsMake(0, -button.imageView.frame.size.width - insetAmount, 0,  button.imageView.frame.size.width  + insetAmount);
+</span><span class='line'>    button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton</a></p>
 </div>
 
 

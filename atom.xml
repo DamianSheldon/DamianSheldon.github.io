@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-03T16:21:44+08:00</updated>
+  <updated>2016-06-06T16:36:27+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（七）]]></title>
     <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
     <updated>2016-05-03T17:00:04+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
@@ -207,6 +207,34 @@ From iTunes
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone">http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone</a>
 <a href="https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition">https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition</a></p>
+
+<h3>11. How do I put the image on the right side of the text in a UIButton?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGFloat spacing          = 3;
+</span><span class='line'>    CGFloat insetAmount      = 0.5 * spacing;
+</span><span class='line'>
+</span><span class='line'>    // First set overall size of the button:
+</span><span class='line'>    button.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
+</span><span class='line'>    [button sizeToFit];
+</span><span class='line'>
+</span><span class='line'>    // Then adjust title and image insets so image is flipped to the right and there is spacing between title and image:
+</span><span class='line'>    button.titleEdgeInsets   = UIEdgeInsetsMake(0, -button.imageView.frame.size.width - insetAmount, 0,  button.imageView.frame.size.width  + insetAmount);
+</span><span class='line'>    button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton</a></p>
 ]]></content>
   </entry>
   
@@ -3690,7 +3718,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x64;&#111;&#110;&#x67;&#109;&#x65;&#105;&#x6c;&#105;&#x61;&#x6e;&#103;&#64;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#46;&#x32;&#x35;&#53;">&#100;&#x6f;&#x6e;&#103;&#x6d;&#101;&#105;&#x6c;&#x69;&#x61;&#x6e;&#x67;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#x2e;&#x32;&#53;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x64;&#111;&#110;&#103;&#109;&#x65;&#105;&#x6c;&#105;&#x61;&#110;&#x67;&#x40;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#x38;&#x2e;&#x31;&#46;&#x32;&#x35;&#x35;">&#x64;&#x6f;&#110;&#103;&#x6d;&#x65;&#105;&#x6c;&#x69;&#x61;&#110;&#103;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#x2e;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

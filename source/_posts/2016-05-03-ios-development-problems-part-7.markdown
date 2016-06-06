@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS App 开发问题汇总（六）"
+title: "iOS App 开发问题汇总（七）"
 date: 2016-05-03 17:00:04 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -143,4 +143,22 @@ A:
 Reference:http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone
 https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition
 
+### 11. How do I put the image on the right side of the text in a UIButton?
+
+A:
+
+```
+CGFloat spacing          = 3;
+    CGFloat insetAmount      = 0.5 * spacing;
+
+    // First set overall size of the button:
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
+    [button sizeToFit];
+
+    // Then adjust title and image insets so image is flipped to the right and there is spacing between title and image:
+    button.titleEdgeInsets   = UIEdgeInsetsMake(0, -button.imageView.frame.size.width - insetAmount, 0,  button.imageView.frame.size.width  + insetAmount);
+    button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);
+```
+
+Reference:http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
 

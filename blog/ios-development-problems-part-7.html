@@ -321,6 +321,36 @@ From iTunes
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton</a></p>
+
+<h3>12. duplicate symbol _iToastDuration</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>enum iToastDuration {
+</span><span class='line'>  iToastDurationLong = 10000,
+</span><span class='line'>  iToastDurationShort = 1000,
+</span><span class='line'>  iToastDurationNormal = 3000
+</span><span class='line'>}iToastDuration;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef enum iToastDuration {
+</span><span class='line'>  iToastDurationLong = 10000,
+</span><span class='line'>  iToastDurationShort = 1000,
+</span><span class='line'>  iToastDurationNormal = 3000
+</span><span class='line'>}iToastDuration;</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

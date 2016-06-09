@@ -162,3 +162,22 @@ CGFloat spacing          = 3;
 
 Reference:http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
 
+### 12. duplicate symbol _iToastDuration
+
+```
+enum iToastDuration {
+	iToastDurationLong = 10000,
+	iToastDurationShort = 1000,
+	iToastDurationNormal = 3000
+}iToastDuration;
+```
+A: 
+
+```
+typedef enum iToastDuration {
+	iToastDurationLong = 10000,
+	iToastDurationShort = 1000,
+	iToastDurationNormal = 3000
+}iToastDuration;
+```
+

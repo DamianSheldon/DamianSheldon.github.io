@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-08T17:33:49+08:00</updated>
+  <updated>2016-06-16T11:54:07+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -333,6 +333,27 @@ $jrunscript test.js
 
 <p>A:
 Reference:<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript">https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript</a></p>
+
+<h3>10.How to use WebSocket with an Apache server while main develop language is PHP?</h3>
+
+<p>A:
+One path is to use an independent installed web sockets server.</p>
+
+<p>For PHP you can try: <a href="http://code.google.com/p/phpwebsocket/">http://code.google.com/p/phpwebsocket/</a> or <a href="http://code.google.com/p/phpws/">http://code.google.com/p/phpws/</a></p>
+
+<p>There are some other projects which you can try as well.</p>
+
+<p>Basically, you need to upload, unpack and start running the process.</p>
+
+<p>On the frontend, you&rsquo;ll have javascript connecting to the server on the specific port.</p>
+
+<p>Most websocket servers have a demo which echoes back whatever it hears, so this is a good place to write some test code. You may even find a rudimentary chat implementation.</p>
+
+<p>The tricky part is to monitor the web socket server and to make sure it runs smoothly and continuously.</p>
+
+<p>Try to test on as many browsers/devices as possible as this will decide on which websocket server implementation you choose. There are old and new protocols you have to watch out for.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server">http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server</a></p>
 ]]></content>
   </entry>
   

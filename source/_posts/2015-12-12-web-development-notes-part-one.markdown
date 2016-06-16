@@ -252,4 +252,25 @@ $jrunscript test.js
 A:
 Reference:https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript
 
+### 10.How to use WebSocket with an Apache server while main develop language is PHP?
+A:
+One path is to use an independent installed web sockets server.
+
+For PHP you can try: http://code.google.com/p/phpwebsocket/ or http://code.google.com/p/phpws/
+
+There are some other projects which you can try as well.
+
+Basically, you need to upload, unpack and start running the process.
+
+On the frontend, you'll have javascript connecting to the server on the specific port.
+
+Most websocket servers have a demo which echoes back whatever it hears, so this is a good place to write some test code. You may even find a rudimentary chat implementation.
+
+The tricky part is to monitor the web socket server and to make sure it runs smoothly and continuously.
+
+Try to test on as many browsers/devices as possible as this will decide on which websocket server implementation you choose. There are old and new protocols you have to watch out for.
+
+Reference:http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server
+
+
 

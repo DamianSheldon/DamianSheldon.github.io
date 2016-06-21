@@ -246,3 +246,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 ```
 Reference:http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1
 
+### 14. iOS 开发中如何获取农历？
+A: iOS 8 以后 Apple 内置了农历支持，可以得到类似**2016丙申年五月十七星期二**的信息，如果你只需要这些信息就够了，那使用内置的农历就可以了。如果还想获取类似**壬辰年癸卯月庚辰日**，那可以用[LunarCalendar](https://github.com/autopear/LunarCalendar)。
+
+```
+    NSCalendar *chineseCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
+
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"zh_Hans_CN"];
+    dateFormatter.dateStyle = NSDateFormatterFullStyle;
+    dateFormatter.calendar = chineseCalendar;
+    
+    NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
+    
+    // Output:2016丙申年五月十七星期二
+```
+
+Reference:https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support
+http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese
+

@@ -181,3 +181,68 @@ typedef enum iToastDuration {
 }iToastDuration;
 ```
 
+### 13. Detecting taps on attributed text in a UITextView in iOS
+A:
+
+```
+import UIKit
+class ViewController: UIViewController, UIGestureRecognizerDelegate {
+
+    @IBOutlet weak var textView: UITextView!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Create an attributed string
+        let myString = NSMutableAttributedString(string: "Swift attributed text")
+
+        // Set an attribute on part of the string
+        let myRange = NSRange(location: 0, length: 5) // range of "Swift"
+        let myCustomAttribute = [ "MyCustomAttributeName": "some value"]
+        myString.addAttributes(myCustomAttribute, range: myRange)
+
+        textView.attributedText = myString
+
+        // Add tap gesture recognizer to Text View
+        let tap = UITapGestureRecognizer(target: self, action: #selector(myMethodToHandleTap(_:)))
+        tap.delegate = self
+        textView.addGestureRecognizer(tap)
+    }
+
+    func myMethodToHandleTap(sender: UITapGestureRecognizer) {
+
+        let myTextView = sender.view as! UITextView
+        let layoutManager = myTextView.layoutManager
+
+        // location of tap in myTextView coordinates and taking the inset into account
+        var location = sender.locationInView(myTextView)
+        location.x -= myTextView.textContainerInset.left;
+        location.y -= myTextView.textContainerInset.top;
+
+        // character index at tap location
+        let characterIndex = layoutManager.characterIndexForPoint(location, inTextContainer: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        // if index is valid then do something.
+        if characterIndex < myTextView.textStorage.length {
+
+            // print the character index
+            print("character index: \(characterIndex)")
+
+            // print the character at the index
+            let myRange = NSRange(location: characterIndex, length: 1)
+            let substring = (myTextView.attributedText.string as NSString).substringWithRange(myRange)
+            print("character at index: \(substring)")
+
+            // check if the tap location has a certain attribute
+            let attributeName = "MyCustomAttributeName"
+            let attributeValue = myTextView.attributedText.attribute(attributeName, atIndex: characterIndex, effectiveRange: nil) as? String
+            if let value = attributeValue {
+               print("You tapped on \(attributeName) and the value is: \(value)")
+            }
+
+        }
+    }
+}
+```
+Reference:http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1
+

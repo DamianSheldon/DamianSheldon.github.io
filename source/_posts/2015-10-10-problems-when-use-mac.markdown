@@ -108,4 +108,7 @@ A:https://support.apple.com/en-us/HT204306
 $ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist.disable
 ```
 
+## 12. 如何解决Mac里面解压后文件名乱码问题?
+A: http://www.jayz.me/?p=493
+
 

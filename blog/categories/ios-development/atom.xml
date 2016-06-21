@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-21T15:18:01+08:00</updated>
+  <updated>2016-06-21T17:01:16+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -263,6 +263,25 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1">http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1</a></p>
+
+<h3>14. iOS 开发中如何获取农历？</h3>
+
+<p>A: iOS 8 以后 Apple 内置了农历支持，可以得到类似<strong>2016丙申年五月十七星期二</strong>的信息，如果你只需要这些信息就够了，那使用内置的农历就可以了。如果还想获取类似<strong>壬辰年癸卯月庚辰日</strong>，那可以用<a href="https://github.com/autopear/LunarCalendar">LunarCalendar</a>。</p>
+
+<pre><code>    NSCalendar *chineseCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
+
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"zh_Hans_CN"];
+    dateFormatter.dateStyle = NSDateFormatterFullStyle;
+    dateFormatter.calendar = chineseCalendar;
+
+    NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
+
+    // Output:2016丙申年五月十七星期二
+</code></pre>
+
+<p>Reference:<a href="https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support">https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support</a>
+<a href="http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese">http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese</a></p>
 ]]></content>
   </entry>
   

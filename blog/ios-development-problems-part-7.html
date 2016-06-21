@@ -473,6 +473,35 @@ From iTunes
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1">http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1</a></p>
+
+<h3>14. iOS 开发中如何获取农历？</h3>
+
+<p>A: iOS 8 以后 Apple 内置了农历支持，可以得到类似<strong>2016丙申年五月十七星期二</strong>的信息，如果你只需要这些信息就够了，那使用内置的农历就可以了。如果还想获取类似<strong>壬辰年癸卯月庚辰日</strong>，那可以用<a href="https://github.com/autopear/LunarCalendar">LunarCalendar</a>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSCalendar *chineseCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
+</span><span class='line'>
+</span><span class='line'>NSDateFormatter *dateFormatter = [NSDateFormatter new];
+</span><span class='line'>dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"zh_Hans_CN"];
+</span><span class='line'>dateFormatter.dateStyle = NSDateFormatterFullStyle;
+</span><span class='line'>dateFormatter.calendar = chineseCalendar;
+</span><span class='line'>
+</span><span class='line'>NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
+</span><span class='line'>
+</span><span class='line'>// Output:2016丙申年五月十七星期二</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support">https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support</a>
+<a href="http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese">http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese</a></p>
 </div>
 
 

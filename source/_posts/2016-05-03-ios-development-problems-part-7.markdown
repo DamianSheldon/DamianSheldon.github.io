@@ -265,3 +265,24 @@ A: iOS 8 以后 Apple 内置了农历支持，可以得到类似**2016丙申年�
 Reference:https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support
 http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese
 
+### 15. How to fix tableView's tableHeaderView overlap first cell?
+A: The core of solution is when you change the frame of tableHeaderView, you need reassign it to tableView.
+
+```
+    UIView *headerView = self.tableHeaderView;
+
+    [headerView setNeedsLayout];
+    [headerView layoutIfNeeded];
+    CGFloat height = [headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+
+    headerView.frame = ({
+        CGRect headerFrame = headerView.frame;
+        headerFrame.size.height = height;
+        headerFrame;
+    });
+
+    self.tableHeaderView = headerView;
+```
+
+Reference:http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell
+

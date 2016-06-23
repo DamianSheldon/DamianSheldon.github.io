@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-21T17:01:16+08:00</updated>
+  <updated>2016-06-23T15:10:21+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -282,6 +282,27 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
 <p>Reference:<a href="https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support">https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support</a>
 <a href="http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese">http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese</a></p>
+
+<h3>15. How to fix tableView&rsquo;s tableHeaderView overlap first cell?</h3>
+
+<p>A: The core of solution is when you change the frame of tableHeaderView, you need reassign it to tableView.</p>
+
+<pre><code>    UIView *headerView = self.tableHeaderView;
+
+    [headerView setNeedsLayout];
+    [headerView layoutIfNeeded];
+    CGFloat height = [headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+
+    headerView.frame = ({
+        CGRect headerFrame = headerView.frame;
+        headerFrame.size.height = height;
+        headerFrame;
+    });
+
+    self.tableHeaderView = headerView;
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell">http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell</a></p>
 ]]></content>
   </entry>
   

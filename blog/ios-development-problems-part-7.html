@@ -502,6 +502,40 @@ From iTunes
 
 <p>Reference:<a href="https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support">https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support</a>
 <a href="http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese">http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese</a></p>
+
+<h3>15. How to fix tableView&rsquo;s tableHeaderView overlap first cell?</h3>
+
+<p>A: The core of solution is when you change the frame of tableHeaderView, you need reassign it to tableView.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIView *headerView = self.tableHeaderView;
+</span><span class='line'>
+</span><span class='line'>[headerView setNeedsLayout];
+</span><span class='line'>[headerView layoutIfNeeded];
+</span><span class='line'>CGFloat height = [headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+</span><span class='line'>
+</span><span class='line'>headerView.frame = ({
+</span><span class='line'>    CGRect headerFrame = headerView.frame;
+</span><span class='line'>    headerFrame.size.height = height;
+</span><span class='line'>    headerFrame;
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>self.tableHeaderView = headerView;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell">http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell</a></p>
 </div>
 
 

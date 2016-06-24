@@ -1,0 +1,37 @@
+---
+layout: post
+title: "iOS App 开发问题汇总（八）"
+date: 2016-06-24 15:54:30 +0800
+comments: true
+categories: [Archives, iOS Development]
+keywords: iOS 
+discription: iOS development problems
+---
+
+### 1.Detect hash tags #, mention tags @, in iOS like in Twitter App
+A:You can use https://github.com/Krelborn/KILabel this library. It also detect user taps on hashtags Like this:
+
+```
+label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range) {
+  NSLog(@"Hashtag tapped %@", string);
+};
+```
+
+Reference:http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app
+
+### 2.如何给应用重签名？
+A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：
+
+```
+$ security find-identity -v -p codesigning                       
+  1) 01C8E9712E9632E6D84EC533827B4478938A3B15 "iPhone Developer: Thomas Kollbach (7TPNXN7G6K)"
+```
+
+用[sign](https://github.com/fastlane/fastlane/tree/master/sigh)给应用重签名
+
+```
+$ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"
+```
+
+Reference:http://objccn.io/issue-17-2/
+

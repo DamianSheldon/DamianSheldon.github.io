@@ -108,6 +108,78 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-development-problems-part-8.html">
+		
+			iOS App 开发问题汇总（八）</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Detect hash tags #, mention tags @, in iOS like in Twitter App</h3>
+
+<p>A:You can use <a href="https://github.com/Krelborn/KILabel">https://github.com/Krelborn/KILabel</a> this library. It also detect user taps on hashtags Like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range) {
+</span><span class='line'>  NSLog(@"Hashtag tapped %@", string);
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app">http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app</a></p>
+
+<h3>2.如何给应用重签名？</h3>
+
+<p>A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ security find-identity -v -p codesigning                       
+</span><span class='line'>  1) 01C8E9712E9632E6D84EC533827B4478938A3B15 "iPhone Developer: Thomas Kollbach (7TPNXN7G6K)"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用<a href="https://github.com/fastlane/fastlane/tree/master/sigh">sign</a>给应用重签名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://objccn.io/issue-17-2/">http://objccn.io/issue-17-2/</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-24T15:54:30+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problems-part-7.html">
 		
 			iOS App 开发问题汇总（七）</a>
@@ -261,135 +333,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/notes-of-using-debian.html">
-		
-			Notes of Using Debian</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1. Install pear on Debian</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ wget http://pear.php.net/go-pear.phar
-</span><span class='line'>$ sudo php go-pear.phar
-</span><span class='line'>
-</span><span class='line'>Below is a suggested file layout for your new PEAR installation.  To
-</span><span class='line'>change individual locations, type the number in front of the
-</span><span class='line'>directory.  Type 'all' to change all of them or simply press Enter to
-</span><span class='line'>accept these locations.
-</span><span class='line'>
-</span><span class='line'> 1. Installation base ($prefix)                   : /home/meiliang/pear
-</span><span class='line'> 2. Temporary directory for processing            : /tmp/pear/install
-</span><span class='line'> 3. Temporary directory for downloads             : /tmp/pear/install
-</span><span class='line'> 4. Binaries directory                            : /home/meiliang/pear/bin
-</span><span class='line'> 5. PHP code directory ($php_dir)                 : /home/meiliang/pear/share/pear
-</span><span class='line'> 6. Documentation directory                       : /home/meiliang/pear/docs
-</span><span class='line'> 7. Data directory                                : /home/meiliang/pear/data
-</span><span class='line'> 8. User-modifiable configuration files directory : /home/meiliang/pear/cfg
-</span><span class='line'> 9. Public Web Files directory                    : /home/meiliang/pear/www
-</span><span class='line'>10. System manual pages directory                 : /home/meiliang/pear/man
-</span><span class='line'>11. Tests directory                               : /home/meiliang/pear/tests
-</span><span class='line'>12. Name of configuration file                    : /home/meiliang/.pearrc
-</span><span class='line'>
-</span><span class='line'>1-12, 'all' or Enter to continue: 1
-</span><span class='line'>(Use $prefix as a shortcut for '/home/meiliang/pear', etc.)
-</span><span class='line'>Installation base ($prefix) [/home/meiliang/pear] : /usr/local/bin/pear
-</span><span class='line'>
-</span><span class='line'>$ vim .bashrc
-</span><span class='line'># Append the /usr/local/bin/pear directory in the user's home directory onto the PATH environment variable
-</span><span class='line'>export PATH=$PATH:/usr/local/bin/pear/bin
-</span><span class='line'>
-</span><span class='line'>// Reload bash configure file
-</span><span class='line'>$ source .bashrc
-</span><span class='line'>
-</span><span class='line'>$ echo $PATH
-</span><span class='line'>/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin/pear/bin
-</span><span class='line'>
-</span><span class='line'>// Check wether it works
-</span><span class='line'>$ pear version
-</span><span class='line'>PEAR Version: 1.10.1
-</span><span class='line'>PHP Version: 5.6.17-0+deb8u1
-</span><span class='line'>Zend Engine Version: 2.6.0
-</span><span class='line'>Running on: Linux Debian 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt11-1 (2015-05-24) x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/notes-of-using-debian.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-02-29T21:46:20+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

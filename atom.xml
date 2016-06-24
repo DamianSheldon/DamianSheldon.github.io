@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-23T15:10:21+08:00</updated>
+  <updated>2016-06-24T16:09:33+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App 开发问题汇总（八）]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-8.html"/>
+    <updated>2016-06-24T15:54:30+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-8</id>
+    <content type="html"><![CDATA[<h3>1.Detect hash tags #, mention tags @, in iOS like in Twitter App</h3>
+
+<p>A:You can use <a href="https://github.com/Krelborn/KILabel">https://github.com/Krelborn/KILabel</a> this library. It also detect user taps on hashtags Like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range) {
+</span><span class='line'>  NSLog(@"Hashtag tapped %@", string);
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app">http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app</a></p>
+
+<h3>2.如何给应用重签名？</h3>
+
+<p>A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ security find-identity -v -p codesigning                       
+</span><span class='line'>  1) 01C8E9712E9632E6D84EC533827B4478938A3B15 "iPhone Developer: Thomas Kollbach (7TPNXN7G6K)"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用<a href="https://github.com/fastlane/fastlane/tree/master/sigh">sign</a>给应用重签名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://objccn.io/issue-17-2/">http://objccn.io/issue-17-2/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（七）]]></title>
@@ -3956,7 +3995,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#100;&#x6f;&#x6e;&#x67;&#109;&#x65;&#x69;&#x6c;&#105;&#x61;&#110;&#x67;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#46;&#x32;&#53;&#53;">&#100;&#111;&#x6e;&#x67;&#109;&#x65;&#x69;&#x6c;&#105;&#x61;&#x6e;&#103;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#x2e;&#49;&#x2e;&#50;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x64;&#111;&#x6e;&#103;&#109;&#x65;&#105;&#108;&#105;&#x61;&#110;&#x67;&#64;&#49;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#46;&#50;&#x35;&#x35;">&#100;&#111;&#x6e;&#x67;&#x6d;&#101;&#x69;&#108;&#105;&#97;&#x6e;&#103;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#x31;&#46;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -4460,251 +4499,6 @@ A:SELECT @@server_id</p>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（三）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problem-part-3.html"/>
-    <updated>2015-07-30T11:36:57+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problem-part-3</id>
-    <content type="html"><![CDATA[<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
-
-<p>Making an Inspectable .ipa file<br/>
-In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
-When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
-When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
-Checking the Entitlements of an .ipa file<br/>
-Find the .ipa file and change its the extension to .zip.<br/>
-Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
-Use the codesign tool to check the entitlements on the .app bundle like this:
-$ codesign -d &ndash;entitlements :- &ldquo;Payload/YourApp.app&rdquo;
-where YourApp.app is the actual name of your .app bundle.<br/>
-Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
-// should add cms, Apple may be a typo
-$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
-
-<p>where YourApp.app is the actual name of your .app bundle.</p>
-
-<!-- more -->
-
-
-<h3>2.问题描述：</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>`&lt;PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`&gt;` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决办法：
-1. I opened the .pbxproj file in a text editor.<br/>
-a. Go to your .xcodeproj<br/>
-b. Right click -> Show package contents<br/>
-c. Open .pbxproj with a text editor.<br/>
-2. I searched for the UUID.<br/>
-3. Turns out that is a static library folder already removed from reference.<br/>
-4. I readd folder that contain the static library.<br/>
-5. Rerun pod installation.<br/>
-6. Issue not happening anymore! :D</p>
-
-<p>Reference:<a href="https://github.com/CocoaPods/CocoaPods/issues/1822">https://github.com/CocoaPods/CocoaPods/issues/1822</a></p>
-
-<h3>3.How do I return to an older version of our code in Subversion?</h3>
-
-<p>解决办法:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn update
-</span><span class='line'>svn merge -r 150:140 .
-</span><span class='line'>svn commit -m "Rolled back to r140"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion">http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion</a></p>
-
-<h3>4. Add top layout guide in NIB file</h3>
-
-<p>解决办法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)viewDidLoad {
-</span><span class='line'>      if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-</span><span class='line'>         self.edgesForExtendedLayout = UIRectEdgeNone;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7">http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7</a></p>
-
-<h3>5. How do I set the height of tableHeaderView (UITableView) with autolayout?</h3>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout">http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout</a></p>
-
-<h3>6. How to resize superview to fit all subviews with autolayout?</h3>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803">http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803</a></p>
-
-<h3>7.How to use c++ and objective-c together in XCode 4.2</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1. Rename any .m file to .mm file;
-</span><span class='line'>2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2">http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2</a></p>
-
-<h3>8.How do I change the status bar content to white?</h3>
-
-<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
-
-<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
-Select the very first node in the Project Navigator to display the Project Editor.
-Select your app under Targets.
-Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
-
-<p>Next, you need to modify your project&rsquo;s .plist file.
-In the Project Navigator, expand the Supporting Files node.
-Select the <My Project Name>-Info.plist file.
-Click on the very first entry (Information Property List).
-Click the plus (+) sign that appears in the first column.
-At the bottom of the popup list, select View controller-based status bar appearance.
-Make sure the Value column is set to NO.
-If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
-In Swift:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Objective-C:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
-
-<p>In Swift:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override func preferredStatusBarStyle() -&gt; UIStatusBarStyle {
-</span><span class='line'>        return UIStatusBarStyle.LightContent
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Objective-C:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
-</span><span class='line'>{
-</span><span class='line'>    return UIStatusBarStyleLightContent;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
-
-<h3>9.Expression</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) expr NSString *$str = (NSString *)[[NSString alloc] initWithData:data encoding:4]
-</span><span class='line'>(lldb) po $str
-</span><span class='line'>
-</span><span class='line'>(lldb) e NSArray *$array = @[ @"Saturday", @"Sunday", @"Monday" ]
-</span><span class='line'>(lldb) p [$array count]</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>10.fastlane add Slack Notifications</h3>
-
-<p>Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #channel (by default), a direct message to @username or a message to a private group group with success (green) or failure (red) status.</p>
-
-<p>Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.</p>
-
-<p>Reference:<a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications">https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications</a></p>
-
-<h3>11.问题描述：</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:Further to a migration of my Xcode project, from Xcode 6.4 to Xcode 7, I get the warning message below (after compilation) for the Test target :</p>
-
-<p>directory not found for option &lsquo;-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk/Developer/Library/Frameworks&rsquo;
-Actually I found something when comparing a new project vs an older one&hellip;</p>
-
-<p>In the old project, the warning was only being produced by the test target of my projects. Under &lsquo;Search Paths&rsquo;, I found it was including two items under &lsquo;Framework Search Paths&rsquo;:</p>
-
-<p>$(SDKROOT)/Developer/Library/Frameworks
-$(inherited)
-The new project kept the &lsquo;Framework Search Paths&rsquo; empty.</p>
-
-<p>Deleting those entries in my older project then removed the warning.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning">http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning</a></p>
-
-<h3>12.问题描述：</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:disable bitcode for this target.
-App target > Build Settings > Enable Bitcode > NO</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/30848208/new-warnings-in-ios9">http://stackoverflow.com/questions/30848208/new-warnings-in-ios9</a></p>
-
-<h3>13.问题描述：</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
-</span><span class='line'>2015-09-22 15:31:20.966 Lister[84089:1396115] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target. Details on proper setup can be found in the PDFs referenced from the README.'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution:Target > Lister > iCloud > Fix issue
-            Target > App Group > Fix issue</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che">http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che</a></p>
-
-<h3>14.How can I conditionally include a file based on build configuration in Xcode?</h3>
-
-<p>For each target for which you want to conditionally include the settings bundle, choose its Project from the source list, choose the target, and switch to the &ldquo;Build Phases&rdquo; tab.</p>
-
-<p>Click the &ldquo;Add Build Phase&rdquo; button and choose &ldquo;Add Run Script&rdquo;.</p>
-
-<p>Then enter the following for the script:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if [ "${CONFIGURATION}" == "Debug" ]; then
-</span><span class='line'>    cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
-</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode">http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode</a></p>
-
-<h3>15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0</h3>
-
-<p>Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning <br/>
-2. Locate the warning(s) (search for &ldquo;Automatic Preferred Max Layout&rdquo;) and press expand button on the right<br/>
-3. Find the Object ID of the UILabel<br/>
-4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel<br/>
-5. Explictit set preferred layout width</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8">http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8</a></p>
 ]]></content>
   </entry>
   

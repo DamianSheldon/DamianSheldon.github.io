@@ -121,4 +121,27 @@ Notes:
 
 Reference:http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:
 
+###6. Can't connect to PPTP VPN with ufw enabled on Debian 3.16.7-ckt11-1 with kernel 3.16.0-4-amd64
+
+A: Allow Port 1723 on UFW
+
+```
+# ufw allow 1723
+```
+
+This is caused by a change for security reason in kernel 3.18 [1]. There are two ways to fix this.
+
+First approach is adding this rule to the file /etc/ufw/before.rules before the line # drop INVALID packets ...
+
+-A ufw-before-input -p 47 -j ACCEPT
+Second approach is manually loading the nf_conntrack_pptp module. You can do this by running
+
+sudo modprobe nf_conntrack_pptp
+To load this module on every boot on Ubuntu, add it to the file /etc/modules.
+
+Reference:http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18
+
+http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html
+
+
 

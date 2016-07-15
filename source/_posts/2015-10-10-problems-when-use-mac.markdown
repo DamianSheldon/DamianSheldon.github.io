@@ -111,4 +111,6 @@ $ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchA
 ## 12. 如何解决Mac里面解压后文件名乱码问题?
 A: http://www.jayz.me/?p=493
 
+## 13. 如何识别 MacBook Pro 机型?
+A:https://support.apple.com/zh-cn/HT201300
 

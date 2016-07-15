@@ -35,3 +35,23 @@ $ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krau
 
 Reference:http://objccn.io/issue-17-2/
 
+<!--more-->
+
+### 3. It report BAD_ACCESS when set delegate for AVAudioPlayer.
+
+A: The reason is I instance AVAuidoPlayer without content like this:
+
+```
+AVAudioPlayer *audioPlayer = [AVAudioPlayer new];
+audioPlayer.delegate = self;
+```
+
+We should instance it with content:
+
+```
+_audioPlayer = [[AVAudioPlayer alloc] initWithData:_audioData error:nil];
+[_audioPlayer prepareToPlay];
+_audioPlayer.delegate = self;
+```
+
+

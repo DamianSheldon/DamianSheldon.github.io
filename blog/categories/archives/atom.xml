@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-30T16:43:53+08:00</updated>
+  <updated>2016-07-15T16:03:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -43,6 +43,24 @@
 </code></pre>
 
 <p>Reference:<a href="http://objccn.io/issue-17-2/">http://objccn.io/issue-17-2/</a></p>
+
+<!--more-->
+
+
+<h3>3. It report BAD_ACCESS when set delegate for AVAudioPlayer.</h3>
+
+<p>A: The reason is I instance AVAuidoPlayer without content like this:</p>
+
+<pre><code>AVAudioPlayer *audioPlayer = [AVAudioPlayer new];
+audioPlayer.delegate = self;
+</code></pre>
+
+<p>We should instance it with content:</p>
+
+<pre><code>_audioPlayer = [[AVAudioPlayer alloc] initWithData:_audioData error:nil];
+[_audioPlayer prepareToPlay];
+_audioPlayer.delegate = self;
+</code></pre>
 ]]></content>
   </entry>
   

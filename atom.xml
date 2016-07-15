@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-06-30T16:43:53+08:00</updated>
+  <updated>2016-07-15T16:03:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -49,6 +49,31 @@
 
 
 <p>Reference:<a href="http://objccn.io/issue-17-2/">http://objccn.io/issue-17-2/</a></p>
+
+<!--more-->
+
+
+<h3>3. It report BAD_ACCESS when set delegate for AVAudioPlayer.</h3>
+
+<p>A: The reason is I instance AVAuidoPlayer without content like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AVAudioPlayer *audioPlayer = [AVAudioPlayer new];
+</span><span class='line'>audioPlayer.delegate = self;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We should instance it with content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_audioPlayer = [[AVAudioPlayer alloc] initWithData:_audioData error:nil];
+</span><span class='line'>[_audioPlayer prepareToPlay];
+</span><span class='line'>_audioPlayer.delegate = self;</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -3698,6 +3723,10 @@ Fn</p>
 <h2>12. 如何解决Mac里面解压后文件名乱码问题?</h2>
 
 <p>A: <a href="http://www.jayz.me/?p=493">http://www.jayz.me/?p=493</a></p>
+
+<h2>13. 如何识别 MacBook Pro 机型?</h2>
+
+<p>A:<a href="https://support.apple.com/zh-cn/HT201300">https://support.apple.com/zh-cn/HT201300</a></p>
 ]]></content>
   </entry>
   
@@ -4017,7 +4046,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#100;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#x69;&#97;&#110;&#x67;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#46;&#50;&#x35;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#x65;&#105;&#x6c;&#x69;&#97;&#110;&#103;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#50;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#x64;&#111;&#110;&#x67;&#x6d;&#x65;&#x69;&#x6c;&#x69;&#97;&#x6e;&#103;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#x35;&#x35;">&#x64;&#x6f;&#x6e;&#x67;&#109;&#101;&#x69;&#108;&#x69;&#97;&#x6e;&#x67;&#x40;&#49;&#x39;&#50;&#46;&#49;&#x36;&#56;&#46;&#49;&#46;&#50;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

@@ -54,4 +54,19 @@ _audioPlayer = [[AVAudioPlayer alloc] initWithData:_audioData error:nil];
 _audioPlayer.delegate = self;
 ```
 
+### 4.  How can I show my own app icon at the bottom-left corner of iPhone lock screen?
+
+Solution: 1. This is iOS 8 new feature called Handoff more info [here](http://www.macrumors.com/2014/06/03/ios-8-apps-quick-access/).
+
+2. You can't control what app appears in the bottom-left corner of the lock screen. Neither can you add code to your app to make your app appear there whenever you want. These are called Suggested Apps and it's a feature of iOS.
+
+iOS controls what app appears there based on several factors, including your location, the apps on your device, and your history of where & when you use those apps. Together, iOS trys to present you with the app you would most-likely use at a given time, location, and history.
+
+If you don't like this feature, it can be turned off in Settings -> General -> Handoff & Suggested Apps.
+
+Reference:http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen
+
+http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen
+
+
 

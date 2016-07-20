@@ -102,6 +102,8 @@ Reference:http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning
 
 Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html
 
+Reference:http://stackoverflow.com/questions/4974309/android-sdk-and-developer-guide-offline-or-pdf
+
 ###Error:Execution failed for task ':app:processDebugManifest'. Manifest merger failed : uses-sdk element cannot have a "tools:node" attribute
 
 Solution:Add this line to uses-sdk tag like this:
@@ -146,3 +148,10 @@ Error: Library projects cannot set applicationId. applicationId is set to 'com.s
 Solution:Removing applicationId variable from the library's build.gradle file should resolve the issue.
 
 Reference:http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid
+
+### How to increase the font size in Android Studio?
+
+Solution: In mac book ,you can use two fingers to zoom in(increase font size) or zoom out for decrease font size, like when we zoomed image in mobilephone.
+
+Reference:http://stackoverflow.com/questions/16590216/how-to-increase-the-font-size-in-android-studio
+

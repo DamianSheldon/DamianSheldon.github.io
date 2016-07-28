@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-07-20T16:09:50+08:00</updated>
+  <updated>2016-07-28T11:25:14+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1057,6 +1057,24 @@ To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p
 <p>Reference:<a href="http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18">http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18</a></p>
 
 <p><a href="http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html">http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html</a></p>
+
+<h2>7.OpenVPN server configure correct, but client can&rsquo;t brower web site block by GTW.</h2>
+
+<p>A:There is a crue the the log of VPN client issue client DNS be used. So I think this may be the problem. YES, client can brower all web site after remove all client DNS settings.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>192.168.8.1
+</span><span class='line'>202.103.96.112
+</span><span class='line'>8.8.8.8
+</span><span class='line'>208.67.222.222
+</span><span class='line'>208.67.220.220</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -4061,7 +4079,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#100;&#x6f;&#x6e;&#103;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#110;&#103;&#x40;&#x31;&#x39;&#x32;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#46;&#x32;&#x35;&#x35;">&#x64;&#111;&#110;&#103;&#x6d;&#101;&#x69;&#x6c;&#105;&#97;&#x6e;&#103;&#x40;&#49;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#46;&#x32;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#100;&#x6f;&#110;&#103;&#109;&#x65;&#x69;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#x35;&#53;">&#100;&#111;&#110;&#103;&#109;&#101;&#x69;&#x6c;&#105;&#x61;&#110;&#103;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

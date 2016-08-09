@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-07-28T11:25:14+08:00</updated>
+  <updated>2016-08-09T16:17:39+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -89,6 +89,51 @@
 <p>Reference:<a href="http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen">http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen</a></p>
 
 <p><a href="http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen">http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen</a></p>
+
+<h3>5.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Class AJXorEncryptor is implemented in both /Users/dongmeiliang/Library/Developer/CoreSimulator/Devices/71988A60-BE7B-425A-BDE4-AAE4D098A516/data/Containers/Bundle/Application/051ED3F9-A920-41C8-9D96-41EED06DE618/AJFrameDevApp.app/AJFrameDevApp and /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/AJFrameDevApp-fwmhocnqvmbmzkftzzdryfyigyzs/Build/Products/Debug-iphonesimulator/AJFrameDevApp.app/PlugIns/AJFrameDevAppTests.xctest/AJFrameDevAppTests. One of the two will be used. Which one is undefined.
+</span><span class='line'> ```
+</span><span class='line'> 
+</span><span class='line'> A:问题的原因是AJFrameDevApp和AJFrameDevAppTests这两个target都链接了一个相同的静态库。
+</span><span class='line'> 于是我将Podfile的内容由
+</span><span class='line'> </span></code></pre></td></tr></table></div></figure>
+
+
+<p>target &lsquo;AJFrameDevApp&rsquo; do
+    pod &lsquo;AJFrame&rsquo;, :path => &lsquo;../&rsquo;
+end</p>
+
+<p>target &lsquo;AJFrameDevAppTests&rsquo; do
+    pod &lsquo;AJFrame&rsquo;, :path => &lsquo;../&rsquo;
+end</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>改为：
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>target &lsquo;AJFrameDevApp&rsquo; do
+    pod &lsquo;AJFrame&rsquo;, :path => &lsquo;../&rsquo;</p>
+
+<pre><code>target 'AJFrameDevAppTests' do
+    inherit! :search_paths
+
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486">http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486</a></p>
 ]]></content>
   </entry>
   
@@ -1074,7 +1119,8 @@ To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p
 </span><span class='line'>208.67.220.220</span></code></pre></td></tr></table></div></figure>
 
 
-
+<p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8</a>
+<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile</a></p>
 ]]></content>
   </entry>
   
@@ -4079,7 +4125,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#100;&#x6f;&#110;&#103;&#109;&#x65;&#x69;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#x2e;&#50;&#x35;&#53;">&#100;&#111;&#110;&#103;&#109;&#101;&#x69;&#x6c;&#105;&#x61;&#110;&#103;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;</a><br/>
+<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x64;&#x6f;&#110;&#103;&#x6d;&#x65;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#50;&#53;&#x35;">&#100;&#111;&#x6e;&#103;&#109;&#x65;&#105;&#x6c;&#x69;&#x61;&#110;&#x67;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

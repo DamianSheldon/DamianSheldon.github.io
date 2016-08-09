@@ -143,5 +143,17 @@ Reference:http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-uf
 
 http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html
 
+##7.OpenVPN server configure correct, but client can't brower web site block by GTW.
+A:There is a crue the the log of VPN client issue client DNS be used. So I think this may be the problem. YES, client can brower all web site after remove all client DNS settings.
 
+```
+192.168.8.1
+202.103.96.112
+8.8.8.8
+208.67.222.222
+208.67.220.220
+```
+
+Reference:https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8
+https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile
 

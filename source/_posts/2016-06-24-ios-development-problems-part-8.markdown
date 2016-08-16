@@ -101,5 +101,48 @@ end
 
 Reference:http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486
 
+### 6. 如何调用私有类的私有方法？真实的场景是开发了一个库，库中A持有一个私有类的属性，那么如何对私有类进行相应的单元测试呢？
+A：Objective-C的runtime可以帮我们做到，
+
+```
+#include <objc/message.h>
+
+NSString *originalString = @"testEncryptMethod";
+    
+NSData *originalData = [originalString dataUsingEncoding:NSUTF8StringEncoding];
+    
+AJBinaryChannel *binaryChannel = [AJBinaryChannel new];
+binaryChannel.encryptKey = @"xorkey";
+    
+id wrapperEncryptor = (id)(binaryChannel.encryptor);
+    
+typedef NSData* (*send_type)(id, SEL, id);
+    
+send_type func = (send_type)objc_msgSend;
+    
+NSData *encryptData = func(wrapperEncryptor, @selector(encrypt:), originalData);
+    
+NSString *encryptString = [[NSString alloc] initWithData:encryptData encoding:NSUTF8StringEncoding];
+
+XCTAssertNotEqualObjects(originalString, encryptString);
+    
+NSData *decryptData = func(wrapperEncryptor, @selector(decrypt:), encryptData);
+    
+NSString *decryptString = [[NSString alloc] initWithData:decryptData encoding:NSUTF8StringEncoding];
+
+XCTAssertEqualObjects(originalString, decryptString);
+```
+
+### 7.Too many arguments to function call, expected 0, have 3
+A:The answer is you need to strong type objc_msgSend for the compiler to build it:
+
+```
+typedef void (*send_type)(void*, SEL, void*);
+send_type func = (send_type)objc_msgSend;
+func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);
+```
+
+Reference:http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3
+
 
 

@@ -79,7 +79,7 @@ $ dscl / -create /Groups/GROUP PrimaryGroupID GID
 $ dscl / -create /Groups/GROUP Password \*
 ```
 
-## 8. To create a user
+## 9. To create a user
 Solution:
 
 ```
@@ -92,25 +92,51 @@ $	dscl / -create /Users/USER PrimaryGroupID GID
 $	dscl / -create /Users/USER Password \*
 ```
 
-## 9. How to view whether port was occupied under mac?
+## 10. How to view whether port was occupied under mac?
 
 ```
 1) netstat -an | grep 'port'
 2) lsof -i:port
 ```
 
-## 10. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled
+## 11. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled
 A:https://support.apple.com/en-us/HT204306
 
-## 11. Disable AAM Updates Notifier
+## 12. Disable AAM Updates Notifier
 
 ```
 $ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist.disable
 ```
 
-## 12. 如何解决Mac里面解压后文件名乱码问题?
+## 13. 如何解决Mac里面解压后文件名乱码问题?
 A: http://www.jayz.me/?p=493
 
-## 13. 如何识别 MacBook Pro 机型?
+## 14. 如何识别 MacBook Pro 机型?
 A:https://support.apple.com/zh-cn/HT201300
+
+## 15.Mac: Can't assign requested address (code=49) or ssh: connect to host xxx.xx.xx.xx port xx: Can't assign requested address
+A:
+Can't assign requested address (code=49) is a bug in Mac OS X, and not an issue with OVPN itself.
+
+There are two ways of fixing this issue. The first one is easier as you simply have to restart your computer. Otherwise, you can solve the problem through the terminal. If you have a cable connection, you type the following into a terminal:
+
+sudo ifconfig en0 down
+
+sudo route flush
+
+sudo ifconfig en0 up
+
+If you instead use WiFi, you type:
+
+sudo ifconfig en1 down
+
+sudo route flush
+
+sudo ifconfig en1 up
+
+Type every line separately. If asked for your password, simply type the password for your computer and not for OVPN.
+
+If the command sudo route flush takes longer than 10 seconds to complete, hold down Ctrl + C.
+
+Reference:https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49
 

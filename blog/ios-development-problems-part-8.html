@@ -216,10 +216,63 @@ end</p>
 end
 </code></pre>
 
-<p>end
+<p>end</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Reference:http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486
+</span><span class='line'>
+</span><span class='line'>### 6. 如何调用私有类的私有方法？真实的场景是开发了一个库，库中A持有一个私有类的属性，那么如何对私有类进行相应的单元测试呢？
+</span><span class='line'>A：Objective-C的runtime可以帮我们做到，
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>include &lt;objc/message.h></h1>
+
+<p>NSString *originalString = @&ldquo;testEncryptMethod&rdquo;;</p>
+
+<p>NSData *originalData = [originalString dataUsingEncoding:NSUTF8StringEncoding];</p>
+
+<p>AJBinaryChannel *binaryChannel = [AJBinaryChannel new];
+binaryChannel.encryptKey = @&ldquo;xorkey&rdquo;;</p>
+
+<p>id wrapperEncryptor = (id)(binaryChannel.encryptor);</p>
+
+<p>typedef NSData<em> (</em>send_type)(id, SEL, id);</p>
+
+<p>send_type func = (send_type)objc_msgSend;</p>
+
+<p>NSData *encryptData = func(wrapperEncryptor, @selector(encrypt:), originalData);</p>
+
+<p>NSString *encryptString = [[NSString alloc] initWithData:encryptData encoding:NSUTF8StringEncoding];</p>
+
+<p>XCTAssertNotEqualObjects(originalString, encryptString);</p>
+
+<p>NSData *decryptData = func(wrapperEncryptor, @selector(decrypt:), encryptData);</p>
+
+<p>NSString *decryptString = [[NSString alloc] initWithData:decryptData encoding:NSUTF8StringEncoding];</p>
+
+<p>XCTAssertEqualObjects(originalString, decryptString);</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>### 7.Too many arguments to function call, expected 0, have 3
+</span><span class='line'>A:The answer is you need to strong type objc_msgSend for the compiler to build it:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>typedef void (<em>send_type)(void</em>, SEL, void*);
+send_type func = (send_type)objc_msgSend;
+func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);
 ```</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486">http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3">http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3</a></p>
 </div>
 
 

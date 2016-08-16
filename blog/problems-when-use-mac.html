@@ -187,7 +187,7 @@ Fn</p>
 </span><span class='line'>$ dscl / -create /Groups/GROUP Password \*</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>8. To create a user</h2>
+<h2>9. To create a user</h2>
 
 <p>Solution:</p>
 
@@ -207,7 +207,7 @@ Fn</p>
 </span><span class='line'>$ dscl / -create /Users/USER Password \*</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>9. How to view whether port was occupied under mac?</h2>
+<h2>10. How to view whether port was occupied under mac?</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -215,23 +215,50 @@ Fn</p>
 </span><span class='line'>2) lsof -i:port</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>10. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled</h2>
+<h2>11. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled</h2>
 
 <p>A:<a href="https://support.apple.com/en-us/HT204306">https://support.apple.com/en-us/HT204306</a></p>
 
-<h2>11. Disable AAM Updates Notifier</h2>
+<h2>12. Disable AAM Updates Notifier</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist.disable</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>12. 如何解决Mac里面解压后文件名乱码问题?</h2>
+<h2>13. 如何解决Mac里面解压后文件名乱码问题?</h2>
 
 <p>A: <a href="http://www.jayz.me/?p=493">http://www.jayz.me/?p=493</a></p>
 
-<h2>13. 如何识别 MacBook Pro 机型?</h2>
+<h2>14. 如何识别 MacBook Pro 机型?</h2>
 
 <p>A:<a href="https://support.apple.com/zh-cn/HT201300">https://support.apple.com/zh-cn/HT201300</a></p>
+
+<h2>15.Mac: Can&rsquo;t assign requested address (code=49) or ssh: connect to host xxx.xx.xx.xx port xx: Can&rsquo;t assign requested address</h2>
+
+<p>A:
+Can&rsquo;t assign requested address (code=49) is a bug in Mac OS X, and not an issue with OVPN itself.</p>
+
+<p>There are two ways of fixing this issue. The first one is easier as you simply have to restart your computer. Otherwise, you can solve the problem through the terminal. If you have a cable connection, you type the following into a terminal:</p>
+
+<p>sudo ifconfig en0 down</p>
+
+<p>sudo route flush</p>
+
+<p>sudo ifconfig en0 up</p>
+
+<p>If you instead use WiFi, you type:</p>
+
+<p>sudo ifconfig en1 down</p>
+
+<p>sudo route flush</p>
+
+<p>sudo ifconfig en1 up</p>
+
+<p>Type every line separately. If asked for your password, simply type the password for your computer and not for OVPN.</p>
+
+<p>If the command sudo route flush takes longer than 10 seconds to complete, hold down Ctrl + C.</p>
+
+<p>Reference:<a href="https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49">https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49</a></p>
 </div>
 
 

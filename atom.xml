@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-08-09T16:17:39+08:00</updated>
+  <updated>2016-08-16T10:29:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -130,10 +130,63 @@ end</p>
 end
 </code></pre>
 
-<p>end
+<p>end</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Reference:http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486
+</span><span class='line'>
+</span><span class='line'>### 6. 如何调用私有类的私有方法？真实的场景是开发了一个库，库中A持有一个私有类的属性，那么如何对私有类进行相应的单元测试呢？
+</span><span class='line'>A：Objective-C的runtime可以帮我们做到，
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>include &lt;objc/message.h></h1>
+
+<p>NSString *originalString = @&ldquo;testEncryptMethod&rdquo;;</p>
+
+<p>NSData *originalData = [originalString dataUsingEncoding:NSUTF8StringEncoding];</p>
+
+<p>AJBinaryChannel *binaryChannel = [AJBinaryChannel new];
+binaryChannel.encryptKey = @&ldquo;xorkey&rdquo;;</p>
+
+<p>id wrapperEncryptor = (id)(binaryChannel.encryptor);</p>
+
+<p>typedef NSData<em> (</em>send_type)(id, SEL, id);</p>
+
+<p>send_type func = (send_type)objc_msgSend;</p>
+
+<p>NSData *encryptData = func(wrapperEncryptor, @selector(encrypt:), originalData);</p>
+
+<p>NSString *encryptString = [[NSString alloc] initWithData:encryptData encoding:NSUTF8StringEncoding];</p>
+
+<p>XCTAssertNotEqualObjects(originalString, encryptString);</p>
+
+<p>NSData *decryptData = func(wrapperEncryptor, @selector(decrypt:), encryptData);</p>
+
+<p>NSString *decryptString = [[NSString alloc] initWithData:decryptData encoding:NSUTF8StringEncoding];</p>
+
+<p>XCTAssertEqualObjects(originalString, decryptString);</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>### 7.Too many arguments to function call, expected 0, have 3
+</span><span class='line'>A:The answer is you need to strong type objc_msgSend for the compiler to build it:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>typedef void (<em>send_type)(void</em>, SEL, void*);
+send_type func = (send_type)objc_msgSend;
+func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);
 ```</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486">http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3">http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3</a></p>
 ]]></content>
   </entry>
   
@@ -3761,7 +3814,7 @@ Fn</p>
 </span><span class='line'>$ dscl / -create /Groups/GROUP Password \*</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>8. To create a user</h2>
+<h2>9. To create a user</h2>
 
 <p>Solution:</p>
 
@@ -3781,7 +3834,7 @@ Fn</p>
 </span><span class='line'>$ dscl / -create /Users/USER Password \*</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>9. How to view whether port was occupied under mac?</h2>
+<h2>10. How to view whether port was occupied under mac?</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -3789,23 +3842,50 @@ Fn</p>
 </span><span class='line'>2) lsof -i:port</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>10. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled</h2>
+<h2>11. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled</h2>
 
 <p>A:<a href="https://support.apple.com/en-us/HT204306">https://support.apple.com/en-us/HT204306</a></p>
 
-<h2>11. Disable AAM Updates Notifier</h2>
+<h2>12. Disable AAM Updates Notifier</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist.disable</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>12. 如何解决Mac里面解压后文件名乱码问题?</h2>
+<h2>13. 如何解决Mac里面解压后文件名乱码问题?</h2>
 
 <p>A: <a href="http://www.jayz.me/?p=493">http://www.jayz.me/?p=493</a></p>
 
-<h2>13. 如何识别 MacBook Pro 机型?</h2>
+<h2>14. 如何识别 MacBook Pro 机型?</h2>
 
 <p>A:<a href="https://support.apple.com/zh-cn/HT201300">https://support.apple.com/zh-cn/HT201300</a></p>
+
+<h2>15.Mac: Can&rsquo;t assign requested address (code=49) or ssh: connect to host xxx.xx.xx.xx port xx: Can&rsquo;t assign requested address</h2>
+
+<p>A:
+Can&rsquo;t assign requested address (code=49) is a bug in Mac OS X, and not an issue with OVPN itself.</p>
+
+<p>There are two ways of fixing this issue. The first one is easier as you simply have to restart your computer. Otherwise, you can solve the problem through the terminal. If you have a cable connection, you type the following into a terminal:</p>
+
+<p>sudo ifconfig en0 down</p>
+
+<p>sudo route flush</p>
+
+<p>sudo ifconfig en0 up</p>
+
+<p>If you instead use WiFi, you type:</p>
+
+<p>sudo ifconfig en1 down</p>
+
+<p>sudo route flush</p>
+
+<p>sudo ifconfig en1 up</p>
+
+<p>Type every line separately. If asked for your password, simply type the password for your computer and not for OVPN.</p>
+
+<p>If the command sudo route flush takes longer than 10 seconds to complete, hold down Ctrl + C.</p>
+
+<p>Reference:<a href="https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49">https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49</a></p>
 ]]></content>
   </entry>
   
@@ -4125,7 +4205,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x64;&#x6f;&#110;&#103;&#x6d;&#x65;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#50;&#53;&#x35;">&#100;&#111;&#x6e;&#103;&#109;&#x65;&#105;&#x6c;&#x69;&#x61;&#110;&#x67;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#x2e;&#x32;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#103;&#109;&#101;&#x69;&#108;&#x69;&#97;&#x6e;&#103;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#46;&#49;&#46;&#x32;&#53;&#x35;">&#x64;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#103;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x2e;&#x32;&#x35;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

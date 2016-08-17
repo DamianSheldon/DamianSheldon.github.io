@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-08-17T16:13:26+08:00</updated>
+  <updated>2016-08-17T16:38:32+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -94,97 +94,120 @@
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Class AJXorEncryptor is implemented in both /Users/dongmeiliang/Library/Developer/CoreSimulator/Devices/71988A60-BE7B-425A-BDE4-AAE4D098A516/data/Containers/Bundle/Application/051ED3F9-A920-41C8-9D96-41EED06DE618/AJFrameDevApp.app/AJFrameDevApp and /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/AJFrameDevApp-fwmhocnqvmbmzkftzzdryfyigyzs/Build/Products/Debug-iphonesimulator/AJFrameDevApp.app/PlugIns/AJFrameDevAppTests.xctest/AJFrameDevAppTests. One of the two will be used. Which one is undefined.
+</span><span class='line'> </span></code></pre></td></tr></table></div></figure>
+
+
+<p> A:问题的原因是AJFrameDevApp和AJFrameDevAppTests这两个target都链接了一个相同的静态库。
+ 于是我将Podfile的内容由</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> Class AJXorEncryptor is implemented in both /Users/dongmeiliang/Library/Developer/CoreSimulator/Devices/71988A60-BE7B-425A-BDE4-AAE4D098A516/data/Containers/Bundle/Application/051ED3F9-A920-41C8-9D96-41EED06DE618/AJFrameDevApp.app/AJFrameDevApp and /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/AJFrameDevApp-fwmhocnqvmbmzkftzzdryfyigyzs/Build/Products/Debug-iphonesimulator/AJFrameDevApp.app/PlugIns/AJFrameDevAppTests.xctest/AJFrameDevAppTests. One of the two will be used. Which one is undefined.
-</span><span class='line'> ```
-</span><span class='line'> 
-</span><span class='line'> A:问题的原因是AJFrameDevApp和AJFrameDevAppTests这两个target都链接了一个相同的静态库。
-</span><span class='line'> 于是我将Podfile的内容由
-</span><span class='line'> </span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>target 'AJFrameDevApp' do
+</span><span class='line'>    pod 'AJFrame', :path =&gt; '../'
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>target 'AJFrameDevAppTests' do
+</span><span class='line'>    pod 'AJFrame', :path =&gt; '../'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<p>target &lsquo;AJFrameDevApp&rsquo; do
-    pod &lsquo;AJFrame&rsquo;, :path => &lsquo;../&rsquo;
-end</p>
-
-<p>target &lsquo;AJFrameDevAppTests&rsquo; do
-    pod &lsquo;AJFrame&rsquo;, :path => &lsquo;../&rsquo;
-end</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>改为：
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>target &lsquo;AJFrameDevApp&rsquo; do
-    pod &lsquo;AJFrame&rsquo;, :path => &lsquo;../&rsquo;</p>
-
-<pre><code>target 'AJFrameDevAppTests' do
-    inherit! :search_paths
-
-end
-</code></pre>
-
-<p>end</p>
+<p>改为：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>Reference:http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486
-</span><span class='line'>
-</span><span class='line'>### 6. 如何调用私有类的私有方法？真实的场景是开发了一个库，库中A持有一个私有类的属性，那么如何对私有类进行相应的单元测试呢？
-</span><span class='line'>A：Objective-C的runtime可以帮我们做到，
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>target 'AJFrameDevApp' do
+</span><span class='line'>    pod 'AJFrame', :path =&gt; '../'
+</span><span class='line'>    
+</span><span class='line'>    target 'AJFrameDevAppTests' do
+</span><span class='line'>        inherit! :search_paths
+</span><span class='line'>        
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<h1>include &lt;objc/message.h></h1>
+<p>Reference:<a href="http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486">http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486</a></p>
 
-<p>NSString *originalString = @&ldquo;testEncryptMethod&rdquo;;</p>
+<h3>6. 如何调用私有类的私有方法？真实的场景是开发了一个库，库中A持有一个私有类的属性，那么如何对私有类进行相应的单元测试呢？</h3>
 
-<p>NSData *originalData = [originalString dataUsingEncoding:NSUTF8StringEncoding];</p>
-
-<p>AJBinaryChannel *binaryChannel = [AJBinaryChannel new];
-binaryChannel.encryptKey = @&ldquo;xorkey&rdquo;;</p>
-
-<p>id wrapperEncryptor = (id)(binaryChannel.encryptor);</p>
-
-<p>typedef NSData<em> (</em>send_type)(id, SEL, id);</p>
-
-<p>send_type func = (send_type)objc_msgSend;</p>
-
-<p>NSData *encryptData = func(wrapperEncryptor, @selector(encrypt:), originalData);</p>
-
-<p>NSString *encryptString = [[NSString alloc] initWithData:encryptData encoding:NSUTF8StringEncoding];</p>
-
-<p>XCTAssertNotEqualObjects(originalString, encryptString);</p>
-
-<p>NSData *decryptData = func(wrapperEncryptor, @selector(decrypt:), encryptData);</p>
-
-<p>NSString *decryptString = [[NSString alloc] initWithData:decryptData encoding:NSUTF8StringEncoding];</p>
-
-<p>XCTAssertEqualObjects(originalString, decryptString);</p>
+<p>A：Objective-C的runtime可以帮我们做到，</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>### 7.Too many arguments to function call, expected 0, have 3
-</span><span class='line'>A:The answer is you need to strong type objc_msgSend for the compiler to build it:
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;objc/message.h&gt;
+</span><span class='line'>
+</span><span class='line'>NSString *originalString = @"testEncryptMethod";
+</span><span class='line'>    
+</span><span class='line'>NSData *originalData = [originalString dataUsingEncoding:NSUTF8StringEncoding];
+</span><span class='line'>    
+</span><span class='line'>AJBinaryChannel *binaryChannel = [AJBinaryChannel new];
+</span><span class='line'>binaryChannel.encryptKey = @"xorkey";
+</span><span class='line'>    
+</span><span class='line'>id wrapperEncryptor = (id)(binaryChannel.encryptor);
+</span><span class='line'>    
+</span><span class='line'>typedef NSData* (*send_type)(id, SEL, id);
+</span><span class='line'>    
+</span><span class='line'>send_type func = (send_type)objc_msgSend;
+</span><span class='line'>    
+</span><span class='line'>NSData *encryptData = func(wrapperEncryptor, @selector(encrypt:), originalData);
+</span><span class='line'>    
+</span><span class='line'>NSString *encryptString = [[NSString alloc] initWithData:encryptData encoding:NSUTF8StringEncoding];
+</span><span class='line'>
+</span><span class='line'>XCTAssertNotEqualObjects(originalString, encryptString);
+</span><span class='line'>    
+</span><span class='line'>NSData *decryptData = func(wrapperEncryptor, @selector(decrypt:), encryptData);
+</span><span class='line'>    
+</span><span class='line'>NSString *decryptString = [[NSString alloc] initWithData:decryptData encoding:NSUTF8StringEncoding];
+</span><span class='line'>
+</span><span class='line'>XCTAssertEqualObjects(originalString, decryptString);</span></code></pre></td></tr></table></div></figure>
 
 
-<p>typedef void (<em>send_type)(void</em>, SEL, void*);
-send_type func = (send_type)objc_msgSend;
-func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);
-```</p>
+<h3>7.Too many arguments to function call, expected 0, have 3</h3>
+
+<p>A:The answer is you need to strong type objc_msgSend for the compiler to build it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef void (*send_type)(void*, SEL, void*);
+</span><span class='line'>send_type func = (send_type)objc_msgSend;
+</span><span class='line'>func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Reference:<a href="http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3">http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3</a></p>
 ]]></content>
@@ -4205,7 +4228,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#103;&#109;&#101;&#105;&#x6c;&#x69;&#x61;&#110;&#x67;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x2e;&#50;&#x35;&#53;">&#x64;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#108;&#105;&#97;&#x6e;&#x67;&#64;&#49;&#57;&#50;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#x2e;&#50;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x64;&#111;&#x6e;&#x67;&#x6d;&#x65;&#x69;&#108;&#105;&#97;&#x6e;&#103;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#x38;&#46;&#49;&#46;&#x32;&#53;&#53;">&#x64;&#x6f;&#110;&#103;&#x6d;&#101;&#105;&#x6c;&#x69;&#x61;&#110;&#103;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#x2e;&#x32;&#53;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

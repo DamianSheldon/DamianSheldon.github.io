@@ -69,9 +69,11 @@ Reference:http://apple.stackexchange.com/questions/166983/how-did-a-calendar-ico
 http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen
 
 ### 5.
+
 ```
- Class AJXorEncryptor is implemented in both /Users/dongmeiliang/Library/Developer/CoreSimulator/Devices/71988A60-BE7B-425A-BDE4-AAE4D098A516/data/Containers/Bundle/Application/051ED3F9-A920-41C8-9D96-41EED06DE618/AJFrameDevApp.app/AJFrameDevApp and /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/AJFrameDevApp-fwmhocnqvmbmzkftzzdryfyigyzs/Build/Products/Debug-iphonesimulator/AJFrameDevApp.app/PlugIns/AJFrameDevAppTests.xctest/AJFrameDevAppTests. One of the two will be used. Which one is undefined.
- ```
+	 Class AJXorEncryptor is implemented in both /Users/dongmeiliang/Library/Developer/CoreSimulator/Devices/71988A60-BE7B-425A-BDE4-AAE4D098A516/data/Containers/Bundle/Application/051ED3F9-A920-41C8-9D96-41EED06DE618/AJFrameDevApp.app/AJFrameDevApp and /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/AJFrameDevApp-fwmhocnqvmbmzkftzzdryfyigyzs/Build/Products/Debug-iphonesimulator/AJFrameDevApp.app/PlugIns/AJFrameDevAppTests.xctest/AJFrameDevAppTests. One of the two will be used. Which one is undefined.
+ 
+```
  
  A:问题的原因是AJFrameDevApp和AJFrameDevAppTests这两个target都链接了一个相同的静态库。
  于是我将Podfile的内容由

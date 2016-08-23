@@ -146,5 +146,10 @@ func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);
 
 Reference:http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3
 
+### 8. Why do we need Base64?
+A:Base64 is a group of similar binary-to-text encoding schemes that represent binary data in an ASCII string format by translating it into a radix-64 representation. 
+A binary-to-text encoding is encoding of data in plain text. More precisely, it is an encoding of binary data in a sequence of characters. **These encodings are necessary for transmission of data when the channel does not allow binary data (such as email or NNTP) or is not 8-bit clean.**
 
+Reference:https://en.wikipedia.org/wiki/Base64
+https://en.wikipedia.org/wiki/Binary-to-text_encoding
 

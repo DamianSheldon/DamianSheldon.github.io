@@ -153,3 +153,9 @@ A binary-to-text encoding is encoding of data in plain text. More precisely, it 
 Reference:https://en.wikipedia.org/wiki/Base64
 https://en.wikipedia.org/wiki/Binary-to-text_encoding
 
+### 9. 360° panorama libraries for ios
+A:[panoramagl](https://code.google.com/archive/p/panoramagl/)
+
+Reference:http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios
+
+

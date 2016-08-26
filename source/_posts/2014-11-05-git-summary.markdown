@@ -395,6 +395,10 @@ If you want a blend you need to use a merge tool or edit it manually.
 
 Reference:http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git
 
+### Do a “git export” (like “svn export”)?
+A:git archive master | tar -x -C /somewhere/else
+
+Reference:http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export
 
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

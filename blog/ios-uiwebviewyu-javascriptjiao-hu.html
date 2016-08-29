@@ -212,17 +212,35 @@ $(document).ready(
 
 <h2>3.1UIWebView传值给JavaScript</h2>
 
-<p>1）最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。
-2）PhoneGap的解决方法是把要传递的参数放到队列里，然后通知Native去取。</p>
-
-<h2>3.2JavaScript传值给UIWebView</h2>
-
 <p>UIWebView调用JavaScript接口方法的返回值就是JavaScript传给UIWebView的值。示例如下：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h2>3.2JavaScript传值给UIWebView</h2>
+
+<p>最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dataString</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span class='line'><span class="n">identifier</span> <span class="o">=</span> <span class="p">(</span><span class="n">methodName</span><span class="o">+</span><span class="n">dataString</span><span class="p">).</span><span class="n">hashCode</span><span class="p">().</span><span class="n">toString</span><span class="p">();</span>
+</span><span class='line'><span class="n">window</span><span class="p">.</span><span class="n">CTCallBackList</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">callback</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="s">&quot;casa://nativeapi?callbackIdentifier=&quot;</span><span class="o">+</span><span class="n">identifier</span><span class="o">+</span><span class="s">&quot;&amp;data=&quot;</span><span class="o">+</span><span class="n">dataString</span><span class="o">+</span><span class="s">&quot;&amp;methodName=&quot;</span><span class="o">+</span><span class="n">methodName</span><span class="p">;</span>
+</span><span class='line'><span class="n">window</span><span class="p">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">url</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Hybird App</h2>
+
+<p>在某些项目的开发中，我们可能有不更新应用版本而又添加新的功能的需求，在应用中嵌入 Web 页面是一个不错的方法，这样的应用我们称为 Hybird App。开发这样的应用时，我们可以引入第三方的JSBridge库来简化开发工作。</p>
 </div>
 
 

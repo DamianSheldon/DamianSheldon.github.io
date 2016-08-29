@@ -67,11 +67,26 @@ function clickLink(){
 ```
 ##3.相互传值
 ##3.1UIWebView传值给JavaScript
-1）最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。
-2）PhoneGap的解决方法是把要传递的参数放到队列里，然后通知Native去取。
+UIWebView调用JavaScript接口方法的返回值就是JavaScript传给UIWebView的值。示例如下：  
 
-##3.2JavaScript传值给UIWebView
-UIWebView调用JavaScript接口方法的返回值就是JavaScript传给UIWebView的值。示例如下：
 ``` objective-c
 NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:@"injectJSFunction(1)"];
 ```
+
+##3.2JavaScript传值给UIWebView
+
+最简单的方法是将参数作为URL的一部分，然后在delegate方法里截取出来。这种方法只能传简单的参数，如果是一个很复杂的对象，那么URL的编解码会很复杂。示例如下：
+
+```
+	dataString = JSON.stringify(data);
+    identifier = (methodName+dataString).hashCode().toString();
+    window.CTCallBackList[identifier] = callback;
+
+    url = "casa://nativeapi?callbackIdentifier="+identifier+"&data="+dataString+"&methodName="+methodName;
+    window.location = url;
+```
+
+## Hybird App
+在某些项目的开发中，我们可能有不更新应用版本而又添加新的功能的需求，在应用中嵌入 Web 页面是一个不错的方法，这样的应用我们称为 Hybird App。开发这样的应用时，我们可以引入第三方的JSBridge库来简化开发工作。
+
+

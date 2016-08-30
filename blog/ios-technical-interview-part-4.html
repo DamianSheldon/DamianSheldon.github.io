@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Here's where it all happens for me.  | Hello World</title>
+	<title>iOS Technical Interview Part 4  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Development, Objective-C, App, Apple, Networking, GCD, Operate, Audio, Video">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="iOS Technical Interview">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -103,18 +103,9 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-technical-interview-part-4.html">
-		
-			iOS Technical Interview Part 4</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">iOS Technical Interview Part 4</h2>
+	<div class="entry-content"><h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
 
 <p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则信赖这个 pod 工程。</p>
 
@@ -294,10 +285,7 @@ $(document).ready(
 <h3>38.如果让你来实现 dispatch_once，你会怎么做？</h3>
 
 <p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">https://github.com/lzyy/iOS-Developer-Interview-Questions</a></p>
-
-		
-		
-	</div>
+</div>
 
 
 <div class="meta">
@@ -326,186 +314,40 @@ $(document).ready(
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-8.html">
-		
-			iOS App 开发问题汇总（八）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Detect hash tags #, mention tags @, in iOS like in Twitter App</h3>
-
-<p>A:You can use <a href="https://github.com/Krelborn/KILabel">https://github.com/Krelborn/KILabel</a> this library. It also detect user taps on hashtags Like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range) {
-</span><span class='line'>  NSLog(@"Hashtag tapped %@", string);
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app">http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app</a></p>
-
-<h3>2.如何给应用重签名？</h3>
-
-<p>A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ security find-identity -v -p codesigning                       
-</span><span class='line'>  1) 01C8E9712E9632E6D84EC533827B4478938A3B15 "iPhone Developer: Thomas Kollbach (7TPNXN7G6K)"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>用<a href="https://github.com/fastlane/fastlane/tree/master/sigh">sign</a>给应用重签名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://objccn.io/issue-17-2/">http://objccn.io/issue-17-2/</a></p>
-
-
-		
-		<a href="/blog/ios-development-problems-part-8.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-24T15:54:30+08:00" pubdate data-updated="true"></time></div>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
 	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-<div class="tags">
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
 
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-7.html">
-		
-			iOS App 开发问题汇总（七）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
-
-<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidAppear:(BOOL)animated
-</span><span class='line'>{
-</span><span class='line'>    [super viewDidAppear:animated];
-</span><span class='line'>    
-</span><span class='line'>    self.translucent = self.navigationController.navigationBar.isTranslucent;
-</span><span class='line'>    self.navigationController.navigationBar.translucent = YES;
-</span><span class='line'>    
-</span><span class='line'>    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
-</span><span class='line'>    
-</span><span class='line'>    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
-</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
-</span><span class='line'>    
-</span><span class='line'>    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
-</span><span class='line'>    self.navigationController.navigationBar.shadowImage = newImage;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>- (void)viewWillDisappear:(BOOL)animated
-</span><span class='line'>{
-</span><span class='line'>    [super viewWillDisappear:animated];
-</span><span class='line'>    
-</span><span class='line'>    self.navigationController.navigationBar.translucent = self.translucent;
-</span><span class='line'>    
-</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
-</span><span class='line'>    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
-<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7</a></p>
-
-
-		
-		<a href="/blog/ios-development-problems-part-7.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-03T17:00:04+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
 </div>
-
-
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-        <a href="2" class="next">Next</a>
-    
-    <div class="center"><a href="/archives">Blog Archives</a></div>
-</nav></div>
 	<footer id="footer" class="inner">Copyright &copy; 2016
 
     Sheldon

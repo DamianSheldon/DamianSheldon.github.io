@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-08-30T10:37:36+08:00</updated>
+  <updated>2016-08-30T17:35:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,185 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Technical Interview Part 4]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-4.html"/>
+    <updated>2016-08-30T10:43:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-4</id>
+    <content type="html"><![CDATA[<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+
+<p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则信赖这个 pod 工程。</p>
+
+<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
+
+<p>A: Git</p>
+
+<h3>3.你一般是怎么用 Instruments 的？</h3>
+
+<p>A:根据想要分析的问题，选择对应的　instruments　，同时参考　Instruments　User　Guide．</p>
+
+<h3>4.你一般是如何调试 Bug 的</h3>
+
+<p>A:复现 bug，之后单步调试定位。</p>
+
+<h3>5.你在你的项目中用到了哪些设计模式？</h3>
+
+<p>A:</p>
+
+<pre><code>* 单例
+* 委托
+* Target-Action
+* MVC
+* 观察者
+* 工厂方法
+* 信息流
+* 类簇
+</code></pre>
+
+<h3>6.如何实现单例，单例会有什么弊端？</h3>
+
+<p>A：</p>
+
+<pre><code>+ (instancetype)sharedInstance
+{
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&amp;once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
+}
+</code></pre>
+
+<ul>
+<li>单例相当于全局变量，因此存在强藕合，不利于扩展和应对变化；</li>
+<li>单例违背单一设计原则；</li>
+</ul>
+
+
+<h3>7.如何把一个包含自定义对象的数组序列化到磁盘？</h3>
+
+<p>A:自定义对象需要实现 NSCoding 协议，然后可以调用 NSKeyedArchiver 的<code>+ (BOOL)archiveRootObject:(id)rootObject toFile:(NSString *)path</code>方法将它序列化到磁盘。</p>
+
+<h3>8.iOS 的沙盒目录结构是怎样的？ App Bundle 里面都有什么？</h3>
+
+<p>A:</p>
+
+<p>App Bundle 里面有 Info.plist, Executeable, Resource files and Other support files.</p>
+
+<h3>9.iOS 7的多任务添加了哪两个新的 API? 各自的使用场景是什么？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Apps that regularly update their content by contacting a server can register with the system and be launched periodically to retrieve that content in the background. To register, include the UIBackgroundModes key with the fetch value in your app’s Info.plist file. Then, when your app is launched, call the setMinimumBackgroundFetchInterval: method to determine how often it receives update messages. Finally, you must also implement the application:performFetchWithCompletionHandler: method in your app delegate.</li>
+<li>Apps that use push notifications to notify the user that new content is available can fetch the content in the background. To support this mode, include the UIBackgroundModes key with the remote-notification value in your app’s Info.plist file. You must also implement the application:didReceiveRemoteNotification:fetchCompletionHandler: method in your app delegate.</li>
+</ul>
+
+
+<p>Reference: What&rsquo;s New in iOS</p>
+
+<h3>10.Objective-C 的 class 是如何实现的？Selector 是如何被转化为 C 语言的函数调用的？</h3>
+
+<h3>11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？</h3>
+
+<h3>12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？</h3>
+
+<p>A: Method Swizzle.</p>
+
+<h3>13.<code>+load</code> 和 <code>+initialize</code> 的区别是什么？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>load:Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.</li>
+<li>initialize:Initializes the class before it receives its first message.</li>
+</ul>
+
+
+<h3>14.NSOperation 相比于 GCD 有哪些优势？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>可以取消操作；</li>
+<li>可以添加依赖；</li>
+</ul>
+
+
+<h3>15.strong / weak / unsafe_unretained 的区别</h3>
+
+<p>A:</p>
+
+<ul>
+<li>strong:对象的引用计数加一;</li>
+<li>weak:对象的引用计数不变，对象销毁时 weak 属性自动置为nil;</li>
+<li>unsafe_unretained:对象的引用计数不变，对象销毁时 unsafe_unretained 属性成为野指针;</li>
+</ul>
+
+
+<p>你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除些之外我们应该使用 weak.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute">http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute</a></p>
+
+<h3>16.Objective-C 中，meta-class 指的是什么</h3>
+
+<h3>17.UIView 和 CALayer 之间的关系？</h3>
+
+<p>A: UIView 会持有至少一个 CALayer 实例，CALayer 是 UIView 的骨架，它将 UIView 的内容绘制出来并提供动画支持。</p>
+
+<h3>18.<code>+[UIView animateWithDuration:animations:completion:]</code> 内部大概是如何实现的？</h3>
+
+<p>A:</p>
+
+<h3>19.什么时候会发生「隐式动画」？</h3>
+
+<p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios</a></p>
+
+<h3>如何把一张大图缩小为1/4大小的缩略图？</h3>
+
+<h3>21.Toll-Free Bridging 是什么？什么情况下会使用？</h3>
+
+<h3>22.当系统出现内存警告时会发生什么？</h3>
+
+<h3>23.什么是 Protocol，Delegate 一般是怎么用的？</h3>
+
+<h3>24.UIWebView 有哪些性能问题？有没有可替代的方案。</h3>
+
+<h3>25.为什么 NotificationCenter 要 removeObserver? 如何实现自动 remove?</h3>
+
+<h3>26.当 TableView 的 Cell 改变时，如何让这些改变以动画的形式呈现？</h3>
+
+<h3>27.什么是 Method Swizzle，什么情况下会使用？</h3>
+
+<h3>28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？</h3>
+
+<h3>29.你会如何存储用户的一些敏感信息，如登录的 token。</h3>
+
+<h3>30.什么时候会使用 Core Graphics，有什么注意事项么？</h3>
+
+<h3>31.使用 Block 时需要注意哪些问题？</h3>
+
+<h3>32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？</h3>
+
+<h3>33.如何播放 GIF 图片，有什么优化方案么？</h3>
+
+<h3>34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？</h3>
+
+<h3>35.哪些途径可以让 ViewController 瘦下来？</h3>
+
+<h3>36.有哪些常见的 Crash 场景？</h3>
+
+<h3>37.设计一套大文件（如上百M的视频）下载方案。</h3>
+
+<h3>38.如果让你来实现 dispatch_once，你会怎么做？</h3>
+
+<p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">https://github.com/lzyy/iOS-Developer-Interview-Questions</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（八）]]></title>
@@ -834,154 +1013,6 @@ To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p
 
 <p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8</a>
 <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Technical Interview Part 3]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-3.html"/>
-    <updated>2016-02-25T18:43:44+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-3</id>
-    <content type="html"><![CDATA[<h3>1.Difference between categories and extensions?</h3>
-
-<p>A:There are two difference beween categories and extensions:</p>
-
-<ol>
-<li>The extension has no name;</li>
-<li>The implementation of the extension must be in the main @implementation block of the file.</li>
-</ol>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
-
-<h3>2.What is advantage of category?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>You can add method to existing class even to that class whose source is not available to you.</li>
-<li>You can extend functionality of a class without subclassing.</li>
-<li>You can split implementation in multiple classes.</li>
-</ul>
-
-
-<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
-
-<h3>3.What are KVO and KVC?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
-Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
-
-<p>Reference:Cocoa Core Competencies</p>
-
-<!-- more -->
-
-
-<h3>4.Difference between shallow copy and deep copy?</h3>
-
-<p>A:
-The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):</p>
-
-<p>A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
-A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm</a></p>
-
-<h3>5.When retain count increase?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>When you create an object;</li>
-<li>When you send an object retain message;</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases</a></p>
-
-<h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
-
-<p>A: Yes, there is a autorelease pool already provided to us.</p>
-
-<h3>7.When you will create an autorelease pool in your application?</h3>
-
-<p>A:There are three occasions when you might use your own autorelease pool blocks:</p>
-
-<ul>
-<li>If you are writing a program that is not based on a UI framework, such as a command-line tool.</li>
-<li><p>If you write a loop that creates many temporary objects.
-You may use an autorelease pool block inside the loop to dispose of those objects   before the next iteration. Using an autorelease pool block in the loop helps to  reduce the maximum memory footprint of the application.</p></li>
-<li><p>If you spawn a secondary thread.
-You must create your own autorelease pool block as soon as the thread begins executing; otherwise, your application will leak objects.</p></li>
-</ul>
-
-
-<h3>8.How many autorelease pool you can create in your application? Is there any limit?</h3>
-
-<p>A: You can create autorelease pool as much as possible, there is no limit.</p>
-
-<h3>9.What is purpose of delegates?</h3>
-
-<p>A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.</p>
-
-<h3>10.What is difference between NSNotification and protocol?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Protocol is To-one Relationships; NSNotification is To-many Relationships.</li>
-<li>Protocol support bidirectional data-transfer between two classes.</li>
-</ul>
-
-
-<h3>11.Polymorphism？</h3>
-
-<p>A: The ability of different objects to respond, each in its own way, to identical messages is called polymorphism.</p>
-
-<h3>12.Singleton?</h3>
-
-<p>A:A singleton class returns the same instance no matter how many times an application requests it.</p>
-
-<h3>13.Give us example of what are delegate methods and what are data source methods of UITableView?</h3>
-
-<p>A:</p>
-
-<pre><code>// Delegate methods
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-
- // Data source methods
- - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
- - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
-</code></pre>
-
-<h3>14.What are mutable and immutable types in Objective C?</h3>
-
-<p>A:A mutable object can be mutated or changed. An immutable object cannot.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable</a></p>
-
-<h3>15.When to use NSMutableArray and when to use NSArray?</h3>
-
-<p>A:When collection will mutable you should use NSMutableArray, otherwise use NSArray.</p>
-
-<h3>16.What is convenience constructor?</h3>
-
-<p>A:A convenience constructor is one that performs object allocation &amp; initialization in one step &amp; returns an autoreleased object to the caller.</p>
-
-<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor</a></p>
-
-<h3>17.What is responder chain?</h3>
-
-<p>A:The responder chain is a series of linked responder objects.</p>
-
-<h3>18.What is push notification?</h3>
-
-<p>A:Apple Push Notification service (APNs for short) is the centerpiece of the remote notifications feature. It is a robust and highly efficient service for propagating information to iOS and OS X devices. Each device establishes an accredited and encrypted IP connection with the service and receives notifications over this persistent connection. If a notification for an app arrives when that app is not running, the device alerts the user that the app has data waiting for it.</p>
 ]]></content>
   </entry>
   

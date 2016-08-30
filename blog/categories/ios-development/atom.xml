@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-08-30T10:37:36+08:00</updated>
+  <updated>2016-08-30T17:35:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,185 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Technical Interview Part 4]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-4.html"/>
+    <updated>2016-08-30T10:43:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-4</id>
+    <content type="html"><![CDATA[<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+
+<p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则信赖这个 pod 工程。</p>
+
+<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
+
+<p>A: Git</p>
+
+<h3>3.你一般是怎么用 Instruments 的？</h3>
+
+<p>A:根据想要分析的问题，选择对应的　instruments　，同时参考　Instruments　User　Guide．</p>
+
+<h3>4.你一般是如何调试 Bug 的</h3>
+
+<p>A:复现 bug，之后单步调试定位。</p>
+
+<h3>5.你在你的项目中用到了哪些设计模式？</h3>
+
+<p>A:</p>
+
+<pre><code>* 单例
+* 委托
+* Target-Action
+* MVC
+* 观察者
+* 工厂方法
+* 信息流
+* 类簇
+</code></pre>
+
+<h3>6.如何实现单例，单例会有什么弊端？</h3>
+
+<p>A：</p>
+
+<pre><code>+ (instancetype)sharedInstance
+{
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&amp;once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
+}
+</code></pre>
+
+<ul>
+<li>单例相当于全局变量，因此存在强藕合，不利于扩展和应对变化；</li>
+<li>单例违背单一设计原则；</li>
+</ul>
+
+
+<h3>7.如何把一个包含自定义对象的数组序列化到磁盘？</h3>
+
+<p>A:自定义对象需要实现 NSCoding 协议，然后可以调用 NSKeyedArchiver 的<code>+ (BOOL)archiveRootObject:(id)rootObject toFile:(NSString *)path</code>方法将它序列化到磁盘。</p>
+
+<h3>8.iOS 的沙盒目录结构是怎样的？ App Bundle 里面都有什么？</h3>
+
+<p>A:</p>
+
+<p>App Bundle 里面有 Info.plist, Executeable, Resource files and Other support files.</p>
+
+<h3>9.iOS 7的多任务添加了哪两个新的 API? 各自的使用场景是什么？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Apps that regularly update their content by contacting a server can register with the system and be launched periodically to retrieve that content in the background. To register, include the UIBackgroundModes key with the fetch value in your app’s Info.plist file. Then, when your app is launched, call the setMinimumBackgroundFetchInterval: method to determine how often it receives update messages. Finally, you must also implement the application:performFetchWithCompletionHandler: method in your app delegate.</li>
+<li>Apps that use push notifications to notify the user that new content is available can fetch the content in the background. To support this mode, include the UIBackgroundModes key with the remote-notification value in your app’s Info.plist file. You must also implement the application:didReceiveRemoteNotification:fetchCompletionHandler: method in your app delegate.</li>
+</ul>
+
+
+<p>Reference: What&rsquo;s New in iOS</p>
+
+<h3>10.Objective-C 的 class 是如何实现的？Selector 是如何被转化为 C 语言的函数调用的？</h3>
+
+<h3>11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？</h3>
+
+<h3>12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？</h3>
+
+<p>A: Method Swizzle.</p>
+
+<h3>13.<code>+load</code> 和 <code>+initialize</code> 的区别是什么？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>load:Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.</li>
+<li>initialize:Initializes the class before it receives its first message.</li>
+</ul>
+
+
+<h3>14.NSOperation 相比于 GCD 有哪些优势？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>可以取消操作；</li>
+<li>可以添加依赖；</li>
+</ul>
+
+
+<h3>15.strong / weak / unsafe_unretained 的区别</h3>
+
+<p>A:</p>
+
+<ul>
+<li>strong:对象的引用计数加一;</li>
+<li>weak:对象的引用计数不变，对象销毁时 weak 属性自动置为nil;</li>
+<li>unsafe_unretained:对象的引用计数不变，对象销毁时 unsafe_unretained 属性成为野指针;</li>
+</ul>
+
+
+<p>你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除些之外我们应该使用 weak.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute">http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute</a></p>
+
+<h3>16.Objective-C 中，meta-class 指的是什么</h3>
+
+<h3>17.UIView 和 CALayer 之间的关系？</h3>
+
+<p>A: UIView 会持有至少一个 CALayer 实例，CALayer 是 UIView 的骨架，它将 UIView 的内容绘制出来并提供动画支持。</p>
+
+<h3>18.<code>+[UIView animateWithDuration:animations:completion:]</code> 内部大概是如何实现的？</h3>
+
+<p>A:</p>
+
+<h3>19.什么时候会发生「隐式动画」？</h3>
+
+<p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios</a></p>
+
+<h3>如何把一张大图缩小为1/4大小的缩略图？</h3>
+
+<h3>21.Toll-Free Bridging 是什么？什么情况下会使用？</h3>
+
+<h3>22.当系统出现内存警告时会发生什么？</h3>
+
+<h3>23.什么是 Protocol，Delegate 一般是怎么用的？</h3>
+
+<h3>24.UIWebView 有哪些性能问题？有没有可替代的方案。</h3>
+
+<h3>25.为什么 NotificationCenter 要 removeObserver? 如何实现自动 remove?</h3>
+
+<h3>26.当 TableView 的 Cell 改变时，如何让这些改变以动画的形式呈现？</h3>
+
+<h3>27.什么是 Method Swizzle，什么情况下会使用？</h3>
+
+<h3>28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？</h3>
+
+<h3>29.你会如何存储用户的一些敏感信息，如登录的 token。</h3>
+
+<h3>30.什么时候会使用 Core Graphics，有什么注意事项么？</h3>
+
+<h3>31.使用 Block 时需要注意哪些问题？</h3>
+
+<h3>32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？</h3>
+
+<h3>33.如何播放 GIF 图片，有什么优化方案么？</h3>
+
+<h3>34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？</h3>
+
+<h3>35.哪些途径可以让 ViewController 瘦下来？</h3>
+
+<h3>36.有哪些常见的 Crash 场景？</h3>
+
+<h3>37.设计一套大文件（如上百M的视频）下载方案。</h3>
+
+<h3>38.如果让你来实现 dispatch_once，你会怎么做？</h3>
+
+<p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">https://github.com/lzyy/iOS-Developer-Interview-Questions</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（八）]]></title>
@@ -820,523 +999,6 @@ You must create your own autorelease pool block as soon as the thread begins exe
 <h3>18.What is push notification?</h3>
 
 <p>A:Apple Push Notification service (APNs for short) is the centerpiece of the remote notifications feature. It is a robust and highly efficient service for propagating information to iOS and OS X devices. Each device establishes an accredited and encrypted IP connection with the service and receives notifications over this persistent connection. If a notification for an app arrives when that app is not running, the device alerts the user that the app has data waiting for it.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Technical Interview Part 2]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-2.html"/>
-    <updated>2016-02-25T16:54:55+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-2</id>
-    <content type="html"><![CDATA[<ol>
-<li><p>@property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？<br/>
- A:</p>
-
-<ul>
-<li>Write Serialization(not general thread safety): nonatomic atomic (default)</li>
-<li>Mutability: readonly readwrite (default)</li>
-<li>API Contron :getter = methodname setter = mehtodname:</li>
-<li>Memory Management: copy strong (default) weak unsafe_unretained assign</li>
-</ul>
-</li>
-<li><p>ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？<br/>
- A:</p>
-
-<ul>
-<li>Write Serialization: atomic</li>
-<li>Mutability: readwrite</li>
-<li>Memory Management: assign(non-object) strong(object)</li>
-</ul>
-</li>
-<li><p>什么情况使用 weak 关键字，相比 assign 有什么不同？<br/>
- A:
- 什么情况使用 weak 关键字？</p>
-
-<ul>
-<li>强引用关系的对象会发生循环引用时用weak关键字；</li>
-<li>已经被强引用的对象，如Interface Builder创建的视图被声明为weak。</li>
-</ul>
-
-
-<p> weak 相比 assign 有什么不同？</p>
-
-<ul>
-<li>weak 必须修饰对象，assign还可以修饰非对象；</li>
-<li>weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。</li>
-</ul>
-</li>
-</ol>
-
-
-<!-- more -->
-
-
-<ol>
-<li><p>weak属性需要在dealloc中置nil么？<br/>
- A: 不需要，因为 weak 属性不影响对象的引用计数。</p></li>
-<li><p>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</p>
-
-<ul>
-<li>对非集合类对象的copy操作</li>
-<li>集合类对象的copy与mutableCopy</li>
-</ul>
-
-
-<p> A:
- 为什么？
- 因为父类指针可以指向子类对象,而使用 copy 可以让本对象的属性不受外界影响,无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.</p>
-
-<p> 如果改用strong关键字，可能造成什么问题？
- 如果我们使用是 strong ,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</p>
-
-<p> 非集合类对象的copy与mutableCopy：
- 对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：</p>
-
-<pre><code class="`"> [immutableObject copy] // 浅复制
- [immutableObject mutableCopy] //深复制
- [mutableObject copy] //深复制
- [mutableObject mutableCopy] //深复制
-</code></pre>
-
-<p> 实例验证：</p>
-
-<pre><code class="`"> NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
- NSString *stringCopy = [string copy];
-
- // 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
- [string appendString:@"origion!"]
-
- // stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。
-</code></pre>
-
-<p> 集合类对象的copy与mutableCopy:
- 对 immutable 对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</p>
-
-<pre><code class="`"> [immutableObject copy] // 浅复制
- [immutableObject mutableCopy] //单层深复制
- [mutableObject copy] //单层深复制
- [mutableObject mutableCopy] //单层深复制
-</code></pre>
-
-<p> 实例验证：</p>
-
-<pre><code class="`"> // 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
- NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
- NSArray *copyArray = [array copy];
- NSMutableArray *mCopyArray = [array mutableCopy];
- // 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址   是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：
-
- NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString   stringWithString:@"a"],@"b",@"c",nil];
- NSArray *copyArray = [array copy];
- NSMutableArray *mCopyArray = [array mutableCopy];
-
- // 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明    copyArray、mCopyArray 都对 array 进行了内容拷贝。
-</code></pre></li>
-<li><p>这个写法会出什么问题： @property (copy) NSMutableArray *array?<br/>
- A:问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；
- 问题二：如果是开发 iOS 程序，这会影响性能。</p></li>
-<li><p>怎么用 copy 关键字？<br/>
- A:声明为属性的类遵守 NSCopying 协议，而且我们希望设置新值时保存一份自己的拷贝。</p></li>
-<li><p>如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？<br/>
- A:</p>
-
-<blockquote><p>Any object that you wish to set for a copy property must support NSCopying, which means that it should conform to the NSCopying protocol.
-Only classes that define an “immutable vs. mutable” distinction should adopt this protocol.</p></blockquote></li>
-<li><p>protocol 和 category 中如何使用 @property?<br/>
- A:</p>
-
-<ul>
-<li>protocol 使用 property 和 class 类似，只是 protocol 的 property 只会生成相应 getter 和 setter 方法声明，遵守协议的类需要实现相应的 getter 和 setter 方法；</li>
-<li>category 使用 property 和 class 有点区别，主要原因是 category 不支持添加实例变量，所以 category 中可以声明组合已有类 property 的 readonly 修饰的便捷 property；或者通过关联引用来辅助实现 getter 和 setter 方法。</li>
-</ul>
-</li>
-<li><p>@property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?<br/>
-A:@property 的本质是什么？
-    @property = ivar + getter + setter;</p>
-
-<p>ivar、getter、setter 是如何生成并添加到这个类中的?
-“自动合成”( autosynthesis)
-完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p></li>
-<li><p>@synthesize和@dynamic分别有什么作用？<br/>
-A:</p>
-
-<ul>
-<li>@synthesize 是告诉编译器怎么去合成相应属性的 getter 和 setter 方法；</li>
-<li>@dynamic 告诉编译器属性的 setter 与 getter 方法由用户自己实现，不自动合成。</li>
-</ul>
-</li>
-<li><p>在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？<br/>
-A:</p>
-
-<ul>
-<li>自定义自动合成的实例变量的名称；</li>
-<li>自动合成协议中声明 getter 和 setter 方法。</li>
-</ul>
-</li>
-<li><p>@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为<em>foo的实例变量，那么还会自动合成新变量么？<br/>
-A:
-@synthesize合成实例变量的规则是什么？
-假设声明了propertyname的属性，默认会合成</em>propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。</p>
-
-<p>假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
-不会。</p></li>
-<li><p>ARC通过什么方式帮助开发者管理内存？<br/>
-A:</p>
-
-<blockquote><p>ARC works by adding code at compile time to ensure that objects live as long as necessary, but no longer.</p></blockquote></li>
-<li><p>objc使用什么机制管理对象内存？<br/>
-A: 引用计数机制。</p></li>
-<li><p>不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）<br/>
-A: Autorelease对象出了作用域之后，会被添加到最近一次创建的自动释放池中，并会在当前的 runloop 迭代结束时释放。如果在一个vc的viewDidLoad中创建一个 Autorelease对象，那么该对象会在 viewDidAppear 方法执行前就被销毁了。</p></li>
-<li><p>苹果是如何实现autoreleasepool的?<br/>
-A:</p></li>
-<li><p>使用block时什么情况会发生引用循环，如何解决？<br/>
-A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。
-解决方法是将该对象使用<code>__weak</code>或者<code>__block</code>修饰符修饰之后再在block中使用。</p>
-
-<ul>
-<li>id weak weakSelf = self，或者 weak __typeof(self)weakSelf = self</li>
-<li>id __block weakSelf = self;</li>
-</ul>
-</li>
-<li><p>在block内如何修改block外部变量？<br/>
-A:使用 _block 存储类型修饰外部变量。</p></li>
-<li><p>使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？
-A:使用系统的block api要不要考虑引用循环问题取决于它会不会造成引用循环，如果不会造成引用循环则不需要考虑，反之则需要考虑。UIView的block版本写动画时不需要考虑引用循环问题。</p></li>
-<li><p>IBOutlet连出来的视图属性为什么可以被设置成weak?<br/>
-A:IBOutlet 连出来的视图是视图层级的组成部分，对它已经有一个强引用，所以它可以被设置为 weak。</p></li>
-<li><p>IB中User Defined Runtime Attributes如何使用？<br/>
-A:</p>
-
-<blockquote><p>Add initialization of custom runtime attributes to objects that do not have a corresponding Interface Builder inspector.</p></blockquote></li>
-<li><p>若一个类有实例变量 NSString *<em>foo ，调用setValue:forKey:时，可以以foo还是 </em>foo 作为key？<br/>
-A:都可以。</p></li>
-<li><p>KVC的keyPath中的集合运算符如何使用？<br/>
-A:</p>
-
-<ul>
-<li>必须是集合对象</li>
-<li>KVC支持的集合运算符</li>
-<li>正确的  Operator key path 格式</li>
-</ul>
-</li>
-<li><p>KVC和KVO的keyPath一定是属性么？<br/>
-A:KVO支持实例变量。</p></li>
-<li><p>addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？<br/>
-A:</p>
-
-<table>
-<thead>
-<tr>
-<th> Parameter </th>
-<th> Function </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> anObserver </td>
-<td> The object to register for KVO notifications. The observer must implement the key-value observing method observeValueForKeyPath:ofObject:change:context:. </td>
-</tr>
-<tr>
-<td> keyPath </td>
-<td> The key path, relative to the receiver, of the property to observe. This value must not be nil. </td>
-</tr>
-<tr>
-<td> options </td>
-<td> A combination of the NSKeyValueObservingOptions values that specifies what is included in observation notifications. For possible values, see NSKeyValueObservingOptions. </td>
-</tr>
-<tr>
-<td> context </td>
-<td> Arbitrary data that is passed to anObserver in observeValueForKeyPath:ofObject:change:context:. </td>
-</tr>
-</tbody>
-</table>
-</li>
-</ol>
-
-
-<p>observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能获得KVO回调。</p>
-
-<ol>
-<li><p>如何手动触发一个value的KVO?<br/>
-A:改变值之前调用 willChangeValueForKey:，改变值之后调用 didChangeValueForKey:。</p></li>
-<li><p>如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？<br/>
-A:</p>
-
-<ul>
-<li>A class that implements manual notification must override the NSObject implementation of automaticallyNotifiesObserversForKey:.For properties that perform manual notification, the subclass implementation of automaticallyNotifiesObserversForKey: should return NO.</li>
-<li>To implement manual observer notification, you invoke willChangeValueForKey: before changing the value, and didChangeValueForKey: after changing the value.</li>
-</ul>
-</li>
-<li><p>apple用什么方式实现对一个对象的KVO？<br/>
-A:</p>
-
-<blockquote><p>Automatic key-value observing is implemented using a technique called isa-swizzling.</p></blockquote></li>
-<li><p>GCD的队列（dispatch_queue_t）分哪两种类型？<br/>
-A:</p>
-
-<ul>
-<li>DISPATCH_QUEUE_SERIAL</li>
-<li>DISPATCH_QUEUE_CONCURRENT</li>
-</ul>
-</li>
-<li><p>如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）<br/>
-A:</p>
-
-<blockquote><p>Dispatch groups are a way to block a thread until one or more tasks finish executing.</p></blockquote>
-
-<pre><code>    dispatch_queue_t queue =        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_async(group, queue, ^{ /*加载图片1 */ });
-    dispatch_group_async(group, queue, ^{ /*加载图片2 */ });
-    dispatch_group_async(group, queue, ^{ /*加载图片3 */ }); 
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            // 合并图片
-    });
-</code></pre></li>
-<li><p>dispatch_barrier_async的作用是什么？<br/>
-A:</p>
-
-<blockquote><p>Submits a barrier block for asynchronous execution and returns immediately.
-A dispatch barrier allows you to create a synchronization point within a concurrent dispatch queue. When it encounters a barrier, a concurrent queue delays the execution of the barrier block (or any further blocks) until all blocks submitted before the barrier finish executing. At that point, the barrier block executes by itself. Upon completion, the queue resumes its normal execution behavior.</p></blockquote></li>
-<li><p>苹果为什么要废弃dispatch_get_current_queue？<br/>
-A:dispatch_get_current_queue 容易造成死锁。</p></li>
-<li><p>以下代码运行结果如何？</p></li>
-</ol>
-
-
-<pre><code>- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    NSLog(@"1");
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        NSLog(@"2");
-    });
-    NSLog(@"3");
-}
-</code></pre>
-
-<p>A: 只输出：1 。发生主线程锁死。</p>
-
-<ol>
-<li><p>runloop和线程有什么关系？<br/>
-A:</p>
-
-<blockquote><p>Run loops are intended for situations where you want more interactivity with the thread.</p></blockquote>
-
-<p>当我们和线程有很多交互时，可以为线程配置一个 RunLoop.</p>
-
-<pre><code>- (void)networkRunLoopThreadEntry
-// This thread runs all of our network operation run loop callbacks.
-{
-assert( ! [NSThread isMainThread] );
-while (YES) {
-    NSAutoreleasePool * pool;
-
-    pool = [[NSAutoreleasePool alloc] init];
-    assert(pool != nil);
-
-    [[NSRunLoop currentRunLoop] run];
-
-    [pool drain];
-}
-assert(NO);
-}
-</code></pre></li>
-<li><p>runloop的mode作用是什么？<br/>
-A:</p>
-
-<blockquote><p>A run loop mode is a collection of input sources and timers to be monitored and a collection of run loop observers to be notified.
-Each time you run your run loop, you specify (either explicitly or implicitly) a particular “mode” in which to run. During that pass of the run loop, only sources associated with that mode are monitored and allowed to deliver their events. (Similarly, only observers associated with that mode are notified of the run loop’s progress.) Sources associated with other modes hold on to any new events until subsequent passes through the loop in the appropriate mode.</p></blockquote></li>
-</ol>
-
-
-<p>mode的作用是设置好需要监控的 input sources 和 timers，以及需要通知的 run loop observers。</p>
-
-<ol>
-<li>以+ scheduledTimerWithTimeInterval&hellip;的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？<br/>
-A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以+ scheduledTimerWithTimeInterval&hellip;的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。</li>
-</ol>
-
-
-<p>如何解决？
-解决办法自然是希望 timer 触发的事件不被限制，也就是说在 NSEventTrackingRunLoopMode 下也能被监控，可以通过把 timer 加入到 NSRunLoopCommonModes 中，因为关联到它的 timer 也会被相应关联到 NSEventTrackingRunLoopMode 中。</p>
-
-<blockquote><p>NSRunLoopCommonModes (Cocoa)
-kCFRunLoopCommonModes (Core Foundation)
-This is a configurable group of commonly used modes. Associating an input source with this mode also associates it with each of the modes in the group. For Cocoa applications, this set includes the default, modal, and event tracking modes by default. Core Foundation includes just the default mode initially. You can add custom modes to the set using the CFRunLoopAddCommonMode function.</p></blockquote>
-
-<pre><code>//将timer添加到NSDefaultRunLoopMode中
-[NSTimer scheduledTimerWithTimeInterval:1.0
-     target:self
-     selector:@selector(timerTick:)
-     userInfo:nil
-     repeats:YES];
-//然后再添加到NSRunLoopCommonModes里
-NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
-     target:self
-     selector:@selector(timerTick:)
-     userInfo:nil
-     repeats:YES];
-[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-</code></pre>
-
-<ol>
-<li><p>猜想runloop内部是如何实现的？<br/>
-A:</p>
-
-<blockquote><p>It is a loop your thread enters and uses to run event handlers in response to incoming events.</p></blockquote></li>
-<li><p>runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？<br/>
-A:runtime 对注册的类， 会进行布局，对于 weak 对象会放入一个 hash 表中。 用 weak 指向的对象内存地址作为 key，当此对象的引用计数为0的时候会 dealloc，假如 weak 指向的对象内存地址是a，那么就会以a为键， 在这个 weak 表中搜索，找到所有以a为键的 weak 对象，从而设置为 nil。</p></li>
-<li><p>objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？<br/>
-A:</p>
-
-<blockquote><p>In Objective-C, messages aren’t bound to method implementations until runtime.
-The compiler converts a message expression,</p></blockquote></li>
-</ol>
-
-
-<blockquote><p>[receiver message]
-into a call on a messaging function, objc_msgSend.</p></blockquote>
-
-<p>编译器会把向一个对象发送的消息转化成一次objc_msgSend()函数调用。</p>
-
-<ol>
-<li><p>objc中向一个nil对象发送消息将会发生什么？<br/>
-A:</p>
-
-<ul>
-<li>如果一个方法返回值是一个对象，那么发送给nil的消息将返回nil;</li>
-<li>如果方法返回值为指针类型，其指针大小为小于或者等于sizeof(void*)，float，double，long double 或者 long long 的整型标量，发送给 nil 的消息将返回0;</li>
-<li>如果方法返回值为结构体,发送给 nil 的消息将返回0。结构体中各个字段的值将都是0</li>
-<li>如果方法的返回值不是上述提到的几种情况，那么发送给 nil 的消息的返回值将是未定义的</li>
-</ul>
-</li>
-<li><p><em>objc_msgForward 函数是做什么的，直接调用它将会发生什么？<br/>
-A:当向一个对象发送一条消息，但它并没有实现的时候，</em>objc_msgForward会尝试做消息转发。直接调用_objc_msgForward是非常危险的事，如果用不好会直接导致程序Crash，但是如果用得好，能做很多非常酷的事。</p></li>
-<li><p>能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？<br/>
-A:</p>
-
-<ul>
-<li>不能向编译后得到的类中增加实例变量；</li>
-<li>能向运行时创建的类中添加实例变量；</li>
-</ul>
-</li>
-</ol>
-
-
-<p>解释:</p>
-
-<pre><code>* 因为编译后的类已经注册在 runtime 中，类结构体中的 objc_ivar_list 实例变量的链表 和 instance_size 实例变量的内存大小已经确定，同时runtime 会调用 class_setIvarLayout 或 class_setWeakIvarLayout 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；
-* 运行时创建的类是可以添加实例变量，调用 class_addIvar 函数。但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。
-</code></pre>
-
-<ol>
-<li><p>一个objc对象如何进行内存布局？（考虑有父类的情况）<br/>
-A:
-Objective-C 对象的结构图
-ISA指针
-根类的实例变量
-倒数第二层父类的实例变量
-&hellip;
-父类的实例变量
-类的实例变量</p></li>
-<li><p>一个objc对象的isa的指针指向什么？有什么作用？<br/>
-A:</p>
-
-<blockquote><p>The isa pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table.</p></blockquote></li>
-</ol>
-
-
-<p>指向对象的类。</p>
-
-<ol>
-<li>下面的代码输出什么？</li>
-</ol>
-
-
-<pre><code>@implementation Son : Father
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        NSLog(@"%@", NSStringFromClass([self class]));
-        NSLog(@"%@", NSStringFromClass([super class]));
-    }
-    return self;
-}
-@end
-</code></pre>
-
-<p>A:都输出 Son.
-super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去父类的方法，而不是本类里的。</p>
-
-<ol>
-<li><p>什么时候会报unrecognized selector的异常？<br/>
-A:当调用该对象上某个方法,而该对象上没有实现这个方法的时候。</p></li>
-<li><p>BAD_ACCESS在什么情况下出现？<br/>
-A:</p>
-
-<ul>
-<li>访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。</li>
-<li>死循环</li>
-</ul>
-</li>
-<li><p>如何调试BAD_ACCESS错误?<br/>
-A:</p>
-
-<ul>
-<li>Enable Zombie Objects</li>
-<li>Enable Address Sanitizer</li>
-<li>重写object的respondsToSelector方法，显示出现EXEC_BAD_ACCESS前访问的最后一个object</li>
-</ul>
-</li>
-<li><p>lldb（gdb）常用的调试命令？<br/>
-A:</p></li>
-</ol>
-
-
-<pre><code>lldb po
-lldb p
-lldb expression
-lldb bt
-lldb c
-</code></pre>
-
-<ol>
-<li><p>使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？<br/>
-A:不需要。</p></li>
-<li><p>runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）<br/>
-A:每一个类对象或对象中有一个方法列表,方法列表中记录着方法的名称,方法实现,以及参数类型,其实selector本质就是方法名称,通过这个方法名称就可以在方法列表中找到对应的方法实现.</p></li>
-<li><p>objc中的类方法和实例方法有什么本质区别和联系？<br/>
-A:
-类方法：</p></li>
-</ol>
-
-
-<p>类方法是属于类对象的
-类方法只能通过类对象调用
-类方法中的self是类对象
-类方法可以调用其他的类方法
-类方法中不能访问成员变量
-类方法中不定直接调用对象方法</p>
-
-<p>实例方法：</p>
-
-<p>实例方法是属于实例对象的
-实例方法只能通过实例对象调用
-实例方法中的self是实例对象
-实例方法中可以访问成员变量
-实例方法中直接调用实例方法
-实例方法中也可以调用类方法(通过类名)</p>
-
-<p>扩展阅读：<br/>
-o <a href="http://onevcat.com/2013/04/ios-interview/">上级向的十个iOS面试问题</a><br/>
-o <a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度面试</a></p>
-
-<p>Reference:<br/>
-o <a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">http://blog.sunnyxx.com/2015/07/04/ios-interview/</a><br/>
-o <a href="https://github.com/ChenYilong/iOSInterviewQuestions">https://github.com/ChenYilong/iOSInterviewQuestions</a></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-08-30T10:37:36+08:00</updated>
+  <updated>2016-08-30T17:35:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,194 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Technical Interview Part 4]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-4.html"/>
+    <updated>2016-08-30T10:43:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-4</id>
+    <content type="html"><![CDATA[<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+
+<p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则信赖这个 pod 工程。</p>
+
+<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
+
+<p>A: Git</p>
+
+<h3>3.你一般是怎么用 Instruments 的？</h3>
+
+<p>A:根据想要分析的问题，选择对应的　instruments　，同时参考　Instruments　User　Guide．</p>
+
+<h3>4.你一般是如何调试 Bug 的</h3>
+
+<p>A:复现 bug，之后单步调试定位。</p>
+
+<h3>5.你在你的项目中用到了哪些设计模式？</h3>
+
+<p>A:</p>
+
+<pre><code>* 单例
+* 委托
+* Target-Action
+* MVC
+* 观察者
+* 工厂方法
+* 信息流
+* 类簇
+</code></pre>
+
+<h3>6.如何实现单例，单例会有什么弊端？</h3>
+
+<p>A：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (instancetype)sharedInstance
+</span><span class='line'>{
+</span><span class='line'>    static dispatch_once_t once;
+</span><span class='line'>    static id sharedInstance;
+</span><span class='line'>    dispatch_once(&once, ^{
+</span><span class='line'>        sharedInstance = [[self alloc] init];
+</span><span class='line'>    });
+</span><span class='line'>    return sharedInstance;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>单例相当于全局变量，因此存在强藕合，不利于扩展和应对变化；</li>
+<li>单例违背单一设计原则；</li>
+</ul>
+
+
+<h3>7.如何把一个包含自定义对象的数组序列化到磁盘？</h3>
+
+<p>A:自定义对象需要实现 NSCoding 协议，然后可以调用 NSKeyedArchiver 的<code>+ (BOOL)archiveRootObject:(id)rootObject toFile:(NSString *)path</code>方法将它序列化到磁盘。</p>
+
+<h3>8.iOS 的沙盒目录结构是怎样的？ App Bundle 里面都有什么？</h3>
+
+<p>A:</p>
+
+<p>App Bundle 里面有 Info.plist, Executeable, Resource files and Other support files.</p>
+
+<h3>9.iOS 7的多任务添加了哪两个新的 API? 各自的使用场景是什么？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Apps that regularly update their content by contacting a server can register with the system and be launched periodically to retrieve that content in the background. To register, include the UIBackgroundModes key with the fetch value in your app’s Info.plist file. Then, when your app is launched, call the setMinimumBackgroundFetchInterval: method to determine how often it receives update messages. Finally, you must also implement the application:performFetchWithCompletionHandler: method in your app delegate.</li>
+<li>Apps that use push notifications to notify the user that new content is available can fetch the content in the background. To support this mode, include the UIBackgroundModes key with the remote-notification value in your app’s Info.plist file. You must also implement the application:didReceiveRemoteNotification:fetchCompletionHandler: method in your app delegate.</li>
+</ul>
+
+
+<p>Reference: What&rsquo;s New in iOS</p>
+
+<h3>10.Objective-C 的 class 是如何实现的？Selector 是如何被转化为 C 语言的函数调用的？</h3>
+
+<h3>11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？</h3>
+
+<h3>12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？</h3>
+
+<p>A: Method Swizzle.</p>
+
+<h3>13.<code>+load</code> 和 <code>+initialize</code> 的区别是什么？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>load:Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.</li>
+<li>initialize:Initializes the class before it receives its first message.</li>
+</ul>
+
+
+<h3>14.NSOperation 相比于 GCD 有哪些优势？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>可以取消操作；</li>
+<li>可以添加依赖；</li>
+</ul>
+
+
+<h3>15.strong / weak / unsafe_unretained 的区别</h3>
+
+<p>A:</p>
+
+<ul>
+<li>strong:对象的引用计数加一;</li>
+<li>weak:对象的引用计数不变，对象销毁时 weak 属性自动置为nil;</li>
+<li>unsafe_unretained:对象的引用计数不变，对象销毁时 unsafe_unretained 属性成为野指针;</li>
+</ul>
+
+
+<p>你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除些之外我们应该使用 weak.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute">http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute</a></p>
+
+<h3>16.Objective-C 中，meta-class 指的是什么</h3>
+
+<h3>17.UIView 和 CALayer 之间的关系？</h3>
+
+<p>A: UIView 会持有至少一个 CALayer 实例，CALayer 是 UIView 的骨架，它将 UIView 的内容绘制出来并提供动画支持。</p>
+
+<h3>18.<code>+[UIView animateWithDuration:animations:completion:]</code> 内部大概是如何实现的？</h3>
+
+<p>A:</p>
+
+<h3>19.什么时候会发生「隐式动画」？</h3>
+
+<p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios</a></p>
+
+<h3>如何把一张大图缩小为1/4大小的缩略图？</h3>
+
+<h3>21.Toll-Free Bridging 是什么？什么情况下会使用？</h3>
+
+<h3>22.当系统出现内存警告时会发生什么？</h3>
+
+<h3>23.什么是 Protocol，Delegate 一般是怎么用的？</h3>
+
+<h3>24.UIWebView 有哪些性能问题？有没有可替代的方案。</h3>
+
+<h3>25.为什么 NotificationCenter 要 removeObserver? 如何实现自动 remove?</h3>
+
+<h3>26.当 TableView 的 Cell 改变时，如何让这些改变以动画的形式呈现？</h3>
+
+<h3>27.什么是 Method Swizzle，什么情况下会使用？</h3>
+
+<h3>28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？</h3>
+
+<h3>29.你会如何存储用户的一些敏感信息，如登录的 token。</h3>
+
+<h3>30.什么时候会使用 Core Graphics，有什么注意事项么？</h3>
+
+<h3>31.使用 Block 时需要注意哪些问题？</h3>
+
+<h3>32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？</h3>
+
+<h3>33.如何播放 GIF 图片，有什么优化方案么？</h3>
+
+<h3>34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？</h3>
+
+<h3>35.哪些途径可以让 ViewController 瘦下来？</h3>
+
+<h3>36.有哪些常见的 Crash 场景？</h3>
+
+<h3>37.设计一套大文件（如上百M的视频）下载方案。</h3>
+
+<h3>38.如果让你来实现 dispatch_once，你会怎么做？</h3>
+
+<p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">https://github.com/lzyy/iOS-Developer-Interview-Questions</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App 开发问题汇总（八）]]></title>
@@ -4261,7 +4449,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x64;&#111;&#x6e;&#103;&#109;&#x65;&#105;&#108;&#105;&#97;&#110;&#x67;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#56;&#x2e;&#49;&#x2e;&#50;&#53;&#53;">&#100;&#x6f;&#110;&#103;&#109;&#x65;&#105;&#x6c;&#x69;&#x61;&#110;&#x67;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#49;&#46;&#x32;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x64;&#x6f;&#x6e;&#103;&#109;&#x65;&#105;&#108;&#x69;&#x61;&#110;&#103;&#x40;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x2e;&#x32;&#x35;&#x35;">&#x64;&#111;&#110;&#x67;&#109;&#x65;&#105;&#x6c;&#x69;&#97;&#110;&#103;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#46;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -4546,222 +4734,6 @@ quit</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>%s/\/Users\/dongmeiliang\/Sites/\/home\/meiliang\/public_html/g</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Using MySQL]]></title>
-    <link href="http://DamianSheldon.github.io/blog/using-mysql.html"/>
-    <updated>2015-08-12T22:01:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/using-mysql</id>
-    <content type="html"><![CDATA[<h3>1.查看所有的用户</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u user -p
-</span><span class='line'>mysql &gt; USE mysql;
-</span><span class='line'>mysql &gt; SELECT user, host FROM user;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.查看用户的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; SHOW GRANTS FOR 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3.为用户添加操作某个数据库的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.Default options are read from the following files in the given order:</h3>
-
-<p>/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf</p>
-
-<h3>5.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; CREATE TABLE IF NOT EXISTS categories (
-</span><span class='line'>  id SMALLINT NOT NULL AUTO_INCREMENT,
-</span><span class='line'>  category VARCHAR(30) NOT NULL,
-</span><span class='line'>  PRIMARY KEY (id),
-</span><span class='line'>  UNIQUE KEY category (category)
-</span><span class='line'>)ENGINE = MyISAM DEFAULT CHARSET = utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>VARCHAR(30):can hold up to 30 characters.</li>
-<li>A UNIQUE index creates a constraint such that all values in the index must be distinct. An error occurs if you try to add a new row with a key value that matches an existing row. For all engines, a UNIQUE index permits multiple NULL values for columns that can contain NULL.</li>
-<li>DEFAULT CHARSET</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h3>6.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; CREATE TABLE IF NOT EXISTS orders (
-</span><span class='line'>  id INT UNSIGNED NOT NULL,
-</span><span class='line'>  user_id INT UNSIGNED NOT NULL,
-</span><span class='line'>  transaction_id VARCHAR(19) NOT NULL,
-</span><span class='line'>  payment_status VARCHAR(15) NOT NULL,
-</span><span class='line'>  payment_amount DECIMAL(6,2) UNSIGNED NOT NULL,
-</span><span class='line'>  payment_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-</span><span class='line'>  PRIMARY KEY(id),
-</span><span class='line'>  KEY user_id (user_id)
-</span><span class='line'>)ENGINE = MyISAM DEFAULT CHARSET = utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>KEY is normally a synonym for INDEX. The key attribute PRIMARY KEY can also be specified as just KEY when given in a column definition. This was implemented for compatibility with other database systems.</li>
-<li>INDEX</li>
-</ul>
-
-
-<h3>7.&ndash;log-bin option</h3>
-
-<p>Q:How to check the &ndash;log-bin status of MySQL?
-A:</p>
-
-<blockquote><p>To make incremental backups, we need to save the incremental changes. In MySQL, these changes are represented in the binary log, so the MySQL server should always be started with the &ndash;log-bin option to enable that log.</p></blockquote>
-
-<p>Q:How to enable the &ndash;log-bin option of MySQL?
-A:To enable the binary log, start the server with the &ndash;log-bin[=base_name] option. If no base_name value is given, the default name is the value of the pid-file option (which by default is the name of host machine) followed by -bin. If the base name is given, the server writes the file in the data directory unless the base name is given with a leading absolute path name to specify a different directory. It is recommended that you specify a base name explicitly rather than using the default of the host name;</p>
-
-<h3>8.You have enabled the binary log, but you haven&rsquo;t provided the mandatory server-id.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2016-01-27T14:15:24.323616Z 0 [Note] /usr/local/mysql/bin/mysqld (mysqld 5.7.9-log) starting as process 9709 ...
-</span><span class='line'>2016-01-27T14:15:24.327264Z 0 [Warning] Setting lower_case_table_names=2 because file system for /usr/local/mysql/data/ is case insensitive
-</span><span class='line'>2016-01-27T14:15:24.327888Z 0 [ERROR] You have enabled the binary log, but you haven't provided the mandatory server-id. Please refer to the proper server start-up parameters documentation
-</span><span class='line'>2016-01-27T14:15:24.328034Z 0 [ERROR] Aborting
-</span><span class='line'>
-</span><span class='line'>2016-01-27T14:15:24.328049Z 0 [Note] Binlog end
-</span><span class='line'>2016-01-27T14:15:24.328153Z 0 [Note] /usr/local/mysql/bin/mysqld: Shutdown complete</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A: set server-id</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr/local/mysql/data/mysqld.local.err --pid-file=/usr/local/mysql/data/mysqld.local.pid --log-bin --server-id=1</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>When enabling binary logs, the server ID is automatically set to &lsquo;1&rsquo;.  &ndash;(<a href="https://bugs.mysql.com/bug.php?id=56739">https://bugs.mysql.com/bug.php?id=56739</a>)</p></blockquote>
-
-<p>Q:How can i get server_id in MYSQL?
-A:SELECT @@server_id</p>
-
-<h3>9.Q:如何分屏查看输出结果？</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 用 less 分屏查看输出结果
-</span><span class='line'>mysql&gt; pager less;
-</span><span class='line'>
-</span><span class='line'>// 关闭分屏查看
-</span><span class='line'>mysql&gt; nopager;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>10.Q:Scope rules for stored programs and views?</h3>
-
-<p>A:</p>
-
-<h3>11.Q:How to view all Stored Programs and Views in MySQL?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.Stored Routines (Procedures and Functions)
-</span><span class='line'>&gt; Query the ROUTINES table of the INFORMATION_SCHEMA database.
-</span><span class='line'>&gt; The ROUTINES table provides information about stored routines (both procedures and functions). The ROUTINES table does not include user-defined functions (UDFs).
-</span><span class='line'>
-</span><span class='line'>// 2.Triggers
-</span><span class='line'>mysql&gt;SHOW TRIGGERS;
-</span><span class='line'>
-</span><span class='line'>// 3.Event Scheduler
-</span><span class='line'>mysql&gt;SHOW EVENTS;
-</span><span class='line'>
-</span><span class='line'>// 4.Views</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>12.Q:How to view user-defined functions (UDFs)?</h3>
-
-<p>A:</p>
-
-<h3>13.mysqldump: Got error: 2013: Lost connection to MySQL server at &lsquo;reading initial communication packet&rsquo;, system error: 102 when trying to connect</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>DongMeiliangsMacBook-Pro:~ dongmeiliang$ mysqldump --single-transaction --databases opencart &gt; opencart_2016_02_27_22_28.sql
-</span><span class='line'>mysqldump: Got error: 2013: Lost connection to MySQL server at 'reading initial communication packet', system error: 102 when trying to connect</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:问题的原因是我已经打开了一个mysql连接，关闭之后重试就没问题了。</p>
-
-<h3>14.How to Create an Admin User Account?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* 1. */
-</span><span class='line'>mysql&gt; CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
-</span><span class='line'>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
-</span><span class='line'>    -&gt;     WITH GRANT OPTION;
-</span><span class='line'>
-</span><span class='line'>/* 2. */
-</span><span class='line'>mysql&gt; CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
-</span><span class='line'>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
-</span><span class='line'>    -&gt;     WITH GRANT OPTION;</span></code></pre></td></tr></table></div></figure>
 
 
 

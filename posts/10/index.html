@@ -19,7 +19,8 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
 	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
 
 <script language="Javascript" type="text/javascript">
@@ -203,19 +204,21 @@ $(document).ready(
 			iOS Technical Interview Part 1</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Explain method swizzling. When you would use it?</h3>
+		<h3>1.Explain method swizzling. When you would use it?</h3>
 
-<h3>Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
+<h3>2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
 
 <p>A:It causes strong reference cycle, and results as memory leaks.</p>
 
-<h3>What happens when you invoke a method on a nil pointer?</h3>
+<h3>3.What happens when you invoke a method on a nil pointer?</h3>
 
-<p>Answer:返回0</p>
+<p>A:返回0</p>
 
 <p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
 
-<h3>Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+<h3>4.Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+
+<p>A:</p>
 
 <blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
 
@@ -225,7 +228,9 @@ $(document).ready(
 </ol>
 
 
-<h3>Explain your process for tracing and fixing a memory leak.</h3>
+<h3>5.Explain your process for tracing and fixing a memory leak.</h3>
+
+<p>A:</p>
 
 <ol>
 <li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
@@ -235,11 +240,11 @@ $(document).ready(
 
 <p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
 
-<h3>Explain how an autorelease pool works at the runtime level.</h3>
+<h3>6.Explain how an autorelease pool works at the runtime level.</h3>
 
-<h3>When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
+<h3>7.When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
 
-<p>atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
+<p>A: atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -262,19 +267,19 @@ $(document).ready(
 
 <p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
 
-<h3>In C, how would you reverse a string as quickly as possible?</h3>
+<h3>8.In C, how would you reverse a string as quickly as possible?</h3>
 
-<h3>Which is faster: to iterate through an NSArray or an NSSet?</h3>
+<h3>9.Which is faster: to iterate through an NSArray or an NSSet?</h3>
 
 <p>A: NSArray</p>
 
 <p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
 
-<h3>Explain how code signing works.</h3>
+<h3>10.Explain how code signing works.</h3>
 
-<h3>What is posing in Objective-C?</h3>
+<h3>11.What is posing in Objective-C?</h3>
 
-<h3>List six instruments that are part of the standard.</h3>
+<h3>12.List six instruments that are part of the standard.</h3>
 
 <p>A:</p>
 
@@ -289,31 +294,60 @@ $(document).ready(
 </ol>
 
 
-<h3>What are the differences between copy and retain?</h3>
+<h3>13.What are the differences between copy and retain?</h3>
 
-<p>copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
+<p>A: copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
 
-<h3>What is the difference between frames and bounds?</h3>
+<h3>14.What is the difference between frames and bounds?</h3>
+
+<p>A:</p>
 
 <blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
 The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
 
-<h3>What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+<h3>15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
 
-<p>The object gets released twice when the autorelease pool is destroyed.</p>
+<p>A: The object gets released twice when the autorelease pool is destroyed.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
 
-<h3>List the five iOS app states.</h3>
+<h3>16.List the five iOS app states.</h3>
 
-<p>| State | Description |
-| &mdash;&ndash; | &mdash;&mdash;&mdash;&ndash; |
-| Not Running | The app has not been launched or was running but was terminated by the system.
-| Inactive | The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.
-| Active | The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.
-| Background | The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background
-| Suspended | The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.
-When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
+<p>A:</p>
+
+<table>
+<thead>
+<tr>
+<th> State </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Not Running </td>
+<td> The app has not been launched or was running but was terminated by the system. </td>
+</tr>
+<tr>
+<td> Inactive </td>
+<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
+</tr>
+<tr>
+<td> Active </td>
+<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
+</tr>
+<tr>
+<td> Background </td>
+<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
+</tr>
+<tr>
+<td> Suspended </td>
+<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
 
 <p>Reference:
 o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Interview Questions</a></p>

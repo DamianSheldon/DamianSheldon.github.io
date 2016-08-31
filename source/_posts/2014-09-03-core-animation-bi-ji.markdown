@@ -143,9 +143,41 @@ Note:对于图层后备视图，推荐你任何时候都优先操作视图而不
 1)图层本身属性的动画可以通过CABasicAnimation和CAKeyframeAnimation添加；    
 2)图层自定义属性动画可以参看[Layer 中自定义属性的动画](http://objccn.io/issue-12-2/)。
 
+### 代码示例
+
+1. 当 CALayer 不是 UIView 后备图层时：
+
+```
+CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
+fadeAnim.fromValue = [NSNumber numberWithFloat:1.0];
+fadeAnim.toValue = [NSNumber numberWithFloat:0.0];
+fadeAnim.duration = 1.0;
+[theLayer addAnimation:fadeAnim forKey:@"opacity"];
+```
+
+2. 当 CALayer 是 UIView 后备图层时，因为 UIView 默认禁止了它的动画而在动画块中又重新使能，所以只能在动画块中执行相应的 Core Animation:
+
+```
+[UIView animateWithDuration:1.0 animations:^{
+   // Change the opacity implicitly.
+   myView.layer.opacity = 0.0;
+ 
+   // Change the position explicitly.
+   CABasicAnimation* theAnim = [CABasicAnimation animationWithKeyPath:@"position"];
+   theAnim.fromValue = [NSValue valueWithCGPoint:myView.layer.position];
+   theAnim.toValue = [NSValue valueWithCGPoint:myNewPosition];
+   theAnim.duration = 3.0;
+   [myView.layer addAnimation:theAnim forKey:@"AnimateFrame"];
+}];
+```
+
+### @dynamic
+
+与 NSManagedObject 很类似， CALayer 具有为任何被声明的属性生成 dynamic 的 setter 和 getter 的能力。（Key-Value Coding Compliant Container Classes）
+
 ###Reference
 
-Core Animation Programing Guide   
-动画解释(http://objccn.io/issue-12-1/)    
-Layer 中自定义属性的动画(http://objccn.io/issue-12-2/)
+* Core Animation Programing Guide   
+* [动画解释](http://objccn.io/issue-12-1/)    
+* [Layer 中自定义属性的动画](http://objccn.io/issue-12-2/)
 

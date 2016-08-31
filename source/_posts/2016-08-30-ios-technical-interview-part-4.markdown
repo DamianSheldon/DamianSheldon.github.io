@@ -32,6 +32,8 @@ A:
 	* 信息流
 	* 类簇
 
+<!-- more -->
+
 ###6.如何实现单例，单例会有什么弊端？
 A：
 
@@ -104,42 +106,95 @@ Reference:http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-
 A: UIView 会持有至少一个 CALayer 实例，CALayer 是 UIView 的骨架，它将 UIView 的内容绘制出来并提供动画支持。
 
 ###18.`+[UIView animateWithDuration:animations:completion:]` 内部大概是如何实现的？
-A:
+A:我觉得`+[UIView animateWithDuration:animations:completion:]` 内部应该是先使能 CALayer 实例的隐式动画，之后对 UIView animatable properties 的设置会传递到 CALayer 对应属性的 setter 方法，CALayer 的 setter 方法会触发对应的隐式动画，最后禁止 CALayer 实例的隐式动画。
+
+Reference:
+
+* https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented   
+* http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood
 
 ###19.什么时候会发生「隐式动画」？
 A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。
 
 Reference:http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios
 
-###如何把一张大图缩小为1/4大小的缩略图？
+###20.如何把一张大图缩小为1/4大小的缩略图？
+A:
+
+* UIGraphicsBeginImageContextWithOptions & UIImage -drawInRect:(UIKit)
+* CGBitmapContextCreate & CGContextDrawImage(Core Graphics)
+* CGImageSourceCreateThumbnailAtIndex(Image IO)
+* Lanczos Resampling with Core Image(Core Image)
+* vImage in Accelerate(vImage)
+
+Reference:http://nshipster.com/image-resizing/
 
 ###21.Toll-Free Bridging 是什么？什么情况下会使用？
+A:
+> There are a number of data types in the Core Foundation framework and the Foundation framework that can be used interchangeably. Data types that can be used interchangeably are also referred to as toll-free bridged data types. This means that you can use the same data structure as the argument to a Core Foundation function call or as the receiver of an Objective-C message invocation.
 
 ###22.当系统出现内存警告时会发生什么？
+A:系统会杀死后台内存占用量大的应用释放内存给当前运行的应用，当前的应用也会收到内存警告的通知。
 
 ###23.什么是 Protocol，Delegate 一般是怎么用的？
+A:Protocol是一份消息合约。Delegate 是我们改变一个对象行为方式，这种方式不需要对类做继承。
 
 ###24.UIWebView 有哪些性能问题？有没有可替代的方案。
+A:
+
+* **线程阻塞问题**--当在 native 层调用 stringByEvaluatingJavaScriptFromString 方法时，可能由于 javascript 是单线程的原因，会阻塞原有 js 代码的执行。这里我们的解决办法是在 js 端用 defer 将 iframe 的插入延后执行。
+* **主线程的问题**--UIWebView 的 stringByEvaluatingJavaScriptFromString 方法必须是主线程中执行，而主线程的执行时间过长就会 block UI 的更新。所以我们应该尽量让 stringByEvaluatingJavaScriptFromString 方法执行的时间短。
+
+Reference:[关于UIWebView的总结](http://blog.devtang.com/2012/03/24/talk-about-uiwebview-and-phonegap/)
 
 ###25.为什么 NotificationCenter 要 removeObserver? 如何实现自动 remove?
+A:因为之后产生了 Observer 感兴趣的通知 NotificationCenter 会调用 Observer 对应的处理方法，如果 Observer 销毁之后不从 NotificationCenter remove,那么会导致应用崩溃。
+
+想要实现自动 remove，如果 NotificationCenter 对 Observer 的引用在 Observer 销毁后能自动置为 nil，类似 weak 的效果，那么问题就解决了。我们不能去修改 NotificationCenter 的内部实现，所以只能用其他的办法。有一个想法是在 Observer 销毁时调用 remove，可以利用 Objective-C 的 runtime 来帮助我们实现。具体思路是混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver。
+
+Reference:[Automatic removal of NSNotificationCenter or KVO observers](http://merowing.info/2012/03/automatic-removal-of-nsnotificationcenter-or-kvo-observers/)
 
 ###26.当 TableView 的 Cell 改变时，如何让这些改变以动画的形式呈现？
+A:You can also use beginUpdates method followed by the endUpdates method to animate the change in the row heights without reloading the cell.
 
 ###27.什么是 Method Swizzle，什么情况下会使用？
+A:Method Swizzle 是一种改变已存在方法实现的技术。当我们有改变已存在方法实现的需求是使用。
 
 ###28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？
+A: Layer 有两个独立的图层: 1.modelLayer;2.presentationLayer. 动画是在 presentationLayer 上，所以当动画完成时， layer 又恢复到原先的状态。
 
 ###29.你会如何存储用户的一些敏感信息，如登录的 token。
+A:KeyChain services
 
 ###30.什么时候会使用 Core Graphics，有什么注意事项么？
+A:当需要绘制的内容不能用 UIKit 实现时，会使用 Core Graphics。
+
+注意事项：
+
+	* 坐标系统
+	* 线条的宽度尽量使用整数
+	* 缓存代价昂贵的数据
 
 ###31.使用 Block 时需要注意哪些问题？
+A:
+
+* 循环引用
+* 对象的生命周期会延长
+
 
 ###32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？
+
 
 ###33.如何播放 GIF 图片，有什么优化方案么？
 
 ###34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？
+A:
+
+* UIGraphicsBeginImageContextWithOptions & UIImage -drawInRect:(UIKit)
+* CGBitmapContextCreate & CGContextDrawImage(Core Graphics)
+* CGImageSourceCreateThumbnailAtIndex(Image IO)
+* Lanczos Resampling with Core Image(Core Image)
+* vImage in Accelerate(vImage)
 
 ###35.哪些途径可以让 ViewController 瘦下来？
 

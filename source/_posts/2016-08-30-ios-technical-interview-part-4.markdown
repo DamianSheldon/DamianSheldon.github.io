@@ -9,7 +9,7 @@ discription: iOS Technical Interview
 ---
 
 ###1.熟悉 CocoaPods 么？能大概讲一下工作原理么？
-A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则信赖这个 pod 工程。
+A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。
 
 ###2.最常用的版本控制工具是什么，能大概讲讲原理么？
 A: Git
@@ -186,6 +186,18 @@ A:
 
 
 ###33.如何播放 GIF 图片，有什么优化方案么？
+A: 用 ImageIO 框架为每一帧动画创建一个 UIImage 对象，把这些对象聚合成一个 animatedImages 赋给 UIImageView，然后根据 GIF 的文件信息设置好 animationDuration 和 animationRepeatCount，最后调用 startAnimating。
+
+优化方案：
+	
+	* variable frame delays -- One approach to support variable frame delays with UIImageView is to find the greatest common divisor of all frame delays and slot longer frames multiple times in a row into the animatedImages array.
+
+	* memory implications -- Whenever memory is the constraint, instead of storing the solution to a problem one has to recalculate it. In our case we needed a way to load and decode the frames just in time before they were displayed, and to purge the ones that were no longer on screen.
+
+Reference:
+
+	* [How FlipBoard Play Animated GIFs On iOS](http://engineering.flipboard.com/2014/05/animated-gif/)
+
 
 ###34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？
 A:
@@ -197,12 +209,40 @@ A:
 * vImage in Accelerate(vImage)
 
 ###35.哪些途径可以让 ViewController 瘦下来？
+A: 我们的 App 基本都是使用类 MVC 架构，要想让 ViewController 瘦下来，基本的想法肯定是把和 ViewController 弱相关的代码移出去，移到哪？要么是称多 MV 中， 要么移到一个辅助对象中。所以基本做法应该是把弱业务代码移到 Model 中，和 View 相关的代码移到 View 中；甚至引入一个辅助对象来分担可以分离出去的职责。
+
+Reference: [更轻量的 View Controllers](https://objccn.io/issue-1-1/)  
 
 ###36.有哪些常见的 Crash 场景？
+A:
+
+* 数组越界
+* 向数组或字典中插入的对象为 nil
+* 向已经销毁的对象发送消息
+* 内存管理出错
+* 调用一个对象不支持的方法
+* 看门狗超时
 
 ###37.设计一套大文件（如上百M的视频）下载方案。
 
 ###38.如果让你来实现 dispatch_once，你会怎么做？
+A:
+
+```
+void SpinlockOnce(dispatch_once_t *predicate, dispatch_block_t block) {
+        static OSSpinLock lock = OS_SPINLOCK_INIT;
+
+        OSSpinLockLock(&lock);
+        if(!*predicate) {
+            block();
+            *predicate = 1;
+        }
+        OSSpinLockUnlock(&lock);
+    }
+```
+
+Reference:
+[Friday Q&A 2014-06-06: Secrets of dispatch_once](https://www.mikeash.com/pyblog/friday-qa-2014-06-06-secrets-of-dispatch_once.html)
 
 
 Reference:https://github.com/lzyy/iOS-Developer-Interview-Questions

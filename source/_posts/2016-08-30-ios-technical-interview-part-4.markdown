@@ -224,6 +224,8 @@ A:
 * 看门狗超时
 
 ###37.设计一套大文件（如上百M的视频）下载方案。
+A:
+[TCBlobDownload](https://github.com/thibaultcha/TCBlobDownload)
 
 ###38.如果让你来实现 dispatch_once，你会怎么做？
 A:

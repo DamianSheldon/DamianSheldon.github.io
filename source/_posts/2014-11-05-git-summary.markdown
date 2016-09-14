@@ -400,6 +400,31 @@ A:git archive master | tar -x -C /somewhere/else
 
 Reference:http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export
 
+### Shows the commits that changed specific file
+
+```
+git log --follow builtin/rev-list.c
+           Shows the commits that changed builtin/rev-list.c, including those commits that occurred before the file was given its present name.
+```
+
+###Viewing a Deleted File in Git
+
+```
+$ git show HEAD^:path/to/file
+```
+
+You can use an explicit commit identifier or HEAD~n to see older versions or if there has been more than one commit since you deleted it.
+
+>Finally, most commands that take filenames will optionally allow you to precede any filename by a commit, to specify a particular version of the file:
+
+>`$ git diff v2.5:Makefile HEAD:Makefile.in`
+
+>You can also use git show to see any such file:
+
+>`$ git show v2.5:Makefile`
+
+Reference:[Viewing a Deleted File in Git](http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git)
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)
 

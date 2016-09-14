@@ -780,6 +780,34 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export">http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export</a></p>
 
+<h3>Shows the commits that changed specific file</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git log --follow <span class="nb">builtin</span>/rev-list.c
+</span><span class='line'>           Shows the commits that changed <span class="nb">builtin</span>/rev-list.c, including those commits that occurred before the file was given its present name.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Viewing a Deleted File in Git</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git show HEAD^:path/to/file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use an explicit commit identifier or HEAD~n to see older versions or if there has been more than one commit since you deleted it.</p>
+
+<blockquote><p>Finally, most commands that take filenames will optionally allow you to precede any filename by a commit, to specify a particular version of the file:</p>
+
+<p><code>$ git diff v2.5:Makefile HEAD:Makefile.in</code></p>
+
+<p>You can also use git show to see any such file:</p>
+
+<p><code>$ git show v2.5:Makefile</code></p></blockquote>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git">Viewing a Deleted File in Git</a></p>
+
 <h4>Reference</h4>
 
 <p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>

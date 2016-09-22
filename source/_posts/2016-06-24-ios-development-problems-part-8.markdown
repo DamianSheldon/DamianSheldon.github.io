@@ -158,4 +158,17 @@ A:[panoramagl](https://code.google.com/archive/p/panoramagl/)
 
 Reference:http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios
 
+### 10. When should we use macro in iOS?
+A: As we known, macro has many disatanges:1.lack type info;2.can be redfine. Since its a keyword in C, when should we use it?
+
+There are occasions where macros provide functionality not available through other means.
+
+For example, I have a simple macro I sometimes use when debugging Objective-C to log when certain methods are called. This can be done like so:
+
+`NSLog(@"%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));`
+This can’t be moved into an Objective-C method because it will always log the name of that method. (Obviously it can’t be moved into a C method, as there is no self and no _cmd variables available.) Creating a macro for this is straightforward, however:
+
+`#define LOG_SELECTOR()  NSLog(@"%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));`
+
+Reference:[Appropriate Use of C Macros for Objective-C Developers](http://weblog.highorderbit.com/post/11656225202/appropriate-use-of-c-macros-for-objective-c)  
 

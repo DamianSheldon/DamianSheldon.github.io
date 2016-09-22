@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-09-14T16:04:01+08:00</updated>
+  <updated>2016-09-22T16:58:03+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -480,6 +480,21 @@ A binary-to-text encoding is encoding of data in plain text. More precisely, it 
 <p>A:<a href="https://code.google.com/archive/p/panoramagl/">panoramagl</a></p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios">http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios</a></p>
+
+<h3>10. When should we use macro in iOS?</h3>
+
+<p>A: As we known, macro has many disatanges:1.lack type info;2.can be redfine. Since its a keyword in C, when should we use it?</p>
+
+<p>There are occasions where macros provide functionality not available through other means.</p>
+
+<p>For example, I have a simple macro I sometimes use when debugging Objective-C to log when certain methods are called. This can be done like so:</p>
+
+<p><code>NSLog(@"%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));</code>
+This can’t be moved into an Objective-C method because it will always log the name of that method. (Obviously it can’t be moved into a C method, as there is no self and no _cmd variables available.) Creating a macro for this is straightforward, however:</p>
+
+<p><code>#define LOG_SELECTOR()  NSLog(@"%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));</code></p>
+
+<p>Reference:<a href="http://weblog.highorderbit.com/post/11656225202/appropriate-use-of-c-macros-for-objective-c">Appropriate Use of C Macros for Objective-C Developers</a></p>
 ]]></content>
   </entry>
   

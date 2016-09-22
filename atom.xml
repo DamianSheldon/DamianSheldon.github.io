@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-09-14T16:04:01+08:00</updated>
+  <updated>2016-09-22T16:58:03+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -557,6 +557,21 @@ A binary-to-text encoding is encoding of data in plain text. More precisely, it 
 <p>A:<a href="https://code.google.com/archive/p/panoramagl/">panoramagl</a></p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios">http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios</a></p>
+
+<h3>10. When should we use macro in iOS?</h3>
+
+<p>A: As we known, macro has many disatanges:1.lack type info;2.can be redfine. Since its a keyword in C, when should we use it?</p>
+
+<p>There are occasions where macros provide functionality not available through other means.</p>
+
+<p>For example, I have a simple macro I sometimes use when debugging Objective-C to log when certain methods are called. This can be done like so:</p>
+
+<p><code>NSLog(@"%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));</code>
+This can’t be moved into an Objective-C method because it will always log the name of that method. (Obviously it can’t be moved into a C method, as there is no self and no _cmd variables available.) Creating a macro for this is straightforward, however:</p>
+
+<p><code>#define LOG_SELECTOR()  NSLog(@"%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));</code></p>
+
+<p>Reference:<a href="http://weblog.highorderbit.com/post/11656225202/appropriate-use-of-c-macros-for-objective-c">Appropriate Use of C Macros for Objective-C Developers</a></p>
 ]]></content>
   </entry>
   
@@ -4594,7 +4609,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x64;&#111;&#x6e;&#103;&#x6d;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#103;&#64;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#46;&#49;&#46;&#50;&#x35;&#53;">&#x64;&#111;&#x6e;&#x67;&#109;&#101;&#x69;&#108;&#105;&#97;&#110;&#103;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x2e;&#x32;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x64;&#111;&#110;&#103;&#109;&#x65;&#105;&#108;&#x69;&#x61;&#110;&#x67;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#x2e;&#x32;&#53;&#53;">&#x64;&#111;&#110;&#x67;&#109;&#101;&#105;&#108;&#105;&#97;&#x6e;&#103;&#x40;&#49;&#x39;&#x32;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#x2e;&#x32;&#x35;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

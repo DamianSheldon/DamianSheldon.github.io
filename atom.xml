@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-10T09:05:48+08:00</updated>
+  <updated>2016-10-10T11:05:45+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -128,6 +128,9 @@
 <ul>
 <li>可以取消操作；</li>
 <li>可以添加依赖；</li>
+<li>可以 KVO 属性;</li>
+<li>可以添加优先级;</li>
+<li>可以复用;</li>
 </ul>
 
 
@@ -257,6 +260,35 @@
 
 
 <h3>32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)eoc_performSelector:(SEL)aSelector
+</span><span class='line'>withObject:(id)anArgument
+</span><span class='line'>afterDelay:(NSTimeInterval)delay
+</span><span class='line'>{
+</span><span class='line'>    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+</span><span class='line'>            typedef void (*send_type)(id, SEL, id);
+</span><span class='line'>
+</span><span class='line'>            send_type func = (send_type)objc_msgSend;
+</span><span class='line'>            func(self, aSelector, anArgument);
+</span><span class='line'>            });
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意事项：
+可能会导致内存泄露。因为不确定调用的方法，所以编译器不能插入合适的内存管理方法调用。例如newObject，copy之类的方法调用就会导致内存泄露。</p>
 
 <h3>33.如何播放 GIF 图片，有什么优化方案么？</h3>
 
@@ -4626,7 +4658,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#100;&#x6f;&#110;&#103;&#109;&#x65;&#105;&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#x36;&#56;&#46;&#x31;&#46;&#x32;&#x35;&#53;">&#100;&#111;&#110;&#x67;&#x6d;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#103;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#x2e;&#x32;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#100;&#111;&#x6e;&#x67;&#109;&#x65;&#x69;&#108;&#105;&#x61;&#110;&#x67;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#x2e;&#x32;&#53;&#53;">&#x64;&#111;&#x6e;&#103;&#109;&#x65;&#105;&#108;&#105;&#97;&#x6e;&#x67;&#64;&#x31;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#49;&#46;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

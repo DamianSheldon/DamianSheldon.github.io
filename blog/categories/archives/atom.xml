@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-10T09:05:48+08:00</updated>
+  <updated>2016-10-10T11:05:45+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -119,6 +119,9 @@
 <ul>
 <li>可以取消操作；</li>
 <li>可以添加依赖；</li>
+<li>可以 KVO 属性;</li>
+<li>可以添加优先级;</li>
+<li>可以复用;</li>
 </ul>
 
 
@@ -248,6 +251,24 @@
 
 
 <h3>32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？</h3>
+
+<p>A:</p>
+
+<pre><code>- (void)eoc_performSelector:(SEL)aSelector
+withObject:(id)anArgument
+afterDelay:(NSTimeInterval)delay
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+            typedef void (*send_type)(id, SEL, id);
+
+            send_type func = (send_type)objc_msgSend;
+            func(self, aSelector, anArgument);
+            });
+}
+</code></pre>
+
+<p>注意事项：
+可能会导致内存泄露。因为不确定调用的方法，所以编译器不能插入合适的内存管理方法调用。例如newObject，copy之类的方法调用就会导致内存泄露。</p>
 
 <h3>33.如何播放 GIF 图片，有什么优化方案么？</h3>
 

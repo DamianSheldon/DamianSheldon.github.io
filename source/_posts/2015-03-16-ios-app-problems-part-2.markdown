@@ -26,19 +26,6 @@ Open iTunes > File > Add To Library... > select Ad Hoc provisioning profile and 
 
 Reference:http://hearrain.com/2014/01/774
 
-###问题描述：iPhone每次连接Mac都会弹出iPhoto
-解决办法：
-
-1. Plug in your iPad/iPhone
-2. Open Image Capture
-3. Select your device ("devMikePad")
-4. Press the triangle in square symbol in the lower left corner.
-5. Select "No application" in the menu.
-
-iPhoto:
-Preferences > General > "Connecting Camera Opens ..."
-set it to "No Application"
-
 <!--more-->
 
 ###问题描述:ld: warning: directory not found for option '-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator'

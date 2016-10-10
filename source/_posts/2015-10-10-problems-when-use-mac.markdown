@@ -140,3 +140,15 @@ If the command sudo route flush takes longer than 10 seconds to complete, hold d
 
 Reference:https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49
 
+## 16. iPhone每次连接Mac都会弹出iPhoto
+解决办法：
+
+1. Plug in your iPad/iPhone
+2. Open Image Capture
+3. Select your device ("devMikePad")
+4. Press the triangle in square symbol in the lower left corner.
+5. Select "No application" in the menu.
+
+iPhoto:
+Preferences > General > "Connecting Camera Opens ..."
+set it to "No Application"

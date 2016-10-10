@@ -87,6 +87,9 @@ A:
 
 * 可以取消操作；
 * 可以添加依赖；
+* 可以 KVO 属性;
+* 可以添加优先级;
+* 可以复用;
 
 ###15.strong / weak / unsafe_unretained 的区别
 
@@ -183,6 +186,24 @@ A:
 
 
 ###32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？
+A:
+
+```
+- (void)eoc_performSelector:(SEL)aSelector
+withObject:(id)anArgument
+afterDelay:(NSTimeInterval)delay
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+            typedef void (*send_type)(id, SEL, id);
+
+            send_type func = (send_type)objc_msgSend;
+            func(self, aSelector, anArgument);
+            });
+}
+```
+
+注意事项：
+可能会导致内存泄露。因为不确定调用的方法，所以编译器不能插入合适的内存管理方法调用。例如newObject，copy之类的方法调用就会导致内存泄露。
 
 
 ###33.如何播放 GIF 图片，有什么优化方案么？

@@ -217,13 +217,12 @@ A: 用 ImageIO 框架为每一帧动画创建一个 UIImage 对象，把这些�
 
 优化方案：
 	
-	* variable frame delays -- One approach to support variable frame delays with UIImageView is to find the greatest common divisor of all frame delays and slot longer frames multiple times in a row into the animatedImages array.
-
-	* memory implications -- Whenever memory is the constraint, instead of storing the solution to a problem one has to recalculate it. In our case we needed a way to load and decode the frames just in time before they were displayed, and to purge the ones that were no longer on screen.
+* variable frame delays -- One approach to support variable frame delays with UIImageView is to find the greatest common divisor of all frame delays and slot longer frames multiple times in a row into the animatedImages array.
+* memory implications -- Whenever memory is the constraint, instead of storing the solution to a problem one has to recalculate it. In our case we needed a way to load and decode the frames just in time before they were displayed, and to purge the ones that were no longer on screen.
 
 Reference:
 
-	* [How FlipBoard Play Animated GIFs On iOS](http://engineering.flipboard.com/2014/05/animated-gif/)
+* [How FlipBoard Play Animated GIFs On iOS](http://engineering.flipboard.com/2014/05/animated-gif/)
 
 
 ###34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？

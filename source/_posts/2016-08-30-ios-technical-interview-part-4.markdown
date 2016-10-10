@@ -70,6 +70,11 @@ A:
 Reference: What's New in iOS
 
 ###10.Objective-C 的 class 是如何实现的？Selector 是如何被转化为 C 语言的函数调用的？
+A:
+
+[receiver message]
+
+=> objc_msgSend(receiver, selector);
 
 ###11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？
 
@@ -104,6 +109,7 @@ A:
 Reference:http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute
 
 ###16.Objective-C 中，meta-class 指的是什么
+A:类对象的类称为 meta-class.
 
 ###17.UIView 和 CALayer 之间的关系？
 A: UIView 会持有至少一个 CALayer 实例，CALayer 是 UIView 的骨架，它将 UIView 的内容绘制出来并提供动画支持。

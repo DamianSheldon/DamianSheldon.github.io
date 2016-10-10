@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-10T11:49:51+08:00</updated>
+  <updated>2016-10-10T11:56:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -304,15 +304,18 @@
 
 <p>优化方案：</p>
 
-<pre><code>* variable frame delays -- One approach to support variable frame delays with UIImageView is to find the greatest common divisor of all frame delays and slot longer frames multiple times in a row into the animatedImages array.
+<ul>
+<li>variable frame delays &ndash; One approach to support variable frame delays with UIImageView is to find the greatest common divisor of all frame delays and slot longer frames multiple times in a row into the animatedImages array.</li>
+<li>memory implications &ndash; Whenever memory is the constraint, instead of storing the solution to a problem one has to recalculate it. In our case we needed a way to load and decode the frames just in time before they were displayed, and to purge the ones that were no longer on screen.</li>
+</ul>
 
-* memory implications -- Whenever memory is the constraint, instead of storing the solution to a problem one has to recalculate it. In our case we needed a way to load and decode the frames just in time before they were displayed, and to purge the ones that were no longer on screen.
-</code></pre>
 
 <p>Reference:</p>
 
-<pre><code>* [How FlipBoard Play Animated GIFs On iOS](http://engineering.flipboard.com/2014/05/animated-gif/)
-</code></pre>
+<ul>
+<li><a href="http://engineering.flipboard.com/2014/05/animated-gif/">How FlipBoard Play Animated GIFs On iOS</a></li>
+</ul>
+
 
 <h3>34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？</h3>
 
@@ -4666,7 +4669,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x64;&#111;&#x6e;&#103;&#109;&#101;&#105;&#108;&#x69;&#x61;&#x6e;&#x67;&#64;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#46;&#x32;&#x35;&#53;">&#100;&#x6f;&#x6e;&#x67;&#x6d;&#x65;&#x69;&#108;&#x69;&#x61;&#110;&#103;&#x40;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#x2e;&#x32;&#x35;&#x35;</a><br/>
+<p>1.sftp <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x64;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#108;&#x69;&#97;&#110;&#x67;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#46;&#49;&#x2e;&#x32;&#53;&#53;">&#100;&#111;&#110;&#103;&#109;&#x65;&#105;&#108;&#105;&#97;&#110;&#x67;&#64;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#46;&#50;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 

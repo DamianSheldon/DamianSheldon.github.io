@@ -114,19 +114,7 @@ $(document).ready(
 			Android开发问题汇总</a>
 	</h2>
 	<div class="entry-content">
-		<h3>Android Studio SDK Components安装提示操作超时</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
-</span><span class='line'>$ vim /etc/hosts
-</span><span class='line'>203.208.46.146 dl.google.com
-</span><span class='line'>203.208.46.146 dl-ssl.google.com</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Android Studio Check Updates提示连接出错</h3>
+		<h3>Gradle使用代理服务器</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -135,62 +123,16 @@ $(document).ready(
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// MacOS
-</span><span class='line'>$ vim /Applications/Android\ Studio.app/Contents/Info.plist
-</span><span class='line'>
-</span><span class='line'>// 搜索 VMOptions
-</span><span class='line'>
-</span><span class='line'>// 添加如下内容
-</span><span class='line'>-Djava.net.preferIPv4Stack=true
-</span><span class='line'>-Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml
-</span><span class='line'>-Didea.patches.url=http://dl.google.com/android/studio/patches/
-</span><span class='line'>
-</span><span class='line'>// 结果
-</span><span class='line'>&lt;key&gt;VMOptions&lt;/key&gt;
-</span><span class='line'>&lt;string&gt;
-</span><span class='line'>-Dfile.encoding=UTF-8 -ea 
-</span><span class='line'>-Dsun.io.useCanonCaches=false 
-</span><span class='line'>-Djava.net.preferIPv4Stack=true
-</span><span class='line'> -Djna.nosys=true 
-</span><span class='line'> -Djna.boot.library.path=  
-</span><span class='line'> -Djna.debug_load=true 
-</span><span class='line'> -Djna.debug_load.jna=true 
-</span><span class='line'> -Djsse.enableSNIExtension=false 
-</span><span class='line'> -XX:+UseCodeCacheFlushing 
-</span><span class='line'> -XX:+UseConcMarkSweepGC 
-</span><span class='line'> -XX:SoftRefLRUPolicyMSPerMB=50 
-</span><span class='line'> -Xverify:none -Xbootclasspath/a:../lib/boot.jar 
-</span><span class='line'> -Djava.net.preferIPv4Stack=true 
-</span><span class='line'> -Didea.updates.url=http://dl.google.com/android/studio/patches/updates.xml 
-</span><span class='line'> -Didea.patches.url=http://dl.google.com/android/studio/patches/
-</span><span class='line'> &lt;/string&gt;
-</span><span class='line'>
-</span><span class='line'>// 重启 Android Studio</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// /Users/&lt;username&gt;/.gradle/gradle.properties (Mac)
+</span><span class='line'># Http Proxy
+</span><span class='line'>systemProp.http.proxyHost=www.somehost.org
+</span><span class='line'>systemProp.http.proxyPort=8080
+</span><span class='line'>systemProp.http.proxyUser=userid
+</span><span class='line'>systemProp.http.proxyPassword=password
+</span><span class='line'>systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost</span></code></pre></td></tr></table></div></figure>
 
+
+<p>Reference:<a href="https://www.leimingshan.com/gradle/">Gradle使用代理服务器</a></p>
 
 <h3>设置Gradle home</h3>
 

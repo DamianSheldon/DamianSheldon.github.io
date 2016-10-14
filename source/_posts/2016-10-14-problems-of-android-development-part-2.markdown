@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "problems-of-android-development part 2"
+title: "Android开发问题汇总(二)"
 date: 2016-10-14 08:59:43 +0800
 comments: true
 categories: [Archives, Android] 

@@ -152,3 +152,10 @@ Reference:https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-a
 iPhoto:
 Preferences > General > "Connecting Camera Opens ..."
 set it to "No Application"
+
+## 17. Add environment variable
+
+```
+// ~/.bash_profile
+export var=value
+```

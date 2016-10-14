@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-12T16:23:39+08:00</updated>
+  <updated>2016-10-14T09:22:55+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[problems-of-android-development part 2]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-2.html"/>
+    <updated>2016-10-14T08:59:43+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-2</id>
+    <content type="html"><![CDATA[<h3>1.Error running app: Default Activity not found</h3>
+
+<p>A: 问题的原因是 AndroidManifest.xml 文件配置的有问题。正确的样例如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>package="edu.self.buildexample"&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;application
+</span><span class='line'>android:allowBackup="true"
+</span><span class='line'>android:icon="@mipmap/ic_launcher"
+</span><span class='line'>android:label="@string/app_name"
+</span><span class='line'>android:supportsRtl="true"
+</span><span class='line'>android:theme="@style/AppTheme"&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;activity android:name=".BuildExampleActivity"&gt;
+</span><span class='line'>&lt;intent-filter&gt;
+</span><span class='line'>&lt;action android:name="android.intent.action.MAIN" /&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+</span><span class='line'>&lt;/intent-filter&gt;
+</span><span class='line'>&lt;/activity&gt;
+</span><span class='line'>&lt;/application&gt;
+</span><span class='line'>&lt;/manifest&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2. How to rename java package in Android Studio?</h3>
+
+<p>A:<a href="http://stackoverflow.com/questions/16804093/android-studio-rename-package">Android Studio Rename Package</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Technical Interview Part 4]]></title>
@@ -4677,7 +4734,7 @@ Apply > Run
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#100;&#111;&#x6e;&#x67;&#x6d;&#101;&#105;&#x6c;&#105;&#x61;&#110;&#x67;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#x31;&#46;&#50;&#x35;&#53;">&#x64;&#x6f;&#110;&#x67;&#x6d;&#101;&#x69;&#108;&#x69;&#97;&#110;&#x67;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#x2e;&#49;&#46;&#50;&#x35;&#53;</a><br/>
+<p>1.sftp <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#100;&#111;&#x6e;&#103;&#109;&#101;&#105;&#108;&#105;&#x61;&#110;&#103;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x2e;&#50;&#53;&#x35;">&#x64;&#111;&#x6e;&#103;&#x6d;&#x65;&#105;&#108;&#x69;&#97;&#110;&#x67;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#46;&#x32;&#53;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -4885,86 +4942,6 @@ quit</p>
 
 
 <p>Reference:<a href="http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/">http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Vim]]></title>
-    <link href="http://DamianSheldon.github.io/blog/vim.html"/>
-    <updated>2015-09-10T21:09:05+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/vim</id>
-    <content type="html"><![CDATA[<h3>1.查看帮助</h3>
-
-<p>:help</p>
-
-<h3>2.查看quickref</h3>
-
-<p>：help quickref</p>
-
-<h3>3.语法高亮</h3>
-
-<p>|:syn-on|       :syntax on              start using syntax highlighting
-|:syn-off|      :syntax off             stop using syntax highlighting</p>
-
-<h3>4.Move cursor to its last position</h3>
-
-<p>The quickest way is to hit either:</p>
-
-<p>&lsquo;&rsquo;
-(two apostrophes) or:</p>
-
-<p>``
-(two backticks).</p>
-
-<h3>5.Show line number</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set number</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>6.Auto indent</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set autoindent</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>7.Set background</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set background=dark
-</span><span class='line'>:set background=light</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>8.Common move command</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0, ^ line head
-</span><span class='line'>$, g_ line foot
-</span><span class='line'>ctl + f forword page
-</span><span class='line'>ctl + b back page</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>9.用vim编辑一个文件，改动了很多内容；最终要保存时却发现没有权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:w !sudo tee % &gt; /dev/null</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.caiyiting.com/blog/2014/vim-sudo.html">http://www.caiyiting.com/blog/2014/vim-sudo.html</a></p>
-
-<h3>10.替换文字时有特殊字符怎么办？</h3>
-
-<p>A:用 \ 转义。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%s/\/Users\/dongmeiliang\/Sites/\/home\/meiliang\/public_html/g</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   

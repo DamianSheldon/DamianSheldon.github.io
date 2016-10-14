@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-12T16:23:39+08:00</updated>
+  <updated>2016-10-14T09:22:55+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[problems-of-android-development part 2]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-2.html"/>
+    <updated>2016-10-14T08:59:43+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-2</id>
+    <content type="html"><![CDATA[<h3>1.Error running app: Default Activity not found</h3>
+
+<p>A: 问题的原因是 AndroidManifest.xml 文件配置的有问题。正确的样例如下：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="edu.self.buildexample"&gt;
+
+&lt;application
+android:allowBackup="true"
+android:icon="@mipmap/ic_launcher"
+android:label="@string/app_name"
+android:supportsRtl="true"
+android:theme="@style/AppTheme"&gt;
+
+&lt;activity android:name=".BuildExampleActivity"&gt;
+&lt;intent-filter&gt;
+&lt;action android:name="android.intent.action.MAIN" /&gt;
+
+&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+&lt;/intent-filter&gt;
+&lt;/activity&gt;
+&lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+
+<h3>2. How to rename java package in Android Studio?</h3>
+
+<p>A:<a href="http://stackoverflow.com/questions/16804093/android-studio-rename-package">Android Studio Rename Package</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android开发问题汇总]]></title>

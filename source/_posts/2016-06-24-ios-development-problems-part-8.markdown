@@ -172,3 +172,76 @@ This can’t be moved into an Objective-C method because it will always log the 
 
 Reference:[Appropriate Use of C Macros for Objective-C Developers](http://weblog.highorderbit.com/post/11656225202/appropriate-use-of-c-macros-for-objective-c)  
 
+### 11.Open Source VoIP/SIP Objective-C Code?
+A:siphon (http://code.google.com/p/siphon/).
+
+>Home of the World's first free SIP/VoIP application for iPhone and iPod Touch 1 and 2.
+
+>Siphon SIP/VoIP project is the first in his category that works on iPhone and iPod Touch 2 with headset for all SIP providers. It is a nat>ive application approved running on 2.X using internal micro/speaker and headset.
+
+>The Application supports the SIP standard, preserving compatibility with hundreds of SIP providers and offers a GUI which preserves the ap>>ple design of native iPhone applications.
+
+Reference:[iOS: Open Source VoIP/SIP Objective-C Code](http://stackoverflow.com/questions/1493050/ios-open-source-voip-sip-objective-c-code)
+
+### 12. How to show a search icon in indexed table view?
+A:UITableViewIndexSearch.
+
+>If the data source includes this constant string in the array of strings it returns in sectionIndexTitlesForTableView:, the section index displays a magnifying glass icon at the corresponding index location. This location should generally be the first title in the index.
+
+```
+- (NSArray *)sectionIndexTitles
+{
+    if (!_sectionIndexTitles) {
+        NSArray *titles = [UILocalizedIndexedCollation currentCollation].sectionIndexTitles;
+
+        NSMutableArray *tmpArray = [NSMutableArray arrayWithCapacity:titles.count + 1];
+        [tmpArray addObject:UITableViewIndexSearch];
+
+        for (NSString *title in titles) {
+            [tmpArray addObject:title];
+        }
+
+        _sectionIndexTitles = tmpArray.copy;
+    }
+    return _sectionIndexTitles;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+        return self.sectionIndexTitles;
+}
+```
+How to implement a function that active search bar when user tap magnifying glass icon?
+
+First, add support for indexed table view;
+
+```
+// Create the search results controller and store a reference to it.
+MySearchResultsController* resultsController = [[MySearchResultsController alloc] init];
+self.searchController = [[UISearchController alloc] initWithSearchResultsController:resultsController];
+ 
+ // Use the current view controller to update the search results.
+ self.searchController.searchResultsUpdater = self;
+  
+  // Install the search bar as the table header.
+  self.tableView.tableHeaderView = self.searchController.searchBar;
+   
+   // It is usually good to set the presentation context.
+   self.definesPresentationContext = YES;
+```
+
+Note: set navigation bar to translucent via Interface Builder or Programatically `    self.navigationController.navigationBar.translucent = YES;`, otherwise search bar will animate out table view.
+
+Reference:[UISearchController searchBar in tableHeaderView animating out of the screen](http://stackoverflow.com/questions/26222671/uisearchcontroller-searchbar-in-tableheaderview-animating-out-of-the-screen)  
+
+Second, hack tableView:sectionForSectionIndexTitle:atIndex: method.
+
+```
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    if (!index) {
+        self.searchController.active = YES;
+    }
+    return [self.collation sectionForSectionIndexTitleAtIndex:index];
+}
+```
+
+Reference:[Making UITableViewIndexSearch jump to tableHeaderView instead of section 0](http://stackoverflow.com/questions/26149526/making-uitableviewindexsearch-jump-to-tableheaderview-instead-of-section-0)  

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-21T11:23:14+08:00</updated>
+  <updated>2016-10-21T16:43:08+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[音频和视频格式]]></title>
+    <link href="http://DamianSheldon.github.io/blog/audio-and-video-file-format.html"/>
+    <updated>2016-10-21T15:15:53+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/audio-and-video-file-format</id>
+    <content type="html"><![CDATA[<h2>音频格式</h2>
+
+<p>我们通常说的音频格式准确地讲应该是音频文件格式，它是计算机系统上用于存放数字音频数据的文件格式，也可以看作一个容器。</p>
+
+<p>音频数据的比特分布我们称为音频编码格式，它可以非压缩编码或压缩编码。压缩编码又分为无损压缩和有损压缩。</p>
+
+<p>编码器(codec)就是来编解码原始音频数据的。</p>
+
+<p>声音源 &ndash;ADC&ndash;> raw audio data &ndash;codec&ndash;> audio data(uncompressed/compressed) &ndash;packed&ndash;> audio file format(container format)</p>
+
+<blockquote><p>An audio file format is a file format for storing digital audio data on a computer system. The bit layout of the audio data (excluding metadata) is called the audio coding format and can be uncompressed, or compressed to reduce the file size, often using lossy compression. The data can be a raw bitstream in an audio coding format, but it is usually embedded in a container format or an audio data format with defined storage layer.</p>
+
+<p>It is important to distinguish between the audio coding format, the container containing the raw audio data, and an audio codec. A codec performs the encoding and decoding of the raw audio data while this encoded data is (usually) stored in a container file. Although most audio file formats support only one type of audio coding data (created with an audio coder), a multimedia container format (as Matroska or AVI) may support multiple types of audio and video data.</p>
+
+<p>There are three major groups of audio file formats:
+    • Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;
+    • Formats with lossless compression, such as FLAC, Monkey&rsquo;s Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).
+    • Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).</p></blockquote>
+
+<!--more-->
+
+
+<h2>视频格式</h2>
+
+<p>视频文件格式是计算机系统上一种用来存放数字视频数据的文件格式。视频几乎都是以压缩格式的形式存储的以便减小文件大小。</p>
+
+<p>视频文件格式也是一个容器，里面包含编码完的视频和音频数据，同样是使用编码器来完成编解码工作。</p>
+
+<blockquote><p>A video file format is a type of file format for storing digital video data on a computer system. Video is almost always stored in compressed form to reduce the file size.</p>
+
+<p>A video file normally consists of a container format (e.g. Matroska) containing video data in a video coding format (e.g. VP9) alongside audio data in an audio coding format (e.g. Opus). The container format can also contain synchronization information, subtitles, and metadata such as title. A standardized (or in some cases de facto standard) video file type such as .webm is a profilespecified by a restriction on which container format and which video and audio compression formats are allowed.</p>
+
+<p>The coded video and audio inside a video file container (i.e. not headers, footers and metadata) is called the essence. A program (or hardware) which can decode video or audio is called a codec; playing or encoding a video file will sometimes require the user to install a codec library corresponding to the type of video and audio coding used in the file.</p></blockquote>
+
+<h2>iOS and Android supported audio &amp; video codec formats</h2>
+
+<h3>iOS</h3>
+
+<p>iOS supports many industry-standard and Apple-specific audio formats, including the following:</p>
+
+<ul>
+<li>AAC</li>
+<li>Apple Lossless (ALAC)</li>
+<li>A-law</li>
+<li>IMA/ADPCM (IMA4)</li>
+<li>Linear PCM</li>
+<li>µ-law</li>
+<li>DVI/Intel IMA ADPCM</li>
+<li>Microsoft GSM 6.10</li>
+<li>AES3-2003</li>
+</ul>
+
+
+<p>Preferred Audio Formats in iOS</p>
+
+<ul>
+<li><p>For uncompressed (highest quality) audio, use 16-bit, little endian, linear PCM audio data packaged in a CAF file.</p></li>
+<li><p>For compressed audio when playing one sound at a time, and when you don’t need to play audio simultaneously with the iPod application, use the AAC format packaged in a CAF or m4a file.</p></li>
+<li>For less memory usage when you need to play multiple sounds simultaneously, use IMA4 (IMA/ADPCM) compression. This reduces file size but entails minimal CPU impact during decompression. As with linear PCM data, package IMA4 data in a CAF file.</li>
+</ul>
+
+
+<p>iOS supports many industry-standard video formats and compression standards, including the following:</p>
+
+<ul>
+<li>H.264 video, up to 1.5 Mbps, 640 by 480 pixels, 30 frames per second, Low-Complexity version of the H.264 Baseline Profile with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats</li>
+<li>H.264 video, up to 768 Kbps, 320 by 240 pixels, 30 frames per second, Baseline Profile up to Level 1.3 with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats</li>
+<li>MPEG-4 video, up to 2.5 Mbps, 640 by 480 pixels, 30 frames per second, Simple Profile with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats</li>
+<li>Numerous audio formats, including the ones listed in Audio Technologies</li>
+</ul>
+
+
+<h3>Android</h3>
+
+<p>Audio</p>
+
+<ul>
+<li>AAC LC</li>
+<li>HE-AACv1 (AAC+)</li>
+<li>HE-AACv2 (enhanced AAC+)</li>
+<li>AAC ELD (enhanced low delay AAC)</li>
+<li>AMR-NB</li>
+<li>AMR-WB</li>
+<li>FLAC</li>
+<li>MP3</li>
+<li>MIDI</li>
+<li>Vorbis</li>
+<li>PCM/WAVE</li>
+<li>Opus</li>
+</ul>
+
+
+<p>Video</p>
+
+<ul>
+<li>H.263</li>
+<li>H.264 AVC</li>
+<li>H.265 HEVC</li>
+<li>MPEG-4 SP</li>
+<li>VP8</li>
+<li>VP9</li>
+</ul>
+
+
+<h3>iOS 和 Android 都支持的音频、视频格式</h3>
+
+<p>Audio</p>
+
+<ul>
+<li>AAC LC (Low-Complexity profile)</li>
+<li>Linear PCM</li>
+</ul>
+
+
+<p>Video</p>
+
+<ul>
+<li>H.264 AVC</li>
+<li>MPEG-4 SP (Simple Profile)</li>
+</ul>
+
+
+<p>Profile</p>
+
+<p>To address various applications ranging from low-quality, low-resolution surveillance cameras to high definition TV broadcasting and DVDs, many video standards group features into profiles and levels. MPEG-4 Part 2 has approximately 21 profiles, including profiles called Simple, Advanced Simple, Main, Core, Advanced Coding Efficiency, Advanced Real Time Simple, etc. The most commonly deployed profiles are Advanced Simple and Simple, which is a subset of Advanced Simple.</p>
+
+<h2>Reference:</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Audio_file_format">Audio file format</a><br/>
+<a href="https://en.wikipedia.org/wiki/Video_file_format">Video file format</a><br/>
+iOS Technology Overview<br/>
+<a href="https://developer.android.com/guide/appendix/media-formats.html">Supported Media Formats</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Technical Interview Part 4]]></title>
@@ -1107,154 +1247,6 @@ Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-wi
 
 <pre><code>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Technical Interview Part 3]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-3.html"/>
-    <updated>2016-02-25T18:43:44+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-3</id>
-    <content type="html"><![CDATA[<h3>1.Difference between categories and extensions?</h3>
-
-<p>A:There are two difference beween categories and extensions:</p>
-
-<ol>
-<li>The extension has no name;</li>
-<li>The implementation of the extension must be in the main @implementation block of the file.</li>
-</ol>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
-
-<h3>2.What is advantage of category?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>You can add method to existing class even to that class whose source is not available to you.</li>
-<li>You can extend functionality of a class without subclassing.</li>
-<li>You can split implementation in multiple classes.</li>
-</ul>
-
-
-<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
-
-<h3>3.What are KVO and KVC?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
-Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
-
-<p>Reference:Cocoa Core Competencies</p>
-
-<!-- more -->
-
-
-<h3>4.Difference between shallow copy and deep copy?</h3>
-
-<p>A:
-The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):</p>
-
-<p>A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
-A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm</a></p>
-
-<h3>5.When retain count increase?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>When you create an object;</li>
-<li>When you send an object retain message;</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases</a></p>
-
-<h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
-
-<p>A: Yes, there is a autorelease pool already provided to us.</p>
-
-<h3>7.When you will create an autorelease pool in your application?</h3>
-
-<p>A:There are three occasions when you might use your own autorelease pool blocks:</p>
-
-<ul>
-<li>If you are writing a program that is not based on a UI framework, such as a command-line tool.</li>
-<li><p>If you write a loop that creates many temporary objects.
-You may use an autorelease pool block inside the loop to dispose of those objects   before the next iteration. Using an autorelease pool block in the loop helps to  reduce the maximum memory footprint of the application.</p></li>
-<li><p>If you spawn a secondary thread.
-You must create your own autorelease pool block as soon as the thread begins executing; otherwise, your application will leak objects.</p></li>
-</ul>
-
-
-<h3>8.How many autorelease pool you can create in your application? Is there any limit?</h3>
-
-<p>A: You can create autorelease pool as much as possible, there is no limit.</p>
-
-<h3>9.What is purpose of delegates?</h3>
-
-<p>A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.</p>
-
-<h3>10.What is difference between NSNotification and protocol?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Protocol is To-one Relationships; NSNotification is To-many Relationships.</li>
-<li>Protocol support bidirectional data-transfer between two classes.</li>
-</ul>
-
-
-<h3>11.Polymorphism？</h3>
-
-<p>A: The ability of different objects to respond, each in its own way, to identical messages is called polymorphism.</p>
-
-<h3>12.Singleton?</h3>
-
-<p>A:A singleton class returns the same instance no matter how many times an application requests it.</p>
-
-<h3>13.Give us example of what are delegate methods and what are data source methods of UITableView?</h3>
-
-<p>A:</p>
-
-<pre><code>// Delegate methods
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-
- // Data source methods
- - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
- - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
-</code></pre>
-
-<h3>14.What are mutable and immutable types in Objective C?</h3>
-
-<p>A:A mutable object can be mutated or changed. An immutable object cannot.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable</a></p>
-
-<h3>15.When to use NSMutableArray and when to use NSArray?</h3>
-
-<p>A:When collection will mutable you should use NSMutableArray, otherwise use NSArray.</p>
-
-<h3>16.What is convenience constructor?</h3>
-
-<p>A:A convenience constructor is one that performs object allocation &amp; initialization in one step &amp; returns an autoreleased object to the caller.</p>
-
-<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor</a></p>
-
-<h3>17.What is responder chain?</h3>
-
-<p>A:The responder chain is a series of linked responder objects.</p>
-
-<h3>18.What is push notification?</h3>
-
-<p>A:Apple Push Notification service (APNs for short) is the centerpiece of the remote notifications feature. It is a robust and highly efficient service for propagating information to iOS and OS X devices. Each device establishes an accredited and encrypted IP connection with the service and receives notifications over this persistent connection. If a notification for an app arrives when that app is not running, the device alerts the user that the app has data waiting for it.</p>
 ]]></content>
   </entry>
   

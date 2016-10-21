@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-21T11:23:14+08:00</updated>
+  <updated>2016-10-21T16:43:08+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[音频和视频格式]]></title>
+    <link href="http://DamianSheldon.github.io/blog/audio-and-video-file-format.html"/>
+    <updated>2016-10-21T15:15:53+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/audio-and-video-file-format</id>
+    <content type="html"><![CDATA[<h2>音频格式</h2>
+
+<p>我们通常说的音频格式准确地讲应该是音频文件格式，它是计算机系统上用于存放数字音频数据的文件格式，也可以看作一个容器。</p>
+
+<p>音频数据的比特分布我们称为音频编码格式，它可以非压缩编码或压缩编码。压缩编码又分为无损压缩和有损压缩。</p>
+
+<p>编码器(codec)就是来编解码原始音频数据的。</p>
+
+<p>声音源 &ndash;ADC&ndash;> raw audio data &ndash;codec&ndash;> audio data(uncompressed/compressed) &ndash;packed&ndash;> audio file format(container format)</p>
+
+<blockquote><p>An audio file format is a file format for storing digital audio data on a computer system. The bit layout of the audio data (excluding metadata) is called the audio coding format and can be uncompressed, or compressed to reduce the file size, often using lossy compression. The data can be a raw bitstream in an audio coding format, but it is usually embedded in a container format or an audio data format with defined storage layer.</p>
+
+<p>It is important to distinguish between the audio coding format, the container containing the raw audio data, and an audio codec. A codec performs the encoding and decoding of the raw audio data while this encoded data is (usually) stored in a container file. Although most audio file formats support only one type of audio coding data (created with an audio coder), a multimedia container format (as Matroska or AVI) may support multiple types of audio and video data.</p>
+
+<p>There are three major groups of audio file formats:
+    • Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;
+    • Formats with lossless compression, such as FLAC, Monkey&rsquo;s Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).
+    • Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).</p></blockquote>
+
+<!--more-->
+
+
+<h2>视频格式</h2>
+
+<p>视频文件格式是计算机系统上一种用来存放数字视频数据的文件格式。视频几乎都是以压缩格式的形式存储的以便减小文件大小。</p>
+
+<p>视频文件格式也是一个容器，里面包含编码完的视频和音频数据，同样是使用编码器来完成编解码工作。</p>
+
+<blockquote><p>A video file format is a type of file format for storing digital video data on a computer system. Video is almost always stored in compressed form to reduce the file size.</p>
+
+<p>A video file normally consists of a container format (e.g. Matroska) containing video data in a video coding format (e.g. VP9) alongside audio data in an audio coding format (e.g. Opus). The container format can also contain synchronization information, subtitles, and metadata such as title. A standardized (or in some cases de facto standard) video file type such as .webm is a profilespecified by a restriction on which container format and which video and audio compression formats are allowed.</p>
+
+<p>The coded video and audio inside a video file container (i.e. not headers, footers and metadata) is called the essence. A program (or hardware) which can decode video or audio is called a codec; playing or encoding a video file will sometimes require the user to install a codec library corresponding to the type of video and audio coding used in the file.</p></blockquote>
+
+<h2>iOS and Android supported audio &amp; video codec formats</h2>
+
+<h3>iOS</h3>
+
+<p>iOS supports many industry-standard and Apple-specific audio formats, including the following:</p>
+
+<ul>
+<li>AAC</li>
+<li>Apple Lossless (ALAC)</li>
+<li>A-law</li>
+<li>IMA/ADPCM (IMA4)</li>
+<li>Linear PCM</li>
+<li>µ-law</li>
+<li>DVI/Intel IMA ADPCM</li>
+<li>Microsoft GSM 6.10</li>
+<li>AES3-2003</li>
+</ul>
+
+
+<p>Preferred Audio Formats in iOS</p>
+
+<ul>
+<li><p>For uncompressed (highest quality) audio, use 16-bit, little endian, linear PCM audio data packaged in a CAF file.</p></li>
+<li><p>For compressed audio when playing one sound at a time, and when you don’t need to play audio simultaneously with the iPod application, use the AAC format packaged in a CAF or m4a file.</p></li>
+<li>For less memory usage when you need to play multiple sounds simultaneously, use IMA4 (IMA/ADPCM) compression. This reduces file size but entails minimal CPU impact during decompression. As with linear PCM data, package IMA4 data in a CAF file.</li>
+</ul>
+
+
+<p>iOS supports many industry-standard video formats and compression standards, including the following:</p>
+
+<ul>
+<li>H.264 video, up to 1.5 Mbps, 640 by 480 pixels, 30 frames per second, Low-Complexity version of the H.264 Baseline Profile with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats</li>
+<li>H.264 video, up to 768 Kbps, 320 by 240 pixels, 30 frames per second, Baseline Profile up to Level 1.3 with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats</li>
+<li>MPEG-4 video, up to 2.5 Mbps, 640 by 480 pixels, 30 frames per second, Simple Profile with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats</li>
+<li>Numerous audio formats, including the ones listed in Audio Technologies</li>
+</ul>
+
+
+<h3>Android</h3>
+
+<p>Audio</p>
+
+<ul>
+<li>AAC LC</li>
+<li>HE-AACv1 (AAC+)</li>
+<li>HE-AACv2 (enhanced AAC+)</li>
+<li>AAC ELD (enhanced low delay AAC)</li>
+<li>AMR-NB</li>
+<li>AMR-WB</li>
+<li>FLAC</li>
+<li>MP3</li>
+<li>MIDI</li>
+<li>Vorbis</li>
+<li>PCM/WAVE</li>
+<li>Opus</li>
+</ul>
+
+
+<p>Video</p>
+
+<ul>
+<li>H.263</li>
+<li>H.264 AVC</li>
+<li>H.265 HEVC</li>
+<li>MPEG-4 SP</li>
+<li>VP8</li>
+<li>VP9</li>
+</ul>
+
+
+<h3>iOS 和 Android 都支持的音频、视频格式</h3>
+
+<p>Audio</p>
+
+<ul>
+<li>AAC LC (Low-Complexity profile)</li>
+<li>Linear PCM</li>
+</ul>
+
+
+<p>Video</p>
+
+<ul>
+<li>H.264 AVC</li>
+<li>MPEG-4 SP (Simple Profile)</li>
+</ul>
+
+
+<p>Profile</p>
+
+<p>To address various applications ranging from low-quality, low-resolution surveillance cameras to high definition TV broadcasting and DVDs, many video standards group features into profiles and levels. MPEG-4 Part 2 has approximately 21 profiles, including profiles called Simple, Advanced Simple, Main, Core, Advanced Coding Efficiency, Advanced Real Time Simple, etc. The most commonly deployed profiles are Advanced Simple and Simple, which is a subset of Advanced Simple.</p>
+
+<h2>Reference:</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Audio_file_format">Audio file format</a><br/>
+<a href="https://en.wikipedia.org/wiki/Video_file_format">Video file format</a><br/>
+iOS Technology Overview<br/>
+<a href="https://developer.android.com/guide/appendix/media-formats.html">Supported Media Formats</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android开发问题汇总(二)]]></title>
@@ -4811,249 +4951,6 @@ Apply > Run
 
 
 <p>Reference:<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux Useful Command Line Part 2]]></title>
-    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line-part-2.html"/>
-    <updated>2015-09-11T09:30:16+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line-part-2</id>
-    <content type="html"><![CDATA[<h3>1.Rails Error: ImageMagick/GraphicsMagick is not installed</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>brew install graphicsmagick
-</span><span class='line'>brew install ImageMagick</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed">http://stackoverflow.com/questions/29377651/rails-error-imagemagick-graphicsmagick-is-not-installed</a></p>
-
-<h3>2.Transfer file via scp (or sftp) between two Mac</h3>
-
-<p>Via scp:<br/>
-1.Enable Enable SSH
-     System Preferences > Sharing > enable the “Remote Login” feature</p>
-
-<p>2.type scp command</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scp VirtualBox-5.0.4-102546-OSX.dmg dongmeiliang@192.168.1.255:/Users/dongmeiliang/Documents/</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<p>Via s<a href="ftp:">ftp:</a></p>
-
-<p>1.sftp <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#100;&#x6f;&#x6e;&#103;&#109;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#103;&#x40;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#56;&#46;&#49;&#x2e;&#50;&#x35;&#x35;">&#x64;&#x6f;&#110;&#103;&#x6d;&#101;&#x69;&#108;&#x69;&#x61;&#110;&#x67;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#46;&#x32;&#53;&#53;</a><br/>
-2.cd path<br/>
-  Change remote directory to path.</p>
-
-<p>3.lcd path<br/>
-  Change local directory to path.</p>
-
-<p>4.get [-Ppr] remote-path [local-path]</p>
-
-<p>5.lpwd    Print local working directory.</p>
-
-<p>6.pwd     Display remote working directory.</p>
-
-<p>7.put [-Ppr] local-path [remote-path]</p>
-
-<p>8.lls [ls-options [path]]
-             Display local directory listing of either path or current directory if path is not specified.  ls-options may con-
-             tain any flags supported by the local system&rsquo;s ls(1) command.  path may contain glob(3) characters and may match
-             multiple files.</p>
-
-<p>9.ls [-1afhlnrSt] [path]
-             Display a remote directory listing of either path or the current directory if path is not specified.  path may con-
-             tain glob(3) characters and may match multiple files.</p>
-
-<p>10.Quit sftp</p>
-
-<p>bye<br/>
-exit<br/>
-quit</p>
-
-<h3>3.Installing Apps with Homebrew Cask</h3>
-
-<p><a href="http://caskroom.io/">Homebrew Cask</a> is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.</p>
-
-<p>After you have homebrew installed, you&rsquo;ll want to install Homebrew Cask:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install caskroom/cask/brew-cask</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.复制目录及子目录下的某种类型文件</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp  ~/Documents/HJKApp/srsApp/srsApp/Sections/Home/Main.xcassets/**/*.png  ~/Pictures/HJKApp/OnlyHaveScale2/</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>5.Recursive copy of specific files in Unix/Linux?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync -avm --include='*.jar' -f 'hide,! */' . /destination_dir</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux">http://stackoverflow.com/questions/9622883/recursive-copy-of-specific-files-in-unix-linux</a></p>
-
-<h3>6.Uploading directories with sftp?</h3>
-
-<p>I don&rsquo;t know why sftp does this but you can only recursive copy if the destination directory already exists. So do this&hellip;</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sftp&gt; mkdir bin  
-</span><span class='line'>sftp&gt; put -r bin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp">http://unix.stackexchange.com/questions/7004/uploading-directories-with-sftp</a></p>
-
-<h3>7.Scanning machine&rsquo;s specified ports</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ nmap -p 37099 192.168.3.214
-</span><span class='line'>// -Pn: Treat all hosts as online -- skip host discovery
-</span><span class='line'>$ nmap -Pn 192.168.3.214</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>8.Reverse search history command</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Execute last command
-</span><span class='line'>$ !!
-</span><span class='line'>
-</span><span class='line'>Ctrl + r
-</span><span class='line'>(reverse-i-search)`': pull
-</span><span class='line'>(reverse-i-search)`': git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash">http://unix.stackexchange.com/questions/3747/understanding-the-exclamation-mark-in-bash</a></p>
-
-<h3>9.How to use rsync upload directory to remote server?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync --delete --rsh=ssh -av /Users/dongmeiliang/Sites/upload/ meiliang@remote_ip:/home/meiliang/public_html/upload</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>10.Recursively Search All Files For A String</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// grep command: Recursively Search All Files For A String
-</span><span class='line'>
-</span><span class='line'>cd /path/to/dir
-</span><span class='line'>grep -r "word" .
-</span><span class='line'>
-</span><span class='line'>grep -r "string" .
-</span><span class='line'>
-</span><span class='line'>// Ignore case distinctions:
-</span><span class='line'>grep -ri "word" .
-</span><span class='line'>
-</span><span class='line'>// To display print only the filenames with GNU grep, enter:
-</span><span class='line'>grep -r -l "foo" .
-</span><span class='line'>
-</span><span class='line'>// You can also specify directory name:
-</span><span class='line'>grep -r -l "foo" /path/to/dir/*.c
-</span><span class='line'>
-</span><span class='line'>// find command: Recursively Search All Files For A String
-</span><span class='line'>
-</span><span class='line'>// find command is recommend because of speed and ability to deal with filenames that contain spaces.
-</span><span class='line'>cd /path/to/dir
-</span><span class='line'>find . -type f -exec grep -l "word" {} +
-</span><span class='line'>find . -type f -exec grep -l "seting" {} +
-</span><span class='line'>find . -type f -exec grep -l "foo" {} +
-</span><span class='line'>// Older UNIX version should use xargs to speed up things:
-</span><span class='line'>find /path/to/dir -type f | xargs grep -l "foo"
-</span><span class='line'>
-</span><span class='line'>// It is good idea to pass -print0 option to find command that it can deal with filenames that contain spaces or other metacharacters:
-</span><span class='line'>find /path/to/dir -type f -print0 | xargs -0 grep -l "foo"
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>11. Common terminal shutcuts</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ctrl + A    Go to the beginning of the line you are currently typing on
-</span><span class='line'>Ctrl + E    Go to the end of the line you are currently typing on
-</span><span class='line'>Ctrl + L    Clears the Screen, similar to the clear command
-</span><span class='line'>Ctrl + U    Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
-</span><span class='line'>Ctrl + H    Same as backspace
-</span><span class='line'>Ctrl + R    Let’s you search through previously used commands
-</span><span class='line'>Ctrl + C    Kill whatever you are running
-</span><span class='line'>Ctrl + D    Exit the current shell
-</span><span class='line'>Ctrl + Z    Puts whatever you are running into a suspended background process. fg restores it.
-</span><span class='line'>Ctrl + W    Delete the word before the cursor
-</span><span class='line'>Ctrl + K    Clear the line after the cursor
-</span><span class='line'>Ctrl + T    Swap the last two characters before the cursor
-</span><span class='line'>Esc + T Swap the last two words before the cursor</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>12. 比较目录下同名文件</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ diff -Naur old-dir new-dir</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>13. curl Command Download File Example</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl  -o LongM4A.m4a http://download.wavetlan.com/SVV/Media/HTTP/LongM4A.m4a</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/">http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/</a></p>
 ]]></content>
   </entry>
   

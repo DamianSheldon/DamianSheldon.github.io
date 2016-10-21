@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-20T16:43:53+08:00</updated>
+  <updated>2016-10-21T11:23:14+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -576,6 +576,68 @@ This can’t be moved into an Objective-C method because it will always log the 
 <p>The Application supports the SIP standard, preserving compatibility with hundreds of SIP providers and offers a GUI which preserves the ap>>ple design of native iPhone applications.</p></blockquote>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1493050/ios-open-source-voip-sip-objective-c-code">iOS: Open Source VoIP/SIP Objective-C Code</a></p>
+
+<h3>12. How to show a search icon in indexed table view?</h3>
+
+<p>A:UITableViewIndexSearch.</p>
+
+<blockquote><p>If the data source includes this constant string in the array of strings it returns in sectionIndexTitlesForTableView:, the section index displays a magnifying glass icon at the corresponding index location. This location should generally be the first title in the index.</p></blockquote>
+
+<pre><code>- (NSArray *)sectionIndexTitles
+{
+    if (!_sectionIndexTitles) {
+        NSArray *titles = [UILocalizedIndexedCollation currentCollation].sectionIndexTitles;
+
+        NSMutableArray *tmpArray = [NSMutableArray arrayWithCapacity:titles.count + 1];
+        [tmpArray addObject:UITableViewIndexSearch];
+
+        for (NSString *title in titles) {
+            [tmpArray addObject:title];
+        }
+
+        _sectionIndexTitles = tmpArray.copy;
+    }
+    return _sectionIndexTitles;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+        return self.sectionIndexTitles;
+}
+</code></pre>
+
+<p>How to implement a function that active search bar when user tap magnifying glass icon?</p>
+
+<p>First, add support for indexed table view;</p>
+
+<pre><code>// Create the search results controller and store a reference to it.
+MySearchResultsController* resultsController = [[MySearchResultsController alloc] init];
+self.searchController = [[UISearchController alloc] initWithSearchResultsController:resultsController];
+
+ // Use the current view controller to update the search results.
+ self.searchController.searchResultsUpdater = self;
+
+  // Install the search bar as the table header.
+  self.tableView.tableHeaderView = self.searchController.searchBar;
+
+   // It is usually good to set the presentation context.
+   self.definesPresentationContext = YES;
+</code></pre>
+
+<p>Note: set navigation bar to translucent via Interface Builder or Programatically <code>   self.navigationController.navigationBar.translucent = YES;</code>, otherwise search bar will animate out table view.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26222671/uisearchcontroller-searchbar-in-tableheaderview-animating-out-of-the-screen">UISearchController searchBar in tableHeaderView animating out of the screen</a></p>
+
+<p>Second, hack tableView:sectionForSectionIndexTitle:atIndex: method.</p>
+
+<pre><code>- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    if (!index) {
+        self.searchController.active = YES;
+    }
+    return [self.collation sectionForSectionIndexTitleAtIndex:index];
+}
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26149526/making-uitableviewindexsearch-jump-to-tableheaderview-instead-of-section-0">Making UITableViewIndexSearch jump to tableHeaderView instead of section 0</a></p>
 ]]></content>
   </entry>
   

@@ -338,6 +338,106 @@ This can’t be moved into an Objective-C method because it will always log the 
 <p>The Application supports the SIP standard, preserving compatibility with hundreds of SIP providers and offers a GUI which preserves the ap>>ple design of native iPhone applications.</p></blockquote>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1493050/ios-open-source-voip-sip-objective-c-code">iOS: Open Source VoIP/SIP Objective-C Code</a></p>
+
+<h3>12. How to show a search icon in indexed table view?</h3>
+
+<p>A:UITableViewIndexSearch.</p>
+
+<blockquote><p>If the data source includes this constant string in the array of strings it returns in sectionIndexTitlesForTableView:, the section index displays a magnifying glass icon at the corresponding index location. This location should generally be the first title in the index.</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSArray *)sectionIndexTitles
+</span><span class='line'>{
+</span><span class='line'>    if (!_sectionIndexTitles) {
+</span><span class='line'>        NSArray *titles = [UILocalizedIndexedCollation currentCollation].sectionIndexTitles;
+</span><span class='line'>
+</span><span class='line'>        NSMutableArray *tmpArray = [NSMutableArray arrayWithCapacity:titles.count + 1];
+</span><span class='line'>        [tmpArray addObject:UITableViewIndexSearch];
+</span><span class='line'>
+</span><span class='line'>        for (NSString *title in titles) {
+</span><span class='line'>            [tmpArray addObject:title];
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        _sectionIndexTitles = tmpArray.copy;
+</span><span class='line'>    }
+</span><span class='line'>    return _sectionIndexTitles;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+</span><span class='line'>        return self.sectionIndexTitles;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>How to implement a function that active search bar when user tap magnifying glass icon?</p>
+
+<p>First, add support for indexed table view;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create the search results controller and store a reference to it.
+</span><span class='line'>MySearchResultsController* resultsController = [[MySearchResultsController alloc] init];
+</span><span class='line'>self.searchController = [[UISearchController alloc] initWithSearchResultsController:resultsController];
+</span><span class='line'> 
+</span><span class='line'> // Use the current view controller to update the search results.
+</span><span class='line'> self.searchController.searchResultsUpdater = self;
+</span><span class='line'>  
+</span><span class='line'>  // Install the search bar as the table header.
+</span><span class='line'>  self.tableView.tableHeaderView = self.searchController.searchBar;
+</span><span class='line'>   
+</span><span class='line'>   // It is usually good to set the presentation context.
+</span><span class='line'>   self.definesPresentationContext = YES;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: set navigation bar to translucent via Interface Builder or Programatically <code>   self.navigationController.navigationBar.translucent = YES;</code>, otherwise search bar will animate out table view.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26222671/uisearchcontroller-searchbar-in-tableheaderview-animating-out-of-the-screen">UISearchController searchBar in tableHeaderView animating out of the screen</a></p>
+
+<p>Second, hack tableView:sectionForSectionIndexTitle:atIndex: method.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+</span><span class='line'>    if (!index) {
+</span><span class='line'>        self.searchController.active = YES;
+</span><span class='line'>    }
+</span><span class='line'>    return [self.collation sectionForSectionIndexTitleAtIndex:index];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/26149526/making-uitableviewindexsearch-jump-to-tableheaderview-instead-of-section-0">Making UITableViewIndexSearch jump to tableHeaderView instead of section 0</a></p>
 </div>
 
 

@@ -438,6 +438,24 @@ This can’t be moved into an Objective-C method because it will always log the 
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/26149526/making-uitableviewindexsearch-jump-to-tableheaderview-instead-of-section-0">Making UITableViewIndexSearch jump to tableHeaderView instead of section 0</a></p>
+
+<h3>13.Transparent UIToolbar</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self.toolbar setBackgroundImage:[UIImage new]
+</span><span class='line'>forToolbarPosition:UIBarPositionAny
+</span><span class='line'>barMetrics:UIBarMetricsDefault];
+</span><span class='line'>[self.toolbar setShadowImage:[UIImage new]
+</span><span class='line'>forToolbarPosition:UIBarPositionAny];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18969248/how-to-draw-a-transparent-uitoolbar-or-uinavigationbar-in-ios7">How to draw a transparent UIToolbar or UINavigationBar in iOS7</a></p>
 </div>
 
 

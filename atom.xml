@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-03T09:44:03+08:00</updated>
+  <updated>2016-11-03T11:23:08+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -223,6 +223,22 @@ iOS Technology Overview<br/>
 
 
 <p>Reference<a href="http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices">No service of type Factory available in ProjectScopeServices</a></p>
+
+<h3>4.Android Gradle cannot find symbol class Gson</h3>
+
+<p>A:In my case, I just added this line:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>compile 'com.google.code.gson:gson:2.7'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>on my app build.gradle file.</p>
+
+<p>By now 2.7 is last current available version according to: <a href="https://mvnrepository.com/artifact/com.google.code.gson/gson">https://mvnrepository.com/artifact/com.google.code.gson/gson</a></p>
+
+<p>Please check this repository to be sure you are using last available version.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson">Android Gradle cannot find symbol class Gson</a></p>
 ]]></content>
   </entry>
   

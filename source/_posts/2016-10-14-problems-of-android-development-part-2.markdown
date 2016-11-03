@@ -48,3 +48,18 @@ dependencies {
 ```
 Reference[No service of type Factory available in ProjectScopeServices](http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices)
 
+###4.Android Gradle cannot find symbol class Gson
+A:In my case, I just added this line:
+
+```
+compile 'com.google.code.gson:gson:2.7'
+```
+
+on my app build.gradle file.
+
+By now 2.7 is last current available version according to: https://mvnrepository.com/artifact/com.google.code.gson/gson
+
+Please check this repository to be sure you are using last available version.
+
+Reference:[Android Gradle cannot find symbol class Gson](http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson)
+

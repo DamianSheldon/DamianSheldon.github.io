@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-10-31T09:57:48+08:00</updated>
+  <updated>2016-11-03T09:44:03+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -47,6 +47,18 @@ android:theme="@style/AppTheme"&gt;
 <h3>2. How to rename java package in Android Studio?</h3>
 
 <p>A:<a href="http://stackoverflow.com/questions/16804093/android-studio-rename-package">Android Studio Rename Package</a></p>
+
+<h3>3.No service of type Factory available in ProjectScopeServices</h3>
+
+<p>A:Change maven gradle plugin version to 1.4.1 in project build.gradle file</p>
+
+<pre><code>dependencies {
+    classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+}
+</code></pre>
+
+<p>Reference<a href="http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices">No service of type Factory available in ProjectScopeServices</a></p>
 ]]></content>
   </entry>
   

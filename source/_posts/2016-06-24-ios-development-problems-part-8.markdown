@@ -245,3 +245,16 @@ Second, hack tableView:sectionForSectionIndexTitle:atIndex: method.
 ```
 
 Reference:[Making UITableViewIndexSearch jump to tableHeaderView instead of section 0](http://stackoverflow.com/questions/26149526/making-uitableviewindexsearch-jump-to-tableheaderview-instead-of-section-0)  
+
+### 13.Transparent UIToolbar
+A:
+
+```
+[self.toolbar setBackgroundImage:[UIImage new]
+forToolbarPosition:UIBarPositionAny
+barMetrics:UIBarMetricsDefault];
+[self.toolbar setShadowImage:[UIImage new]
+forToolbarPosition:UIBarPositionAny];
+```
+
+Reference:[How to draw a transparent UIToolbar or UINavigationBar in iOS7](http://stackoverflow.com/questions/18969248/how-to-draw-a-transparent-uitoolbar-or-uinavigationbar-in-ios7)

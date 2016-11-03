@@ -36,3 +36,15 @@ android:theme="@style/AppTheme">
 
 ### 2. How to rename java package in Android Studio?
 A:[Android Studio Rename Package](http://stackoverflow.com/questions/16804093/android-studio-rename-package)  
+
+### 3.No service of type Factory available in ProjectScopeServices
+A:Change maven gradle plugin version to 1.4.1 in project build.gradle file
+
+```
+dependencies {
+    classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+}
+```
+Reference[No service of type Factory available in ProjectScopeServices](http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices)
+

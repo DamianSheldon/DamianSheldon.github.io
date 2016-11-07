@@ -258,3 +258,6 @@ forToolbarPosition:UIBarPositionAny];
 ```
 
 Reference:[How to draw a transparent UIToolbar or UINavigationBar in iOS7](http://stackoverflow.com/questions/18969248/how-to-draw-a-transparent-uitoolbar-or-uinavigationbar-in-ios7)
+
+### 14.App Transport Security Dictionary Details
+A:Information Property List Key Reference.

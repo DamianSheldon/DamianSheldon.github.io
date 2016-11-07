@@ -425,6 +425,16 @@ You can use an explicit commit identifier or HEAD~n to see older versions or if 
 
 Reference:[Viewing a Deleted File in Git](http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git)
 
+### How to take a file out of another commit
+A:
+
+```
+// Example 1
+$ git checkout master~2 Makefile
+// Example 2
+$ git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
+```
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)
 

@@ -261,3 +261,32 @@ Reference:[How to draw a transparent UIToolbar or UINavigationBar in iOS7](http:
 
 ### 14.App Transport Security Dictionary Details
 A:Information Property List Key Reference.
+
+### 15.How do i get Weekday and/or name of month from a NSDate variable?
+A:
+
+```
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+dateFormatter.dateFormat = @"yyyyMMdd";
+NSDate *date = [dateFormatter dateFromString:@"20111010"];
+
+// set swedish locale
+dateFormatter.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"sv_SE"];
+
+dateFormatter.dateFormat=@"MMMM";
+NSString *monthString = [[dateFormatter stringFromDate:date] capitalizedString];
+NSLog(@"month: %@", monthString);
+
+dateFormatter.dateFormat=@"EEEE";
+NSString *dayString = [[dateFormatter stringFromDate:date] capitalizedString];
+NSLog(@"day: %@", dayString);
+```
+
+Output:
+
+```
+month: Oktober
+day: Måndag
+```
+
+Reference:[How do i get Weekday and/or name of month from a NSDate variable?](http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable)

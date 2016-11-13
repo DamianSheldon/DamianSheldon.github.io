@@ -63,3 +63,36 @@ Please check this repository to be sure you are using last available version.
 
 Reference:[Android Gradle cannot find symbol class Gson](http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson)
 
+###5.Gradle sync failed: The SDK Build Tools revision (19.0.0) is too low for project ':app'. Minimum required is 19.1.0
+A:设置更新版本的Build Tools: 
+
+```
+// Step 1
+File > Project Structure ... > Modules(Select your module, eg:app) > Properties > Build Tools Version > 25.0.0
+
+// Step 2:
+Module build.gradle
+
+android {
+    ...
+    buildToolsVersion "25.0.0"
+    ...
+} 
+```
+
+###6.Gradle sync failed: Could not find method android() for arguments [build_5v1bwdgcgpex8ek4ayinac3qa$_run_closure3@6518ea53] on root project 'ActionBarDemo' of type org.gradle.api.Project.
+A:Root project gradle hasn't method android(), so remove it and setting in module gradle.
+
+###7.Failed to resolve: junit:junit:4.12
+A:It happens HTTPS is blocked by proxy, so we have to disable proxy.
+
+```
+// Step 1
+Android Studio > Preferences... > System Settings > HTTP Proxy > No Proxy
+
+// Step 2: Uncomment http proxy settings in gradle.properties
+#systemProp.http.proxyHost=mirrors.neusoft.edu.cn
+#systemProp.http.proxyPort=80
+
+```
+Reference:[Failed to resolve: junit:junit:4.12](http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12)

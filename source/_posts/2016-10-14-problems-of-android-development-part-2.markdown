@@ -63,7 +63,7 @@ Please check this repository to be sure you are using last available version.
 
 Reference:[Android Gradle cannot find symbol class Gson](http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson)
 
-<!--more->
+<!--more-->
 
 ###5.Gradle sync failed: The SDK Build Tools revision (19.0.0) is too low for project ':app'. Minimum required is 19.1.0
 A:设置更新版本的Build Tools: 

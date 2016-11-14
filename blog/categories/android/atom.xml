@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-07T16:04:03+08:00</updated>
+  <updated>2016-11-14T08:48:39+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -74,6 +74,43 @@ android:theme="@style/AppTheme"&gt;
 <p>Please check this repository to be sure you are using last available version.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson">Android Gradle cannot find symbol class Gson</a></p>
+
+<p><!--more-></p>
+
+<h3>5.Gradle sync failed: The SDK Build Tools revision (19.0.0) is too low for project &lsquo;:app&rsquo;. Minimum required is 19.1.0</h3>
+
+<p>A:设置更新版本的Build Tools:</p>
+
+<pre><code>// Step 1
+File &gt; Project Structure ... &gt; Modules(Select your module, eg:app) &gt; Properties &gt; Build Tools Version &gt; 25.0.0
+
+// Step 2:
+Module build.gradle
+
+android {
+    ...
+    buildToolsVersion "25.0.0"
+    ...
+} 
+</code></pre>
+
+<h3>6.Gradle sync failed: Could not find method android() for arguments [build_5v1bwdgcgpex8ek4ayinac3qa$_run_closure3@6518ea53] on root project &lsquo;ActionBarDemo&rsquo; of type org.gradle.api.Project.</h3>
+
+<p>A:Root project gradle hasn&rsquo;t method android(), so remove it and setting in module gradle.</p>
+
+<h3>7.Failed to resolve: junit:junit:4.12</h3>
+
+<p>A:It happens HTTPS is blocked by proxy, so we have to disable proxy.</p>
+
+<pre><code>// Step 1
+Android Studio &gt; Preferences... &gt; System Settings &gt; HTTP Proxy &gt; No Proxy
+
+// Step 2: Uncomment http proxy settings in gradle.properties
+#systemProp.http.proxyHost=mirrors.neusoft.edu.cn
+#systemProp.http.proxyPort=80
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12">Failed to resolve: junit:junit:4.12</a></p>
 ]]></content>
   </entry>
   

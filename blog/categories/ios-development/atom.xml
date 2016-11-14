@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-07T16:04:03+08:00</updated>
+  <updated>2016-11-14T08:48:39+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -758,6 +758,34 @@ forToolbarPosition:UIBarPositionAny];
 <h3>14.App Transport Security Dictionary Details</h3>
 
 <p>A:Information Property List Key Reference.</p>
+
+<h3>15.How do i get Weekday and/or name of month from a NSDate variable?</h3>
+
+<p>A:</p>
+
+<pre><code>NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+dateFormatter.dateFormat = @"yyyyMMdd";
+NSDate *date = [dateFormatter dateFromString:@"20111010"];
+
+// set swedish locale
+dateFormatter.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"sv_SE"];
+
+dateFormatter.dateFormat=@"MMMM";
+NSString *monthString = [[dateFormatter stringFromDate:date] capitalizedString];
+NSLog(@"month: %@", monthString);
+
+dateFormatter.dateFormat=@"EEEE";
+NSString *dayString = [[dateFormatter stringFromDate:date] capitalizedString];
+NSLog(@"day: %@", dayString);
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>month: Oktober
+day: Måndag
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable">How do i get Weekday and/or name of month from a NSDate variable?</a></p>
 ]]></content>
   </entry>
   

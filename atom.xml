@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-07T16:04:03+08:00</updated>
+  <updated>2016-11-14T08:48:39+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -239,6 +239,58 @@ iOS Technology Overview<br/>
 <p>Please check this repository to be sure you are using last available version.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson">Android Gradle cannot find symbol class Gson</a></p>
+
+<p><!--more-></p>
+
+<h3>5.Gradle sync failed: The SDK Build Tools revision (19.0.0) is too low for project &lsquo;:app&rsquo;. Minimum required is 19.1.0</h3>
+
+<p>A:设置更新版本的Build Tools:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1
+</span><span class='line'>File &gt; Project Structure &hellip; &gt; Modules(Select your module, eg:app) &gt; Properties &gt; Build Tools Version &gt; 25.0.0
+</span><span class='line'>
+</span><span class='line'>// Step 2:
+</span><span class='line'>Module build.gradle
+</span><span class='line'>
+</span><span class='line'>android {
+</span><span class='line'>    &hellip;
+</span><span class='line'>    buildToolsVersion &ldquo;25.0.0&rdquo;
+</span><span class='line'>    &hellip;
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure></p>
+
+<h3>6.Gradle sync failed: Could not find method android() for arguments [build_5v1bwdgcgpex8ek4ayinac3qa$_run_closure3@6518ea53] on root project &lsquo;ActionBarDemo&rsquo; of type org.gradle.api.Project.</h3>
+
+<p>A:Root project gradle hasn&rsquo;t method android(), so remove it and setting in module gradle.</p>
+
+<h3>7.Failed to resolve: junit:junit:4.12</h3>
+
+<p>A:It happens HTTPS is blocked by proxy, so we have to disable proxy.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1
+</span><span class='line'>Android Studio &gt; Preferences&hellip; &gt; System Settings &gt; HTTP Proxy &gt; No Proxy
+</span><span class='line'>
+</span><span class='line'>// Step 2: Uncomment http proxy settings in gradle.properties
+</span><span class='line'>#systemProp.http.proxyHost=mirrors.neusoft.edu.cn
+</span><span class='line'>#systemProp.http.proxyPort=80
+</span></code></pre></td></tr></table></div></figure>
+Reference:<a href="http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12">Failed to resolve: junit:junit:4.12</a></p>
 ]]></content>
   </entry>
   
@@ -978,6 +1030,50 @@ This can’t be moved into an Objective-C method because it will always log the 
 <h3>14.App Transport Security Dictionary Details</h3>
 
 <p>A:Information Property List Key Reference.</p>
+
+<h3>15.How do i get Weekday and/or name of month from a NSDate variable?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+</span><span class='line'>dateFormatter.dateFormat = @"yyyyMMdd";
+</span><span class='line'>NSDate *date = [dateFormatter dateFromString:@"20111010"];
+</span><span class='line'>
+</span><span class='line'>// set swedish locale
+</span><span class='line'>dateFormatter.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"sv_SE"];
+</span><span class='line'>
+</span><span class='line'>dateFormatter.dateFormat=@"MMMM";
+</span><span class='line'>NSString *monthString = [[dateFormatter stringFromDate:date] capitalizedString];
+</span><span class='line'>NSLog(@"month: %@", monthString);
+</span><span class='line'>
+</span><span class='line'>dateFormatter.dateFormat=@"EEEE";
+</span><span class='line'>NSString *dayString = [[dateFormatter stringFromDate:date] capitalizedString];
+</span><span class='line'>NSLog(@"day: %@", dayString);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Output:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>month: Oktober
+</span><span class='line'>day: Måndag</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable">How do i get Weekday and/or name of month from a NSDate variable?</a></p>
 ]]></content>
   </entry>
   

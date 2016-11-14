@@ -460,6 +460,50 @@ This can’t be moved into an Objective-C method because it will always log the 
 <h3>14.App Transport Security Dictionary Details</h3>
 
 <p>A:Information Property List Key Reference.</p>
+
+<h3>15.How do i get Weekday and/or name of month from a NSDate variable?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+</span><span class='line'>dateFormatter.dateFormat = @"yyyyMMdd";
+</span><span class='line'>NSDate *date = [dateFormatter dateFromString:@"20111010"];
+</span><span class='line'>
+</span><span class='line'>// set swedish locale
+</span><span class='line'>dateFormatter.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"sv_SE"];
+</span><span class='line'>
+</span><span class='line'>dateFormatter.dateFormat=@"MMMM";
+</span><span class='line'>NSString *monthString = [[dateFormatter stringFromDate:date] capitalizedString];
+</span><span class='line'>NSLog(@"month: %@", monthString);
+</span><span class='line'>
+</span><span class='line'>dateFormatter.dateFormat=@"EEEE";
+</span><span class='line'>NSString *dayString = [[dateFormatter stringFromDate:date] capitalizedString];
+</span><span class='line'>NSLog(@"day: %@", dayString);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Output:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>month: Oktober
+</span><span class='line'>day: Måndag</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable">How do i get Weekday and/or name of month from a NSDate variable?</a></p>
 </div>
 
 

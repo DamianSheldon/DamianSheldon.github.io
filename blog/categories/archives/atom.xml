@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-14T09:16:44+08:00</updated>
+  <updated>2016-11-15T14:54:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Development Problems Part 9]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-9.html"/>
+    <updated>2016-11-15T14:49:17+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-9</id>
+    <content type="html"><![CDATA[<h3>1.Curried functions in Swift</h3>
+
+<p>A:There’s a difference between self.methodname (which you are using), and Classname.methodname.</p>
+
+<p>The former, when called within a class’s method, will give you a function bound with that class instance. So if you call it, it will be called on that instance.</p>
+
+<p>The latter gives you a curried function that takes as an argument any instance of Classname, and returns a new function that is bound to that instance. At this point, that function is like the first case (only you can bind it to any instance you like).</p>
+
+<p>Here’s an example to try and show that a bit better:</p>
+
+<pre><code>class C {
+    private let _msg: String
+        init(msg: String) { _msg = msg }
+
+    func c_print() { print(_msg) }
+
+    func getPrinter() -&gt; ()-&gt;() { return self.c_print }
+}
+
+let c = C(msg: "woo-hoo")
+let f = c.getPrinter()
+// f is of type (())-&gt;()
+f() // prints "woo-hoo"
+
+let d = C(msg: "way-hey")
+
+let g = C.c_print
+// g is of type (C) -&gt; (()) -&gt; (),
+// you need to feed it a C:
+g(c)() // prints "woo-hoo"
+g(d)() // prints "way-hey"
+
+// instead of calling immediately,
+// you could store the return of g:
+let h = g(c)
+// at this point, f and h amount to the same thing:
+// h is of type (())-&gt;()
+h() // prints "woo-hoo"
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[音频和视频格式]]></title>
@@ -888,299 +937,6 @@ day: Måndag
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable">How do i get Weekday and/or name of month from a NSDate variable?</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（七）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
-    <updated>2016-05-03T17:00:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
-    <content type="html"><![CDATA[<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
-
-<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
-
-<pre><code>- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-    self.translucent = self.navigationController.navigationBar.isTranslucent;
-    self.navigationController.navigationBar.translucent = YES;
-
-    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
-
-    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
-    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
-
-    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
-    self.navigationController.navigationBar.shadowImage = newImage;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-    self.navigationController.navigationBar.translucent = self.translucent;
-
-    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
-}
-</code></pre>
-
-<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
-<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7</a></p>
-
-<!-- more -->
-
-
-<h3>2. 自定义的View设置cornerRadius不生效</h3>
-
-<h3>3. CocoaPods 升级到1.0，Xcode 一直报 header file not found.</h3>
-
-<p>A: 仔细查看了 Xcode 的编译过程，头文件的路径是包含了的，于是怀疑是Xcode的自身可能存在问题。经过实验，可以用下面的方法解决：</p>
-
-<ol>
-<li>Clean project</li>
-<li>Window > Projects > Your Project > Delete Derived Data</li>
-<li>Build</li>
-</ol>
-
-
-<h3>4. No codesigning identities (i.e. certificate and private key pairs) that match the team ID: xxx</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Go to Xcode preferences, view details of the Apple ID, and delete the provisioning file that&rsquo;s complaining, redownload.</li>
-<li>Go to the Keychain Access, and delete the development certificate that&rsquo;s related to the provisioning file you just deleted.</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found">http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found</a></p>
-
-<h3>5. How to load image from CocoaPods resource bundle ?</h3>
-
-<p>A:</p>
-
-<pre><code>  s.resource_bundles = {
-    'DMLSelector' =&gt; ['DMLSelector/Assets/*.png']
-  }
-
-  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  self.imageView.image = [UIImage imageNamed:@"DMLSelector.bundle/Checked" inBundle:bundle compatibleWithTraitCollection:nil];
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle">http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle</a></p>
-
-<h3>6. How to specify NSLineBreakMode in boundingRectWithSize?</h3>
-
-<p>A: Use NSParagraphStyleAttributeName &amp; NSParagraphStyle:</p>
-
-<pre><code>NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
-paragraph.lineBreakMode = NSLineBreakByWordWrapping; //e.g.
-
-CGSize size = [label.text boundingRectWithSize: constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes: @{ NSFontAttributeName: label.font, NSParagraphStyleAttributeName: paragraph } context: nil].size;
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize">http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize</a></p>
-
-<h3>7.</h3>
-
-<pre><code>INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
-INFO [2016-06-01 15:42:30.78]: --- Step: fir p ../BBCApp.ipa -T token ---
-INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
-INFO [2016-06-01 15:42:30.78]: $ fir p ../BBCApp.ipa -T c977500277789d01cc67d82750057858
-INFO [2016-06-01 15:42:34.31]: ▸ /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'fir-cli' (&gt;= 0) among 206 total gem(s) (Gem::LoadError)
-INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
-INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
-INFO [2016-06-01 15:42:34.31]: ▸ from /usr/local/bin/fir:22:in `&lt;main&gt;'
-</code></pre>
-
-<p>A: 问题的原因是找不到fir这个命令，可以直接指定绝对路径解决。</p>
-
-<pre><code>sh "/Library/Ruby/Gems/2.0.0/gems/fir-cli-1.5.0/bin/fir p ../BBCApp.ipa -T token"
-</code></pre>
-
-<h3>8. 怎么获取iPhone上已安装App的ipa文件？</h3>
-
-<p>A: 可以利用iTunes下载已购的功能。</p>
-
-<p>You can redownload apps on your iPhone or iPod touch, iPad, Mac or PC, or Apple TV (4th generation). You can also redownload some in-app purchases.</p>
-
-<p>On a Mac or PC
-From iTunes
-1. Open iTunes.
-2. Click Sign In, and then enter your Apple ID and password.
-3. Click your name and select Purchased from the menu.
-4. From the upper-right corner of the screen, click Apps.
-5. Click &ldquo;Not in My Library&rdquo; to view purchased content that isn&rsquo;t on your computer.
-6. Scroll to find the item that you want to download.
-7. Click the Download icon  in the upper-right corner of the item that you want to download. Your app downloads to your library.</p>
-
-<p>下载需要点时间，所以点开My Apps tab面不能马上看到刚下载的App,右上角有个下载进度提示，点击可以看详情。</p>
-
-<p>Reference:<a href="https://support.apple.com/en-qa/HT201272">https://support.apple.com/en-qa/HT201272</a></p>
-
-<h3>9. UICollectionView&rsquo;s cellForItemAtIndexPath is not being called</h3>
-
-<p>A:</p>
-
-<pre><code>self.automaticallyAdjustsScrollViewInsets = NO;
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1">http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1</a></p>
-
-<h3>10. iOS supported audio formats?</h3>
-
-<p>A:</p>
-
-<pre><code>@"aac",@"adts",@"ac3",@"aif",@"aiff",@"aifc",@"caf",@"mp3",@"mp4",@"m4a",@"snd",@"au",@"sd2",@"wav"
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone">http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone</a>
-<a href="https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition">https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition</a></p>
-
-<h3>11. How do I put the image on the right side of the text in a UIButton?</h3>
-
-<p>A:</p>
-
-<pre><code>CGFloat spacing          = 3;
-    CGFloat insetAmount      = 0.5 * spacing;
-
-    // First set overall size of the button:
-    button.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
-    [button sizeToFit];
-
-    // Then adjust title and image insets so image is flipped to the right and there is spacing between title and image:
-    button.titleEdgeInsets   = UIEdgeInsetsMake(0, -button.imageView.frame.size.width - insetAmount, 0,  button.imageView.frame.size.width  + insetAmount);
-    button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton</a></p>
-
-<h3>12. duplicate symbol _iToastDuration</h3>
-
-<pre><code>enum iToastDuration {
-    iToastDurationLong = 10000,
-    iToastDurationShort = 1000,
-    iToastDurationNormal = 3000
-}iToastDuration;
-</code></pre>
-
-<p>A:</p>
-
-<pre><code>typedef enum iToastDuration {
-    iToastDurationLong = 10000,
-    iToastDurationShort = 1000,
-    iToastDurationNormal = 3000
-}iToastDuration;
-</code></pre>
-
-<h3>13. Detecting taps on attributed text in a UITextView in iOS</h3>
-
-<p>A:</p>
-
-<pre><code>import UIKit
-class ViewController: UIViewController, UIGestureRecognizerDelegate {
-
-    @IBOutlet weak var textView: UITextView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Create an attributed string
-        let myString = NSMutableAttributedString(string: "Swift attributed text")
-
-        // Set an attribute on part of the string
-        let myRange = NSRange(location: 0, length: 5) // range of "Swift"
-        let myCustomAttribute = [ "MyCustomAttributeName": "some value"]
-        myString.addAttributes(myCustomAttribute, range: myRange)
-
-        textView.attributedText = myString
-
-        // Add tap gesture recognizer to Text View
-        let tap = UITapGestureRecognizer(target: self, action: #selector(myMethodToHandleTap(_:)))
-        tap.delegate = self
-        textView.addGestureRecognizer(tap)
-    }
-
-    func myMethodToHandleTap(sender: UITapGestureRecognizer) {
-
-        let myTextView = sender.view as! UITextView
-        let layoutManager = myTextView.layoutManager
-
-        // location of tap in myTextView coordinates and taking the inset into account
-        var location = sender.locationInView(myTextView)
-        location.x -= myTextView.textContainerInset.left;
-        location.y -= myTextView.textContainerInset.top;
-
-        // character index at tap location
-        let characterIndex = layoutManager.characterIndexForPoint(location, inTextContainer: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-
-        // if index is valid then do something.
-        if characterIndex &lt; myTextView.textStorage.length {
-
-            // print the character index
-            print("character index: \(characterIndex)")
-
-            // print the character at the index
-            let myRange = NSRange(location: characterIndex, length: 1)
-            let substring = (myTextView.attributedText.string as NSString).substringWithRange(myRange)
-            print("character at index: \(substring)")
-
-            // check if the tap location has a certain attribute
-            let attributeName = "MyCustomAttributeName"
-            let attributeValue = myTextView.attributedText.attribute(attributeName, atIndex: characterIndex, effectiveRange: nil) as? String
-            if let value = attributeValue {
-               print("You tapped on \(attributeName) and the value is: \(value)")
-            }
-
-        }
-    }
-}
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1">http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1</a></p>
-
-<h3>14. iOS 开发中如何获取农历？</h3>
-
-<p>A: iOS 8 以后 Apple 内置了农历支持，可以得到类似<strong>2016丙申年五月十七星期二</strong>的信息，如果你只需要这些信息就够了，那使用内置的农历就可以了。如果还想获取类似<strong>壬辰年癸卯月庚辰日</strong>，那可以用<a href="https://github.com/autopear/LunarCalendar">LunarCalendar</a>。</p>
-
-<pre><code>    NSCalendar *chineseCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
-
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"zh_Hans_CN"];
-    dateFormatter.dateStyle = NSDateFormatterFullStyle;
-    dateFormatter.calendar = chineseCalendar;
-
-    NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
-
-    // Output:2016丙申年五月十七星期二
-</code></pre>
-
-<p>Reference:<a href="https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support">https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support</a>
-<a href="http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese">http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese</a></p>
-
-<h3>15. How to fix tableView&rsquo;s tableHeaderView overlap first cell?</h3>
-
-<p>A: The core of solution is when you change the frame of tableHeaderView, you need reassign it to tableView.</p>
-
-<pre><code>    UIView *headerView = self.tableHeaderView;
-
-    [headerView setNeedsLayout];
-    [headerView layoutIfNeeded];
-    CGFloat height = [headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-
-    headerView.frame = ({
-        CGRect headerFrame = headerView.frame;
-        headerFrame.size.height = height;
-        headerFrame;
-    });
-
-    self.tableHeaderView = headerView;
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell">http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell</a></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-14T09:16:44+08:00</updated>
+  <updated>2016-11-15T14:54:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Development Problems Part 9]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-9.html"/>
+    <updated>2016-11-15T14:49:17+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-9</id>
+    <content type="html"><![CDATA[<h3>1.Curried functions in Swift</h3>
+
+<p>A:There’s a difference between self.methodname (which you are using), and Classname.methodname.</p>
+
+<p>The former, when called within a class’s method, will give you a function bound with that class instance. So if you call it, it will be called on that instance.</p>
+
+<p>The latter gives you a curried function that takes as an argument any instance of Classname, and returns a new function that is bound to that instance. At this point, that function is like the first case (only you can bind it to any instance you like).</p>
+
+<p>Here’s an example to try and show that a bit better:</p>
+
+<pre><code>class C {
+    private let _msg: String
+        init(msg: String) { _msg = msg }
+
+    func c_print() { print(_msg) }
+
+    func getPrinter() -&gt; ()-&gt;() { return self.c_print }
+}
+
+let c = C(msg: "woo-hoo")
+let f = c.getPrinter()
+// f is of type (())-&gt;()
+f() // prints "woo-hoo"
+
+let d = C(msg: "way-hey")
+
+let g = C.c_print
+// g is of type (C) -&gt; (()) -&gt; (),
+// you need to feed it a C:
+g(c)() // prints "woo-hoo"
+g(d)() // prints "way-hey"
+
+// instead of calling immediately,
+// you could store the return of g:
+let h = g(c)
+// at this point, f and h amount to the same thing:
+// h is of type (())-&gt;()
+h() // prints "woo-hoo"
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[音频和视频格式]]></title>
@@ -1079,219 +1128,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell">http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-6.html"/>
-    <updated>2016-03-28T20:14:53+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-6</id>
-    <content type="html"><![CDATA[<h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
-
-<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1</a></p>
-
-<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
-
-<p>A:</p>
-
-<ul>
-<li>If you manipulated constraints directly, call setNeedsLayout.</li>
-<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
-<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra</a></p>
-
-<h3>3.父类如何关联子类通过nib初始化的属性？</h3>
-
-<p>A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View</p>
-
-<!-- more -->
-
-
-<h3>4. Failed to load test bundle from file</h3>
-
-<pre><code>Failed to load test bundle from file:///Users/dongmeiliang/Library/Developer/Xcode/DerivedData/JSQMessages-axyqhmblkssajpgcyzizcquhltft/Build/Products/Debug-iphonesimulator/JSQMessages.app/PlugIns/JSQMessagesTests.xctest/../JSQMessagesTests.xctest/: Error Domain=NSCocoaErrorDomain Code=4 "The bundle “$(PRODUCT_NAME)” couldn’t be loaded because its executable couldn’t be located." UserInfo={NSLocalizedFailureReason=The bundle’s executable couldn’t be located., NSLocalizedRecoverySuggestion=Try reinstalling the bundle., NSBundlePath=/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/JSQMessages-axyqhmblkssajpgcyzizcquhltft/Build/Products/Debug-iphonesimulator/JSQMessages.app/PlugIns/JSQMessagesTests.xctest, NSLocalizedDescription=The bundle “$(PRODUCT_NAME)” couldn’t be loaded because its executable couldn’t be located.}
-</code></pre>
-
-<p>A:Tests target > info.plist > delete the row <code>Bundle name $(PRODUCT_NAME)</code>;</p>
-
-<h3>5. pathForResource:ofType:inDirectory:方法有时找不到图片？</h3>
-
-<p>A:原因是这个方法必须要指定完整的名字，比如图片的名称为fail_indicator@2x.png，放在JSQMessagesAssets.bundle的images目录下，那可以用如下代码来获取这张图片：</p>
-
-<pre><code>+ (NSBundle *)jsq_messagesBundle
-{
-    return [NSBundle bundleForClass:[JSQMessagesViewController class]];
-}
-
-+ (NSBundle *)jsq_messagesAssetBundle
-{
-    NSString *bundleResourcePath = [NSBundle jsq_messagesBundle].resourcePath;
-    NSString *assetPath = [bundleResourcePath stringByAppendingPathComponent:@"JSQMessagesAssets.bundle"];
-    return [NSBundle bundleWithPath:assetPath];
-}
-
-+ (UIImage *)jsq_imageFromMessagesAssetBundleWithName:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle jsq_messagesAssetBundle];
-    NSString *path = [bundle pathForResource:name ofType:@"png" inDirectory:@"Images"];
-    return [UIImage imageWithContentsOfFile:path];
-}
-
-[UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];
-</code></pre>
-
-<h3>6.自动布局的视图加上遮罩不生效而且视图上UIImageView的图片也不显示了,具体方法如下：</h3>
-
-<pre><code>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
-{
-    NSParameterAssert(view != nil);
-    NSParameterAssert(image != nil);
-
-    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
-    imageViewMask.frame = CGRectInset(view.frame, 2.0f, 2.0f);
-
-    view.layer.mask = imageViewMask.layer;
-}
-</code></pre>
-
-<p>A:先设置视图的frame。</p>
-
-<h3>7. 设置视图的frame后，视图最终的坐标和设置的坐标不一致</h3>
-
-<p>A:问题的原因是将translatesAutoresizingMaskIntoConstraints设置NO，然后再去设置视图的坐标，这样修改的坐标不会生效，解决办法就是使用坐标是不要将translatesAutoresizingMaskIntoConstraints设置为NO.</p>
-
-<h3>8.设置视图遮罩时，遮罩以宿主视图的origin为原点，所以当宿主视图的origin不是(0, 0)时，设置遮罩的frame时要考虑将宿主视图的origin设置为(0, 0)之后再进行伸缩，最终得到遮罩的frame。</h3>
-
-<p>A:</p>
-
-<pre><code>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
-{
-    NSParameterAssert(view != nil);
-    NSParameterAssert(image != nil);
-
-    CGRect baseFrameForMask = view.frame;
-    baseFrameForMask.origin = CGPointZero;
-
-    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
-    imageViewMask.frame = CGRectInset(baseFrameForMask, 2.0f, 2.0f);
-
-    view.layer.mask = imageViewMask.layer;
-}
-</code></pre>
-
-<h3>9.先调用方法二，然后调用方法一，最终的得到图片并没有水平翻转。</h3>
-
-<pre><code>// 1.
-- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor
-{
-    NSParameterAssert(maskColor != nil);
-
-    CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
-    UIImage *newImage = nil;
-
-    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
-    {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-
-        CGContextScaleCTM(context, 1.0f, -1.0f);
-        CGContextTranslateCTM(context, 0.0f, -(imageRect.size.height));
-
-        CGContextClipToMask(context, imageRect, self.CGImage);
-        CGContextSetFillColorWithColor(context, maskColor.CGColor);
-        CGContextFillRect(context, imageRect);
-
-        newImage = UIGraphicsGetImageFromCurrentImageContext();
-    }
-    UIGraphicsEndImageContext();
-
-    return newImage;
-}
-
-// 2.
-+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef
-                        scale:(CGFloat)scale
-                  orientation:(UIImageOrientation)orientation
-</code></pre>
-
-<p>Code Listing:</p>
-
-<pre><code>UIImage *originImage = /* Get origin image*/
-
-UIImage *upMirroredImage = [UIImage imageWithCGImage:originImage.CGImage scale:originImage.scale orientation:UIImageOrientationUpMirrored];
-
-UIImage *upMirroredImageWithMaskedColor = [upMirroredImage jsq_imageMaskedWithColor:[UIColor grayColor]];
-</code></pre>
-
-<p>A:调试中发现<code>+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation</code> 方法应该没有直接操作图片，而是更改了图片的metadata, 然后<code>- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor</code>是直接操作图片时没有考虑图片的metadata,于是最终得到是原图加上指定颜色遮罩的图片。</p>
-
-<h3>10. How to determine if an NSDate is today(Prior iOS 8)?</h3>
-
-<p>A:</p>
-
-<pre><code>NSDate *today = nil;
-NSDate *beginningOfOtherDate = nil;
-
-NSDate *now = [NSDate date];
-[[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit startDate:&amp;today interval:NULL forDate:now];
-[[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit startDate:&amp;beginningOfOtherDate interval:NULL forDate:otherDate];
-
-if([today compare:beginningOfOtherDate] == NSOrderedSame) {
-    //otherDate is a date in the current day
-}
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/2331129/how-to-determine-if-an-nsdate-is-today">http://stackoverflow.com/questions/2331129/how-to-determine-if-an-nsdate-is-today</a></p>
-
-<h3>11. How do you resize an image?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>UIKit, Core Graphics, and Image I/O all perform well for scaling operations on most images.</li>
-<li>Core Image is outperformed for image scaling operations. In fact, it is specifically recommended in the Performance Best Practices section of the Core Image Programming Guide to use Core Graphics or Image I/O functions to crop or downsample images beforehand.</li>
-<li>For general image scaling without any additional functionality, UIGraphicsBeginImageContextWithOptions is probably the best option.</li>
-<li>If image quality is a consideration, consider using CGBitmapContextCreate in combination with CGContextSetInterpolationQuality.</li>
-<li>When scaling images with the intent purpose of displaying thumbnails, CGImageSourceCreateThumbnailAtIndex offers a compelling solution for both rendering and caching.</li>
-<li>Unless you’re already working with vImage, the extra work to use the low-level Accelerate framework for resizing doesn’t pay off.</li>
-</ul>
-
-
-<p>Reference:<a href="http://nshipster.com/image-resizing/">http://nshipster.com/image-resizing/</a></p>
-
-<h3>12. How can I deal with this warning: hash mismatch?</h3>
-
-<pre><code>warning: hash mismatch: this object file was built against a different version of the module /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/ModuleCache/1ZNHC044GWHJS/SystemConfiguration-1U17T3939DDG.pcm
-</code></pre>
-
-<p>A:Clean > Build
-Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch">http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch</a></p>
-
-<h3>13. Cocoa Coding Style Enforcement</h3>
-
-<p>A:<a href="http://emlyn.net/posts/cocoa-coding-style-enforcement/">http://emlyn.net/posts/cocoa-coding-style-enforcement/</a></p>
-
-<h3>14. Importing Swift into Objective-C Within the Same App Target</h3>
-
-<p>A:</p>
-
-<blockquote><p>When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding &ldquo;-Swift.h&rdquo;. (You’ll learn more about the product module name later, in Naming Your Product Module.)</p></blockquote>
-
-<p>在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 <code>#import "ProductModuleName-Swift.h"</code>, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。</p>
-
-<p>Reference:<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138">https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138</a></p>
-
-<h3>15. Swift 中对应 Objectie-C 中的class 类方法</h3>
-
-<p>A:</p>
-
-<pre><code>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-</code></pre>
 ]]></content>
   </entry>
   

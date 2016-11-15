@@ -109,6 +109,89 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/problems-of-android-development.html">
+		
+			Android开发问题汇总</a>
+	</h2>
+	<div class="entry-content">
+		<h3>Gradle使用代理服务器</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// /Users/&lt;username&gt;/.gradle/gradle.properties (Mac)
+</span><span class='line'># Http Proxy
+</span><span class='line'>systemProp.http.proxyHost=www.somehost.org
+</span><span class='line'>systemProp.http.proxyPort=8080
+</span><span class='line'>systemProp.http.proxyUser=userid
+</span><span class='line'>systemProp.http.proxyPassword=password
+</span><span class='line'>systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.leimingshan.com/gradle/">Gradle使用代理服务器</a></p>
+
+<h3>设置Gradle home</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Mac OS X
+</span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>The project is using an unsupported version of Gradle</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>The project is using an unsupported version of Gradle.
+</span><span class='line'>Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
+</span><span class='line'>
+</span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+		
+		<a href="/blog/problems-of-android-development.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-17T09:38:20+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-does-app-security-communicate-with-server.html">
 		
 			App如何与Server安全交互</a>
@@ -205,64 +288,6 @@ $(document).ready(
 
 
 <time datetime="2014-12-08T11:55:48+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html">
-		
-			如何创建自定义的Xcode 6 工程模板</a>
-	</h2>
-	<div class="entry-content">
-		<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
-
-<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
-</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span><span class='line'>
-</span><span class='line'>// Step 2:
-</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-05T14:34:04+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

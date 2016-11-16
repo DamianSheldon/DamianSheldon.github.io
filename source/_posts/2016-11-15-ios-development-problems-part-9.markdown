@@ -47,3 +47,12 @@ let h = g(c)
 h() // prints "woo-hoo"
 ```
 Reference:[Curried functions in SWIFT](http://stackoverflow.com/questions/27644702/curried-functions-in-swift)
+
+###2.NSLog on devices in iOS 10 / Xcode 8 will truncate.
+A:A temporary solution, just redefine all NSLOG to printf in a global header file.
+
+```
+#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+```
+
+Reference:[NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？](http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why)  

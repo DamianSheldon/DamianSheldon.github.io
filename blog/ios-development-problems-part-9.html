@@ -174,6 +174,16 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
+
+<h3>2.NSLog on devices in iOS 10 / Xcode 8 will truncate.</h3>
+
+<p>A:A temporary solution, just redefine all NSLOG to printf in a global header file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why">NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？</a></p>
 </div>
 
 

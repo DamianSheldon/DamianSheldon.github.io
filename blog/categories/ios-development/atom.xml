@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-15T14:54:18+08:00</updated>
+  <updated>2016-11-16T16:11:15+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -59,6 +59,15 @@ h() // prints "woo-hoo"
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
+
+<h3>2.NSLog on devices in iOS 10 / Xcode 8 will truncate.</h3>
+
+<p>A:A temporary solution, just redefine all NSLOG to printf in a global header file.</p>
+
+<pre><code>#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why">NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？</a></p>
 ]]></content>
   </entry>
   

@@ -119,6 +119,14 @@ malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。
 
 </div>
 
+###unrecognized selector sent to instance 0x7fa71400fc10
+A: 
+
+1.Add a exception breakpoint;
+2.Check the description of the object in memory address`po (NSObject*)(0x7fa71400fc10)`.
+
+[How to debug “unrecognized selector sent to instance”](http://stackoverflow.com/questions/37928924/how-to-debug-unrecognized-selector-sent-to-instance)
+
 Reference:
 
 Memory Usage Performace Guidelines   

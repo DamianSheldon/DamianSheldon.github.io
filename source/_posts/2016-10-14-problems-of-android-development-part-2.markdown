@@ -102,3 +102,30 @@ Reference:[Failed to resolve: junit:junit:4.12](http://stackoverflow.com/questio
 ###7.Error:Please select Android SDK
 A:应用的Run 标红，打开弹出的对话底部提示error please select Android SDK.工程是从 eclipse 迁移过来的，target SDK 一开始是没安装的，安装之后标红依然没有消失。File > Project Structure... > Properties > Compile SDK Version 选择一个之前安装好的版本，工程构建之后标红消息，之后再选择刚安装的 target SDK 作为Compile SDK Version, 工程自动重新构建成功，标红消息。应该是安装 SDK
 版本之后没有立即生效，连带 android.app 包都找不到。
+
+###8.unknown attr app:popuptheme
+A:The reason is miss relate name space:xmlns:app="http://schemas.android.com/apk/res-auto"
+
+```
+// Before
+<android.support.v7.widget.Toolbar
+android:id="@+id/my_toolbar"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"
+android:background="?attr/colorPrimary"
+android:elevation="4dp"
+android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+// After
+<android.support.v7.widget.Toolbar
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/my_toolbar"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"
+android:background="?attr/colorPrimary"
+android:elevation="4dp"
+android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+```

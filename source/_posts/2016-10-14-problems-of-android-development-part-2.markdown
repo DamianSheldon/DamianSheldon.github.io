@@ -98,3 +98,7 @@ Android Studio > Preferences... > System Settings > HTTP Proxy > No Proxy
 
 ```
 Reference:[Failed to resolve: junit:junit:4.12](http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12)
+
+###7.Error:Please select Android SDK
+A:应用的Run 标红，打开弹出的对话底部提示error please select Android SDK.工程是从 eclipse 迁移过来的，target SDK 一开始是没安装的，安装之后标红依然没有消失。File > Project Structure... > Properties > Compile SDK Version 选择一个之前安装好的版本，工程构建之后标红消息，之后再选择刚安装的 target SDK 作为Compile SDK Version, 工程自动重新构建成功，标红消息。应该是安装 SDK
+版本之后没有立即生效，连带 android.app 包都找不到。

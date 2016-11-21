@@ -309,17 +309,151 @@ $ git stash pop (or git stash apply stash_identifier)
 $ git branch -d hotfix
 ```
 
-###如何将另一分支上的某文件复制到当前分支上来？
+##Git 基本操作
+
+### 操作 repository
 
 ```
-$git checkout currentBranch
-$git checkout anotherBranch -- filenameYourWantedCopy
+// 1. Create a new repository
+$ git init --bare sample.git
+
+// 2. Addding a existing project to git
+1)Initialize the local directory as a Git repository.
+$ git init
+
+2)Add the files in your new local repository. This stages them for the first commit.
+$ git add .
+
+3)Commit the files that you've staged in your local repository.
+$ git commit -m "First commit"
+
+4)In Terminal, add the URL for the remote repository where your local repository will be pushed.
+// Sets the new remote
+$ git remote add origin remote repository URL
+
+// Verifies the new remote URL
+$ git remote -v
+
+5)Push the changes in your local repository to GitHub.
+// Pushes the changes in your local repository up to the remote repository you specified as the origin
+$ git push -u origin master
 ```
 
-###如何不再控制已经提交到仓库的文件？
+### 操作 branch
 
 ```
-$git rm --cached filenameYourDontWantTracked
+// List all existing branches
+$ git branch
+
+// Switch HEAD branch
+$ git checkout <branch>
+
+// Create a new branch based on your current HEAD
+$ git branch <new-branch>
+
+// Create a new tracking branch based on a remote branch
+$ git branch --track <new-branch> <remote-branch>
+
+// Delete a local branch
+$ git branch -d <branch>
+
+// Delete a remote branch
+$ git push origin --delete <branch>
+
+// Rename a branch locally
+$ git branch -m <old name> <new name>
+
+// Rename a branch on remote
+$ git push <remote> :<old name>
+$ git push <remote> <new name>
+```
+
+### 操作 file
+
+```
+// Add all current changes in file to the next commit 
+$ git add <file>
+
+// Delete file and add its deletion to next commit
+$ git rm <file>
+
+// Rename file and add it to next commit
+$ git mv <file> <new file name>
+
+// Show changes over time for a specific file
+$ git log -p <file>
+
+// Who changed what and when in file
+$ git blame <file>
+
+// Remove file from all previous commits but keep it locally
+// 如何不再控制已经提交到仓库的文件？
+$ git rm --cached <file>
+
+// Manually resolve conflicts using your editor and mark file as resolved
+$ git add <resolved-file>
+$ git rm <resolved-file>
+
+// Discard local changes in a specific file
+$ git checkout HEAD <file>
+
+// Revert a commit by providing a new commit with contrary changes
+$ git revert <commit>
+
+// Restore a specific file from a previous commit
+$ git checkout <commit> <file>
+
+// 如何将另一分支上的某文件复制到当前分支上来？
+$ git checkout currentBranch
+$ git checkout anotherBranch -- filenameYourWantedCopy
+
+// 不再跟踪已经删除的文件
+$ git add --update
+
+// Shows the commits that changed specific file
+$ git log --follow builtin/rev-list.c
+// Shows the commits that changed builtin/rev-list.c, including those commits that occurred before the file was given its present name.
+
+// Viewing a Deleted File
+$ git show HEAD^:path/to/file
+
+// You can use an explicit commit identifier or HEAD~n to see older versions or if therehas been more than one commit since you deleted it.
+
+// Finally, most commands that take filenames will optionally allow you to precede any
+// filename by a commit, to specify a particular version of the file:
+$ git diff v2.5:Makefile HEAD:Makefile.in
+
+// You can also use git show to see any such file:
+$ git show v2.5:Makefile
+
+Reference:[Viewing a Deleted File in Git](http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git)
+
+// How to take a file out of another commit
+// Example 1
+$ git checkout master~2 Makefile
+
+// Example 2
+$ git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
+
+```
+
+### 操作 commit
+
+```
+// Commit previously staged changes
+$ git commit
+
+// Show all commits
+$ git log
+
+// Show changes over time for a specific committer
+$ git log --author=<committer name>
+
+// Change the last commit
+$ git commit -amend
+
+// Change published commit message
+$ git rebase -i HEAD~3
 ```
 
 ###如何将目录覆盖下一级的同名目录？
@@ -337,12 +471,6 @@ $git rm --cached filenameYourDontWantTracked
 1. rsync -a A/ B/A
 2. (cd A && tar c .) | (cd B/A && tar xf -)
 
-```
-
-###不再跟踪已经删除的文件
-
-```
-$ git add --update
 ```
 
 ###insufficient permission for adding an object to repository database ./objects
@@ -399,41 +527,6 @@ Reference:http://stackoverflow.com/questions/9823692/resolving-a-both-added-merg
 A:git archive master | tar -x -C /somewhere/else
 
 Reference:http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export
-
-### Shows the commits that changed specific file
-
-```
-git log --follow builtin/rev-list.c
-           Shows the commits that changed builtin/rev-list.c, including those commits that occurred before the file was given its present name.
-```
-
-###Viewing a Deleted File in Git
-
-```
-$ git show HEAD^:path/to/file
-```
-
-You can use an explicit commit identifier or HEAD~n to see older versions or if there has been more than one commit since you deleted it.
-
->Finally, most commands that take filenames will optionally allow you to precede any filename by a commit, to specify a particular version of the file:
-
->`$ git diff v2.5:Makefile HEAD:Makefile.in`
-
->You can also use git show to see any such file:
-
->`$ git show v2.5:Makefile`
-
-Reference:[Viewing a Deleted File in Git](http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git)
-
-### How to take a file out of another commit
-A:
-
-```
-// Example 1
-$ git checkout master~2 Makefile
-// Example 2
-$ git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
-```
 
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

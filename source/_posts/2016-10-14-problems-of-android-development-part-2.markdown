@@ -129,3 +129,17 @@ android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 ```
+###9.How to get Activity's content view?
+A:
+
+```
+this.getWindow().getDecorView().findViewById(android.R.id.content)
+or
+
+this.findViewById(android.R.id.content)
+or
+
+this.findViewById(android.R.id.content).getRootView()
+```
+
+Reference:[How to get Activity's content view?](http://stackoverflow.com/questions/5273436/how-to-get-activitys-content-view)

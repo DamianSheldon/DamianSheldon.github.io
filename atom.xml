@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-18T08:58:41+08:00</updated>
+  <updated>2016-11-22T16:22:37+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -382,6 +382,80 @@ iOS Technology Overview<br/>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12">Failed to resolve: junit:junit:4.12</a></p>
+
+<h3>7.Error:Please select Android SDK</h3>
+
+<p>A:应用的Run 标红，打开弹出的对话底部提示error please select Android SDK.工程是从 eclipse 迁移过来的，target SDK 一开始是没安装的，安装之后标红依然没有消失。File > Project Structure&hellip; > Properties > Compile SDK Version 选择一个之前安装好的版本，工程构建之后标红消息，之后再选择刚安装的 target SDK 作为Compile SDK Version, 工程自动重新构建成功，标红消息。应该是安装 SDK
+版本之后没有立即生效，连带 android.app 包都找不到。</p>
+
+<h3>8.unknown attr app:popuptheme</h3>
+
+<p>A:The reason is miss relate name space:xmlns:app=&ldquo;<a href="http://schemas.android.com/apk/res-auto">http://schemas.android.com/apk/res-auto</a>&rdquo;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Before
+</span><span class='line'>&lt;android.support.v7.widget.Toolbar
+</span><span class='line'>android:id="@+id/my_toolbar"
+</span><span class='line'>android:layout_width="match_parent"
+</span><span class='line'>android:layout_height="?attr/actionBarSize"
+</span><span class='line'>android:background="?attr/colorPrimary"
+</span><span class='line'>android:elevation="4dp"
+</span><span class='line'>android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+</span><span class='line'>app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/&gt;
+</span><span class='line'>
+</span><span class='line'>// After
+</span><span class='line'>&lt;android.support.v7.widget.Toolbar
+</span><span class='line'>xmlns:app="http://schemas.android.com/apk/res-auto"
+</span><span class='line'>android:id="@+id/my_toolbar"
+</span><span class='line'>android:layout_width="match_parent"
+</span><span class='line'>android:layout_height="?attr/actionBarSize"
+</span><span class='line'>android:background="?attr/colorPrimary"
+</span><span class='line'>android:elevation="4dp"
+</span><span class='line'>android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+</span><span class='line'>app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9.How to get Activity&rsquo;s content view?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>this.getWindow().getDecorView().findViewById(android.R.id.content)
+</span><span class='line'>or
+</span><span class='line'>
+</span><span class='line'>this.findViewById(android.R.id.content)
+</span><span class='line'>or
+</span><span class='line'>
+</span><span class='line'>this.findViewById(android.R.id.content).getRootView()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5273436/how-to-get-activitys-content-view">How to get Activity&rsquo;s content view?</a></p>
 ]]></content>
   </entry>
   

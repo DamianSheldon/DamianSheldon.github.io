@@ -655,19 +655,273 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>如何将另一分支上的某文件复制到当前分支上来？</h3>
+<h2>Git 基本操作</h2>
+
+<h3>操作 repository</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> checkout currentBranch
-</span><span class='line'><span class="nv">$git</span> checkout anotherBranch -- filenameYourWantedCopy
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 1. Create a new repository
+</span><span class='line'><span class="nv">$ </span>git init --bare sample.git
+</span><span class='line'>
+</span><span class='line'>// 2. Addding a existing project to git
+</span><span class='line'>1<span class="o">)</span>Initialize the <span class="nb">local </span>directory as a Git repository.
+</span><span class='line'><span class="nv">$ </span>git init
+</span><span class='line'>
+</span><span class='line'>2<span class="o">)</span>Add the files in your new <span class="nb">local </span>repository. This stages them <span class="k">for</span> the first commit.
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'>
+</span><span class='line'>3<span class="o">)</span>Commit the files that you<span class="err">&#39;</span>ve staged in your <span class="nb">local </span>repository.
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;First commit&quot;</span>
+</span><span class='line'>
+</span><span class='line'>4<span class="o">)</span>In Terminal, add the URL <span class="k">for</span> the remote repository where your <span class="nb">local </span>repository will be pushed.
+</span><span class='line'>// Sets the new remote
+</span><span class='line'><span class="nv">$ </span>git remote add origin remote repository URL
+</span><span class='line'>
+</span><span class='line'>// Verifies the new remote URL
+</span><span class='line'><span class="nv">$ </span>git remote -v
+</span><span class='line'>
+</span><span class='line'>5<span class="o">)</span>Push the changes in your <span class="nb">local </span>repository to GitHub.
+</span><span class='line'>// Pushes the changes in your <span class="nb">local </span>repository up to the remote repository you specified as the origin
+</span><span class='line'><span class="nv">$ </span>git push -u origin master
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>如何不再控制已经提交到仓库的文件？</h3>
+<h3>操作 branch</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$git</span> rm --cached filenameYourDontWantTracked
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// List all existing branches
+</span><span class='line'><span class="nv">$ </span>git branch
+</span><span class='line'>
+</span><span class='line'>// Switch HEAD branch
+</span><span class='line'><span class="nv">$ </span>git checkout &lt;branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Create a new branch based on your current HEAD
+</span><span class='line'><span class="nv">$ </span>git branch &lt;new-branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Create a new tracking branch based on a remote branch
+</span><span class='line'><span class="nv">$ </span>git branch --track &lt;new-branch&gt; &lt;remote-branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Delete a <span class="nb">local </span>branch
+</span><span class='line'><span class="nv">$ </span>git branch -d &lt;branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Delete a remote branch
+</span><span class='line'><span class="nv">$ </span>git push origin --delete &lt;branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Rename a branch locally
+</span><span class='line'><span class="nv">$ </span>git branch -m &lt;old name&gt; &lt;new name&gt;
+</span><span class='line'>
+</span><span class='line'>// Rename a branch on remote
+</span><span class='line'><span class="nv">$ </span>git push &lt;remote&gt; :&lt;old name&gt;
+</span><span class='line'><span class="nv">$ </span>git push &lt;remote&gt; &lt;new name&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>操作 file</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Add all current changes in file to the next commit
+</span><span class='line'><span class="nv">$ </span>git add &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Delete file and add its deletion to next commit
+</span><span class='line'><span class="nv">$ </span>git rm &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Rename file and add it to next commit
+</span><span class='line'><span class="nv">$ </span>git mv &lt;file&gt; &lt;new file name&gt;
+</span><span class='line'>
+</span><span class='line'>// Show changes over <span class="nb">time </span><span class="k">for</span> a specific file
+</span><span class='line'><span class="nv">$ </span>git log -p &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Who changed what and when in file
+</span><span class='line'><span class="nv">$ </span>git blame &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Remove file from all previous commits but keep it locally
+</span><span class='line'>// 如何不再控制已经提交到仓库的文件？
+</span><span class='line'><span class="nv">$ </span>git rm --cached &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Manually resolve conflicts using your editor and mark file as resolved
+</span><span class='line'><span class="nv">$ </span>git add &lt;resolved-file&gt;
+</span><span class='line'><span class="nv">$ </span>git rm &lt;resolved-file&gt;
+</span><span class='line'>
+</span><span class='line'>// Discard <span class="nb">local </span>changes in a specific file
+</span><span class='line'><span class="nv">$ </span>git checkout HEAD &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Revert a commit by providing a new commit with contrary changes
+</span><span class='line'><span class="nv">$ </span>git revert &lt;commit&gt;
+</span><span class='line'>
+</span><span class='line'>// Restore a specific file from a previous commit
+</span><span class='line'><span class="nv">$ </span>git checkout &lt;commit&gt; &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// 如何将另一分支上的某文件复制到当前分支上来？
+</span><span class='line'><span class="nv">$ </span>git checkout currentBranch
+</span><span class='line'><span class="nv">$ </span>git checkout anotherBranch -- filenameYourWantedCopy
+</span><span class='line'>
+</span><span class='line'>// 不再跟踪已经删除的文件
+</span><span class='line'><span class="nv">$ </span>git add --update
+</span><span class='line'>
+</span><span class='line'>// Shows the commits that changed specific file
+</span><span class='line'><span class="nv">$ </span>git log --follow <span class="nb">builtin</span>/rev-list.c
+</span><span class='line'>// Shows the commits that changed <span class="nb">builtin</span>/rev-list.c, including those commits that occurred before the file was given its present name.
+</span><span class='line'>
+</span><span class='line'>// Viewing a Deleted File
+</span><span class='line'><span class="nv">$ </span>git show HEAD^:path/to/file
+</span><span class='line'>
+</span><span class='line'>// You can use an explicit commit identifier or HEAD~n to see older versions or <span class="k">if</span> therehas been more than one commit since you deleted it.
+</span><span class='line'>
+</span><span class='line'>// Finally, most commands that take filenames will optionally allow you to precede any
+</span><span class='line'>// filename by a commit, to specify a particular version of the file:
+</span><span class='line'><span class="nv">$ </span>git diff v2.5:Makefile HEAD:Makefile.in
+</span><span class='line'>
+</span><span class='line'>// You can also use git show to see any such file:
+</span><span class='line'><span class="nv">$ </span>git show v2.5:Makefile
+</span><span class='line'>
+</span><span class='line'>Reference:<span class="o">[</span>Viewing a Deleted File in Git<span class="o">](</span>http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>// How to take a file out of another commit
+</span><span class='line'>// Example 1
+</span><span class='line'><span class="nv">$ </span>git checkout master~2 Makefile
+</span><span class='line'>
+</span><span class='line'>// Example 2
+</span><span class='line'><span class="nv">$ </span>git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>操作 commit</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Commit previously staged changes
+</span><span class='line'><span class="nv">$ </span>git commit
+</span><span class='line'>
+</span><span class='line'>// Show all commits
+</span><span class='line'><span class="nv">$ </span>git log
+</span><span class='line'>
+</span><span class='line'>// Show changes over <span class="nb">time </span><span class="k">for</span> a specific committer
+</span><span class='line'><span class="nv">$ </span>git log --author<span class="o">=</span>&lt;committer name&gt;
+</span><span class='line'>
+</span><span class='line'>// Change the last commit
+</span><span class='line'><span class="nv">$ </span>git commit -amend
+</span><span class='line'>
+</span><span class='line'>// Change published commit message
+</span><span class='line'><span class="nv">$ </span>git rebase -i HEAD~3
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -697,13 +951,6 @@ $(document).ready(
 </span><span class='line'>// 解决办法
 </span><span class='line'>1. rsync -a A/ B/A
 </span><span class='line'>2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> | <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>不再跟踪已经删除的文件</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add --update
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -779,49 +1026,6 @@ $(document).ready(
 <p>A:git archive master | tar -x -C /somewhere/else</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export">http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export</a></p>
-
-<h3>Shows the commits that changed specific file</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git log --follow <span class="nb">builtin</span>/rev-list.c
-</span><span class='line'>           Shows the commits that changed <span class="nb">builtin</span>/rev-list.c, including those commits that occurred before the file was given its present name.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Viewing a Deleted File in Git</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git show HEAD^:path/to/file
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can use an explicit commit identifier or HEAD~n to see older versions or if there has been more than one commit since you deleted it.</p>
-
-<blockquote><p>Finally, most commands that take filenames will optionally allow you to precede any filename by a commit, to specify a particular version of the file:</p>
-
-<p><code>$ git diff v2.5:Makefile HEAD:Makefile.in</code></p>
-
-<p>You can also use git show to see any such file:</p>
-
-<p><code>$ git show v2.5:Makefile</code></p></blockquote>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git">Viewing a Deleted File in Git</a></p>
-
-<h3>How to take a file out of another commit</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Example 1
-</span><span class='line'><span class="nv">$ </span>git checkout master~2 Makefile
-</span><span class='line'>// Example 2
-</span><span class='line'><span class="nv">$ </span>git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
-</span></code></pre></td></tr></table></div></figure>
-
 
 <h4>Reference</h4>
 

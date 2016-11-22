@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-18T08:58:41+08:00</updated>
+  <updated>2016-11-22T16:22:37+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -112,6 +112,52 @@ Android Studio &gt; Preferences... &gt; System Settings &gt; HTTP Proxy &gt; No 
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12">Failed to resolve: junit:junit:4.12</a></p>
+
+<h3>7.Error:Please select Android SDK</h3>
+
+<p>A:应用的Run 标红，打开弹出的对话底部提示error please select Android SDK.工程是从 eclipse 迁移过来的，target SDK 一开始是没安装的，安装之后标红依然没有消失。File > Project Structure&hellip; > Properties > Compile SDK Version 选择一个之前安装好的版本，工程构建之后标红消息，之后再选择刚安装的 target SDK 作为Compile SDK Version, 工程自动重新构建成功，标红消息。应该是安装 SDK
+版本之后没有立即生效，连带 android.app 包都找不到。</p>
+
+<h3>8.unknown attr app:popuptheme</h3>
+
+<p>A:The reason is miss relate name space:xmlns:app=&ldquo;<a href="http://schemas.android.com/apk/res-auto">http://schemas.android.com/apk/res-auto</a>&rdquo;</p>
+
+<pre><code>// Before
+&lt;android.support.v7.widget.Toolbar
+android:id="@+id/my_toolbar"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"
+android:background="?attr/colorPrimary"
+android:elevation="4dp"
+android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/&gt;
+
+// After
+&lt;android.support.v7.widget.Toolbar
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/my_toolbar"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"
+android:background="?attr/colorPrimary"
+android:elevation="4dp"
+android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/&gt;
+</code></pre>
+
+<h3>9.How to get Activity&rsquo;s content view?</h3>
+
+<p>A:</p>
+
+<pre><code>this.getWindow().getDecorView().findViewById(android.R.id.content)
+or
+
+this.findViewById(android.R.id.content)
+or
+
+this.findViewById(android.R.id.content).getRootView()
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5273436/how-to-get-activitys-content-view">How to get Activity&rsquo;s content view?</a></p>
 ]]></content>
   </entry>
   

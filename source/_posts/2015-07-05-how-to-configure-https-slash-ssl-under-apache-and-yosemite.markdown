@@ -196,29 +196,41 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 Solution:
 I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:
 
+```
 Options Indexes FollowSymLinks Includes ExecCGI
+
+```
+
 By default, your global directory settings is (httpd.conf line ~188):
 
+```
 <Directory />
      AllowOverride none
      Require all granted
 </Directory>
-set the options to : Options Indexes FollowSymLinks Includes ExecCGI
+
+```
+
+set the options to : `Options Indexes FollowSymLinks Includes ExecCGI`
 
 Finally, it should look like:
 
+```
 <Directory />
      Options Indexes FollowSymLinks Includes ExecCGI
      AllowOverride All
      Require all granted
 </Directory>
+```
+
 Also try changing "Order deny,allow" and "Allow from all" lines by "Require all granted"
 
-Reference:http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server
+Reference:[Error message “Forbidden You don't have permission to access / on this server”](http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server)
 
-Reference:http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/   
-http://www.akadia.com/services/ssh_test_certificate.html  
-http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx  
-http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/
+Reference:
+[How to Set Up SSL with OSX Mountain Lion’s Built-In Apache](http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/)   
+[How to create a self-signed SSL Certificate](http://www.akadia.com/services/ssh_test_certificate.html)  
+[How to configure HTTPS/SSL under Apache and OSX](http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx)  
+[Get Apache, MySQL, PHP and phpMyAdmin working on OSX 10.11 El Capitan](http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/)
 
 

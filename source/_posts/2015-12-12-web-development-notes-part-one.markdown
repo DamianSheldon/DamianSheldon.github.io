@@ -272,5 +272,39 @@ Try to test on as many browsers/devices as possible as this will decide on which
 
 Reference:http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server
 
+### 11.How do I enable apache file and directory indexing under Linux or UNIX?
+A:Under Apache web server automatic index generation is enabled with using Options +Indexes or Options Indexes directive.
+If a URL which maps to a directory is requested, and there is no DirectoryIndex (e.g., index.html) in that directory, then mod_autoindex will return a formatted listing of the directory.
 
+```
+// Option 1: Using Apache config file
+// Add directory option to Apache configuration file /etc/httpd/httpd.conf or /etc/apache2/apache2.conf:
+# vi /etc/apache2/apache2.conf
 
+// Add following code:
+<Directory /var/www/domain.com/pdfs>
+Options Indexes FollowSymLinks
+</Directory>
+
+// Save and close the file. Restart Apache:
+# /etc/init.d/httpd restart
+
+// OR
+# /etc/init.d/apache2 restart
+
+// Option 2: Using .htaccess Files with Apache
+// You can place config line Options Indexes in .htaccess file. Make sure .htaccess file support is enabled.
+// Change directory to pdfs
+$ cd pdfs
+
+// Open .htaccess file
+$ vi .htaccess
+
+// Append following apache directive:
+Options Indexes
+
+//Save and close the file.
+
+```
+
+Reference:[How do I enable apache file and directory indexing under Linux or UNIX?](https://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/)

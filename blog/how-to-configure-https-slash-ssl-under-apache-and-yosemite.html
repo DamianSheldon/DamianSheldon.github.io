@@ -328,30 +328,49 @@ Starting MySQL
 <p>Solution:
 I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
 
-<p>Options Indexes FollowSymLinks Includes ExecCGI
-By default, your global directory settings is (httpd.conf line ~188):</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Options Indexes FollowSymLinks Includes ExecCGI
+</span></code></pre></td></tr></table></div></figure>
 
-<p><Directory />
-     AllowOverride none
-     Require all granted
-</Directory>
-set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
+
+<p>By default, your global directory settings is (httpd.conf line ~188):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory /&gt;
+</span><span class='line'>     AllowOverride none
+</span><span class='line'>     Require all granted
+</span><span class='line'>&lt;/Directory&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>set the options to : <code>Options Indexes FollowSymLinks Includes ExecCGI</code></p>
 
 <p>Finally, it should look like:</p>
 
-<p><Directory />
-     Options Indexes FollowSymLinks Includes ExecCGI
-     AllowOverride All
-     Require all granted
-</Directory>
-Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory /&gt;
+</span><span class='line'>     Options Indexes FollowSymLinks Includes ExecCGI
+</span><span class='line'>     AllowOverride All
+</span><span class='line'>     Require all granted
+</span><span class='line'>&lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
 
-<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
-<a href="http://www.akadia.com/services/ssh_test_certificate.html">http://www.akadia.com/services/ssh_test_certificate.html</a><br/>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a><br/>
-<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/</a></p>
+<p>Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">Error message “Forbidden You don&rsquo;t have permission to access / on this server”</a></p>
+
+<p>Reference:
+<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">How to Set Up SSL with OSX Mountain Lion’s Built-In Apache</a> <br/>
+<a href="http://www.akadia.com/services/ssh_test_certificate.html">How to create a self-signed SSL Certificate</a><br/>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">How to configure HTTPS/SSL under Apache and OSX</a><br/>
+<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">Get Apache, MySQL, PHP and phpMyAdmin working on OSX 10.11 El Capitan</a></p>
 </div>
 
 

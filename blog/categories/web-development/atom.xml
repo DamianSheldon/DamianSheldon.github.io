@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-11-22T16:22:37+08:00</updated>
+  <updated>2016-11-23T16:43:08+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -354,6 +354,42 @@ One path is to use an independent installed web sockets server.</p>
 <p>Try to test on as many browsers/devices as possible as this will decide on which websocket server implementation you choose. There are old and new protocols you have to watch out for.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server">http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server</a></p>
+
+<h3>11.How do I enable apache file and directory indexing under Linux or UNIX?</h3>
+
+<p>A:Under Apache web server automatic index generation is enabled with using Options +Indexes or Options Indexes directive.
+If a URL which maps to a directory is requested, and there is no DirectoryIndex (e.g., index.html) in that directory, then mod_autoindex will return a formatted listing of the directory.</p>
+
+<pre><code>// Option 1: Using Apache config file
+// Add directory option to Apache configuration file /etc/httpd/httpd.conf or /etc/apache2/apache2.conf:
+# vi /etc/apache2/apache2.conf
+
+// Add following code:
+&lt;Directory /var/www/domain.com/pdfs&gt;
+Options Indexes FollowSymLinks
+&lt;/Directory&gt;
+
+// Save and close the file. Restart Apache:
+# /etc/init.d/httpd restart
+
+// OR
+# /etc/init.d/apache2 restart
+
+// Option 2: Using .htaccess Files with Apache
+// You can place config line Options Indexes in .htaccess file. Make sure .htaccess file support is enabled.
+// Change directory to pdfs
+$ cd pdfs
+
+// Open .htaccess file
+$ vi .htaccess
+
+// Append following apache directive:
+Options Indexes
+
+//Save and close the file.
+</code></pre>
+
+<p>Reference:<a href="https://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/">How do I enable apache file and directory indexing under Linux or UNIX?</a></p>
 ]]></content>
   </entry>
   
@@ -871,30 +907,37 @@ Starting MySQL
 <p>Solution:
 I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
 
-<p>Options Indexes FollowSymLinks Includes ExecCGI
-By default, your global directory settings is (httpd.conf line ~188):</p>
+<pre><code>Options Indexes FollowSymLinks Includes ExecCGI
+</code></pre>
 
-<p><Directory />
+<p>By default, your global directory settings is (httpd.conf line ~188):</p>
+
+<pre><code>&lt;Directory /&gt;
      AllowOverride none
      Require all granted
-</Directory>
-set the options to : Options Indexes FollowSymLinks Includes ExecCGI</p>
+&lt;/Directory&gt;
+</code></pre>
+
+<p>set the options to : <code>Options Indexes FollowSymLinks Includes ExecCGI</code></p>
 
 <p>Finally, it should look like:</p>
 
-<p><Directory />
+<pre><code>&lt;Directory /&gt;
      Options Indexes FollowSymLinks Includes ExecCGI
      AllowOverride All
      Require all granted
-</Directory>
-Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
+&lt;/Directory&gt;
+</code></pre>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server</a></p>
+<p>Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
 
-<p>Reference:<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/</a> <br/>
-<a href="http://www.akadia.com/services/ssh_test_certificate.html">http://www.akadia.com/services/ssh_test_certificate.html</a><br/>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx</a><br/>
-<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">Error message “Forbidden You don&rsquo;t have permission to access / on this server”</a></p>
+
+<p>Reference:
+<a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">How to Set Up SSL with OSX Mountain Lion’s Built-In Apache</a> <br/>
+<a href="http://www.akadia.com/services/ssh_test_certificate.html">How to create a self-signed SSL Certificate</a><br/>
+<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">How to configure HTTPS/SSL under Apache and OSX</a><br/>
+<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">Get Apache, MySQL, PHP and phpMyAdmin working on OSX 10.11 El Capitan</a></p>
 ]]></content>
   </entry>
   

@@ -308,3 +308,12 @@ Options Indexes
 ```
 
 Reference:[How do I enable apache file and directory indexing under Linux or UNIX?](https://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/)
+
+###13.Twig:RuntimeException: Unable to create the cache directory
+A:The reason is web run via user www that hasn't right create cache directory in target position.
+
+```
+sudo chown -R www:staff path/to/application
+```
+
+Reference:[RuntimeException: Unable to create the cache directory](http://stackoverflow.com/questions/20127884/runtimeexception-unable-to-create-the-cache-directory-var-www-sonata-app-cach)

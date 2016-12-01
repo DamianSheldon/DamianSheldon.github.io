@@ -317,3 +317,13 @@ sudo chown -R www:staff path/to/application
 ```
 
 Reference:[RuntimeException: Unable to create the cache directory](http://stackoverflow.com/questions/20127884/runtimeexception-unable-to-create-the-cache-directory-var-www-sonata-app-cach)
+
+###14.How to center a ul element?
+A:
+
+```
+ul {
+    display: table;
+    margin: auto;
+}
+```

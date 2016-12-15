@@ -188,5 +188,12 @@ $ curl  -o LongM4A.m4a http://download.wavetlan.com/SVV/Media/HTTP/LongM4A.m4a
 ```
 Reference:http://www.cyberciti.biz/faq/curl-download-file-example-under-linux-unix/
 
+###13. How to Convert mp3 to aac?
+A: We can use ffmpeg archive this.
 
+```
+$ ffmpeg -i input.mp3 -c:a aac output.m4a
+```
+
+Reference:[FFmpeg command to convert MP3 to AAC](http://superuser.com/questions/370625/ffmpeg-command-to-convert-mp3-to-aac)
 

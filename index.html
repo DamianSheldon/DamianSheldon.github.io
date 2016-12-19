@@ -216,6 +216,24 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/37805885/how-to-create-dispatch-queue-in-swift-3">How to create dispatch queue in Swift 3</a></p>
 
+<h3>5.How to create a bitmap graphics context in Swift 3?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a bitmap graphics context with the sample buffer data
+</span><span class='line'>guard let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8,
+</span><span class='line'>        bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue) else {
+</span><span class='line'>    return nil
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference: <a href="http://stackoverflow.com/questions/24109149/cgbitmapcontextcreate-error-with-swift">CGBitmapContextCreate error with swift</a></p>
+
 		
 		
 	</div>

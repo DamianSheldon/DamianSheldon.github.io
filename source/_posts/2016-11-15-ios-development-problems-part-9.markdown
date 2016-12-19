@@ -59,3 +59,16 @@ Reference:[NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？](http:
 
 ###3.UIImagePickerViewController is black doesn't work for selecting photo or taking picture.
 A:I instance it via `UIImagePickerViewController(nibName:nil, boundle:nil)` that doesn't work, and change to `UIImagePickerViewController()` it works.
+
+###4.How to create dispatch queue in Swift?
+A:
+
+```
+// Concurrent dispatch queue
+let concurrentQueue = DispatchQueue(label: "queuename", attributes:.concurrent)
+
+// Serial dispatch queue
+let serialQueue = DispatchQueue(label: "queuename")
+```
+
+Reference:[How to create dispatch queue in Swift 3](http://stackoverflow.com/questions/37805885/how-to-create-dispatch-queue-in-swift-3)

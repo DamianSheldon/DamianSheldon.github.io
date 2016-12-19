@@ -72,3 +72,17 @@ let serialQueue = DispatchQueue(label: "queuename")
 ```
 
 Reference:[How to create dispatch queue in Swift 3](http://stackoverflow.com/questions/37805885/how-to-create-dispatch-queue-in-swift-3)
+
+###5.How to create a bitmap graphics context in Swift 3?
+A:
+
+```
+// Create a bitmap graphics context with the sample buffer data
+guard let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8,
+        bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue) else {
+    return nil
+}
+```
+
+Reference: [CGBitmapContextCreate error with swift](http://stackoverflow.com/questions/24109149/cgbitmapcontextcreate-error-with-swift)
+

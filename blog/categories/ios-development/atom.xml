@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-15T09:40:49+08:00</updated>
+  <updated>2016-12-19T09:15:10+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -72,6 +72,19 @@ h() // prints "woo-hoo"
 <h3>3.UIImagePickerViewController is black doesn&rsquo;t work for selecting photo or taking picture.</h3>
 
 <p>A:I instance it via <code>UIImagePickerViewController(nibName:nil, boundle:nil)</code> that doesn&rsquo;t work, and change to <code>UIImagePickerViewController()</code> it works.</p>
+
+<h3>4.How to create dispatch queue in Swift?</h3>
+
+<p>A:</p>
+
+<pre><code>// Concurrent dispatch queue
+let concurrentQueue = DispatchQueue(label: "queuename", attributes:.concurrent)
+
+// Serial dispatch queue
+let serialQueue = DispatchQueue(label: "queuename")
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/37805885/how-to-create-dispatch-queue-in-swift-3">How to create dispatch queue in Swift 3</a></p>
 ]]></content>
   </entry>
   

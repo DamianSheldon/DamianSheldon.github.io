@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-15T09:40:49+08:00</updated>
+  <updated>2016-12-19T09:15:10+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -101,6 +101,24 @@
 <h3>3.UIImagePickerViewController is black doesn&rsquo;t work for selecting photo or taking picture.</h3>
 
 <p>A:I instance it via <code>UIImagePickerViewController(nibName:nil, boundle:nil)</code> that doesn&rsquo;t work, and change to <code>UIImagePickerViewController()</code> it works.</p>
+
+<h3>4.How to create dispatch queue in Swift?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Concurrent dispatch queue
+</span><span class='line'>let concurrentQueue = DispatchQueue(label: "queuename", attributes:.concurrent)
+</span><span class='line'>
+</span><span class='line'>// Serial dispatch queue
+</span><span class='line'>let serialQueue = DispatchQueue(label: "queuename")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/37805885/how-to-create-dispatch-queue-in-swift-3">How to create dispatch queue in Swift 3</a></p>
 ]]></content>
   </entry>
   

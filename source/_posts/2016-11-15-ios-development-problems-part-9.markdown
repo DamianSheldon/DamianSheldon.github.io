@@ -86,3 +86,14 @@ guard let context = CGContext(data: baseAddress, width: width, height: height, b
 
 Reference: [CGBitmapContextCreate error with swift](http://stackoverflow.com/questions/24109149/cgbitmapcontextcreate-error-with-swift)
 
+###6.Required plug-in compatibility UUID 37B30044-3B14-46BA-ABAA-F01000C27B63 for plug-in at path '~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/Unity4XC.xcplugin' not present in DVTPlugInCompatibilityUUIDs
+A:There isn't official document about developing plugin for Xcode, so we can only attempt to solve it. Thanks to the internet, we can get a solution by other figure out.
+
+```
+XCODEUUID=`defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID`
+for f in ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/*; do defaults write "$f/Contents/Info" DVTPlugInCompatibilityUUIDs -array-add $XCODEUUID; done
+```
+
+The reason probably is plugin developed compate with old Xcode, so it of course don't contain the lastest Xcode's UUID, we can manual add it if it really compate with the latest Xcode. 
+
+Reference: [Xcode 5 - Required plug-in not present in DVTPlugInCompatibilityUUIDs?](http://stackoverflow.com/questions/20732327/xcode-5-required-plug-in-not-present-in-dvtplugincompatibilityuuids?rq=1)

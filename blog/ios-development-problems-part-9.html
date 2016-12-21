@@ -224,6 +224,20 @@ $(document).ready(
 
 
 <p>Reference: <a href="http://stackoverflow.com/questions/24109149/cgbitmapcontextcreate-error-with-swift">CGBitmapContextCreate error with swift</a></p>
+
+<h3>6.Required plug-in compatibility UUID 37B30044-3B14-46BA-ABAA-F01000C27B63 for plug-in at path &lsquo;~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/Unity4XC.xcplugin&rsquo; not present in DVTPlugInCompatibilityUUIDs</h3>
+
+<p>A:There isn&rsquo;t official document about developing plugin for Xcode, so we can only attempt to solve it. Thanks to the internet, we can get a solution by other figure out.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>XCODEUUID=`defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID`
+</span><span class='line'>for f in ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/*; do defaults write "$f/Contents/Info" DVTPlugInCompatibilityUUIDs -array-add $XCODEUUID; done</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The reason probably is plugin developed compate with old Xcode, so it of course don&rsquo;t contain the lastest Xcode&rsquo;s UUID, we can manual add it if it really compate with the latest Xcode.</p>
+
+<p>Reference: <a href="http://stackoverflow.com/questions/20732327/xcode-5-required-plug-in-not-present-in-dvtplugincompatibilityuuids?rq=1">Xcode 5 - Required plug-in not present in DVTPlugInCompatibilityUUIDs?</a></p>
 </div>
 
 

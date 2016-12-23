@@ -57,6 +57,7 @@ A:A temporary solution, just redefine all NSLOG to printf in a global header fil
 
 Reference:[NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？](http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why)  
 
+<!--more-->
 ###3.UIImagePickerViewController is black doesn't work for selecting photo or taking picture.
 A:I instance it via `UIImagePickerViewController(nibName:nil, boundle:nil)` that doesn't work, and change to `UIImagePickerViewController()` it works.
 

@@ -109,36 +109,66 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html">
+		<a href="/blog/hello-octopress.html">
 		
-			iTunes 歌曲信息乱码的解决办法</a>
+			Hello Octopress</a>
 	</h2>
 	<div class="entry-content">
-		<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
-1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
-2)安装Mutagen;</p>
+		<blockquote><p>Octopress:A blogging framework for hackers.</p></blockquote>
+
+<p>看到介绍就被吸引了，正好最近想写些东西，于是决定用Octopress来搭个自己的博客。Octopress既然是为黑客准备的，有点难度那也是很正常的。网上很多都是介绍搭建的博客的步骤，但对出现各种问题以及解决办法的总结不是很多。而自己和ruby不是好朋友，这过程中出现很多的问题，这里把遇到的问题贴上来，一来做个总结；二来也可以给遇到同样的问题的朋友一些帮助。</p>
+
+<h1>问题1(Update 2015.12.11)</h1>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
-</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
+</span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>3)先将所有歌曲备份，防止操作出错；<br/>
-4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
+<p>Solution:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> --verbose
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>5)将iTunes中的音乐清空，重新添加。</p>
+<h1>问题2</h1>
 
-<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.0, but your Gemfile requires rake 10.0.4. Prepending <span class="sb">`</span>bundle <span class="nb">exec</span><span class="sb">`</span> to your <span class="nb">command </span>may solve this.
+</span><span class='line'>/Users/dongmeiliang/Documents/octopress/Rakefile:2:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
+</span><span class='line'><span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Solution:这个问题可以每次加上bundle exec,但是总有一种不舒坦的感觉，找了很久找到一点线索，最后用下面办法解决了:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update
+</span><span class='line'>brew doctor
+</span><span class='line'><span class="nb">cd </span>root_path_octopress
+</span><span class='line'>git pull octopress master
+</span><span class='line'>rm Gemfile.lock
+</span><span class='line'>vim Gemfile
+</span><span class='line'>gem <span class="s1">&#39;rake&#39;</span>, <span class="s1">&#39;~&gt; 10.1.0&#39;</span>//改成合适的版本
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 		
-		
+		<a href="/blog/hello-octopress.html" class="more-link">继续阅读</a>
 	</div>
 
 
@@ -155,7 +185,7 @@ $(document).ready(
   
 
 
-<time datetime="2014-11-03T10:23:29+08:00" pubdate data-updated="true"></time></div>
+<time datetime="2014-05-09T15:01:51+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">
@@ -168,128 +198,10 @@ $(document).ready(
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/auto-layout.html">
-		
-			Auto Layout</a>
-	</h2>
-	<div class="entry-content">
-		<h3>前言</h3>
-
-<p>Auto Layout 早在 iOS 6时就引入了，但由于之前 iPhone 的尺寸不多，而且宽度是一样的; 另一方面 Auto Layout增加了学习成本，大部分开发者仍然使用传统坐标布局做屏幕适配。但是随着 iPhone 6, 6 Plus 大屏 iPhone的发布，继续使用坐标布局做适配显得力不从心了，而且从 Apple 的动作来看，Auto Layout是未来的必然趋势，因此，我们很有必要掌握它。</p>
-
-<h3>Auto Layout 是什么</h3>
-
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
-
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
-
-
-		
-		<a href="/blog/auto-layout.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-19T17:43:12+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-certificates.html">
-		
-			iOS Development--Certificates, Provisioning Profiles</a>
-	</h2>
-	<div class="entry-content">
-		<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
-
-<div style="text-align: center" markdown="1"> 
-    <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
-</div>
-
-
-<p>开发过程的真机调试需要：
-    Private Key &ndash; 私钥
-    iPhone Development Certificate &ndash; 开发证书
-    Development Provisioning profile</p>
-
-<p>发布到 App Store 需要：
-    私钥
-    iPhone Distribution Certificate
-    App Store Distribution Provisioning profile</p>
-
-<p>通过 Ad Hoc 发布需要：
-    私钥
-    iPhone Distribution Certificate
-    Ad Hoc Distribution Provisioning profile</p>
-
-
-		
-		<a href="/blog/ios-development-certificates.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
 <nav id="pagenavi">
     
-        <a href="16" class="prev">Prev</a>
+        <a href="22" class="prev">Prev</a>
     
-    
-        <a href="18" class="next">Next</a>
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>

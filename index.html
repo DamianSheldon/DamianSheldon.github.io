@@ -109,6 +109,101 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/photos-framework-usage.html">
+		
+			Photos 框架的基本使用</a>
+	</h2>
+	<div class="entry-content">
+		<p>从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。</p>
+
+<blockquote><p>The Assets Library framework is deprecated as of iOS 9.0. Instead, use the Photos framework instead, which in iOS 8.0 and later provides more features and better performance for working with a user’s photo library.</p></blockquote>
+
+<p>不幸的是 Apple 并没有发布相关的使用指导文档，只有一个相关 Demo。使用的时候固然可以回头参考这个 Demo，但这样的效率不是很高，很多概念也容易忘记，所以这里做个简单的总结。</p>
+
+<p>Photos 中有不少类，其中几个犹为关键。PHPhotoLibary 是我们操作 Photo Library 里面资源的入口对象，所有的操作都通过它完成。PHCollectionList 表示相册中的专题列表；PHAssetCollection 表示专题；PHAsset 表示资源，如 images, videos, and Live Photos.</p>
+
+<p>我们基本的需求就是 CRUD, 这些操作是需要用户授权的，记得先获取权限再操作， 下面我们展示相关的代码片段。</p>
+
+<h3>Create</h3>
+
+<ol>
+<li>创建一个资源</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
+</span><span class='line'>            PHAssetChangeRequest.creationRequestForAsset(from: image)
+</span><span class='line'>        }, completionHandler: {success, error in
+</span><span class='line'>            if !success { print("error creating asset: \(error)") }
+</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>创建一个资源到指定的专题</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
+</span><span class='line'>            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+</span><span class='line'>            if let assetCollection = self.assetCollection {
+</span><span class='line'>            let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection)
+</span><span class='line'>            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+</span><span class='line'>            }
+</span><span class='line'>        }, completionHandler: {success, error in
+</span><span class='line'>            if !success { print("error creating asset: \(error)") }
+</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/photos-framework-usage.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-12-23T14:23:33+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problems-part-9.html">
 		
 			iOS 开发问题汇总(九)</a>
@@ -332,129 +427,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archive/'>archive</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-of-android-development-part-2.html">
-		
-			Android开发问题汇总(二)</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Error running app: Default Activity not found</h3>
-
-<p>A: 问题的原因是 AndroidManifest.xml 文件配置的有问题。正确的样例如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>package="edu.self.buildexample"&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;application
-</span><span class='line'>android:allowBackup="true"
-</span><span class='line'>android:icon="@mipmap/ic_launcher"
-</span><span class='line'>android:label="@string/app_name"
-</span><span class='line'>android:supportsRtl="true"
-</span><span class='line'>android:theme="@style/AppTheme"&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;activity android:name=".BuildExampleActivity"&gt;
-</span><span class='line'>&lt;intent-filter&gt;
-</span><span class='line'>&lt;action android:name="android.intent.action.MAIN" /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-</span><span class='line'>&lt;/intent-filter&gt;
-</span><span class='line'>&lt;/activity&gt;
-</span><span class='line'>&lt;/application&gt;
-</span><span class='line'>&lt;/manifest&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2. How to rename java package in Android Studio?</h3>
-
-<p>A:<a href="http://stackoverflow.com/questions/16804093/android-studio-rename-package">Android Studio Rename Package</a></p>
-
-<h3>3.No service of type Factory available in ProjectScopeServices</h3>
-
-<p>A:Change maven gradle plugin version to 1.4.1 in project build.gradle file</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>dependencies {
-</span><span class='line'>    classpath 'com.android.tools.build:gradle:2.2.2'
-</span><span class='line'>        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference<a href="http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices">No service of type Factory available in ProjectScopeServices</a></p>
-
-<h3>4.Android Gradle cannot find symbol class Gson</h3>
-
-<p>A:In my case, I just added this line:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>compile 'com.google.code.gson:gson:2.7'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>on my app build.gradle file.</p>
-
-<p>By now 2.7 is last current available version according to: <a href="https://mvnrepository.com/artifact/com.google.code.gson/gson">https://mvnrepository.com/artifact/com.google.code.gson/gson</a></p>
-
-<p>Please check this repository to be sure you are using last available version.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson">Android Gradle cannot find symbol class Gson</a></p>
-
-
-		
-		<a href="/blog/problems-of-android-development-part-2.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-10-14T08:59:43+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

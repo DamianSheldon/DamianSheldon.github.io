@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-21T09:28:07+08:00</updated>
+  <updated>2016-12-23T16:28:16+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,221 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Photos 框架的基本使用]]></title>
+    <link href="http://DamianSheldon.github.io/blog/photos-framework-usage.html"/>
+    <updated>2016-12-23T14:23:33+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/photos-framework-usage</id>
+    <content type="html"><![CDATA[<p>从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。</p>
+
+<blockquote><p>The Assets Library framework is deprecated as of iOS 9.0. Instead, use the Photos framework instead, which in iOS 8.0 and later provides more features and better performance for working with a user’s photo library.</p></blockquote>
+
+<p>不幸的是 Apple 并没有发布相关的使用指导文档，只有一个相关 Demo。使用的时候固然可以回头参考这个 Demo，但这样的效率不是很高，很多概念也容易忘记，所以这里做个简单的总结。</p>
+
+<p>Photos 中有不少类，其中几个犹为关键。PHPhotoLibary 是我们操作 Photo Library 里面资源的入口对象，所有的操作都通过它完成。PHCollectionList 表示相册中的专题列表；PHAssetCollection 表示专题；PHAsset 表示资源，如 images, videos, and Live Photos.</p>
+
+<p>我们基本的需求就是 CRUD, 这些操作是需要用户授权的，记得先获取权限再操作， 下面我们展示相关的代码片段。</p>
+
+<h3>Create</h3>
+
+<ol>
+<li>创建一个资源</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
+</span><span class='line'>            PHAssetChangeRequest.creationRequestForAsset(from: image)
+</span><span class='line'>        }, completionHandler: {success, error in
+</span><span class='line'>            if !success { print("error creating asset: \(error)") }
+</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>创建一个资源到指定的专题</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
+</span><span class='line'>            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+</span><span class='line'>            if let assetCollection = self.assetCollection {
+</span><span class='line'>            let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection)
+</span><span class='line'>            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+</span><span class='line'>            }
+</span><span class='line'>        }, completionHandler: {success, error in
+</span><span class='line'>            if !success { print("error creating asset: \(error)") }
+</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h3>Read (Fetch)</h3>
+
+<p>获取资源是通过 PHAsset 提供的一系列以 fetchXXX 开头的类方法，选择哪个方法取决于需求，这里示例其中两个我觉得常用的方法。</p>
+
+<ol>
+<li><code>class func fetchAssets(with options: PHFetchOptions?) -&gt; PHFetchResult&lt;PHAsset&gt;</code></li>
+</ol>
+
+
+<p>我们可以用这个方法获取 Photo Library 里面所有的资源。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let allPhotosOptions = PHFetchOptions()
+</span><span class='line'>    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+</span><span class='line'>self.fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><code>class func fetchAssets(in assetCollection: PHAssetCollection, options: PHFetchOptions?) -&gt; PHFetchResult&lt;PHAsset&gt;</code></li>
+</ol>
+
+
+<p>我们可以用这个方法获取指定专题里面的资源。例如我们想获取 Camera Roll 这个专题里面的资源：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let cameraRoll: PHFetchResult&lt;PHAssetCollection&gt; = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject
+</span><span class='line'>let fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: nil)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Update (Edit)</h3>
+
+<p>编辑的基本的做法是先用资源请求一个 PHContentEditingInput，然后编辑资源，为了方便用户之后继续编辑或撤销可以实例化一个 PHAdjustmentData 对象来持有相关信息。编辑完成之后对于图片和视频需要实例化一个 PHContentEditingOutput 来完成输出，PHContentEditingOutput 的 adjustmentData 属性关联之前的 PHAdjustmentData, 并把编辑完成的内容输出到 PHContentEditingOutput 的 renderedContentURL。最后创建一个 PHAssetChangeRequest 对象，设置它的 contentEditingOutput 为
+之前实例化的 PHContentEditingOutput。</p>
+
+<p>这部分的代码会多点，具体可以查看 <a href="https://github.com/DamianSheldon/PhotosFrameworkUsage">Demo</a>.</p>
+
+<h3>Delete</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({ 
+</span><span class='line'>        PHAssetChangeRequest.deleteAssets([self.asset] as NSArray)
+</span><span class='line'>        }) { (success, error) in
+</span><span class='line'>    DispatchQueue.main.sync {
+</span><span class='line'>        self.trashButton.isEnabled = success ? false : true
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    if success {
+</span><span class='line'>        print("delete asset successfully")
+</span><span class='line'>    }
+</span><span class='line'>    else {
+</span><span class='line'>        print("can't delete asset: \(error)")
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>完整 Demo</h3>
+
+<p><a href="https://github.com/DamianSheldon/PhotosFrameworkUsage">PhotosFrameworkUsage</a></p>
+
+<h3>Caveat</h3>
+
+<p>使用过程中遇到一个坑，这里记一下。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>guard let inputImage = CIImage(contentsOf: input.fullSizeImageURL!)
+</span><span class='line'>            else { fatalError("can't load input image to edit") }
+</span><span class='line'>
+</span><span class='line'>// Apply the filter.
+</span><span class='line'>let outputImage = inputImage
+</span><span class='line'>    .applyingOrientation(input.fullSizeImageOrientation)
+</span><span class='line'>.applyingFilter(filterName, withInputParameters: nil)
+</span><span class='line'>
+</span><span class='line'>// List 1.
+</span><span class='line'>let uiImage = UIImage(ciImage: outputImage)
+</span><span class='line'>
+</span><span class='line'>// List 2.
+</span><span class='line'>if let cgImage = CIContext(options: nil).createCGImage(outputImage, from: outputImage.extent) {
+</span><span class='line'>    let uiImage = UIImage(cgImage:cgImage)
+</span><span class='line'>}
+</span><span class='line'>else {
+</span><span class='line'>    print("instance UIImage from CGImage failed!")    
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Ouput
+</span><span class='line'>if let data = UIImageJPEGRepresentation(uiImage, 0.7) {
+</span><span class='line'>    // NSData - (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)atomically;
+</span><span class='line'>    do {
+</span><span class='line'>        try data.write(to: output.renderedContentURL)
+</span><span class='line'>
+</span><span class='line'>    } catch let error {
+</span><span class='line'>        print("output filtered image to specify URL failed: \(error)")
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>else {
+</span><span class='line'>    print("generate JPEG representation data failed")
+</span><span class='line'>        return
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的问题是直接用 CIImage 实例化  UIImage 会失败，得转成 CGImage 然后实例化 UIImage. 至于它的原因我暂时还不清楚。</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29732886/uiimagejpegrepresentation-returns-nil">UIImageJPEGRepresentation returns nil</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 开发问题汇总(九)]]></title>
@@ -5174,155 +5389,6 @@ set it to &ldquo;No Application&rdquo;</p>
 
 
 <p>Reference:<a href="http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/">http://blog.devtang.com/blog/2014/04/12/install-mavericks-note/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Set up PHP development environment]]></title>
-    <link href="http://DamianSheldon.github.io/blog/set-up-php-development-environment.html"/>
-    <updated>2015-09-19T22:25:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/set-up-php-development-environment</id>
-    <content type="html"><![CDATA[<h3>Notes of Set up PHP development environment</h3>
-
-<ol>
-<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
-<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>, php.ini locate in /etc on Yosemite;</li>
-<li><p><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;<br/>
- Addition configure for Yosemite</p>
-
-<ul>
-<li><code>sudo cp /etc/php.ini.default /etc/php.ini</code></li>
-<li>add &ldquo;zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so&rdquo; to php.ini</li>
-</ul>
-</li>
-<li><p>Debugging Local PHP Files (PHP CLI Application)</p>
-
-<ul>
-<li>Create a PHP project;</li>
-<li>Create a PHP file;</li>
-<li>Set a breakpoint in PHP file;</li>
-<li>Save file;</li>
-<li>Create a new debug configuration;
-
-<ul>
-<li>Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</li>
-<li>Run > Debug Configurations > Select PHP CLI Application > New</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
-
-<ul>
-<li>Create a PHP project;</li>
-<li>Create a PHP file;</li>
-<li>Create a new debug configuration;
-
-<ul>
-<li>Run > Debug Configurations > Select PHP Web Application > New</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Test with PHPUnit</p>
-
-<ul>
-<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
-[Main]
-Location:/usr/local/bin/phpunit
-Working Directory:${workspace_loc:/Backend/tests}
-Apply > Run
-<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
-</ul>
-</li>
-<li><p>Integrate MakeGood (failure)</p>
-
-<ul>
-<li>Installing Prerequisite Software
-
-<ul>
-<li>PHP 5.5.27 (cli)</li>
-<li>xdebug-2.3.2</li>
-<li>eclipse mars(4.5.0)</li>
-<li>PDT(3.5.0)</li>
-<li>PHPUnit (4.8.6)</li>
-</ul>
-</li>
-<li><p>Installing MakeGood
-  Help -> Install New Software&hellip; -> Add&hellip; -> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
-<li><p>Selecting a Testing Framework</p></li>
-<li><p>Resolving the Dependencies to the Testing Framework</p>
-
-<pre><code>  * Defining User Libraries
-      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
-      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
-  * Adding User Libraries to the Project
-</code></pre>
-
-<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
-</ul>
-
-
-<p> *Testing Framework Specific Configuration<br/>
-     PHPUnit</p>
-
-<pre><code> * Open the properties for the project.
- * Select MakeGood.
- * Select PHPUnit.
- * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
-</code></pre>
-
-<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
-</ol>
-
-
-<h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
-
-<p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
-
-<h3>Wait for XDebug session</h3>
-
-<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp /etc/php.ini.default /etc/php.ini
-</span><span class='line'>
-</span><span class='line'>// Add follow content to php.ini
-</span><span class='line'>[XDebug]
-</span><span class='line'>zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
-</span><span class='line'>xdebug.remote_enable=On
-</span><span class='line'>xdebug.remote_handler=dbgp
-</span><span class='line'>xdebug.remote_host=helloworld.local
-</span><span class='line'>xdebug.remote_port=9000
-</span><span class='line'>;xdebug.remote_connect_back=1
-</span><span class='line'>xdebug.remote_mode="req"
-</span><span class='line'>xdebug.remote_log="/var/log/xdebug.log"
-</span><span class='line'>
-</span><span class='line'>sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: &lsquo;php.h&rsquo; file not found</h3>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcode-select --install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks">http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks</a></p>
 ]]></content>
   </entry>
   

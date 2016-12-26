@@ -98,3 +98,19 @@ for f in ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/*; do de
 The reason probably is plugin developed compate with old Xcode, so it of course don't contain the lastest Xcode's UUID, we can manual add it if it really compate with the latest Xcode. 
 
 Reference: [Xcode 5 - Required plug-in not present in DVTPlugInCompatibilityUUIDs?](http://stackoverflow.com/questions/20732327/xcode-5-required-plug-in-not-present-in-dvtplugincompatibilityuuids?rq=1)
+
+###7.Why AVCaptureSession output a wrong orientation?
+A:AVCaptureVideoPreviewLayer and AVCaptureOutput are different output destination, so we have to set oritentation for them each.
+
+```
+let captureConnection = videoDataOutput.connection(withMediaType: AVMediaTypeVideo)
+
+if captureConnection!.isVideoOrientationSupported {
+captureConnection!.videoOrientation = AVCaptureVideoOrientation.portrait
+}
+else {
+print("capture connection\(captureConnection!) doesn't support video orientation")
+}
+```
+Reference:[Why AVCaptureSession output a wrong orientation?](http://stackoverflow.com/questions/3561738/why-avcapturesession-output-a-wrong-orientation?rq=1)  
+[Technical Q&A QA1744 Setting the orientation of video with AV Foundation](https://developer.apple.com/library/content/qa/qa1744/_index.html)  

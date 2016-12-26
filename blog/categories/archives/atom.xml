@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-23T16:28:16+08:00</updated>
+  <updated>2016-12-26T10:56:54+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -218,6 +218,9 @@ h() // prints "woo-hoo"
 
 <p>Reference:<a href="http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why">NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？</a></p>
 
+<!--more-->
+
+
 <h3>3.UIImagePickerViewController is black doesn&rsquo;t work for selecting photo or taking picture.</h3>
 
 <p>A:I instance it via <code>UIImagePickerViewController(nibName:nil, boundle:nil)</code> that doesn&rsquo;t work, and change to <code>UIImagePickerViewController()</code> it works.</p>
@@ -259,6 +262,23 @@ for f in ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/*; do de
 <p>The reason probably is plugin developed compate with old Xcode, so it of course don&rsquo;t contain the lastest Xcode&rsquo;s UUID, we can manual add it if it really compate with the latest Xcode.</p>
 
 <p>Reference: <a href="http://stackoverflow.com/questions/20732327/xcode-5-required-plug-in-not-present-in-dvtplugincompatibilityuuids?rq=1">Xcode 5 - Required plug-in not present in DVTPlugInCompatibilityUUIDs?</a></p>
+
+<h3>7.Why AVCaptureSession output a wrong orientation?</h3>
+
+<p>A:AVCaptureVideoPreviewLayer and AVCaptureOutput are different output destination, so we have to set oritentation for them each.</p>
+
+<pre><code>let captureConnection = videoDataOutput.connection(withMediaType: AVMediaTypeVideo)
+
+if captureConnection!.isVideoOrientationSupported {
+captureConnection!.videoOrientation = AVCaptureVideoOrientation.portrait
+}
+else {
+print("capture connection\(captureConnection!) doesn't support video orientation")
+}
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3561738/why-avcapturesession-output-a-wrong-orientation?rq=1">Why AVCaptureSession output a wrong orientation?</a><br/>
+<a href="https://developer.apple.com/library/content/qa/qa1744/_index.html">Technical Q&amp;A QA1744 Setting the orientation of video with AV Foundation</a></p>
 ]]></content>
   </entry>
   

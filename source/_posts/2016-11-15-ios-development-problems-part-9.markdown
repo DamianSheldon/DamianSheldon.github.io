@@ -114,3 +114,19 @@ print("capture connection\(captureConnection!) doesn't support video orientation
 ```
 Reference:[Why AVCaptureSession output a wrong orientation?](http://stackoverflow.com/questions/3561738/why-avcapturesession-output-a-wrong-orientation?rq=1)  
 [Technical Q&A QA1744 Setting the orientation of video with AV Foundation](https://developer.apple.com/library/content/qa/qa1744/_index.html)  
+
+###8.Operation stopped, the video could not be composed.
+
+```
+Domain=AVFoundationErrorDomain Code=-11841 "Operation Stopped" UserInfo=0x1912c320 {NSLocalizedDescription=Operation Stopped, NSLocalizedFailureReason=The video could not be composed.}
+```
+
+A: We should instance AVMutableComposition, AVMutableCompositionTrack every time when edit.
+
+```
+mutableComposition = AVMutableComposition()
+
+videoCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
+
+audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
+```

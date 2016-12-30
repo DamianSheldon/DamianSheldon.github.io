@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-30T11:50:58+08:00</updated>
+  <updated>2016-12-30T17:29:50+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -394,6 +394,26 @@
 
 <p>Reference:<a href="http://stackoverflow.com/questions/3561738/why-avcapturesession-output-a-wrong-orientation?rq=1">Why AVCaptureSession output a wrong orientation?</a><br/>
 <a href="https://developer.apple.com/library/content/qa/qa1744/_index.html">Technical Q&amp;A QA1744 Setting the orientation of video with AV Foundation</a></p>
+
+<h3>8.Operation stopped, the video could not be composed.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Domain=AVFoundationErrorDomain Code=-11841 "Operation Stopped" UserInfo=0x1912c320 {NSLocalizedDescription=Operation Stopped, NSLocalizedFailureReason=The video could not be composed.}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: We should instance AVMutableComposition, AVMutableCompositionTrack every time when edit.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mutableComposition = AVMutableComposition()
+</span><span class='line'>
+</span><span class='line'>videoCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
+</span><span class='line'>
+</span><span class='line'>audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   

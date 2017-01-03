@@ -120,19 +120,24 @@ Can't assign requested address (code=49) is a bug in Mac OS X, and not an issue 
 
 There are two ways of fixing this issue. The first one is easier as you simply have to restart your computer. Otherwise, you can solve the problem through the terminal. If you have a cable connection, you type the following into a terminal:
 
-sudo ifconfig en0 down
+```
+$ sudo ifconfig en0 down
 
-sudo route flush
+$ sudo route flush
 
-sudo ifconfig en0 up
+$ sudo ifconfig en0 up
+
+```
 
 If you instead use WiFi, you type:
 
-sudo ifconfig en1 down
+```
+$ sudo ifconfig en1 down
 
-sudo route flush
+$ sudo route flush
 
-sudo ifconfig en1 up
+$ sudo ifconfig en1 up
+```
 
 Type every line separately. If asked for your password, simply type the password for your computer and not for OVPN.
 
@@ -159,3 +164,12 @@ set it to "No Application"
 // ~/.bash_profile
 export var=value
 ```
+
+### 17.SSH ask passpharse every time I use SSH key.
+
+A:
+
+```
+$echo -e "AddKeysToAgent yes\nUseKeychain yes" >> ~/.ssh/config
+```
+

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-30T17:29:50+08:00</updated>
+  <updated>2017-01-09T10:53:35+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -162,11 +162,11 @@ this.findViewById(android.R.id.content).getRootView()
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Android开发问题汇总]]></title>
+    <title type="html"><![CDATA[Android开发问题汇总(一)]]></title>
     <link href="http://DamianSheldon.github.io/blog/problems-of-android-development.html"/>
     <updated>2014-12-17T09:38:20+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/problems-of-android-development</id>
-    <content type="html"><![CDATA[<h3>Gradle使用代理服务器</h3>
+    <content type="html"><![CDATA[<h3>1.Gradle使用代理服务器</h3>
 
 <pre><code>// /Users/&lt;username&gt;/.gradle/gradle.properties (Mac)
 # Http Proxy
@@ -179,13 +179,13 @@ systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost
 
 <p>Reference:<a href="https://www.leimingshan.com/gradle/">Gradle使用代理服务器</a></p>
 
-<h3>设置Gradle home</h3>
+<h3>2.设置Gradle home</h3>
 
 <pre><code>// Mac OS X
 Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle
 </code></pre>
 
-<h3>The project is using an unsupported version of Gradle</h3>
+<h3>3.The project is using an unsupported version of Gradle</h3>
 
 <pre><code>The project is using an unsupported version of Gradle.
 Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
@@ -196,25 +196,25 @@ Consult IDE log for more details (Help | Show Log)
 <!--more-->
 
 
-<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
+<h3>4.Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
 
-<h3>Project'X' is missing required Java project &lsquo;Y&rsquo;</h3>
+<h3>5.Project'X' is missing required Java project &lsquo;Y&rsquo;</h3>
 
 <p>Solution: Open Java project &lsquo;Y&rsquo;</p>
 
-<h3>Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
+<h3>6.Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
 
 <p>Solution: Eclipse > Preferences > Java > Installed JREs > Add > Standar VM > Select JRE Directory</p>
 
 <p>My Mac JRE Directory is here:/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home/</p>
 
-<h3>Eclipse Can&rsquo;t detect Android Device</h3>
+<h3>7.Eclipse Can&rsquo;t detect Android Device</h3>
 
 <p>Solution: Disable device&rsquo;s usb debuggin then enable, It then prompted me for authorization for that computer, select ok, and then it worked fine.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device">http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device</a></p>
 
-<h3>Unable to resolve target &ldquo;Android-5&rdquo;</h3>
+<h3>8.Unable to resolve target &ldquo;Android-5&rdquo;</h3>
 
 <p>Solution:Android SDK Manager > Android 1.6 (API 4) > Intall</p>
 
@@ -222,19 +222,19 @@ Consult IDE log for more details (Help | Show Log)
 
 <p>Project > Properties > Android > Project Build Target</p>
 
-<h3>error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
+<h3>9.error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
 
 <p>Solution:Project > Properties > Android > Project Build Target > 21</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml">http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml</a></p>
 
-<h3>Android studio Offline document path</h3>
+<h3>10.Android studio Offline document path</h3>
 
 <p>Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/4974309/android-sdk-and-developer-guide-offline-or-pdf">http://stackoverflow.com/questions/4974309/android-sdk-and-developer-guide-offline-or-pdf</a></p>
 
-<h3>Error:Execution failed for task &lsquo;:app:processDebugManifest&rsquo;. Manifest merger failed : uses-sdk element cannot have a &ldquo;tools:node&rdquo; attribute</h3>
+<h3>11.Error:Execution failed for task &lsquo;:app:processDebugManifest&rsquo;. Manifest merger failed : uses-sdk element cannot have a &ldquo;tools:node&rdquo; attribute</h3>
 
 <p>Solution:Add this line to uses-sdk tag like this:</p>
 
@@ -253,7 +253,7 @@ xmlns:tools="http://schemas.android.com/tools" .....
 
 <p>Reference:<a href="http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute">http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute</a></p>
 
-<h3>Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
+<h3>12.Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
 
 <pre><code>Error:(27, 0) Gradle DSL method not found: 'runProguard()'
 **Possible causes:
@@ -267,7 +267,7 @@ The build file may be missing a Gradle plugin.
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard">http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard</a></p>
 
-<h3>error “Library projects cannot set applicationId”</h3>
+<h3>13.error “Library projects cannot set applicationId”</h3>
 
 <pre><code>Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.
 </code></pre>
@@ -276,11 +276,35 @@ The build file may be missing a Gradle plugin.
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid">http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid</a></p>
 
-<h3>How to increase the font size in Android Studio?</h3>
+<h3>14.How to increase the font size in Android Studio?</h3>
 
 <p>Solution: In mac book ,you can use two fingers to zoom in(increase font size) or zoom out for decrease font size, like when we zoomed image in mobilephone.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/16590216/how-to-increase-the-font-size-in-android-studio">http://stackoverflow.com/questions/16590216/how-to-increase-the-font-size-in-android-studio</a></p>
+
+<h3>15.Eclipse report error when loading the SDK</h3>
+
+<pre><code>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/armeabi-v7a/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/x86/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/armeabi-v7a/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/x86/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/armeabi-v7a/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/x86/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/armeabi-v7a/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/x86/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+</code></pre>
+
+<p>A:Delete the package Android Wear ARM EABI v7a system image and Android Wear X86 system image under API 23 and API 24.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30439524/error-loading-the-sdk-when-eclipse-is-started#30439524">Error Loading the sdk when eclipse is started</a></p>
 ]]></content>
   </entry>
   

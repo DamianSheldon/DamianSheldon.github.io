@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Android开发问题汇总  | Hello World</title>
+	<title>Android开发问题汇总(一)  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Android, 问题">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Networking, economic, english language, android app development, server back-end &hellip;"> <meta name="keywords" content="Android, Gradle, Android Studio, Eclipse">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -104,8 +104,8 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Android开发问题汇总</h2>
-	<div class="entry-content"><h3>Gradle使用代理服务器</h3>
+	<h2 class="title">Android开发问题汇总(一)</h2>
+	<div class="entry-content"><h3>1.Gradle使用代理服务器</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -125,7 +125,7 @@ $(document).ready(
 
 <p>Reference:<a href="https://www.leimingshan.com/gradle/">Gradle使用代理服务器</a></p>
 
-<h3>设置Gradle home</h3>
+<h3>2.设置Gradle home</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -133,7 +133,7 @@ $(document).ready(
 </span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>The project is using an unsupported version of Gradle</h3>
+<h3>3.The project is using an unsupported version of Gradle</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -150,25 +150,25 @@ $(document).ready(
 <!--more-->
 
 
-<h3>Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
+<h3>4.Error:Error retrieving parent for item: No resource found that matches the given name &lsquo;android:Theme.AppCompat.Light&rsquo;.</h3>
 
-<h3>Project'X' is missing required Java project &lsquo;Y&rsquo;</h3>
+<h3>5.Project'X' is missing required Java project &lsquo;Y&rsquo;</h3>
 
 <p>Solution: Open Java project &lsquo;Y&rsquo;</p>
 
-<h3>Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
+<h3>6.Unbound classpath container: &lsquo;Default System Library&rsquo;</h3>
 
 <p>Solution: Eclipse > Preferences > Java > Installed JREs > Add > Standar VM > Select JRE Directory</p>
 
 <p>My Mac JRE Directory is here:/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home/</p>
 
-<h3>Eclipse Can&rsquo;t detect Android Device</h3>
+<h3>7.Eclipse Can&rsquo;t detect Android Device</h3>
 
 <p>Solution: Disable device&rsquo;s usb debuggin then enable, It then prompted me for authorization for that computer, select ok, and then it worked fine.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device">http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device</a></p>
 
-<h3>Unable to resolve target &ldquo;Android-5&rdquo;</h3>
+<h3>8.Unable to resolve target &ldquo;Android-5&rdquo;</h3>
 
 <p>Solution:Android SDK Manager > Android 1.6 (API 4) > Intall</p>
 
@@ -176,19 +176,19 @@ $(document).ready(
 
 <p>Project > Properties > Android > Project Build Target</p>
 
-<h3>error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
+<h3>9.error: Error retrieving parent for item: No resource found that matches the given name &lsquo;@android:TextAppearance.Material.SearchResult.Subtitle&rsquo;.</h3>
 
 <p>Solution:Project > Properties > Android > Project Build Target > 21</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml">http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml</a></p>
 
-<h3>Android studio Offline document path</h3>
+<h3>10.Android studio Offline document path</h3>
 
 <p>Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/4974309/android-sdk-and-developer-guide-offline-or-pdf">http://stackoverflow.com/questions/4974309/android-sdk-and-developer-guide-offline-or-pdf</a></p>
 
-<h3>Error:Execution failed for task &lsquo;:app:processDebugManifest&rsquo;. Manifest merger failed : uses-sdk element cannot have a &ldquo;tools:node&rdquo; attribute</h3>
+<h3>11.Error:Execution failed for task &lsquo;:app:processDebugManifest&rsquo;. Manifest merger failed : uses-sdk element cannot have a &ldquo;tools:node&rdquo; attribute</h3>
 
 <p>Solution:Add this line to uses-sdk tag like this:</p>
 
@@ -214,7 +214,7 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute">http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute</a></p>
 
-<h3>Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
+<h3>12.Gradle DSL method not found: &lsquo;runProguard&rsquo;</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -234,7 +234,7 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard">http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard</a></p>
 
-<h3>error “Library projects cannot set applicationId”</h3>
+<h3>13.error “Library projects cannot set applicationId”</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.</span></code></pre></td></tr></table></div></figure>
@@ -244,11 +244,51 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid">http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid</a></p>
 
-<h3>How to increase the font size in Android Studio?</h3>
+<h3>14.How to increase the font size in Android Studio?</h3>
 
 <p>Solution: In mac book ,you can use two fingers to zoom in(increase font size) or zoom out for decrease font size, like when we zoomed image in mobilephone.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/16590216/how-to-increase-the-font-size-in-android-studio">http://stackoverflow.com/questions/16590216/how-to-increase-the-font-size-in-android-studio</a></p>
+
+<h3>15.Eclipse report error when loading the SDK</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/armeabi-v7a/devices.xml
+</span><span class='line'>cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/x86/devices.xml
+</span><span class='line'>cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/armeabi-v7a/devices.xml
+</span><span class='line'>cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/x86/devices.xml
+</span><span class='line'>cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/armeabi-v7a/devices.xml
+</span><span class='line'>cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/x86/devices.xml
+</span><span class='line'>cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/armeabi-v7a/devices.xml
+</span><span class='line'>cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+</span><span class='line'>Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/x86/devices.xml
+</span><span class='line'>cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:Delete the package Android Wear ARM EABI v7a system image and Android Wear X86 system image under API 23 and API 24.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/30439524/error-loading-the-sdk-when-eclipse-is-started#30439524">Error Loading the sdk when eclipse is started</a></p>
 </div>
 
 
@@ -312,7 +352,7 @@ $(document).ready(
 
 
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2016
+	<footer id="footer" class="inner">Copyright &copy; 2017
 
     Sheldon
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2016-12-30T17:29:50+08:00</updated>
+  <updated>2017-01-09T10:53:35+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -5343,19 +5343,32 @@ Can&rsquo;t assign requested address (code=49) is a bug in Mac OS X, and not an 
 
 <p>There are two ways of fixing this issue. The first one is easier as you simply have to restart your computer. Otherwise, you can solve the problem through the terminal. If you have a cable connection, you type the following into a terminal:</p>
 
-<p>sudo ifconfig en0 down</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo ifconfig en0 down
+</span><span class='line'>
+</span><span class='line'>$ sudo route flush
+</span><span class='line'>
+</span><span class='line'>$ sudo ifconfig en0 up
+</span></code></pre></td></tr></table></div></figure>
 
-<p>sudo route flush</p>
-
-<p>sudo ifconfig en0 up</p>
 
 <p>If you instead use WiFi, you type:</p>
 
-<p>sudo ifconfig en1 down</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo ifconfig en1 down
+</span><span class='line'>
+</span><span class='line'>$ sudo route flush
+</span><span class='line'>
+</span><span class='line'>$ sudo ifconfig en1 up</span></code></pre></td></tr></table></div></figure>
 
-<p>sudo route flush</p>
-
-<p>sudo ifconfig en1 up</p>
 
 <p>Type every line separately. If asked for your password, simply type the password for your computer and not for OVPN.</p>
 
@@ -5386,6 +5399,16 @@ set it to &ldquo;No Application&rdquo;</p>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// ~/.bash_profile
 </span><span class='line'>export var=value</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>17.SSH ask passpharse every time I use SSH key.</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config</span></code></pre></td></tr></table></div></figure>
+
+
 
 ]]></content>
   </entry>

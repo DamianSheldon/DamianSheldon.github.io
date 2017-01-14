@@ -316,6 +316,56 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/5273436/how-to-get-activitys-content-view">How to get Activity&rsquo;s content view?</a></p>
+
+<h3>10.Conversion to Dalvik format failed with error 1</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Dx 
+</span><span class='line'>UNEXPECTED TOP-LEVEL EXCEPTION:
+</span><span class='line'>    java.lang.RuntimeException: Exception parsing classes
+</span><span class='line'>    at com.android.dx.command.dexer.Main.processClass(Main.java:752)
+</span><span class='line'>    at com.android.dx.command.dexer.Main.processFileBytes(Main.java:718)
+</span><span class='line'>    at com.android.dx.command.dexer.Main.access$1200(Main.java:85)
+</span><span class='line'>    at com.android.dx.command.dexer.Main$FileBytesConsumer.processFileBytes(Main.java:1645)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:170)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+</span><span class='line'>    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+</span><span class='line'>at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:144)
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:This android project dependent on serveral java projects, when I change these java project&rsquo;s jre from 1.8 to 1.6, it works. The deep reason isn&rsquo;t clear.</p>
 </div>
 
 

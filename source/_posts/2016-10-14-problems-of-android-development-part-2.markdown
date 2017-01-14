@@ -143,3 +143,32 @@ this.findViewById(android.R.id.content).getRootView()
 ```
 
 Reference:[How to get Activity's content view?](http://stackoverflow.com/questions/5273436/how-to-get-activitys-content-view)
+
+###10.Conversion to Dalvik format failed with error 1
+
+```
+Dx 
+UNEXPECTED TOP-LEVEL EXCEPTION:
+    java.lang.RuntimeException: Exception parsing classes
+    at com.android.dx.command.dexer.Main.processClass(Main.java:752)
+    at com.android.dx.command.dexer.Main.processFileBytes(Main.java:718)
+    at com.android.dx.command.dexer.Main.access$1200(Main.java:85)
+    at com.android.dx.command.dexer.Main$FileBytesConsumer.processFileBytes(Main.java:1645)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:170)
+    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
+    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
+at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:144)
+...
+```
+A:This android project dependent on serveral java projects, when I change these java project's jre from 1.8 to 1.6, it works. The deep reason isn't clear.
+

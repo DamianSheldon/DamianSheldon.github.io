@@ -162,6 +162,45 @@ CGFloat spacing          = 3;
 
 Reference:http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
 
+extension:How to position image top title bottom in a UIButton?
+A:
+
+```
+// Objc
+-(void)imageTopTitleBottom:(UIButton *)button
+{
+    // the space between the image and text
+    CGFloat spacing = 3.0;
+
+    // lower the text and push it left so it appears centered
+    //  below the image
+    CGSize imageSize = button.imageView.image.size;
+    button.titleEdgeInsets = UIEdgeInsetsMake(0.0, - imageSize.width, - (imageSize.height + spacing), 0.0);
+
+    // raise the image and push it right so it appears centered
+    //  above the text
+    CGSize titleSize = [button.titleLabel.text sizeWithAttributes:@{NSFontAttributeName: button.titleLabel.font}];
+    button.imageEdgeInsets = UIEdgeInsetsMake(- (titleSize.height + spacing), 0.0, 0.0, - titleSize.width);
+}
+
+// Swift
+func imageTopTitleBottom() -> Void {
+    if let buttonImage = self.image(for: .normal), let title = self.title(for: .normal) {
+        let spacing: CGFloat = 2.0
+
+            let imageSize = buttonImage.size
+
+            self.titleEdgeInsets = UIEdgeInsetsMake(0, -imageSize.width, -(imageSize.height + spacing), 0)
+
+            let titleString = title as NSString
+
+            let stringSize = titleString.size(attributes: [NSFontAttributeName: self.titleLabel!.font])
+
+            self.imageEdgeInsets = UIEdgeInsetsMake(-(stringSize.height + spacing), 0, 0, -stringSize.width)
+    }
+}
+```
+
 ### 12. duplicate symbol _iToastDuration
 
 ```

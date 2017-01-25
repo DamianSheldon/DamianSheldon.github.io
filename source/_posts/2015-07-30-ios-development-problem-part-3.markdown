@@ -87,50 +87,28 @@ Reference:http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-
 
 ### 8.How do I change the status bar content to white?
 
-Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:
-
-Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
-Select the very first node in the Project Navigator to display the Project Editor.
-Select your app under Targets.
-Select the General tab and under the Deployment Info section, set Status Bar Style to Light.
-
-Next, you need to modify your project's .plist file.
-In the Project Navigator, expand the Supporting Files node.
-Select the <My Project Name>-Info.plist file.
-Click on the very first entry (Information Property List).
-Click the plus (+) sign that appears in the first column.
-At the bottom of the popup list, select View controller-based status bar appearance.
-Make sure the Value column is set to NO.
-If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class's application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller's viewDidLoad method:
-In Swift:
+A:In iOS 7 and later, status bar behavior is determined by view controllers. We can set the disired style via overriding property preferredStatusBarStyle.
 
 ```
-UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-```
-In Objective-C:
-
-```
-[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-```
-If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:
-
-In Swift:
-
-```
-override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
 }
 ```
-In Objective-C:
+
+Apple note childViewControllerForStatusBarStyle method can override the preferred status bar style for a view controller, so when a view controller is a child of UINavigationController thing changed, we have to adjust UINavigationController's default childViewControllerForStatusBarStyle implement as follow:
 
 ```
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
+extension UINavigationController {
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        if let lastVC = self.viewControllers.last {
+            return lastVC.preferredStatusBarStyle
+        }
+
+        return .default
+    }
 }
 ```
-Reference:http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0
-
+Reference:[UIStatusBarStyle not working in Swift](http://stackoverflow.com/questions/24235401/uistatusbarstyle-not-working-in-swift?noredirect=1&lq=1)  
 ###9.Expression
 
 ```

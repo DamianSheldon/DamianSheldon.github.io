@@ -323,6 +323,77 @@ From iTunes
 
 <p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton</a></p>
 
+<p>extension:How to position image top title bottom in a UIButton?
+A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Objc
+</span><span class='line'>-(void)imageTopTitleBottom:(UIButton *)button
+</span><span class='line'>{
+</span><span class='line'>    // the space between the image and text
+</span><span class='line'>    CGFloat spacing = 3.0;
+</span><span class='line'>
+</span><span class='line'>    // lower the text and push it left so it appears centered
+</span><span class='line'>    //  below the image
+</span><span class='line'>    CGSize imageSize = button.imageView.image.size;
+</span><span class='line'>    button.titleEdgeInsets = UIEdgeInsetsMake(0.0, - imageSize.width, - (imageSize.height + spacing), 0.0);
+</span><span class='line'>
+</span><span class='line'>    // raise the image and push it right so it appears centered
+</span><span class='line'>    //  above the text
+</span><span class='line'>    CGSize titleSize = [button.titleLabel.text sizeWithAttributes:@{NSFontAttributeName: button.titleLabel.font}];
+</span><span class='line'>    button.imageEdgeInsets = UIEdgeInsetsMake(- (titleSize.height + spacing), 0.0, 0.0, - titleSize.width);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Swift
+</span><span class='line'>func imageTopTitleBottom() -&gt; Void {
+</span><span class='line'>    if let buttonImage = self.image(for: .normal), let title = self.title(for: .normal) {
+</span><span class='line'>        let spacing: CGFloat = 2.0
+</span><span class='line'>
+</span><span class='line'>            let imageSize = buttonImage.size
+</span><span class='line'>
+</span><span class='line'>            self.titleEdgeInsets = UIEdgeInsetsMake(0, -imageSize.width, -(imageSize.height + spacing), 0)
+</span><span class='line'>
+</span><span class='line'>            let titleString = title as NSString
+</span><span class='line'>
+</span><span class='line'>            let stringSize = titleString.size(attributes: [NSFontAttributeName: self.titleLabel!.font])
+</span><span class='line'>
+</span><span class='line'>            self.imageEdgeInsets = UIEdgeInsetsMake(-(stringSize.height + spacing), 0, 0, -stringSize.width)
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>12. duplicate symbol _iToastDuration</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

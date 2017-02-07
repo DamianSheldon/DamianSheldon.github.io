@@ -12,6 +12,12 @@ discription:
 1. Applications > Utilities > Terminal > `sudo apachectl start`
 2. Open http://localhost with safari you can see "It's works!".
 
+### 开启为系统的守护进程
+
+```
+$ launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist
+```
+
 ### 配置 HTTPS 的详细步骤：  
 
 1. 在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf

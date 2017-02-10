@@ -284,6 +284,11 @@ department.employees = ...
 
 * 数据操作和 IB 方式是一样的
 
+* personEntity.managedObjectClassName = "NSManagedObject"
+
+>In some respects, an NSManagedObject acts like a dictionary—it is a generic container object that efficiently provides storage for the properties defined by its associated NSEntityDescription object. NSManagedObject provides support for a range of common types for attribute values, including string, date, and number (see NSAttributeDescription for full details). There is therefore commonly no need to define instance variables in subclasses. Sometimes, however, you want to use types that
+>are not supported directly, such as colors and C structures. For example, in a graphics application you might want to define a Rectangle entity that has attributes color and bounds that are an instance of NSColor and an NSRect struct respectively. For some types you can use a transformable attribute, for others this may require you to create a subclass of NSManagedObject—see Non-Standard Persistent Attributes.
+
 ##完整示例
 上面是分解开来的示例，我们最后来看几个完整的实例:
 

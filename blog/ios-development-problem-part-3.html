@@ -195,58 +195,39 @@ c. Open .pbxproj with a text editor.<br/>
 
 <h3>8.How do I change the status bar content to white?</h3>
 
-<p>Here are the steps involved in changing the contents of the status bar (battery, time, signal) to white:</p>
-
-<p>Starting with iOS 8, you need to set the status bar color in the Project Editor, otherwise the status bar flashes from black to white when your app first starts:
-Select the very first node in the Project Navigator to display the Project Editor.
-Select your app under Targets.
-Select the General tab and under the Deployment Info section, set Status Bar Style to Light.</p>
-
-<p>Next, you need to modify your project&rsquo;s .plist file.
-In the Project Navigator, expand the Supporting Files node.
-Select the <My Project Name>-Info.plist file.
-Click on the very first entry (Information Property List).
-Click the plus (+) sign that appears in the first column.
-At the bottom of the popup list, select View controller-based status bar appearance.
-Make sure the Value column is set to NO.
-If you want to change the status bar content color for all scenes in your app, add the following code to the AppDelegate class&rsquo;s application:didFinishLaunchingWithOptions method (add it before the return YES statement), or you can add it to an individual view controller&rsquo;s viewDidLoad method:
-In Swift:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Objective-C:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you are hiding the status bar in some scenes in your app, and you have a root navigation controller, you may need to add the following code to the root navigation controller:</p>
-
-<p>In Swift:</p>
+<p>A:In iOS 7 and later, status bar behavior is determined by view controllers. We can set the disired style via overriding property preferredStatusBarStyle.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override func preferredStatusBarStyle() -&gt; UIStatusBarStyle {
-</span><span class='line'>        return UIStatusBarStyle.LightContent
+</pre></td><td class='code'><pre><code class=''><span class='line'>override var preferredStatusBarStyle: UIStatusBarStyle {
+</span><span class='line'>    return .lightContent
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>In Objective-C:</p>
+<p>Apple note childViewControllerForStatusBarStyle method can override the preferred status bar style for a view controller, so when a view controller is a child of UINavigationController thing changed, we have to adjust UINavigationController&rsquo;s default childViewControllerForStatusBarStyle implement as follow:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
-</span><span class='line'>{
-</span><span class='line'>    return UIStatusBarStyleLightContent;
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>extension UINavigationController {
+</span><span class='line'>    override open var preferredStatusBarStyle: UIStatusBarStyle {
+</span><span class='line'>        if let lastVC = self.viewControllers.last {
+</span><span class='line'>            return lastVC.preferredStatusBarStyle
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        return .default
+</span><span class='line'>    }
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0">http://iosappsfornonprogrammers.com/forum/index.php?topic=1554.0</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/24235401/uistatusbarstyle-not-working-in-swift?noredirect=1&amp;lq=1">UIStatusBarStyle not working in Swift</a></p>
 
 <h3>9.Expression</h3>
 

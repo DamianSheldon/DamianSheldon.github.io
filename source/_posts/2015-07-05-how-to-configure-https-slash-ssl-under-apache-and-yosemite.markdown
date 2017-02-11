@@ -103,7 +103,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	* Via Preference Pane
 	* Command line
 		```
-		/usr/local/mysql/bin/mysqld_safe --user=mysql &	
+		$ /usr/local/mysql/bin/mysqld_safe --user=mysql &	
 		```
 4. Add MySQL directory to shell path
 	* Open ~/.bash_profile
@@ -146,7 +146,7 @@ $ /usr/local/mysql/bin/mysqladmin shutdown
 	9. View MySQL's status
 
 	```
-	$ sudo /usr/local/mysql/support-files/mysql.server status
+	mysql> status
 	```
 
   10. ERROR 2002 (HY000): Can ' t connect to local MySQL server through socket '/tmp/mysql.sock'

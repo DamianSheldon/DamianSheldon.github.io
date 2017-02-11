@@ -103,7 +103,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	* Via Preference Pane
 	* Command line
 		```
-		sudo /usr/local/mysql/support-files/mysql.server start
+		/usr/local/mysql/bin/mysqld_safe --user=mysql &	
 		```
 4. Add MySQL directory to shell path
 	* Open ~/.bash_profile
@@ -122,20 +122,25 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	* sudo mkdir /var/mysql
 	* sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock
 
-7. How to Start & Stop MySQL Manually in OS X
+7. How to Start & Stop MySQL Manually on OS X
 
-	```
-	// Start MySQL
-	$ sudo /usr/local/mysql/support-files/mysql.server start
+Start MySQL
+1.Invoke mysqld directly. This works on any platform.
 
-	// Stop MySQL
-	$ sudo /usr/local/mysql/support-files/mysql.server stop
+2.On Unix and Unix-like systems, you can invoke mysqld_safe, which tries to determine the proper options for mysqld and then runs it with those options.
 
-	// Restart MySQL
-	$ sudo /usr/local/mysql/support-files/mysql.server restart
-	```
+```
+$ /usr/local/mysql/bin/mysqld_safe --user=mysql &
+```
 
-	8. Where is MySQL's error log
+3.On OS X, install a launchd daemon to enable automatic MySQL startup at system startup. The daemon starts the server by invoking mysqld_safe. 
+
+Stop MySQL
+
+```
+$ /usr/local/mysql/bin/mysqladmin shutdown
+```
+8. Where is MySQL's error log
 	Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.
 
 	9. View MySQL's status

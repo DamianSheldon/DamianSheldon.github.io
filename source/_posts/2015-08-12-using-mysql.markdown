@@ -12,8 +12,12 @@ discription:
 
 ```
 $ mysql -u user -p
-mysql > USE mysql;
-mysql > SELECT user, host FROM user;
+
+As of MySQL 5.7.6, use this statement:
+mysql> SELECT User, Host, HEX(authentication_string) FROM mysql.user;
+
+Before MySQL 5.7.6, use this statement:
+mysql> SELECT User, Host, Password FROM mysql.user;
 ```
 ###2.查看用户的权限
 

@@ -229,7 +229,7 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 <li>Via Preference Pane</li>
 <li>Command line
   <code>
-  sudo /usr/local/mysql/support-files/mysql.server start
+  $ /usr/local/mysql/bin/mysqld_safe --user=mysql &amp;   
  </code></li>
 </ul>
 </li>
@@ -255,26 +255,37 @@ SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
 <li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
 </ul>
 </li>
-<li><p>How to Start &amp; Stop MySQL Manually in OS X</p>
-
-<pre><code class="`"> // Start MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server start
-
- // Stop MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server stop
-
- // Restart MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server restart
-</code></pre>
-
-<ol>
-<li><p>Where is MySQL&rsquo;s error log
-Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p></li>
-<li><p>View MySQL&rsquo;s status</p></li>
+<li><p>How to Start &amp; Stop MySQL Manually on OS X</p></li>
 </ol>
 
 
-<pre><code class="`"> $ sudo /usr/local/mysql/support-files/mysql.server status
+<p>Start MySQL
+1.Invoke mysqld directly. This works on any platform.</p>
+
+<p>2.On Unix and Unix-like systems, you can invoke mysqld_safe, which tries to determine the proper options for mysqld and then runs it with those options.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ /usr/local/mysql/bin/mysqld_safe --user=mysql &</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.On OS X, install a launchd daemon to enable automatic MySQL startup at system startup. The daemon starts the server by invoking mysqld_safe.</p>
+
+<p>Stop MySQL</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ /usr/local/mysql/bin/mysqladmin shutdown</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>Where is MySQL&rsquo;s error log
+ Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p>
+
+<ol>
+<li>View MySQL&rsquo;s status</li>
+</ol>
+
+
+<pre><code class="`"> mysql&gt; status
 </code></pre></li>
 <li><p>ERROR 2002 (HY000): Can &lsquo; t connect to local MySQL server through socket &rsquo;/tmp/mysql.sock'</p>
 

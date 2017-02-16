@@ -109,6 +109,66 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/audio-and-video-file-format.html">
+		
+			音频和视频格式</a>
+	</h2>
+	<div class="entry-content">
+		<h2>音频格式</h2>
+
+<p>我们通常说的音频格式准确地讲应该是音频文件格式，它是计算机系统上用于存放数字音频数据的文件格式，也可以看作一个容器。</p>
+
+<p>音频数据的比特分布我们称为音频编码格式，它可以非压缩编码或压缩编码。压缩编码又分为无损压缩和有损压缩。</p>
+
+<p>编码器(codec)就是来编解码原始音频数据的。</p>
+
+<p>声音源 &ndash;ADC&ndash;> raw audio data &ndash;codec&ndash;> audio data(uncompressed/compressed) &ndash;packed&ndash;> audio file format(container format)</p>
+
+<blockquote><p>An audio file format is a file format for storing digital audio data on a computer system. The bit layout of the audio data (excluding metadata) is called the audio coding format and can be uncompressed, or compressed to reduce the file size, often using lossy compression. The data can be a raw bitstream in an audio coding format, but it is usually embedded in a container format or an audio data format with defined storage layer.</p>
+
+<p>It is important to distinguish between the audio coding format, the container containing the raw audio data, and an audio codec. A codec performs the encoding and decoding of the raw audio data while this encoded data is (usually) stored in a container file. Although most audio file formats support only one type of audio coding data (created with an audio coder), a multimedia container format (as Matroska or AVI) may support multiple types of audio and video data.</p>
+
+<p>There are three major groups of audio file formats:
+    • Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;
+    • Formats with lossless compression, such as FLAC, Monkey&rsquo;s Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).
+    • Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).</p></blockquote>
+
+
+		
+		<a href="/blog/audio-and-video-file-format.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-10-21T15:15:53+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archive/'>archive</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-of-android-development-part-2.html">
 		
 			Android开发问题汇总(二)</a>
@@ -287,79 +347,6 @@ $(document).ready(
 
 
 <time datetime="2016-08-30T10:43:36+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-8.html">
-		
-			iOS App 开发问题汇总（八）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Detect hash tags #, mention tags @, in iOS like in Twitter App</h3>
-
-<p>A:You can use <a href="https://github.com/Krelborn/KILabel">https://github.com/Krelborn/KILabel</a> this library. It also detect user taps on hashtags Like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range) {
-</span><span class='line'>  NSLog(@"Hashtag tapped %@", string);
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app">http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app</a></p>
-
-<h3>2.如何给应用重签名？</h3>
-
-<p>A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ security find-identity -v -p codesigning                       
-</span><span class='line'>  1) 01C8E9712E9632E6D84EC533827B4478938A3B15 "iPhone Developer: Thomas Kollbach (7TPNXN7G6K)"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>用<a href="https://github.com/fastlane/fastlane/tree/master/sigh">sign</a>给应用重签名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://objccn.io/issue-17-2/">http://objccn.io/issue-17-2/</a></p>
-
-
-		
-		<a href="/blog/ios-development-problems-part-8.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-24T15:54:30+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

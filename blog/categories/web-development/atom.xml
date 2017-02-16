@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-02-10T12:00:18+08:00</updated>
+  <updated>2017-02-16T17:31:50+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -554,8 +554,12 @@ sudo apachectl restart
     <content type="html"><![CDATA[<h3>1.查看所有的用户</h3>
 
 <pre><code>$ mysql -u user -p
-mysql &gt; USE mysql;
-mysql &gt; SELECT user, host FROM user;
+
+As of MySQL 5.7.6, use this statement:
+mysql&gt; SELECT User, Host, HEX(authentication_string) FROM mysql.user;
+
+Before MySQL 5.7.6, use this statement:
+mysql&gt; SELECT User, Host, Password FROM mysql.user;
 </code></pre>
 
 <h3>2.查看用户的权限</h3>
@@ -826,7 +830,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 <li>Via Preference Pane</li>
 <li>Command line
   <code>
-  sudo /usr/local/mysql/support-files/mysql.server start
+  $ /usr/local/mysql/bin/mysqld_safe --user=mysql &amp;   
  </code></li>
 </ul>
 </li>
@@ -852,26 +856,35 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 <li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
 </ul>
 </li>
-<li><p>How to Start &amp; Stop MySQL Manually in OS X</p>
+<li><p>How to Start &amp; Stop MySQL Manually on OS X</p></li>
+</ol>
 
-<pre><code class="`"> // Start MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server start
 
- // Stop MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server stop
+<p>Start MySQL
+1.Invoke mysqld directly. This works on any platform.</p>
 
- // Restart MySQL
- $ sudo /usr/local/mysql/support-files/mysql.server restart
+<p>2.On Unix and Unix-like systems, you can invoke mysqld_safe, which tries to determine the proper options for mysqld and then runs it with those options.</p>
+
+<pre><code>$ /usr/local/mysql/bin/mysqld_safe --user=mysql &amp;
+</code></pre>
+
+<p>3.On OS X, install a launchd daemon to enable automatic MySQL startup at system startup. The daemon starts the server by invoking mysqld_safe.</p>
+
+<p>Stop MySQL</p>
+
+<pre><code>$ /usr/local/mysql/bin/mysqladmin shutdown
 </code></pre>
 
 <ol>
 <li><p>Where is MySQL&rsquo;s error log
-Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p></li>
-<li><p>View MySQL&rsquo;s status</p></li>
+ Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.</p>
+
+<ol>
+<li>View MySQL&rsquo;s status</li>
 </ol>
 
 
-<pre><code class="`"> $ sudo /usr/local/mysql/support-files/mysql.server status
+<pre><code class="`"> mysql&gt; status
 </code></pre></li>
 <li><p>ERROR 2002 (HY000): Can &lsquo; t connect to local MySQL server through socket &rsquo;/tmp/mysql.sock'</p>
 

@@ -110,9 +110,17 @@ $(document).ready(
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u user -p
-</span><span class='line'>mysql &gt; USE mysql;
-</span><span class='line'>mysql &gt; SELECT user, host FROM user;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>As of MySQL 5.7.6, use this statement:
+</span><span class='line'>mysql&gt; SELECT User, Host, HEX(authentication_string) FROM mysql.user;
+</span><span class='line'>
+</span><span class='line'>Before MySQL 5.7.6, use this statement:
+</span><span class='line'>mysql&gt; SELECT User, Host, Password FROM mysql.user;</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>2.查看用户的权限</h3>

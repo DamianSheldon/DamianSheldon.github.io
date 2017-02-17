@@ -16,6 +16,8 @@ discription:
 
 VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：https://m.do.co/c/537dc7bd8a78
 
+我服务器跑的是 Debian 8 Jessie.
+
 ## 配置 DNS
 
 ### 添加 MX 记录

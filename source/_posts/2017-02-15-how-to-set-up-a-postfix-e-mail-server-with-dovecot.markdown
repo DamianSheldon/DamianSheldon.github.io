@@ -705,6 +705,5 @@ QUIT
 [How To Install and Configure Postfix on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-16-04#conclusion)  
 [Postfix](http://www.postfix.org/)  
 [Dovecot](http://wiki.dovecot.org/)  
-[Linux mail command examples – send mails from command line](http://www.binarytides.com/linux-mail-command-examples/)
-[SMTP的相关命令](http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html)
-[SMTP Commands and Definitions](https://technet.microsoft.com/en-us/library/aa996114(v=exchg.65).aspx)
+[Linux mail command examples – send mails from command line](http://www.binarytides.com/linux-mail-command-examples/)  
+[SMTP的相关命令](http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html)  

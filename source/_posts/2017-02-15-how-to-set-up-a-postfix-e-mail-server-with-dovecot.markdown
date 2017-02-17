@@ -7,14 +7,14 @@ categories: [Archivies]
 keywords: Postfix, Dovecot, E-Mail, debian, jessie 
 discription: 
 ---
-不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我是如何搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。
+不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。
 
 ## 准备材料 
 
 * VPS
 * 域名
 
-VPS 我用的 DigitalOcean，无职地打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：https://m.do.co/c/537dc7bd8a78
+VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：https://m.do.co/c/537dc7bd8a78
 
 ## 配置 DNS
 

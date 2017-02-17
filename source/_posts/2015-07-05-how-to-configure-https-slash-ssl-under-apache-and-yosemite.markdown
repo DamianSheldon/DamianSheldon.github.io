@@ -103,7 +103,7 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 	* Via Preference Pane
 	* Command line
 		```
-		$ /usr/local/mysql/bin/mysqld_safe --user=mysql &	
+		$ sudo /usr/local/mysql/bin/mysqld_safe --user=mysql &	
 		```
 4. Add MySQL directory to shell path
 	* Open ~/.bash_profile
@@ -124,32 +124,31 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 
 7. How to Start & Stop MySQL Manually on OS X
 
-Start MySQL
-1.Invoke mysqld directly. This works on any platform.
+Start MySQL  
 
-2.On Unix and Unix-like systems, you can invoke mysqld_safe, which tries to determine the proper options for mysqld and then runs it with those options.
+    1. Invoke mysqld directly. This works on any platform.
+
+    2. On Unix and Unix-like systems, you can invoke mysqld_safe, which tries to determine the proper options for mysqld and then runs it with those options.
 
 ```
 $ /usr/local/mysql/bin/mysqld_safe --user=mysql &
 ```
 
-3.On OS X, install a launchd daemon to enable automatic MySQL startup at system startup. The daemon starts the server by invoking mysqld_safe. 
+    3. On OS X, install a launchd daemon to enable automatic MySQL startup at system startup. The daemon starts the server by invoking mysqld_safe. 
 
 Stop MySQL
 
 ```
 $ /usr/local/mysql/bin/mysqladmin shutdown
 ```
-8. Where is MySQL's error log
-	Which by default is the host_name.err file in the data directory, in my situation(OS X El Capitan), it locate in /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err.
 
-	9. View MySQL's status
+8. View MySQL's status
 
 	```
 	mysql> status
 	```
 
-  10. ERROR 2002 (HY000): Can ' t connect to local MySQL server through socket '/tmp/mysql.sock'
+9. ERROR 2002 (HY000): Can ' t connect to local MySQL server through socket '/tmp/mysql.sock'
 
 	```
 	// View MySQL status
@@ -158,24 +157,24 @@ $ /usr/local/mysql/bin/mysqladmin shutdown
  	ERROR! MySQL is not running
 
 	// View MySQL's error log
-	$ sudo vim /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
+	$ sudo tail -f /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
 
 	// Find today's log
 	2015-12-12T11:21:14.012289Z 0 [ERROR] InnoDB: Unable to lock ./ibdata1 error: 35
 	2015-12-12T11:21:14.012335Z 0 [Note] InnoDB: Check that you do not already have another mysqld process using the same InnoDB data or log files.
 
 	// Is there mysql process
-	$ sudo pstress | grep 'mysql'
+	$ sudo ps -ax | grep 'mysql'
 
 	|-+= 30102 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
 	| \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
 	|--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
 
 	// Unfortunate, there are indeed two mysql procee, so kill one
-	$ sudo kill -9  30102
+	$ sudo kill -s kill  30102
 
 	// Check we succeed kill a mysql process
-	$ sudo pstree | grep 'mysql'
+	$ sudo ps -ax | grep 'mysql'
 
 	// Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
 	|-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
@@ -195,11 +194,8 @@ $ /usr/local/mysql/bin/mysqladmin shutdown
 	$ sudo launchctl stop com.mysql.mysqld
 	$ sudo launchctl stop com.oracle.oss.mysql.mysqld
 
-	// Start mysql
-	$ sudo /usr/local/mysql/support-files/mysql.server start
-	Starting MySQL
-	. SUCCESS!
-	
+	// Start mysql as non-root 
+    $ sudo mysqld_safe --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr/local/mysql/data/mysqld.local.err --pid-file=/usr/local/mysql/mysqld.local.pid --log-bin=DongMeiliangsMacBook-Pro-bin --server-id=1 &	
 	```
 
 #### 添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don't have permission to access / on this server”
@@ -238,7 +234,8 @@ Also try changing "Order deny,allow" and "Allow from all" lines by "Require all 
 
 Reference:[Error message “Forbidden You don't have permission to access / on this server”](http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server)
 
-Reference:
+###Reference:  
+
 [How to Set Up SSL with OSX Mountain Lion’s Built-In Apache](http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/)   
 [How to create a self-signed SSL Certificate](http://www.akadia.com/services/ssh_test_certificate.html)  
 [How to configure HTTPS/SSL under Apache and OSX](http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx)  

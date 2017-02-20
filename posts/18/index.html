@@ -114,27 +114,24 @@ $(document).ready(
 			iOS Development--Certificates, Provisioning Profiles</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
+		<p>在 iOS 开发中，Certificate 和 Provisioning Profle 可能是我们容易困惑的一部分内容。这篇文章我打算来梳理下这部分知识，只有理解了其中的内容，我们才能解决在开发过程可能遇到的代码签名问题。</p>
+
+<p>先来看张图，所谓一图胜千言：</p>
 
 <div style="text-align: center" markdown="1"> 
     <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
 </div>
 
 
-<p>开发过程的真机调试需要：
-    Private Key &ndash; 私钥
-    iPhone Development Certificate &ndash; 开发证书
-    Development Provisioning profile</p>
+<p>从这张图上我们可以看到，只有应用的 bundle ID 匹配 App ID, certificate 匹配到 Provisioning Profile 中的 Certificate, device ID 匹配到 Provisioning Profile 中的 device ID。嗯，这中间牵涉到的内容就有：</p>
 
-<p>发布到 App Store 需要：
-    私钥
-    iPhone Distribution Certificate
-    App Store Distribution Provisioning profile</p>
+<ul>
+<li>App ID</li>
+<li>Certificate</li>
+<li>Device ID</li>
+<li>Provisioning Profile</li>
+</ul>
 
-<p>通过 Ad Hoc 发布需要：
-    私钥
-    iPhone Distribution Certificate
-    Ad Hoc Distribution Provisioning profile</p>
 
 
 		

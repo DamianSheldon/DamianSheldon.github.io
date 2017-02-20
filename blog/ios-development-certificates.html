@@ -9,7 +9,7 @@
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Private Key, Certificate Signing Request, CSR, Certificates, Provisioning Profiles">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Certificates, Provisioning, App ID, UDID, CSR">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -105,56 +105,62 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">iOS Development--Certificates, Provisioning Profiles</h2>
-	<div class="entry-content"><p>iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。</p>
+	<div class="entry-content"><p>在 iOS 开发中，Certificate 和 Provisioning Profle 可能是我们容易困惑的一部分内容。这篇文章我打算来梳理下这部分知识，只有理解了其中的内容，我们才能解决在开发过程可能遇到的代码签名问题。</p>
+
+<p>先来看张图，所谓一图胜千言：</p>
 
 <div style="text-align: center" markdown="1"> 
     <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
 </div>
 
 
-<p>开发过程的真机调试需要：
-    Private Key &ndash; 私钥
-    iPhone Development Certificate &ndash; 开发证书
-    Development Provisioning profile</p>
+<p>从这张图上我们可以看到，只有应用的 bundle ID 匹配 App ID, certificate 匹配到 Provisioning Profile 中的 Certificate, device ID 匹配到 Provisioning Profile 中的 device ID。嗯，这中间牵涉到的内容就有：</p>
 
-<p>发布到 App Store 需要：
-    私钥
-    iPhone Distribution Certificate
-    App Store Distribution Provisioning profile</p>
+<ul>
+<li>App ID</li>
+<li>Certificate</li>
+<li>Device ID</li>
+<li>Provisioning Profile</li>
+</ul>
 
-<p>通过 Ad Hoc 发布需要：
-    私钥
-    iPhone Distribution Certificate
-    Ad Hoc Distribution Provisioning profile</p>
 
 <!-- more -->
 
 
-<h3>Private Key, Certificate, Provisioning Profile 的作用</h3>
+<h3>App ID</h3>
 
-<p>Private Key &ndash;私钥， 在iOS App 开发过程中，Xcode用它来签署应用。</p>
+<p>App ID 是我们应用的唯一标识符。</p>
 
-<p>Certificate &ndash;证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。</p>
+<h3>Certificate</h3>
 
-<div style="text-align: center" markdown="1"> 
+<p>Certificate 就是我们通常讨论的证书，它包含信任实体的信息，例如Common Name, Country, Public info等等。它的作用就是让别人知道这个证书的拥有者是谁，他是否可信，它之所以能实现这些是基于数学上的非对称加密。</p>
 
-    <img name="Certificate" src="/images/Certificate.png" width="696" height="471"> 
+<h3>Device ID</h3>
 
-</div>
+<p>Device ID 是物理设备的唯一标识符，我们通常称为 UDID。</p>
 
+<h3>Provisioning Profile</h3>
 
-<p>Provisioning Profile &ndash;供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。</p>
+<p>Provisiong Profile 我们称之为授权配置文件，它包含了上面所有的东西。</p>
 
-<div style="text-align: center" markdown="1"> 
+<p>开发过程的真机调试需要：
+Private Key &ndash; 私钥
+iPhone Development Certificate &ndash; 开发证书
+Development Provisioning profile</p>
 
-    <img name="ProvisioningProfile" src="/images/ProvisioningProfile.png" width="618" height="377">  
+<p>发布到 App Store 需要：
+私钥
+iPhone Distribution Certificate
+App Store Distribution Provisioning profile</p>
 
-</div>
+<p>通过 Ad Hoc 发布需要：
+私钥
+iPhone Distribution Certificate
+Ad Hoc Distribution Provisioning profile</p>
 
+<h3>Certificate, Provisioning Profile 的制作过程</h3>
 
-<h3>Private Key, Certificate, Provisioning Profile 的制作过程</h3>
-
-<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。</p>
+<p>使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在certSigningRequest中。</p>
 
 <p>Certificate制作具体步骤：</p>
 
@@ -166,9 +172,9 @@ KeyChain Access > Certificate Assitant > Request a Certificate From a Certificat
 
 <p>Certificate Infomation</p>
 
-<p>User Email Address:xxx(you favarite address)
-Common Name:xxx(you name)
-CA Email:(Keep empty)
+<p>User Email Address:xxx(you favarite address)<br/>
+Common Name:xxx(you name)<br/>
+CA Email:(Keep empty)<br/>
 Request is: save to disk</p>
 
 <p>之后会弹出保存路径选择对话框，选择你想保存的目标路径。</p>
@@ -196,6 +202,10 @@ developer.apple.com > Certificates, Identifiers &amp; Profiles > Certificates > 
     <img name="TeamProvisioningProfile" src="/images/TeamProvisioningProfile.png" width="712" height="406">  
 </div>
 
+
+<h2>Reference</h2>
+
+<p><a href="https://www.raywenderlich.com/2915/ios-code-signing-under-the-hood">iOS Code Signing: Under The Hood</a></p>
 </div>
 
 

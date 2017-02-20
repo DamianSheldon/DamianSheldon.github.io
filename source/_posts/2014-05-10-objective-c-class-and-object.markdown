@@ -67,8 +67,8 @@ Objective-C是一门面向对象的编程语言，既然是面向对象，那我
 
 ##6,参考资料
 1,iOS 6 Programming Pushing the Limits, Rob Napier, Mugunth Kumar  
-2,深入浅出Cocoa之类与对象,(http://blog.csdn.net/kesalin/article/details/7211228)  
-3,深入浅出Cocoa 之动态创建类(http://blog.csdn.net/kesalin/article/details/7219572)  
-4,Objective-C对象模型及应用(http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/)  
-5,Objective-C对象之类对象和元类对象（一）(http://blog.csdn.net/wzzvictory/article/details/8592492)  
-6,Objcclass(http://studentdeng.github.io/blog/2011/10/05/objcclass/)
+2,[深入浅出Cocoa之类与对象](http://blog.csdn.net/kesalin/article/details/7211228)  
+3,[深入浅出Cocoa 之动态创建类](http://blog.csdn.net/kesalin/article/details/7219572)  
+4,[Objective-C对象模型及应用](http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/)  
+5,[Objective-C对象之类对象和元类对象（一）](http://blog.csdn.net/wzzvictory/article/details/8592492)  
+6,[Objcclass](http://studentdeng.github.io/blog/2011/10/05/objcclass/)

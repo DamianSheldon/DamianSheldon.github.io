@@ -4,57 +4,60 @@ title: "iOS Development--Certificates, Provisioning Profiles"
 date: 2014-10-09 16:24:09 +0800
 comments: true
 categories: [Archives, iOS Development]
-keywords: Private Key, Certificate Signing Request, CSR, Certificates, Provisioning Profiles
+keywords: Certificates, Provisioning, App ID, UDID, CSR 
 discription: Introduce Certificates and Provisioning Profiles
 ---
-iOS App开发过程的真机调试和开发完成的发布要用合法的 Signing Identity 进行签名，并且要制作相应的Provising Profile。  
+在 iOS 开发中，Certificate 和 Provisioning Profle 可能是我们容易困惑的一部分内容。这篇文章我打算来梳理下这部分知识，只有理解了其中的内容，我们才能解决在开发过程可能遇到的代码签名问题。  
+
+先来看张图，所谓一图胜千言：
 
 <div style="text-align: center" markdown="1"> 
 	<img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
 </div>
 
+从这张图上我们可以看到，只有应用的 bundle ID 匹配 App ID, certificate 匹配到 Provisioning Profile 中的 Certificate, device ID 匹配到 Provisioning Profile 中的 device ID。嗯，这中间牵涉到的内容就有：
 
-开发过程的真机调试需要：
-    Private Key -- 私钥
-    iPhone Development Certificate -- 开发证书
-    Development Provisioning profile
-
-发布到 App Store 需要：
-    私钥
-    iPhone Distribution Certificate
-    App Store Distribution Provisioning profile
-
-通过 Ad Hoc 发布需要：
-    私钥
-    iPhone Distribution Certificate
-    Ad Hoc Distribution Provisioning profile
-
+* App ID
+* Certificate
+* Device ID 
+* Provisioning Profile
 
 <!-- more -->
 
-### Private Key, Certificate, Provisioning Profile 的作用  
+### App ID
 
-Private Key --私钥， 在iOS App 开发过程中，Xcode用它来签署应用。    
+App ID 是我们应用的唯一标识符。
 
-Certificate --证书，它包含公钥，用来认证已签名的程序，通过认证来确定应用的来源是可信任的，并且代码是完整的， 未经修改的。  
+### Certificate
 
-<div style="text-align: center" markdown="1"> 
+Certificate 就是我们通常讨论的证书，它包含信任实体的信息，例如Common Name, Country, Public info等等。它的作用就是让别人知道这个证书的拥有者是谁，他是否可信，它之所以能实现这些是基于数学上的非对称加密。
 
-	<img name="Certificate" src="/images/Certificate.png" width="696" height="471"> 
+### Device ID 
 
-</div>
+Device ID 是物理设备的唯一标识符，我们通常称为 UDID。
 
-Provisioning Profile --供应配置文件，它包含证书， App ID, 设备信息，它决定Xcode用哪个证书/私钥组合来签署程序, 开发设备也通过它来决定如何认证安装在设备上的程序。  
+### Provisioning Profile
 
-<div style="text-align: center" markdown="1"> 
+Provisiong Profile 我们称之为授权配置文件，它包含了上面所有的东西。
 
-	<img name="ProvisioningProfile" src="/images/ProvisioningProfile.png" width="618" height="377">  
+开发过程的真机调试需要：
+Private Key -- 私钥
+iPhone Development Certificate -- 开发证书
+Development Provisioning profile
 
-</div>
+发布到 App Store 需要：
+私钥
+iPhone Distribution Certificate
+App Store Distribution Provisioning profile
 
-### Private Key, Certificate, Provisioning Profile 的制作过程  
+通过 Ad Hoc 发布需要：
+私钥
+iPhone Distribution Certificate
+Ad Hoc Distribution Provisioning profile
 
-使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在Certificate中。 
+### Certificate, Provisioning Profile 的制作过程  
+
+使用KeyChain申请 Certificate Signing Request (CSR)，这个过程就能生成代码签名的公、私钥对，私钥会保存在KeyChain中，公钥则包含在certSigningRequest中。 
 
 Certificate制作具体步骤：
 
@@ -63,10 +66,10 @@ KeyChain Access > Certificate Assitant > Request a Certificate From a Certificat
 
 Certificate Infomation
 
-User Email Address:xxx(you favarite address)
-Common Name:xxx(you name)
-CA Email:(Keep empty)
-Request is: save to disk
+User Email Address:xxx(you favarite address)  
+Common Name:xxx(you name)  
+CA Email:(Keep empty)  
+Request is: save to disk  
 
 之后会弹出保存路径选择对话框，选择你想保存的目标路径。
 
@@ -90,3 +93,6 @@ Xcode3.2.3预发布版本加入了新功能Team Provisioning Profile,它包含�
 
 	<img name="TeamProvisioningProfile" src="/images/TeamProvisioningProfile.png" width="712" height="406">  
 </div>
+
+## Reference
+[iOS Code Signing: Under The Hood](https://www.raywenderlich.com/2915/ios-code-signing-under-the-hood) 

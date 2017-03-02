@@ -172,3 +172,15 @@ at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:144)
 ```
 A:This android project dependent on serveral java projects, when I change these java project's jre from 1.8 to 1.6, it works. The deep reason isn't clear.
 
+### 11.Make the Input Box Fill in the Screen Width
+A: Setting the width to zero (0dp) improves layout performance because using "wrap_content" as the width requires the system to calculate a width that is ultimately irrelevant because the weight value requires another width calculation to fill the remaining space.
+
+```
+<EditText android:id="@+id/edit_message"
+    android:layout_weight="1"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:hint="@string/edit_message" />
+```
+
+Reference:[Building a Simple User Interface](https://developer.android.google.cn/training/basics/firstapp/building-ui.html)

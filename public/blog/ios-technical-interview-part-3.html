@@ -1,0 +1,355 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>iOS Technical Interview Part 3  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="iOS Technical Interview">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">iOS Technical Interview Part 3</h2>
+	<div class="entry-content"><h3>1.Difference between categories and extensions?</h3>
+
+<p>A:There are two difference beween categories and extensions:</p>
+
+<ol>
+<li>The extension has no name;</li>
+<li>The implementation of the extension must be in the main @implementation block of the file.</li>
+</ol>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
+
+<h3>2.What is advantage of category?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>You can add method to existing class even to that class whose source is not available to you.</li>
+<li>You can extend functionality of a class without subclassing.</li>
+<li>You can split implementation in multiple classes.</li>
+</ul>
+
+
+<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
+
+<h3>3.What are KVO and KVC?</h3>
+
+<p>A:</p>
+
+<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
+Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
+
+<p>Reference:Cocoa Core Competencies</p>
+
+<!-- more -->
+
+
+<h3>4.Difference between shallow copy and deep copy?</h3>
+
+<p>A:
+The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):</p>
+
+<p>A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
+A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm</a></p>
+
+<h3>5.When retain count increase?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>When you create an object;</li>
+<li>When you send an object retain message;</li>
+</ul>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases</a></p>
+
+<h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
+
+<p>A: Yes, there is a autorelease pool already provided to us.</p>
+
+<h3>7.When you will create an autorelease pool in your application?</h3>
+
+<p>A:There are three occasions when you might use your own autorelease pool blocks:</p>
+
+<ul>
+<li>If you are writing a program that is not based on a UI framework, such as a command-line tool.</li>
+<li><p>If you write a loop that creates many temporary objects.
+You may use an autorelease pool block inside the loop to dispose of those objects   before the next iteration. Using an autorelease pool block in the loop helps to  reduce the maximum memory footprint of the application.</p></li>
+<li><p>If you spawn a secondary thread.
+You must create your own autorelease pool block as soon as the thread begins executing; otherwise, your application will leak objects.</p></li>
+</ul>
+
+
+<h3>8.How many autorelease pool you can create in your application? Is there any limit?</h3>
+
+<p>A: You can create autorelease pool as much as possible, there is no limit.</p>
+
+<h3>9.What is purpose of delegates?</h3>
+
+<p>A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.</p>
+
+<h3>10.What is difference between NSNotification and protocol?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Protocol is To-one Relationships; NSNotification is To-many Relationships.</li>
+<li>Protocol support bidirectional data-transfer between two classes.</li>
+</ul>
+
+
+<h3>11.Polymorphism？</h3>
+
+<p>A: The ability of different objects to respond, each in its own way, to identical messages is called polymorphism.</p>
+
+<h3>12.Singleton?</h3>
+
+<p>A:A singleton class returns the same instance no matter how many times an application requests it.</p>
+
+<h3>13.Give us example of what are delegate methods and what are data source methods of UITableView?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Delegate methods
+</span><span class='line'>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+</span><span class='line'>- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+</span><span class='line'>- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+</span><span class='line'>
+</span><span class='line'> // Data source methods
+</span><span class='line'> - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
+</span><span class='line'> - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;
+</span><span class='line'> - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>14.What are mutable and immutable types in Objective C?</h3>
+
+<p>A:A mutable object can be mutated or changed. An immutable object cannot.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable</a></p>
+
+<h3>15.When to use NSMutableArray and when to use NSArray?</h3>
+
+<p>A:When collection will mutable you should use NSMutableArray, otherwise use NSArray.</p>
+
+<h3>16.What is convenience constructor?</h3>
+
+<p>A:A convenience constructor is one that performs object allocation &amp; initialization in one step &amp; returns an autoreleased object to the caller.</p>
+
+<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor</a></p>
+
+<h3>17.What is responder chain?</h3>
+
+<p>A:The responder chain is a series of linked responder objects.</p>
+
+<h3>18.What is push notification?</h3>
+
+<p>A:Apple Push Notification service (APNs for short) is the centerpiece of the remote notifications feature. It is a robust and highly efficient service for propagating information to iOS and OS X devices. Each device establishes an accredited and encrypted IP connection with the service and receives notifications over this persistent connection. If a notification for an app arrives when that app is not running, the device alerts the user that the app has data waiting for it.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-25T18:43:44+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

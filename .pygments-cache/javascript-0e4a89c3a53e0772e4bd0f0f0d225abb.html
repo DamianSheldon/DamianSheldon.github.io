@@ -1,0 +1,8 @@
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">sendCommand</span><span class="p">(</span><span class="nx">cmd</span><span class="p">,</span><span class="nx">param</span><span class="p">){</span>  
+    <span class="kd">var</span> <span class="nx">url</span><span class="o">=</span><span class="s2">&quot;objc:&quot;</span><span class="o">+</span><span class="nx">cmd</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nx">param</span><span class="p">;</span>  
+    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>  
+<span class="p">}</span>  
+<span class="kd">function</span> <span class="nx">clickLink</span><span class="p">(){</span>  
+    <span class="nx">sendCommand</span><span class="p">(</span><span class="s2">&quot;alert&quot;</span><span class="p">,</span><span class="s2">&quot;hello objective-c method&quot;</span><span class="p">);</span>  
+<span class="p">}</span>  
+</pre></div>

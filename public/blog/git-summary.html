@@ -1,0 +1,1130 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Git 小结  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Git, Summary">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Git 小结</h2>
+	<div class="entry-content"><p>本文是从日常开发的角度对 Git 的总结，主要内容如下：</p>
+
+<ol>
+<li>搭建 Git 服务器</li>
+<li>初始化远程仓库</li>
+<li>多人协作开发</li>
+<li>提交测试</li>
+<li>修复 BUG</li>
+</ol>
+
+
+<h2>搭建 Git 服务器</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:创建一个 ‘git’ 用户并为其创建一个 .ssh 目录
+</span><span class='line'><span class="nv">$ </span>sudo adduser git
+</span><span class='line'><span class="nv">$ </span>su -l git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~
+</span><span class='line'><span class="nv">$ </span>mkdir .ssh
+</span><span class='line'>
+</span><span class='line'>// Step 2:把开发者的 SSH 公钥添加到这个用户的 authorized_keys 文件中。
+</span><span class='line'>// 假设你通过 e-mail 收到了几个 公钥并存到了临时文件里
+</span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.john.pub &gt;&gt; ~/.ssh/authorized_keys
+</span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
+</span><span class='line'><span class="nv">$ </span>cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
+</span><span class='line'>
+</span><span class='line'>// Preparation <span class="p">&amp;</span> Accounts Setup
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/john -m -s /bin/bash john
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/andrew -m -s /bin/bash andrew
+</span><span class='line'><span class="nv">$ </span>sudo useradd -G git -d /home/robert -m -s /bin/bash robert
+</span><span class='line'>
+</span><span class='line'>// Exist user change his primary group by newgrp <span class="nb">command</span>
+</span><span class='line'><span class="nv">$ </span>sudo newgrp -g git john
+</span><span class='line'>
+</span><span class='line'>// Step 3:使用 --bare 选项运行 git init 来设定一个空仓库,这会初始化一个不包含工作目录的仓库
+</span><span class='line'><span class="nv">$sudo</span> mkdir /git
+</span><span class='line'><span class="nv">$sudo</span> chown -R git /git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /git
+</span><span class='line'><span class="nv">$ </span>mkdir project.git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>project.git
+</span><span class='line'><span class="nv">$ </span>git --bare --shared<span class="o">=</span>group init
+</span><span class='line'>
+</span><span class='line'>// <span class="k">if</span> forget init with --shared<span class="o">=</span>group, we can config with <span class="nb">command</span>:
+</span><span class='line'><span class="nv">$ </span>git config -- core.sharedRepository ture
+</span><span class='line'>
+</span><span class='line'>// Mac 下需要开启ssh并允许remote login
+</span><span class='line'><span class="nv">$launchctl</span> start sshd
+</span><span class='line'>// System Preferences -&gt; Sharing -&gt; Remote Login -&gt; All Users
+</span><span class='line'>
+</span><span class='line'>// Step 4:Join,Josie 或者 Jessica 就可以把它加为远程仓库,
+</span><span class='line'>推送一个分支,从而把第一个版本的工程上 传到仓库里了
+</span><span class='line'><span class="c"># 在 John 的电脑上</span>
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>myproject
+</span><span class='line'><span class="nv">$ </span>git init
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s1">&#39;initial commit&#39;</span>
+</span><span class='line'><span class="nv">$ </span>git remote add origin git@gitserver:/git/project.git
+</span><span class='line'><span class="nv">$ </span>git push origin master
+</span><span class='line'>
+</span><span class='line'>// Step 5:其他人的克隆和推送也一样变得很简单
+</span><span class='line'><span class="nv">$ </span>git clone git@gitserver:/git/project.git
+</span><span class='line'><span class="nv">$ </span>vim README
+</span><span class='line'><span class="nv">$ </span>git commit -am <span class="s1">&#39;fix for the README file&#39;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin master
+</span><span class='line'>
+</span><span class='line'>// Step 6:用这个方法可以很快捷的为少数几个开发者架设一个可读写的 Git 服务
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>// 如何生成 SSH 公钥？
+</span><span class='line'>// Step 1:首先,确定一下是否已经有一个公钥了。SSH 公钥默认储存 在账户的 ~/.ssh 目录。
+</span><span class='line'>// 进入那里并查看其内容,有没有公钥一目了然:
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/.ssh
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>authorized_keys2 id_dsa known_hosts config id_dsa.pub
+</span><span class='line'>
+</span><span class='line'>// Step 2:关键是看有没有用 文件名 和 文件名.pub 来命名的一对文件,
+</span><span class='line'>// 这个 文件名 通常是 id_dsa 或者 id_rsa。 .pub 文件是公钥,另一个文件是密钥。
+</span><span class='line'>// 假如没有这些文件<span class="o">(</span>或者干脆连 .ssh 目录都没有<span class="o">)</span>,你可以用 ssh- keygen 的程序来建立它们,
+</span><span class='line'>// 该程序在 Linux/Mac 系统由 SSH 包提供, 在 Windows 上则包含在 MSysGit 包 里:
+</span><span class='line'><span class="nv">$ </span>ssh-keygen
+</span><span class='line'>Generating public/private rsa key pair.
+</span><span class='line'>Enter file in which to save the key <span class="o">(</span>/Users/schacon/.ssh/id_rsa<span class="o">)</span>:
+</span><span class='line'>Enter passphrase <span class="o">(</span>empty <span class="k">for</span> no passphrase<span class="o">)</span>:
+</span><span class='line'>Enter same passphrase again:
+</span><span class='line'>Your identification has been saved in /Users/schacon/.ssh/id_rsa.
+</span><span class='line'>Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
+</span><span class='line'>The key fingerprint is:
+</span><span class='line'>43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
+</span><span class='line'>
+</span><span class='line'>// Step 3:它先要求你确认保存公钥的位置<span class="o">(</span>.ssh/id_rsa<span class="o">)</span>,然后它会让你重复一个密码两次,
+</span><span class='line'>// 如果不想在使用公钥的 时候输入密码,可以留空。
+</span><span class='line'>// 现在,所有做过这一步的用户都得把它们的公钥给你
+</span><span class='line'>// 或者 Git 服务器的管理者<span class="o">(</span>假设 SSH 服务被设定为使 用公钥机制<span class="o">)</span>。
+</span><span class='line'>// 他们只需要复制 .put 文件的内容然后 e-email 之。公钥的样子大致如下:
+</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/id_rsa.pub
+</span><span class='line'>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
+</span><span class='line'>GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
+</span><span class='line'>Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
+</span><span class='line'>t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
+</span><span class='line'>mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
+</span><span class='line'>NrRFi9wrf+M7Q<span class="o">==</span> schacon@agadorlaptop.local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>作为一个额外的防范措施,你可以用 Git 自带的 git-shell 简单工具来把 git 用户的活动限制在仅与 Git 相关。把它设为 git 用户登入的 shell,那么该用户就不能拥有主机正常的 shell 访问权。为了实现这一 点,需要指明用户的登入shell 是 git-shell ,而不是 bash 或者 csh。你可能得编辑 /etc/passwd 文件:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Step 1:
+</span><span class='line'><span class="nv">$ </span>sudo vim /etc/passwd
+</span><span class='line'>
+</span><span class='line'>// Step 2:在文件末尾,你应该能找到类似这样的行
+</span><span class='line'>git:x:1000:1000::/home/git:/bin/sh
+</span><span class='line'>
+</span><span class='line'>// Step 3:把 bin/sh 改为 /usr/bin/git-shell <span class="o">(</span>或者用 which git-shell 查看它的位置<span class="o">)</span>。该行修改后的样子如下
+</span><span class='line'>git:x:1000:1000::/home/git:/usr/bin/git-shell
+</span><span class='line'>
+</span><span class='line'>// Step 4:现在 git 用户只能用 SSH 连接来推送和获取 Git 仓库,而不能直接使用主机 shell。
+</span><span class='line'>// 尝试登录的话,你会 看到下面这样的拒绝信息
+</span><span class='line'><span class="nv">$ </span>ssh git@gitserver
+</span><span class='line'>fatal: What <span class="k">do</span> you think I am? A shell? <span class="o">(</span>你以为我是个啥?shell吗?<span class="o">)</span>
+</span><span class='line'>Connection to gitserver closed. <span class="o">(</span>gitserver 连接已断开。<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h2>初始化远程仓库</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>su - git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /git
+</span><span class='line'><span class="nv">$ </span>git init --bare sample.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>多人协作开发</h2>
+
+<ol>
+<li>场景一：新建工程</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone git@server:/git/sample.git
+</span><span class='line'><span class="nv">$ </span>git checkout -b develop
+</span><span class='line'><span class="nv">$ </span>add .gitignore （1）
+</span><span class='line'><span class="nv">$ </span>new project
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Description what you have done.&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin develop:develop --verbose
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景二：正常日常开发</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>develop ...
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Description what you have done.&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git pull origin develop
+</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if</span> need
+</span><span class='line'><span class="nv">$ </span>git push origin develop:develop --verbose
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景三：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout -- file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景四：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git reset HEAD file
+</span><span class='line'><span class="nv">$ </span>git checkout -- file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景五：已经提交了不合适的修改到版本库时，想要撤销本次提交，没有推送到远程库</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 回到过去某个版本
+</span><span class='line'><span class="nv">$ </span>git log
+</span><span class='line'><span class="nv">$ </span>git reset --hard commit_id
+</span><span class='line'>
+</span><span class='line'>// 回到过去某个版本之后又想返回未来的版本
+</span><span class='line'><span class="nv">$ </span>git reflog
+</span><span class='line'><span class="nv">$ </span>git reset --hard commit_id
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景六：已经提交了不合适的修改到远程库，想要撤销本次提交</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git rm --cached &lt;file&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景七：修改提交信息</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Change the last commit
+</span><span class='line'><span class="nv">$ </span>git commit --amend
+</span><span class='line'>
+</span><span class='line'>// Change published commit message
+</span><span class='line'><span class="nv">$ </span>git rebase -i HEAD~3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景八：查看修改</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 查看文件做了哪些修改
+</span><span class='line'><span class="nv">$ </span>git diff &lt;commit&gt; &lt;commit&gt; file
+</span><span class='line'>
+</span><span class='line'>// 先查看同事做了哪些修改，然后再合并
+</span><span class='line'><span class="nv">$ </span>git fetch origin develop --verbose
+</span><span class='line'><span class="nv">$ </span>git diff HEAD FETCH_HEAD
+</span><span class='line'><span class="nv">$ </span>git merge origin/develop
+</span><span class='line'>
+</span><span class='line'>// Various ways to check your working tree
+</span><span class='line'><span class="nv">$ </span>git diff            <span class="o">(</span>1<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>git diff --cached   <span class="o">(</span>2<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>git diff HEAD       <span class="o">(</span>3<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Changes in the working tree not yet staged for the next commit.</li>
+<li>Changes between the index and your last commit; what you would be committing if you run &ldquo;git commit&rdquo; without &ldquo;-a&rdquo; option.</li>
+<li>Changes in the working tree since your last commit; what you would be committing if you run &ldquo;git commit -a&rdquo;</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Comparing with arbitrary commits
+</span><span class='line'><span class="nv">$ </span>git diff <span class="nb">test</span>            <span class="o">(</span>1<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>git diff HEAD -- ./test  <span class="o">(</span>2<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>git diff HEAD^ HEAD      <span class="o">(</span>3<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Instead of using the tip of the current branch, compare with the tip of &ldquo;test&rdquo; branch.</li>
+<li>Instead of comparing with the tip of &ldquo;test&rdquo; branch, compare with the tip of the current branch, but limit the comparison to the file &ldquo;test&rdquo;.</li>
+<li><p>Compare the version before the last commit and the last commit.</p></li>
+<li><p>场景九：打标签归档</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 创建标签
+</span><span class='line'><span class="nv">$ </span>git tag &lt;name&gt;
+</span><span class='line'><span class="nv">$ </span>git tag -a &lt;tagname&gt; -m <span class="s2">&quot;blablabla...&quot;</span>
+</span><span class='line'>
+</span><span class='line'>// 查看标签
+</span><span class='line'><span class="nv">$ </span>git tag
+</span><span class='line'><span class="nv">$ </span>git show &lt;tagname&gt;
+</span><span class='line'>
+</span><span class='line'>// 推送标签
+</span><span class='line'><span class="nv">$ </span>git push origin &lt;tagname&gt;
+</span><span class='line'><span class="nv">$ </span>git push origin develop:develop --tags --verbose
+</span><span class='line'>
+</span><span class='line'>// 删除标签
+</span><span class='line'><span class="nv">$ </span>git tag -d &lt;tagname&gt;
+</span><span class='line'>
+</span><span class='line'>// 删除一个远程标签
+</span><span class='line'><span class="nv">$ </span>git tag -d &lt;tagname&gt;
+</span><span class='line'><span class="nv">$ </span>git push origin :refs/tags/&lt;tagname&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景十：有的命令太长记不住，配置别名</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 配置别名
+</span><span class='line'><span class="nv">$ </span>git config --global alias.last <span class="s1">&#39;log -1&#39;</span>
+</span><span class='line'><span class="nv">$ </span>git config --global alias.lg <span class="s2">&quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</span>
+</span><span class='line'>
+</span><span class='line'>// 使用别名
+</span><span class='line'><span class="nv">$ </span>git last
+</span><span class='line'><span class="nv">$ </span>git lg
+</span><span class='line'>
+</span><span class='line'>// 查看配置了哪些别名
+</span><span class='line'><span class="nv">$ </span>cat ~/.gitconfig
+</span><span class='line'>
+</span><span class='line'>// 删除别名
+</span><span class='line'>vim ~/.gitconfig &gt; 别名就在<span class="o">[</span><span class="nb">alias</span><span class="o">]</span>后面，要删除别名，直接把对应的行删掉即可
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>提交测试</h2>
+
+<ol>
+<li>场景一：尚未创建 test 分支</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout -b <span class="nb">test</span>
+</span><span class='line'><span class="nv">$ </span>git push origin develop:test --verbose
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景二：已创建 test 分支</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git pull origin <span class="nb">test</span> --verbose
+</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if</span> need
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">test</span>:test --verbose
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>修复 BUG</h2>
+
+<ol>
+<li>场景一：开发完成后测试反馈 BUG</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout develop
+</span><span class='line'><span class="nv">$ </span>fix bug
+</span><span class='line'><span class="nv">$ </span>git pull origin develop --verbose
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>场景二：开发新功能中反馈紧急 BUG, 需中断开发工作，但开发工作只进行到一半，还没法提交</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git stash
+</span><span class='line'><span class="nv">$ </span>git checkout -b hotfix tag <span class="o">(</span>1<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>git push origin hotfix:develop --verbose
+</span><span class='line'><span class="nv">$ </span>git checkout develop
+</span><span class='line'><span class="nv">$ </span>git stash list
+</span><span class='line'><span class="nv">$ </span>git stash pop <span class="o">(</span>or git stash apply stash_identifier<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>git branch -d hotfix
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Git 基本操作</h2>
+
+<h3>操作 repository</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 1. Create a new repository
+</span><span class='line'><span class="nv">$ </span>git init --bare sample.git
+</span><span class='line'>
+</span><span class='line'>// 2. Addding a existing project to git
+</span><span class='line'>1<span class="o">)</span>Initialize the <span class="nb">local </span>directory as a Git repository.
+</span><span class='line'><span class="nv">$ </span>git init
+</span><span class='line'>
+</span><span class='line'>2<span class="o">)</span>Add the files in your new <span class="nb">local </span>repository. This stages them <span class="k">for</span> the first commit.
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'>
+</span><span class='line'>3<span class="o">)</span>Commit the files that you<span class="err">&#39;</span>ve staged in your <span class="nb">local </span>repository.
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;First commit&quot;</span>
+</span><span class='line'>
+</span><span class='line'>4<span class="o">)</span>In Terminal, add the URL <span class="k">for</span> the remote repository where your <span class="nb">local </span>repository will be pushed.
+</span><span class='line'>// Sets the new remote
+</span><span class='line'><span class="nv">$ </span>git remote add origin remote repository URL
+</span><span class='line'>
+</span><span class='line'>// Verifies the new remote URL
+</span><span class='line'><span class="nv">$ </span>git remote -v
+</span><span class='line'>
+</span><span class='line'>5<span class="o">)</span>Push the changes in your <span class="nb">local </span>repository to GitHub.
+</span><span class='line'>// Pushes the changes in your <span class="nb">local </span>repository up to the remote repository you specified as the origin
+</span><span class='line'><span class="nv">$ </span>git push -u origin master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>操作 branch</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// List all existing branches
+</span><span class='line'><span class="nv">$ </span>git branch
+</span><span class='line'>
+</span><span class='line'>// Switch HEAD branch
+</span><span class='line'><span class="nv">$ </span>git checkout &lt;branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Create a new branch based on your current HEAD
+</span><span class='line'><span class="nv">$ </span>git branch &lt;new-branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Create a new tracking branch based on a remote branch
+</span><span class='line'><span class="nv">$ </span>git branch --track &lt;new-branch&gt; &lt;remote-branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Delete a <span class="nb">local </span>branch
+</span><span class='line'><span class="nv">$ </span>git branch -d &lt;branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Delete a remote branch
+</span><span class='line'><span class="nv">$ </span>git push origin --delete &lt;branch&gt;
+</span><span class='line'>
+</span><span class='line'>// Rename a branch locally
+</span><span class='line'><span class="nv">$ </span>git branch -m &lt;old name&gt; &lt;new name&gt;
+</span><span class='line'>
+</span><span class='line'>// Rename a branch on remote
+</span><span class='line'><span class="nv">$ </span>git push &lt;remote&gt; :&lt;old name&gt;
+</span><span class='line'><span class="nv">$ </span>git push &lt;remote&gt; &lt;new name&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>操作 file</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Add all current changes in file to the next commit
+</span><span class='line'><span class="nv">$ </span>git add &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Delete file and add its deletion to next commit
+</span><span class='line'><span class="nv">$ </span>git rm &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Rename file and add it to next commit
+</span><span class='line'><span class="nv">$ </span>git mv &lt;file&gt; &lt;new file name&gt;
+</span><span class='line'>
+</span><span class='line'>// Show changes over <span class="nb">time </span><span class="k">for</span> a specific file
+</span><span class='line'><span class="nv">$ </span>git log -p &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Who changed what and when in file
+</span><span class='line'><span class="nv">$ </span>git blame &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Remove file from all previous commits but keep it locally
+</span><span class='line'>// 如何不再控制已经提交到仓库的文件？
+</span><span class='line'><span class="nv">$ </span>git rm --cached &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Manually resolve conflicts using your editor and mark file as resolved
+</span><span class='line'><span class="nv">$ </span>git add &lt;resolved-file&gt;
+</span><span class='line'><span class="nv">$ </span>git rm &lt;resolved-file&gt;
+</span><span class='line'>
+</span><span class='line'>// Discard <span class="nb">local </span>changes in a specific file
+</span><span class='line'><span class="nv">$ </span>git checkout HEAD &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// Revert a commit by providing a new commit with contrary changes
+</span><span class='line'><span class="nv">$ </span>git revert &lt;commit&gt;
+</span><span class='line'>
+</span><span class='line'>// Restore a specific file from a previous commit
+</span><span class='line'><span class="nv">$ </span>git checkout &lt;commit&gt; &lt;file&gt;
+</span><span class='line'>
+</span><span class='line'>// 如何将另一分支上的某文件复制到当前分支上来？
+</span><span class='line'><span class="nv">$ </span>git checkout currentBranch
+</span><span class='line'><span class="nv">$ </span>git checkout anotherBranch -- filenameYourWantedCopy
+</span><span class='line'>
+</span><span class='line'>// 不再跟踪已经删除的文件
+</span><span class='line'><span class="nv">$ </span>git add --update
+</span><span class='line'>
+</span><span class='line'>// Shows the commits that changed specific file
+</span><span class='line'><span class="nv">$ </span>git log --follow <span class="nb">builtin</span>/rev-list.c
+</span><span class='line'>// Shows the commits that changed <span class="nb">builtin</span>/rev-list.c, including those commits that occurred before the file was given its present name.
+</span><span class='line'>
+</span><span class='line'>// Viewing a Deleted File
+</span><span class='line'><span class="nv">$ </span>git show HEAD^:path/to/file
+</span><span class='line'>
+</span><span class='line'>// You can use an explicit commit identifier or HEAD~n to see older versions or <span class="k">if</span> therehas been more than one commit since you deleted it.
+</span><span class='line'>
+</span><span class='line'>// Finally, most commands that take filenames will optionally allow you to precede any
+</span><span class='line'>// filename by a commit, to specify a particular version of the file:
+</span><span class='line'><span class="nv">$ </span>git diff v2.5:Makefile HEAD:Makefile.in
+</span><span class='line'>
+</span><span class='line'>// You can also use git show to see any such file:
+</span><span class='line'><span class="nv">$ </span>git show v2.5:Makefile
+</span><span class='line'>
+</span><span class='line'>Reference:<span class="o">[</span>Viewing a Deleted File in Git<span class="o">](</span>http://stackoverflow.com/questions/1395445/viewing-a-deleted-file-in-git<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>// How to take a file out of another commit
+</span><span class='line'>// Example 1
+</span><span class='line'><span class="nv">$ </span>git checkout master~2 Makefile
+</span><span class='line'>
+</span><span class='line'>// Example 2
+</span><span class='line'><span class="nv">$ </span>git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>操作 commit</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Commit previously staged changes
+</span><span class='line'><span class="nv">$ </span>git commit
+</span><span class='line'>
+</span><span class='line'>// Show all commits
+</span><span class='line'><span class="nv">$ </span>git log
+</span><span class='line'>
+</span><span class='line'>// Show changes over <span class="nb">time </span><span class="k">for</span> a specific committer
+</span><span class='line'><span class="nv">$ </span>git log --author<span class="o">=</span>&lt;committer name&gt;
+</span><span class='line'>
+</span><span class='line'>// Change the last commit
+</span><span class='line'><span class="nv">$ </span>git commit -amend
+</span><span class='line'>
+</span><span class='line'>// Change published commit message
+</span><span class='line'><span class="nv">$ </span>git rebase -i HEAD~3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何将目录覆盖下一级的同名目录？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 背景
+</span><span class='line'><span class="p">|</span>-A
+</span><span class='line'><span class="p">|</span>-B
+</span><span class='line'>  <span class="p">|</span>-A
+</span><span class='line'>
+</span><span class='line'>// 目标
+</span><span class='line'><span class="p">|</span>-B
+</span><span class='line'>  <span class="p">|</span>-A
+</span><span class='line'>
+</span><span class='line'>// 解决办法
+</span><span class='line'>1. rsync -a A/ B/A
+</span><span class='line'>2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> <span class="p">|</span> <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>insufficient permission for adding an object to repository database ./objects</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh me@myserver
+</span><span class='line'><span class="nb">cd </span>repository.git
+</span><span class='line'>
+</span><span class='line'>sudo chmod -R g+w *
+</span><span class='line'>
+</span><span class='line'>git config core.sharedRepository <span class="nb">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi">http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi</a></p>
+
+<h3>warning: remote HEAD refers to nonexistent ref, unable to checkout</h3>
+
+<p>Solution:问题的原因是远程仓库的默认分支名不为master。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Login to remote server
+</span><span class='line'>git branch -a
+</span><span class='line'>git branch -m branchName master
+</span><span class='line'>
+</span><span class='line'>// <span class="nb">local</span>
+</span><span class='line'>git clone .... // Now the warn will be disappear
+</span><span class='line'>
+</span><span class='line'>git fetch
+</span><span class='line'>git add .
+</span><span class='line'>git commit
+</span><span class='line'>git push ...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://blog.csdn.net/gracioushe/article/details/6142793">http://blog.csdn.net/gracioushe/article/details/6142793</a></p>
+
+<h3>How to untrack all delete files?</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git diff-files --diff-filter<span class="o">=</span>D --name-only -z <span class="p">|</span> xargs -0 git rm
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Resolving a &lsquo;both added&rsquo; merge conflict in git?</h3>
+
+<p>A: If you use git rm git will remove all versions of that path from the index so your resolve action will leave you without either version.</p>
+
+<p>You can use git checkout &ndash;ours file to chose the version from the branch onto which you are rebasing or git checkout &ndash;theirs file to chose the version from the branch which you are rebasing.</p>
+
+<p>If you want a blend you need to use a merge tool or edit it manually.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git">http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git</a></p>
+
+<h3>Do a “git export” (like “svn export”)?</h3>
+
+<p>A:git archive master | tar -x -C /somewhere/else</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export">http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export</a></p>
+
+<h4>Reference</h4>
+
+<p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-05T10:13:13+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

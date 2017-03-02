@@ -1,0 +1,560 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Here's where it all happens for me.  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/how-does-app-security-communicate-with-server.html">
+		
+			在 iOS App 中使用自签名证书</a>
+	</h2>
+	<div class="entry-content">
+		<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
+
+<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
+
+<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLSession进行配置以接受该自签名证书。</p>
+
+<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
+
+<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
+
+<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
+
+<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
+
+<h2>创建自签名证书</h2>
+
+<p>为了方便创建自签名证书来测试 TLS, Apple 为我们提供一个工具 Certificate Assitant，它内置在 OS X 中，我们可以通过 KeyChain 打开它；我们也可以使用 openssl。新手的话还是建议使用 Certificate Assitant. 详细步骤参考<a href="https://developer.apple.com/library/ios/technotes/tn2326/_index.html#//apple_ref/doc/uid/DTS40014136-CH1-SECISSUE_C">Creating Certificates for TLS Testing</a>.</p>
+
+<h2>为服务端配置证书</h2>
+
+<p>我使用的是 Apache，配置如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#/etc/apache2/httpd.conf
+</span><span class='line'>&lt;VirtualHost *:443&gt;
+</span><span class='line'>#ServerName www.example.com
+</span><span class='line'>SSLEngine on
+</span><span class='line'>SSLCertificateFile "/etc/apache2/server.crt"
+</span><span class='line'>SSLCertificateKeyFile "/etc/apache2/server.key"
+</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于 Apache 是使用 PEM 格式的证书和私钥，所以我们需要格式转换下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#Extracting a digital identity for use with Apache
+</span><span class='line'>
+</span><span class='line'>$ # First extract the server certificate.
+</span><span class='line'>$
+</span><span class='line'>$ openssl pkcs12 -in "Deep Thought.p12" -nokeys -out server.crt
+</span><span class='line'>Enter Import Password: ****
+</span><span class='line'>MAC verified OK
+</span><span class='line'>$
+</span><span class='line'>$ # Next extract the server private key.
+</span><span class='line'>$
+</span><span class='line'>$ openssl pkcs12 -in "Deep Thought.p12" -nocerts -nodes -out server.key
+</span><span class='line'>Enter Import Password: ****
+</span><span class='line'>MAC verified OK</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重启 Apache, 我们可以使用 openssl 的 s_client 子命令来测试下。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Failed
+</span><span class='line'>$ openssl s_client -connect myserver.com:443
+</span><span class='line'>
+</span><span class='line'>// Success
+</span><span class='line'>$ openssl s_client -connect myserver.com:443 -CAfile ./MyCACertificate.pem</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>接受自签名证书</h2>
+
+<h3>URLSession</h3>
+
+<p>我们需要介入到 TLS 的授权过程，基本做法是判断是与我们指定的服务器通信需要授权，然后把自签名证书加入锚中。代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Authentication Challenges and TLS Chain Validation
+</span><span class='line'>func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -&gt; Void) {
+</span><span class='line'>
+</span><span class='line'>    print("authentication method \(challenge.protectionSpace.authenticationMethod)\n host: \(challenge.protectionSpace.host)")
+</span><span class='line'>
+</span><span class='line'>        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == "dongmeiliangsmacbook-pro.local" {
+</span><span class='line'>
+</span><span class='line'>            // Custom evaluating a trust object
+</span><span class='line'>            let serverTrust = challenge.protectionSpace.serverTrust!
+</span><span class='line'>                let policy = SecPolicyCreateSSL(true, "dongmeiliangsmacbook-pro.local" as CFString)
+</span><span class='line'>
+</span><span class='line'>                SecTrustSetPolicies(serverTrust, [policy] as CFArray)
+</span><span class='line'>
+</span><span class='line'>                let path = Bundle.init(for: ViewController.self).path(forResource: "ServerCertificates", ofType: "cer")
+</span><span class='line'>
+</span><span class='line'>                do {
+</span><span class='line'>                    let certData = try NSData(contentsOfFile: path!, options: NSData.ReadingOptions(rawValue: 0))
+</span><span class='line'>                        if let certificate = SecCertificateCreateWithData(nil, certData as CFData) {
+</span><span class='line'>                            SecTrustSetAnchorCertificates(serverTrust, [certificate] as CFArray)
+</span><span class='line'>
+</span><span class='line'>                                var allowConnection = false
+</span><span class='line'>
+</span><span class='line'>                                var trustResult: SecTrustResultType = .invalid
+</span><span class='line'>
+</span><span class='line'>                                let err = SecTrustEvaluate(serverTrust, &trustResult)
+</span><span class='line'>
+</span><span class='line'>                                if err == noErr {
+</span><span class='line'>                                    allowConnection = (trustResult == .unspecified) || (trustResult == .proceed)
+</span><span class='line'>                                }
+</span><span class='line'>
+</span><span class='line'>                            print("err:\(err)\nallowConnection:\(allowConnection)")
+</span><span class='line'>
+</span><span class='line'>                                    if
+</span><span class='line'>                                        allowConnection
+</span><span class='line'>                                        {
+</span><span class='line'>                                            completionHandler(.useCredential, URLCredential(trust:serverTrust))
+</span><span class='line'>                                        }
+</span><span class='line'>                                    else
+</span><span class='line'>                                    {
+</span><span class='line'>                                        completionHandler(.cancelAuthenticationChallenge, nil)
+</span><span class='line'>                                    }
+</span><span class='line'>
+</span><span class='line'>                        }
+</span><span class='line'>                        else
+</span><span class='line'>                        {
+</span><span class='line'>                            print("certificate create with data failed")
+</span><span class='line'>                            completionHandler(.cancelAuthenticationChallenge, nil)
+</span><span class='line'>                        }
+</span><span class='line'>
+</span><span class='line'>                }
+</span><span class='line'>            catch
+</span><span class='line'>            {
+</span><span class='line'>                print("read certificate data failed:\(error)")
+</span><span class='line'>                completionHandler(.cancelAuthenticationChallenge, nil)
+</span><span class='line'>            }
+</span><span class='line'>
+</span><span class='line'>        }
+</span><span class='line'>        else
+</span><span class='line'>        {
+</span><span class='line'>            completionHandler(.performDefaultHandling, nil)
+</span><span class='line'>        }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>AFNetworking</h3>
+
+<p>AFNetworking 只需要我们配置下 securityPolicy，代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lazy var apiClient: AFHTTPSessionManager = {
+</span><span class='line'>    let client = AFHTTPSessionManager(baseURL: URL(string: "https://dongmeiliangsmacbook-pro.local/"))
+</span><span class='line'>        let selfSignedCertificates = AFSecurityPolicy.certificates(in: Bundle.init(for: ViewController.self))
+</span><span class='line'>
+</span><span class='line'>        client.securityPolicy = AFSecurityPolicy(pinningMode: .certificate, withPinnedCertificates: selfSignedCertificates)
+</span><span class='line'>        client.securityPolicy.allowInvalidCertificates = true
+</span><span class='line'>
+</span><span class='line'>        return client
+</span><span class='line'>}()</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>注意点</h3>
+
+<p>客户端是把服务端的证书加入锚中。</p>
+
+<h3>完整示例</h3>
+
+<p><a href="https://github.com/DamianSheldon/SelfSignedCertificate">SelfSignedCertificate</a></p>
+
+<h3>Reference</h3>
+
+<p><a href="http://initwithfunk.com/blog/2014/03/12/afnetworking-ssl-pinning-with-self-signed-certificates/">AFNetworking SSL Pinning With Self-Signed Certificates</a><br/>
+<a href="https://developer.apple.com/library/ios/technotes/tn2326/_index.html#//apple_ref/doc/uid/DTS40014136-CH1-SECISSUE_C">Creating Certificates for TLS Testing</a><br/>
+<a href="https://developer.apple.com/library/content/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECSTRICTER">HTTPS Server Trust Evaluation</a><br/>
+URL Session Programming Guide</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-app-state-preservation-and-restoration.html">
+		
+			iOS App State Preservation and Restoration</a>
+	</h2>
+	<div class="entry-content">
+		<ol>
+<li>什么是State Preservation and Restoration？</li>
+<li>为什么要用State Preservation and Restoration？</li>
+<li>如何使用State Preservation and Restoration？</li>
+</ol>
+
+
+<h3>什么是State Preservation and Restoration？</h3>
+
+<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
+
+<h3>为什么要用State Preservation and Restoration？</h3>
+
+<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
+
+<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
+
+
+		
+		<a href="/blog/ios-app-state-preservation-and-restoration.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-08T11:55:48+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html">
+		
+			如何创建自定义的Xcode 6 工程模板</a>
+	</h2>
+	<div class="entry-content">
+		<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
+
+<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
+</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
+</span><span class='line'>
+</span><span class='line'>// Step 2:
+</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-05T14:34:04+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+<nav id="pagenavi">
+    
+        <a href="12" class="prev">Prev</a>
+    
+    
+        <a href="14" class="next">Next</a>
+    
+    <div class="center"><a href="/archives">Blog Archives</a></div>
+</nav></div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

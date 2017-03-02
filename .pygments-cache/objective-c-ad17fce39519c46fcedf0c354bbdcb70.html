@@ -1,0 +1,34 @@
+<div class="highlight"><pre><span class="c1">// 1) UIKit method</span>
+<span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">18.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.47</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">37.21</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">34.31</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.88</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.88</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">)];</span>
+<span class="p">[</span><span class="n">path</span> <span class="n">closePath</span><span class="p">];</span>
+<span class="n">path</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">[[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]</span> <span class="n">setStroke</span><span class="p">];</span>
+<span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
+
+<span class="c1">// 2) Core Graphics method</span>
+<span class="n">CGContextBeginPath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+<span class="n">CGContextMoveToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">3.29</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">18.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.47</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">37.21</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">34.31</span><span class="p">,</span> <span class="mf">20.83</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">20.88</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">20.88</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">42.18</span><span class="p">);</span>
+<span class="n">CGContextAddLineToPoint</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mf">16.72</span><span class="p">,</span> <span class="mf">7.22</span><span class="p">);</span>
+<span class="n">CGContextClosePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+<span class="n">CGContextSetLineWidth</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">CGContextSetStrokeColorWithColor</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">);</span>
+<span class="n">CGContextStrokePath</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+</pre></div>

@@ -1,0 +1,15 @@
+<div class="highlight"><pre><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawRect:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">rect</span>
+<span class="p">{</span>
+   <span class="c1">// inset by half line width to avoid cropping where line touches frame edges</span>
+   <span class="bp">CGRect</span> <span class="n">insetRect</span> <span class="o">=</span> <span class="n">CGRectInset</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+   <span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="n">insetRect</span> <span class="nl">cornerRadius</span><span class="p">:</span><span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mf">2.0</span><span class="p">];</span>
+ 
+   <span class="c1">// white background</span>
+   <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="n">setFill</span><span class="p">];</span>
+   <span class="p">[</span><span class="n">path</span> <span class="n">fill</span><span class="p">];</span>
+ 
+   <span class="c1">// red outline</span>
+   <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]</span> <span class="n">setStroke</span><span class="p">];</span>
+   <span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>

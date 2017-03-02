@@ -1,0 +1,30 @@
+<div class="highlight"><pre><span class="c1">// Example 1</span>
+<span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+ 
+<span class="c1">// Add a task to the group</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+   <span class="c1">// Some asynchronous work</span>
+<span class="p">});</span>
+ 
+<span class="c1">// Do some other work while the tasks execute.</span>
+ 
+<span class="c1">// When you cannot make any more forward progress,</span>
+<span class="c1">// wait on the group to block the current thread.</span>
+<span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+ 
+<span class="c1">// Release the group when it is no longer needed.</span>
+<span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+
+<span class="c1">// Example 2</span>
+<span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span> <span class="k">in</span> <span class="n">array</span><span class="p">)</span>
+    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="p">[</span><span class="nb">self</span> <span class="nl">doWorkOnItem</span><span class="p">:</span><span class="n">obj</span><span class="p">];</span>
+    <span class="p">});</span>
+<span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+<span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+<span class="p">[</span><span class="nb">self</span> <span class="nl">doWorkOnArray</span><span class="p">:</span><span class="n">array</span><span class="p">];</span>
+</pre></div>

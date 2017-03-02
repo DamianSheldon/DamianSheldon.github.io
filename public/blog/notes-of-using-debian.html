@@ -1,0 +1,437 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Notes Of Using Debian  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Debian">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Notes of Using Debian</h2>
+	<div class="entry-content"><h3>1. Install pear on Debian</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ wget http://pear.php.net/go-pear.phar
+</span><span class='line'>$ sudo php go-pear.phar
+</span><span class='line'>
+</span><span class='line'>Below is a suggested file layout for your new PEAR installation.  To
+</span><span class='line'>change individual locations, type the number in front of the
+</span><span class='line'>directory.  Type 'all' to change all of them or simply press Enter to
+</span><span class='line'>accept these locations.
+</span><span class='line'>
+</span><span class='line'> 1. Installation base ($prefix)                   : /home/meiliang/pear
+</span><span class='line'> 2. Temporary directory for processing            : /tmp/pear/install
+</span><span class='line'> 3. Temporary directory for downloads             : /tmp/pear/install
+</span><span class='line'> 4. Binaries directory                            : /home/meiliang/pear/bin
+</span><span class='line'> 5. PHP code directory ($php_dir)                 : /home/meiliang/pear/share/pear
+</span><span class='line'> 6. Documentation directory                       : /home/meiliang/pear/docs
+</span><span class='line'> 7. Data directory                                : /home/meiliang/pear/data
+</span><span class='line'> 8. User-modifiable configuration files directory : /home/meiliang/pear/cfg
+</span><span class='line'> 9. Public Web Files directory                    : /home/meiliang/pear/www
+</span><span class='line'>10. System manual pages directory                 : /home/meiliang/pear/man
+</span><span class='line'>11. Tests directory                               : /home/meiliang/pear/tests
+</span><span class='line'>12. Name of configuration file                    : /home/meiliang/.pearrc
+</span><span class='line'>
+</span><span class='line'>1-12, 'all' or Enter to continue: 1
+</span><span class='line'>(Use $prefix as a shortcut for '/home/meiliang/pear', etc.)
+</span><span class='line'>Installation base ($prefix) [/home/meiliang/pear] : /usr/local/bin/pear
+</span><span class='line'>
+</span><span class='line'>$ vim .bashrc
+</span><span class='line'># Append the /usr/local/bin/pear directory in the user's home directory onto the PATH environment variable
+</span><span class='line'>export PATH=$PATH:/usr/local/bin/pear/bin
+</span><span class='line'>
+</span><span class='line'>// Reload bash configure file
+</span><span class='line'>$ source .bashrc
+</span><span class='line'>
+</span><span class='line'>$ echo $PATH
+</span><span class='line'>/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin/pear/bin
+</span><span class='line'>
+</span><span class='line'>// Check wether it works
+</span><span class='line'>$ pear version
+</span><span class='line'>PEAR Version: 1.10.1
+</span><span class='line'>PHP Version: 5.6.17-0+deb8u1
+</span><span class='line'>Zend Engine Version: 2.6.0
+</span><span class='line'>Running on: Linux Debian 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt11-1 (2015-05-24) x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h3>2. Install PHP GD extension on Debian</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo aptitude install php5-gd
+</span><span class='line'>
+</span><span class='line'>// How do I verify that php5-gd support loaded or not?
+</span><span class='line'>// Type the following command at a shell prompt:
+</span><span class='line'>$ php5 -m | grep -i gd
+</span><span class='line'>
+</span><span class='line'>Sample outputs:
+</span><span class='line'>
+</span><span class='line'>gd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/">http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/</a></p>
+
+<h3>3. Install PHP cURL extension on Debian</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo aptitude install php5-curl</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian">http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian</a></p>
+
+<h3>4. Install PHP mCrypt extension on Debian</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ aptitude search mCrypt
+</span><span class='line'>p   libmcrypt-dev                                                                    - De-/Encryption Library development files
+</span><span class='line'>p   libmcrypt4                                                                       - De-/Encryption Library
+</span><span class='line'>p   libtomcrypt-dev                                                                  - static library, header files and documentation for libtomcrypt
+</span><span class='line'>p   libtomcrypt0                                                                     - public domain open source cryptographic toolkit
+</span><span class='line'>p   mcrypt                                                                           - Replacement for old unix crypt(1)
+</span><span class='line'>p   php5-mcrypt                                                                      - MCrypt module for php5
+</span><span class='line'>
+</span><span class='line'>$ sudo aptitude install php5-mcrypt
+</span><span class='line'>$ sudo service apache2 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5. Default installation layouts for Apache HTTPD on Debian</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ServerRoot              ::      /etc/apache2
+</span><span class='line'>DocumentRoot            ::      /var/www
+</span><span class='line'>Apache Config Files     ::      /etc/apache2/apache2.conf
+</span><span class='line'>                        ::      /etc/apache2/ports.conf
+</span><span class='line'>Default VHost Config    ::      /etc/apache2/sites-available/default, /etc/apache2/sites-enabled/000-default
+</span><span class='line'>Module Locations        ::      /etc/apache2/mods-available, /etc/apache2/mods-enabled
+</span><span class='line'>ErrorLog                ::      /var/log/apache2/error.log
+</span><span class='line'>AccessLog               ::      /var/log/apache2/access.log
+</span><span class='line'>cgi-bin                 ::      /usr/lib/cgi-bin
+</span><span class='line'>binaries (apachectl)    ::      /usr/sbin
+</span><span class='line'>start/stop              ::      /etc/init.d/apache2 (start|stop|restart|reload|force-reload|start-htcacheclean|stop-htcacheclean)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notes:</p>
+
+<ol>
+<li>The Debian/Ubuntu layout is fully documented in /usr/share/doc/apache2/README.Debian</li>
+<li>Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called &lsquo;a2ensite&rsquo; and &lsquo;a2enmod&rsquo; which activates vhosts and modules.</li>
+<li>The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.</li>
+</ol>
+
+
+<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:</a></p>
+
+<h3>6. Can&rsquo;t connect to PPTP VPN with ufw enabled on Debian 3.16.7-ckt11-1 with kernel 3.16.0-4-amd64</h3>
+
+<p>A: Allow Port 1723 on UFW</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># ufw allow 1723</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is caused by a change for security reason in kernel 3.18 [1]. There are two ways to fix this.</p>
+
+<p>First approach is adding this rule to the file /etc/ufw/before.rules before the line # drop INVALID packets &hellip;</p>
+
+<p>-A ufw-before-input -p 47 -j ACCEPT
+Second approach is manually loading the nf_conntrack_pptp module. You can do this by running</p>
+
+<p>sudo modprobe nf_conntrack_pptp
+To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p>
+
+<p>Reference:<a href="http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18">http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18</a></p>
+
+<p><a href="http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html">http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html</a></p>
+
+<h2>7.OpenVPN server configure correct, but client can&rsquo;t brower web site block by GTW.</h2>
+
+<p>A:There is a crue the the log of VPN client issue client DNS be used. So I think this may be the problem. YES, client can brower all web site after remove all client DNS settings.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>192.168.8.1
+</span><span class='line'>202.103.96.112
+</span><span class='line'>8.8.8.8
+</span><span class='line'>208.67.222.222
+</span><span class='line'>208.67.220.220</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8</a>
+<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-29T21:46:20+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

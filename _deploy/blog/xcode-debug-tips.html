@@ -1,0 +1,377 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Xcode 调试技巧（持续更新）  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Debug, iOS App, Xcode">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Xcode 调试技巧（持续更新）</h2>
+	<div class="entry-content"><p>iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。</p>
+
+<h3>崩溃在main( )</h3>
+
+<p>添加Exception Breakpoint</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Exception Breakpoint</p>
+
+<h3>符号断点</h3>
+
+<p>符号断点是我们验证某个方法是否被调用的一种方法。添加方法：</p>
+
+<p>Project > Breakpoint navigator > +（Bottom left）> Add Symbolic Breakpoint</p>
+
+<p>例如：<code>application:DidFinishLaunchingWithOptions:</code>。</p>
+
+<h3>打印方法名</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSLog(@"%s", __PRETTY_FUNCTION__);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>控制台打印</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) p // 打印标量变量
+</span><span class='line'>(lldb) p (int)self.myAge
+</span><span class='line'>(lldb) p (CGPoint)self.view.center
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>(lldb) po // 打印对象
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h3>打印异常信息</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/*
+</span><span class='line'>The symbol $eax refers to one of the CPU registers.    
+</span><span class='line'>In the case of an exception,   
+</span><span class='line'>this register will contain a pointer to the NSException object.   
+</span><span class='line'>Note: $eax only works for the simulator,   
+</span><span class='line'>if you’re debugging on the device you’ll need to use register $r0.  
+</span><span class='line'>*/
+</span><span class='line'>// Simulator
+</span><span class='line'>
+</span><span class='line'>(lldb) po [$eax class]
+</span><span class='line'>
+</span><span class='line'>(lldb) po [$eax name]
+</span><span class='line'>
+</span><span class='line'>(lldb) po [$eax reason]
+</span><span class='line'>
+</span><span class='line'>// Real Device
+</span><span class='line'>(lldb) po $r0</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>输出View结构</h3>
+
+<p>任意时刻暂停App，在lldb中输入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po [[[[UIApplication sharedApplication] delegate] window] recursiveDescription]
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SIGABRT</h3>
+
+<p>SIGABRT:SIGNAL ABORT(中止信号)。通常可以让程序继续运行，之后会输出些有助于定位问题的信息。</p>
+
+<h3>EXC_BAD_ACCESS</h3>
+
+<p>它出现的原因是因为访问一个已经释放的对象或向它发送消息。通常可以开启Zombie Objects(Toolbar > Edit Scheme&hellip; > Run > Diagnostics > Enabled Zombie Objects)重新运行程序以定位问题。</p>
+
+<p>Note that you shouldn’t leave Zombie Objects enabled all the time. Because this tool never deallocates memory, but simply marks it as being undead, you end up leaking all over the place and will run out of free memory at some point. So only enable Zombie Objects to diagnose a memory-related error, and then disable it again.</p>
+
+<p>Enabled Zombie Objects后，控制台通常会打印出<code>*** -[CFNumber respondsToSelector:]: message sent to deallocated instance 0x31ab5cfe0</code>类似的信息，那么问题来了，我们怎么知道0x31ab5cfe0是哪个对象？</p>
+
+<p>Apple Memory Usage Performace Guidelines中介绍了记录内存分配历史的方法，简述如下：</p>
+
+<ol>
+<li>设置环境变量： MallocStackLogging，MallocStackLoggingNoCompact为1；</li>
+</ol>
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="Environment" src="/images/Environment.png" width="448" height="252">
+
+</div>
+
+
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="Zombie" src="/images/Zombie.png" width="448" height="252">
+
+</div>
+
+
+<ol>
+<li>使用malloc_history命令找到相应的对象。</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>malloc_history &lt;pid/partial-process-name&gt; [options] &lt;mode&gt; [&lt;address&gt; ...]
+</span><span class='line'>
+</span><span class='line'>// pid/partial-process-name是当前上下文NSLog输出时的前面[]的对应数字
+</span><span class='line'>2014-12-02 14:44:39.355 srsApp[7946:300216] selector:0x1014d70b3, jsonValue:0x31a896fd0
+</span><span class='line'>
+</span><span class='line'>malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<div style="text-align: center" markdown="1">
+
+    <img name="Malloc_history" src="/images/Malloc_history.png" width="720" height="106">
+
+</div>
+
+
+<h3>unrecognized selector sent to instance 0x7fa71400fc10</h3>
+
+<p>A:</p>
+
+<p>1.Add a exception breakpoint;
+2.Check the description of the object in memory address<code>po (NSObject*)(0x7fa71400fc10)</code>.</p>
+
+<p><a href="http://stackoverflow.com/questions/37928924/how-to-debug-unrecognized-selector-sent-to-instance">How to debug “unrecognized selector sent to instance”</a></p>
+
+<p>Reference:</p>
+
+<p>Memory Usage Performace Guidelines <br/>
+iOS 6 Programming Pushing the Limits<br/>
+<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
+<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
+<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
+<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-24T17:14:52+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

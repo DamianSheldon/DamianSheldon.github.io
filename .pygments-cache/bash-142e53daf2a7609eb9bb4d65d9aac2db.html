@@ -1,0 +1,14 @@
+<div class="highlight"><pre>// 配置别名
+<span class="nv">$ </span>git config --global alias.last <span class="s1">&#39;log -1&#39;</span>
+<span class="nv">$ </span>git config --global alias.lg <span class="s2">&quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</span>
+
+// 使用别名
+<span class="nv">$ </span>git last
+<span class="nv">$ </span>git lg
+
+// 查看配置了哪些别名
+<span class="nv">$ </span>cat ~/.gitconfig
+
+// 删除别名
+vim ~/.gitconfig &gt; 别名就在<span class="o">[</span><span class="nb">alias</span><span class="o">]</span>后面，要删除别名，直接把对应的行删掉即可
+</pre></div>

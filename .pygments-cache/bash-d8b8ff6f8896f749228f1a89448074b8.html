@@ -1,0 +1,13 @@
+<div class="highlight"><pre>// 背景
+<span class="p">|</span>-A
+<span class="p">|</span>-B
+  <span class="p">|</span>-A
+  
+// 目标
+<span class="p">|</span>-B
+  <span class="p">|</span>-A
+  
+// 解决办法
+1. rsync -a A/ B/A
+2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> <span class="p">|</span> <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
+</pre></div>

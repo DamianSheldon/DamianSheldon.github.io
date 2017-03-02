@@ -1,0 +1,421 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Here's where it all happens for me.  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/vim.html">
+		
+			Vim</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.查看帮助</h3>
+
+<p>:help</p>
+
+<h3>2.查看quickref</h3>
+
+<p>：help quickref</p>
+
+<h3>3.语法高亮</h3>
+
+<p>|:syn-on|       :syntax on              start using syntax highlighting
+|:syn-off|      :syntax off             stop using syntax highlighting</p>
+
+<h3>4.Move cursor to its last position</h3>
+
+<p>The quickest way is to hit either:</p>
+
+<p>&lsquo;&rsquo;
+(two apostrophes) or:</p>
+
+<p>``
+(two backticks).</p>
+
+<h3>5.Show line number</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set number</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6.Auto indent</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set autoindent</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>7.Set background</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set background=dark
+</span><span class='line'>:set background=light</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8.Common move command</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0, ^ line head
+</span><span class='line'>$, g_ line foot
+</span><span class='line'>ctl + f forword page
+</span><span class='line'>ctl + b back page</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9.用vim编辑一个文件，改动了很多内容；最终要保存时却发现没有权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:w !sudo tee % &gt; /dev/null</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.caiyiting.com/blog/2014/vim-sudo.html">http://www.caiyiting.com/blog/2014/vim-sudo.html</a></p>
+
+<h3>10.替换文字时有特殊字符怎么办？</h3>
+
+<p>A:用 \ 转义。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%s/\/Users\/dongmeiliang\/Sites/\/home\/meiliang\/public_html/g</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-10T21:09:05+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/using-mysql.html">
+		
+			Using MySQL</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.查看所有的用户</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u user -p
+</span><span class='line'>
+</span><span class='line'>As of MySQL 5.7.6, use this statement:
+</span><span class='line'>mysql&gt; SELECT User, Host, HEX(authentication_string) FROM mysql.user;
+</span><span class='line'>
+</span><span class='line'>Before MySQL 5.7.6, use this statement:
+</span><span class='line'>mysql&gt; SELECT User, Host, Password FROM mysql.user;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.查看用户的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; SHOW GRANTS FOR 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.为用户添加操作某个数据库的权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.Default options are read from the following files in the given order:</h3>
+
+<p>/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf</p>
+
+<h3>5.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; CREATE TABLE IF NOT EXISTS categories (
+</span><span class='line'>  id SMALLINT NOT NULL AUTO_INCREMENT,
+</span><span class='line'>  category VARCHAR(30) NOT NULL,
+</span><span class='line'>  PRIMARY KEY (id),
+</span><span class='line'>  UNIQUE KEY category (category)
+</span><span class='line'>)ENGINE = MyISAM DEFAULT CHARSET = utf8;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>VARCHAR(30):can hold up to 30 characters.</li>
+<li>A UNIQUE index creates a constraint such that all values in the index must be distinct. An error occurs if you try to add a new row with a key value that matches an existing row. For all engines, a UNIQUE index permits multiple NULL values for columns that can contain NULL.</li>
+<li>DEFAULT CHARSET</li>
+</ul>
+
+
+
+		
+		<a href="/blog/using-mysql.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-development-problem-part-3.html">
+		
+			iOS App 开发问题汇总（三）</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
+
+<p>Making an Inspectable .ipa file<br/>
+In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
+When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
+When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
+Checking the Entitlements of an .ipa file<br/>
+Find the .ipa file and change its the extension to .zip.<br/>
+Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
+Use the codesign tool to check the entitlements on the .app bundle like this:
+$ codesign -d &ndash;entitlements :- &ldquo;Payload/YourApp.app&rdquo;
+where YourApp.app is the actual name of your .app bundle.<br/>
+Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
+// should add cms, Apple may be a typo
+$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
+
+<p>where YourApp.app is the actual name of your .app bundle.</p>
+
+
+		
+		<a href="/blog/ios-development-problem-part-3.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-30T11:36:57+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+<nav id="pagenavi">
+    
+        <a href="8" class="prev">Prev</a>
+    
+    
+        <a href="10" class="next">Next</a>
+    
+    <div class="center"><a href="/archives">Blog Archives</a></div>
+</nav></div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<div class="highlight"><pre><span class="cp">#define STACKBUFSIZE (1000 / sizeof(YourElementType))</span>
+
+ <span class="n">YourElementType</span> <span class="n">stackBuffer</span><span class="p">[</span><span class="n">STACKBUFSIZE</span><span class="p">];</span>
+
+ 	<span class="n">YourElementType</span> <span class="o">*</span><span class="n">buf</span> <span class="o">=</span> <span class="n">stackBuffer</span><span class="p">;</span>
+
+ 	<span class="kt">int</span> <span class="n">capacity</span> <span class="o">=</span> <span class="n">STACKBUFSIZE</span><span class="p">;</span>  <span class="c1">// In terms of 	YourElementType</span>
+
+ <span class="kt">int</span> <span class="n">numElements</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// In terms of YourElementType</span>
+
+
+<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">numElements</span> <span class="o">&gt;</span> <span class="n">capacity</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// Need more room</span>
+
+    <span class="kt">int</span> <span class="n">newCapacity</span> <span class="o">=</span> <span class="n">capacity</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// Or whatever your growth algorithm is</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">buf</span> <span class="o">==</span> <span class="n">stackBuffer</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// Previously using stack; switch to allocated memory</span>
+
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">newCapacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">YourElementType</span><span class="p">));</span>
+
+        <span class="n">memmove</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">stackBuffer</span><span class="p">,</span> <span class="n">capacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">YourElementType</span><span class="p">));</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>  <span class="c1">// Was already using malloc; simply realloc</span>
+
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">realloc</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">newCapacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">YourElementType</span><span class="p">));</span>
+
+    <span class="p">}</span>
+
+    <span class="n">capacity</span> <span class="o">=</span> <span class="n">newCapacity</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="c1">// ... use buf; increment numElements ...</span>
+
+  	<span class="p">}</span>
+
+  	<span class="c1">// ...</span>
+
+  	<span class="k">if</span> <span class="p">(</span><span class="n">buf</span> <span class="o">!=</span> <span class="n">stackBuffer</span><span class="p">)</span> <span class="n">free</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+</pre></div>

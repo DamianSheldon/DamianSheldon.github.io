@@ -1,0 +1,19 @@
+<div class="highlight"><pre>// 创建标签
+<span class="nv">$ </span>git tag &lt;name&gt;
+<span class="nv">$ </span>git tag -a &lt;tagname&gt; -m <span class="s2">&quot;blablabla...&quot;</span>
+
+// 查看标签
+<span class="nv">$ </span>git tag
+<span class="nv">$ </span>git show &lt;tagname&gt;
+
+// 推送标签
+<span class="nv">$ </span>git push origin &lt;tagname&gt;
+<span class="nv">$ </span>git push origin develop:develop --tags --verbose
+
+// 删除标签
+<span class="nv">$ </span>git tag -d &lt;tagname&gt;
+
+// 删除一个远程标签
+<span class="nv">$ </span>git tag -d &lt;tagname&gt;
+<span class="nv">$ </span>git push origin :refs/tags/&lt;tagname&gt;
+</pre></div>

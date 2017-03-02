@@ -1,0 +1,7 @@
+<div class="highlight"><pre><span class="n">dataString</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="n">identifier</span> <span class="o">=</span> <span class="p">(</span><span class="n">methodName</span><span class="o">+</span><span class="n">dataString</span><span class="p">).</span><span class="n">hashCode</span><span class="p">().</span><span class="n">toString</span><span class="p">();</span>
+<span class="n">window</span><span class="p">.</span><span class="n">CTCallBackList</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">callback</span><span class="p">;</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">&quot;casa://nativeapi?callbackIdentifier=&quot;</span><span class="o">+</span><span class="n">identifier</span><span class="o">+</span><span class="s">&quot;&amp;data=&quot;</span><span class="o">+</span><span class="n">dataString</span><span class="o">+</span><span class="s">&quot;&amp;methodName=&quot;</span><span class="o">+</span><span class="n">methodName</span><span class="p">;</span>
+<span class="n">window</span><span class="p">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">url</span><span class="p">;</span>
+</pre></div>

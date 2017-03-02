@@ -1,0 +1,686 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Web Development Notes Part One  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="HTML, CSS, JavaScript, Bootstrap, ionic, GMP, AngularJS, JQuery">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Web Development Notes Part One</h2>
+	<div class="entry-content"><h3>1. What is href=“#” and why is it used?</h3>
+
+<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
+href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+
+<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+
+<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
+
+<h3>2. How to debug your web page, technology stack is LAMP.</h3>
+
+<p>Solution:View log, figure out what cause problems.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/apache2/error_log
+</span><span class='line'>[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
+</span><span class='line'>[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
+</span><span class='line'>[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h3>3. Install mcrypt_filter extension on El capitan</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Please make sure the PHP extensions listed below are installed.
+</span><span class='line'>mCrypt
+</span><span class='line'>
+</span><span class='line'>// PECL is a repository of PHP extensions that are made available to you via the » PEAR packaging system. 
+</span><span class='line'>
+</span><span class='line'>// There are several options for downloading PECL extensions, such as:
+</span><span class='line'>o The pecl install extname command downloads the extensions code automatically, so in this case there is no need for a separate download.
+</span><span class='line'>o » http://pecl.php.net/ The PECL web site contains information about the different extensions that are offered by the PHP Development Team. The information available here includes: ChangeLog, release notes, requirements and other similar details.
+</span><span class='line'>o pecl download extname PECL extensions that have releases listed on the PECL web site are available for download and installation using the » pecl command. Specific revisions may also be specified.
+</span><span class='line'>o SVN Most PECL extensions also reside in SVN. A web-based view may be seen at » http://svn.php.net/viewvc/pecl/. To download straight from SVN, the following sequence of commands may be used:
+</span><span class='line'>
+</span><span class='line'>$ pecl search mCrypt
+</span><span class='line'>Retrieving data...0%
+</span><span class='line'>Matched packages, channel pecl.php.net:
+</span><span class='line'>=======================================
+</span><span class='line'>Package       Stable/(Latest) Local
+</span><span class='line'>mcrypt_filter 0.1.0 (beta)          Applies mcrypt symmetric encryption using stream filters
+</span><span class='line'>
+</span><span class='line'>$ pecl install mcrypt_filter
+</span><span class='line'>Failed to download pecl/mcrypt_filter within preferred state "stable", latest release is version 0.1.0, stability "beta", use "channel://pecl.php.net/mcrypt_filter-0.1.0" to install
+</span><span class='line'>install failed
+</span><span class='line'>
+</span><span class='line'>$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter
+</span><span class='line'>Attempting to discover channel "pecl.php.net/mcrypt_filter-0.1.0"...
+</span><span class='line'>Attempting fallback to https instead of http on channel "pecl.php.net/mcrypt_filter-0.1.0"...
+</span><span class='line'>unknown channel "pecl.php.net/mcrypt_filter-0.1.0" in "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
+</span><span class='line'>invalid package name/package file "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
+</span><span class='line'>install failed
+</span><span class='line'>
+</span><span class='line'>$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>Cannot install, php_dir for channel "pecl.php.net" is not writeable by the current user
+</span><span class='line'>DongMeiliangsMacBook-Pro:upload dongmeiliang$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>Password:
+</span><span class='line'>downloading mcrypt_filter-0.1.0.tgz ...
+</span><span class='line'>Starting to download mcrypt_filter-0.1.0.tgz (4,586 bytes)
+</span><span class='line'>...
+</span><span class='line'>checking for mcrypt support... yes, shared
+</span><span class='line'>configure: error: mcrypt.h not found. Please reinstall libmcrypt.
+</span><span class='line'>ERROR: `/private/tmp/pear/install/mcrypt_filter/configure --with-php-config=/usr/bin/php-config' failed
+</span><span class='line'>
+</span><span class='line'>// Resolve configure: error: mcrypt.h not found. Please reinstall libmcrypt.
+</span><span class='line'>Get libmcrypt 2.5.8 from Sourceforge: http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download
+</span><span class='line'>
+</span><span class='line'>$ tar -zxvf libmcrypt-2.5.8.tar.gz
+</span><span class='line'>$ mkdir -p /usr/local/src
+</span><span class='line'>$ mv libmcrypt-2.5.8 /usr/local/src/
+</span><span class='line'>$ cd /usr/local/src/libmcrypt-2.5.8/
+</span><span class='line'>$ ./configure --prefix=/usr/local
+</span><span class='line'>$ make && make install
+</span><span class='line'>
+</span><span class='line'>// Continue install mCrypt extension
+</span><span class='line'>$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>12472464 40 -rwxr-xr-x  1 root  wheel  16704 Feb 15 21:41 /private/tmp/pear/install/pear-build-rootEyJ4Jg/install-mcrypt_filter-0.1.0/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so
+</span><span class='line'>
+</span><span class='line'>Build process completed successfully
+</span><span class='line'>Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
+</span><span class='line'>ERROR: failed to write /usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so (copy(/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so): failed to open stream: Operation not permitted)
+</span><span class='line'>
+</span><span class='line'>We need to disable SIP.
+</span><span class='line'>
+</span><span class='line'>OSX 10.11 El Capitan ships with a new security process referred to as SIP or Security Integrity Protection also known as rootless.
+</span><span class='line'>
+</span><span class='line'>What this essentially does is protect certain system level directories from being changes, notably
+</span><span class='line'>
+</span><span class='line'>o /System
+</span><span class='line'>o /sbin
+</span><span class='line'>o /usr
+</span><span class='line'>o not /usr/local
+</span><span class='line'>
+</span><span class='line'>// Disabling SIP in OSX
+</span><span class='line'>o Reboot your Mac into Recovery Mode by rebooting and holding down ‘command’ + ‘r’
+</span><span class='line'>o Launch a Terminal session and enter csrutil disable
+</span><span class='line'>o Reboot
+</span><span class='line'>
+</span><span class='line'>// Reinstall mCrypt extension
+</span><span class='line'>$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>Build process completed successfully
+</span><span class='line'>Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
+</span><span class='line'>install ok: channel://pecl.php.net/mcrypt_filter-0.1.0
+</span><span class='line'>configuration option "php_ini" is not set to php.ini location
+</span><span class='line'>You should add "extension=mcrypt_filter.so" to php.ini
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.nginx.cn/2196.html">http://www.nginx.cn/2196.html</a>
+<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a></p>
+
+<h3>4.Install mcrypt for php on Mac OSX 10.11 El Capitan</h3>
+
+<p>o Disable SIP/rootless
+You need to disable the new System Integrity Protection to install into some system protected directories – this involves a recovery reboot and disabling with.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ csrutil disable</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Getting it on in OS X El Capitan 10.11</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~ ; mkdir mcrypt ; cd mcrypt</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download">Get libmcrypt 2.5.8 from Sourceforge</a>,  this is direct download link.</p>
+
+<p><a href="http://php.net/releases/index.php">Get the php code in a tar.gz or .bz2 format</a>- (version 5.5.27 is the one that currently ships with OSX 10.11)</p>
+
+<p>Move both of these files that you downloaded into your working directory – mcrypt in this instance, and go back to Terminal</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~/mcrypt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Expand both files via the command line or just double click them in the Finder:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tar -zxvf libmcrypt-2.5.8.tar.gz
+</span><span class='line'>$ tar -zxvf php-5.5.27.tar.gz</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Configuring libmcrypt</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd libmcrypt-2.5.8
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make
+</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Compile mcrypt php Extension</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ../php-5.5.27/ext/mcrypt/
+</span><span class='line'>$ /usr/bin/phpize
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make
+</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Enabling mcrypt.so  php Extension</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Open /etc/php.ini and add the line below at the end
+</span><span class='line'>extension=mcrypt.so
+</span><span class='line'>
+</span><span class='line'>// If there is no php.ini file,  then you need to make one from php.ini.default in the same location like so:
+</span><span class='line'>$ sudo cp /etc/php.ini.default /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// And allow write capability
+</span><span class='line'>$ sudo chmod u+w  /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// Then add the line as above in your favourite text editor:
+</span><span class='line'>$ sudo vi /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// make sure dynamic extensions are set to on…
+</span><span class='line'>extension_dl = On
+</span><span class='line'>
+</span><span class='line'>// If it didn’t load you may need to declare the extensions directory in /etc/php.ini
+</span><span class='line'>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20100525/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>o Restart Apache</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That’s it, create a php page with the function phpinfo();  to see if it loaded correctly.</p>
+
+<p>Reference:<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a>
+<a href="http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/</a></p>
+
+<h3>4. How to set up Apache MySQL PHP on Debian?</h3>
+
+<p>A:<a href="https://wiki.debian.org/LaMp">https://wiki.debian.org/LaMp</a></p>
+
+<h3>5. Where is apache error log path on Debian?</h3>
+
+<p>A:/var/log/apache2/error.log</p>
+
+<h3>6.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ php arrayTests.php
+</span><span class='line'>PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/extensions/no-debug-non-zts-20121212/' - dlopen(/usr/lib/php/extensions/no-debug-non-zts-20121212/, 9): no suitable image found.  Did find:
+</span><span class='line'>  /usr/lib/php/extensions/no-debug-non-zts-20121212/: not a file in Unknown on line 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:这个问题的原因是本来我应该是设置 extension_dir 的，结果在 php.ini里写成了 extension， 更正之后问题就解决了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20121212/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library">http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library</a></p>
+
+<h3>7.Why should the &lsquo;&amp;&rsquo; (ampersand) character be HTML escaped?</h3>
+
+<p>A:The reason we escape the &amp; is precisely because it is the first character in special characters such as &amp;rsquo. If it is not escaped, some programs may be expecting a special character to begin when they see the ampersand.</p>
+
+<p>But it is only escaped when you actually want the ampersand to show. You would not escape it in a special character. So you would always use &amp;rsquo and never &amp;rsquo.</p>
+
+<p>Reference:<a href="https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped">https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped</a></p>
+
+<h3>8.Evaluate JavaScript in terminal on Mac</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.
+</span><span class='line'>$ osascript test.js
+</span><span class='line'>// 2.
+</span><span class='line'>// Use specified language and evaluate given script file
+</span><span class='line'>$jrunscript -l js -f test.js
+</span><span class='line'>$jrunscript test.js</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9.How to debug JavaScript?</h3>
+
+<p>A:
+Reference:<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript">https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript</a></p>
+
+<h3>10.How to use WebSocket with an Apache server while main develop language is PHP?</h3>
+
+<p>A:
+One path is to use an independent installed web sockets server.</p>
+
+<p>For PHP you can try: <a href="http://code.google.com/p/phpwebsocket/">http://code.google.com/p/phpwebsocket/</a> or <a href="http://code.google.com/p/phpws/">http://code.google.com/p/phpws/</a></p>
+
+<p>There are some other projects which you can try as well.</p>
+
+<p>Basically, you need to upload, unpack and start running the process.</p>
+
+<p>On the frontend, you&rsquo;ll have javascript connecting to the server on the specific port.</p>
+
+<p>Most websocket servers have a demo which echoes back whatever it hears, so this is a good place to write some test code. You may even find a rudimentary chat implementation.</p>
+
+<p>The tricky part is to monitor the web socket server and to make sure it runs smoothly and continuously.</p>
+
+<p>Try to test on as many browsers/devices as possible as this will decide on which websocket server implementation you choose. There are old and new protocols you have to watch out for.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server">http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server</a></p>
+
+<h3>11.How do I enable apache file and directory indexing under Linux or UNIX?</h3>
+
+<p>A:Under Apache web server automatic index generation is enabled with using Options +Indexes or Options Indexes directive.
+If a URL which maps to a directory is requested, and there is no DirectoryIndex (e.g., index.html) in that directory, then mod_autoindex will return a formatted listing of the directory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Option 1: Using Apache config file
+</span><span class='line'>// Add directory option to Apache configuration file /etc/httpd/httpd.conf or /etc/apache2/apache2.conf:
+</span><span class='line'># vi /etc/apache2/apache2.conf
+</span><span class='line'>
+</span><span class='line'>// Add following code:
+</span><span class='line'>&lt;Directory /var/www/domain.com/pdfs&gt;
+</span><span class='line'>Options Indexes FollowSymLinks
+</span><span class='line'>&lt;/Directory&gt;
+</span><span class='line'>
+</span><span class='line'>// Save and close the file. Restart Apache:
+</span><span class='line'># /etc/init.d/httpd restart
+</span><span class='line'>
+</span><span class='line'>// OR
+</span><span class='line'># /etc/init.d/apache2 restart
+</span><span class='line'>
+</span><span class='line'>// Option 2: Using .htaccess Files with Apache
+</span><span class='line'>// You can place config line Options Indexes in .htaccess file. Make sure .htaccess file support is enabled.
+</span><span class='line'>// Change directory to pdfs
+</span><span class='line'>$ cd pdfs
+</span><span class='line'>
+</span><span class='line'>// Open .htaccess file
+</span><span class='line'>$ vi .htaccess
+</span><span class='line'>
+</span><span class='line'>// Append following apache directive:
+</span><span class='line'>Options Indexes
+</span><span class='line'>
+</span><span class='line'>//Save and close the file.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/">How do I enable apache file and directory indexing under Linux or UNIX?</a></p>
+
+<h3>13.Twig:RuntimeException: Unable to create the cache directory</h3>
+
+<p>A:The reason is web run via user www that hasn&rsquo;t right create cache directory in target position.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chown -R www:staff path/to/application</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/20127884/runtimeexception-unable-to-create-the-cache-directory-var-www-sonata-app-cach">RuntimeException: Unable to create the cache directory</a></p>
+
+<h3>14.How to center a ul element?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ul {
+</span><span class='line'>    display: table;
+</span><span class='line'>    margin: auto;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-12T22:27:22+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

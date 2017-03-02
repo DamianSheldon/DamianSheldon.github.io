@@ -1,0 +1,36 @@
+<div class="highlight"><pre><span class="c1">// cache for margins configured via constraints in XIB</span>
+<span class="k">static</span> <span class="bp">CGSize</span> <span class="n">_extraMargins</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">};</span>
+ 
+<span class="k">@implementation</span> <span class="nc">TagCollectionViewCell</span>
+ 
+<span class="p">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nf">intrinsicContentSize</span>
+<span class="p">{</span>
+   <span class="bp">CGSize</span> <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">label</span> <span class="n">intrinsicContentSize</span><span class="p">];</span>
+ 
+   <span class="k">if</span> <span class="p">(</span><span class="n">CGSizeEqualToSize</span><span class="p">(</span><span class="n">_extraMargins</span><span class="p">,</span> <span class="n">CGSizeZero</span><span class="p">))</span>
+   <span class="p">{</span>
+      <span class="c1">// quick and dirty: get extra margins from constraints</span>
+      <span class="k">for</span> <span class="p">(</span><span class="bp">NSLayoutConstraint</span> <span class="o">*</span><span class="n">constraint</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">constraints</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">constraint</span><span class="p">.</span><span class="n">firstAttribute</span> <span class="o">==</span> <span class="n">NSLayoutAttributeBottom</span> <span class="o">||</span> <span class="n">constraint</span><span class="p">.</span><span class="n">firstAttribute</span> <span class="o">==</span> <span class="n">NSLayoutAttributeTop</span><span class="p">)</span>
+         <span class="p">{</span>
+            <span class="c1">// vertical spacer</span>
+            <span class="n">_extraMargins</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="p">[</span><span class="n">constraint</span> <span class="n">constant</span><span class="p">];</span>
+         <span class="p">}</span>
+         <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">constraint</span><span class="p">.</span><span class="n">firstAttribute</span> <span class="o">==</span> <span class="n">NSLayoutAttributeLeading</span> <span class="o">||</span> <span class="n">constraint</span><span class="p">.</span><span class="n">firstAttribute</span> <span class="o">==</span> <span class="n">NSLayoutAttributeTrailing</span><span class="p">)</span>
+         <span class="p">{</span>
+            <span class="c1">// horizontal spacer</span>
+            <span class="n">_extraMargins</span><span class="p">.</span><span class="n">width</span> <span class="o">+=</span> <span class="p">[</span><span class="n">constraint</span> <span class="n">constant</span><span class="p">];</span>
+         <span class="p">}</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+ 
+   <span class="c1">// add to intrinsic content size of label</span>
+   <span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">+=</span> <span class="n">_extraMargins</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+   <span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="n">_extraMargins</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+ 
+   <span class="k">return</span> <span class="n">size</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="k">@end</span>
+</pre></div>

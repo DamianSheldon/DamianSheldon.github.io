@@ -1,0 +1,12 @@
+<div class="highlight"><pre><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
+
+<span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+
+    <span class="c1">// the initializing code</span>
+
+<span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>

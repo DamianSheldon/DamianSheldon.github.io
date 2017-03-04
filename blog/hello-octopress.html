@@ -262,6 +262,61 @@ $(document).ready(
 </span><span class='line'>gem sources -a https://ruby.taobao.org
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h2>问题 8</h2>
+
+<p>How clone your octopress to blog from two places?
+Solution:</p>
+
+<ul>
+<li>Recreating a local Octopress repository</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone -b <span class="nb">source </span>git@github.com:username/username.github.com.git octopress
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
+</span><span class='line'><span class="nv">$ </span>git clone git@github.com:username/username.github.com.git _deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Pushing changes from two different machines</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// From the first machine <span class="k">do</span> the following whenever you’ve made changes:
+</span><span class='line'><span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -am <span class="s2">&quot;Some comment here.&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>  <span class="c"># update the remote source branch </span>
+</span><span class='line'><span class="nv">$ </span>rake deploy             <span class="c"># update the remote master branch</span>
+</span><span class='line'>
+</span><span class='line'>// Then on the other machine, you need to pull those changes.
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
+</span><span class='line'><span class="nv">$ </span>git pull origin <span class="nb">source</span>  <span class="c"># update the local source branch</span>
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ./_deploy
+</span><span class='line'><span class="nv">$ </span>git pull origin master  <span class="c"># update the local master branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></p>
 </div>
 
 

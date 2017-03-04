@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-02-20T14:42:14+08:00</updated>
+  <updated>2017-03-04T11:09:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -186,6 +186,19 @@ at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:144)
 </code></pre>
 
 <p>A:This android project dependent on serveral java projects, when I change these java project&rsquo;s jre from 1.8 to 1.6, it works. The deep reason isn&rsquo;t clear.</p>
+
+<h3>11.Make the Input Box Fill in the Screen Width</h3>
+
+<p>A: Setting the width to zero (0dp) improves layout performance because using &ldquo;wrap_content&rdquo; as the width requires the system to calculate a width that is ultimately irrelevant because the weight value requires another width calculation to fill the remaining space.</p>
+
+<pre><code>&lt;EditText android:id="@+id/edit_message"
+    android:layout_weight="1"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:hint="@string/edit_message" /&gt;
+</code></pre>
+
+<p>Reference:<a href="https://developer.android.google.cn/training/basics/firstapp/building-ui.html">Building a Simple User Interface</a></p>
 ]]></content>
   </entry>
   

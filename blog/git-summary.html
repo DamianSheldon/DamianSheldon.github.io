@@ -323,7 +323,7 @@ $(document).ready(
 </span><span class='line'>// Step 4:现在 git 用户只能用 SSH 连接来推送和获取 Git 仓库,而不能直接使用主机 shell。
 </span><span class='line'>// 尝试登录的话,你会 看到下面这样的拒绝信息
 </span><span class='line'><span class="nv">$ </span>ssh git@gitserver
-</span><span class='line'>fatal: What <span class="k">do </span>you think I am? A shell? <span class="o">(</span>你以为我是个啥?shell吗?<span class="o">)</span>
+</span><span class='line'>fatal: What <span class="k">do</span> you think I am? A shell? <span class="o">(</span>你以为我是个啥?shell吗?<span class="o">)</span>
 </span><span class='line'>Connection to gitserver closed. <span class="o">(</span>gitserver 连接已断开。<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -381,7 +381,7 @@ $(document).ready(
 </span><span class='line'><span class="nv">$ </span>git add .
 </span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Description what you have done.&quot;</span>
 </span><span class='line'><span class="nv">$ </span>git pull origin develop
-</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if </span>need
+</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if</span> need
 </span><span class='line'><span class="nv">$ </span>git push origin develop:develop --verbose
 </span></code></pre></td></tr></table></div></figure>
 
@@ -612,7 +612,7 @@ $(document).ready(
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git pull origin <span class="nb">test</span> --verbose
-</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if </span>need
+</span><span class='line'><span class="nv">$ </span>fix conflict <span class="k">if</span> need
 </span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">test</span>:test --verbose
 </span></code></pre></td></tr></table></div></figure>
 
@@ -940,17 +940,17 @@ $(document).ready(
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>// 背景
-</span><span class='line'>|-A
-</span><span class='line'>|-B
-</span><span class='line'>  |-A
+</span><span class='line'><span class="p">|</span>-A
+</span><span class='line'><span class="p">|</span>-B
+</span><span class='line'>  <span class="p">|</span>-A
 </span><span class='line'>
 </span><span class='line'>// 目标
-</span><span class='line'>|-B
-</span><span class='line'>  |-A
+</span><span class='line'><span class="p">|</span>-B
+</span><span class='line'>  <span class="p">|</span>-A
 </span><span class='line'>
 </span><span class='line'>// 解决办法
 </span><span class='line'>1. rsync -a A/ B/A
-</span><span class='line'>2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> | <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
+</span><span class='line'>2. <span class="o">(</span><span class="nb">cd </span>A <span class="o">&amp;&amp;</span> tar c .<span class="o">)</span> <span class="p">|</span> <span class="o">(</span><span class="nb">cd </span>B/A <span class="o">&amp;&amp;</span> tar xf -<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

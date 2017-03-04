@@ -236,9 +236,9 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>NSArray *tempArray <span class="o">=</span> <span class="o">[</span>self.bmapView.annotations copy<span class="o">]</span>;
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>NSArray *tempArray <span class="o">=</span> <span class="o">[</span>self.bmapView.annotations copy<span class="o">]</span><span class="p">;</span>
 </span><span class='line'><span class="k">for</span> <span class="o">(</span>BMKPointAnnotation *annotation in tempArray<span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="o">[</span>self.bmapView removeAnnotation:annotation<span class="o">]</span>;
+</span><span class='line'>    <span class="o">[</span>self.bmapView removeAnnotation:annotation<span class="o">]</span><span class="p">;</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -258,9 +258,9 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>- <span class="o">(</span>BOOL<span class="o">)</span>gestureRecognizer:<span class="o">(</span>UIGestureRecognizer *<span class="o">)</span>gestureRecognizer shouldReceiveTouch:<span class="o">(</span>UITouch *<span class="o">)</span>touch
 </span><span class='line'><span class="o">{</span>
 </span><span class='line'>    <span class="k">if</span> <span class="o">(</span>touch.view <span class="o">==</span> self.BView<span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return </span>NO;
+</span><span class='line'>        <span class="k">return</span> NO<span class="p">;</span>
 </span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return </span>YES;
+</span><span class='line'>        <span class="k">return</span> YES<span class="p">;</span>
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -286,7 +286,7 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Undefined symbols <span class="k">for </span>architecture x86_64:
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Undefined symbols <span class="k">for</span> architecture x86_64:
 </span><span class='line'>  <span class="s2">&quot;_deflate&quot;</span>, referenced from:
 </span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gzippedDataWithCompressionLevel:<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
 </span><span class='line'>  <span class="s2">&quot;_deflateEnd&quot;</span>, referenced from:
@@ -299,8 +299,8 @@ libc++abi.dylib: terminating with uncaught exception of type NSException</p>
 </span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gunzippedData<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
 </span><span class='line'>  <span class="s2">&quot;_inflateInit2_&quot;</span>, referenced from:
 </span><span class='line'>      -<span class="o">[</span>NSData<span class="o">(</span>GZIP<span class="o">)</span> gunzippedData<span class="o">]</span> in libAJFrame.iOS.a<span class="o">(</span>GZIP.o<span class="o">)</span>
-</span><span class='line'>ld: symbol<span class="o">(</span>s<span class="o">)</span> not found <span class="k">for </span>architecture x86_64
-</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code 1 <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</span><span class='line'>ld: symbol<span class="o">(</span>s<span class="o">)</span> not found <span class="k">for</span> architecture x86_64
+</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
 </span><span class='line'>
 </span><span class='line'>warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: file: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk/usr/lib/libz.dylib is a dynamic library, not added to the static library
 </span><span class='line'>warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: file: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk/usr/lib/libz.dylib is a dynamic library, not added to the static library

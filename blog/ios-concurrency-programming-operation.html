@@ -142,15 +142,15 @@ $(document).ready(
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span>
-</span><span class='line'>                    <span class="nl">selector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod:</span><span class="p">)</span> <span class="nl">object:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>                    <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod</span><span class="p">:)</span> <span class="nl">object</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
 </span><span class='line'>    <span class="c1">// Perform the task.</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>
@@ -166,7 +166,7 @@ $(document).ready(
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSBlockOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBlockOperation</span> <span class="nl">blockOperationWithBlock:</span> <span class="o">^</span><span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSBlockOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span> <span class="o">^</span><span class="p">{</span>
 </span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Beginning operation.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 </span><span class='line'>      <span class="c1">// Do some work.</span>
 </span><span class='line'>   <span class="p">}];</span>
@@ -265,10 +265,10 @@ $(document).ready(
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create Concurrent Operation Queue</span>
-</span><span class='line'><span class="n">NSOperationQueue</span><span class="o">*</span> <span class="n">aQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSOperationQueue</span><span class="o">*</span> <span class="n">aQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Force Concurrent Operation Queue To Serail Queue</span>
-</span><span class='line'><span class="p">[</span><span class="n">aQueue</span> <span class="nl">setMaxConcurrentOperationCount:</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">aQueue</span> <span class="nl">setMaxConcurrentOperationCount</span><span class="p">:</span><span class="mi">1</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

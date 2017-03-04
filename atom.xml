@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-02-20T14:42:14+08:00</updated>
+  <updated>2017-03-04T11:09:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1862,6 +1862,24 @@ iOS Technology Overview<br/>
 
 
 <p>A:This android project dependent on serveral java projects, when I change these java project&rsquo;s jre from 1.8 to 1.6, it works. The deep reason isn&rsquo;t clear.</p>
+
+<h3>11.Make the Input Box Fill in the Screen Width</h3>
+
+<p>A: Setting the width to zero (0dp) improves layout performance because using &ldquo;wrap_content&rdquo; as the width requires the system to calculate a width that is ultimately irrelevant because the weight value requires another width calculation to fill the remaining space.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;EditText android:id="@+id/edit_message"
+</span><span class='line'>    android:layout_weight="1"
+</span><span class='line'>    android:layout_width="0dp"
+</span><span class='line'>    android:layout_height="wrap_content"
+</span><span class='line'>    android:hint="@string/edit_message" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://developer.android.google.cn/training/basics/firstapp/building-ui.html">Building a Simple User Interface</a></p>
 ]]></content>
   </entry>
   

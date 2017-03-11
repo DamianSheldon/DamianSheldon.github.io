@@ -189,3 +189,9 @@ Reference:[Building a Simple User Interface](https://developer.android.google.cn
 A:TabHost.TabSpec is not static so it requires an instance of the outer class.Using TabHost's newTabSpec method instead of new TabHost.TabSpec.
 
 Reference:[Is not an enclosing class Java](http://stackoverflow.com/questions/20252727/is-not-an-enclosing-class-java)
+
+### 13. com.android.ide.common.process.ProcessException: Failed to execute aapt
+A: The reason is buildToolsVersion doesn't match compileSdkVersion, correct it in module gradle fix problem.
+
+Reference:[解决com.android.ide.common.process.ProcessException: Failed to execute aapt](http://www.bokezhi.com/490.html)  
+

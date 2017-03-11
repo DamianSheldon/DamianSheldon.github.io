@@ -108,3 +108,36 @@ Solution:网上查找相关问题，没有找到好的解决办法。经过一�
 	unset https_proxy  
 	gem sources -a https://ruby.taobao.org  
 ```
+
+##问题 8
+How clone your octopress to blog from two places?
+Solution:
+
+* Recreating a local Octopress repository
+
+```
+$ git clone -b source git@github.com:username/username.github.com.git octopress
+
+$ cd octopress
+$ git clone git@github.com:username/username.github.com.git _deploy 
+
+```
+
+* Pushing changes from two different machines
+
+```
+// From the first machine do the following whenever you’ve made changes:
+$ rake generate
+$ git add .
+$ git commit -am "Some comment here." 
+$ git push origin source  # update the remote source branch 
+$ rake deploy             # update the remote master branch
+
+// Then on the other machine, you need to pull those changes.
+$ cd octopress
+$ git pull origin source  # update the local source branch
+$ cd ./_deploy
+$ git pull origin master  # update the local master branch
+```
+
+Reference:[Clone Your Octopress to Blog From Two Places](http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/)  

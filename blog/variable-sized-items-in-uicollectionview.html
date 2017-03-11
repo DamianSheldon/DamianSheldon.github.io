@@ -130,8 +130,8 @@ $(document).ready(
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">–</span> <span class="nl">registerClass</span><span class="p">:</span><span class="nl">forCellWithReuseIdentifier</span><span class="p">:</span>
-</span><span class='line'><span class="err">–</span> <span class="nl">registerNib</span><span class="p">:</span><span class="nl">forCellWithReuseIdentifier</span><span class="p">:</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">–</span> <span class="nl">registerClass:forCellWithReuseIdentifier:</span>
+</span><span class='line'><span class="err">–</span> <span class="nl">registerNib:forCellWithReuseIdentifier:</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -150,8 +150,8 @@ $(document).ready(
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UINib</span> <span class="o">*</span><span class="n">cellNib</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UINib</span> <span class="nl">nibWithNibName</span><span class="p">:</span><span class="s">@&quot;TagCollectionViewCell&quot;</span> <span class="nl">bundle</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">registerNib</span><span class="p">:</span><span class="n">cellNib</span> <span class="nl">forCellWithReuseIdentifier</span><span class="p">:</span><span class="s">@&quot;TagCell&quot;</span><span class="p">];</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">UINib</span> <span class="o">*</span><span class="n">cellNib</span> <span class="o">=</span> <span class="p">[</span><span class="n">UINib</span> <span class="nl">nibWithNibName:</span><span class="s">@&quot;TagCollectionViewCell&quot;</span> <span class="nl">bundle:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">registerNib:</span><span class="n">cellNib</span> <span class="nl">forCellWithReuseIdentifier:</span><span class="s">@&quot;TagCell&quot;</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -172,14 +172,14 @@ $(document).ready(
 <span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark - UICollectionView</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">numberOfItemsInSection:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">section</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">numberOfItemsInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>   <span class="k">return</span> <span class="mi">100</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">cellForItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">cellForItemAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">collectionView</span> <span class="nl">dequeueReusableCellWithReuseIdentifier</span><span class="p">:</span><span class="s">@&quot;TagCell&quot;</span> <span class="nl">forIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">UICollectionViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">collectionView</span> <span class="nl">dequeueReusableCellWithReuseIdentifier:</span><span class="s">@&quot;TagCell&quot;</span> <span class="nl">forIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="k">return</span> <span class="n">cell</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -214,18 +214,18 @@ $(document).ready(
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawRect:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">rect</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawRect:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">rect</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>   <span class="c1">// inset by half line width to avoid cropping where line touches frame edges</span>
-</span><span class='line'>   <span class="bp">CGRect</span> <span class="n">insetRect</span> <span class="o">=</span> <span class="n">CGRectInset</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
-</span><span class='line'>   <span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="n">insetRect</span> <span class="nl">cornerRadius</span><span class="p">:</span><span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mf">2.0</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">CGRect</span> <span class="n">insetRect</span> <span class="o">=</span> <span class="n">CGRectInset</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+</span><span class='line'>   <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect:</span><span class="n">insetRect</span> <span class="nl">cornerRadius:</span><span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mf">2.0</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="c1">// white background</span>
-</span><span class='line'>   <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="n">setFill</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[[</span><span class="n">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="n">setFill</span><span class="p">];</span>
 </span><span class='line'>   <span class="p">[</span><span class="n">path</span> <span class="n">fill</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="c1">// red outline</span>
-</span><span class='line'>   <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]</span> <span class="n">setStroke</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">]</span> <span class="n">setStroke</span><span class="p">];</span>
 </span><span class='line'>   <span class="p">[</span><span class="n">path</span> <span class="n">stroke</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -283,18 +283,18 @@ $(document).ready(
 <span class='line-number'>34</span>
 <span class='line-number'>35</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// cache for margins configured via constraints in XIB</span>
-</span><span class='line'><span class="k">static</span> <span class="bp">CGSize</span> <span class="n">_extraMargins</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">};</span>
+</span><span class='line'><span class="k">static</span> <span class="n">CGSize</span> <span class="n">_extraMargins</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">@implementation</span> <span class="nc">TagCollectionViewCell</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nf">intrinsicContentSize</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nf">intrinsicContentSize</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="bp">CGSize</span> <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">label</span> <span class="n">intrinsicContentSize</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">CGSize</span> <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">label</span> <span class="n">intrinsicContentSize</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">CGSizeEqualToSize</span><span class="p">(</span><span class="n">_extraMargins</span><span class="p">,</span> <span class="n">CGSizeZero</span><span class="p">))</span>
 </span><span class='line'>   <span class="p">{</span>
 </span><span class='line'>      <span class="c1">// quick and dirty: get extra margins from constraints</span>
-</span><span class='line'>      <span class="k">for</span> <span class="p">(</span><span class="bp">NSLayoutConstraint</span> <span class="o">*</span><span class="n">constraint</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">constraints</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">for</span> <span class="p">(</span><span class="n">NSLayoutConstraint</span> <span class="o">*</span><span class="n">constraint</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">constraints</span><span class="p">)</span>
 </span><span class='line'>      <span class="p">{</span>
 </span><span class='line'>         <span class="k">if</span> <span class="p">(</span><span class="n">constraint</span><span class="p">.</span><span class="n">firstAttribute</span> <span class="o">==</span> <span class="n">NSLayoutAttributeBottom</span> <span class="o">||</span> <span class="n">constraint</span><span class="p">.</span><span class="n">firstAttribute</span> <span class="o">==</span> <span class="n">NSLayoutAttributeTop</span><span class="p">)</span>
 </span><span class='line'>         <span class="p">{</span>
@@ -387,25 +387,25 @@ $(document).ready(
 </span><span class='line'>   <span class="n">TagCollectionViewCell</span> <span class="o">*</span><span class="n">_sizingCell</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>   <span class="bp">UINib</span> <span class="o">*</span><span class="n">cellNib</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UINib</span> <span class="nl">nibWithNibName</span><span class="p">:</span><span class="s">@&quot;TagCollectionViewCell&quot;</span> <span class="nl">bundle</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">registerNib</span><span class="p">:</span><span class="n">cellNib</span> <span class="nl">forCellWithReuseIdentifier</span><span class="p">:</span><span class="s">@&quot;TagCell&quot;</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">UINib</span> <span class="o">*</span><span class="n">cellNib</span> <span class="o">=</span> <span class="p">[</span><span class="n">UINib</span> <span class="nl">nibWithNibName:</span><span class="s">@&quot;TagCollectionViewCell&quot;</span> <span class="nl">bundle:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">registerNib:</span><span class="n">cellNib</span> <span class="nl">forCellWithReuseIdentifier:</span><span class="s">@&quot;TagCell&quot;</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="c1">// get a cell as template for sizing</span>
-</span><span class='line'>   <span class="n">_sizingCell</span> <span class="o">=</span> <span class="p">[[</span><span class="n">cellNib</span> <span class="nl">instantiateWithOwner</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">options</span><span class="p">:</span><span class="nb">nil</span><span class="p">]</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">_sizingCell</span> <span class="o">=</span> <span class="p">[[</span><span class="n">cellNib</span> <span class="nl">instantiateWithOwner:</span><span class="nb">nil</span> <span class="nl">options:</span><span class="nb">nil</span><span class="p">]</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="cp">#pragma mark - UICollectionView</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">numberOfItemsInSection:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">section</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nl">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">numberOfItemsInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>   <span class="k">return</span> <span class="mi">100</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">_configureCell:</span><span class="p">(</span><span class="n">TagCollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span> <span class="nf">forIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">_configureCell:</span><span class="p">(</span><span class="n">TagCollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="n">cell</span> <span class="nl">forIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPath</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span>
 </span><span class='line'>   <span class="p">{</span>
@@ -421,18 +421,18 @@ $(document).ready(
 </span><span class='line'>   <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">cellForItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nl">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">cellForItemAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPath</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="n">TagCollectionViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">collectionView</span> <span class="nl">dequeueReusableCellWithReuseIdentifier</span><span class="p">:</span><span class="s">@&quot;TagCell&quot;</span> <span class="nl">forIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">TagCollectionViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">collectionView</span> <span class="nl">dequeueReusableCellWithReuseIdentifier:</span><span class="s">@&quot;TagCell&quot;</span> <span class="nl">forIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>   <span class="p">[</span><span class="nb">self</span> <span class="nl">_configureCell</span><span class="p">:</span><span class="n">cell</span> <span class="nl">forIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">self</span> <span class="nl">_configureCell:</span><span class="n">cell</span> <span class="nl">forIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="k">return</span> <span class="n">cell</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">layout:</span><span class="p">(</span><span class="bp">UICollectionViewLayout</span><span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span> <span class="nf">sizeForItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nl">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">layout:</span><span class="p">(</span><span class="n">UICollectionViewLayout</span><span class="o">*</span><span class="p">)</span><span class="n">collectionViewLayout</span> <span class="nl">sizeForItemAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPath</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">self</span> <span class="nl">_configureCell</span><span class="p">:</span><span class="n">_sizingCell</span> <span class="nl">forIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">self</span> <span class="nl">_configureCell:</span><span class="n">_sizingCell</span> <span class="nl">forIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="k">return</span> <span class="p">[</span><span class="n">_sizingCell</span> <span class="n">intrinsicContentSize</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
@@ -455,11 +455,11 @@ $(document).ready(
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">layout:</span><span class="p">(</span><span class="bp">UICollectionViewLayout</span><span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span> <span class="nf">sizeForItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">layout:</span><span class="p">(</span><span class="n">UICollectionViewLayout</span><span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span> <span class="nf">sizeForItemAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">self</span> <span class="nl">_configureCell</span><span class="p">:</span><span class="n">_sizingCell</span> <span class="nl">forIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">self</span> <span class="nl">_configureCell:</span><span class="n">_sizingCell</span> <span class="nl">forIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>   <span class="k">return</span> <span class="p">[</span><span class="n">_sizingCell</span> <span class="nl">systemLayoutSizeFittingSize</span><span class="p">:</span><span class="n">UILayoutFittingCompressedSize</span><span class="p">];</span>
+</span><span class='line'>   <span class="k">return</span> <span class="p">[</span><span class="n">_sizingCell</span> <span class="nl">systemLayoutSizeFittingSize:</span><span class="n">UILayoutFittingCompressedSize</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 

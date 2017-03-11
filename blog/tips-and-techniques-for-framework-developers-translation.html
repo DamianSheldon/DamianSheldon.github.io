@@ -123,9 +123,9 @@ $(document).ready(
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
 </span><span class='line'>
@@ -146,7 +146,7 @@ $(document).ready(
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="k">class</span><span class="p">])</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="n">class</span><span class="p">])</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">// the initializing code</span>
 </span><span class='line'>
@@ -160,7 +160,7 @@ $(document).ready(
 <p>你永远不应显式的调用initialize方法。如果你需要触发初始化，调用一些没有副作用的方法，例如：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">NSImage</span> <span class="nb">self</span><span class="p">];</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">NSImage</span> <span class="n">self</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -203,25 +203,25 @@ Listing 1  在初始化过程中检测错误</p>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span> <span class="p">{</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>  <span class="c1">// Call a designated initializer here.</span>
+</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>  <span class="c1">// Call a designated initializer here.</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c1">// Initialize object  ...</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">someError</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>
-</span><span class='line'>            <span class="p">[</span><span class="nb">self</span> <span class="k">release</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="n">release</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">self</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -292,9 +292,9 @@ Listing 1  在初始化过程中检测错误</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">BOOL</span> <span class="nl">isAttachment</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">BOOL</span> <span class="nl">isAttachment:</span><span class="mi">1</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nl">startTracking</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="nl">startTracking:</span><span class="mi">1</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

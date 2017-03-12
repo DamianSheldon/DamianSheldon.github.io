@@ -3,7 +3,7 @@ layout: post
 title: "Android 真机抓包"
 date: 2017-03-11 17:04:33 +0800
 comments: true
-categories: [Archives, Android Development] 
+categories: [Archives, Android] 
 keywords: Root, Tcpdump, ADB, tPacketCapture 
 discription: 
 ---

@@ -195,3 +195,8 @@ A: The reason is buildToolsVersion doesn't match compileSdkVersion, correct it i
 
 Reference:[解决com.android.ide.common.process.ProcessException: Failed to execute aapt](http://www.bokezhi.com/490.html)  
 
+### 14. What is the difference between android:gravity and android:layout_gravity?
+A: The difference between android:gravity and android:layout_gravity is that android:gravity positions the contents of that view (i.e. what’s inside the view), whereas android:layout_gravity positions the view with respect to its parent (i.e. what the view is contained in). 
+
+Reference:  
+[How to Position Views Properly in Layouts](https://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/)

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: android development | Hello World]]></title>
+  <link href="http://DamianSheldon.github.io/blog/categories/android-development/atom.xml" rel="self"/>
+  <link href="http://DamianSheldon.github.io/"/>
+  <updated>2017-03-12T11:45:48+08:00</updated>
+  <id>http://DamianSheldon.github.io/</id>
+  <author>
+    <name><![CDATA[Sheldon]]></name>
+    <email><![CDATA[dongmeilianghy@sina.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android 真机抓包]]></title>
+    <link href="http://DamianSheldon.github.io/blog/capturing-android-physic-device-traffic-on-tcpdump.html"/>
+    <updated>2017-03-11T17:04:33+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/capturing-android-physic-device-traffic-on-tcpdump</id>
+    <content type="html"><![CDATA[<p>在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。</p>
+
+<p>如果我们和服务端的交互没有通过 VPN, 而且也不是视频流这种网络性能要求苛刻的情况，我们可以通过 tPacketCapture 这种应用来抓包；</p>
+
+<p>其他情况我们可以通过 root 手机，然后安装 tcpdump 来抓包。</p>
+
+<p>下面我们详细介绍下 通过 tcpdump 抓包这种方法：</p>
+
+<ul>
+<li>Root 手机</li>
+</ul>
+
+
+<p>Root 手机的原理是利用系统存在的漏洞来获得 root 权限，<a href="https://forum.xda-developers.com/">XDA Developers</a> 上有不少 root 工具，很多手机都可以用它们 root。</p>
+
+<ul>
+<li>安装 tcpdump</li>
+</ul>
+
+
+<p>可以到网上搜索为 Android 编译好的 tcpdump 二进制包，例如<a href="http://www.strazzere.com/android/tcpdump">这里</a>就有一个。</p>
+
+<pre><code>// Copy tcpdump to device
+$ adb -d push /path/to/tcpdump /sdcard/tcpdump
+
+// Device shell
+$ adb -d shell
+
+// Switch to root
+$ su
+
+// Copy tcpdump to /data/local/
+# cat /sdcard/tcpdump /data/local/tcpdump
+</code></pre>
+
+<!--more-->
+
+
+<ul>
+<li>抓包</li>
+</ul>
+
+
+<pre><code>/# cd /data/local
+/# ./tcpdump -i any -p -s 0 -w /sdcard/capture.pcap
+
+//  Options
+    # "-i any": listen on any network interface
+
+　　# "-p": disable promiscuous mode (doesn't work anyway)
+
+　　# "-s 0": capture the entire packet
+
+　　# "-w": write packets to a file (rather than printing to stdout)
+
+　　... do whatever you want to capture, then ^C to stop it ...
+</code></pre>
+
+<ul>
+<li>分析</li>
+</ul>
+
+
+<pre><code>// Copy capture.pcap to computer
+$ adb -d pull /sdcard/capture.pcap /path/to/capture.pcap
+
+Analyze with Wireshark.
+</code></pre>
+
+<ul>
+<li>Shell Commands</li>
+</ul>
+
+
+<p>Android 手机上的命令通常不全，我们可以通过安装 BusyBox 来提供一个相对完成 Shell 命令集方便我们的开发工作。</p>
+
+<p>1,Download <a href="http://www.busybox.net/downloads/binaries">BusyBox</a> 的压缩包;<br/>
+2,获取设备 CPU 的架构版本 <code>adb -d shell cat /proc/cpuinfo</code><br/>
+3,解开压缩包，把对应 CPU 架构版本的二进制包生命名为 busybox,例如 <code>mv busybox-armv7l busybox</code>;<br/>
+4,安装 busybox 到设备上，</p>
+
+<pre><code>// Copy busybox to device
+$adb -d push /path/to/busybox /sdcard/busybox
+
+// Switch to device shell
+$adb -d shell
+
+// Install busybox
+$ su
+
+\# cat /sdcard/busybox /system/xbin/busybox
+
+// Check install result
+# busybox 
+
+...
+</code></pre>
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="http://www.cnblogs.com/likwo/archive/2012/09/06/2673944.html">Android通过tcpdump抓包</a></li>
+<li><a href="http://www.cnblogs.com/blues_/p/3582097.html">转adb Shell root 权限</a></li>
+<li><a href="http://www.cnblogs.com/xiaowenji/archive/2011/03/12/1982309.html">为Android安装BusyBox —— 完整的bash shell</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

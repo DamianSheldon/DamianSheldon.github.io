@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-03-11T16:59:32+08:00</updated>
+  <updated>2017-03-12T11:45:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,163 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android 真机抓包]]></title>
+    <link href="http://DamianSheldon.github.io/blog/capturing-android-physic-device-traffic-on-tcpdump.html"/>
+    <updated>2017-03-11T17:04:33+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/capturing-android-physic-device-traffic-on-tcpdump</id>
+    <content type="html"><![CDATA[<p>在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。</p>
+
+<p>如果我们和服务端的交互没有通过 VPN, 而且也不是视频流这种网络性能要求苛刻的情况，我们可以通过 tPacketCapture 这种应用来抓包；</p>
+
+<p>其他情况我们可以通过 root 手机，然后安装 tcpdump 来抓包。</p>
+
+<p>下面我们详细介绍下 通过 tcpdump 抓包这种方法：</p>
+
+<ul>
+<li>Root 手机</li>
+</ul>
+
+
+<p>Root 手机的原理是利用系统存在的漏洞来获得 root 权限，<a href="https://forum.xda-developers.com/">XDA Developers</a> 上有不少 root 工具，很多手机都可以用它们 root。</p>
+
+<ul>
+<li>安装 tcpdump</li>
+</ul>
+
+
+<p>可以到网上搜索为 Android 编译好的 tcpdump 二进制包，例如<a href="http://www.strazzere.com/android/tcpdump">这里</a>就有一个。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy tcpdump to device
+</span><span class='line'>$ adb -d push /path/to/tcpdump /sdcard/tcpdump
+</span><span class='line'>
+</span><span class='line'>// Device shell
+</span><span class='line'>$ adb -d shell
+</span><span class='line'>
+</span><span class='line'>// Switch to root
+</span><span class='line'>$ su
+</span><span class='line'>
+</span><span class='line'>// Copy tcpdump to /data/local/
+</span><span class='line'># cat /sdcard/tcpdump /data/local/tcpdump</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
+
+
+<ul>
+<li>抓包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/# cd /data/local
+</span><span class='line'>/# ./tcpdump -i any -p -s 0 -w /sdcard/capture.pcap
+</span><span class='line'>
+</span><span class='line'>//  Options
+</span><span class='line'>    # "-i any": listen on any network interface
+</span><span class='line'>
+</span><span class='line'>　　# "-p": disable promiscuous mode (doesn't work anyway)
+</span><span class='line'>
+</span><span class='line'>　　# "-s 0": capture the entire packet
+</span><span class='line'>
+</span><span class='line'>　　# "-w": write packets to a file (rather than printing to stdout)
+</span><span class='line'>
+</span><span class='line'>　　... do whatever you want to capture, then ^C to stop it ...</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>分析</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy capture.pcap to computer
+</span><span class='line'>$ adb -d pull /sdcard/capture.pcap /path/to/capture.pcap
+</span><span class='line'>
+</span><span class='line'>Analyze with Wireshark.</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Shell Commands</li>
+</ul>
+
+
+<p>Android 手机上的命令通常不全，我们可以通过安装 BusyBox 来提供一个相对完成 Shell 命令集方便我们的开发工作。</p>
+
+<p>1,Download <a href="http://www.busybox.net/downloads/binaries">BusyBox</a> 的压缩包;<br/>
+2,获取设备 CPU 的架构版本 <code>adb -d shell cat /proc/cpuinfo</code><br/>
+3,解开压缩包，把对应 CPU 架构版本的二进制包生命名为 busybox,例如 <code>mv busybox-armv7l busybox</code>;<br/>
+4,安装 busybox 到设备上，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy busybox to device
+</span><span class='line'>$adb -d push /path/to/busybox /sdcard/busybox
+</span><span class='line'>
+</span><span class='line'>// Switch to device shell
+</span><span class='line'>$adb -d shell
+</span><span class='line'>
+</span><span class='line'>// Install busybox
+</span><span class='line'>$ su
+</span><span class='line'>
+</span><span class='line'>\# cat /sdcard/busybox /system/xbin/busybox
+</span><span class='line'>
+</span><span class='line'>// Check install result
+</span><span class='line'># busybox 
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="http://www.cnblogs.com/likwo/archive/2012/09/06/2673944.html">Android通过tcpdump抓包</a></li>
+<li><a href="http://www.cnblogs.com/blues_/p/3582097.html">转adb Shell root 权限</a></li>
+<li><a href="http://www.cnblogs.com/xiaowenji/archive/2011/03/12/1982309.html">为Android安装BusyBox —— 完整的bash shell</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何搭建一个带 Dovecot 的 Postfix 邮件服务器]]></title>
@@ -6389,217 +6546,6 @@ ld: symbol(s) not found for architecture arm64</p>
 <p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface">http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用 Mac 遇到的问题]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac.html"/>
-    <updated>2015-10-10T08:49:37+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac</id>
-    <content type="html"><![CDATA[<h2>1. How to enable the three finger drag on OS X 10.11</h2>
-
-<p>Step 1: Open System Preferences</p>
-
-<p>Step 2: Click Accessibility</p>
-
-<p>Step 3: Click Mouse &amp; Trackpad</p>
-
-<p>Step 4: Click Trackpad Options…</p>
-
-<p>Step 5: Click Enable dragging</p>
-
-<p>Step 6: Select “three finger drag” in the drop down box</p>
-
-<p>Reference:<a href="http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/">http://www.idownloadblog.com/2015/06/25/three-finger-drag-gesture-os-x-el-capitan/</a></p>
-
-<!-- more -->
-
-
-<h2>2. How to find computer name on Mac</h2>
-
-<ol>
-<li><p>GUI<br/>
-System Preference > Sharing</p></li>
-<li><p>Command Line</p>
-
-<pre><code class="`"> $ hostname
-</code></pre></li>
-</ol>
-
-
-<h2>3. SSH to Server Without Entering Password From Mac</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/">https://thecustomizewindows.com/2014/04/ssh-server-without-entering-password-mac-os-x/</a></p>
-
-<!-- more -->
-
-
-<h2>4. How to open google search results in a new tab？</h2>
-
-<p>Solution:Here&rsquo;s how to make Google open your results in a new tab every time. If you&rsquo;d rather Google not open your results on the same page, you can set the default by going to Google and clicking on the cog in the upper right-hand corner. Choose &ldquo;Search Settings&rdquo; from the list, then scroll down to &ldquo;Where Results Open&rdquo;.</p>
-
-<h2>5. 怎么输入千分号？</h2>
-
-<p>Solution:shift-option-R输入‰
-Reference:<a href="http://newping.cn/414">http://newping.cn/414</a></p>
-
-<h2>6. Mac keyboard shortcuts</h2>
-
-<p>Solution:
-Command ⌘
-Shift ⇧
-Option ⌥
-Control ⌃
-Caps Lock ⇪
-Fn</p>
-
-<p>Reference:<a href="https://support.apple.com/en-us/HT201236">https://support.apple.com/en-us/HT201236</a></p>
-
-<h2>7. Add a user to a group</h2>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dscl localhost -append /Local/Default/Groups/thegroupname GroupMembership theusername</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>8. To create a group</h2>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ dscl / -create /Groups/GROUP
-</span><span class='line'>$ dscl / -create /Groups/GROUP PrimaryGroupID GID
-</span><span class='line'>$ dscl / -create /Groups/GROUP Password \*</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>9. To create a user</h2>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ dscl / -create /Users/USER
-</span><span class='line'>$ dscl / -create /Users/USER UniqueID UID
-</span><span class='line'>$ dscl / -create /Users/USER UserShell /usr/bin/false
-</span><span class='line'>$ dscl / -create /Users/USER RealName 'DESCRIPTION'
-</span><span class='line'>$ dscl / -create /Users/USER NFSHomeDirectory DIRECTORY
-</span><span class='line'>$ dscl / -create /Users/USER PrimaryGroupID GID
-</span><span class='line'>$ dscl / -create /Users/USER Password \*</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>10. How to view whether port was occupied under mac?</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1) netstat -an | grep 'port'
-</span><span class='line'>2) lsof -i:port</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>11. If you forgot the passcode for your iPhone, iPad, or iPod touch, or your device is disabled</h2>
-
-<p>A:<a href="https://support.apple.com/en-us/HT204306">https://support.apple.com/en-us/HT204306</a></p>
-
-<h2>12. Disable AAM Updates Notifier</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo mv /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist.disable</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>13. 如何解决Mac里面解压后文件名乱码问题?</h2>
-
-<p>A: <a href="http://www.jayz.me/?p=493">http://www.jayz.me/?p=493</a></p>
-
-<h2>14. 如何识别 MacBook Pro 机型?</h2>
-
-<p>A:<a href="https://support.apple.com/zh-cn/HT201300">https://support.apple.com/zh-cn/HT201300</a></p>
-
-<h2>15.Mac: Can&rsquo;t assign requested address (code=49) or ssh: connect to host xxx.xx.xx.xx port xx: Can&rsquo;t assign requested address</h2>
-
-<p>A:
-Can&rsquo;t assign requested address (code=49) is a bug in Mac OS X, and not an issue with OVPN itself.</p>
-
-<p>There are two ways of fixing this issue. The first one is easier as you simply have to restart your computer. Otherwise, you can solve the problem through the terminal. If you have a cable connection, you type the following into a terminal:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo ifconfig en0 down
-</span><span class='line'>
-</span><span class='line'>$ sudo route flush
-</span><span class='line'>
-</span><span class='line'>$ sudo ifconfig en0 up
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you instead use WiFi, you type:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo ifconfig en1 down
-</span><span class='line'>
-</span><span class='line'>$ sudo route flush
-</span><span class='line'>
-</span><span class='line'>$ sudo ifconfig en1 up</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Type every line separately. If asked for your password, simply type the password for your computer and not for OVPN.</p>
-
-<p>If the command sudo route flush takes longer than 10 seconds to complete, hold down Ctrl + C.</p>
-
-<p>Reference:<a href="https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49">https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49</a></p>
-
-<h2>16. iPhone每次连接Mac都会弹出iPhoto</h2>
-
-<p>解决办法：</p>
-
-<ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
-</ol>
-
-
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
-<h2>17. Add environment variable</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// ~/.bash_profile
-</span><span class='line'>export var=value</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>17.SSH ask passpharse every time I use SSH key.</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   

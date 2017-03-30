@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-03-12T18:00:20+08:00</updated>
+  <updated>2017-03-30T11:56:57+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2056,6 +2056,46 @@ iOS Technology Overview<br/>
 
 <p>Reference:<br/>
 <a href="https://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/">How to Position Views Properly in Layouts</a></p>
+
+<h3>15. Expected Resource of type ID</h3>
+
+<p>A:It is a editor validation error as this is not a common way to deal with ids. So if your app supporting API 17 or higher, you can call View.generateViewId as</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>titleView.setId(View.generateViewId());</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and for API &lt; 17</p>
+
+<ol>
+<li>Open your project&rsquo;s res/values/ folder;</li>
+<li>Create an xml filed called ids.xml with following content:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;resources&gt;
+</span><span class='line'>    &lt;item name="titleId" type="id" /&gt;
+</span><span class='line'>    &lt;item name="svId" type="id" /&gt;
+</span><span class='line'>&lt;/resources&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>then in your code,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>titleView.setId(R.id.titleId);
+</span><span class='line'>
+</span><span class='line'>sv.setId(R.id.svId);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29696879/android-expected-resource-of-type-id">Android - Expected Resource of type ID</a></p>
 ]]></content>
   </entry>
   

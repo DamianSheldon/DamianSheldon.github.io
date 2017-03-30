@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-03-12T18:00:20+08:00</updated>
+  <updated>2017-03-30T11:56:57+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -755,6 +755,37 @@ at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:144)
 
 <p>Reference:<br/>
 <a href="https://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/">How to Position Views Properly in Layouts</a></p>
+
+<h3>15. Expected Resource of type ID</h3>
+
+<p>A:It is a editor validation error as this is not a common way to deal with ids. So if your app supporting API 17 or higher, you can call View.generateViewId as</p>
+
+<pre><code>titleView.setId(View.generateViewId());
+</code></pre>
+
+<p>and for API &lt; 17</p>
+
+<ol>
+<li>Open your project&rsquo;s res/values/ folder;</li>
+<li>Create an xml filed called ids.xml with following content:</li>
+</ol>
+
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources&gt;
+    &lt;item name="titleId" type="id" /&gt;
+    &lt;item name="svId" type="id" /&gt;
+&lt;/resources&gt;
+</code></pre>
+
+<p>then in your code,</p>
+
+<pre><code>titleView.setId(R.id.titleId);
+
+sv.setId(R.id.svId);
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29696879/android-expected-resource-of-type-id">Android - Expected Resource of type ID</a></p>
 ]]></content>
   </entry>
   

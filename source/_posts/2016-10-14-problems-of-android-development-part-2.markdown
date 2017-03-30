@@ -200,3 +200,33 @@ A: The difference between android:gravity and android:layout_gravity is that and
 
 Reference:  
 [How to Position Views Properly in Layouts](https://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/)
+
+### 15. Expected Resource of type ID
+A:It is a editor validation error as this is not a common way to deal with ids. So if your app supporting API 17 or higher, you can call View.generateViewId as 
+
+```
+titleView.setId(View.generateViewId());
+```
+
+and for API < 17  
+
+1. Open your project's res/values/ folder;
+2. Create an xml filed called ids.xml with following content:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="titleId" type="id" />
+    <item name="svId" type="id" />
+</resources>
+```
+
+then in your code,  
+
+```
+titleView.setId(R.id.titleId);
+
+sv.setId(R.id.svId);
+```
+
+Reference:[Android - Expected Resource of type ID](http://stackoverflow.com/questions/29696879/android-expected-resource-of-type-id)  

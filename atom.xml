@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-04-05T10:06:05+08:00</updated>
+  <updated>2017-04-05T16:36:35+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1743,6 +1743,18 @@
 </span><span class='line'>
 </span><span class='line'>audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>9. How to get photos from iPhone simulator?</h3>
+
+<p>A: Photo files are located at :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/Library/Developer/CoreSimulator/Devices/&lt;device UDID&gt;/data/Media/DCIM/100APPLE/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>with Xcode 8.2. You can get <device UDID> from Devices window or using command:<code>xcrun simctl list devvices</code>.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/5488915/getting-images-from-iphone-simulator">getting images from iPhone simulator</a></p>
 ]]></content>
   </entry>
   

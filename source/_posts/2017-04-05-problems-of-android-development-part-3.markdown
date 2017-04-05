@@ -1,0 +1,99 @@
+---
+layout: post
+title: "Android开发问题汇总(三)"
+date: 2017-04-05 08:48:36 +0800
+comments: true
+categories: [Archives, android] 
+keywords: Android, Problems 
+discription: 
+---
+
+###1. How to define custom attributes?
+A:Currently the best documentation is the source. You can take a look at it [here(arrts.xml)](https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/attrs.xml).  
+
+You can define attributes in the top `<resources>` element or inside of a `<declare-styleable>` element. If I'm going to use an attr in more than on place I put it in the root element. Note , all attributes share the same global namespace. That means that even if you create a new attribute inside of a `<declare-styleable>` element it can be used outside of it and you cannot create another attribute with the same name of a different type.
+
+An `<attr>` element has two xml attributes `name` and `format`. `name` lets you call it something and this how you end up refering to it in code, e.g., R.attr.my_attribute. The `format` attribute can have different values depending on the type of attribute you want.  
+
+* reference - if it references another resource id(e.g, "@color/my_color", "@layout/my_layout")
+* color
+* boolean
+* dimension
+* float
+* integer
+* string
+* fraction
+* enum - normally implicitly defined
+* flag - normally implicitly defined
+
+You can set the format to multiple types by using |, e.g., `format="reference|color"`.
+
+enum attributes can be defined as follows:
+
+```
+<attr name="my_enum_attr"> 
+    <enmu name="value1" value="1" />
+    <enmu name="value2" value="2" />
+</attr>
+```
+
+flag attributes are similar except the values need to defined so they can be bit ored together:
+
+```
+<attr name="my_flag_attr">
+    <flag name="fuzzy" value="0x01" />
+    <flag name="cold" value="0x02" />
+</attr>
+```
+
+In addition to attributes there is the `<declare-styleable>` element. This allows you to define attributes a custom view can use. You do this by specifying an `<attr>` element, if it was previously defined you do not specify the format. If you wish to reuse an android attr, for example android:gravity, then you can do that in the name, as follows.
+
+An example of a custom view `<declare-styleable>`:
+
+```
+<declare-styleable name="MyCustomView"> 
+    <attr name="my_custom_attribute" />
+    <attr name="android:gravity" />
+</declare-styleable>
+```
+
+When defining you custom attributes in XML on you need to do a few things.  
+
+First you must declare a namespace to find your attributes. You do this on the root layout element. Normal there is only `xmlns:android="http//schemas.android.com/apk/res/android"`. You must now also add `xmlns:app="http://schemas.android.com/apk/res-auto"`.
+
+Example:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:whatever="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent">
+
+<org.example.mypackage.MyCustomView
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:gravity="center"
+whatever:my_custom_attribute="Hello, world!" />
+</LinearLayout>
+```
+
+Finally, to access that custom attribute you normally do so in the constructor of you custom view as follows:
+
+```
+public MyCustomView(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyCustomView, defStyle, 0);
+
+    String str = a.getString(R.styleable.MyCustomView_my_custom_attribute);
+
+    //do something with str
+
+    a.recycle();
+}
+```
+
+Reference:[Defining custom attrs](http://stackoverflow.com/questions/3441396/defining-custom-attrs)  

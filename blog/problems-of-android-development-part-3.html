@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Here's where it all happens for me.  | Hello World</title>
+	<title>Android开发问题汇总(三)  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Android, Problems">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -103,18 +103,9 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-of-android-development-part-3.html">
-		
-			Android开发问题汇总(三)</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1. How to define custom attributes?</h3>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Android开发问题汇总(三)</h2>
+	<div class="entry-content"><h3>1. How to define custom attributes?</h3>
 
 <p>A:Currently the best documentation is the source. You can take a look at it <a href="https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/attrs.xml">here(arrts.xml)</a>.</p>
 
@@ -239,10 +230,7 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/3441396/defining-custom-attrs">Defining custom attrs</a></p>
-
-		
-		
-	</div>
+</div>
 
 
 <div class="meta">
@@ -271,191 +259,40 @@ $(document).ready(
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html">
-		
-			Android 真机抓包</a>
-	</h2>
-	<div class="entry-content">
-		<p>在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。</p>
-
-<p>如果我们和服务端的交互没有通过 VPN, 而且也不是视频流这种网络性能要求苛刻的情况，我们可以通过 tPacketCapture 这种应用来抓包；</p>
-
-<p>其他情况我们可以通过 root 手机，然后安装 tcpdump 来抓包。</p>
-
-<p>下面我们详细介绍下 通过 tcpdump 抓包这种方法：</p>
-
-<ul>
-<li>Root 手机</li>
-</ul>
-
-
-<p>Root 手机的原理是利用系统存在的漏洞来获得 root 权限，<a href="https://forum.xda-developers.com/">XDA Developers</a> 上有不少 root 工具，很多手机都可以用它们 root。</p>
-
-<ul>
-<li>安装 tcpdump</li>
-</ul>
-
-
-<p>可以到网上搜索为 Android 编译好的 tcpdump 二进制包，例如<a href="http://www.strazzere.com/android/tcpdump">这里</a>就有一个。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy tcpdump to device
-</span><span class='line'>$ adb -d push /path/to/tcpdump /sdcard/tcpdump
-</span><span class='line'>
-</span><span class='line'>// Device shell
-</span><span class='line'>$ adb -d shell
-</span><span class='line'>
-</span><span class='line'>// Switch to root
-</span><span class='line'>$ su
-</span><span class='line'>
-</span><span class='line'>// Copy tcpdump to /data/local/
-</span><span class='line'># cat /sdcard/tcpdump /data/local/tcpdump</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-03-11T17:04:33+08:00" pubdate data-updated="true"></time></div>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
 	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-<div class="tags">
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
+<!-- UY END -->
 
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
-
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html">
-		
-			如何搭建一个带 Dovecot 的 Postfix 邮件服务器</a>
-	</h2>
-	<div class="entry-content">
-		<p>不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。</p>
-
-<h2>准备材料</h2>
-
-<ul>
-<li>VPS</li>
-<li>域名</li>
-</ul>
-
-
-<p>VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：<a href="https://m.do.co/c/537dc7bd8a78">https://m.do.co/c/537dc7bd8a78</a></p>
-
-<p>我服务器跑的是 Debian 8 Jessie.</p>
-
-<h2>配置 DNS</h2>
-
-<h3>添加 MX 记录</h3>
-
-<p>添加从域名到 VPS IP 的 MX 记录，它指定了负责处理这个域名邮件收发的服务器。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Type    Hostname        Value         TTL
-</span><span class='line'>MX      tenneshop.com   1.2.3.4.      1800</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>验证 DNS</h3>
-
-<p>DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上几分钟之后就会生效，你可以用 dig 和 host 来验证。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@yourbase] ~# dig MX mydomain.com +short @ns1.digitalocean.com
-</span><span class='line'>50 mail.mydomain.com.
-</span><span class='line'>[root@yourbase] ~# host mail.mydomain.com ns1.digitalocean.com
-</span><span class='line'>Using domain server:
-</span><span class='line'>Name: ns1.digitalocean.com
-</span><span class='line'>Address: 198.199.120.125#53
-</span><span class='line'>Aliases:
-</span><span class='line'>
-</span><span class='line'>mail.mydomain.com has address 82.196.9.119</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-02-15T16:29:42+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archivies/'>archivies</a>
-
 </div>
-
-
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-        <a href="2" class="next">Next</a>
-    
-    <div class="center"><a href="/archives">Blog Archives</a></div>
-</nav></div>
 	<footer id="footer" class="inner">Copyright &copy; 2017
 
     Sheldon

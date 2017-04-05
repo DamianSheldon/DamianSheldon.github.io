@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-03-30T11:56:57+08:00</updated>
+  <updated>2017-04-05T10:06:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android开发问题汇总(三)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-3.html"/>
+    <updated>2017-04-05T08:48:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-3</id>
+    <content type="html"><![CDATA[<h3>1. How to define custom attributes?</h3>
+
+<p>A:Currently the best documentation is the source. You can take a look at it <a href="https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/attrs.xml">here(arrts.xml)</a>.</p>
+
+<p>You can define attributes in the top <code>&lt;resources&gt;</code> element or inside of a <code>&lt;declare-styleable&gt;</code> element. If I&rsquo;m going to use an attr in more than on place I put it in the root element. Note , all attributes share the same global namespace. That means that even if you create a new attribute inside of a <code>&lt;declare-styleable&gt;</code> element it can be used outside of it and you cannot create another attribute with the same name of a different type.</p>
+
+<p>An <code>&lt;attr&gt;</code> element has two xml attributes <code>name</code> and <code>format</code>. <code>name</code> lets you call it something and this how you end up refering to it in code, e.g., R.attr.my_attribute. The <code>format</code> attribute can have different values depending on the type of attribute you want.</p>
+
+<ul>
+<li>reference - if it references another resource id(e.g, &ldquo;@color/my_color&rdquo;, &ldquo;@layout/my_layout&rdquo;)</li>
+<li>color</li>
+<li>boolean</li>
+<li>dimension</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+<li>fraction</li>
+<li>enum - normally implicitly defined</li>
+<li>flag - normally implicitly defined</li>
+</ul>
+
+
+<p>You can set the format to multiple types by using |, e.g., <code>format="reference|color"</code>.</p>
+
+<p>enum attributes can be defined as follows:</p>
+
+<pre><code>&lt;attr name="my_enum_attr"&gt; 
+    &lt;enmu name="value1" value="1" /&gt;
+    &lt;enmu name="value2" value="2" /&gt;
+&lt;/attr&gt;
+</code></pre>
+
+<p>flag attributes are similar except the values need to defined so they can be bit ored together:</p>
+
+<pre><code>&lt;attr name="my_flag_attr"&gt;
+    &lt;flag name="fuzzy" value="0x01" /&gt;
+    &lt;flag name="cold" value="0x02" /&gt;
+&lt;/attr&gt;
+</code></pre>
+
+<p>In addition to attributes there is the <code>&lt;declare-styleable&gt;</code> element. This allows you to define attributes a custom view can use. You do this by specifying an <code>&lt;attr&gt;</code> element, if it was previously defined you do not specify the format. If you wish to reuse an android attr, for example android:gravity, then you can do that in the name, as follows.</p>
+
+<p>An example of a custom view <code>&lt;declare-styleable&gt;</code>:</p>
+
+<pre><code>&lt;declare-styleable name="MyCustomView"&gt; 
+    &lt;attr name="my_custom_attribute" /&gt;
+    &lt;attr name="android:gravity" /&gt;
+&lt;/declare-styleable&gt;
+</code></pre>
+
+<p>When defining you custom attributes in XML on you need to do a few things.</p>
+
+<p>First you must declare a namespace to find your attributes. You do this on the root layout element. Normal there is only <code>xmlns:android="http//schemas.android.com/apk/res/android"</code>. You must now also add <code>xmlns:app="http://schemas.android.com/apk/res-auto"</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:whatever="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"&gt;
+
+&lt;org.example.mypackage.MyCustomView
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:gravity="center"
+whatever:my_custom_attribute="Hello, world!" /&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+
+<p>Finally, to access that custom attribute you normally do so in the constructor of you custom view as follows:</p>
+
+<pre><code>public MyCustomView(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyCustomView, defStyle, 0);
+
+    String str = a.getString(R.styleable.MyCustomView_my_custom_attribute);
+
+    //do something with str
+
+    a.recycle();
+}
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3441396/defining-custom-attrs">Defining custom attrs</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android 真机抓包]]></title>
@@ -547,245 +643,6 @@ audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMedi
 <a href="https://en.wikipedia.org/wiki/Video_file_format">Video file format</a><br/>
 iOS Technology Overview<br/>
 <a href="https://developer.android.com/guide/appendix/media-formats.html">Supported Media Formats</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android开发问题汇总(二)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-2.html"/>
-    <updated>2016-10-14T08:59:43+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-2</id>
-    <content type="html"><![CDATA[<h3>1.Error running app: Default Activity not found</h3>
-
-<p>A: 问题的原因是 AndroidManifest.xml 文件配置的有问题。正确的样例如下：</p>
-
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="edu.self.buildexample"&gt;
-
-&lt;application
-android:allowBackup="true"
-android:icon="@mipmap/ic_launcher"
-android:label="@string/app_name"
-android:supportsRtl="true"
-android:theme="@style/AppTheme"&gt;
-
-&lt;activity android:name=".BuildExampleActivity"&gt;
-&lt;intent-filter&gt;
-&lt;action android:name="android.intent.action.MAIN" /&gt;
-
-&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-&lt;/intent-filter&gt;
-&lt;/activity&gt;
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
-
-<h3>2. How to rename java package in Android Studio?</h3>
-
-<p>A:<a href="http://stackoverflow.com/questions/16804093/android-studio-rename-package">Android Studio Rename Package</a></p>
-
-<h3>3.No service of type Factory available in ProjectScopeServices</h3>
-
-<p>A:Change maven gradle plugin version to 1.4.1 in project build.gradle file</p>
-
-<pre><code>dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-}
-</code></pre>
-
-<p>Reference<a href="http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices">No service of type Factory available in ProjectScopeServices</a></p>
-
-<h3>4.Android Gradle cannot find symbol class Gson</h3>
-
-<p>A:In my case, I just added this line:</p>
-
-<pre><code>compile 'com.google.code.gson:gson:2.7'
-</code></pre>
-
-<p>on my app build.gradle file.</p>
-
-<p>By now 2.7 is last current available version according to: <a href="https://mvnrepository.com/artifact/com.google.code.gson/gson">https://mvnrepository.com/artifact/com.google.code.gson/gson</a></p>
-
-<p>Please check this repository to be sure you are using last available version.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson">Android Gradle cannot find symbol class Gson</a></p>
-
-<!--more-->
-
-
-<h3>5.Gradle sync failed: The SDK Build Tools revision (19.0.0) is too low for project &lsquo;:app&rsquo;. Minimum required is 19.1.0</h3>
-
-<p>A:设置更新版本的Build Tools:</p>
-
-<pre><code>// Step 1
-File &gt; Project Structure ... &gt; Modules(Select your module, eg:app) &gt; Properties &gt; Build Tools Version &gt; 25.0.0
-
-// Step 2:
-Module build.gradle
-
-android {
-    ...
-    buildToolsVersion "25.0.0"
-    ...
-} 
-</code></pre>
-
-<h3>6.Gradle sync failed: Could not find method android() for arguments [build_5v1bwdgcgpex8ek4ayinac3qa$_run_closure3@6518ea53] on root project &lsquo;ActionBarDemo&rsquo; of type org.gradle.api.Project.</h3>
-
-<p>A:Root project gradle hasn&rsquo;t method android(), so remove it and setting in module gradle.</p>
-
-<h3>7.Failed to resolve: junit:junit:4.12</h3>
-
-<p>A:It happens HTTPS is blocked by proxy, so we have to disable proxy.</p>
-
-<pre><code>// Step 1
-Android Studio &gt; Preferences... &gt; System Settings &gt; HTTP Proxy &gt; No Proxy
-
-// Step 2: Uncomment http proxy settings in gradle.properties
-#systemProp.http.proxyHost=mirrors.neusoft.edu.cn
-#systemProp.http.proxyPort=80
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/32519219/error23-17-failed-to-resolve-junitjunit4-12">Failed to resolve: junit:junit:4.12</a></p>
-
-<h3>7.Error:Please select Android SDK</h3>
-
-<p>A:应用的Run 标红，打开弹出的对话底部提示error please select Android SDK.工程是从 eclipse 迁移过来的，target SDK 一开始是没安装的，安装之后标红依然没有消失。File > Project Structure&hellip; > Properties > Compile SDK Version 选择一个之前安装好的版本，工程构建之后标红消息，之后再选择刚安装的 target SDK 作为Compile SDK Version, 工程自动重新构建成功，标红消息。应该是安装 SDK
-版本之后没有立即生效，连带 android.app 包都找不到。</p>
-
-<h3>8.unknown attr app:popuptheme</h3>
-
-<p>A:The reason is miss relate name space:xmlns:app=&ldquo;<a href="http://schemas.android.com/apk/res-auto">http://schemas.android.com/apk/res-auto</a>&rdquo;</p>
-
-<pre><code>// Before
-&lt;android.support.v7.widget.Toolbar
-android:id="@+id/my_toolbar"
-android:layout_width="match_parent"
-android:layout_height="?attr/actionBarSize"
-android:background="?attr/colorPrimary"
-android:elevation="4dp"
-android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/&gt;
-
-// After
-&lt;android.support.v7.widget.Toolbar
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/my_toolbar"
-android:layout_width="match_parent"
-android:layout_height="?attr/actionBarSize"
-android:background="?attr/colorPrimary"
-android:elevation="4dp"
-android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/&gt;
-</code></pre>
-
-<h3>9.How to get Activity&rsquo;s content view?</h3>
-
-<p>A:</p>
-
-<pre><code>this.getWindow().getDecorView().findViewById(android.R.id.content)
-or
-
-this.findViewById(android.R.id.content)
-or
-
-this.findViewById(android.R.id.content).getRootView()
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/5273436/how-to-get-activitys-content-view">How to get Activity&rsquo;s content view?</a></p>
-
-<h3>10.Conversion to Dalvik format failed with error 1</h3>
-
-<pre><code>Dx 
-UNEXPECTED TOP-LEVEL EXCEPTION:
-    java.lang.RuntimeException: Exception parsing classes
-    at com.android.dx.command.dexer.Main.processClass(Main.java:752)
-    at com.android.dx.command.dexer.Main.processFileBytes(Main.java:718)
-    at com.android.dx.command.dexer.Main.access$1200(Main.java:85)
-    at com.android.dx.command.dexer.Main$FileBytesConsumer.processFileBytes(Main.java:1645)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:170)
-    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
-    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
-    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
-    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
-    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
-    at com.android.dx.cf.direct.ClassPathOpener.processDirectory(ClassPathOpener.java:229)
-    at com.android.dx.cf.direct.ClassPathOpener.processOne(ClassPathOpener.java:158)
-at com.android.dx.cf.direct.ClassPathOpener.process(ClassPathOpener.java:144)
-...
-</code></pre>
-
-<p>A:This android project dependent on serveral java projects, when I change these java project&rsquo;s jre from 1.8 to 1.6, it works. The deep reason isn&rsquo;t clear.</p>
-
-<h3>11.Make the Input Box Fill in the Screen Width</h3>
-
-<p>A: Setting the width to zero (0dp) improves layout performance because using &ldquo;wrap_content&rdquo; as the width requires the system to calculate a width that is ultimately irrelevant because the weight value requires another width calculation to fill the remaining space.</p>
-
-<pre><code>&lt;EditText android:id="@+id/edit_message"
-    android:layout_weight="1"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:hint="@string/edit_message" /&gt;
-</code></pre>
-
-<p>Reference:<a href="https://developer.android.google.cn/training/basics/firstapp/building-ui.html">Building a Simple User Interface</a></p>
-
-<h3>12. TabHost.TabSpec is not an enclosing class.</h3>
-
-<p>A:TabHost.TabSpec is not static so it requires an instance of the outer class.Using TabHost&rsquo;s newTabSpec method instead of new TabHost.TabSpec.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20252727/is-not-an-enclosing-class-java">Is not an enclosing class Java</a></p>
-
-<h3>13. com.android.ide.common.process.ProcessException: Failed to execute aapt</h3>
-
-<p>A: The reason is buildToolsVersion doesn&rsquo;t match compileSdkVersion, correct it in module gradle fix problem.</p>
-
-<p>Reference:<a href="http://www.bokezhi.com/490.html">解决com.android.ide.common.process.ProcessException: Failed to execute aapt</a></p>
-
-<h3>14. What is the difference between android:gravity and android:layout_gravity?</h3>
-
-<p>A: The difference between android:gravity and android:layout_gravity is that android:gravity positions the contents of that view (i.e. what’s inside the view), whereas android:layout_gravity positions the view with respect to its parent (i.e. what the view is contained in).</p>
-
-<p>Reference:<br/>
-<a href="https://thinkandroid.wordpress.com/2010/01/14/how-to-position-views-properly-in-layouts/">How to Position Views Properly in Layouts</a></p>
-
-<h3>15. Expected Resource of type ID</h3>
-
-<p>A:It is a editor validation error as this is not a common way to deal with ids. So if your app supporting API 17 or higher, you can call View.generateViewId as</p>
-
-<pre><code>titleView.setId(View.generateViewId());
-</code></pre>
-
-<p>and for API &lt; 17</p>
-
-<ol>
-<li>Open your project&rsquo;s res/values/ folder;</li>
-<li>Create an xml filed called ids.xml with following content:</li>
-</ol>
-
-
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;resources&gt;
-    &lt;item name="titleId" type="id" /&gt;
-    &lt;item name="svId" type="id" /&gt;
-&lt;/resources&gt;
-</code></pre>
-
-<p>then in your code,</p>
-
-<pre><code>titleView.setId(R.id.titleId);
-
-sv.setId(R.id.svId);
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/29696879/android-expected-resource-of-type-id">Android - Expected Resource of type ID</a></p>
 ]]></content>
   </entry>
   

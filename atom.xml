@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-03-30T11:56:57+08:00</updated>
+  <updated>2017-04-05T10:06:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android开发问题汇总(三)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-3.html"/>
+    <updated>2017-04-05T08:48:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-3</id>
+    <content type="html"><![CDATA[<h3>1. How to define custom attributes?</h3>
+
+<p>A:Currently the best documentation is the source. You can take a look at it <a href="https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/attrs.xml">here(arrts.xml)</a>.</p>
+
+<p>You can define attributes in the top <code>&lt;resources&gt;</code> element or inside of a <code>&lt;declare-styleable&gt;</code> element. If I&rsquo;m going to use an attr in more than on place I put it in the root element. Note , all attributes share the same global namespace. That means that even if you create a new attribute inside of a <code>&lt;declare-styleable&gt;</code> element it can be used outside of it and you cannot create another attribute with the same name of a different type.</p>
+
+<p>An <code>&lt;attr&gt;</code> element has two xml attributes <code>name</code> and <code>format</code>. <code>name</code> lets you call it something and this how you end up refering to it in code, e.g., R.attr.my_attribute. The <code>format</code> attribute can have different values depending on the type of attribute you want.</p>
+
+<ul>
+<li>reference - if it references another resource id(e.g, &ldquo;@color/my_color&rdquo;, &ldquo;@layout/my_layout&rdquo;)</li>
+<li>color</li>
+<li>boolean</li>
+<li>dimension</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+<li>fraction</li>
+<li>enum - normally implicitly defined</li>
+<li>flag - normally implicitly defined</li>
+</ul>
+
+
+<p>You can set the format to multiple types by using |, e.g., <code>format="reference|color"</code>.</p>
+
+<p>enum attributes can be defined as follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;attr name="my_enum_attr"&gt; 
+</span><span class='line'>    &lt;enmu name="value1" value="1" /&gt;
+</span><span class='line'>    &lt;enmu name="value2" value="2" /&gt;
+</span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>flag attributes are similar except the values need to defined so they can be bit ored together:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;attr name="my_flag_attr"&gt;
+</span><span class='line'>    &lt;flag name="fuzzy" value="0x01" /&gt;
+</span><span class='line'>    &lt;flag name="cold" value="0x02" /&gt;
+</span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In addition to attributes there is the <code>&lt;declare-styleable&gt;</code> element. This allows you to define attributes a custom view can use. You do this by specifying an <code>&lt;attr&gt;</code> element, if it was previously defined you do not specify the format. If you wish to reuse an android attr, for example android:gravity, then you can do that in the name, as follows.</p>
+
+<p>An example of a custom view <code>&lt;declare-styleable&gt;</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;declare-styleable name="MyCustomView"&gt; 
+</span><span class='line'>    &lt;attr name="my_custom_attribute" /&gt;
+</span><span class='line'>    &lt;attr name="android:gravity" /&gt;
+</span><span class='line'>&lt;/declare-styleable&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When defining you custom attributes in XML on you need to do a few things.</p>
+
+<p>First you must declare a namespace to find your attributes. You do this on the root layout element. Normal there is only <code>xmlns:android="http//schemas.android.com/apk/res/android"</code>. You must now also add <code>xmlns:app="http://schemas.android.com/apk/res-auto"</code>.</p>
+
+<p>Example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;LinearLayout
+</span><span class='line'>xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>xmlns:whatever="http://schemas.android.com/apk/res-auto"
+</span><span class='line'>android:orientation="vertical"
+</span><span class='line'>android:layout_width="fill_parent"
+</span><span class='line'>android:layout_height="fill_parent"&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;org.example.mypackage.MyCustomView
+</span><span class='line'>android:layout_width="fill_parent"
+</span><span class='line'>android:layout_height="wrap_content"
+</span><span class='line'>android:gravity="center"
+</span><span class='line'>whatever:my_custom_attribute="Hello, world!" /&gt;
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, to access that custom attribute you normally do so in the constructor of you custom view as follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public MyCustomView(Context context, AttributeSet attrs, int defStyle) {
+</span><span class='line'>    super(context, attrs, defStyle);
+</span><span class='line'>
+</span><span class='line'>    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyCustomView, defStyle, 0);
+</span><span class='line'>
+</span><span class='line'>    String str = a.getString(R.styleable.MyCustomView_my_custom_attribute);
+</span><span class='line'>
+</span><span class='line'>    //do something with str
+</span><span class='line'>
+</span><span class='line'>    a.recycle();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3441396/defining-custom-attrs">Defining custom attrs</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android 真机抓包]]></title>
@@ -6356,243 +6489,6 @@ If a URL which maps to a directory is requested, and there is no DirectoryIndex 
 <a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
 <a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
 <a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（四）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4.html"/>
-    <updated>2015-10-15T15:04:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-devleopment-problems-part-4</id>
-    <content type="html"><![CDATA[<h3>1. Suppressing deprecated warnings</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#pragma clang diagnostic push
-</span><span class='line'>#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-</span><span class='line'>[reciver deprecatedMethod];
-</span><span class='line'>#pragma clang diagnostic pop</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://nshipster.cn/pragma/">http://nshipster.cn/pragma/</a></p>
-
-<h3>2. Warning libopencore-amrnb.a, missing required architecture arm64</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrnb.a (3 slices)
-</span><span class='line'>ld: warning: ignoring file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a, missing required architecture arm64 in file /Users/dongmeiliang/Downloads/VoiceConvert/VoiceConvert/VoiceConvert/lib/libopencore-amrwb.a (3 slices)
-</span><span class='line'>Undefined symbols for architecture arm64:
-</span><span class='line'>  "_Decoder_Interface_init", referenced from:
-</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Decoder_Interface_Decode", referenced from:
-</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Decoder_Interface_exit", referenced from:
-</span><span class='line'>      DecodeAMRFileToWAVEFile(char const*, char const*) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Encoder_Interface_init", referenced from:
-</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "___gxx_personality_v0", referenced from:
-</span><span class='line'>      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</span><span class='line'>      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-</span><span class='line'>  "_Encoder_Interface_Encode", referenced from:
-</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)
-</span><span class='line'>  "_Encoder_Interface_exit", referenced from:
-</span><span class='line'>      EncodeWAVEFileToAMRFile(char const*, char const*, int, int) in libVoiceConvert.a(amrFileCodec.o)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solution: Recompile a static library refer <a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr-iOS</a></p>
-
-<!-- more -->
-
-
-<h3>3. Undefined symbols for architecture arm64:</h3>
-
-<p>  &ldquo;___gxx_personality_v0&rdquo;, referenced from:
-      +[VoiceConverter amrToWav:wavSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-      +[VoiceConverter wavToAmr:amrSavePath:] in libVoiceConvert.a(VoiceConverter.o)
-ld: symbol(s) not found for architecture arm64</p>
-
-<p>Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l"stdc++"</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode">http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode</a></p>
-
-<h3>4. Suppressing performSelector may cause leaks warnings</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#pragma clang diagnostic push
-</span><span class='line'>#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-</span><span class='line'>    [self.ticketTarget performSelector: self.ticketAction withObject: self];
-</span><span class='line'>#pragma clang diagnostic pop</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown</a></p>
-
-<h3>5.How to remove UINavigationBar and UISearchBar hairline?</h3>
-
-<p>Solution:</p>
-
-<blockquote><p>For a custom shadow image to be shown, a custom background image must also be set with the setBackgroundImage:forBarMetrics: method. If the default background image is used, then the default shadow image will be used regardless of the value of this property.</p></blockquote>
-
-<p>So we can cut a 1x1 pixel pure color image, set this image as navigation bar&rsquo;s shadow image.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
-<a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
-
-<h3>6. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色</h3>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIImage *userImage = [UIImage imageNamed:@"User"];
-</span><span class='line'>userImage = [userImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-</span><span class='line'>UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends" image:userImage selectedImage:userImage];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>7. UIWebView&rsquo;s cache doesn&rsquo;t work</h3>
-
-<p>Solution:</p>
-
-<blockquote><p>Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.</p></blockquote>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working">http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working</a></p>
-
-<h3>8.How to only show bottom border of UITextField</h3>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var bottomLine = CALayer()
-</span><span class='line'>bottomLine.frame = CGRectMake(0.0, myTextField.frame.height - 1, myTextField.frame.width, 1.0)
-</span><span class='line'>bottomLine.backgroundColor = UIColor.whiteColor().CGColor
-</span><span class='line'>myTextField.borderStyle = UITextBorderStyle.None
-</span><span class='line'>myTextField.layer.addSublayer(bottomLine)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift">http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift</a></p>
-
-<h3>9. 让Button的大小比它的内容略大</h3>
-
-<p>Solution:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>_loginViaSMSButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>10. UITableViewStyleGrouped style UITableView has extra space at top</h3>
-
-<p>Solution:</p>
-
-<blockquote><p>UITableViewStyleGrouped divides each section into a &ldquo;group&rdquo; by inserting that extra padding…similar to what it did pre-iOS7, but clear instead of colored by default, and just at the top instead of all the way around. If you don&rsquo;t want the padding by default, use UITableViewStylePlain.</p></blockquote>
-
-<p>Otherwise, if you need to keep the style the same, do what this other posted from that link recommended and change the content inset:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple">http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple</a></p>
-
-<h3>11. 使用 UISearchDisplayController 遇到的问题</h3>
-
-<p>使用代码创建的 UISearchDisplayController 必须用一个属性来持有它，个人觉得这里有点奇怪，因为 UIViewController 在头文件中的声明是：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@property(nonatomic, readonly, strong) UISearchDisplayController *searchDisplayController</span></code></pre></td></tr></table></div></figure>
-
-
-<p>理论上来讲既然是 strong 那么这个对象应该会存在才对，但不知道什么原因，这样并不行，它会在内存中被销毁，还是得在扩展里用一个属性来持有它。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*.m
-</span><span class='line'>
-</span><span class='line'>@property (nonatomic) UISearchDisplayController *wt_searchDisplayController;
-</span><span class='line'>
-</span><span class='line'>self.wt_searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-</span><span class='line'>self.wt_searchDisplayController.delegate = self;
-</span><span class='line'>self.wt_searchDisplayController.searchResultsDataSource = self.searchCoordinator;
-</span><span class='line'>self.wt_searchDisplayController.searchResultsDelegate = self.searchCoordinator;
-</span><span class='line'>[self.wt_searchDisplayController.searchResultsTableView registerClass:[RCConversationCell class] forCellReuseIdentifier:sSearchCellIdentifier];
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>问题还没有完全解决，我应用的导航结构是 UINavigationController > UITabBarController [VC1, VC 2, VC3], 在 VC1 界面里需要搜索功能，然后我在 VC1 navigation bar 下方放置了一个 search bar， 这个 search bar 和 searchDisplayController 关联起来，结果却出现 search result tableView 覆盖 search bar 的情况，最后的解决办法是调整导航结构 UINavigationController > UITabBarController [(UINavigationController > VC1), (UINavigationController > VC2), (UINavigationController > VC3)], 也就是先把 UIViewController 嵌入到 UINavigationController 中， 再把它做为 UITabBarController 的 childController.</p>
-
-<h3>12. Controller 的视图 Layer 上添加 AVCaptureVideoPreviewLayer， 然后再在 Controller 的 View 上添加一个扫描框视图，用系统的 View 作为扫描框视图时能正常显示相机的捕获的内容， 用自定义的视图时，扫描框内全是黑的。</h3>
-
-<p>Solution:在自定义视图的初始化方法中设置 opaque 为 NO。</p>
-
-<h3>13. You are not authorized to use this service.</h3>
-
-<p>Solution: I recently enable Apple ID two-step verification. When I upload app to App Store via Xcode it inform me &ldquo;You are not authorized to use this service.&rdquo; I feel very strange. I decide to use Application Loader after search with google.  Sign in Application Loader need app-specific password, you can get it follow instructs:</p>
-
-<ol>
-<li>Sign in to your <a href="https://appleid.apple.com/account/home">Apple ID account page</a>;</li>
-<li>In the Security section, click Edit.</li>
-<li>Click Generate Password and follow the steps on your screen.</li>
-</ol>
-
-
-<p>Reference:<a href="https://support.apple.com/en-us/HT204397">https://support.apple.com/en-us/HT204397</a></p>
-
-<p>Now we can upload app with Application Loader:
-1. Xcode > Open Developer Tool > Application Loader
-2. Sign in Application Loader with app-specific password
-3. Click on &ldquo;Choose&rdquo;
-4. Pick the IPA you have just exported
-5. Follow submission process</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error">http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error</a></p>
-
-<h3>14.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ERROR ITMS-90535: "Unexpected CFBundleExecutable Key. The bundle at 'Payload/sohiOSApp.app/TencentOpenApi_IOS_Bundle.bundle' does not contain a bundle executable. If this bundle intentionally does not contain an executable, consider removing the CFBundleExecutable key from its Info.plist and using a CFBundlePackageType of BNDL. If this bundle is part of a third-party framework, consider contacting the developer of the framework for an update to address this issue."</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bundle&rsquo;s Info.plist and using a CFBundlePackageType of BNDL.</p>
-
-<h3>15. Pointer is missing a nullability type specifier</h3>
-
-<p>Solution:It&rsquo;s simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface">http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface</a></p>
 ]]></content>
   </entry>
   

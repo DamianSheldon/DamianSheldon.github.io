@@ -130,3 +130,13 @@ videoCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMedi
 
 audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
 ```
+
+###9. How to get photos from iPhone simulator?
+A: Photo files are located at :
+
+```
+~/Library/Developer/CoreSimulator/Devices/<device UDID>/data/Media/DCIM/100APPLE/
+```
+with Xcode 8.2. You can get <device UDID> from Devices window or using command:`xcrun simctl list devvices`.
+
+Reference:[getting images from iPhone simulator](http://stackoverflow.com/questions/5488915/getting-images-from-iphone-simulator) 

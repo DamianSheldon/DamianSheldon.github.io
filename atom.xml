@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-04-05T16:36:35+08:00</updated>
+  <updated>2017-04-07T15:35:19+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,732 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AVFoundation 使用笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/notes-of-using-avfoundation.html"/>
+    <updated>2017-04-06T15:09:30+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/notes-of-using-avfoundation</id>
+    <content type="html"><![CDATA[<p>使用一个框架时，我们可能有这么三个问题：</p>
+
+<ol>
+<li>这个框架是做什么的？</li>
+<li>为什么要使用这个框架而不是其他的框架？</li>
+<li>怎么用这个框架？</li>
+</ol>
+
+
+<h3>这个框架是做什么的？</h3>
+
+<p>Apple 在 iOS Technology Overview 中的 Audio Technologies 和 Video Technologies 分别是这么介绍 AVFoundation 的：</p>
+
+<blockquote><p>AV Foundation is an Objective-C interface for managing the recording and playback of audio and video. Use this framework for recording audio and when you need fine-grained control over the audio playback process.</p>
+
+<p>AV Foundation provides advanced video playback and recording capabilities. Use this framework in situations where you need more control over the presentation or recording of video. For example, augmented reality apps could use this framework to layer live video content with other app-provided content.</p></blockquote>
+
+<p>从这两个介绍中我们可以知道 AVFoundation 是用来播放和录制音频和视频的。</p>
+
+<p>在 AVFoundation Programming Guide 中则是这么介绍的：</p>
+
+<blockquote><p>AVFoundation is one of several frameworks that you can use to play and create time-based audiovisual media. It provides an Objective-C interface you use to work on a detailed level with time-based audiovisual data. For example, you can use it to examine, create, edit, or reencode media files. You can also get input streams from devices and manipulate video during realtime capture and playback.</p></blockquote>
+
+<p>从这里我们可以知道它不仅可以播放和创建基于时间的视听媒体，还可以让我们在很细微的层面去操作这些视听数据。例如，你可以使用它检查、创建、编辑或者重编码媒体文件。你还可以用它从设备那里拿到输出流，并且可以在实时的捕获和播放过程中操作视频。</p>
+
+<p>所以结论就是：这个框架是处理音频和视频的，而且处理的粒度可以非常细。</p>
+
+<!--more-->
+
+
+<h3>为什么要用这个框架而不是其他的框架？</h3>
+
+<p>在选择框架时我们的原则应该首先是使用 Apple 自己提供的框架，其次才是第三方框架。在 Apple 自带的框架中选择时，又应该按抽象程度从高到低去选择。在音频技术中，抽象程度是这样的：Media Player framework > AVFoundation > OpenAL > Core Audio; 在视频技术中：UIImagePickerController > AVKit > AVFoundation > Core Media.</p>
+
+<p>在音视频技术中，抽象程度高于 AVFoundation 的技术多侧重于简单的播放和录制，要进行其他的操作时则要使用 AVFoundation，而且它的能力也比较强，所以通常要对媒体数据进行处理时，我们会经常使用到它，它不满足要求时才去寻找其他的技术。</p>
+
+<h3>怎么用这个框架？</h3>
+
+<p>前面提到 AVFoundation 是用来播放、录制和操作视听数据的，操作视听数据则可以细分为 Editing 和 Exporting，所以我们这里会介绍这个框架:Playback, Capture, Editing 和 Exporting 四个大方面的使用。</p>
+
+<h4>Playback</h4>
+
+<p>在介绍怎么使用 AVFoundation 播放视听媒体之前，我们还要聊聊在 AVFoundation 中是怎么表示媒体的。AVFoundation 中用来代表媒体最主要的类是 AVAsset, 一个 AVAsset 实例是一片或多片媒体数据(音频曲目和视频轨迹)集合的综合代表。它提供关于这个集合的信息，例如它的标题，持续时间，本身的展示尺寸等等。AVAsset 没有绑定特定的数据类型。它是其他用来从指定 URL 媒体创建资产实例和创建新构成的父类。</p>
+
+<p>资产中每片单独的媒体数据是统一的类型称为track. 在经典的简单场景，一个轨迹代表音频组件，另一个轨迹代表视频组件；在一个复杂的构成中，这里可能有多个重叠的音视频轨迹。</p>
+
+<p>你为播放配置资产的方法取决于你想要播放资产的种类，广义上来讲，这里有两大类型：基于文件的资产和基于流的资产。</p>
+
+<ol>
+<li><p>加载和播放基于文件的资产。</p>
+
+<ul>
+<li>Create an asset using AVURLAsset.</li>
+<li>Create an instance of AVPlayerItem using the asset.</li>
+<li>Associate the item with an instance of AVPlayer.</li>
+<li>Wait until the item’s status property indicates that it’s ready to play (typically you use key-value observing to receive a notification when the status changes).</li>
+</ul>
+</li>
+<li><p>为播放创建和准备一个 HTTP 实时流。</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *url = [NSURL URLWithString:@"&lt;#Live stream URL#&gt;];
+</span><span class='line'>// You may find a test stream at &lt;http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8&gt;.
+</span><span class='line'>self.playerItem = [AVPlayerItem playerItemWithURL:url];
+</span><span class='line'>[playerItem addObserver:self forKeyPath:@"status" options:0 context:&ItemStatusContext];
+</span><span class='line'>self.player = [AVPlayer playerWithPlayerItem:playerItem];</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>如果你不知道你拥有的 URL 是什么类型。</p>
+
+<p> 1)Try to initialize an AVURLAsset using the URL, then load its tracks key.
+ If the tracks load successfully, then you create a player item for the asset.</p>
+
+<p> 2)If 1 fails, create an AVPlayerItem directly from the URL.
+ Observe the player’s status property to determine whether it becomes playable.</p></li>
+</ol>
+
+
+<h4>Capture</h4>
+
+<p>为了管理来自相机、麦克风的捕获，你组装对象去表示输入和输出，使用 AVCaptureSession 的实例来协调它们之间的数据流。你最少需要：</p>
+
+<ul>
+<li>一个 AVCaptureDevice 的实例来表示输入设备，例如相机或麦克风</li>
+<li>一个 AVCaptureInput 具体子类的实例去配置来自输入设备的端口</li>
+<li>一个 AVCaptureOutput 具体子类的实例去管理到电影或静态图片的输出</li>
+<li>一个 AVCaptureSession 的实例来协调从输入到输出的数据流</li>
+</ul>
+
+
+<p>Capturing Video Frames as UIImage Objects</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Create and Configure a Capture Session
+</span><span class='line'>AVCaptureSession *session = [[AVCaptureSession alloc] init];
+</span><span class='line'>session.sessionPreset = AVCaptureSessionPresetMedium;
+</span><span class='line'>
+</span><span class='line'>// 2. Create and Configure the Device and Device Input
+</span><span class='line'>AVCaptureDevice *device =
+</span><span class='line'>[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+</span><span class='line'>
+</span><span class='line'>NSError *error = nil;
+</span><span class='line'>AVCaptureDeviceInput *input =
+</span><span class='line'>[AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+</span><span class='line'>if (!input) {
+</span><span class='line'>    // Handle the error appropriately.
+</span><span class='line'>}
+</span><span class='line'>[session addInput:input];
+</span><span class='line'>
+</span><span class='line'>// 3. Create and Configure the Video Data Output
+</span><span class='line'>AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
+</span><span class='line'>[session addOutput:output];
+</span><span class='line'>output.videoSettings =
+</span><span class='line'>@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+</span><span class='line'>output.minFrameDuration = CMTimeMake(1, 15);
+</span><span class='line'>
+</span><span class='line'>dispatch_queue_t queue = dispatch_queue_create("MyQueue", NULL);
+</span><span class='line'>[output setSampleBufferDelegate:self queue:queue];
+</span><span class='line'>dispatch_release(queue);
+</span><span class='line'>
+</span><span class='line'>// 4. Implement the Sample Buffer Delegate Method
+</span><span class='line'>- (void)captureOutput:(AVCaptureOutput *)captureOutput
+</span><span class='line'>didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+</span><span class='line'>fromConnection:(AVCaptureConnection *)connection {
+</span><span class='line'>
+</span><span class='line'>    UIImage *image = imageFromSampleBuffer(sampleBuffer);
+</span><span class='line'>    // Add your code here that uses the image.
+</span><span class='line'>}
+</span><span class='line'>// 5. Starting and Stopping Recording
+</span><span class='line'>NSString *mediaType = AVMediaTypeVideo;
+</span><span class='line'>
+</span><span class='line'>[AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+</span><span class='line'>    if (granted)
+</span><span class='line'>    {
+</span><span class='line'>        //Granted access to mediaType
+</span><span class='line'>        [self setDeviceAuthorized:YES];
+</span><span class='line'>    }
+</span><span class='line'>    else
+</span><span class='line'>    {
+</span><span class='line'>        //Not granted access to mediaType
+</span><span class='line'>        dispatch_async(dispatch_get_main_queue(), ^{
+</span><span class='line'>                [[[UIAlertView alloc] initWithTitle:@"AVCam!"
+</span><span class='line'>                message:@"AVCam doesn't have permission to use Camera, please change privacy settings"
+</span><span class='line'>                delegate:self
+</span><span class='line'>                cancelButtonTitle:@"OK"
+</span><span class='line'>                otherButtonTitles:nil] show];
+</span><span class='line'>                [self setDeviceAuthorized:NO];
+</span><span class='line'>                });
+</span><span class='line'>    }
+</span><span class='line'>}];
+</span><span class='line'>
+</span><span class='line'>[session startRunning];
+</span><span class='line'>
+</span><span class='line'>// To stop recording, you send the session a stopRunning message.</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Editing</h4>
+
+<p>AVFoundation 框架提供了丰富的类来方便编辑音视资产。编辑 API 的核心是 composition. 一个 Compostion 是简单的来自一个或多个不同媒体资产的聚合。AVMutableCompostion 类提供插入和移除轨迹的接口，并且管理它们的时间顺序。图 3-1 展示了一个新的 composition
+是如何用由现存资产联合形成的新资产拼装在一起的。如果你所有想要做的就是将多个资产按顺序的合成到一个单一的文件，那么这就是你得知道的所有细节。如果你想对你 compostion 里面的轨迹进行自定义的音频或视频处理，你相应地需要引入一个 audio mix 或 video compostion.</p>
+
+<div style="text-align:center" markdown="1">
+    <img name="AVMutableComposition" src="http://DamianSheldon.github.io/images/avmutablecomposition_2x.png">
+</div>
+
+
+<p>使用 AVMutableAudioMix 类， 你可以在你的 composition 的音频轨迹上进行自定义音频处理，像图 3-2 显示的。你现在可以指定一个最大的音量或者设置 volume ramp.</p>
+
+<div style="text-align:center" markdown="1">
+    <img name="AVMutableAudioMix" src="http://DamianSheldon.github.io/images/avmutableaudiomix_2x.png">
+</div>
+
+
+<p>你为了编辑可以像图 3-3 那样使用 AVMutableVideoCompostion 类来直接操作你 compostion 里的视频轨迹. 拥有一个 video composition, 你可以为输出视频指定想要的渲染尺寸,缩放以及帧率。通过一个 video composition&rsquo;s instruction(由 AVMutableVideoCompositionInstruction 类代表)，你可以修改你视频的背景颜色和应用 layer instructions. 这些 layer instructions（由 AVMutableVideoCompositionLayerInstruction 类代表) 可以用来应用 transforms, transform ramps, opacity and opacity ramps。Video
+composition 类使用 animationTool 属性赋予你引入来自 Core Animation 框架效果的能力。</p>
+
+<div style="text-align:center" markdown="1">
+    <img name="AVMutableVideoCompostion" src="http://DamianSheldon.github.io/images/avmutablevideocomposition_2x.png">
+</div>
+
+
+<p>为了把你的 compostion 和 audio mix, video compostion 混合，你使用一个 AVAssetExportSession 对象，像 图 3-4 那样。你用你的 compostion 初始化 export session, 然后简单地把你的 audio mix 和 video composition 相应地赋值给 audioMix 和 videoComposition 属性。</p>
+
+<div style="text-align:center" markdown="1">
+    <img name="AVAssetExportSession" src="http://DamianSheldon.github.io/images/puttingitalltogether_2x.png">
+</div>
+
+
+<p>Combining Multiple Assets and Saving the Result to the Camera Roll</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Creating the Composition
+</span><span class='line'>AVMutableComposition *mutableComposition = [AVMutableComposition composition];
+</span><span class='line'>AVMutableCompositionTrack *videoCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+</span><span class='line'>AVMutableCompositionTrack *audioCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+</span><span class='line'>
+</span><span class='line'>// 2. Adding the Assets
+</span><span class='line'>AVAssetTrack *firstVideoAssetTrack = [[firstVideoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+</span><span class='line'>AVAssetTrack *secondVideoAssetTrack = [[secondVideoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+</span><span class='line'>[videoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, firstVideoAssetTrack.timeRange.duration) ofTrack:firstVideoAssetTrack atTime:kCMTimeZero error:nil];
+</span><span class='line'>[videoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, secondVideoAssetTrack.timeRange.duration) ofTrack:secondVideoAssetTrack atTime:firstVideoAssetTrack.timeRange.duration error:nil];
+</span><span class='line'>[audioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, CMTimeAdd(firstVideoAssetTrack.timeRange.duration, secondVideoAssetTrack.timeRange.duration)) ofTrack:[[audioAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0] atTime:kCMTimeZero error:nil];
+</span><span class='line'>
+</span><span class='line'>// 3. Checking the Video Orientations
+</span><span class='line'>BOOL isFirstVideoPortrait = NO;
+</span><span class='line'>CGAffineTransform firstTransform = firstVideoAssetTrack.preferredTransform;
+</span><span class='line'>// Check the first video track's preferred transform to determine if it was recorded in portrait mode.
+</span><span class='line'>if (firstTransform.a == 0 && firstTransform.d == 0 && (firstTransform.b == 1.0 || firstTransform.b == -1.0) && (firstTransform.c == 1.0 || firstTransform.c == -1.0)) {
+</span><span class='line'>        isFirstVideoPortrait = YES;
+</span><span class='line'>}
+</span><span class='line'>BOOL isSecondVideoPortrait = NO;
+</span><span class='line'>CGAffineTransform secondTransform = secondVideoAssetTrack.preferredTransform;
+</span><span class='line'>// Check the second video track's preferred transform to determine if it was recorded in portrait mode.
+</span><span class='line'>if (secondTransform.a == 0 && secondTransform.d == 0 && (secondTransform.b == 1.0 || secondTransform.b == -1.0) && (secondTransform.c == 1.0 || secondTransform.c == -1.0)) {
+</span><span class='line'>        isSecondVideoPortrait = YES;
+</span><span class='line'>}
+</span><span class='line'>if ((isFirstVideoAssetPortrait && !isSecondVideoAssetPortrait) || (!isFirstVideoAssetPortrait && isSecondVideoAssetPortrait)) {
+</span><span class='line'>        UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Cannot combine a video shot in portrait mode with a video shot in landscape mode." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+</span><span class='line'>            [incompatibleVideoOrientationAlert show];
+</span><span class='line'>                return;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 4. Applying the Video Composition Layer Instructions
+</span><span class='line'>AVMutableVideoCompositionInstruction *firstVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+</span><span class='line'>// Set the time range of the first instruction to span the duration of the first video track.
+</span><span class='line'>firstVideoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, firstVideoAssetTrack.timeRange.duration);
+</span><span class='line'>AVMutableVideoCompositionInstruction * secondVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+</span><span class='line'>// Set the time range of the second instruction to span the duration of the second video track.
+</span><span class='line'>secondVideoCompositionInstruction.timeRange = CMTimeRangeMake(firstVideoAssetTrack.timeRange.duration, CMTimeAdd(firstVideoAssetTrack.timeRange.duration, secondVideoAssetTrack.timeRange.duration));
+</span><span class='line'>AVMutableVideoCompositionLayerInstruction *firstVideoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
+</span><span class='line'>// Set the transform of the first layer instruction to the preferred transform of the first video track.
+</span><span class='line'>[firstVideoLayerInstruction setTransform:firstTransform atTime:kCMTimeZero];
+</span><span class='line'>AVMutableVideoCompositionLayerInstruction *secondVideoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
+</span><span class='line'>// Set the transform of the second layer instruction to the preferred transform of the second video track.
+</span><span class='line'>[secondVideoLayerInstruction setTransform:secondTransform atTime:firstVideoAssetTrack.timeRange.duration];
+</span><span class='line'>firstVideoCompositionInstruction.layerInstructions = @[firstVideoLayerInstruction];
+</span><span class='line'>secondVideoCompositionInstruction.layerInstructions = @[secondVideoLayerInstruction];
+</span><span class='line'>AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
+</span><span class='line'>mutableVideoComposition.instructions = @[firstVideoCompositionInstruction, secondVideoCompositionInstruction];
+</span><span class='line'>
+</span><span class='line'>// 5. Setting the Render Size and Frame Duration
+</span><span class='line'>CGSize naturalSizeFirst, naturalSizeSecond;
+</span><span class='line'>// If the first video asset was shot in portrait mode, then so was the second one if we made it here.
+</span><span class='line'>if (isFirstVideoAssetPortrait) {
+</span><span class='line'>    // Invert the width and height for the video tracks to ensure that they display properly.
+</span><span class='line'>        naturalSizeFirst = CGSizeMake(firstVideoAssetTrack.naturalSize.height, firstVideoAssetTrack.naturalSize.width);
+</span><span class='line'>            naturalSizeSecond = CGSizeMake(secondVideoAssetTrack.naturalSize.height, secondVideoAssetTrack.naturalSize.width);
+</span><span class='line'>}
+</span><span class='line'>else {
+</span><span class='line'>    // If the videos weren't shot in portrait mode, we can just use their natural sizes.
+</span><span class='line'>        naturalSizeFirst = firstVideoAssetTrack.naturalSize;
+</span><span class='line'>            naturalSizeSecond = secondVideoAssetTrack.naturalSize;
+</span><span class='line'>}
+</span><span class='line'>float renderWidth, renderHeight;
+</span><span class='line'>// Set the renderWidth and renderHeight to the max of the two videos widths and heights.
+</span><span class='line'>if (naturalSizeFirst.width &gt; naturalSizeSecond.width) {
+</span><span class='line'>        renderWidth = naturalSizeFirst.width;
+</span><span class='line'>}
+</span><span class='line'>else {
+</span><span class='line'>        renderWidth = naturalSizeSecond.width;
+</span><span class='line'>}
+</span><span class='line'>if (naturalSizeFirst.height &gt; naturalSizeSecond.height) {
+</span><span class='line'>        renderHeight = naturalSizeFirst.height;
+</span><span class='line'>}
+</span><span class='line'>else {
+</span><span class='line'>        renderHeight = naturalSizeSecond.height;
+</span><span class='line'>}
+</span><span class='line'>mutableVideoComposition.renderSize = CGSizeMake(renderWidth, renderHeight);
+</span><span class='line'>// Set the frame duration to an appropriate value (i.e. 30 frames per second for video).
+</span><span class='line'>mutableVideoComposition.frameDuration = CMTimeMake(1,30);
+</span><span class='line'>
+</span><span class='line'>// 6. Exporting the Composition and Saving it to the Camera Roll
+</span><span class='line'>// Create a static date formatter so we only have to initialize it once.
+</span><span class='line'>static NSDateFormatter *kDateFormatter;
+</span><span class='line'>if (!kDateFormatter) {
+</span><span class='line'>        kDateFormatter = [[NSDateFormatter alloc] init];
+</span><span class='line'>            kDateFormatter.dateStyle = NSDateFormatterMediumStyle;
+</span><span class='line'>                kDateFormatter.timeStyle = NSDateFormatterShortStyle;
+</span><span class='line'>}
+</span><span class='line'>// Create the export session with the composition and set the preset to the highest quality.
+</span><span class='line'>AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mutableComposition presetName:AVAssetExportPresetHighestQuality];
+</span><span class='line'>// Set the desired output URL for the file created by the export process.
+</span><span class='line'>exporter.outputURL = [[[[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:@YES error:nil] URLByAppendingPathComponent:[kDateFormatter stringFromDate:[NSDate date]]] URLByAppendingPathExtension:CFBridgingRelease(UTTypeCopyPreferredTagWithClass((CFStringRef)AVFileTypeQuickTimeMovie, kUTTagClassFilenameExtension))];
+</span><span class='line'>// Set the output file type to be a QuickTime movie.
+</span><span class='line'>exporter.outputFileType = AVFileTypeQuickTimeMovie;
+</span><span class='line'>exporter.shouldOptimizeForNetworkUse = YES;
+</span><span class='line'>exporter.videoComposition = mutableVideoComposition;
+</span><span class='line'>// Asynchronously export the composition to a video file and save this file to the camera roll once export completes.
+</span><span class='line'>[exporter exportAsynchronouslyWithCompletionHandler:^{
+</span><span class='line'>        dispatch_async(dispatch_get_main_queue(), ^{
+</span><span class='line'>                    if (exporter.status == AVAssetExportSessionStatusCompleted) {
+</span><span class='line'>                                    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+</span><span class='line'>                                                if ([assetsLibrary videoAtPathIsCompatibleWithSavedPhotosAlbum:exporter.outputURL]) {
+</span><span class='line'>                                                                    [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:exporter.outputURL completionBlock:NULL];
+</span><span class='line'>                                                                                }
+</span><span class='line'>                                                                                        }
+</span><span class='line'>                                                                                            });
+</span><span class='line'>}];
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Exporting</h4>
+
+<p>为了读写视听资产，你必须使用 AVFoundation 框架提供的导出 API. AVAssetExportSession 类为简单的导出需求提供接口，例如修改文件格式或者裁剪资产的长度。对于更深的导出需求，使用 AVAssetReader 和 AVAssetWriter 类。</p>
+
+<p>当你想要操作资产的内容时使用 AVAssetReader. 例如，你可能读取资产中的音频轨迹去生成表示声波的图形。使用 AVAssetWriter 从像 sample buffers 或 still images 的媒体中生成资产。</p>
+
+<p>Reading an Asset</p>
+
+<p>每个 AVAssetReader 对象一次只能关联单个的资产， 但是这个资产可能包含多个轨迹。基于这个原因，为了配置如何去读取媒体数据，你必须在读取前给你的 asset reader 赋予 AVAssetReaderOutput 的具体子类。这里有三个具体的子类：AVAssetReaderTrackOutput, AVAssetReaderAudioMixOutput 和 AVAssetReaderVideoCompositionOutput.</p>
+
+<ol>
+<li>Creating the Asset Reader</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSError *outError;
+</span><span class='line'>AVAsset *someAsset = &lt;#AVAsset that you want to read#&gt;;
+</span><span class='line'>AVAssetReader *assetReader = [AVAssetReader assetReaderWithAsset:someAsset error:&outError];
+</span><span class='line'>BOOL success = (assetReader != nil);</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Setting Up the Asset Reader Outputs</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AVAsset *localAsset = assetReader.asset;
+</span><span class='line'>// Get the audio track to read.
+</span><span class='line'>AVAssetTrack *audioTrack = [[localAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
+</span><span class='line'>// Decompression settings for Linear PCM
+</span><span class='line'>NSDictionary *decompressionAudioSettings = @{ AVFormatIDKey : [NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM] };
+</span><span class='line'>// Create the output with the audio track and decompression settings.
+</span><span class='line'>AVAssetReaderOutput *trackOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:audioTrack outputSettings:decompressionAudioSettings];
+</span><span class='line'>// Add the output to the reader if possible.
+</span><span class='line'>if ([assetReader canAddOutput:trackOutput])
+</span><span class='line'>        [assetReader addOutput:trackOutput];</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Reading the Asset’s Media Data</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Start the asset reader up.
+</span><span class='line'>[self.assetReader startReading];
+</span><span class='line'>BOOL done = NO;
+</span><span class='line'>while (!done)
+</span><span class='line'>{
+</span><span class='line'>    // Copy the next sample buffer from the reader output.
+</span><span class='line'>    CMSampleBufferRef sampleBuffer = [self.assetReaderOutput copyNextSampleBuffer];
+</span><span class='line'>    if (sampleBuffer)
+</span><span class='line'>    {
+</span><span class='line'>        // Do something with sampleBuffer here.
+</span><span class='line'>        CFRelease(sampleBuffer);
+</span><span class='line'>        sampleBuffer = NULL;
+</span><span class='line'>    }
+</span><span class='line'>    else
+</span><span class='line'>    {
+</span><span class='line'>        // Find out why the asset reader output couldn't copy another sample buffer.
+</span><span class='line'>        if (self.assetReader.status == AVAssetReaderStatusFailed)
+</span><span class='line'>        {
+</span><span class='line'>            NSError *failureError = self.assetReader.error;
+</span><span class='line'>            // Handle the error here.
+</span><span class='line'>        }
+</span><span class='line'>        else
+</span><span class='line'>        {
+</span><span class='line'>            // The asset reader output has read all of its samples.
+</span><span class='line'>            done = YES;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Writing an Asset</p>
+
+<p>AVAssetWriter 类将多个来源的媒体数据按指定的文件格式写出到单一的文件。你不需要将你的 asset writer 对象和指定的资产关联起来，但是你必须为你想要创建的输出文件使用一个 asset writer. 因为一个 asset writer 可以写出来自多个源的媒体数据，你必须为你想要写出到输出文件的单独轨迹创建一个 AVAssetWriterInput 对象。每个 AVAssetWriterInput 对象期望收到 CMSampleBufferRef 对象格式的数据，但是如果你想追加 CVPixelBufferRef 对象到你的 asset writer input, 使用 AVAssetWriterInputPixelBufferAdaptor 类。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Creating the Asset Writer
+</span><span class='line'>NSError *outError;
+</span><span class='line'>NSURL *outputURL = &lt;#NSURL object representing the URL where you want to save the video#&gt;;
+</span><span class='line'>AVAssetWriter *assetWriter = [AVAssetWriter assetWriterWithURL:outputURL
+</span><span class='line'>fileType:AVFileTypeQuickTimeMovie
+</span><span class='line'>error:&outError];
+</span><span class='line'>BOOL success = (assetWriter != nil);
+</span><span class='line'>
+</span><span class='line'>// 2. Setting Up the Asset Writer Inputs
+</span><span class='line'>// Configure the channel layout as stereo.
+</span><span class='line'>AudioChannelLayout stereoChannelLayout = {
+</span><span class='line'>    .mChannelLayoutTag = kAudioChannelLayoutTag_Stereo,
+</span><span class='line'>    .mChannelBitmap = 0,
+</span><span class='line'>    .mNumberChannelDescriptions = 0
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// Convert the channel layout object to an NSData object.
+</span><span class='line'>NSData *channelLayoutAsData = [NSData dataWithBytes:&stereoChannelLayout length:offsetof(AudioChannelLayout, mChannelDescriptions)];
+</span><span class='line'>
+</span><span class='line'>// Get the compression settings for 128 kbps AAC.
+</span><span class='line'>NSDictionary *compressionAudioSettings = @{
+</span><span class='line'>AVFormatIDKey         : [NSNumber numberWithUnsignedInt:kAudioFormatMPEG4AAC],
+</span><span class='line'>                        AVEncoderBitRateKey   : [NSNumber numberWithInteger:128000],
+</span><span class='line'>                        AVSampleRateKey       : [NSNumber numberWithInteger:44100],
+</span><span class='line'>                        AVChannelLayoutKey    : channelLayoutAsData,
+</span><span class='line'>                        AVNumberOfChannelsKey : [NSNumber numberWithUnsignedInteger:2]
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// Create the asset writer input with the compression settings and specify the media type as audio.
+</span><span class='line'>AVAssetWriterInput *assetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:compressionAudioSettings];
+</span><span class='line'>// Add the input to the writer if possible.
+</span><span class='line'>if ([assetWriter canAddInput:assetWriterInput])
+</span><span class='line'>    [assetWriter addInput:assetWriterInput];
+</span><span class='line'>
+</span><span class='line'>// 3. Writing Media Data
+</span><span class='line'>// Prepare the asset writer for writing.
+</span><span class='line'>    [self.assetWriter startWriting];
+</span><span class='line'>    // Start a sample-writing session.
+</span><span class='line'>    [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
+</span><span class='line'>    // Specify the block to execute when the asset writer is ready for media data and the queue to call it on.
+</span><span class='line'>    [self.assetWriterInput requestMediaDataWhenReadyOnQueue:myInputSerialQueue usingBlock:^{
+</span><span class='line'>        while ([self.assetWriterInput isReadyForMoreMediaData])
+</span><span class='line'>        {
+</span><span class='line'>            // Get the next sample buffer.
+</span><span class='line'>            CMSampleBufferRef nextSampleBuffer = [self copyNextSampleBufferToWrite];
+</span><span class='line'>            if (nextSampleBuffer)
+</span><span class='line'>            {
+</span><span class='line'>                // If it exists, append the next sample buffer to the output file.
+</span><span class='line'>                [self.assetWriterInput appendSampleBuffer:nextSampleBuffer];
+</span><span class='line'>                CFRelease(nextSampleBuffer);
+</span><span class='line'>                nextSampleBuffer = nil;
+</span><span class='line'>            }
+</span><span class='line'>            else
+</span><span class='line'>            {
+</span><span class='line'>                // Assume that lack of a next sample buffer means the sample buffer source is out of samples and mark the input as finished.
+</span><span class='line'>                [self.assetWriterInput markAsFinished];
+</span><span class='line'>                break;
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<br/>
+iOS Technology Overview<br/>
+AVFoundation Programming Guide</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android开发问题汇总(三)]]></title>
@@ -6267,240 +6993,6 @@ If a URL which maps to a directory is requested, and there is no DirectoryIndex 
 </span><span class='line'>    margin: auto;
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 项目持续集成和部署笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects.html"/>
-    <updated>2015-11-04T09:38:13+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/continuous-integration-and-deployment-for-ios-projects</id>
-    <content type="html"><![CDATA[<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
-
-<h3>安装工具</h3>
-
-<ol>
-<li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
-
-<pre><code class="`"> $ brew update &amp;&amp; brew install jenkins
-</code></pre></li>
-<li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
-
-<pre><code class="`"> $ sudo gem install fastlane --verbose
-</code></pre></li>
-<li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
-
-<pre><code class="`"> $ sudo gem install fir-cli
-</code></pre></li>
-</ol>
-
-
-<!-- more -->
-
-
-<h3>fastlane 自动构建</h3>
-
-<ul>
-<li>cd [your_project_folder]</li>
-<li>fastlane init</li>
-<li>Follow the setup assistant, which will set up fastlane for you</li>
-<li>Edit Fastfile</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fastlane_version "1.25.0"
-</span><span class='line'>
-</span><span class='line'>default_platform :ios
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>platform :ios do
-</span><span class='line'>  before_all do
-</span><span class='line'>    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-</span><span class='line'>    #cocoapods
-</span><span class='line'>
-</span><span class='line'>    increment_build_number
-</span><span class='line'>
-</span><span class='line'>    gym(scheme: "srsApp") # Build your app - more options available
-</span><span class='line'>
-</span><span class='line'>    # xctool # run the tests of your app
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  desc "Runs all the tests"
-</span><span class='line'>  lane :test do
-</span><span class='line'>    snapshot
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  desc "Submit a new Beta Build to fir"
-</span><span class='line'>  desc "This will also make sure the profile is up to date"
-</span><span class='line'>  lane :fir do
-</span><span class='line'>    #snapshot
-</span><span class='line'>    sh "sigh --team_id your_team_id"
-</span><span class='line'>    #deliver(beta: true)
-</span><span class='line'>
-</span><span class='line'>    #"ipa distribute:pgyer -u USER_KEY -a APP_KEY" # 上传到蒲公英
-</span><span class='line'>
-</span><span class='line'>    #"ipa distribute:fir -u USER_TOKEN -a APP_ID" # 上传到fir.im
-</span><span class='line'>
-</span><span class='line'>    # sh"ipa distribute:fir -u USER_KEY -a APP_KEY"
-</span><span class='line'>    # You can also use other beta testing services here
-</span><span class='line'>    sh "fir p ../srsApp.ipa -T USER_TOKEN"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  desc "Submit a new Beta Build to pgyer "
-</span><span class='line'>  desc "This will also make sure the profile is up to date"
-</span><span class='line'>  lane :pgyer do
-</span><span class='line'>    #snapshot
-</span><span class='line'>    sh "sigh --team_id your_team_id"
-</span><span class='line'>    #deliver(beta: true)
-</span><span class='line'>
-</span><span class='line'>    # You can also use other beta testing services here
-</span><span class='line'>    sh "curl -F \"file=@/Users/dongmeiliang/Documents/HJKApp/srsApp/srsApp.ipa\" -F \"uKey=USER_TOKEN\" -F \"_api_key=APP_KEY\" http://www.pgyer.com/apiv1/app/upload"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # You can define as many lanes as you want
-</span><span class='line'>
-</span><span class='line'>  after_all do |lane|
-</span><span class='line'>    # This block is called, only if the executed lane was successful
-</span><span class='line'>
-</span><span class='line'>     slack(
-</span><span class='line'>       message: "Successfully deployed new App Update."
-</span><span class='line'>     )
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  error do |lane, exception|
-</span><span class='line'>     slack(
-</span><span class='line'>       message: exception.message,
-</span><span class='line'>       success: false
-</span><span class='line'>     )
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用 <code>fastlane fir</code>测试能否正常构建。</p>
-
-<h3>自动测试</h3>
-
-<p>可以利用 xcodebuild 命令来实现自动测试。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>jenkins 持续集成</h3>
-
-<ol>
-<li><p>创建自动构建 job</p>
-
-<ul>
-<li>Open <a href="http://localhost:8080">http://localhost:8080</a> with safari</li>
-<li><p>Install plugins</p>
-
-<ul>
-<li>HTML Publisher Plugin</li>
-<li>AnsiColor Plugin</li>
-<li>Rebuild Plugin</li>
-<li>GIT Plugin</li>
-</ul>
-</li>
-<li><p>Create job > input item name > Freestyle project > OK</p></li>
-<li><p>Configuration
-  Source Code Management
-  Git
-  Repository URL /Users/dongmeiliang/Documents/HJKApp
-  Branches to build */test
-  Add build step > Execute shell</p>
-
-<pre><code class="``">  #!/bin/bash   
-  source ~/.bash_profile  
-  cd srsApp/  
-  fastlane  fir  
-</code></pre></li>
-<li>Save > build</li>
-</ul>
-</li>
-<li><p>创建自动测试 job</p>
-
-<p> Add build step > Execute shell</p>
-
-<pre><code class="`"> #!/bin/bash   
- source ~/.bash_profile  
- $ xcodebuild -project UI\ Testing\ In\ Xcode.xcodeproj -scheme UI\ Testing\ In\ Xcode -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.1' test
-</code></pre></li>
-</ol>
-
-
-<h2>Reference</h2>
-
-<p>Testing with Xcode
-<a href="https://github.com/fastlane/fastlane">fastlane</a><br/>
-<a href="https://github.com/fastlane/fastlane/blob/master/docs/Jenkins.md">Jenkins Integration</a><br/>
-<a href="http://blog.csdn.net/colorapp/article/details/47007329">iOS可持续化集成: Jenkins + bundler + cocoapods + shenzhen + fastlane + pgyer</a></p>
 ]]></content>
   </entry>
   

@@ -109,6 +109,84 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html">
+		
+			iOS UIWebView与JavaScript交互</a>
+	</h2>
+	<div class="entry-content">
+		<h2>1.UIWebView调用JavaScript</h2>
+
+<h3>1.1调用html中已有的JavaScript function</h3>
+
+<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1.2注入JavaScript function,然后调用</h3>
+
+<p>我们还可以先向html中注入JavaScript function,然后调用。
+通常可以在UIWebViewDelegate中注入。示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-14T11:05:53+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/property-values.html">
 		
 			Property Values</a>
@@ -251,94 +329,6 @@ $(document).ready(
 
 
 <time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/objective-c-class-and-object.html">
-		
-			Objective-C Class and Object</a>
-	</h2>
-	<div class="entry-content">
-		<p>Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。</p>
-
-<h2>1,Class</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
-</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
-</span><span class='line'><span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#if !__OBJC2__</span>
-</span><span class='line'><span class="n">Class</span> <span class="n">super_class</span>                                           <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span>                                             <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="kt">long</span> <span class="n">version</span>                                               <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="kt">long</span> <span class="n">info</span>                                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="kt">long</span> <span class="n">instance_size</span>                                         <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span><span class="n">ivars</span>                              <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">**</span><span class="n">methodLists</span>                     <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span><span class="n">cache</span>                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span><span class="n">protocols</span>                      <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span><span class='line'><span class="cp">#endif</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span> <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-		
-		<a href="/blog/objective-c-class-and-object.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-10T07:54:58+08:00" pubdate data-updated="true"></time></div>
 	
 
 <div class="tags">

@@ -109,6 +109,65 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-development-problem-part-3.html">
+		
+			iOS App 开发问题汇总（三）</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store</h3>
+
+<p>Making an Inspectable .ipa file<br/>
+In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.<br/>
+When asked to choose the provisioning profile to sign with, select the same distribution profile you use when submitting to the App Store. Take a screenshot of your choice (command-shift-3) so you can verify this step later. During submission, this screenshot will be the only record you have identifying which profile was used to sign the app.<br/>
+When asked to save the package, uncheck Save for Enterprise Distribution, then save the .ipa file.<br/>
+Checking the Entitlements of an .ipa file<br/>
+Find the .ipa file and change its the extension to .zip.<br/>
+Expand the .zip file. This will produce a Payload folder containing your .app bundle.<br/>
+Use the codesign tool to check the entitlements on the .app bundle like this:
+$ codesign -d &ndash;entitlements :- &ldquo;Payload/YourApp.app&rdquo;
+where YourApp.app is the actual name of your .app bundle.<br/>
+Use the security tool to check the entitlements of the app&rsquo;s embedded provisioning profile:
+// should add cms, Apple may be a typo
+$ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;</p>
+
+<p>where YourApp.app is the actual name of your .app bundle.</p>
+
+
+		
+		<a href="/blog/ios-development-problem-part-3.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-30T11:36:57+08:00" pubdate data-updated="true"></time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html">
 		
 			如何在 Mac 上开启 Apache, PHP, MySQL</a>
@@ -357,324 +416,6 @@ Effective Objective-C 2.0<br/>
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/linux-useful-command-line.html">
-		
-			Linux Useful Command Line</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Create new account</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo adduser --home /home/username --shell /bin/bash --ingroup git username</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.List all groups and the user names that were in each group</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for u in `cut -f1 -d: /etc/passwd`; do echo -n $u:; groups $u; done | sort
-</span><span class='line'>
-</span><span class='line'>groups $(cut -f1 -d":" /etc/passwd) | sort</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3.How to set up ssh so you aren&rsquo;t asked for a password</h3>
-
-<p>You can create a RSA authentication key to be able to log into a remote site from your account, without having to type your password.</p>
-
-<p>Note that once you&rsquo;ve set this up, if an intruder breaks into your account/site, they are given access to the site you are allowed in without a password, too! For this reason, this should never be done from root.</p>
-
-<ul>
-<li>Run ssh-keygen(1) on your machine, and just hit enter when asked for a password.
-This will generate both a private and a public key. With older SSH versions, they will be stored in ~/.ssh/identity and ~/.ssh/identity.pub; with newer ones, they will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.</li>
-<li>Next, add the contents of the public key file into ~/.ssh/authorized_keys on the remote site (the file should be mode 600).
-If you are a developer and you want to access debian.org systems with such a key, it&rsquo;s possible to have the developer database propagate your key to all of the debian.org machines. See the LDAP gateway documentation.
-You should then be able to use ssh to log in to the remote server without being asked for a password.</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.debian.org/devel/passwordlessssh">https://www.debian.org/devel/passwordlessssh</a></p>
-
-<h3>4.Finding all files containing a text string on Linux</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -rnw 'directory' -e "pattern"
-</span><span class='line'>// eg:
-</span><span class='line'>$ grep -rnw source/_posts/  -e "pragma"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference: <a href="http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux">http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux</a></p>
-
-<h3>5.Show bash script commands without executing them</h3>
-
-<p>There are two useful debug outputs for that task (both are written to stderr):</p>
-
-<p>set -v mode (set -o verbose)
-prints commands to be executed to stderr just like they are read from input (script file or keyboard)
-prints everything before anything ( substitutions and expansions, …) big is applied
-set -x mode (set -o xtrace)
-prints everything like it really is executed, after substitutions and expansions applied
-indicates the depth-level of the subshell (by default by preceeding a + (plus) sign to the shown command)
-indicates the recognized words after word splitting by marking them like &lsquo;x y&rsquo;
-in a 4.1 version of the shell, this debug output can be printed to a configurable file descriptor (by setting the BASH_XTRACEFD variable) rather than stdout</p>
-
-<p>Hint: These modes can be entered when calling Bash:</p>
-
-<p>from commandline: bash -vx ./myscript
-eventually (OS dependant) from shebang: #!/bin/bash -vx</p>
-
-<p>Reference:<a href="http://wiki.bash-hackers.org/scripting/debuggingtips">http://wiki.bash-hackers.org/scripting/debuggingtips</a></p>
-
-<h3>6.Toggle Web Sharing on or off in OSX 10.10</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Start
-</span><span class='line'>sudo apachectl start
-</span><span class='line'>
-</span><span class='line'>// Stop
-</span><span class='line'>sudo apachectl stop
-</span><span class='line'>
-</span><span class='line'>// Restart
-</span><span class='line'>sudo apachectl restart
-</span><span class='line'>
-</span><span class='line'>// find the Apache version
-</span><span class='line'>httpd -v
-</span><span class='line'>
-</span><span class='line'>// After starting Apache – test to see if the webserver is working in the browser – http://localhost – you should see the “It Works!” text.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/">http://coolestguidesontheplanet.com/get-apache-mysql-php-phpmyadmin-working-osx-10-10-yosemite/</a></p>
-
-<h3>7.List open ports on your machine (Mac OS X)</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lsof -i -P | grep -i "listen"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/">http://juretta.com/log/2007/08/08/list_open_ports_on_your_machine_mac_os_x_/</a></p>
-
-<h3>8.What do the numbers in a man page mean?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MANUAL SECTIONS
-</span><span class='line'>    The standard sections of the manual include:
-</span><span class='line'>
-</span><span class='line'>    1      User Commands
-</span><span class='line'>    2      System Calls
-</span><span class='line'>    3      C Library Functions
-</span><span class='line'>    4      Devices and Special Files
-</span><span class='line'>    5      File Formats and Conventions
-</span><span class='line'>    6      Games et. Al.
-</span><span class='line'>    7      Miscellanea
-</span><span class='line'>    8      System Administration tools and Deamons
-</span><span class='line'>
-</span><span class='line'>    Distributions customize the manual section to their specifics,
-</span><span class='line'>    which often include additional sections.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>9.jenkins</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Note: When using launchctl the port will be 8080.
-</span><span class='line'>
-</span><span class='line'>To have launchd start jenkins at login:
-</span><span class='line'>  ln -sfv /usr/local/opt/jenkins/*.plist ~/Library/LaunchAgents
-</span><span class='line'>Then to load jenkins now:
-</span><span class='line'>  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-</span><span class='line'>Or, if you don't want/need launchctl, you can just run:
-</span><span class='line'>  jenkins</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>10.Mac 上 Openssl 的配置文件路径</h3>
-
-<p>/System/Library/OpenSSL/openssl.cnf</p>
-
-<h3>11.Find</h3>
-
-<p>find的使用实例：</p>
-
-<p>搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ find . -name 'my*'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ find . -name 'my*' -ls</span></code></pre></td></tr></table></div></figure>
-
-
-<p>搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ find . -type f -mmin -10</span></code></pre></td></tr></table></div></figure>
-
-
-<p>搜索当前目录中，所有以my开头的目录：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ find ~ -type d -name 'my*'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html">http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html</a></p>
-
-<h3>12.Enable Debian server pptpd&rsquo;s log and debug</h3>
-
-<p>To diagnose faults, enable the options debug dump in /etc/ppp/pptpd-options. The change is effective on the next connection. The debug output goes to /var/log/debug, and the dump output and usual output to /var/log/messages.</p>
-
-<p>Referenc:<a href="http://poptop.sourceforge.net/dox/debian-howto.phtml">http://poptop.sourceforge.net/dox/debian-howto.phtml</a></p>
-
-<h3>13.iptables remove specific rules</h3>
-
-<p>Execute the same commands but replace the &ldquo;-A&rdquo; with &ldquo;-D&rdquo;. For example:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ iptables -A INPUT -i eth0 -p tcp --dport 443 -j ACCEPT
-</span><span class='line'>becomes
-</span><span class='line'>
-</span><span class='line'>$ iptables -D INPUT -i eth0 -p tcp --dport 443 -j ACCEPT</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>14.How to use tcpdump?</h3>
-
-<p>tcpdump can be used to capture the packets exchanged between the PPTP Client and the PPTP Server. By comparing the packets with what should be happening, you may determine what the cause of a problem might be.
-Give to tcpdump the name of the network interface that connects to the PPTP Server, which for dial-up users would be ppp0, and for ADSL users eth0. Then, in another window or console, start the tunnel.</p>
-
-<p>Start tcpdump in one window:    Then run pppd in the other window:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># tcpdump -i eth0
-</span><span class='line'># pppd call tunnel</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The tcpdump command should show you the packets as they are received or transmitted. Press Control/C when you do not need to capture any more packets.</p>
-
-<p>You should see a connection to port 1723, followed by GRE packets in both directions. If you can see this, then you have full network connectivity. If you can&rsquo;t, you must find the problem.</p>
-
-<p>Note: if you get an error:</p>
-
-<p>tcpdump: pcap_loop: read: Network is down
-then you may be using tcpdump on the wrong interface. Use ifconfig to list the available interfaces and choose the one through which your client must contact the server. See our diagrams if you&rsquo;re still confused.</p>
-
-<p>The above technique is useful for quick checking, but for detailed analysis a binary tcpdump is required.</p>
-
-<p>Security Warning
-Internet addresses of your client and server, usernames and passwords are included in a binary tcpdump. This information may allow someone to gain equivalent access to protected networks. If you do not want to give away this information, convert it to text and remove it before sending the log to someone else.
-If you have been asked to capture a complete tcpdump packet trace, for analysis by someone else, you should:</p>
-
-<p>add -w file to tell it to save the packets to the file file,
-add -s 0 to capture all of each packet,
-and add tcp port 1723 or proto 47 to keep only the PPTP packets, if the client is performing other network traffic at the time.
-For example:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># tcpdump -i eth0 -w my.tcpdump -s 0 tcp port 1723 or proto 47
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Again, once the packets have been collected, use Control/C to stop the tcpdump process. The file containing the packets can then be e-mailed or analysed.</p>
-
-<p>You may analyse it using ethereal.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># ethereal my.tcpdump</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note: when using ethereal, clicking on a byte in the hex dump will highlight the field name of the data in the packet, and vice versa. You may also analyse it using tcpdump:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># tcpdump -n -r my.tcpdump &gt; my.tcpdump.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This converts it to text, saving the output into a file my.tcpdump.txt. This often hides the username and password. You may wish to globally substitute the IP addresses. Check your results to ensure your security.</p>
-
-<h3>15.Viewing all iptables rules</h3>
-
-<p>You just need to specify the appropriate table:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ iptables --table nat --list
-</span><span class='line'>$ iptables -t nat -L</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you don&rsquo;t specify a table, the filter table is used as the default. You can get even more information by including the -v or &ndash;verbose option.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-18T21:12:56+08:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

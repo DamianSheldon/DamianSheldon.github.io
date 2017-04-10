@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-04-10T08:52:10+08:00</updated>
+  <updated>2017-04-10T14:32:04+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[输出自定义尺寸视频]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video.html"/>
+    <updated>2017-04-10T10:12:09+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video</id>
+    <content type="html"><![CDATA[<p>最近要做的一个项目中要拍摄视频，于是就开始来研究视频。看了几遍 AVFoundation Programming Guide 之后也写了个 Demo，把基本功能都过了一遍。这其中有意思的一件事情是我发现微信拍摄短视频的尺寸是 540x944, 这尺寸很奇怪，不是任何一个预设值。不清楚微信为什么用这么一个尺寸，但我想搞清楚怎么输出自定义尺寸的视频。</p>
+
+<p>AVFoundation 捕获数据输出时，各组件的关系如下：</p>
+
+<div style="text-align:center" markdown="1">
+                                                                                           <img name="Capture Detail" src="http://DamianSheldon.github.io/images/captureDetail_2x.png">
+                                                                                        </div>
+
+
+<p>要想输出自定义尺寸的视频，我们可以从输入端和输出端着手。但是从文档来看，并没有提供可以自定捕获尺寸的方法，所以只能从输出端着手。</p>
+
+<!--more-->
+
+
+<p>首先我用 AVCaptureMovieFileOutput 做输出，然后调用 <code>setOutputSettings(_ outputSettings: [AnyHashable : Any]!, for connection: AVCaptureConnection!)</code> 来达到目标。但是很不幸，控制台输出了异常，查看 AVCaptureMovieFileOutput 的头文件，</p>
+
+<blockquote><p>On iOS, you may only specify the AVVideoCodecKey in the outputSettings. If you specify any other key, an NSInvalidArgumentException will be thrown. See the availableVideoCodecTypes property.</p></blockquote>
+
+<p>所以这个方法行不通。</p>
+
+<p>于是我又尝试用 AVAssetWriter 来接收每一帧捕获的数据，然后按配置输出，理论上来讲这是可行的，实际上只有第一帧数据能成功被接收，之后的数据都会接收失败，具体原因不详。</p>
+
+<p>直接处理每一帧数据失败之后，我又反复翻阅文档，发现编辑章节中提到可以修改 renderSize, 于是又一个想法冒出来，也许可以通过修改 renderSize 来输出自定义尺寸。按照文档编写好相关代码，激动地运行测试。结果得到的是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Optional(Error Domain=AVFoundationErrorDomain Code=-11800 "The operation could not be completed" UserInfo={NSUnderlyingError=0x1700505c0 {Error Domain=NSOSStatusErrorDomain Code=-12108 "(null)"}, NSLocalizedFailureReason=An unknown error occurred (-12108), NSLocalizedDescription=The operation could not be completed})</span></code></pre></td></tr></table></div></figure>
+
+
+<p>说实话，内心是崩溃的。但对这件事情还是耿耿于怀，又浏览了一下官方示例列表，发现了 AVSimpleEditoriOS,</p>
+
+<blockquote><p>AVSimpleEditor is a simple AVFoundation based movie editing application which exercises the APIs of AVVideoComposition, AVAudioMix and demonstrates how they can be used for simple video editing tasks. It also demonstrates how they interact with playback (AVPlayerItem) and export (AVAssetExportSession). The application performs trim, rotate, crop, add music, add watermark and export. This sample is ARC-enabled.</p></blockquote>
+
+<p>嗯，看到里面提到可以裁剪，于是就想它是怎么做？可以剪成我想要的大小吗？阅读相关的代码片断，原来它就是用的 renderSize 来实现裁剪的，跟我第三种方法的代码基本一致，差别是它是 Objc 写的，我用 Swift 写的。既然它能正常工作，那我就用这份代码来输出自定义尺寸吧。把代码移进来，运行测试，居然输出了指定的尺寸，难道代码用 Objc 和 Swift 写还有这种差别，整个人是懵的，这个原因暂时是不清楚的。</p>
+
+<p>虽然输出的尺寸对了，但是画面没有铺满尺寸，而且方向错了。这有点太虐了，既然都走到这一步，就想那我再试试能不手动把它纠正吧。纠正的方法是使用 transform, 但是文档对它的介绍不详细，我先参考了 QuartZ 2D Programming Guide 中 Transforms 来变换，发现不对，整个画面全变成了黑色，又在 AVSimpleEditoriOS 的注释中发现了新的线索，</p>
+
+<blockquote><p>Note: the point of origin for rotation is the upper left corner of the composition, t3 is to compensate for origin</p></blockquote>
+
+<p>这么说它用的坐标和 QuartZ 2D 还不一样啊，这么坑爹，好吧，只能先确定好它们是怎么变换的。于是我先输出一段没变换的视频，之后每次测试一个变换，用这个办法确认了它们的变换是这样的，变换的原点是屏幕的左上角，Translation 向右是 X 轴的正方向，向下是 Y 轴的正方向; Rotation 的度数为正是按顺时针方向旋转，为负则是逆时针方向旋转；Scaling 的值大于1为放大，小于1则是缩小。</p>
+
+<p>这样我就做了这么一个变换：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>t1 = CGAffineTransformScale(asset.preferredTransform, sx, sy);
+</span><span class='line'>
+</span><span class='line'>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
+</span><span class='line'>
+</span><span class='line'>t1 = CGAffineTransformTranslate(t1, 540, 0);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>控制台报错了，说这个视频不支持编辑，这是个什么鬼？完全没有道理啊！于是我又把这段代码从下往上一行一行注释，看是谁导致的问题，发现是 <code>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));</code> ，这样我又试着调整变换的顺序，改成：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>t1 = CGAffineTransformTranslate(asset.preferredTransform, 540, 0);
+</span><span class='line'>
+</span><span class='line'>t1 = CGAffineTransformScale(t1, sx, sy);
+</span><span class='line'>
+</span><span class='line'>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行测试，苍天啊，居然可以了。经历这么一出，感觉写代码都成了玄学了, 无力吐槽!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AVFoundation 使用笔记]]></title>
@@ -6526,495 +6603,6 @@ In iOS 5 and later you can use the remote virtual interface facility.</p></block
 
 <p><a href="https://developer.apple.com/library/mac/qa/qa1176/_index.html">Getting a Packet Trace</a><br/>
 <a href="http://stackoverflow.com/questions/9555403/capturing-mobile-phone-traffic-on-wireshark">Capturing mobile phone traffic on wireshark</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web Development Notes Part One]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-one.html"/>
-    <updated>2015-12-12T22:27:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-one</id>
-    <content type="html"><![CDATA[<h3>1. What is href=“#” and why is it used?</h3>
-
-<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
-href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
-
-<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
-
-<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
-
-<h3>2. How to debug your web page, technology stack is LAMP.</h3>
-
-<p>Solution:View log, figure out what cause problems.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/apache2/error_log
-</span><span class='line'>[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
-</span><span class='line'>[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
-</span><span class='line'>[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<h3>3. Install mcrypt_filter extension on El capitan</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Please make sure the PHP extensions listed below are installed.
-</span><span class='line'>mCrypt
-</span><span class='line'>
-</span><span class='line'>// PECL is a repository of PHP extensions that are made available to you via the » PEAR packaging system. 
-</span><span class='line'>
-</span><span class='line'>// There are several options for downloading PECL extensions, such as:
-</span><span class='line'>o The pecl install extname command downloads the extensions code automatically, so in this case there is no need for a separate download.
-</span><span class='line'>o » http://pecl.php.net/ The PECL web site contains information about the different extensions that are offered by the PHP Development Team. The information available here includes: ChangeLog, release notes, requirements and other similar details.
-</span><span class='line'>o pecl download extname PECL extensions that have releases listed on the PECL web site are available for download and installation using the » pecl command. Specific revisions may also be specified.
-</span><span class='line'>o SVN Most PECL extensions also reside in SVN. A web-based view may be seen at » http://svn.php.net/viewvc/pecl/. To download straight from SVN, the following sequence of commands may be used:
-</span><span class='line'>
-</span><span class='line'>$ pecl search mCrypt
-</span><span class='line'>Retrieving data...0%
-</span><span class='line'>Matched packages, channel pecl.php.net:
-</span><span class='line'>=======================================
-</span><span class='line'>Package       Stable/(Latest) Local
-</span><span class='line'>mcrypt_filter 0.1.0 (beta)          Applies mcrypt symmetric encryption using stream filters
-</span><span class='line'>
-</span><span class='line'>$ pecl install mcrypt_filter
-</span><span class='line'>Failed to download pecl/mcrypt_filter within preferred state "stable", latest release is version 0.1.0, stability "beta", use "channel://pecl.php.net/mcrypt_filter-0.1.0" to install
-</span><span class='line'>install failed
-</span><span class='line'>
-</span><span class='line'>$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter
-</span><span class='line'>Attempting to discover channel "pecl.php.net/mcrypt_filter-0.1.0"...
-</span><span class='line'>Attempting fallback to https instead of http on channel "pecl.php.net/mcrypt_filter-0.1.0"...
-</span><span class='line'>unknown channel "pecl.php.net/mcrypt_filter-0.1.0" in "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
-</span><span class='line'>invalid package name/package file "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
-</span><span class='line'>install failed
-</span><span class='line'>
-</span><span class='line'>$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-</span><span class='line'>Cannot install, php_dir for channel "pecl.php.net" is not writeable by the current user
-</span><span class='line'>DongMeiliangsMacBook-Pro:upload dongmeiliang$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-</span><span class='line'>Password:
-</span><span class='line'>downloading mcrypt_filter-0.1.0.tgz ...
-</span><span class='line'>Starting to download mcrypt_filter-0.1.0.tgz (4,586 bytes)
-</span><span class='line'>...
-</span><span class='line'>checking for mcrypt support... yes, shared
-</span><span class='line'>configure: error: mcrypt.h not found. Please reinstall libmcrypt.
-</span><span class='line'>ERROR: `/private/tmp/pear/install/mcrypt_filter/configure --with-php-config=/usr/bin/php-config' failed
-</span><span class='line'>
-</span><span class='line'>// Resolve configure: error: mcrypt.h not found. Please reinstall libmcrypt.
-</span><span class='line'>Get libmcrypt 2.5.8 from Sourceforge: http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download
-</span><span class='line'>
-</span><span class='line'>$ tar -zxvf libmcrypt-2.5.8.tar.gz
-</span><span class='line'>$ mkdir -p /usr/local/src
-</span><span class='line'>$ mv libmcrypt-2.5.8 /usr/local/src/
-</span><span class='line'>$ cd /usr/local/src/libmcrypt-2.5.8/
-</span><span class='line'>$ ./configure --prefix=/usr/local
-</span><span class='line'>$ make && make install
-</span><span class='line'>
-</span><span class='line'>// Continue install mCrypt extension
-</span><span class='line'>$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>12472464 40 -rwxr-xr-x  1 root  wheel  16704 Feb 15 21:41 /private/tmp/pear/install/pear-build-rootEyJ4Jg/install-mcrypt_filter-0.1.0/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so
-</span><span class='line'>
-</span><span class='line'>Build process completed successfully
-</span><span class='line'>Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
-</span><span class='line'>ERROR: failed to write /usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so (copy(/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so): failed to open stream: Operation not permitted)
-</span><span class='line'>
-</span><span class='line'>We need to disable SIP.
-</span><span class='line'>
-</span><span class='line'>OSX 10.11 El Capitan ships with a new security process referred to as SIP or Security Integrity Protection also known as rootless.
-</span><span class='line'>
-</span><span class='line'>What this essentially does is protect certain system level directories from being changes, notably
-</span><span class='line'>
-</span><span class='line'>o /System
-</span><span class='line'>o /sbin
-</span><span class='line'>o /usr
-</span><span class='line'>o not /usr/local
-</span><span class='line'>
-</span><span class='line'>// Disabling SIP in OSX
-</span><span class='line'>o Reboot your Mac into Recovery Mode by rebooting and holding down ‘command’ + ‘r’
-</span><span class='line'>o Launch a Terminal session and enter csrutil disable
-</span><span class='line'>o Reboot
-</span><span class='line'>
-</span><span class='line'>// Reinstall mCrypt extension
-</span><span class='line'>$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-</span><span class='line'>
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>Build process completed successfully
-</span><span class='line'>Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
-</span><span class='line'>install ok: channel://pecl.php.net/mcrypt_filter-0.1.0
-</span><span class='line'>configuration option "php_ini" is not set to php.ini location
-</span><span class='line'>You should add "extension=mcrypt_filter.so" to php.ini
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.nginx.cn/2196.html">http://www.nginx.cn/2196.html</a>
-<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a></p>
-
-<h3>4.Install mcrypt for php on Mac OSX 10.11 El Capitan</h3>
-
-<p>o Disable SIP/rootless
-You need to disable the new System Integrity Protection to install into some system protected directories – this involves a recovery reboot and disabling with.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ csrutil disable</span></code></pre></td></tr></table></div></figure>
-
-
-<p>o Getting it on in OS X El Capitan 10.11</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~ ; mkdir mcrypt ; cd mcrypt</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download">Get libmcrypt 2.5.8 from Sourceforge</a>,  this is direct download link.</p>
-
-<p><a href="http://php.net/releases/index.php">Get the php code in a tar.gz or .bz2 format</a>- (version 5.5.27 is the one that currently ships with OSX 10.11)</p>
-
-<p>Move both of these files that you downloaded into your working directory – mcrypt in this instance, and go back to Terminal</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~/mcrypt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Expand both files via the command line or just double click them in the Finder:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tar -zxvf libmcrypt-2.5.8.tar.gz
-</span><span class='line'>$ tar -zxvf php-5.5.27.tar.gz</span></code></pre></td></tr></table></div></figure>
-
-
-<p>o Configuring libmcrypt</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd libmcrypt-2.5.8
-</span><span class='line'>$ ./configure
-</span><span class='line'>$ make
-</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>o Compile mcrypt php Extension</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ../php-5.5.27/ext/mcrypt/
-</span><span class='line'>$ /usr/bin/phpize
-</span><span class='line'>$ ./configure
-</span><span class='line'>$ make
-</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>o Enabling mcrypt.so  php Extension</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Open /etc/php.ini and add the line below at the end
-</span><span class='line'>extension=mcrypt.so
-</span><span class='line'>
-</span><span class='line'>// If there is no php.ini file,  then you need to make one from php.ini.default in the same location like so:
-</span><span class='line'>$ sudo cp /etc/php.ini.default /etc/php.ini
-</span><span class='line'>
-</span><span class='line'>// And allow write capability
-</span><span class='line'>$ sudo chmod u+w  /etc/php.ini
-</span><span class='line'>
-</span><span class='line'>// Then add the line as above in your favourite text editor:
-</span><span class='line'>$ sudo vi /etc/php.ini
-</span><span class='line'>
-</span><span class='line'>// make sure dynamic extensions are set to on…
-</span><span class='line'>extension_dl = On
-</span><span class='line'>
-</span><span class='line'>// If it didn’t load you may need to declare the extensions directory in /etc/php.ini
-</span><span class='line'>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20100525/"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>o Restart Apache</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That’s it, create a php page with the function phpinfo();  to see if it loaded correctly.</p>
-
-<p>Reference:<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a>
-<a href="http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/</a></p>
-
-<h3>4. How to set up Apache MySQL PHP on Debian?</h3>
-
-<p>A:<a href="https://wiki.debian.org/LaMp">https://wiki.debian.org/LaMp</a></p>
-
-<h3>5. Where is apache error log path on Debian?</h3>
-
-<p>A:/var/log/apache2/error.log</p>
-
-<h3>6.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ php arrayTests.php
-</span><span class='line'>PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/extensions/no-debug-non-zts-20121212/' - dlopen(/usr/lib/php/extensions/no-debug-non-zts-20121212/, 9): no suitable image found.  Did find:
-</span><span class='line'>  /usr/lib/php/extensions/no-debug-non-zts-20121212/: not a file in Unknown on line 0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:这个问题的原因是本来我应该是设置 extension_dir 的，结果在 php.ini里写成了 extension， 更正之后问题就解决了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20121212/"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library">http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library</a></p>
-
-<h3>7.Why should the &lsquo;&amp;&rsquo; (ampersand) character be HTML escaped?</h3>
-
-<p>A:The reason we escape the &amp; is precisely because it is the first character in special characters such as &amp;rsquo. If it is not escaped, some programs may be expecting a special character to begin when they see the ampersand.</p>
-
-<p>But it is only escaped when you actually want the ampersand to show. You would not escape it in a special character. So you would always use &amp;rsquo and never &amp;rsquo.</p>
-
-<p>Reference:<a href="https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped">https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped</a></p>
-
-<h3>8.Evaluate JavaScript in terminal on Mac</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.
-</span><span class='line'>$ osascript test.js
-</span><span class='line'>// 2.
-</span><span class='line'>// Use specified language and evaluate given script file
-</span><span class='line'>$jrunscript -l js -f test.js
-</span><span class='line'>$jrunscript test.js</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>9.How to debug JavaScript?</h3>
-
-<p>A:
-Reference:<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript">https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript</a></p>
-
-<h3>10.How to use WebSocket with an Apache server while main develop language is PHP?</h3>
-
-<p>A:
-One path is to use an independent installed web sockets server.</p>
-
-<p>For PHP you can try: <a href="http://code.google.com/p/phpwebsocket/">http://code.google.com/p/phpwebsocket/</a> or <a href="http://code.google.com/p/phpws/">http://code.google.com/p/phpws/</a></p>
-
-<p>There are some other projects which you can try as well.</p>
-
-<p>Basically, you need to upload, unpack and start running the process.</p>
-
-<p>On the frontend, you&rsquo;ll have javascript connecting to the server on the specific port.</p>
-
-<p>Most websocket servers have a demo which echoes back whatever it hears, so this is a good place to write some test code. You may even find a rudimentary chat implementation.</p>
-
-<p>The tricky part is to monitor the web socket server and to make sure it runs smoothly and continuously.</p>
-
-<p>Try to test on as many browsers/devices as possible as this will decide on which websocket server implementation you choose. There are old and new protocols you have to watch out for.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server">http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server</a></p>
-
-<h3>11.How do I enable apache file and directory indexing under Linux or UNIX?</h3>
-
-<p>A:Under Apache web server automatic index generation is enabled with using Options +Indexes or Options Indexes directive.
-If a URL which maps to a directory is requested, and there is no DirectoryIndex (e.g., index.html) in that directory, then mod_autoindex will return a formatted listing of the directory.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Option 1: Using Apache config file
-</span><span class='line'>// Add directory option to Apache configuration file /etc/httpd/httpd.conf or /etc/apache2/apache2.conf:
-</span><span class='line'># vi /etc/apache2/apache2.conf
-</span><span class='line'>
-</span><span class='line'>// Add following code:
-</span><span class='line'>&lt;Directory /var/www/domain.com/pdfs&gt;
-</span><span class='line'>Options Indexes FollowSymLinks
-</span><span class='line'>&lt;/Directory&gt;
-</span><span class='line'>
-</span><span class='line'>// Save and close the file. Restart Apache:
-</span><span class='line'># /etc/init.d/httpd restart
-</span><span class='line'>
-</span><span class='line'>// OR
-</span><span class='line'># /etc/init.d/apache2 restart
-</span><span class='line'>
-</span><span class='line'>// Option 2: Using .htaccess Files with Apache
-</span><span class='line'>// You can place config line Options Indexes in .htaccess file. Make sure .htaccess file support is enabled.
-</span><span class='line'>// Change directory to pdfs
-</span><span class='line'>$ cd pdfs
-</span><span class='line'>
-</span><span class='line'>// Open .htaccess file
-</span><span class='line'>$ vi .htaccess
-</span><span class='line'>
-</span><span class='line'>// Append following apache directive:
-</span><span class='line'>Options Indexes
-</span><span class='line'>
-</span><span class='line'>//Save and close the file.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/">How do I enable apache file and directory indexing under Linux or UNIX?</a></p>
-
-<h3>13.Twig:RuntimeException: Unable to create the cache directory</h3>
-
-<p>A:The reason is web run via user www that hasn&rsquo;t right create cache directory in target position.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chown -R www:staff path/to/application</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20127884/runtimeexception-unable-to-create-the-cache-directory-var-www-sonata-app-cach">RuntimeException: Unable to create the cache directory</a></p>
-
-<h3>14.How to center a ul element?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ul {
-</span><span class='line'>    display: table;
-</span><span class='line'>    margin: auto;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

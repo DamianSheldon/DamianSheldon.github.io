@@ -97,3 +97,8 @@ public MyCustomView(Context context, AttributeSet attrs, int defStyle) {
 ```
 
 Reference:[Defining custom attrs](http://stackoverflow.com/questions/3441396/defining-custom-attrs)  
+
+###2. How to get Uri from raw file?
+A: `Uri url = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.usa_for_africa_we_are_the_world);`  
+
+Reference:[Android - How to get Uri from raw file?](http://stackoverflow.com/questions/16791439/android-how-to-get-uri-from-raw-file)  

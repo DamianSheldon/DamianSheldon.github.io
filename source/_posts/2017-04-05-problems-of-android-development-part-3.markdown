@@ -102,3 +102,15 @@ Reference:[Defining custom attrs](http://stackoverflow.com/questions/3441396/def
 A: `Uri url = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.usa_for_africa_we_are_the_world);`  
 
 Reference:[Android - How to get Uri from raw file?](http://stackoverflow.com/questions/16791439/android-how-to-get-uri-from-raw-file)  
+
+###3. How to display all music on SD card?
+A: We can use loader perform this work,
+
+```
+public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    return new CursorLoader(getActivity(), MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[] { MediaStore.Audio.Media.DISPLAY_NAME }, null, null,
+      "LOWER(" + MediaStore.Audio.Media.TITLE + ") ASC");    
+}
+```
+
+Reference:[Display all music on SD card](http://stackoverflow.com/questions/8994625/display-all-music-on-sd-card) 

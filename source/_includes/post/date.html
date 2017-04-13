@@ -1,5 +1,6 @@
 {% capture date %}{{ page.date }}{{ post.date }}{% endcapture %}
-{% capture date_formatted %}{{ page.date_formatted }}{{ post.date_formatted }}{% endcapture %}
+{% comment %}{% capture date_formatted %}{{ page.date_formatted }}{{ post.date_formatted }}{% endcapture %}{% endcomment %}
+{% capture date_formatted %}{{ date | date_to_string }}{% endcapture %}
 {% capture has_date %}{{ date | size }}{% endcapture %}
 
 {% capture updated %}{{ page.updated }}{{ post.updated }}{% endcapture %}

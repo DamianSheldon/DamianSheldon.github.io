@@ -73,7 +73,15 @@ $(document).ready(
     <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
 </ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
 </nav>
 <nav id="mobile-nav">
 	<div class="alignleft menu">
@@ -86,7 +94,15 @@ $(document).ready(
     <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
 </ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
 </div>
 	</div>
 	<div class="alignright search">
@@ -132,9 +148,9 @@ $(document).ready(
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
 </span><span class='line'>
@@ -155,7 +171,7 @@ $(document).ready(
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="k">class</span><span class="p">])</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">// the initializing code</span>
 </span><span class='line'>
@@ -230,13 +246,13 @@ $(document).ready(
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
-</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="kt">Class</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
-</span><span class='line'><span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'><span class="kt">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="cp">#if !__OBJC2__</span>
-</span><span class='line'><span class="n">Class</span> <span class="n">super_class</span>                                           <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span><span class='line'><span class="kt">Class</span> <span class="n">super_class</span>                                          <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
 </span><span class='line'><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span>                                             <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
 </span><span class='line'><span class="kt">long</span> <span class="n">version</span>                                               <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
 </span><span class='line'><span class="kt">long</span> <span class="n">info</span>                                                  <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
@@ -304,7 +320,7 @@ $(document).ready(
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while </span>installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>An error occurred <span class="k">while</span> installing RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>, and Bundler cannot <span class="k">continue</span>.
 </span><span class='line'>Make sure that gem install RedCloth -v <span class="s1">&#39;4.2.9&#39;</span> succeeds before bundling.
 </span></code></pre></td></tr></table></div></figure>
 

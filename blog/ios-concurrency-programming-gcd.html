@@ -73,7 +73,15 @@ $(document).ready(
     <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
 </ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
 </nav>
 <nav id="mobile-nav">
 	<div class="alignleft menu">
@@ -86,7 +94,15 @@ $(document).ready(
     <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
 </ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
 </div>
 	</div>
 	<div class="alignright search">
@@ -212,13 +228,13 @@ $(document).ready(
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// i) main queue</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// ii)Concurrent Queue</span>
 </span><span class='line'><span class="n">dispatch_queue</span> <span class="n">defaultGlobalConcurrentQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// iii)Serial queue</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">myCustomSerialQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyCustomSerialQueue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">myCustomSerialQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyCustomSerialQueue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// async</span>
 </span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
@@ -238,7 +254,7 @@ $(document).ready(
 </span><span class='line'>
 </span><span class='line'><span class="c1">// equlivent implement</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">defaultGlobalConcurrentQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="n">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">defaultGlobalConcurrentQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
 </span><span class='line'><span class="p">});</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -299,9 +315,9 @@ $(document).ready(
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Example 1</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Add a task to the group</span>
 </span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
@@ -318,15 +334,15 @@ $(document).ready(
 </span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Example 2</span>
-</span><span class='line'><span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'><span class="n">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
 </span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span> <span class="k">in</span> <span class="n">array</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnItem:</span><span class="n">obj</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">doWorkOnItem</span><span class="p">:</span><span class="n">obj</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">});</span>
 </span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
 </span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">doWorkOnArray:</span><span class="n">array</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">doWorkOnArray</span><span class="p">:</span><span class="n">array</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -356,7 +372,7 @@ $(document).ready(
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create the semaphore, specifying the initial pool size</span>
-</span><span class='line'><span class="n">dispatch_semaphore_t</span> <span class="n">fd_sema</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">getdtablesize</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'><span class="kt">dispatch_semaphore_t</span> <span class="n">fd_sema</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">getdtablesize</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Wait for a free file descriptor</span>
 </span><span class='line'><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>

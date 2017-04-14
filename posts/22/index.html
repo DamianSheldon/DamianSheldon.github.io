@@ -73,7 +73,15 @@ $(document).ready(
     <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
 </ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
 </nav>
 <nav id="mobile-nav">
 	<div class="alignleft menu">
@@ -86,7 +94,15 @@ $(document).ready(
     <li><a href="/web-development">Web Development</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
 </ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
 </div>
 	</div>
 	<div class="alignright search">
@@ -305,15 +321,15 @@ $(document).ready(
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span>
-</span><span class='line'>                    <span class="nl">selector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod:</span><span class="p">)</span> <span class="nl">object:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>                    <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod</span><span class="p">:)</span> <span class="nl">object</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
 </span><span class='line'>    <span class="c1">// Perform the task.</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>

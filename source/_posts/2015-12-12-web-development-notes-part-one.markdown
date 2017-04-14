@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Web Development Notes Part One"
+title: "Web 开发问题汇总(一)"
 date: 2015-12-12 22:27:22 +0800
 comments: true
 categories: [Archives, Web Development]
@@ -327,3 +327,30 @@ ul {
     margin: auto;
 }
 ```
+
+###14. 站内搜索引擎代码
+A:
+
+```
+<!--Google站内搜索开始-->
+<form method=get action="http://www.google.com/search">
+<input type=text name=q>
+<input type=submit name=btnG value="Google 搜索">
+<input type=hidden name=ie value=GB2312>
+<input type=hidden name=oe value=GB2312>
+<input type=hidden name=hl value=zh-CN>
+<input type=hidden name=domains value="www.amznz.com">
+<input type=hidden name=sitesearch value="www.amznz.com">
+</form>
+<!--Google站内搜索结束-->
+
+<!--Yahoo站内搜索开始-->
+<form action="http://www.yahoo.com.cn/search">
+<input type=text name="p">
+<input type="submit" value="Yahoo 搜索">
+<input type=hidden name=vs value="www.amznz.com">
+</form>
+<!--Yahoo站内搜索结束-->
+```
+
+Reference:[站内搜索引擎代码](http://www.amznz.com/zhannei-sousuodaima/)  

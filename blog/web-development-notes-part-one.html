@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Web Development Notes Part One  | Hello World</title>
+	<title>Web 开发问题汇总(一)  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -120,7 +120,7 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Web Development Notes Part One</h2>
+	<h2 class="title">Web 开发问题汇总(一)</h2>
 	<div class="entry-content"><h3>1. What is href=“#” and why is it used?</h3>
 
 <p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
@@ -602,6 +602,52 @@ If a URL which maps to a directory is requested, and there is no DirectoryIndex 
 </span><span class='line'>    margin: auto;
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>14. 站内搜索引擎代码</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--Google站内搜索开始--&gt;
+</span><span class='line'>&lt;form method=get action="http://www.google.com/search"&gt;
+</span><span class='line'>&lt;input type=text name=q&gt;
+</span><span class='line'>&lt;input type=submit name=btnG value="Google 搜索"&gt;
+</span><span class='line'>&lt;input type=hidden name=ie value=GB2312&gt;
+</span><span class='line'>&lt;input type=hidden name=oe value=GB2312&gt;
+</span><span class='line'>&lt;input type=hidden name=hl value=zh-CN&gt;
+</span><span class='line'>&lt;input type=hidden name=domains value="www.amznz.com"&gt;
+</span><span class='line'>&lt;input type=hidden name=sitesearch value="www.amznz.com"&gt;
+</span><span class='line'>&lt;/form&gt;
+</span><span class='line'>&lt;!--Google站内搜索结束--&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;!--Yahoo站内搜索开始--&gt;
+</span><span class='line'>&lt;form action="http://www.yahoo.com.cn/search"&gt;
+</span><span class='line'>&lt;input type=text name="p"&gt;
+</span><span class='line'>&lt;input type="submit" value="Yahoo 搜索"&gt;
+</span><span class='line'>&lt;input type=hidden name=vs value="www.amznz.com"&gt;
+</span><span class='line'>&lt;/form&gt;
+</span><span class='line'>&lt;!--Yahoo站内搜索结束--&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.amznz.com/zhannei-sousuodaima/">站内搜索引擎代码</a></p>
 </div>
 
 

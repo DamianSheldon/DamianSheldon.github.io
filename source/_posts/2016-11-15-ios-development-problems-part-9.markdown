@@ -140,3 +140,24 @@ A: Photo files are located at :
 with Xcode 8.2. You can get <device UDID> from Devices window or using command:`xcrun simctl list devvices`.
 
 Reference:[getting images from iPhone simulator](http://stackoverflow.com/questions/5488915/getting-images-from-iphone-simulator) 
+
+###10. Where is the default include paths of C headers in macOS?
+A: `gcc -x c -v -E /dev/null`  
+
+```
+$ gcc -x c -v -E /dev/null
+
+...
+
+#include "..." search starts here:
+#include <...> search starts here:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.0.0/include
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)
+
+...
+
+```
+
+Reference:[View default include path of C headers in Mac OS X by `gcc -v`?](http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v)  

@@ -10,12 +10,16 @@ discription: Web Development Notes Part One
 
 ###1. What is href=“#” and why is it used?
 
-Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.  
+Solution:
+
+```
+A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.  
 href="#some-id" would scroll to an element on the current page such as <div id="some-id">.
 
 href="//site.com/#some-id" would go to site.com and scroll to the id on that page.  
 
 href="#" doesn't specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href="#" will move the scroll position to the top.
+```
 
 Reference:http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used
 
@@ -354,3 +358,18 @@ A:
 ```
 
 Reference:[站内搜索引擎代码](http://www.amznz.com/zhannei-sousuodaima/)  
+
+###15.Uncaught TypeError: Cannot read property 'msie' of undefined
+A:The $.browser method has been removed as of jQuery 1.9.
+
+```
+>jQuery.browser() removed
+
+>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+
+>— jQuery Core 1.9 Upgrade Guide.
+```
+
+As stated in the Upgrade Guide you can try using the [jQuery Migrate plugin](https://github.com/jquery/jquery-migrate/) to restore this functionality and let jQuery Tools work.
+
+Reference:[Uncaught TypeError: Cannot read property 'msie' of undefined - jQuery tools](http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools)  

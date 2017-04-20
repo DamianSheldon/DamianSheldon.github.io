@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-04-15T10:03:27+08:00</updated>
+  <updated>2017-04-20T10:25:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -820,6 +820,26 @@ audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMedi
 <p>with Xcode 8.2. You can get <device UDID> from Devices window or using command:<code>xcrun simctl list devvices</code>.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/5488915/getting-images-from-iphone-simulator">getting images from iPhone simulator</a></p>
+
+<h3>10. Where is the default include paths of C headers in macOS?</h3>
+
+<p>A: <code>gcc -x c -v -E /dev/null</code></p>
+
+<pre><code>$ gcc -x c -v -E /dev/null
+
+...
+
+#include "..." search starts here:
+#include &lt;...&gt; search starts here:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.0.0/include
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)
+
+...
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v">View default include path of C headers in Mac OS X by <code>gcc -v</code>?</a></p>
 ]]></content>
   </entry>
   

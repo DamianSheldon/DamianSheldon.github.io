@@ -314,6 +314,39 @@ $(document).ready(
 <p>with Xcode 8.2. You can get <device UDID> from Devices window or using command:<code>xcrun simctl list devvices</code>.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/5488915/getting-images-from-iphone-simulator">getting images from iPhone simulator</a></p>
+
+<h3>10. Where is the default include paths of C headers in macOS?</h3>
+
+<p>A: <code>gcc -x c -v -E /dev/null</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gcc -x c -v -E /dev/null
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>#include "..." search starts here:
+</span><span class='line'>#include &lt;...&gt; search starts here:
+</span><span class='line'>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.0.0/include
+</span><span class='line'>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+</span><span class='line'>/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include
+</span><span class='line'>/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)
+</span><span class='line'>
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v">View default include path of C headers in Mac OS X by <code>gcc -v</code>?</a></p>
 </div>
 
 

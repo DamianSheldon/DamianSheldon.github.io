@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-04-20T11:17:03+08:00</updated>
+  <updated>2017-04-20T11:38:42+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -96,12 +96,15 @@ define('HTTPS_SERVER', 'http://ip/~meiliang/upload/');
     <id>http://DamianSheldon.github.io/blog/web-development-notes-part-one</id>
     <content type="html"><![CDATA[<h3>1. What is href=“#” and why is it used?</h3>
 
-<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
-href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+<p>Solution:</p>
 
-<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+<pre><code>A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.  
+href="#some-id" would scroll to an element on the current page such as &lt;div id="some-id"&gt;.
 
-<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
+href="//site.com/#some-id" would go to site.com and scroll to the id on that page.  
+
+href="#" doesn't specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href="#" will move the scroll position to the top.
+</code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
 
@@ -446,9 +449,23 @@ Options Indexes
 <!--Yahoo站内搜索结束-->
 
 
-<p>```</p>
+<pre><code>
+Reference:[站内搜索引擎代码](http://www.amznz.com/zhannei-sousuodaima/)  
 
-<p>Reference:<a href="http://www.amznz.com/zhannei-sousuodaima/">站内搜索引擎代码</a></p>
+###15.Uncaught TypeError: Cannot read property 'msie' of undefined
+A:The $.browser method has been removed as of jQuery 1.9.
+</code></pre>
+
+<blockquote><p>jQuery.browser() removed</p>
+
+<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
+
+<p>— jQuery Core 1.9 Upgrade Guide.
+```</p></blockquote>
+
+<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
 ]]></content>
   </entry>
   

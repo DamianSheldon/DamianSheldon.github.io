@@ -297,12 +297,21 @@ In iOS 5 and later you can use the remote virtual interface facility.</p></block
 	<div class="entry-content">
 		<h3>1. What is href=“#” and why is it used?</h3>
 
-<p>Solution:A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.<br/>
-href=&ldquo;#some-id&rdquo; would scroll to an element on the current page such as <div id="some-id">.</p>
+<p>Solution:</p>
 
-<p>href=&ldquo;//site.com/#some-id&rdquo; would go to site.com and scroll to the id on that page.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.  
+</span><span class='line'>href="#some-id" would scroll to an element on the current page such as &lt;div id="some-id"&gt;.
+</span><span class='line'>
+</span><span class='line'>href="//site.com/#some-id" would go to site.com and scroll to the id on that page.  
+</span><span class='line'>
+</span><span class='line'>href="#" doesn't specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href="#" will move the scroll position to the top.</span></code></pre></td></tr></table></div></figure>
 
-<p>href=&ldquo;#&rdquo; doesn&rsquo;t specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href=&ldquo;#&rdquo; will move the scroll position to the top.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
 

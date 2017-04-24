@@ -282,31 +282,27 @@ $(document).ready(
 		
 		<a href="/blog/ios-concurrency-programming-operation.html">
 		
-			iOS Concurrency Programming--Operation</a>
+			iOS 并发编程之 Operation</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS Concurrency 的实现方式大致有3种：1,NSOperation;2,GCD;3,Thread.上述的顺序也是推荐使用的顺序。</p>
-
-<p>Operation对象是NSOperation类的实例，用来封装你想让应用做的工作。</p>
-
-<h2>Foundation框架中的Operation类</h2>
+		<p>iOS 开发中并发的实现方式大致有三种：</p>
 
 <ol>
-<li>NSInvocationOperation类方便我们基于应用的对象和选择器创建operation对象。</li>
-<li>NSBlockOperation类方便我们同时执行一个或多个block对象。</li>
-<li>NSOperation类是自定义operation对象的基类。</li>
+<li>NSOperation;</li>
+<li>GCD;</li>
+<li>Thread.</li>
 </ol>
 
 
-<h2>并发 VS 非并发Operation</h2>
+<p>上述的顺序也是推荐使用的顺序。</p>
 
-<ol>
-<li>并发Operation是指Operation在调用线程中同步运行的。</li>
-<li>非并发Operation是指Operation与调用线程是异步运行的。</li>
-</ol>
+<h2>如何使用 Operation?</h2>
 
+<p>Operation 的核心思想是把应用想要完成的工作封装起来，然后添加到队列中执行或手动执行。苹果在 Foundation 框架中提供了 NSOperation 这个抽象类，它为我们搭好了用户代码与系统代码交互的骨架，最小化了我们需要做的工作，只需要专注于封装我们想要做的工作。苹果很贴心，为了进一步减轻开发者负担，她还提供了两个具体的类:<code>NSInvocationOperation</code> 和 <code>NSBlockOperation</code> 用来完成日常大部分工作。</p>
 
-<h2>创建一个NSInvocationOperation对象</h2>
+<p>因此，我们使用 Operation 的方法是用具体的类封装工作或者自定义 Operation 封装工作，具体类可以满足需求时就不用去自定义 Operation 了，这样可以减少我们的工作量，封装好工作之后执行它们，方法有两种：一是加入队列;二是手动执行。</p>
+
+<h2>使用 NSInvocationOperation 封装工作</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

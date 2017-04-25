@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS Concurrency Programming--GCD  | Hello World</title>
+	<title>iOS 并发编程之 GCD  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Introduce iOS Concurrency Programming GCD"> <meta name="keywords" content="iOS, Concurrency Programing, GCD">
+<meta name="description" content="iOS 并发编程之 GCD"> <meta name="keywords" content="GCD，iOS, Dispatch Queue, Concurrency Programming">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -121,27 +121,70 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS Concurrency Programming--GCD</h2>
-	<div class="entry-content"><h2>GCD是什么？</h2>
+	<h2 class="title">iOS 并发编程之 GCD</h2>
+	<div class="entry-content"><h2>GCD 是什么？</h2>
 
-<p>GCD是Grand Central Dispatch的缩写，它是用来执行自定义的任务的C接口机制。它可以串行或并行地执行任务，并大大简化了相应的线程代码。它的优点有：<br/>
-* 直接简单的编程接口；<br/>
-* 自动、整体的线程池管理；<br/>
-* 高效的内存管理；<br/>
-* 负载时不干扰内核；<br/>
-* 异步分发任务到分派队列不会造成死锁；<br/>
-* 优雅地处理竞争；<br/>
-* 串行分派队列为锁和其他同步操作提供了更高效选择；</p>
+<blockquote><p>Grand Central Dispatch (GCD) dispatch queues are a powerful tool for performing tasks. Dispatch queues let you execute arbitrary blocks of code either asynchronously or synchronously with respect to the caller.</p></blockquote>
 
-<h2>如何使用GCD？</h2>
+<p>GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步或同步运行任务代码块。</p>
 
-<p>GCD抽象出来了几组高效的的API,我们使用这些API来完成我们的工作。</p>
+<h2>为什么使用 GCD?</h2>
 
-<h3>1）单个任务；</h3>
+<p>我们使用 GCD 的原因很可能是我们想要异步或同步运行执行任务，并且还想获得以下优势:</p>
 
-<p>我们通常是通过调用以下API来执行任务：</p>
+<ul>
+<li>直接简单的编程接口；</li>
+<li>自动、整体的线程池管理；</li>
+<li>高效的内存管理；</li>
+<li>负载时不干扰内核；</li>
+<li>异步分发任务到分派队列不会造成死锁；</li>
+<li>优雅地处理竞争；</li>
+<li>串行分派队列为锁和其他同步操作提供了更高效选择；</li>
+</ul>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<h2>如何使用 GCD？</h2>
+
+<p>在 GCD 是什么部分，我们指出它是执行任务的分发队列，所以使用它之前，很有必要弄清楚分发队列。</p>
+
+<!--more-->
+
+
+<h3>关于分发队列</h3>
+
+<p>分发是类对象的结构，它管理你提交的任务。所有分发队列都是先进先出。因此，任务开始的顺序就是你提交的顺序。 GCD 自动为你提供了一些分发队列，你也可以根据具体的需求创建其他的队列。表 3-1 列出了你应用可用分发队列的类型以及如何使用它们。</p>
+
+<p>表 3-1 分发队列的类型</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> 类型 </th>
+<th style="text-align:left;"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"> Serial </td>
+<td style="text-align:left;"> 串行队列(也称作私有分发队列)按任务添加的顺序一次执行一个任务。当前运行的任务跑在队列管理确定的线程上。串行队列通常用来同步访问特定资源。<br>你可以创建任意多的串行队列，它们相互之间是并行的关系。换句话说，如果你创建了四个中午队列，每个一次执行一个任务，但是分属四个队列的四个任务却是并行的。 </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Concurrent </td>
+<td style="text-align:left;"> 并行队列(也称作一种类型的全局分发队列)并发地执行一个或多个任务，但是任务开始的顺序仍然是按它们加入队列的顺序。并发执行的任务跑在分发队列管理确定的线程上。给点任意点准确运行的余力数量是可变的并且依赖系统条件。<br>在 iOS 5 及以上，你自己可以通过指定 DISPATCH_QUEUE_CONCURRENT 作为队列类型创建并发分发队列。此外，这里还有四个预先定义的全局并发队列供你的应用使用。 </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Main dispatch queue </td>
+<td style="text-align:left;"> 主分发队列是全局可用的串行队列，它执行应用主线程上的任务。此队列使用应用程序的运行循环 (如果存在), 将排队任务的执行与附加到运行循环的其他事件源进行交错。因为它运行在你应用的主线程上，主队列经常用作应用的关键同步点。<br>虽然你不需要创建主分发队列，但你需确保你的应用合适地耗尽它。 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>我们使用 GCD 的方法就是往合适的队列里提交任务，而获得合适队列的方法从上面的介绍我们知道是创建或获取。</p>
+
+<h3>创建和获取队列</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -150,55 +193,63 @@ $(document).ready(
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_async</span>
-</span><span class='line'><span class="n">dispatch_async_f</span>
-</span><span class='line'><span class="n">dispatch_sync</span>
-</span><span class='line'><span class="n">dispatch_sync_f</span>
-</span><span class='line'><span class="n">dispatch_after</span>
-</span><span class='line'><span class="n">dispatch_after_f</span>
-</span><span class='line'><span class="n">dispatch_apply</span>
-</span><span class='line'><span class="n">dispatch_apply_f</span>
-</span><span class='line'><span class="n">dispatch_once</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.Serial queue
+</span><span class='line'>dispatch_queue_t myCustomSerialQueue = dispatch_queue_create("com.example.MyCustomSerialQueue", DISPATCH_QUEUE_SERIAL);
+</span><span class='line'>
+</span><span class='line'>// 2.Concurrent queue
+</span><span class='line'>// Get concurrent queue
+</span><span class='line'>dispatch_queue defaultGlobalConcurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+</span><span class='line'>
+</span><span class='line'>// Create concurrent queue
+</span><span class='line'>dispatch_queue_t myCustomConcurrentQueue = dispatch_queue_create("myCustomConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+</span><span class='line'>
+</span><span class='line'>// 3. Main queue
+</span><span class='line'>dispatch_queue_t mainQueue = dispatch_get_main_queue(void);</span></code></pre></td></tr></table></div></figure>
 
 
-<!-- more -->
+<h3>用块实现任务</h3>
 
+<p>在 GCD 中，任务是用块来实现的，例如：</p>
 
-<p>调用这些API之前，我们还要准备好dispatch queue.通常可以通过以下的API创建和管理Queues:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_get_global_queue</span>
-</span><span class='line'><span class="n">dispatch_get_main_queue</span>
-</span><span class='line'><span class="n">dispatch_queue_create</span>
-</span><span class='line'><span class="n">dispatch_get_current_queue</span>
-</span><span class='line'><span class="n">dispatch_queue_get_label</span>
-</span><span class='line'><span class="n">dispatch_set_target_queue</span>
-</span><span class='line'><span class="n">dispatch_main</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int x = 123;
+</span><span class='line'>int y = 456;
+</span><span class='line'>
+</span><span class='line'>// Block declaration and assignment
+</span><span class='line'>
+</span><span class='line'>void (^aBlock)(int) = ^(int z) {
+</span><span class='line'>
+</span><span class='line'>    printf("%d %d %d\n", x, y, z);
+</span><span class='line'>
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// Execute the block
+</span><span class='line'>
+</span><span class='line'>aBlock(789);   // prints: 123 456 789
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>dispatch queues主要有三大类：main queue, Concurrent queue, Serial queue;</p>
+<h3>添加任务到队列</h3>
 
-<p>i)main queue:通过dispatch_get_main_queue(void)可以取到main queue;</p>
+<p>我们可以同步或异步地分发任务，也可以单个或分组分发任务。队列 * 同步或异步 * 单个或分组 = 3 * 2 * 2 = 12，组合的结果有12种，这里我们就不穷尽各种形式了，只示意几种常用的。</p>
 
-<p>ii)Concurrent queue:通过dispatch_queue_t dispatch_get_global_queue(long priority,unsigned long flags)可以取得全局的并发队列。总共有四个优先级的全局队列：
- DISPATCH_QUEUE_PRIORITY_HIGH      <br/>
- DISPATCH_QUEUE_PRIORITY_DEFAULT
- DISPATCH_QUEUE_PRIORITY_LOW      <br/>
- DISPATCH_QUEUE_PRIORITY_BACKGROUND</p>
-
-<p>iii）Serial queue:可以使用dispatch_queue_create创建串行或并行队列。</p>
-
-<p>代码示例：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -228,160 +279,62 @@ $(document).ready(
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// i) main queue</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Dispatching tasks asynchronously and synchronously on serial queue
+</span><span class='line'>dispatch_queue_t myCustomQueue;
 </span><span class='line'>
-</span><span class='line'><span class="c1">// ii)Concurrent Queue</span>
-</span><span class='line'><span class="n">dispatch_queue</span> <span class="n">defaultGlobalConcurrentQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>myCustomQueue = dispatch_queue_create("com.example.MyCustomQueue", NULL);
 </span><span class='line'>
-</span><span class='line'><span class="c1">// iii)Serial queue</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">myCustomSerialQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.example.MyCustomSerialQueue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>dispatch_async(myCustomQueue, ^{
+</span><span class='line'>    printf("Do some work here.\n");
+</span><span class='line'>});
 </span><span class='line'>
-</span><span class='line'><span class="c1">// async</span>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
+</span><span class='line'>printf("The first block may or may not have run.\n");
 </span><span class='line'>
-</span><span class='line'><span class="c1">// sync</span>
-</span><span class='line'><span class="n">dispatch_sync</span><span class="p">(</span><span class="n">myCustomSerialQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Do some more work here.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Both blocks have completed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>dispatch_sync(myCustomQueue, ^{
 </span><span class='line'>
-</span><span class='line'><span class="c1">// apply</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'>    printf("Do some more work here.\n");
 </span><span class='line'>
-</span><span class='line'><span class="c1">// equlivent implement</span>
+</span><span class='line'>});
 </span><span class='line'>
-</span><span class='line'><span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">defaultGlobalConcurrentQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2）组任务；</h3>
-
-<p>可以使用以下API进行组操作：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_group_async</span>
-</span><span class='line'><span class="n">dispatch_group_async_f</span>
-</span><span class='line'><span class="n">dispatch_group_create</span>
-</span><span class='line'><span class="n">dispatch_group_enter</span>
-</span><span class='line'><span class="n">dispatch_group_leave</span>
-</span><span class='line'><span class="n">dispatch_group_notify</span>
-</span><span class='line'><span class="n">dispatch_group_notify_f</span>
-</span><span class='line'><span class="n">dispatch_group_wait</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码示例：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Example 1</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>printf("Both blocks have completed.\n");
 </span><span class='line'>
-</span><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'>// Dispatching group task asynchronously on concurrent queue
+</span><span class='line'>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 </span><span class='line'>
-</span><span class='line'><span class="c1">// Add a task to the group</span>
-</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>   <span class="c1">// Some asynchronous work</span>
-</span><span class='line'><span class="p">});</span>
+</span><span class='line'>dispatch_group_t group = dispatch_group_create();
 </span><span class='line'>
-</span><span class='line'><span class="c1">// Do some other work while the tasks execute.</span>
+</span><span class='line'>// Add a task to the group
 </span><span class='line'>
-</span><span class='line'><span class="c1">// When you cannot make any more forward progress,</span>
-</span><span class='line'><span class="c1">// wait on the group to block the current thread.</span>
-</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>dispatch_group_async(group, queue, ^{
 </span><span class='line'>
-</span><span class='line'><span class="c1">// Release the group when it is no longer needed.</span>
-</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'>   // Some asynchronous work
 </span><span class='line'>
-</span><span class='line'><span class="c1">// Example 2</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span> <span class="k">in</span> <span class="n">array</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">doWorkOnItem</span><span class="p">:</span><span class="n">obj</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">doWorkOnArray</span><span class="p">:</span><span class="n">array</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3）使用Dispatch Semaphores调控有效的资源使用；</h3>
-
-<p>Dispatch Semaphores相关的API如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">dispatch_semaphore_create</span>
-</span><span class='line'><span class="n">dispatch_semaphore_signal</span>
-</span><span class='line'><span class="n">dispatch_semaphore_wait</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码示例：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Create the semaphore, specifying the initial pool size</span>
-</span><span class='line'><span class="kt">dispatch_semaphore_t</span> <span class="n">fd_sema</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="n">getdtablesize</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>});
 </span><span class='line'>
-</span><span class='line'><span class="c1">// Wait for a free file descriptor</span>
-</span><span class='line'><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&quot;/etc/services&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>
+</span><span class='line'>// Do some other work while the tasks execute.
 </span><span class='line'>
-</span><span class='line'><span class="c1">// Release the file descriptor when done</span>
-</span><span class='line'><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
-</span><span class='line'><span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">fd_sema</span><span class="p">);</span>
+</span><span class='line'>// When you cannot make any more forward progress,
+</span><span class='line'>
+</span><span class='line'>// wait on the group to block the current thread.
+</span><span class='line'>
+</span><span class='line'>dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+</span><span class='line'>
+</span><span class='line'>// Release the group when it is no longer needed.
+</span><span class='line'>
+</span><span class='line'>dispatch_release(group);
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -389,7 +342,7 @@ $(document).ready(
 
 <p>o Concurrency Programming Guide  <br/>
 o <a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">Grand Central Dispatch In-Depth: Part &frac12;</a> <br/>
-o <a href="http://www.raywenderlich.com/63338/grand-central-dispatch-in-depth-part-2">Grand Central Dispatch In-Depth: Part 2/2</a>
+o <a href="http://www.raywenderlich.com/63338/grand-central-dispatch-in-depth-part-2">Grand Central Dispatch In-Depth: Part 2/2</a><br/>
 o <a href="http://www.hrchen.com/2013/07/multi-threading-programming-of-ios-part-3/">iOS多线程编程Part 3/3 - GCD</a></p>
 </div>
 

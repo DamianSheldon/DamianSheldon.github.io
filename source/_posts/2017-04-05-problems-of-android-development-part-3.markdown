@@ -45,7 +45,7 @@ flag attributes are similar except the values need to defined so they can be bit
     <flag name="cold" value="0x02" />
 </attr>
 ```
-
+<!--more-->
 In addition to attributes there is the `<declare-styleable>` element. This allows you to define attributes a custom view can use. You do this by specifying an `<attr>` element, if it was previously defined you do not specify the format. If you wish to reuse an android attr, for example android:gravity, then you can do that in the name, as follows.
 
 An example of a custom view `<declare-styleable>`:
@@ -114,3 +114,8 @@ public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 ```
 
 Reference:[Display all music on SD card](http://stackoverflow.com/questions/8994625/display-all-music-on-sd-card) 
+
+###4. Call require API level 21(current min is 10):android.content.Context#getDrawable.
+A:`ContextCompat.getDrawable(getActivity(), R.drawable.name);`  
+
+Reference:[Android getResources().getDrawable() deprecated API 22](http://stackoverflow.com/questions/29041027/android-getresources-getdrawable-deprecated-api-22/29041466#29041466)  

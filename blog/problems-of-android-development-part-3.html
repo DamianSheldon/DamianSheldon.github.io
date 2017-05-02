@@ -170,6 +170,9 @@ $(document).ready(
 </span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
 
 
+<!--more-->
+
+
 <p>In addition to attributes there is the <code>&lt;declare-styleable&gt;</code> element. This allows you to define attributes a custom view can use. You do this by specifying an <code>&lt;attr&gt;</code> element, if it was previously defined you do not specify the format. If you wish to reuse an android attr, for example android:gravity, then you can do that in the name, as follows.</p>
 
 <p>An example of a custom view <code>&lt;declare-styleable&gt;</code>:</p>
@@ -269,6 +272,12 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/8994625/display-all-music-on-sd-card">Display all music on SD card</a></p>
+
+<h3>4. Call require API level 21(current min is 10):android.content.Context#getDrawable.</h3>
+
+<p>A:<code>ContextCompat.getDrawable(getActivity(), R.drawable.name);</code></p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29041027/android-getresources-getdrawable-deprecated-api-22/29041466#29041466">Android getResources().getDrawable() deprecated API 22</a></p>
 </div>
 
 

@@ -161,3 +161,18 @@ $ gcc -x c -v -E /dev/null
 ```
 
 Reference:[View default include path of C headers in Mac OS X by `gcc -v`?](http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v)  
+
+###11. error: include of non-modular header inside framework module
+
+```
+JKEncrypt.h:11:9: error: include of non-modular header inside framework module 'JKCategories.NSData_JKEncrypt': '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.3.sdk/usr/include/CommonCrypto/CommonCryptor.h' [-Werror,-Wnon-modular-include-in-framework-module]
+#import <CommonCrypto/CommonCryptor.h>
+```
+A:Add follow instructs to your podspec file.  
+
+```
+// Your podspec file 
+spec.user_target_xcconfig = {'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES'}
+```
+
+Reference:[Swift compiler error: “non-modular header inside framework module”](http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module)  

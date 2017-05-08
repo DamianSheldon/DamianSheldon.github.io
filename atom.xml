@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-05-02T22:16:38+08:00</updated>
+  <updated>2017-05-08T16:01:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2622,6 +2622,24 @@ AVFoundation Programming Guide</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v">View default include path of C headers in Mac OS X by <code>gcc -v</code>?</a></p>
+
+<h3>11. error: include of non-modular header inside framework module</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JKEncrypt.h:11:9: error: include of non-modular header inside framework module 'JKCategories.NSData_JKEncrypt': '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.3.sdk/usr/include/CommonCrypto/CommonCryptor.h' [-Werror,-Wnon-modular-include-in-framework-module]
+</span><span class='line'>#import &lt;CommonCrypto/CommonCryptor.h&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:Add follow instructs to your podspec file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Your podspec file 
+</span><span class='line'>spec.user_target_xcconfig = {'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' =&gt; 'YES'}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module">Swift compiler error: “non-modular header inside framework module”</a></p>
 ]]></content>
   </entry>
   

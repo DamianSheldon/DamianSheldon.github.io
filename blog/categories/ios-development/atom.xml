@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-05-02T22:16:38+08:00</updated>
+  <updated>2017-05-08T16:01:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -840,6 +840,20 @@ audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMedi
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v">View default include path of C headers in Mac OS X by <code>gcc -v</code>?</a></p>
+
+<h3>11. error: include of non-modular header inside framework module</h3>
+
+<pre><code>JKEncrypt.h:11:9: error: include of non-modular header inside framework module 'JKCategories.NSData_JKEncrypt': '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.3.sdk/usr/include/CommonCrypto/CommonCryptor.h' [-Werror,-Wnon-modular-include-in-framework-module]
+#import &lt;CommonCrypto/CommonCryptor.h&gt;
+</code></pre>
+
+<p>A:Add follow instructs to your podspec file.</p>
+
+<pre><code>// Your podspec file 
+spec.user_target_xcconfig = {'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' =&gt; 'YES'}
+</code></pre>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module">Swift compiler error: “non-modular header inside framework module”</a></p>
 ]]></content>
   </entry>
   

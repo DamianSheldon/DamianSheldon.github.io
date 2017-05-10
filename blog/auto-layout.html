@@ -128,22 +128,28 @@ $(document).ready(
 
 <h3>Auto Layout 是什么</h3>
 
-<p>  Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple<br/>
-  Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
+<blockquote><p>Auto Layout is a system that lets you lay out your app’s user interface by creating a mathematical description of the relationships between the elements. —Apple</p></blockquote>
 
-<p>  You define these relationships in terms of constraints either on individual elements, or between sets of elements.<br/>
-  你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
+<p>Auto Layout是一个通过创建元素之间关系的数学描述来布局你应用的用户界面的系统。</p>
+
+<blockquote><p>You define these relationships in terms of constraints either on individual elements, or between sets of elements.</p></blockquote>
+
+<p>你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
 
 <!-- more -->
 
 
 <h4>Constraint &ndash; 约束</h4>
 
-<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。<br/>
-  * attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline； <br/>
-  * b 实际上是 Constant value, 是物理大小的偏移；<br/>
-  * =，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；<br/>
-  * Priority level, 约束还支持优先级，优先级高的先满足。</p>
+<p>  约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是View的attributes，m 和 b 是浮点值。</p>
+
+<ul>
+<li>attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline；</li>
+<li>b 实际上是 Constant value, 是物理大小的偏移；</li>
+<li>=，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；</li>
+<li>Priority level, 约束还支持优先级，优先级高的先满足。</li>
+</ul>
+
 
 <h4>Intrinsic Content Size</h4>
 
@@ -157,12 +163,16 @@ $(document).ready(
 
 <p>1,在实际的项目中，由于3.5 到5.5 Inch跨度还是挺大，建议在 ViewController 的 View 上面加一个 UIScrollView， 然后再在 ScrollView 上加一个 View， 其他的视图都布局在它上面，这样布局会容易点。</p>
 
-<p>2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：<br/>
-  * 在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；<br/>
-  * 双击上述文件使它在新的窗口中打开； <br/>
-  * 将新的窗口移动到新的桌面上，最大化它； <br/>
-  * 单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；  <br/>
-  * 在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。</p>
+<p>2,Xcode 自带布局效果预览的功能，可以按下面的步骤最大化预览编辑窗口查看在各个屏幕上的布局效果：</p>
+
+<ul>
+<li>在工程导航面板中单击 storyboard/XIB 文件，使它在 Xcode 的主窗口中打开；</li>
+<li>双击上述文件使它在新的窗口中打开；</li>
+<li>将新的窗口移动到新的桌面上，最大化它；</li>
+<li>单击下新窗口，确保它是输入焦点，然后按 Option+Command+Enter 在窗口中打开 assistant editor；</li>
+<li>在 assistant editor 头部选中 Automatic 展开下拉菜单，在下拉菜单中选中 Preview, 可以在 Preview 中一次些查看多个布局效果图，省的来回启动模拟器。</li>
+</ul>
+
 
 <h3>Demo</h3>
 
@@ -174,11 +184,11 @@ $(document).ready(
 WWDC2012 session 202 – Introduction to Auto Layout for iOS and OS X<br/>
 WWDC2012 session 228 – Best Practices for Mastering Auto Layout<br/>
 WWDC2012 session 232 – Auto Layout by Example<br/>
-<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1">http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1</a><br/>
-<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2</a>  <br/>
-<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a>  <br/>
-<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">http://studentdeng.github.io/blog/2014/06/13/auto-layout/</a>  <br/>
-<a href="http://www.onevcat.com/2012/09/autoayout/">http://www.onevcat.com/2012/09/autoayout/</a></p>
+<a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1">Beginning Auto Layout Tutorial in iOS 7: Part 1</a> <br/>
+<a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">Beginning Auto Layout Tutorial in iOS 7: Part 2</a>  <br/>
+<a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a>  <br/>
+<a href="http://studentdeng.github.io/blog/2014/06/13/auto-layout/">AutoLayout 相关概念介绍和动画demo</a>  <br/>
+<a href="http://www.onevcat.com/2012/09/autoayout/">WWDC 2012 Session笔记——202, 228, 232 AutoLayout（自动布局）入门</a></p>
 </div>
 
 

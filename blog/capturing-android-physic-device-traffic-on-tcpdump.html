@@ -328,6 +328,26 @@ $(document).ready(
 <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
 <!-- UY END -->
 
+<!-- Gitment BEGIN -->
+<div id="comments"></div>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+const gitment = new Gitment({
+id: 'Hello World', // optional
+owner: 'DamianSheldon'
+repo: 'gitment',
+oauth: {
+client_id: '534142482825f386df90',
+client_secret: '19183fe61a33fcfae35316435bf3f4d516295c38',
+},
+// ...
+// For more available options, check out the documentation below
+})
+
+gitment.render('comments')
+</script>
+<!-- Gitment -->
+
     
     
 <!---	<a class="addthis_counter addthis_pill_style"></a> --->

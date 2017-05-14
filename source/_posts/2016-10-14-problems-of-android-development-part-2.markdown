@@ -5,7 +5,7 @@ date: 2016-10-14 08:59:43 +0800
 comments: true
 categories: [Archives, Android] 
 keywords: Android, development problems 
-discription: 
+discription: Problems of android development. 
 ---
 
 ### 1.Error running app: Default Activity not found

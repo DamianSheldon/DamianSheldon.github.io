@@ -126,6 +126,196 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-technical-interview-part-1.html">
+		
+			iOS Technical Interview Part 1</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Explain method swizzling. When you would use it?</h3>
+
+<h3>2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
+
+<p>A:It causes strong reference cycle, and results as memory leaks.</p>
+
+<h3>3.What happens when you invoke a method on a nil pointer?</h3>
+
+<p>A:返回0</p>
+
+<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
+
+<h3>4.Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+
+<p>A:</p>
+
+<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
+
+<ol>
+<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
+<li>产品代码中不应该包含无用代码。</li>
+</ol>
+
+
+<h3>5.Explain your process for tracing and fixing a memory leak.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
+<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
+</ol>
+
+
+<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
+
+<h3>6.Explain how an autorelease pool works at the runtime level.</h3>
+
+<h3>7.When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
+
+<p>A: atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@property CGRect domain;
+</span><span class='line'>
+</span><span class='line'>&lt;b&gt;thread 1:&lt;/b&gt; puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
+</span><span class='line'>&lt;b&gt;thread 2:&lt;/b&gt; puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);
+</span><span class='line'>
+</span><span class='line'>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。
+</span><span class='line'>
+</span><span class='line'>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
+
+<h3>8.In C, how would you reverse a string as quickly as possible?</h3>
+
+<h3>9.Which is faster: to iterate through an NSArray or an NSSet?</h3>
+
+<p>A: NSArray</p>
+
+<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
+
+<h3>10.Explain how code signing works.</h3>
+
+<h3>11.What is posing in Objective-C?</h3>
+
+<h3>12.List six instruments that are part of the standard.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>Time Profiler</li>
+<li>Leaks</li>
+<li>Zombies</li>
+<li>Allocations</li>
+<li>Activity Monitor</li>
+<li>Core Animation</li>
+<li>Network</li>
+</ol>
+
+
+<h3>13.What are the differences between copy and retain?</h3>
+
+<p>A: copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
+
+<h3>14.What is the difference between frames and bounds?</h3>
+
+<p>A:</p>
+
+<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
+The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
+
+<h3>15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+
+<p>A: The object gets released twice when the autorelease pool is destroyed.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
+
+<h3>16.List the five iOS app states.</h3>
+
+<p>A:</p>
+
+<table>
+<thead>
+<tr>
+<th> State </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Not Running </td>
+<td> The app has not been launched or was running but was terminated by the system. </td>
+</tr>
+<tr>
+<td> Inactive </td>
+<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
+</tr>
+<tr>
+<td> Active </td>
+<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
+</tr>
+<tr>
+<td> Background </td>
+<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
+</tr>
+<tr>
+<td> Suspended </td>
+<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
+
+<p>Reference:
+o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Interview Questions</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-01-05T15:44:07+08:00" pubdate data-updated="true">05 Jan 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-of-android-development.html">
 		
 			Android开发问题汇总(一)</a>
@@ -490,66 +680,6 @@ URL Session Programming Guide</p>
 
 
 <time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">15 Dec 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-state-preservation-and-restoration.html">
-		
-			iOS App State Preservation and Restoration</a>
-	</h2>
-	<div class="entry-content">
-		<ol>
-<li>什么是State Preservation and Restoration？</li>
-<li>为什么要用State Preservation and Restoration？</li>
-<li>如何使用State Preservation and Restoration？</li>
-</ol>
-
-
-<h3>什么是State Preservation and Restoration？</h3>
-
-<p>State Preservation and Restoration组成UIKit的state preservation system，它提供简单而灵活的架构来保存和恢复应用的视图控制器和视图。</p>
-
-<h3>为什么要用State Preservation and Restoration？</h3>
-
-<blockquote><p>Even if your app supports background execution, it cannot run forever. At some point, the system might need to terminate your app to free up memory for the current foreground app. However, the user should never have to care if an app is already running or was terminated. From the user’s perspective, quitting an app should just seem like a temporary interruption. When the user returns to an app, that app should always return the user to the last point of use, so that the user can continue with whatever task was in progress. This behavior provides a better experience for the user and with the state restoration support built in to UIKit is relatively easy to achieve.</p></blockquote>
-
-<p>即使你的应用支持后台运行，它也不可能一直运行。某个时刻，系统也许需要终止你的应用为当前应用释放内存。然而，用户应该永远不用关心应用是已经运行或终止。从用户的角度来看，退出应用应该就像暂时的中断。当用户回到应用，它应该回到上次使用的状态，以便用户能继续任何正在进行的任务。这种行为为用户提供了更好的体验，UIKit内置了这种状态恢复支持很容易就能实现。</p>
-
-
-		
-		<a href="/blog/ios-app-state-preservation-and-restoration.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-12-08T11:55:48+08:00" pubdate data-updated="true">08 Dec 2014</time></div>
 	
 
 <div class="tags">

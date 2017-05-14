@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-05-10T17:32:49+08:00</updated>
+  <updated>2017-05-14T17:10:58+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android 开发问题汇总(三)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-3.html"/>
+    <updated>2017-05-14T16:56:19+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-3</id>
+    <content type="html"><![CDATA[<h3>1.怎么给 Button 加上圆角?</h3>
+
+<p>A:Create an xml inside Drawable Folder with below code. Name it rounded_red_border.xml</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"&gt;
+
+// The width and color of the border   
+ &lt;stroke
+        android:width="4dp"
+        android:color="#de3d3d" /&gt;
+
+// The desired corner radius. reduce it to keep it less rounded
+    &lt;corners android:radius="360dp" /&gt;
+
+// Add your desired padding
+    &lt;padding
+        android:left="20dp"
+        android:top="10dp"
+        android:right="20dp"
+        android:bottom="10dp"    &gt;
+    &lt;/padding&gt;
+
+&lt;/shape&gt;
+</code></pre>
+
+<p>Applying the border to a Layout or View</p>
+
+<p>Set the above drawable as a background to your Layout or View like LinearLayout, FrameLayout, TextView, Button etc.</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"&gt;
+
+
+// Apply as the background of TextView
+&lt;TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="YOUR TEXT"
+    android:textSize="20dp"
+    android:textStyle="bold"
+    android:background="@drawable/rounded_red_border"
+    android:textColor="#000"
+    android:layout_centerInParent="true"/&gt;
+
+
+&lt;/RelativeLayout&gt;
+</code></pre>
+
+<p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android开发问题汇总(三)]]></title>

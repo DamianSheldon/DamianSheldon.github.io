@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Android 开发问题汇总(三)  | Hello World</title>
+	<title>Android开发问题汇总(三)  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Android, development">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Android, Problems">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -122,10 +122,77 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Android 开发问题汇总(三)</h2>
-	<div class="entry-content"><h3>1.怎么给 Button 加上圆角?</h3>
+	<h2 class="title">Android开发问题汇总(三)</h2>
+	<div class="entry-content"><h3>1. How to define custom attributes?</h3>
 
-<p>A:Create an xml inside Drawable Folder with below code. Name it rounded_red_border.xml</p>
+<p>A:Currently the best documentation is the source. You can take a look at it <a href="https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/attrs.xml">here(arrts.xml)</a>.</p>
+
+<p>You can define attributes in the top <code>&lt;resources&gt;</code> element or inside of a <code>&lt;declare-styleable&gt;</code> element. If I&rsquo;m going to use an attr in more than on place I put it in the root element. Note , all attributes share the same global namespace. That means that even if you create a new attribute inside of a <code>&lt;declare-styleable&gt;</code> element it can be used outside of it and you cannot create another attribute with the same name of a different type.</p>
+
+<p>An <code>&lt;attr&gt;</code> element has two xml attributes <code>name</code> and <code>format</code>. <code>name</code> lets you call it something and this how you end up refering to it in code, e.g., R.attr.my_attribute. The <code>format</code> attribute can have different values depending on the type of attribute you want.</p>
+
+<ul>
+<li>reference - if it references another resource id(e.g, &ldquo;@color/my_color&rdquo;, &ldquo;@layout/my_layout&rdquo;)</li>
+<li>color</li>
+<li>boolean</li>
+<li>dimension</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+<li>fraction</li>
+<li>enum - normally implicitly defined</li>
+<li>flag - normally implicitly defined</li>
+</ul>
+
+
+<p>You can set the format to multiple types by using |, e.g., <code>format="reference|color"</code>.</p>
+
+<p>enum attributes can be defined as follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;attr name="my_enum_attr"&gt; 
+</span><span class='line'>    &lt;enmu name="value1" value="1" /&gt;
+</span><span class='line'>    &lt;enmu name="value2" value="2" /&gt;
+</span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>flag attributes are similar except the values need to defined so they can be bit ored together:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;attr name="my_flag_attr"&gt;
+</span><span class='line'>    &lt;flag name="fuzzy" value="0x01" /&gt;
+</span><span class='line'>    &lt;flag name="cold" value="0x02" /&gt;
+</span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
+
+
+<p>In addition to attributes there is the <code>&lt;declare-styleable&gt;</code> element. This allows you to define attributes a custom view can use. You do this by specifying an <code>&lt;attr&gt;</code> element, if it was previously defined you do not specify the format. If you wish to reuse an android attr, for example android:gravity, then you can do that in the name, as follows.</p>
+
+<p>An example of a custom view <code>&lt;declare-styleable&gt;</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;declare-styleable name="MyCustomView"&gt; 
+</span><span class='line'>    &lt;attr name="my_custom_attribute" /&gt;
+</span><span class='line'>    &lt;attr name="android:gravity" /&gt;
+</span><span class='line'>&lt;/declare-styleable&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When defining you custom attributes in XML on you need to do a few things.</p>
+
+<p>First you must declare a namespace to find your attributes. You do this on the root layout element. Normal there is only <code>xmlns:android="http//schemas.android.com/apk/res/android"</code>. You must now also add <code>xmlns:app="http://schemas.android.com/apk/res-auto"</code>.</p>
+
+<p>Example:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -141,39 +208,23 @@ $(document).ready(
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:shape="rectangle"&gt;
-</span><span class='line'> 
-</span><span class='line'>// The width and color of the border   
-</span><span class='line'> &lt;stroke
-</span><span class='line'>        android:width="4dp"
-</span><span class='line'>        android:color="#de3d3d" /&gt;
-</span><span class='line'> 
-</span><span class='line'>// The desired corner radius. reduce it to keep it less rounded
-</span><span class='line'>    &lt;corners android:radius="360dp" /&gt;
-</span><span class='line'> 
-</span><span class='line'>// Add your desired padding
-</span><span class='line'>    &lt;padding
-</span><span class='line'>        android:left="20dp"
-</span><span class='line'>        android:top="10dp"
-</span><span class='line'>        android:right="20dp"
-</span><span class='line'>        android:bottom="10dp"    &gt;
-</span><span class='line'>    &lt;/padding&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>&lt;LinearLayout
+</span><span class='line'>xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>xmlns:whatever="http://schemas.android.com/apk/res-auto"
+</span><span class='line'>android:orientation="vertical"
+</span><span class='line'>android:layout_width="fill_parent"
+</span><span class='line'>android:layout_height="fill_parent"&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;org.example.mypackage.MyCustomView
+</span><span class='line'>android:layout_width="fill_parent"
+</span><span class='line'>android:layout_height="wrap_content"
+</span><span class='line'>android:gravity="center"
+</span><span class='line'>whatever:my_custom_attribute="Hello, world!" /&gt;
+</span><span class='line'>&lt;/LinearLayout&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Applying the border to a Layout or View</p>
-
-<p>Set the above drawable as a background to your Layout or View like LinearLayout, FrameLayout, TextView, Button etc.</p>
+<p>Finally, to access that custom attribute you normally do so in the constructor of you custom view as follows:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -186,36 +237,48 @@ $(document).ready(
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>android:layout_width="match_parent"
-</span><span class='line'>android:layout_height="match_parent"&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>// Apply as the background of TextView
-</span><span class='line'>&lt;TextView
-</span><span class='line'>    android:layout_width="wrap_content"
-</span><span class='line'>    android:layout_height="wrap_content"
-</span><span class='line'>    android:text="YOUR TEXT"
-</span><span class='line'>    android:textSize="20dp"
-</span><span class='line'>    android:textStyle="bold"
-</span><span class='line'>    android:background="@drawable/rounded_red_border"
-</span><span class='line'>    android:textColor="#000"
-</span><span class='line'>    android:layout_centerInParent="true"/&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>&lt;/RelativeLayout&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public MyCustomView(Context context, AttributeSet attrs, int defStyle) {
+</span><span class='line'>    super(context, attrs, defStyle);
+</span><span class='line'>
+</span><span class='line'>    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyCustomView, defStyle, 0);
+</span><span class='line'>
+</span><span class='line'>    String str = a.getString(R.styleable.MyCustomView_my_custom_attribute);
+</span><span class='line'>
+</span><span class='line'>    //do something with str
+</span><span class='line'>
+</span><span class='line'>    a.recycle();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/3441396/defining-custom-attrs">Defining custom attrs</a></p>
+
+<h3>2. How to get Uri from raw file?</h3>
+
+<p>A: <code>Uri url = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.usa_for_africa_we_are_the_world);</code></p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/16791439/android-how-to-get-uri-from-raw-file">Android - How to get Uri from raw file?</a></p>
+
+<h3>3. How to display all music on SD card?</h3>
+
+<p>A: We can use loader perform this work,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public Loader&lt;Cursor&gt; onCreateLoader(int id, Bundle args) {
+</span><span class='line'>    return new CursorLoader(getActivity(), MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[] { MediaStore.Audio.Media.DISPLAY_NAME }, null, null,
+</span><span class='line'>      "LOWER(" + MediaStore.Audio.Media.TITLE + ") ASC");    
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/8994625/display-all-music-on-sd-card">Display all music on SD card</a></p>
+
+<h3>4. Call require API level 21(current min is 10):android.content.Context#getDrawable.</h3>
+
+<p>A:<code>ContextCompat.getDrawable(getActivity(), R.drawable.name);</code></p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/29041027/android-getresources-getdrawable-deprecated-api-22/29041466#29041466">Android getResources().getDrawable() deprecated API 22</a></p>
 </div>
 
 
@@ -234,7 +297,7 @@ $(document).ready(
 
 
 
-<time datetime="2017-05-14T16:56:19+08:00" pubdate data-updated="true">14 May 2017</time></div>
+<time datetime="2017-04-05T08:48:36+08:00" pubdate data-updated="true">05 Apr 2017</time></div>
 	
 
 <div class="tags">

@@ -131,4 +131,5 @@ $ git pull origin master  # update the local master branch
 
 Reference:[Clone Your Octopress to Blog From Two Places](http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/)  
 
-
+###8. Disqus 的替代方案？
+A: 

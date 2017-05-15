@@ -42,8 +42,11 @@ discription: setup iterm2 to behave like guake
 
 6)最后在Preferences… > General > Startup, 只选中“Open default window arrangement” 。
 
-###Reference:   
-SETUP ITERM2 TO BEHAVE LIKE GUAKE(http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/)    
+(2017-05-15 Update)  
+根据 [@leafonsword](https://github.com/leafonsword) 的反馈，也可以通过 General > Startup > Don't open any windows 来解决。
 
-Launch iTerm 2 on startup without opening a terminal window (http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/)
+###Reference:   
+[SETUP ITERM2 TO BEHAVE LIKE GUAKE](http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/)    
+
+[Launch iTerm 2 on startup without opening a terminal window] (http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/)
 

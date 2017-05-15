@@ -48,5 +48,5 @@ discription: setup iterm2 to behave like guake
 ###Reference:   
 [SETUP ITERM2 TO BEHAVE LIKE GUAKE](http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/)    
 
-[Launch iTerm 2 on startup without opening a terminal window] (http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/)
+[Launch iTerm 2 on startup without opening a terminal window](http://rottmann.net/2013/03/launch-iterm-2-on-startup-without-opening-a-terminal-window/)
 

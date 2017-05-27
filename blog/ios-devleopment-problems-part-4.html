@@ -215,6 +215,14 @@ ld: symbol(s) not found for architecture arm64</p>
 
 <p>So we can cut a 1x1 pixel pure color image, set this image as navigation bar&rsquo;s shadow image.</p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UINavigationBar appearance] setTranslucent:NO];
+</span><span class='line'>[[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>[[UINavigationBar appearance] setShadowImage:[UIImage new]];</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Reference:<a href="http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline">http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline</a><br/>
 <a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line</a></p>
 

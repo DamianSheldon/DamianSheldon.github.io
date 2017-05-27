@@ -67,6 +67,12 @@ Solution:
 
 So we can cut a 1x1 pixel pure color image, set this image as navigation bar's shadow image.
 
+```
+[[UINavigationBar appearance] setTranslucent:NO];
+[[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+[[UINavigationBar appearance] setShadowImage:[UIImage new]];
+```
+
 Reference:http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline  
 http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line
 

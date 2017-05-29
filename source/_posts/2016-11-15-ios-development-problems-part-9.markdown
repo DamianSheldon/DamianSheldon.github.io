@@ -176,3 +176,25 @@ spec.user_target_xcconfig = {'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODU
 ```
 
 Reference:[Swift compiler error: “non-modular header inside framework module”](http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module)  
+
+###12. Is there a “space” character that is NOT trimmed from end of UILabel?  
+A:I haven't found such character yet. Follow sulotion is a workaround:
+
+```
+NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+
+[string insertAttributedString:[self emptyAtributedWhitespace] atIndex:0];
+[string appendAttributedString:[self emptyAtributedWhitespace]];
+
+label.attributedText = string;
+
+...
+
+- (NSAttributedString *)emptyAtributedWhitespace
+{
+        // You can put any random string there or how many spaces you want
+            return [[NSAttributedString alloc] initWithString:@"_" attributes:@{ NSForegroundColorAttributeName : [UIColor clearColor]}];
+}
+```
+
+Reference:[Is there a “space” character that is NOT trimmed from end of UILabel?](https://stackoverflow.com/questions/25836307/is-there-a-space-character-that-is-not-trimmed-from-end-of-uilabel)  

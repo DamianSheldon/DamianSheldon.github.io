@@ -367,6 +367,42 @@ $(document).ready(
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module">Swift compiler error: “non-modular header inside framework module”</a></p>
+
+<h3>12. Is there a “space” character that is NOT trimmed from end of UILabel?</h3>
+
+<p>A:I haven&rsquo;t found such character yet. Follow sulotion is a workaround:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+</span><span class='line'>
+</span><span class='line'>[string insertAttributedString:[self emptyAtributedWhitespace] atIndex:0];
+</span><span class='line'>[string appendAttributedString:[self emptyAtributedWhitespace]];
+</span><span class='line'>
+</span><span class='line'>label.attributedText = string;
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>- (NSAttributedString *)emptyAtributedWhitespace
+</span><span class='line'>{
+</span><span class='line'>        // You can put any random string there or how many spaces you want
+</span><span class='line'>            return [[NSAttributedString alloc] initWithString:@"_" attributes:@{ NSForegroundColorAttributeName : [UIColor clearColor]}];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/25836307/is-there-a-space-character-that-is-not-trimmed-from-end-of-uilabel">Is there a “space” character that is NOT trimmed from end of UILabel?</a></p>
 </div>
 
 

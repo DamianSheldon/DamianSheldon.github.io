@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-05-27T21:30:29+08:00</updated>
+  <updated>2017-05-29T10:28:58+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -854,6 +854,28 @@ spec.user_target_xcconfig = {'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODU
 </code></pre>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module">Swift compiler error: “non-modular header inside framework module”</a></p>
+
+<h3>12. Is there a “space” character that is NOT trimmed from end of UILabel?</h3>
+
+<p>A:I haven&rsquo;t found such character yet. Follow sulotion is a workaround:</p>
+
+<pre><code>NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+
+[string insertAttributedString:[self emptyAtributedWhitespace] atIndex:0];
+[string appendAttributedString:[self emptyAtributedWhitespace]];
+
+label.attributedText = string;
+
+...
+
+- (NSAttributedString *)emptyAtributedWhitespace
+{
+        // You can put any random string there or how many spaces you want
+            return [[NSAttributedString alloc] initWithString:@"_" attributes:@{ NSForegroundColorAttributeName : [UIColor clearColor]}];
+}
+</code></pre>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/25836307/is-there-a-space-character-that-is-not-trimmed-from-end-of-uilabel">Is there a “space” character that is NOT trimmed from end of UILabel?</a></p>
 ]]></content>
   </entry>
   

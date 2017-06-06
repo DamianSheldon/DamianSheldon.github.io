@@ -403,6 +403,238 @@ $(document).ready(
 
 
 <p>Reference:<a href="https://stackoverflow.com/questions/25836307/is-there-a-space-character-that-is-not-trimmed-from-end-of-uilabel">Is there a “space” character that is NOT trimmed from end of UILabel?</a></p>
+
+<h3>13. 如何更换 SVN 仓库地址？</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. 查看仓库地址
+</span><span class='line'>
+</span><span class='line'>$ svn info 
+</span><span class='line'>Path: .
+</span><span class='line'>Working Copy Root Path: /Users/dongmeiliang/Documents/SuiShouPai
+</span><span class='line'>URL: http://192.168.2.231:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
+</span><span class='line'>Relative URL: ^/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
+</span><span class='line'>Repository Root: http://192.168.2.231:2036/svn/mct_v1
+</span><span class='line'>Repository UUID: 59ac94ce-ffd7-5644-ad12-280b91628744
+</span><span class='line'>Revision: 12039
+</span><span class='line'>Node Kind: directory
+</span><span class='line'>Schedule: normal
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>// 2. 更换仓库地址
+</span><span class='line'>
+</span><span class='line'>$ svn relocate http://192.168.2.231:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP http://192.168.9.21:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>14. 在 iOS 中如何计算大文件的 MD5 Hash 值？</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Standard library
+</span><span class='line'>#include &lt;stdint.h&gt;
+</span><span class='line'>#include &lt;stdio.h&gt;
+</span><span class='line'>
+</span><span class='line'>// Core Foundation
+</span><span class='line'>#include &lt;CoreFoundation/CoreFoundation.h&gt;
+</span><span class='line'>
+</span><span class='line'>// Cryptography
+</span><span class='line'>#include &lt;CommonCrypto/CommonDigest.h&gt;
+</span><span class='line'>
+</span><span class='line'>// In bytes
+</span><span class='line'>#define FileHashDefaultChunkSizeForReadingData 4096
+</span><span class='line'>
+</span><span class='line'>// Function
+</span><span class='line'>CFStringRef FileMD5HashCreateWithPath(CFStringRef filePath, 
+</span><span class='line'>        size_t chunkSizeForReadingData) {
+</span><span class='line'>
+</span><span class='line'>    // Declare needed variables
+</span><span class='line'>    CFStringRef result = NULL;
+</span><span class='line'>    CFReadStreamRef readStream = NULL;
+</span><span class='line'>
+</span><span class='line'>    // Get the file URL
+</span><span class='line'>    CFURLRef fileURL = 
+</span><span class='line'>        CFURLCreateWithFileSystemPath(kCFAllocatorDefault, 
+</span><span class='line'>                (CFStringRef)filePath, 
+</span><span class='line'>                kCFURLPOSIXPathStyle, 
+</span><span class='line'>                (Boolean)false);
+</span><span class='line'>    if (!fileURL) goto done;
+</span><span class='line'>
+</span><span class='line'>    // Create and open the read stream
+</span><span class='line'>    readStream = CFReadStreamCreateWithFile(kCFAllocatorDefault, 
+</span><span class='line'>            (CFURLRef)fileURL);
+</span><span class='line'>    if (!readStream) goto done;
+</span><span class='line'>    bool didSucceed = (bool)CFReadStreamOpen(readStream);
+</span><span class='line'>    if (!didSucceed) goto done;
+</span><span class='line'>
+</span><span class='line'>    // Initialize the hash object
+</span><span class='line'>    CC_MD5_CTX hashObject;
+</span><span class='line'>    CC_MD5_Init(&hashObject);
+</span><span class='line'>
+</span><span class='line'>    // Make sure chunkSizeForReadingData is valid
+</span><span class='line'>    if (!chunkSizeForReadingData) {
+</span><span class='line'>        chunkSizeForReadingData = FileHashDefaultChunkSizeForReadingData;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    // Feed the data to the hash object
+</span><span class='line'>    bool hasMoreData = true;
+</span><span class='line'>    while (hasMoreData) {
+</span><span class='line'>        uint8_t buffer[chunkSizeForReadingData];
+</span><span class='line'>        CFIndex readBytesCount = CFReadStreamRead(readStream, 
+</span><span class='line'>                (UInt8 *)buffer, 
+</span><span class='line'>                (CFIndex)sizeof(buffer));
+</span><span class='line'>        if (readBytesCount == -1) break;
+</span><span class='line'>        if (readBytesCount == 0) {
+</span><span class='line'>            hasMoreData = false;
+</span><span class='line'>            continue;
+</span><span class='line'>        }
+</span><span class='line'>        CC_MD5_Update(&hashObject, 
+</span><span class='line'>                (const void *)buffer, 
+</span><span class='line'>                (CC_LONG)readBytesCount);
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    // Check if the read operation succeeded
+</span><span class='line'>    didSucceed = !hasMoreData;
+</span><span class='line'>
+</span><span class='line'>    // Compute the hash digest
+</span><span class='line'>    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+</span><span class='line'>    CC_MD5_Final(digest, &hashObject);
+</span><span class='line'>
+</span><span class='line'>    // Abort if the read operation failed
+</span><span class='line'>    if (!didSucceed) goto done;
+</span><span class='line'>
+</span><span class='line'>    // Compute the string result
+</span><span class='line'>    char hash[2 * sizeof(digest) + 1];
+</span><span class='line'>    for (size_t i = 0; i &lt; sizeof(digest); ++i) {
+</span><span class='line'>        snprintf(hash + (2 * i), 3, "%02x", (int)(digest[i]));
+</span><span class='line'>    }
+</span><span class='line'>    result = CFStringCreateWithCString(kCFAllocatorDefault, 
+</span><span class='line'>            (const char *)hash, 
+</span><span class='line'>            kCFStringEncodingUTF8);
+</span><span class='line'>
+</span><span class='line'>done:
+</span><span class='line'>
+</span><span class='line'>    if (readStream) {
+</span><span class='line'>        CFReadStreamClose(readStream);
+</span><span class='line'>        CFRelease(readStream);
+</span><span class='line'>    }
+</span><span class='line'>    if (fileURL) {
+</span><span class='line'>        CFRelease(fileURL);
+</span><span class='line'>    }
+</span><span class='line'>    return result;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.joel.lopes-da-silva.com/2010/09/07/compute-md5-or-sha-hash-of-large-file-efficiently-on-ios-and-mac-os-x/">Compute MD5 or SHA hash of large file efficiently on iOS and Mac OS X</a></p>
 </div>
 
 

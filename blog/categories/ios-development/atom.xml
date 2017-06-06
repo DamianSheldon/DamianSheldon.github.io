@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-05-29T10:28:58+08:00</updated>
+  <updated>2017-06-06T14:28:55+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -876,6 +876,129 @@ label.attributedText = string;
 </code></pre>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/25836307/is-there-a-space-character-that-is-not-trimmed-from-end-of-uilabel">Is there a “space” character that is NOT trimmed from end of UILabel?</a></p>
+
+<h3>13. 如何更换 SVN 仓库地址？</h3>
+
+<p>A:</p>
+
+<pre><code>// 1. 查看仓库地址
+
+$ svn info 
+Path: .
+Working Copy Root Path: /Users/dongmeiliang/Documents/SuiShouPai
+URL: http://192.168.2.231:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
+Relative URL: ^/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
+Repository Root: http://192.168.2.231:2036/svn/mct_v1
+Repository UUID: 59ac94ce-ffd7-5644-ad12-280b91628744
+Revision: 12039
+Node Kind: directory
+Schedule: normal
+...
+
+// 2. 更换仓库地址
+
+$ svn relocate http://192.168.2.231:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP http://192.168.9.21:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
+</code></pre>
+
+<h3>14. 在 iOS 中如何计算大文件的 MD5 Hash 值？</h3>
+
+<p>A:</p>
+
+<pre><code>// Standard library
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// Core Foundation
+#include &lt;CoreFoundation/CoreFoundation.h&gt;
+
+// Cryptography
+#include &lt;CommonCrypto/CommonDigest.h&gt;
+
+// In bytes
+#define FileHashDefaultChunkSizeForReadingData 4096
+
+// Function
+CFStringRef FileMD5HashCreateWithPath(CFStringRef filePath, 
+        size_t chunkSizeForReadingData) {
+
+    // Declare needed variables
+    CFStringRef result = NULL;
+    CFReadStreamRef readStream = NULL;
+
+    // Get the file URL
+    CFURLRef fileURL = 
+        CFURLCreateWithFileSystemPath(kCFAllocatorDefault, 
+                (CFStringRef)filePath, 
+                kCFURLPOSIXPathStyle, 
+                (Boolean)false);
+    if (!fileURL) goto done;
+
+    // Create and open the read stream
+    readStream = CFReadStreamCreateWithFile(kCFAllocatorDefault, 
+            (CFURLRef)fileURL);
+    if (!readStream) goto done;
+    bool didSucceed = (bool)CFReadStreamOpen(readStream);
+    if (!didSucceed) goto done;
+
+    // Initialize the hash object
+    CC_MD5_CTX hashObject;
+    CC_MD5_Init(&amp;hashObject);
+
+    // Make sure chunkSizeForReadingData is valid
+    if (!chunkSizeForReadingData) {
+        chunkSizeForReadingData = FileHashDefaultChunkSizeForReadingData;
+    }
+
+    // Feed the data to the hash object
+    bool hasMoreData = true;
+    while (hasMoreData) {
+        uint8_t buffer[chunkSizeForReadingData];
+        CFIndex readBytesCount = CFReadStreamRead(readStream, 
+                (UInt8 *)buffer, 
+                (CFIndex)sizeof(buffer));
+        if (readBytesCount == -1) break;
+        if (readBytesCount == 0) {
+            hasMoreData = false;
+            continue;
+        }
+        CC_MD5_Update(&amp;hashObject, 
+                (const void *)buffer, 
+                (CC_LONG)readBytesCount);
+    }
+
+    // Check if the read operation succeeded
+    didSucceed = !hasMoreData;
+
+    // Compute the hash digest
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5_Final(digest, &amp;hashObject);
+
+    // Abort if the read operation failed
+    if (!didSucceed) goto done;
+
+    // Compute the string result
+    char hash[2 * sizeof(digest) + 1];
+    for (size_t i = 0; i &lt; sizeof(digest); ++i) {
+        snprintf(hash + (2 * i), 3, "%02x", (int)(digest[i]));
+    }
+    result = CFStringCreateWithCString(kCFAllocatorDefault, 
+            (const char *)hash, 
+            kCFStringEncodingUTF8);
+
+done:
+
+    if (readStream) {
+        CFReadStreamClose(readStream);
+        CFRelease(readStream);
+    }
+    if (fileURL) {
+        CFRelease(fileURL);
+    }
+    return result;
+}
+</code></pre>
+
+<p>Reference:<a href="http://www.joel.lopes-da-silva.com/2010/09/07/compute-md5-or-sha-hash-of-large-file-efficiently-on-ios-and-mac-os-x/">Compute MD5 or SHA hash of large file efficiently on iOS and Mac OS X</a></p>
 ]]></content>
   </entry>
   

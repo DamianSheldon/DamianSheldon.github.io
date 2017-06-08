@@ -279,6 +279,30 @@ $(document).ready(
 <p>A:<code>ContextCompat.getDrawable(getActivity(), R.drawable.name);</code></p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/29041027/android-getresources-getdrawable-deprecated-api-22/29041466#29041466">Android getResources().getDrawable() deprecated API 22</a></p>
+
+<h3>5. Android Studio 工程卡在 Refreshing &lsquo;Project Name&rsquo; Gradle project。</h3>
+
+<p>A: Android Studio 更新到 2.3 后，打开之前的项目卡在 Refreshing &lsquo;Project Name&rsquo; Gradle project, 问题的原因是新版本的 Android Studio 使用的也是新版本的 Gradle,由于网络原因导致更新 Gradle 很慢，我们可以手动下载 Gradle 来解决这个问题。</p>
+
+<ol>
+<li>根据项目中 gradle-wrapper.properties 文件的配置，手动下载合适版本的 gradle;</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>将下载好的 gradle 移动到合适的位置。</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cp ~/Downloads/gradle-3.3-all.zip ~/.gradle/wrapper/dists/gradle-3.3-all/55gk2rcmfc6p2dg9u9ohc3hw9/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.jianshu.com/p/3063173deed8">Android Studio解决refreshing gradle project</a></p>
 </div>
 
 

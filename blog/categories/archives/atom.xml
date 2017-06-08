@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-06-06T14:28:55+08:00</updated>
+  <updated>2017-06-08T21:20:22+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -710,6 +710,28 @@ whatever:my_custom_attribute="Hello, world!" /&gt;
 <p>A:<code>ContextCompat.getDrawable(getActivity(), R.drawable.name);</code></p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/29041027/android-getresources-getdrawable-deprecated-api-22/29041466#29041466">Android getResources().getDrawable() deprecated API 22</a></p>
+
+<h3>5. Android Studio 工程卡在 Refreshing &lsquo;Project Name&rsquo; Gradle project。</h3>
+
+<p>A: Android Studio 更新到 2.3 后，打开之前的项目卡在 Refreshing &lsquo;Project Name&rsquo; Gradle project, 问题的原因是新版本的 Android Studio 使用的也是新版本的 Gradle,由于网络原因导致更新 Gradle 很慢，我们可以手动下载 Gradle 来解决这个问题。</p>
+
+<ol>
+<li>根据项目中 gradle-wrapper.properties 文件的配置，手动下载合适版本的 gradle;</li>
+</ol>
+
+
+<pre><code>distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip
+</code></pre>
+
+<ol>
+<li>将下载好的 gradle 移动到合适的位置。</li>
+</ol>
+
+
+<pre><code>cp ~/Downloads/gradle-3.3-all.zip ~/.gradle/wrapper/dists/gradle-3.3-all/55gk2rcmfc6p2dg9u9ohc3hw9/
+</code></pre>
+
+<p>Reference:<a href="http://www.jianshu.com/p/3063173deed8">Android Studio解决refreshing gradle project</a></p>
 ]]></content>
   </entry>
   

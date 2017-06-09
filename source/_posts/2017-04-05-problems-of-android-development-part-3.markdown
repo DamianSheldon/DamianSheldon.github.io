@@ -120,7 +120,7 @@ A:`ContextCompat.getDrawable(getActivity(), R.drawable.name);`
 
 Reference:[Android getResources().getDrawable() deprecated API 22](http://stackoverflow.com/questions/29041027/android-getresources-getdrawable-deprecated-api-22/29041466#29041466)  
 
-###5. Android Studio 工程卡在 Refreshing 'Project Name' Gradle project。
+###5. Android Studio 工程卡在 Refreshing 'Project Name' Gradle project 或 gradle building project。
 A: Android Studio 更新到 2.3 后，打开之前的项目卡在 Refreshing 'Project Name' Gradle project, 问题的原因是新版本的 Android Studio 使用的也是新版本的 Gradle,由于网络原因导致更新 Gradle 很慢，我们可以手动下载 Gradle 来解决这个问题。  
 
 1. 根据项目中 gradle-wrapper.properties 文件的配置，手动下载合适版本的 gradle;
@@ -129,10 +129,23 @@ A: Android Studio 更新到 2.3 后，打开之前的项目卡在 Refreshing 'Pr
 distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip
 ```
 
-2. 将下载好的 gradle 移动到合适的位置。
+2. 将下载好的 gradle 移动到合适的位置;
 
 ```
-cp ~/Downloads/gradle-3.3-all.zip ~/.gradle/wrapper/dists/gradle-3.3-all/55gk2rcmfc6p2dg9u9ohc3hw9/
+cp ~/Downloads/gradle-3.3-all.zip ~/.gradle/local_gradle_distribution/
 ```
 
-Reference:[Android Studio解决refreshing gradle project](http://www.jianshu.com/p/3063173deed8)
+3. 设置 Android Studio 使用本地 gradle
+
+```
+Android Studio > Preference... > Build,Excution,Deployment > Gradle > User local gradle distribution > Gradle home
+
+Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3
+
+Global Gradle settings > Check Offlien work > /User/meiliang/.gradle
+```
+
+Reference:
+[Android Studio解决refreshing gradle project](http://www.jianshu.com/p/3063173deed8)
+[Androidstudio配置本地Gradle](http://zzqhost.com/?post=82)  
+

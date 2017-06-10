@@ -149,3 +149,15 @@ Reference:
 [Android Studio解决refreshing gradle project](http://www.jianshu.com/p/3063173deed8)
 [Androidstudio配置本地Gradle](http://zzqhost.com/?post=82)  
 
+4. 怎么改变 EditText 输入框底部线条的颜色？
+A: 在 style.xml 中覆盖 colorControlActivated, ColorControlHighlight 和 colorControlNormal
+
+```
+<style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorControlNormal">#c5c5c5</item>
+    <item name="colorControlActivated">@color/accent</item>
+    <item name="colorControlHighlight">@color/accent</item>
+</style>
+```
+
+Reference:[Changing EditText bottom line color with appcompat v7](https://stackoverflow.com/questions/26574328/changing-edittext-bottom-line-color-with-appcompat-v7)

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-06-09T21:52:17+08:00</updated>
+  <updated>2017-06-14T21:01:53+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -746,6 +746,30 @@ Global Gradle settings &gt; Check Offlien work &gt; /User/meiliang/.gradle
 <p>Reference:
 <a href="http://www.jianshu.com/p/3063173deed8">Android Studio解决refreshing gradle project</a>
 <a href="http://zzqhost.com/?post=82">Androidstudio配置本地Gradle</a></p>
+
+<h3>6. 怎么改变 EditText 输入框底部线条的颜色？</h3>
+
+<p>A: 在 style.xml 中覆盖 colorControlActivated, ColorControlHighlight 和 colorControlNormal</p>
+
+<p>```</p>
+
+
+
+<pre><code>
+Reference:[Changing EditText bottom line color with appcompat v7](https://stackoverflow.com/questions/26574328/changing-edittext-bottom-line-color-with-appcompat-v7)
+
+###7.如何隐藏软键盘？
+A:
+</code></pre>
+
+<p>// Check if no view has focus:
+View view = this.getCurrentFocus();
+if (view != null) {<br/>
+    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+}
+```
+Reference:<a href="https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard">Close/hide the Android Soft Keyboard</a></p>
 ]]></content>
   </entry>
   

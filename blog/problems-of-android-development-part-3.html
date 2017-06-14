@@ -322,6 +322,44 @@ $(document).ready(
 <p>Reference:
 <a href="http://www.jianshu.com/p/3063173deed8">Android Studio解决refreshing gradle project</a>
 <a href="http://zzqhost.com/?post=82">Androidstudio配置本地Gradle</a></p>
+
+<h3>6. 怎么改变 EditText 输入框底部线条的颜色？</h3>
+
+<p>A: 在 style.xml 中覆盖 colorControlActivated, ColorControlHighlight 和 colorControlNormal</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar"&gt;
+</span><span class='line'>    &lt;item name="colorControlNormal"&gt;#c5c5c5&lt;/item&gt;
+</span><span class='line'>    &lt;item name="colorControlActivated"&gt;@color/accent&lt;/item&gt;
+</span><span class='line'>    &lt;item name="colorControlHighlight"&gt;@color/accent&lt;/item&gt;
+</span><span class='line'>&lt;/style&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/26574328/changing-edittext-bottom-line-color-with-appcompat-v7">Changing EditText bottom line color with appcompat v7</a></p>
+
+<h3>7.如何隐藏软键盘？</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Check if no view has focus:
+</span><span class='line'>View view = this.getCurrentFocus();
+</span><span class='line'>if (view != null) {  
+</span><span class='line'>    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+</span><span class='line'>    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard">Close/hide the Android Soft Keyboard</a></p>
 </div>
 
 

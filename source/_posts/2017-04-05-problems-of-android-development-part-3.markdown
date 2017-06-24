@@ -175,3 +175,11 @@ if (view != null) {
 ```
 Reference:[Close/hide the Android Soft Keyboard](https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard)  
 
+###8.ListView 中的 EditText 捕获焦点异常。
+A:在 manifest 中配置下 Activity :
+
+```
+<activity android:name= ".yourActivity" android:windowSoftInputMode="adjustPan"/>
+```
+
+Reference:[Focusable EditText inside ListView](https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview)

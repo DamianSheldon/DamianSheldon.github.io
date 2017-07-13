@@ -321,6 +321,38 @@ $(document).ready(
 <h3>8. Disqus 的替代方案？</h3>
 
 <p>A:</p>
+
+<h3>9. Unable to run gem install bundler in OS X El Capitan</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ERROR: While executing gem ... <span class="o">(</span>Errno::EPERM<span class="o">)</span>
+</span><span class='line'>Operation not permitted - /usr/bin/bundle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:you&rsquo;ll need to either change your GEM_HOME or do something like sudo gem install bundler -n /usr/local/bin because of El Cap&rsquo;s introduction of SIP (System Integrity Protection).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Add follow contents to ~/.bash_profile
+</span><span class='line'><span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span>/usr/local/bin
+</span><span class='line'>
+</span><span class='line'>// Reload variable <span class="k">for</span> bash
+</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
+</span><span class='line'>
+</span><span class='line'>// Execute <span class="nb">command </span>again
+</span><span class='line'><span class="nv">$ </span>gem install bundler
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://github.com/bundler/bundler/issues/4065">Unable to run gem install bundler in OS X El Capitan</a></p>
 </div>
 
 

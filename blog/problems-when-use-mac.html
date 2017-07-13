@@ -317,7 +317,7 @@ set it to &ldquo;No Application&rdquo;</p>
 </span><span class='line'>export var=value</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>17.SSH ask passpharse every time I use SSH key.</h3>
+<h3>18.SSH ask passpharse every time I use SSH key.</h3>
 
 <p>A:</p>
 
@@ -325,7 +325,23 @@ set it to &ldquo;No Application&rdquo;</p>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>19.Fix the Enable and Disable install software from anywhere in macOS Sierra</h3>
 
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Enable
+</span><span class='line'>$ sudo spctl --master-disable
+</span><span class='line'>
+</span><span class='line'>// Disable
+</span><span class='line'>$sudo spctl --master-enable</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
 </div>
 
 

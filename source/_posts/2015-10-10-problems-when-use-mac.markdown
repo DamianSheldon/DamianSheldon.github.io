@@ -165,7 +165,7 @@ set it to "No Application"
 export var=value
 ```
 
-### 17.SSH ask passpharse every time I use SSH key.
+### 18.SSH ask passpharse every time I use SSH key.
 
 A:
 
@@ -173,3 +173,15 @@ A:
 $echo -e "AddKeysToAgent yes\nUseKeychain yes" >> ~/.ssh/config
 ```
 
+###19.Fix the Enable and Disable install software from anywhere in macOS Sierra
+A:
+
+```
+// Enable
+$ sudo spctl --master-disable
+
+// Disable
+$sudo spctl --master-enable
+```
+
+Reference:[Fix the Enable and Disable install software from anywhere in macOS Sierra problem](https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/)

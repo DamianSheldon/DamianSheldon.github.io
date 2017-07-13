@@ -133,3 +133,24 @@ Reference:[Clone Your Octopress to Blog From Two Places](http://blog.zerosharp.c
 
 ###8. Disqus 的替代方案？
 A: 
+
+###9. Unable to run gem install bundler in OS X El Capitan
+
+```
+ERROR: While executing gem ... (Errno::EPERM)
+Operation not permitted - /usr/bin/bundle
+```
+A:you'll need to either change your GEM_HOME or do something like sudo gem install bundler -n /usr/local/bin because of El Cap's introduction of SIP (System Integrity Protection).
+
+```
+// Add follow contents to ~/.bash_profile
+export GEM_HOME=/usr/local/bin
+
+// Reload variable for bash
+$ source ~/.bash_profile
+
+// Execute command again
+$ gem install bundler
+```
+Reference:[Unable to run gem install bundler in OS X El Capitan](https://github.com/bundler/bundler/issues/4065)
+

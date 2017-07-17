@@ -127,6 +127,98 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-play.html">
+		
+			(翻译)How to Play, Record, and Edit Videos in iOS</a>
+	</h2>
+	<div class="entry-content">
+		<h4>AVAsset</h4>
+
+<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
+
+<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
+
+<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
+
+<h4>AVComposition</h4>
+
+<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
+
+<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
+
+<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
+
+<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack</p>
+
+<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
+
+<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
+
+<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
+
+<p>And the Rest</p>
+
+<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
+
+<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
+
+<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
+
+<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
+
+<p>Conclusion</p>
+
+<p>To sum it all up:</p>
+
+<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
+
+<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
+
+<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
+
+<p>Each layer instruction is used to apply a certain transform to a given track.</p>
+
+<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-01-22T16:48:25+08:00" pubdate data-updated="true">22 Jan 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archive/'>archive</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-technical-interview-part-1.html">
 		
 			iOS Technical Interview Part 1</a>
@@ -391,301 +483,6 @@ o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Inter
 <div class="tags">
 
 	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-does-app-security-communicate-with-server.html">
-		
-			在 iOS App 中使用自签名证书</a>
-	</h2>
-	<div class="entry-content">
-		<p>大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。</p>
-
-<p>移动设备可能会处于不安全的网络环境中，比如连接了某个公共热点，攻击者不需要访问设备，只需访问设备所在的网络，就能获取到用户信息，所以，当应用中用户的信息需要保护时，开发者需要保证通信的安全性。</p>
-
-<p>最简单直接的解决办法是采用HTTPS,在web服务器上安装一个自签名证书，启用HTTPS,然后对NSURLSession进行配置以接受该自签名证书。</p>
-
-<p>HTTPS是如何做到通信安全的呢？答案是TLS/SSL协议。TLS(Transport Layer Security)/SSL(Secure Socket  Layer)协议是专门为解决网络通信安全设计的。它的基石是非对称加密。</p>
-
-<p>TLS/SSL链路中的数据是加密的，客户端给服务器发送的数据是用服务器的公钥加密的，由于非对称加密的数学特性，只有拥有私钥的服务器才能正确解密数据。服务器给客户端发送的数据则是用自己的私钥加密的，客户端用公钥解密。</p>
-
-<p>那么我们如何判断服务器发给我们的公钥是值得信任的呢？通常商业网站的数字证书都是由中级证书或根证书来签名，而根证书是一开始就内置在设备中，不是通过网络交换的，这样当某个服务器声明说我是某某，我们可以通过证书链来判断真伪。</p>
-
-<p>根证书其实是一个自签名证书，我们的应用也可以用自签名证书来确保网络通信安全，还可以省掉很大一笔证书费用，只要私钥足够安全，它甚至比商业证书更安全。</p>
-
-<h2>创建自签名证书</h2>
-
-<p>为了方便创建自签名证书来测试 TLS, Apple 为我们提供一个工具 Certificate Assitant，它内置在 OS X 中，我们可以通过 KeyChain 打开它；我们也可以使用 openssl。新手的话还是建议使用 Certificate Assitant. 详细步骤参考<a href="https://developer.apple.com/library/ios/technotes/tn2326/_index.html#//apple_ref/doc/uid/DTS40014136-CH1-SECISSUE_C">Creating Certificates for TLS Testing</a>.</p>
-
-<h2>为服务端配置证书</h2>
-
-<p>我使用的是 Apache，配置如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#/etc/apache2/httpd.conf
-</span><span class='line'>&lt;VirtualHost *:443&gt;
-</span><span class='line'>#ServerName www.example.com
-</span><span class='line'>SSLEngine on
-</span><span class='line'>SSLCertificateFile "/etc/apache2/server.crt"
-</span><span class='line'>SSLCertificateKeyFile "/etc/apache2/server.key"
-</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由于 Apache 是使用 PEM 格式的证书和私钥，所以我们需要格式转换下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#Extracting a digital identity for use with Apache
-</span><span class='line'>
-</span><span class='line'>$ # First extract the server certificate.
-</span><span class='line'>$
-</span><span class='line'>$ openssl pkcs12 -in "Deep Thought.p12" -nokeys -out server.crt
-</span><span class='line'>Enter Import Password: ****
-</span><span class='line'>MAC verified OK
-</span><span class='line'>$
-</span><span class='line'>$ # Next extract the server private key.
-</span><span class='line'>$
-</span><span class='line'>$ openssl pkcs12 -in "Deep Thought.p12" -nocerts -nodes -out server.key
-</span><span class='line'>Enter Import Password: ****
-</span><span class='line'>MAC verified OK</span></code></pre></td></tr></table></div></figure>
-
-
-<p>重启 Apache, 我们可以使用 openssl 的 s_client 子命令来测试下。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Failed
-</span><span class='line'>$ openssl s_client -connect myserver.com:443
-</span><span class='line'>
-</span><span class='line'>// Success
-</span><span class='line'>$ openssl s_client -connect myserver.com:443 -CAfile ./MyCACertificate.pem</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>接受自签名证书</h2>
-
-<h3>URLSession</h3>
-
-<p>我们需要介入到 TLS 的授权过程，基本做法是判断是与我们指定的服务器通信需要授权，然后把自签名证书加入锚中。代码如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Authentication Challenges and TLS Chain Validation
-</span><span class='line'>func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -&gt; Void) {
-</span><span class='line'>
-</span><span class='line'>    print("authentication method \(challenge.protectionSpace.authenticationMethod)\n host: \(challenge.protectionSpace.host)")
-</span><span class='line'>
-</span><span class='line'>        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == "dongmeiliangsmacbook-pro.local" {
-</span><span class='line'>
-</span><span class='line'>            // Custom evaluating a trust object
-</span><span class='line'>            let serverTrust = challenge.protectionSpace.serverTrust!
-</span><span class='line'>                let policy = SecPolicyCreateSSL(true, "dongmeiliangsmacbook-pro.local" as CFString)
-</span><span class='line'>
-</span><span class='line'>                SecTrustSetPolicies(serverTrust, [policy] as CFArray)
-</span><span class='line'>
-</span><span class='line'>                let path = Bundle.init(for: ViewController.self).path(forResource: "ServerCertificates", ofType: "cer")
-</span><span class='line'>
-</span><span class='line'>                do {
-</span><span class='line'>                    let certData = try NSData(contentsOfFile: path!, options: NSData.ReadingOptions(rawValue: 0))
-</span><span class='line'>                        if let certificate = SecCertificateCreateWithData(nil, certData as CFData) {
-</span><span class='line'>                            SecTrustSetAnchorCertificates(serverTrust, [certificate] as CFArray)
-</span><span class='line'>
-</span><span class='line'>                                var allowConnection = false
-</span><span class='line'>
-</span><span class='line'>                                var trustResult: SecTrustResultType = .invalid
-</span><span class='line'>
-</span><span class='line'>                                let err = SecTrustEvaluate(serverTrust, &trustResult)
-</span><span class='line'>
-</span><span class='line'>                                if err == noErr {
-</span><span class='line'>                                    allowConnection = (trustResult == .unspecified) || (trustResult == .proceed)
-</span><span class='line'>                                }
-</span><span class='line'>
-</span><span class='line'>                            print("err:\(err)\nallowConnection:\(allowConnection)")
-</span><span class='line'>
-</span><span class='line'>                                    if
-</span><span class='line'>                                        allowConnection
-</span><span class='line'>                                        {
-</span><span class='line'>                                            completionHandler(.useCredential, URLCredential(trust:serverTrust))
-</span><span class='line'>                                        }
-</span><span class='line'>                                    else
-</span><span class='line'>                                    {
-</span><span class='line'>                                        completionHandler(.cancelAuthenticationChallenge, nil)
-</span><span class='line'>                                    }
-</span><span class='line'>
-</span><span class='line'>                        }
-</span><span class='line'>                        else
-</span><span class='line'>                        {
-</span><span class='line'>                            print("certificate create with data failed")
-</span><span class='line'>                            completionHandler(.cancelAuthenticationChallenge, nil)
-</span><span class='line'>                        }
-</span><span class='line'>
-</span><span class='line'>                }
-</span><span class='line'>            catch
-</span><span class='line'>            {
-</span><span class='line'>                print("read certificate data failed:\(error)")
-</span><span class='line'>                completionHandler(.cancelAuthenticationChallenge, nil)
-</span><span class='line'>            }
-</span><span class='line'>
-</span><span class='line'>        }
-</span><span class='line'>        else
-</span><span class='line'>        {
-</span><span class='line'>            completionHandler(.performDefaultHandling, nil)
-</span><span class='line'>        }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>AFNetworking</h3>
-
-<p>AFNetworking 只需要我们配置下 securityPolicy，代码如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lazy var apiClient: AFHTTPSessionManager = {
-</span><span class='line'>    let client = AFHTTPSessionManager(baseURL: URL(string: "https://dongmeiliangsmacbook-pro.local/"))
-</span><span class='line'>        let selfSignedCertificates = AFSecurityPolicy.certificates(in: Bundle.init(for: ViewController.self))
-</span><span class='line'>
-</span><span class='line'>        client.securityPolicy = AFSecurityPolicy(pinningMode: .certificate, withPinnedCertificates: selfSignedCertificates)
-</span><span class='line'>        client.securityPolicy.allowInvalidCertificates = true
-</span><span class='line'>
-</span><span class='line'>        return client
-</span><span class='line'>}()</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>注意点</h3>
-
-<p>客户端是把服务端的证书加入锚中。</p>
-
-<h3>完整示例</h3>
-
-<p><a href="https://github.com/DamianSheldon/SelfSignedCertificate">SelfSignedCertificate</a></p>
-
-<h3>Reference</h3>
-
-<p><a href="http://initwithfunk.com/blog/2014/03/12/afnetworking-ssl-pinning-with-self-signed-certificates/">AFNetworking SSL Pinning With Self-Signed Certificates</a><br/>
-<a href="https://developer.apple.com/library/ios/technotes/tn2326/_index.html#//apple_ref/doc/uid/DTS40014136-CH1-SECISSUE_C">Creating Certificates for TLS Testing</a><br/>
-<a href="https://developer.apple.com/library/content/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECSTRICTER">HTTPS Server Trust Evaluation</a><br/>
-URL Session Programming Guide</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">15 Dec 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
 
 </div>
 

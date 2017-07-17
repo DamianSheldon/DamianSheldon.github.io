@@ -127,6 +127,126 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-using-opencart.html">
+		
+			Notes of Using OpenCart</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1. opencart 安装中文语言包</h3>
+
+<p>A:</p>
+
+<ul>
+<li>[下载中文语言包](<a href="http://www.opencart.cn/thread-9982-1-1.html%EF%BC%89">http://www.opencart.cn/thread-9982-1-1.html%EF%BC%89</a></li>
+<li>解压压缩包，里面有两个文件夹，admin是后台语言包，catalog文件是前台语言包</li>
+<li>把文件上传到对应的目录下</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd ~/Downloads/
+</span><span class='line'>$ tar -xzvf OpenCart_SimplifiedChinese_language_v2.0.3.1.zip
+</span><span class='line'>$ cp -R OpenCart_SimplifiedChinese_language_v2.0.3.1/upload/catalog/language/zh-CN  ~/Sites/upload/catalog/language/
+</span><span class='line'>$ cp -R OpenCart_SimplifiedChinese_language_v2.0.3.1/upload/admin/language/zh-CN ~/Sites/upload/admin/language/</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>System > Localisation > languages > + > Chinese(Language Name) > Code(select zh-CN) > Save</li>
+<li>System > Settings > Your Store > Edit > Local > Language (Chinese) > Administration Language (Chinese) > Save</li>
+</ul>
+
+
+<h3>2. opencart如何增加人民币？</h3>
+
+<p>A:</p>
+
+<ul>
+<li><p>系统设置 > 参数设置 > 货币设置 > +</p>
+
+<ul>
+<li>货币名称 人民币</li>
+<li>货币代码 CNY</li>
+<li>左符号 ¥</li>
+<li>右符号</li>
+<li>小数位 2</li>
+<li>汇率 1.00000</li>
+<li>状态 启用</li>
+</ul>
+</li>
+<li><p>系统设置 > 网店设置 > 选择你的网店 > 编辑 > 本地化设置 > 货币设置 > 人民币 > 保存</p></li>
+</ul>
+
+
+<p>Reference:<a href="http://www.opencart-extension.com/opencart-add-renminbi.html">http://www.opencart-extension.com/opencart-add-renminbi.html</a></p>
+
+<h3>3. 如何添加推荐商品？</h3>
+
+<p>A: 扩展功能 > 模块配置 > 推荐商品 > Home Page > Product Name</p>
+
+<h3>4. 如何设置幻灯片？</h3>
+
+<p>A: 设计 > 横幅 > Home Page Slideshow > Edit</p>
+
+<h3>5. OpenCart迁移到新的服务器后布局不正常显示</h3>
+
+<p>A:打开Chrome的Developer Tool,报了很多Failed to load resource: <a href="http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js">http://localhost/~meiliang/upload/catalog/view/javascript/jquery/jquery-2.1.1.min.js</a> net::ERR_CONNECTION_REFUSED之类的错误，所以我估计错误是 CSS 和 js 没有正确加载，于是修改public_html/upload/config.php</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>define('HTTP_SERVER', 'http://ip/~meiliang/upload/');
+</span><span class='line'>define('HTTPS_SERVER', 'http://ip/~meiliang/upload/');</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6. 增加语言后，语言图标不显示</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp public_html/upload/image/flags/cn.png public_html/upload/catalog/language/zh-CN/zh-CN.png</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-21T17:50:35+08:00" pubdate data-updated="true">21 Feb 2016</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-unit-testing-with-ocmock.html">
 		
 			iOS Unit Testing With OCMock</a>
@@ -288,57 +408,6 @@ $(document).ready(
 
 
 <time datetime="2016-01-08T21:32:22+08:00" pubdate data-updated="true">08 Jan 2016</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/capturing-iphone-traffic-on-wireshark.html">
-		
-			用 Wireshark 抓 iPhone 网络请求的数据包</a>
-	</h2>
-	<div class="entry-content">
-		<p>开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？</p>
-
-<blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
-
-<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.<br/>
-If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).<br/>
-In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
-
-
-		
-		<a href="/blog/capturing-iphone-traffic-on-wireshark.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-04T14:43:00+08:00" pubdate data-updated="true">04 Jan 2016</time></div>
 	
 
 <div class="tags">

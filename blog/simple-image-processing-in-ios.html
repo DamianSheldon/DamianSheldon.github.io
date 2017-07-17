@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>Simple Image Processing in iOS  | Hello World</title>
+	<title>iOS 中简单的图片处理  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Exif, UIImage, ImageIO">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -122,8 +122,368 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Simple Image Processing in iOS</h2>
-	<div class="entry-content">
+	<h2 class="title">iOS 中简单的图片处理</h2>
+	<div class="entry-content"><p>在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。</p>
+
+<h3>图片格式</h3>
+
+<p>图片主要有两种格式：一种叫做位图；另一种称之为矢量图。所谓位图，就是把图片看成是由许多像素点组成；而矢量图则是用绘图指令来描述图片。举个例子，圆可以用圆点，半径，线条的粗细和颜色来描述它。从这个例子也可以看出用矢量图来描述风景，人物这样复杂的事物会比较复杂，所以它们通常会用位图来描述。</p>
+
+<p>位图和矢量图也分为很多格式，具体可能查看<a href="https://en.wikipedia.org/wiki/Image_file_formats">Image file formats</a></p>
+
+<p>下面我们讨论的是位图，在 iOS 中我们经常打交道的位图格式是 JPG 和 PNG，用来处理位图数据的类有：UIImage (UIKit)，CGImage (Core Graphics) 和 CIImage (Core Image)。Image I/O 本来是属于 Core Graphics，为了更加方便使用，Apple 将它分离出来成为单独的库。</p>
+
+<h3>旋转</h3>
+
+<p>既然位图是用一个一个的像素点来模拟图片，当我们想要旋转图片时，首先想到的方法自然是改变这些像素点的位置，这当然可以达到目标。要调整这么多像素点的位置自然要耗费不少时间，所有在数码相机刚出来那会，人们不是去改变像素点的位置，而是用一段数据来描述图片的方向等信息，这段数据称为 Exif. 所以对于 JPG 这种拥有 Exif 信息的位图，我们旋转图片的最佳做法自然是改变 Exif 里的方向信息。而 PNG 是没有 Exif 信息的，所以只能改变像素点的位置。</p>
+
+<p>UIImage 自带了几个可以旋转的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们没有这个方法的实现源码，但是我们可以输出图片的 Exif 信息来验证上面的说法。iOS 中我们可以使用 Image I/O 这个库来读取和修改图片的 Exif 信息。Image I/O 的文档不是很详细，使用时最好结合头文件的说明，而且要注意区分容器和单个图片，实验表明像方向这种信息它并不是放在 Exif 中，而是图片属性中，它的值和 UIImageOrientation 也不是一一对应的，它们的关系如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_ENUM(NSInteger, DMLImagePropertyOrientation) {
+</span><span class='line'>    DMLImagePropertyOrientationUp               = 1,
+</span><span class='line'>    DMLImagePropertyOrientationDown             = 3,
+</span><span class='line'>    DMLImagePropertyOrientationLeft             = 8,
+</span><span class='line'>    DMLImagePropertyOrientationRight            = 6,
+</span><span class='line'>    DMLImagePropertyOrientationUpMirrored       = 2,
+</span><span class='line'>    DMLImagePropertyOrientationDownMirrored     = 4,
+</span><span class='line'>    DMLImagePropertyOrientationLeftMirrored     = 5,
+</span><span class='line'>    DMLImagePropertyOrientationRightMirrored    = 7
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>+ (DMLImagePropertyOrientation)dml_imagePropertyOrientationFromUIImageOrientation:(UIImageOrientation)imageOrientation
+</span><span class='line'>{
+</span><span class='line'>    DMLImagePropertyOrientation imagePropertyOrientation = DMLImagePropertyOrientationUp;
+</span><span class='line'>    
+</span><span class='line'>    switch (imageOrientation) {
+</span><span class='line'>        case UIImageOrientationUp:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationUp;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationDown:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationDown;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationLeft:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationLeft;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationRight:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationRight;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationUpMirrored:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationUpMirrored;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationDownMirrored:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationDownMirrored;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationLeftMirrored:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationLeftMirrored;
+</span><span class='line'>            break;
+</span><span class='line'>            
+</span><span class='line'>        case UIImageOrientationRightMirrored:
+</span><span class='line'>            imagePropertyOrientation = DMLImagePropertyOrientationRightMirrored;
+</span><span class='line'>            break;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return imagePropertyOrientation;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从打印输出的内容看出 JPG 图片的方向确实改变了，然后我也写了个方法去改变图片的方向属性，得到了同样的效果，所以当我们是旋转上面提到的方向直接使用 UIImage 自带的几个旋转的方法应该是最佳选择，而要旋转任意角度，还是要通过调整像素点位置来完成。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 输出图片的属性信息
+</span><span class='line'>- (UIImageOrientation)dml_imageOrientationFromExif
+</span><span class='line'>{
+</span><span class='line'>    UIImageOrientation imageOrientation = UIImageOrientationRightMirrored + 1;
+</span><span class='line'>    
+</span><span class='line'>    NSData *dataOfImage = UIImageJPEGRepresentation(self, (CGFloat)0.7);
+</span><span class='line'>    
+</span><span class='line'>    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfImage, NULL);
+</span><span class='line'>    
+</span><span class='line'>    CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+</span><span class='line'>    
+</span><span class='line'>    NSLog(@"dml_imageOrientationFromExif image Properties:%@\n", (__bridge NSDictionary *)imageProperties);
+</span><span class='line'>    
+</span><span class='line'>    CFRelease(imageSource);
+</span><span class='line'>    
+</span><span class='line'>    CFNumberRef numberOfImageOrientation = CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation);
+</span><span class='line'>    
+</span><span class='line'>    CFRelease(imageProperties);
+</span><span class='line'>    
+</span><span class='line'>    DMLImagePropertyOrientation imagePropertyOrientation = [(__bridge NSNumber *)numberOfImageOrientation integerValue];
+</span><span class='line'>    
+</span><span class='line'>    imageOrientation = [[self class] dml_uiimageOrientationFromImagePropertyOrientation:imagePropertyOrientation];
+</span><span class='line'>    
+</span><span class='line'>    return imageOrientation;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 修改图片的方向属性
+</span><span class='line'>- (UIImage *)dml_setExifOritenation:(UIImageOrientation)imageOrientation error:(NSError * __autoreleasing *)error
+</span><span class='line'>{
+</span><span class='line'>    NSData *dataOfImage = UIImageJPEGRepresentation(self, (CGFloat)0.7);
+</span><span class='line'>    
+</span><span class='line'>    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfImage, NULL);
+</span><span class='line'>    
+</span><span class='line'>    /* get the file type */
+</span><span class='line'>    CFStringRef UTI = CGImageSourceGetType(imageSource);
+</span><span class='line'>    if ( NULL == UTI ) {
+</span><span class='line'>        /* Handle Error Retrieving File Type Accordingly */
+</span><span class='line'>        if (error) {
+</span><span class='line'>            *error = [NSError errorWithDomain:(__bridge NSString *)kCFErrorDomainCGImageMetadata code:kCGImageMetadataErrorUnknown userInfo:@{NSLocalizedDescriptionKey: @"Handle Error Retrieving File Type Accordingly"}];
+</span><span class='line'>        }
+</span><span class='line'>        return nil;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>//    CFMutableDataRef finalImageData = (__bridge_retained CFMutableDataRef)dataOfImage.mutableCopy;
+</span><span class='line'>    CFMutableDataRef finalImageData = (__bridge_retained CFMutableDataRef)[NSMutableData new];
+</span><span class='line'>
+</span><span class='line'>    /* create an image destination for saving the file */
+</span><span class='line'>    CGImageDestinationRef destination = CGImageDestinationCreateWithData(finalImageData, UTI, 1, NULL);
+</span><span class='line'>    if ( nil == destination ) {
+</span><span class='line'>        /* Handle Error Creating CGImageDestinationRef Accordingly */
+</span><span class='line'>        if (error) {
+</span><span class='line'>            *error = [NSError errorWithDomain:(__bridge NSString *)kCFErrorDomainCGImageMetadata code:kCGImageMetadataErrorUnknown userInfo:@{NSLocalizedDescriptionKey: @"Handle Error Creating CGImageDestinationRef Accordingly"}];
+</span><span class='line'>        }
+</span><span class='line'>        return nil;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    /* setting properties */
+</span><span class='line'>//    CFDictionaryRef sourceProperties = CGImageSourceCopyProperties(imageSource, NULL);
+</span><span class='line'>    CFDictionaryRef sourceProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+</span><span class='line'>
+</span><span class='line'>    NSLog(@"dml_setExifOritenation original properties:%@\n", (__bridge NSDictionary *)sourceProperties);
+</span><span class='line'>    
+</span><span class='line'>    CFMutableDictionaryRef mutableSourceProperties = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, CFDictionaryGetCount(sourceProperties) + 1, sourceProperties);
+</span><span class='line'>    
+</span><span class='line'>    DMLImagePropertyOrientation imagePropertyOrientation = [[self class] dml_imagePropertyOrientationFromUIImageOrientation:imageOrientation];
+</span><span class='line'>    
+</span><span class='line'>    CFNumberRef numberForOritentation = CFNumberCreate(kCFAllocatorDefault, kCFNumberNSIntegerType, &imagePropertyOrientation);
+</span><span class='line'>
+</span><span class='line'>    CFDictionarySetValue(mutableSourceProperties, kCGImagePropertyOrientation, numberForOritentation);
+</span><span class='line'>    
+</span><span class='line'>    NSLog(@"dml_setExifOritenation edited properties:%@\n", (__bridge NSDictionary *)mutableSourceProperties);
+</span><span class='line'>    
+</span><span class='line'>    CGImageDestinationAddImageFromSource(destination, imageSource, 0, mutableSourceProperties);
+</span><span class='line'>    CGImageDestinationFinalize(destination);
+</span><span class='line'>    
+</span><span class='line'>    UIImage *resultImage = [UIImage imageWithData:(__bridge NSData *)finalImageData];
+</span><span class='line'>    
+</span><span class='line'>    CFRelease(numberForOritentation);
+</span><span class='line'>    
+</span><span class='line'>    CFRelease(mutableSourceProperties);
+</span><span class='line'>    
+</span><span class='line'>    CFRelease(sourceProperties);
+</span><span class='line'>    
+</span><span class='line'>    // Print destination properties
+</span><span class='line'>    
+</span><span class='line'>    NSData *dataOfDestinationImage = UIImageJPEGRepresentation(resultImage, (CGFloat)0.7);
+</span><span class='line'>    
+</span><span class='line'>    CGImageSourceRef destinationImageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfDestinationImage, NULL);
+</span><span class='line'>    
+</span><span class='line'>    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(destinationImageSource, 0, NULL);
+</span><span class='line'>
+</span><span class='line'>    NSLog(@"destination properties:%@\n", (__bridge NSDictionary *)properties);
+</span><span class='line'>    
+</span><span class='line'>    CFRelease(properties);
+</span><span class='line'>    CFRelease(destinationImageSource);
+</span><span class='line'>    
+</span><span class='line'>    return resultImage;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PS.理论上来讲，我们可以使用 <code>void CGImageDestinationSetProperties(CGImageDestinationRef idst, CFDictionaryRef properties);</code> 搭配 <code>bool CGImageDestinationCopyImageSource(CGImageDestinationRef idst, CGImageSourceRef isrc, CFDictionaryRef options, CFErrorRef  _Nullable *err);</code> 来改变图片的属性的，实际实验中并没有达到预期效果，原因不明。</p>
+
+<h3>缩放</h3>
+
+<p>上面提到 UIImage 的旋转方法也可以指定 Scale 因子，它是我们常说的几倍图中这个几倍因子，如果图片本来是一倍图，然后我们欺骗这个方法说是0.5倍图，那么我们会得到一张放大2倍的图，以些类推，所以我们可以考虑用这个方法来满足我们的一些简单需求，不能满足时，我们可以用 Core Graphics 将图片画到目标大小的位图上下文中来得到我们想要的图片。</p>
+
+<h3>裁剪</h3>
+
+<p>UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 <code>CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);</code>方法来实现裁剪。</p>
+
+<h3>缩略图</h3>
+
+<p>生成缩略图可以使用 Image I/O 中的 <code>CGImageRef CGImageSourceCreateThumbnailAtIndex(CGImageSourceRef isrc, size_t index, CFDictionaryRef options);</code>方法。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li>Image I/O Programming Guide</li>
+<li><a href="https://objccn.io/issue-21-2/">图片格式</a></li>
+<li><a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></li>
+</ul>
+
 </div>
 
 
@@ -144,6 +504,12 @@ $(document).ready(
 
 <time datetime="2017-07-14T09:49:40+08:00" pubdate data-updated="true">14 Jul 2017</time></div>
 	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios/'>ios</a>
+
+</div>
 
 
 	

@@ -200,7 +200,7 @@ PS.理论上来讲，我们可以使用 `void CGImageDestinationSetProperties(CG
 
 ###裁剪
 
-UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 `CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);`方法来实现裁剪。
+UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 `CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);`方法来实现裁剪。使用这个方法我们需要注意 Rect 要考虑图片的 scale，图片完整的 `rect = {0, 0, image.size.width * image.scale, image.size.height * image.scale}`, 所以我们指定裁剪的 rect 时也要带上 scale.
 
 ###缩略图
 

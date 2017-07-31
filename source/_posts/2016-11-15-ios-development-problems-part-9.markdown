@@ -321,3 +321,9 @@ done:
 ```
 
 Reference:[Compute MD5 or SHA hash of large file efficiently on iOS and Mac OS X](http://www.joel.lopes-da-silva.com/2010/09/07/compute-md5-or-sha-hash-of-large-file-efficiently-on-ios-and-mac-os-x/)  
+
+###15.静态变量应该定义在哪？
+A: 阅读源码的时候，看到有把静态变量声明在 import 语句和类扩展块中间的；有声明在 implementation 块头部的；有声明在使用位置附近的。那么我们应该声明在哪呢？这几种声明没有意义上的差别，纯属编码风格。推荐定义在 import 语句和类扩展块中间。
+
+Reference:[Where to declare a static variable in objective-c?](https://stackoverflow.com/questions/22850548/where-to-declare-a-static-variable-in-objective-c)
+

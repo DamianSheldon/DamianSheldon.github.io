@@ -146,3 +146,27 @@ A:Generally, we are install cocoapods via Standard system installation, so
 $ sudo gem install cocoapods -n /usr/local/bin
 ```
 Reference:[Operation not permitted - /usr/bin/xcodeproj](https://github.com/CocoaPods/CocoaPods/issues/3692)
+
+###10.ERROR:  Error installing jekyll: liquid requires Ruby version >= 2.1.0.
+A:升级系统的ruby 版本。
+
+```
+// 1. Install the Ruby Version Manager rvm
+$ curl -L https://get.rvm.io | bash -s stable
+
+// 2. Reload environment variables
+$ source ~/.rvm/scripts/rvm
+
+// 3. Install the latest version of Ruby
+$ rvm install 2.3.4
+
+// 4. Check the version of Ruby
+$ ruby -v
+
+// 5. if current the version isn't your install just now, you can specific by command:
+$ rvm use 2.3.4
+
+// 6. If you want to set this latest version of Ruby as the default version
+$ rvm --default use 2.3.4
+```
+Reference:[UPDATE RUBY TO LATEST VERSION ON MAC OS X](http://codingpad.maryspad.com/2017/04/29/update-mac-os-x-to-the-current-version-of-ruby/)

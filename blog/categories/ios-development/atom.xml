@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-07-17T09:24:02+08:00</updated>
+  <updated>2017-08-02T11:41:11+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -999,6 +999,12 @@ done:
 </code></pre>
 
 <p>Reference:<a href="http://www.joel.lopes-da-silva.com/2010/09/07/compute-md5-or-sha-hash-of-large-file-efficiently-on-ios-and-mac-os-x/">Compute MD5 or SHA hash of large file efficiently on iOS and Mac OS X</a></p>
+
+<h3>15.静态变量应该定义在哪？</h3>
+
+<p>A: 阅读源码的时候，看到有把静态变量声明在 import 语句和类扩展块中间的；有声明在 implementation 块头部的；有声明在使用位置附近的。那么我们应该声明在哪呢？这几种声明没有意义上的差别，纯属编码风格。推荐定义在 import 语句和类扩展块中间。</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/22850548/where-to-declare-a-static-variable-in-objective-c">Where to declare a static variable in objective-c?</a></p>
 ]]></content>
   </entry>
   

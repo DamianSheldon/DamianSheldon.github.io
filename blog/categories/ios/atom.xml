@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-07-17T09:24:02+08:00</updated>
+  <updated>2017-08-02T11:41:11+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -42,6 +42,9 @@
 
 - (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
 </code></pre>
+
+<!--more-->
+
 
 <p>我们没有这个方法的实现源码，但是我们可以输出图片的 Exif 信息来验证上面的说法。iOS 中我们可以使用 Image I/O 这个库来读取和修改图片的 Exif 信息。Image I/O 的文档不是很详细，使用时最好结合头文件的说明，而且要注意区分容器和单个图片，实验表明像方向这种信息它并不是放在 Exif 中，而是图片属性中，它的值和 UIImageOrientation 也不是一一对应的，它们的关系如下：</p>
 
@@ -208,7 +211,7 @@
 
 <h3>裁剪</h3>
 
-<p>UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 <code>CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);</code>方法来实现裁剪。</p>
+<p>UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 <code>CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);</code>方法来实现裁剪。使用这个方法我们需要注意 Rect 要考虑图片的 scale，图片完整的 <code>rect = {0, 0, image.size.width * image.scale, image.size.height * image.scale}</code>, 所以我们指定裁剪的 rect 时也要带上 scale.</p>
 
 <h3>缩略图</h3>
 

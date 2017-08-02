@@ -70,9 +70,9 @@ $(document).ready(
 <nav id="main-nav"><ul>
     <li><a href="/">Blog</a></li>
     <li><a href="/archives">Archive</a></li>
-    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/ios-development">iOS</a></li>
     <li><a href="/android">Android</a></li>
-    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/web-development">Web</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
@@ -91,9 +91,9 @@ $(document).ready(
 		<div class="container"><ul>
     <li><a href="/">Blog</a></li>
     <li><a href="/archives">Archive</a></li>
-    <li><a href="/ios-development">iOS Development</a></li>
+    <li><a href="/ios-development">iOS</a></li>
     <li><a href="/android">Android</a></li>
-    <li><a href="/web-development">Web Development</a></li>
+    <li><a href="/web-development">Web</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
@@ -322,16 +322,27 @@ $(document).ready(
 
 <p>A:</p>
 
-<h3>9. Unable to run gem install bundler in OS X El Capitan</h3>
+<h3>9.Operation not permitted - /usr/bin/xcodeproj</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>ERROR: While executing gem ... <span class="o">(</span>Errno::EPERM<span class="o">)</span>
-</span><span class='line'>Operation not permitted - /usr/bin/bundle
+</span><span class='line'>Operation not permitted - /usr/bin/xcodeproj
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>A:you&rsquo;ll need to either change your GEM_HOME or do something like sudo gem install bundler -n /usr/local/bin because of El Cap&rsquo;s introduction of SIP (System Integrity Protection).</p>
+<p>A:Generally, we are install cocoapods via Standard system installation, so</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo gem install cocoapods -n /usr/local/bin
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://github.com/CocoaPods/CocoaPods/issues/3692">Operation not permitted - /usr/bin/xcodeproj</a></p>
+
+<h3>10.ERROR:  Error installing jekyll: liquid requires Ruby version >= 2.1.0.</h3>
+
+<p>A:升级系统的ruby 版本。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -341,18 +352,36 @@ $(document).ready(
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Add follow contents to ~/.bash_profile
-</span><span class='line'><span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span>/usr/local/bin
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 1. Install the Ruby Version Manager rvm
+</span><span class='line'><span class="nv">$ </span>curl -L https://get.rvm.io <span class="p">|</span> bash -s stable
 </span><span class='line'>
-</span><span class='line'>// Reload variable <span class="k">for</span> bash
-</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
+</span><span class='line'>// 2. Reload environment variables
+</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.rvm/scripts/rvm
 </span><span class='line'>
-</span><span class='line'>// Execute <span class="nb">command </span>again
-</span><span class='line'><span class="nv">$ </span>gem install bundler
+</span><span class='line'>// 3. Install the latest version of Ruby
+</span><span class='line'><span class="nv">$ </span>rvm install 2.3.4
+</span><span class='line'>
+</span><span class='line'>// 4. Check the version of Ruby
+</span><span class='line'><span class="nv">$ </span>ruby -v
+</span><span class='line'>
+</span><span class='line'>// 5. <span class="k">if</span> current the version isn<span class="err">&#39;</span>t your install just now, you can specific by <span class="nb">command</span>:
+</span><span class='line'><span class="nv">$ </span>rvm use 2.3.4
+</span><span class='line'>
+</span><span class='line'>// 6. If you want to <span class="nb">set </span>this latest version of Ruby as the default version
+</span><span class='line'><span class="nv">$ </span>rvm --default use 2.3.4
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="https://github.com/bundler/bundler/issues/4065">Unable to run gem install bundler in OS X El Capitan</a></p>
+<p>Reference:<a href="http://codingpad.maryspad.com/2017/04/29/update-mac-os-x-to-the-current-version-of-ruby/">UPDATE RUBY TO LATEST VERSION ON MAC OS X</a></p>
 </div>
 
 

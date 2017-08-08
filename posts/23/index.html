@@ -132,7 +132,9 @@ $(document).ready(
 			iOS 并发编程之 GCD</a>
 	</h2>
 	<div class="entry-content">
-		<h2>GCD 是什么？</h2>
+		<p>在 iOS 并发编程之 Operation 中我们提到了 GCD 出现的背景，这篇文章是我对它的使用总结。</p>
+
+<h2>GCD 是什么？</h2>
 
 <blockquote><p>Grand Central Dispatch (GCD) dispatch queues are a powerful tool for performing tasks. Dispatch queues let you execute arbitrary blocks of code either asynchronously or synchronously with respect to the caller.</p></blockquote>
 
@@ -155,7 +157,23 @@ $(document).ready(
 
 <h2>如何使用 GCD？</h2>
 
-<p>在 GCD 是什么部分，我们指出它是执行任务的分发队列，所以使用它之前，很有必要弄清楚分发队列。</p>
+<p>在 GCD 是什么部分，我们指出它是执行任务的分发队列。除了核心的分发队列，GCD 还提供了几个其他的使用分发队列的技术来帮助我们管理代码。</p>
+
+<h3>Dispatch groups</h3>
+
+<p>Dispatch group</p>
+
+<p>Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。</p>
+
+<h3>Dispatch semaphores</h3>
+
+<p>Dispatch semaphores 类似传统的信号量，但是通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。</p>
+
+<h3>Dispatch sources</h3>
+
+<p>Dispatch source 产生通知响应指定的系统事件。你可以使用 dispatch sources 来监视像进程通知，信号和描述符等类似事件。当事件发生时，dispatch source 异步地提交你的任务到指定分发队列去处理。</p>
+
+<p>所以要掌握如何使用 GCD，我们需要学习如何使用 Dispatch queue, Dispatch groups, Dispatch semaphores 和 Dispatch sources。</p>
 
 
 		
@@ -200,7 +218,21 @@ $(document).ready(
 			iOS 并发编程之 Operation</a>
 	</h2>
 	<div class="entry-content">
-		<p>iOS 开发中并发的实现方式大致有三种：</p>
+		<h2>背景简介</h2>
+
+<p>在计算的早期，计算机单位时间能够执行的最大工作是由 CPU 的时钟频率决定的。但是随着技术的发展和处理器设计得更加小巧，热量和其他物理约束开始限制处理器的最大时钟频率。所以芯片制造商寻找其他办法来提高他们芯片的整体性能。通过增加核数量，单个芯片每秒可以运行更多的指定而不需要增加 CPU 的速度或者改变芯片的尺寸或者热特性。唯一的问题是如何利用额外的核。</p>
+
+<p>应用使用多核的传统方法是创建多个线程。然而，随着核的数量增加，线程方案有很多问题。最大的问题是线程代码不能很好地扩展到任意数量的核。你不能有多少核就创建多少线程然后期望程序能正常运行。你需要知道的是有多少核可以被有效地使用，应用程序依靠自身来计算这是件很有挑战的事情。即使你得到了正确的数量，让如此多的线程高效地运行，相互之间互不影响仍然是一件十分困难的事情。</p>
+
+<p>为了解决这些问题，OS X 和 iOS 采用了 异步设计的方案。其中一种异步开始任务的技术叫做 GCD(Grand Central Dispatch)。该技术接管了你以前需要在应用中编写的线程管理代码，并将它们下移到系统级。所有你需要做的是定义你想做的任务并把它们添加到合适的分发队列。 GCD 负责创建需要的线程并调度你的任务运行到这些线程上。因为现在线程管理是系统的一部分， GCD 为任务管理和运行提供了一个比传统线程更高效的整体方案。</p>
+
+<p>从背景介绍我们可以看出，并发编程的根本还是线程，但是在实际的使用过程中发现在应用层来做线程的管理很困难，编写多线程代码也很难，所以 Apple 从系统级层面对线程做了封装，因此在 OS X 和 iOS 平台我们有了特定的并发编程技术 GCD。</p>
+
+<p>到这里事情并没结束，GCD 是基于 C 接口，Apple 对它用 Objective-C 进行了进一步的包裹和封装，于是有操作队列(Operation Queue)。</p>
+
+<p>操作队列是非常类似分发队列(dispatch queue)的 Objective-C 对象。你定义想要执行的任务并添加到操作队列，它处理这些任务的调度和执行。类似 GCD，操作队列为你处理所有的线程管理，确保任务在系统上高效快速的运行。</p>
+
+<p>因此 iOS 开发中并发编程技术有三种：</p>
 
 <ol>
 <li>NSOperation;</li>

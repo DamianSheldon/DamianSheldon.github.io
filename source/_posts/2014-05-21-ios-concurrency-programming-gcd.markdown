@@ -7,6 +7,9 @@ categories: [Archives, iOS Development]
 keywords: GCD，iOS, Dispatch Queue, Concurrency Programming
 description: iOS 并发编程之 GCD
 ---
+
+在 iOS 并发编程之 Operation 中我们提到了 GCD 出现的背景，这篇文章是我对它的使用总结。
+
 ##GCD 是什么？  
 > Grand Central Dispatch (GCD) dispatch queues are a powerful tool for performing tasks. Dispatch queues let you execute arbitrary blocks of code either asynchronously or synchronously with respect to the caller.
 
@@ -24,8 +27,24 @@ GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步
 * 串行分派队列为锁和其他同步操作提供了更高效选择；  
 
 ##如何使用 GCD？
-在 GCD 是什么部分，我们指出它是执行任务的分发队列，所以使用它之前，很有必要弄清楚分发队列。
+在 GCD 是什么部分，我们指出它是执行任务的分发队列。除了核心的分发队列，GCD 还提供了几个其他的使用分发队列的技术来帮助我们管理代码。
+
+###Dispatch groups
+
+Dispatch group 
+
+Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。
+
+###Dispatch semaphores
+Dispatch semaphores 类似传统的信号量，但是通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。
+
+###Dispatch sources
+Dispatch source 产生通知响应指定的系统事件。你可以使用 dispatch sources 来监视像进程通知，信号和描述符等类似事件。当事件发生时，dispatch source 异步地提交你的任务到指定分发队列去处理。
+
+所以要掌握如何使用 GCD，我们需要学习如何使用 Dispatch queue, Dispatch groups, Dispatch semaphores 和 Dispatch sources。
+
 <!--more-->
+##Dispatch Queue
 ###关于分发队列
 分发队列是类对象的结构，它管理你提交的任务。所有分发队列都是先进先出。因此，任务开始的顺序就是你提交的顺序。 GCD 自动为你提供了一些分发队列，你也可以根据具体的需求创建其他的队列。表 3-1 列出了你应用可用分发队列的类型以及如何使用它们。  
 
@@ -79,10 +98,12 @@ aBlock(789);   // prints: 123 456 789
 ```
 
 ###添加任务到队列
-我们可以同步或异步地分发任务，也可以单个或分组分发任务。队列 * 同步或异步 * 单个或分组 = 3 * 2 * 2 = 12，组合的结果有12种，这里我们就不穷尽各种形式了，只示意几种常用的。  
+
+有两种方法添加任务到队列：异步或者同步。只要可能，使用 dispatch_async 和 dispatch_async_f 函数异步运行是优于同步的。当你添加块或函数到队列，没办法知道它们何时将被执行。因此，异步地添加块对象或函数让你从调用线程调度代码的运行，然后继续做其他工作。如果你从应用的主线程来调度任务，这尤为重要。
+
+虽然你应该应该尽可能地异步添加任务，你仍然会有需要同步添加任务去防止竞争条件或其他同步错误的时候。在这些时候，你可以使用 dispatch_sync 和 dispatch_sync_f 添加任务到队列。这些函数会阻塞当前线程的执行直到指定的任务完成。
 
 ```
-// Dispatching tasks asynchronously and synchronously on serial queue
 dispatch_queue_t myCustomQueue;
 
 myCustomQueue = dispatch_queue_create("com.example.MyCustomQueue", NULL);
@@ -94,39 +115,19 @@ dispatch_async(myCustomQueue, ^{
 printf("The first block may or may not have run.\n");
 
 dispatch_sync(myCustomQueue, ^{
-
     printf("Do some more work here.\n");
-
 });
 
 printf("Both blocks have completed.\n");
 
-// Dispatching group task asynchronously on concurrent queue
-dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
-dispatch_group_t group = dispatch_group_create();
-
-// Add a task to the group
-
-dispatch_group_async(group, queue, ^{
-
-   // Some asynchronous work
-
-});
-
-// Do some other work while the tasks execute.
-
-// When you cannot make any more forward progress,
-
-// wait on the group to block the current thread.
-
-dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-
-// Release the group when it is no longer needed.
-
-dispatch_release(group);
 
 ```
+
+##Dispatch Groups
+
+##Dispatch Semaphores
+
+##Dispatch Sources
 
 ##Reference
 o Concurrency Programming Guide    

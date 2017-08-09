@@ -309,7 +309,109 @@ $(document).ready(
 
 <h2>Dispatch Groups</h2>
 
+<p>Dispatch groups 是一种阻塞线程直到一个或多个任务完成运行的方法。当所有指定任务没有完成是你不能继续的地方可以使用这种行为。例如，在分发多个任务去计划某些数据，你也许会使用一个组来等待这些任务，当他们完成时处理它们的结果。另外一种使用 dispatch groups 的方法是把它当作 thread join 的替代品。与其启动多个子线程然后联接它们，你可以添加相关任务到 dispatch groups 然后等待整个组。</p>
+
+<p>下面是个等待异步任务的实例：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+</span><span class='line'>
+</span><span class='line'>dispatch_group_t group = dispatch_group_create();
+</span><span class='line'>
+</span><span class='line'>// Add a task to the group
+</span><span class='line'>dispatch_group_async(group, queue, ^{
+</span><span class='line'>   // Some asynchronous work
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'> 
+</span><span class='line'>// Do some other work while the tasks execute.
+</span><span class='line'>
+</span><span class='line'> 
+</span><span class='line'>// When you cannot make any more forward progress,
+</span><span class='line'>
+</span><span class='line'>// wait on the group to block the current thread.
+</span><span class='line'>dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+</span><span class='line'>
+</span><span class='line'>// Release the group when it is no longer needed.
+</span><span class='line'>dispatch_release(group);
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>Dispatch Semaphores</h2>
+
+<p>如果你提交到分发队列的任务是使用某些有限的资源，你也许想要使用 dispatch semaphore 来调度同时使用该资源的任务数量。Dispatch semaphore 和正常信号量的工作有一点区别。当资源可用时，获取一个 dispatch semaphore 比传统的系统信号量花费地时间更少。这是因为这种特殊的情况 Grand Central Dispatch 不会向下调用到内核。唯一需要调用到内核的情况是当资源不可用时，系统需要停住你的线程直到收到信号量。</p>
+
+<p>使用 dispatch semaphore 的语义如下：</p>
+
+<ol>
+<li>当你创建信号量时(使用 dispatch_semaphore_create 函数)，你可以指定一个正整数来表示可用的资源数量。</li>
+<li>每个任务调用 dispatch_semaphore_wait 等待一个信号量。</li>
+<li>当等待调用返回，使用资源并执行你的工作。</li>
+<li>当你使用完资源，释放它并调用 dispatch_semaphore_signal 函数发送信号量。</li>
+</ol>
+
+
+<p>有关这些步骤如何工作的示例，考虑系统文件描述符的使用。每个应用程序只有有限的文件描述符可供使用。如果你有一个任务，它处理大量的文件，你可能不想一次打开所有的文件以至于用光文件描述符。相反，你可以在你的文件处理代码中使用信号量来限制每次使用的文件描述符数量。你在你任务中使用的基本代码片断如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create the semaphore, specifying the initial pool size
+</span><span class='line'>
+</span><span class='line'>dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);
+</span><span class='line'>
+</span><span class='line'> 
+</span><span class='line'>
+</span><span class='line'>// Wait for a free file descriptor
+</span><span class='line'>
+</span><span class='line'>dispatch_semaphore_wait(fd_sema, DISPATCH_TIME_FOREVER);
+</span><span class='line'>
+</span><span class='line'>fd = open("/etc/services", O_RDONLY);
+</span><span class='line'>
+</span><span class='line'> 
+</span><span class='line'>
+</span><span class='line'>// Release the file descriptor when done
+</span><span class='line'>
+</span><span class='line'>close(fd);
+</span><span class='line'>
+</span><span class='line'>dispatch_semaphore_signal(fd_sema);
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Dispatch Sources</h2>
 

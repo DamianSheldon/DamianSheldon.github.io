@@ -125,7 +125,69 @@ printf("Both blocks have completed.\n");
 
 ##Dispatch Groups
 
+Dispatch groups 是一种阻塞线程直到一个或多个任务完成运行的方法。当所有指定任务没有完成是你不能继续的地方可以使用这种行为。例如，在分发多个任务去计划某些数据，你也许会使用一个组来等待这些任务，当他们完成时处理它们的结果。另外一种使用 dispatch groups 的方法是把它当作 thread join 的替代品。与其启动多个子线程然后联接它们，你可以添加相关任务到 dispatch groups 然后等待整个组。
+
+下面是个等待异步任务的实例：
+
+```
+dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_group_t group = dispatch_group_create();
+
+// Add a task to the group
+dispatch_group_async(group, queue, ^{
+   // Some asynchronous work
+});
+
+ 
+// Do some other work while the tasks execute.
+
+ 
+// When you cannot make any more forward progress,
+
+// wait on the group to block the current thread.
+dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+
+// Release the group when it is no longer needed.
+dispatch_release(group);
+
+```
+
 ##Dispatch Semaphores
+
+如果你提交到分发队列的任务是使用某些有限的资源，你也许想要使用 dispatch semaphore 来调度同时使用该资源的任务数量。Dispatch semaphore 和正常信号量的工作有一点区别。当资源可用时，获取一个 dispatch semaphore 比传统的系统信号量花费地时间更少。这是因为这种特殊的情况 Grand Central Dispatch 不会向下调用到内核。唯一需要调用到内核的情况是当资源不可用时，系统需要停住你的线程直到收到信号量。
+
+使用 dispatch semaphore 的语义如下：
+
+1. 当你创建信号量时(使用 dispatch_semaphore_create 函数)，你可以指定一个正整数来表示可用的资源数量。
+2. 每个任务调用 dispatch_semaphore_wait 等待一个信号量。
+3. 当等待调用返回，使用资源并执行你的工作。
+4. 当你使用完资源，释放它并调用 dispatch_semaphore_signal 函数发送信号量。
+	
+有关这些步骤如何工作的示例，考虑系统文件描述符的使用。每个应用程序只有有限的文件描述符可供使用。如果你有一个任务，它处理大量的文件，你可能不想一次打开所有的文件以至于用光文件描述符。相反，你可以在你的文件处理代码中使用信号量来限制每次使用的文件描述符数量。你在你任务中使用的基本代码片断如下：
+
+```
+// Create the semaphore, specifying the initial pool size
+
+dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);
+
+ 
+
+// Wait for a free file descriptor
+
+dispatch_semaphore_wait(fd_sema, DISPATCH_TIME_FOREVER);
+
+fd = open("/etc/services", O_RDONLY);
+
+ 
+
+// Release the file descriptor when done
+
+close(fd);
+
+dispatch_semaphore_signal(fd_sema);
+
+```
 
 ##Dispatch Sources
 

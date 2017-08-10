@@ -164,7 +164,6 @@ dispatch_release(group);
 
 ```
 // Create the semaphore, specifying the initial pool size
-
 dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);
 
 // Wait for a free file descriptor
@@ -223,7 +222,6 @@ dispatch_source_set_event_handler(source, ^{
 
    // Get some data from the source variable, which is captured
    // from the parent context.
-
    size_t estimated = dispatch_source_get_data(source);
 
    // Continue reading the descriptor...

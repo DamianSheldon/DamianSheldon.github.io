@@ -1,13 +1,27 @@
 ---
 layout: post
-title: "Property Values"
+title: "(翻译)Property Values"
 date: 2014-05-10 14:41:40 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Property Valule, Objective-C, iOS
 description: Introduce Objective-C's Property
 ---
-  Property是Objective-C中对象封装数据的重要方法，熟练掌握它是一项基本功。
+ 
+  现场教学的一部分乐趣是应付问题和独立思考。在我展示了一些在类中广泛使用的 @property 代码，其中一个学生问到"@property 后面繁琐的字段都是什么？我已经使用了 retain, assign 和 nonatomic，但我真的不知道它们真正是干什么用的。"（如果你仅仅只是想要一份快速参考，文章最后有所有的 @property 属性。）
+  
+  For many Objective-C programmers, @property is a magical talisman. Add something like this to your code to give your puppy object a name:
+  
+  对于许多 Objective-C 程序员来说，@property 就像一个神奇的护身符。添加一些像这样的代码给你的狗对象一个名字：
+  
+```
+@property (copy, nonatomic) NSString *puppyName;
+
+```
+
+把它放到 Xcode 的代码片断库中，当需要它时粘贴进来然后编辑它。
+
+@property 是一个属性声明，它有两个目的：声明一个或两个方法，当你使用这些方法时简洁地描述它们的运行时语义。
   
  Property的attribute关键字有以下几类：  
  1）API Control；
@@ -73,4 +87,5 @@ readonly和readwrite容易理解，就是限定property的访问权限。
 ##Memory Management(Traditional)
 
 ##Reference
-o Property Values http://www.bignerdranch.com/blog/property-values/?replytocom=740600
+o [Property Values](http://www.bignerdranch.com/blog/property-values/)
+

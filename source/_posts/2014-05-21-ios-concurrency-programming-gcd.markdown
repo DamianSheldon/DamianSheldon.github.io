@@ -84,15 +84,11 @@ int x = 123;
 int y = 456;
 
 // Block declaration and assignment
-
 void (^aBlock)(int) = ^(int z) {
-
     printf("%d %d %d\n", x, y, z);
-
 };
 
 // Execute the block
-
 aBlock(789);   // prints: 123 456 789
 
 ```
@@ -171,18 +167,12 @@ dispatch_release(group);
 
 dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);
 
- 
-
 // Wait for a free file descriptor
-
 dispatch_semaphore_wait(fd_sema, DISPATCH_TIME_FOREVER);
 
 fd = open("/etc/services", O_RDONLY);
 
- 
-
 // Release the file descriptor when done
-
 close(fd);
 
 dispatch_semaphore_signal(fd_sema);
@@ -190,6 +180,72 @@ dispatch_semaphore_signal(fd_sema);
 ```
 
 ##Dispatch Sources
+
+Dispatch source 是一个协调指定低层系统事件的数据类型。Grand Central Dispatch 支持如下类型的 dispatch source:
+
+* Timer dispatch sources 产生周期性的通知。
+* Signal dispatch sources 当一个 UNIX 信号来到时通知你。
+* Descriptor sources 通知你各种基于文件和 socket 的操作，例如：
+	
+	* 当数据可读时
+	* 可以写出数据时
+	* 当文件被删除、移动或重命名时
+	* 当文件的元数据信息改变时
+
+* Process dispatch sources 通知你进程相关的事件，例如：
+
+	* 当进程退出时
+	* 当进程分发了一个 fork 或 exec 类型调用
+	* 当一个信号到达了进程
+
+* Mach port dispatch sources 通知你 Mach 相关的事件
+* Custom dispatch sources 由你自己定义和触发
+
+Dispatch sources 替换了异步回调函数，它过去被用于处理系统相关的事件。当你配置 dispatch source，你指定你想要监视的事件，分发队列和用来处理事件的代码。你可以使用 block 对象或者函数。当一个感兴趣的事件到达，dispatch source 提交你的 block 或函数到指定的分发队列。
+
+和你手动提交到队列的任务不同，dispatch sources 为你的应用提交一个连续的事件源。dispatch source 一直保持附加到它自己的分发队列，除非你显示取消。当被附加后，任何时候相关的事件发生了，它提交它相关的任务代码到分发队列。某些事件，例如 timer source 定期发生，但大部分只有当指定条件出现零星发生。因为这个原因，dispatch source 保留它们相关的分发队列防止它们过早释放。
+
+从上面的介绍我们可以得出使用 dispatch source 时主要就是做三件事：1.指定想要监视的事件；2.提供分发队列；3.编写处理事件的代码。
+
+我们可以使用 dispatch_source_create 函数来指定我们想要监视的事件，如何提供分发队列可以使用分发队列里面介绍的技术，处理事件的代码则可以是 block 对象或者函数。除了这些内容，dispatch source  还贴心的提供了取消功能以及暂停和恢复，所以使用时还得掌握如何取消、暂停和恢复，让我们看个示例总结感受下：
+
+```
+// 1. 指定想要监视的事件
+dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
+
+                                 myDescriptor, 0, myQueue);
+
+// 2. 提供分发队列
+dispatch_queue_t myQueue = dispatch_queue_create("com.example.MyCustomSerialQueue", DISPATCH_QUEUE_SERIAL);
+
+// 3. 编写处理事件的代码
+dispatch_source_set_event_handler(source, ^{
+
+   // Get some data from the source variable, which is captured
+   // from the parent context.
+
+   size_t estimated = dispatch_source_get_data(source);
+
+   // Continue reading the descriptor...
+
+});
+
+dispatch_resume(source);
+
+// 4. 取消
+void RemoveDispatchSource(dispatch_source_t mySource)
+
+{
+   dispatch_source_cancel(mySource);
+
+   dispatch_release(mySource);
+}
+
+// 5. 暂停和恢复
+dispatch_suspend(mySource);
+
+dispatch_resume(source);
+```
 
 ##Reference
 o Concurrency Programming Guide    

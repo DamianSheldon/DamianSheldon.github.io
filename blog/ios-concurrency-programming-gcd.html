@@ -245,23 +245,15 @@ $(document).ready(
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>int x = 123;
 </span><span class='line'>int y = 456;
 </span><span class='line'>
 </span><span class='line'>// Block declaration and assignment
-</span><span class='line'>
 </span><span class='line'>void (^aBlock)(int) = ^(int z) {
-</span><span class='line'>
 </span><span class='line'>    printf("%d %d %d\n", x, y, z);
-</span><span class='line'>
 </span><span class='line'>};
 </span><span class='line'>
 </span><span class='line'>// Execute the block
-</span><span class='line'>
 </span><span class='line'>aBlock(789);   // prints: 123 456 789
 </span></code></pre></td></tr></table></div></figure>
 
@@ -385,28 +377,16 @@ $(document).ready(
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// Create the semaphore, specifying the initial pool size
 </span><span class='line'>
 </span><span class='line'>dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);
 </span><span class='line'>
-</span><span class='line'> 
-</span><span class='line'>
 </span><span class='line'>// Wait for a free file descriptor
-</span><span class='line'>
 </span><span class='line'>dispatch_semaphore_wait(fd_sema, DISPATCH_TIME_FOREVER);
 </span><span class='line'>
 </span><span class='line'>fd = open("/etc/services", O_RDONLY);
 </span><span class='line'>
-</span><span class='line'> 
-</span><span class='line'>
 </span><span class='line'>// Release the file descriptor when done
-</span><span class='line'>
 </span><span class='line'>close(fd);
 </span><span class='line'>
 </span><span class='line'>dispatch_semaphore_signal(fd_sema);
@@ -414,6 +394,113 @@ $(document).ready(
 
 
 <h2>Dispatch Sources</h2>
+
+<p>Dispatch source 是一个协调指定低层系统事件的数据类型。Grand Central Dispatch 支持如下类型的 dispatch source:</p>
+
+<ul>
+<li>Timer dispatch sources 产生周期性的通知。</li>
+<li>Signal dispatch sources 当一个 UNIX 信号来到时通知你。</li>
+<li><p>Descriptor sources 通知你各种基于文件和 socket 的操作，例如：</p>
+
+<ul>
+<li>当数据可读时</li>
+<li>可以写出数据时</li>
+<li>当文件被删除、移动或重命名时</li>
+<li>当文件的元数据信息改变时</li>
+</ul>
+</li>
+<li><p>Process dispatch sources 通知你进程相关的事件，例如：</p>
+
+<ul>
+<li>当进程退出时</li>
+<li>当进程分发了一个 fork 或 exec 类型调用</li>
+<li>当一个信号到达了进程</li>
+</ul>
+</li>
+<li><p>Mach port dispatch sources 通知你 Mach 相关的事件</p></li>
+<li>Custom dispatch sources 由你自己定义和触发</li>
+</ul>
+
+
+<p>Dispatch sources 替换了异步回调函数，它过去被用于处理系统相关的事件。当你配置 dispatch source，你指定你想要监视的事件，分发队列和用来处理事件的代码。你可以使用 block 对象或者函数。当一个感兴趣的事件到达，dispatch source 提交你的 block 或函数到指定的分发队列。</p>
+
+<p>和你手动提交到队列的任务不同，dispatch sources 为你的应用提交一个连续的事件源。dispatch source 一直保持附加到它自己的分发队列，除非你显示取消。当被附加后，任何时候相关的事件发生了，它提交它相关的任务代码到分发队列。某些事件，例如 timer source 定期发生，但大部分只有当指定条件出现零星发生。因为这个原因，dispatch source 保留它们相关的分发队列防止它们过早释放。</p>
+
+<p>从上面的介绍我们可以得出使用 dispatch source 时主要就是做三件事：1.指定想要监视的事件；2.提供分发队列；3.编写处理事件的代码。</p>
+
+<p>我们可以使用 dispatch_source_create 函数来指定我们想要监视的事件，如何提供分发队列可以使用分发队列里面介绍的技术，处理事件的代码则可以是 block 对象或者函数。除了这些内容，dispatch source  还贴心的提供了取消功能以及暂停和恢复，所以使用时还得掌握如何取消、暂停和恢复，让我们看个示例总结感受下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. 指定想要监视的事件
+</span><span class='line'>dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
+</span><span class='line'>
+</span><span class='line'>                                 myDescriptor, 0, myQueue);
+</span><span class='line'>
+</span><span class='line'>// 2. 提供分发队列
+</span><span class='line'>dispatch_queue_t myQueue = dispatch_queue_create("com.example.MyCustomSerialQueue", DISPATCH_QUEUE_SERIAL);
+</span><span class='line'>
+</span><span class='line'>// 3. 编写处理事件的代码
+</span><span class='line'>dispatch_source_set_event_handler(source, ^{
+</span><span class='line'>
+</span><span class='line'>   // Get some data from the source variable, which is captured
+</span><span class='line'>   // from the parent context.
+</span><span class='line'>
+</span><span class='line'>   size_t estimated = dispatch_source_get_data(source);
+</span><span class='line'>
+</span><span class='line'>   // Continue reading the descriptor...
+</span><span class='line'>
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>dispatch_resume(source);
+</span><span class='line'>
+</span><span class='line'>// 4. 取消
+</span><span class='line'>void RemoveDispatchSource(dispatch_source_t mySource)
+</span><span class='line'>
+</span><span class='line'>{
+</span><span class='line'>   dispatch_source_cancel(mySource);
+</span><span class='line'>
+</span><span class='line'>   dispatch_release(mySource);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 5. 暂停和恢复
+</span><span class='line'>dispatch_suspend(mySource);
+</span><span class='line'>
+</span><span class='line'>dispatch_resume(source);</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Reference</h2>
 

@@ -376,9 +376,7 @@ $(document).ready(
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// Create the semaphore, specifying the initial pool size
-</span><span class='line'>
 </span><span class='line'>dispatch_semaphore_t fd_sema = dispatch_semaphore_create(getdtablesize() / 2);
 </span><span class='line'>
 </span><span class='line'>// Wait for a free file descriptor
@@ -464,7 +462,6 @@ $(document).ready(
 <span class='line-number'>32</span>
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
-<span class='line-number'>35</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// 1. 指定想要监视的事件
 </span><span class='line'>dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
 </span><span class='line'>
@@ -478,7 +475,6 @@ $(document).ready(
 </span><span class='line'>
 </span><span class='line'>   // Get some data from the source variable, which is captured
 </span><span class='line'>   // from the parent context.
-</span><span class='line'>
 </span><span class='line'>   size_t estimated = dispatch_source_get_data(source);
 </span><span class='line'>
 </span><span class='line'>   // Continue reading the descriptor...

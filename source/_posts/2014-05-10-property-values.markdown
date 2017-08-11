@@ -10,8 +10,6 @@ description: Introduce Objective-C's Property
  
   现场教学的一部分乐趣是应付问题和独立思考。在我展示了一些在类中广泛使用的 @property 代码，其中一个学生问到"@property 后面繁琐的字段都是什么？我已经使用了 retain, assign 和 nonatomic，但我真的不知道它们真正是干什么用的。"（如果你仅仅只是想要一份快速参考，文章最后有所有的 @property 属性。）
   
-  For many Objective-C programmers, @property is a magical talisman. Add something like this to your code to give your puppy object a name:
-  
   对于许多 Objective-C 程序员来说，@property 就像一个神奇的护身符。添加一些像这样的代码给你的狗对象一个名字：
   
 ```

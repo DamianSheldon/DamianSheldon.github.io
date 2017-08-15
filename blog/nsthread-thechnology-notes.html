@@ -348,6 +348,11 @@ $(document).ready(
 
 <p>下图以展示了运行循环的概念结构和各种源。Input sources 传递异步的事件给相应的响应程序并导致 <code>runUntilDate</code> 方法退出。 Timer sources 传递事件到他们的响应程序但是不会导致运行循环退出。</p>
 
+<div style="text-align:center" markdown="1">
+                                                                                           <img name="Run Loop" src="/images/runloop.jpg">
+                                                                                        </div>
+
+
 <p>除了处理输入源，运行循环也产生关于它行为通知。注册 run-loop observers 可以接收这些通知并在线程中使用它们做额外的处理。你使用 Core Foundation 来安装 run-loop observers 到你的线程。</p>
 
 <p>Run Loop Modes</p>
@@ -433,7 +438,23 @@ $(document).ready(
 
 <p>虽然从运行循环中移除输入源和定时器也会导致运行循环退出，但是这不是停止运行循环可靠的方法。某些系统程序添加输入源到运行循环来处理需要的事件。因为你的代码可能意识不到这些输入源，它可能不能移除他们，这会阻止运行循环退出。</p>
 
+<p>线程安全和运行循环对象</p>
+
+<p>线程安全随你使用哪个 API 来操纵运行循环而改变。 Core Foundation 的函数通常是线程安全的可以从任何线程调用。任何可能的时候从拥有运行循环的线程来执行那些改变它配置的操作都是好的实践。</p>
+
+<p>Cocoa NSRunLoop 类没有继承它 Core Foundation 对应部分。如果你使用 NSRunLoop 类来修改你的运行循环，你应该只从拥有它的线程中去做。添加一个属于不同线程的输入源或定时器可能导致崩溃或行为异常。</p>
+
 <h4>配置运行循环源</h4>
+
+<p>运行循环用模式来标识自己监视的循环源，配置循环循环源要做的工作包括创建循环源，添加循环源到运行循环，移除循环。前面提到运行循环源有两类：1. Port-base sources;2. Timer Sources; 其中 Port-base sources 为异步事件源，我们也可以自定义异步事件源。应用程序框架做了很多封装工作，我们使用系统内建的端口源只需要使用 NSPort 及其子类对象就好，并不需要自己去创建相应事件源，NSPort 会为我们做这些事情。</p>
+
+<p>Timer sources 是运行循环的同步事件源，在 Cocoa 中是使用 NSTimer 的类方法 <code>scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:</code> 和 <code>scheduledTimerWithTimeInterval:invocation:repeats:</code> 或者创建一个定时器对象并把它添加到运行循环指定的模式来配置；在 Core Foundation 中是使用一个 CFRunLoopTimerRef 不透明类型实例添加到运行循环来配置；</p>
+
+<p>除了系统内建的源，我们也可以自定义运行循环源，虽然我们可能很少这么做，但是通过自定义运行循环源，我们可以更深入的理解它。使用自定义运行循环源来让子线程为主线程工作是学习自定义循环源很好实例。因为要和子线程通信交互，所以子线程的代码使用运行循环是个很好的选择。</p>
+
+<p>创建一个运行循环源是通过 <code>CFRunLoopSourceRef CFRunLoopSourceCreate(CFAllocatorRef allocator, CFIndex order, CFRunLoopSourceContext *context);</code> 函数，CFRunLoopSourceContext 这个结构体指定了运行循环调度、执行事件处理和取消时对应的函数。为了让主线程能操纵子线程，主线程会持有子线程事件源，运行循环的引用，事件源引用用来发送事件信号，运行循环引用可以唤醒循环，它们之间可以通过共享对象来进行数据传递。</p>
+
+<p><a href="https://github.com/DamianSheldon/Thread_Samples.git">自定义 Run-loop source 示例</a></p>
 
 <h3>线程间通信</h3>
 

@@ -528,6 +528,15 @@ A:git archive master | tar -x -C /somewhere/else
 
 Reference:http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export
 
+### 部分远程分支在本地未显示
+A:
+
+```
+$ git remote update
+$ git branch -r
+```
+Reference:[Remote branch not showing up in “git branch -r”](https://stackoverflow.com/questions/12319968/remote-branch-not-showing-up-in-git-branch-r)
+
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)
 

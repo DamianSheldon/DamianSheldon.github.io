@@ -225,30 +225,17 @@ $(document).ready(
 
 <p>@property 是一个属性声明，它有两个目的：声明一个或两个方法，当你使用这些方法时简洁地描述它们的运行时语义。</p>
 
-<p> Property的attribute关键字有以下几类：<br/>
- 1）API Control；
-    getter = methodname
-    setter = mehtodname:</p>
+<h2>我声明</h2>
 
-<p> 2）Write Serialization(not general thread safety);
-    nonatomic
-    atomic (default)</p>
+<p>@property 声明是声明访问器方法的简写。这些方法让你从对象获取值（嘿 puppy，你叫什么名字？）或者改变值（puppy 欢迎回家，现在你的名字是 Rumperlstiltskin）。下面就是类声明中的 property 声明:</p>
 
-<p> 3) Mutability;
-    readonly
-    readwrite (default)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface Puppy: NSObject
+</span><span class='line'>@property NSString *puppyName;
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
 
-<p> 4) Memory Management(ARC);
-    copy
-    strong (default)
-    weak
-    unsafe_unretained
-    assign</p>
-
-<p> 5) Memory Management(Traditional)
-    copy
-    retain
-    assign (default)</p>
 
 
 		

@@ -76,11 +76,11 @@ puppy.housebroken = YES;
 
 ##并发
 
-iOS 开发者们问题看到 `nonatomic` 关键字。它是 @property 咒语和舞蹈的一部分--如果你创建一个属性，让它 nonatomic。但是这意味着什么？它是 atomic 的反义(噗)。
+iOS 开发者们总是看到 `nonatomic` 关键字。它是 @property 咒语和舞蹈的一部分--如果你创建一个属性，让它 nonatomic。但是这意味着什么？它是 atomic 的反义(噗)。
 
 但是什么是 `atomic`？它意味着线程安全吗？
 
-这取决于你说线程安全是什么。在某种意义上，atomic 属性是本地线程安全--atomic 值可以被多个线程改变而不会损坏因为读写属性值是串行的。
+这取决于你说的线程安全是什么。在某种意义上，atomic 属性是本地线程安全--atomic 值可以被多个线程改变而不会损坏因为读写属性值是串行的。
 
 说 puppy 得到了一个可以自由漫步的后院，你想存放院子的区域：
 
@@ -151,13 +151,13 @@ puppy.housebroken = YES;
 
 通常的推荐是在 Mac 上使用 atomic 属性，因为机器是如此的快以致于这点同步不是问题。在 iOS 上，用 nonatomic 属性来减少工作的总数，释放有限的 CPU 用作其他用途（对电池也很有好处）。
 
-默认是 atomic，所以如果你想你可以忽略 attribute，但是如果你想显示表明“是的，是的，这个 property 是 atomic 的”使用 atomic 关键字是欢迎的。Clang 早期的版本不支持 atomic 关键字，但是在 Xcode 4 的某个时候添加了。
+默认是 atomic，所以如果你想你可以忽略 attribute，但是如果你想显示表明“是的，这个 property 是 atomic 的”使用 atomic 关键字是欢迎的。Clang 早期的版本不支持 atomic 关键字，但是在 Xcode 4 的某个时候添加了。
 
 ##小心你的后面
 
 大多数属性有一个对应的实例变量，它为属性保存值。Puppy 对象应该包含一个 NSString 指针用于 puppy 的名字，一个 BOOL 用于 housebroken 状态。这些实例变量来自哪里，它如何被使用?
 
-如果你绝对没做其他事，只是在你的类或扩展中有一个 @property 语句，编译器将添加一个下划线后紧跟属性名的实例变量到你的代码。在当前的情况下，我们将自动得到 _puppyName 和 _houseBroken。为什么前导下划线？它[防止特定类别的 bug](https://www.bignerdranch.com/blog/a-motivation-for-ivar-decorations/)。 编译器还会为 getter 和 setter 生成代码。
+如果你绝对没做其他事，只是在你的类或扩展中有一个 @property 语句，编译器将添加一个下划线后紧跟属性名的实例变量到你的代码。在当前的情况下，我们将自动得到 `_puppyName` 和 `_houseBroken`。为什么前导下划线？它[防止特定类别的 bug](https://www.bignerdranch.com/blog/a-motivation-for-ivar-decorations/)。 编译器还会为 getter 和 setter 生成代码。
 
 你可以提供你自己的 setter 或者 getter 方法(或者两者)。如果任意一个方法源码没有提供，编译器将提供一个实现。例如：
 
@@ -225,7 +225,7 @@ puppeh.m:14:30: note: property declared here
 
 Cocod 对于内存管理有很多选择。非对象值以字节方式复制。对象指针可以是 strong，它意味着指向的对象将被保持存活。你可以有 weak 对象指针，它不保持其他对象存活，如果指向的对象销毁了它会被回填为零。你可以复制对象而不再引用原始对象。你也可以有只进行字节复制的对象指针而不进行内存管理。
 
-你应该问题为 NSString attribute 使用复制。这个的动机可以在[关于可改变性](https://www.bignerdranch.com/blog/about-mutability/) 的 "Mutable Stripping" 节找到。
+你应该总是为 NSString attribute 使用复制。这个的动机可以在[关于可改变性](https://www.bignerdranch.com/blog/about-mutability/) 的 "Mutable Stripping" 节找到。
 
 在 ARC 下，没有任何修饰默认的内存管理是 strong。
 

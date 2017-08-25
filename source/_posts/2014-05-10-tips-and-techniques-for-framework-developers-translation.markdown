@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tips and Techniques for Framework Developers(Translation)"
+title: "(翻译)Tips and Techniques for Framework Developers"
 date: 2014-05-10 09:23:09 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -209,3 +209,4 @@ Listing 2  Allocation using both stack and malloc’ed buffer
 你应该意识到通常对象的比较方法isEqual:和相关对象类型的比较方法，如isEqualToString:有重大差别. isEqual方法允许传入任意对象作为参数，如果对象不是相同的对象则返回NO.像isEqualToString:和isEqualToArray:方法，经常假定参数是指定的类型（它经常是方法的接收者）。它们因此不做类型检查，因而它们更快，不过这并不安全。对于需要从外部获取的值，例如，应用的信息属性列表或偏好，推荐使用isEqual:,因为它们安全；当类型是知道的时候，使用isEqualToString:替代。
 
 关于isEqual:更深的点是它连接到hash方法。对于放到基于hash的Cocoa集合如NSDictionary或NSSet中的对象，f[A isEqual:B] == YES 和[A hash] == [B hash]的效果是一样的。因此，如果你覆盖isEqual:,那么你也应该覆盖hash来确保这个不变关系。isEqual方法默认会查找指向每个对象的指针地址，hash返回一个基于每个对象地址的hash值，因此它们的关系是不变的。
+

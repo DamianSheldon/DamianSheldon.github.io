@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-08-25T09:14:35+08:00</updated>
+  <updated>2017-09-05T21:38:37+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1470,28 +1470,23 @@ AVFoundation Programming Guide</p>
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cp ~/Downloads/gradle-3.3-all.zip ~/.gradle/local_gradle_distribution/</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>设置 Android Studio 使用本地 gradle</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Android Studio &gt; Preference... &gt; Build,Excution,Deployment &gt; Gradle &gt; User local gradle distribution &gt; Gradle home
-</span><span class='line'>
-</span><span class='line'>Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3
-</span><span class='line'>
-</span><span class='line'>Global Gradle settings &gt; Check Offlien work &gt; /User/meiliang/.gradle</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Windows
+</span><span class='line'>C:\Users\用户名.gradle\wrapper\dists\gradle-x.xx-all\xxxxxxxxxxxx
+</span><span class='line'>// MacOS
+</span><span class='line'>$HOME/.gradle/wrapper/dists/gradle-3.3-all/55gk2rcmfc6p2dg9u9ohc3hw9/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>重启 Android Studio。</li>
+</ol>
 
 
 <p>Reference:
-<a href="http://www.jianshu.com/p/3063173deed8">Android Studio解决refreshing gradle project</a>
+<a href="http://www.jianshu.com/p/3063173deed8">Android Studio解决refreshing gradle project</a><br/>
 <a href="http://zzqhost.com/?post=82">Androidstudio配置本地Gradle</a></p>
 
 <h3>6. 怎么改变 EditText 输入框底部线条的颜色？</h3>
@@ -1541,6 +1536,25 @@ AVFoundation Programming Guide</p>
 
 
 <p>Reference:<a href="https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview">Focusable EditText inside ListView</a></p>
+
+<h3>9.Android Studio 如何设置使用本地 gradle?</h3>
+
+<p>A:</p>
+
+<ol>
+<li>下载 gradle;</li>
+<li>解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;</li>
+<li>在 Android Studio 中设置 gradle home:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Android Studio &gt; Preference... &gt; Build,Excution,Deployment &gt; Gradle &gt; User local gradle distribution &gt; Gradle home
+</span><span class='line'>
+</span><span class='line'> Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   

@@ -132,21 +132,17 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-3.3-all.zip
 2. 将下载好的 gradle 移动到合适的位置;
 
 ```
-cp ~/Downloads/gradle-3.3-all.zip ~/.gradle/local_gradle_distribution/
+// Windows
+C:\Users\用户名.gradle\wrapper\dists\gradle-x.xx-all\xxxxxxxxxxxx
+// MacOS
+$HOME/.gradle/wrapper/dists/gradle-3.3-all/55gk2rcmfc6p2dg9u9ohc3hw9/
+
 ```
 
-3. 设置 Android Studio 使用本地 gradle
-
-```
-Android Studio > Preference... > Build,Excution,Deployment > Gradle > User local gradle distribution > Gradle home
-
-Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3
-
-Global Gradle settings > Check Offlien work > /User/meiliang/.gradle
-```
+3. 重启 Android Studio。
 
 Reference:
-[Android Studio解决refreshing gradle project](http://www.jianshu.com/p/3063173deed8)
+[Android Studio解决refreshing gradle project](http://www.jianshu.com/p/3063173deed8)  
 [Androidstudio配置本地Gradle](http://zzqhost.com/?post=82)  
 
 ###6. 怎么改变 EditText 输入框底部线条的颜色？
@@ -183,3 +179,15 @@ A:在 manifest 中配置下 Activity :
 ```
 
 Reference:[Focusable EditText inside ListView](https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview)
+
+###9.Android Studio 如何设置使用本地 gradle?
+A:
+
+1. 下载 gradle;
+2. 解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;
+3. 在 Android Studio 中设置 gradle home: 
+```
+ Android Studio > Preference... > Build,Excution,Deployment > Gradle > User local gradle distribution > Gradle home
+
+ Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3
+```

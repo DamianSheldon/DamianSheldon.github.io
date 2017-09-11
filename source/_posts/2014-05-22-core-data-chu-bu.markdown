@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Core Data 初步"
+title: "Core Data 使用笔记"
 date: 2014-05-22 09:53:40 +0800
 comments: true
 categories: [Archives, iOS Development]

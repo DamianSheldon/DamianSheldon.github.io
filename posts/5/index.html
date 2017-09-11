@@ -127,6 +127,79 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-technical-interview-part-4.html">
+		
+			iOS Technical Interview Part 4</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+
+<p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
+
+<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
+
+<p>A: Git</p>
+
+<h3>3.你一般是怎么用 Instruments 的？</h3>
+
+<p>A:根据想要分析的问题，选择对应的　instruments　，同时参考　Instruments　User　Guide．</p>
+
+<h3>4.你一般是如何调试 Bug 的</h3>
+
+<p>A:复现 bug，之后单步调试定位。</p>
+
+<h3>5.你在你的项目中用到了哪些设计模式？</h3>
+
+<p>A:</p>
+
+<pre><code>* 单例
+* 委托
+* Target-Action
+* MVC
+* 观察者
+* 工厂方法
+* 信息流
+* 类簇
+</code></pre>
+
+
+		
+		<a href="/blog/ios-technical-interview-part-4.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-08-30T10:43:36+08:00" pubdate data-updated="true">30 Aug 2016</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problems-part-8.html">
 		
 			iOS App 开发问题汇总（八）</a>
@@ -288,72 +361,6 @@ $(document).ready(
 
 
 <time datetime="2016-05-03T17:00:04+08:00" pubdate data-updated="true">03 May 2016</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-6.html">
-		
-			iOS App 开发问题汇总（六）</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
-
-<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1</a></p>
-
-<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
-
-<p>A:</p>
-
-<ul>
-<li>If you manipulated constraints directly, call setNeedsLayout.</li>
-<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
-<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra</a></p>
-
-<h3>3.父类如何关联子类通过nib初始化的属性？</h3>
-
-<p>A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View</p>
-
-
-		
-		<a href="/blog/ios-development-problems-part-6.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-03-28T20:14:53+08:00" pubdate data-updated="true">28 Mar 2016</time></div>
 	
 
 <div class="tags">

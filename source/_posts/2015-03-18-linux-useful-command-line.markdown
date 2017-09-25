@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Linux Useful Command Line"
+title: "Linux 命令行(一)"
 date: 2015-03-18 21:12:56 +0800
 comments: true
 categories: [Archives]

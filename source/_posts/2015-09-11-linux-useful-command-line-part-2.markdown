@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Linux Useful Command Line Part 2"
+title: "Linux 命令行(二)"
 date: 2015-09-11 09:30:16 +0800
 comments: true
 categories: [Archives]

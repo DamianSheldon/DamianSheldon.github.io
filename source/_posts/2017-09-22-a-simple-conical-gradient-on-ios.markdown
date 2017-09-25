@@ -9,6 +9,8 @@ discription: A simple conical gradient on iOS
 ---
 
 Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：
+![Conical-1](../images/Conical-1.png)
+![Conical-2](../images/Conical-2.png)
 
 要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。
 
@@ -215,9 +217,15 @@ Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是
     }
 ```
 
-同样也稍微解释下其中的代码，首先是位图的填充要按照先行后列的顺序，行对就宽，列对应高；其实的反正切函数的值域是(−π, π]，所以要把它们映射到[0, 2π]；然后我们根据角度对应的区间，选择起始和终点颜色，再由线性插值得到各自的颜色分量，实践中每个颜色分量还乘上了当前的透明度，最后合成该点的颜色。
+同样也稍微解释下其中的代码，首先是位图的填充要按照先行后列的顺序，行对就宽，列对应高；其次反正切函数的值域是(−π, π]，所以要把它们映射到[0, 2π]；然后我们根据角度对应的区间，选择起始和终点颜色，再由线性插值得到各自的颜色分量，实践中每个颜色分量还乘上了当前的透明度，最后合成该点的颜色。
 
+[完整示例](https://github.com/DamianSheldon/QuartzDemo)  
 
 ##Reference:
 
+[Conical gradient in Qt (without QConicalGradient)](https://stackoverflow.com/questions/15344163/conical-gradient-in-qt-without-qconicalgradient)  
+[MKGradientView](https://github.com/maxkonovalov/MKGradientView)  
+[Color gradient](https://en.wikipedia.org/wiki/Color_gradient)  
+[Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)  
+[atan2](https://en.wikipedia.org/wiki/Atan2)  
 

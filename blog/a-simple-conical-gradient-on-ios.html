@@ -1,0 +1,651 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>圆锥渐变的一种简单实现  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="Conical, Gradient, Angular">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script src="/javascripts/libs/jquery-migrate-1.4.1.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+</ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+</ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">圆锥渐变的一种简单实现</h2>
+	<div class="entry-content"><p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：
+<img src="../images/Conical-1.png" alt="Conical-1" />
+<img src="../images/Conical-2.png" alt="Conical-2" /></p>
+
+<p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
+
+<p>想法有了，接下来我们用它来实现上图中 Find My iPhone 图标的雷达效果吧。</p>
+
+<p>首先定义一个 CALayer 的子类 ConicalLayer，</p>
+
+<!--more-->
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// ConicalLayer.h
+</span><span class='line'>@interface ConicalLayer : CALayer
+</span><span class='line'>
+</span><span class='line'>/// An array of CGColorRef objects defining the color of each gradient stop. 
+</span><span class='line'>@property(copy) NSArray *colors;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>// ConicalLayer.m
+</span><span class='line'>- (id)init
+</span><span class='line'>{
+</span><span class='line'>    if (!(self = [super init])) {
+</span><span class='line'>        return nil;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    _needsDisplayOnBoundsChange = YES;
+</span><span class='line'>    
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)drawInContext:(CGContextRef)ctx
+</span><span class='line'>{
+</span><span class='line'>    // Draw background
+</span><span class='line'>    CGRect rect = CGContextGetClipBoundingBox(ctx);
+</span><span class='line'>    CGContextSetFillColorWithColor(ctx, self.backgroundColor);
+</span><span class='line'>    CGContextFillRect(ctx, rect);
+</span><span class='line'>    
+</span><span class='line'>    if (self.colors.count &lt; 1) {
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    else if (self.colors.count &lt; 2) {
+</span><span class='line'>        // There is only one color so directly draw with it
+</span><span class='line'>        CGColorRef color = (__bridge CGColorRef)(self.colors.firstObject);
+</span><span class='line'>        CGContextSetFillColorWithColor(ctx, color);
+</span><span class='line'>        CGContextFillRect(ctx, rect);
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>        
+</span><span class='line'>    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+</span><span class='line'>    
+</span><span class='line'>    size_t width = rect.size.width;
+</span><span class='line'>    size_t height = rect.size.height;
+</span><span class='line'>    
+</span><span class='line'>    size_t bitsPerCompoent = 8;
+</span><span class='line'>    size_t bytesPerRow = width * 4;
+</span><span class='line'>    
+</span><span class='line'>    size_t bitmapByteCount = bytesPerRow * height;
+</span><span class='line'>    
+</span><span class='line'>    uint32_t *bitmapData = calloc( bitmapByteCount / sizeof(uint32_t), sizeof(uint32_t) );
+</span><span class='line'>
+</span><span class='line'>    // Map color to linear array each compoent occupy 1 byte
+</span><span class='line'>    uint8_t *colorCompoents = calloc(self.colors.count * 4, sizeof(uint8_t));
+</span><span class='line'>    
+</span><span class='line'>    for (int i = 0; i &lt; self.colors.count; ++i) {
+</span><span class='line'>        CGColorRef c = (__bridge CGColorRef)(self.colors[i]);
+</span><span class='line'>        
+</span><span class='line'>        const CGFloat *compoents = CGColorGetComponents(c);
+</span><span class='line'>        
+</span><span class='line'>        uint8_t red = compoents[0] * 255;
+</span><span class='line'>        uint8_t green = compoents[1] * 255;
+</span><span class='line'>        uint8_t blue = compoents[2] * 255;
+</span><span class='line'>        uint8_t alpha = compoents[3] * 255;
+</span><span class='line'>        
+</span><span class='line'>        int index = i * 4;
+</span><span class='line'>        *(colorCompoents + index) = red;
+</span><span class='line'>        *(colorCompoents + index + 1) = green;
+</span><span class='line'>        *(colorCompoents + index + 2) = blue;
+</span><span class='line'>        *(colorCompoents + index + 3) = alpha;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    // Creating a Bitmap Graphics Context for conical gradient
+</span><span class='line'>    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Little;
+</span><span class='line'>
+</span><span class='line'>    CGContextRef bitmapGraphicsCtx = CGBitmapContextCreate(bitmapData, width, height, bitsPerCompoent, bytesPerRow, colorSpace, bitmapInfo);
+</span><span class='line'>    
+</span><span class='line'>    // Creating conical gradient from a Bitmap Graphics Context
+</span><span class='line'>    CGImageRef conicalGradientImage = CGBitmapContextCreateImage(bitmapGraphicsCtx);
+</span><span class='line'>    
+</span><span class='line'>    CGContextRelease(bitmapGraphicsCtx);
+</span><span class='line'>    
+</span><span class='line'>    free(colorCompoents);
+</span><span class='line'>    
+</span><span class='line'>    free(bitmapData);
+</span><span class='line'>    
+</span><span class='line'>    CGColorSpaceRelease(colorSpace);
+</span><span class='line'>    
+</span><span class='line'>    // Draws conical gradient image into a graphics context.
+</span><span class='line'>    CGContextDrawImage(ctx, rect, conicalGradientImage);
+</span><span class='line'>    
+</span><span class='line'>    CGImageRelease(conicalGradientImage);
+</span><span class='line'>    
+</span><span class='line'>    // Draws three concentric
+</span><span class='line'>    CGContextBeginPath(ctx);
+</span><span class='line'>    
+</span><span class='line'>    CGFloat halfWidth = 0.5 * CGRectGetWidth(rect);
+</span><span class='line'>    CGFloat maxRadii = 0.8 * halfWidth;
+</span><span class='line'>    CGFloat radii = floor(0.33 * maxRadii);
+</span><span class='line'>    
+</span><span class='line'>    for (int i = 1; i &lt; 4; ++i) {
+</span><span class='line'>        CGFloat r = radii * i;
+</span><span class='line'>        CGFloat dx = halfWidth - r;
+</span><span class='line'>        CGRect ellipseRect = CGRectInset(rect, dx, dx);
+</span><span class='line'>        
+</span><span class='line'>        CGContextAddEllipseInRect(ctx, ellipseRect);
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    CGContextSetRGBStrokeColor(ctx, 41/255.0, 234/255.0, 35/255.0, 1.0);
+</span><span class='line'>    CGContextStrokePath(ctx);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)needsDisplayOnBoundsChange
+</span><span class='line'>{
+</span><span class='line'>    return _needsDisplayOnBoundsChange;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)setNeedsDisplayOnBoundsChange:(BOOL)needsDisplayOnBoundsChange
+</span><span class='line'>{
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在我们把架子搭起来了，但是还没有往位图里面填充颜色，在这之前，对这段代码稍作解释，首先是我覆盖了needsDisplayOnBoundsChange 属性的 getter 和 setter 方法，原因是我设置图层关联的背景颜色时会触发这个属性变 NO，导致 <code>drawInContext</code> 不会被调用，我认为这是 Apple 的一个 bug，已经作了反馈，所以这里我使用了这么一个绕过的方法。</p>
+
+<p>其次，我把 RGB 颜色空间的颜色分量取出来放在了一个一维数组里用来备用；最后是 bitmapInfo 要或上 kCGBitmapByteOrder32Little，不然结果会不正确。</p>
+
+<p>接下来就是要填充位图的颜色，代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create conical gradient bitmap data
+</span><span class='line'>CGFloat centerX = width * 0.5;
+</span><span class='line'>CGFloat centerY = height * 0.5;
+</span><span class='line'>
+</span><span class='line'>double baseAngle = 2*M_PI / (self.colors.count - 1);
+</span><span class='line'>    
+</span><span class='line'>for (int i = 0; i &lt; height; ++i) {
+</span><span class='line'>    for (int j = 0; j &lt; width; ++j) {
+</span><span class='line'>        CGFloat x = j - centerX;
+</span><span class='line'>        CGFloat y = i - centerY;
+</span><span class='line'>        
+</span><span class='line'>        // define atan2 uniquely one uses the principal value in the range (−π, π]. That is, −π &lt; atan2(y, x) ≤ π.
+</span><span class='line'>        double angle = atan2(y, x);
+</span><span class='line'>        
+</span><span class='line'>        // Convert atan2 result angle to range [0, 2π]
+</span><span class='line'>        if (angle &lt; 0) {
+</span><span class='line'>            angle += 2 * M_PI;
+</span><span class='line'>        }
+</span><span class='line'>        
+</span><span class='line'>        // 0-360 map to linear gradient
+</span><span class='line'>        double angleRatio = angle / baseAngle;
+</span><span class='line'>        int colorIndex = angleRatio; // How many times of base angle?
+</span><span class='line'>        
+</span><span class='line'>        angle -= colorIndex * baseAngle;
+</span><span class='line'>        angleRatio = angle / baseAngle;
+</span><span class='line'>        
+</span><span class='line'>        colorIndex *= 4;
+</span><span class='line'>        
+</span><span class='line'>        uint8_t red0 = colorCompoents[colorIndex];
+</span><span class='line'>        uint8_t red1 = colorCompoents[colorIndex + 4];
+</span><span class='line'>        
+</span><span class='line'>        // Green index
+</span><span class='line'>        colorIndex += 1;
+</span><span class='line'>        uint8_t green0 = colorCompoents[colorIndex];
+</span><span class='line'>        uint8_t green1 = colorCompoents[colorIndex + 4];
+</span><span class='line'>        
+</span><span class='line'>        // Blue index
+</span><span class='line'>        colorIndex += 1;
+</span><span class='line'>        uint8_t blue0 = colorCompoents[colorIndex];
+</span><span class='line'>        uint8_t blue1 = colorCompoents[colorIndex + 4];
+</span><span class='line'>        
+</span><span class='line'>        // Alpha index
+</span><span class='line'>        colorIndex += 1;
+</span><span class='line'>        uint8_t alpha0 = colorCompoents[colorIndex];
+</span><span class='line'>        uint8_t alpha1 = colorCompoents[colorIndex + 4];
+</span><span class='line'>        
+</span><span class='line'>//            uint8_t red = red0 + angleRatio * (red1 - red0);
+</span><span class='line'>//            uint8_t green = green0 + angleRatio * (green1 - green0);
+</span><span class='line'>//            uint8_t blue = blue0 + angleRatio * (blue1 - blue0);
+</span><span class='line'>//            uint8_t alpha = alpha0 + angleRatio * (alpha1 - alpha0);
+</span><span class='line'>        
+</span><span class='line'>        uint8_t red = lerp(red0, red1, angleRatio);
+</span><span class='line'>        uint8_t green = lerp(green0, green1, angleRatio);
+</span><span class='line'>        uint8_t blue = lerp(blue0, blue1, angleRatio);
+</span><span class='line'>        uint8_t alpha = lerp(alpha0, alpha1, angleRatio);
+</span><span class='line'>        
+</span><span class='line'>        // Multiple alpha
+</span><span class='line'>        float a = alpha / 255.0;
+</span><span class='line'>        
+</span><span class='line'>        red *= a;
+</span><span class='line'>        green *= a;
+</span><span class='line'>        blue *= a;
+</span><span class='line'>        
+</span><span class='line'>        unsigned long index = i * width + j;
+</span><span class='line'>        
+</span><span class='line'>        *(bitmapData + index) = (red &lt;&lt; 24) | (green &lt;&lt; 16) | (blue &lt;&lt; 8) | alpha;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同样也稍微解释下其中的代码，首先是位图的填充要按照先行后列的顺序，行对就宽，列对应高；其次反正切函数的值域是(−π, π]，所以要把它们映射到[0, 2π]；然后我们根据角度对应的区间，选择起始和终点颜色，再由线性插值得到各自的颜色分量，实践中每个颜色分量还乘上了当前的透明度，最后合成该点的颜色。</p>
+
+<p><a href="https://github.com/DamianSheldon/QuartzDemo">完整示例</a></p>
+
+<h2>Reference:</h2>
+
+<p><a href="https://stackoverflow.com/questions/15344163/conical-gradient-in-qt-without-qconicalgradient">Conical gradient in Qt (without QConicalGradient)</a><br/>
+<a href="https://github.com/maxkonovalov/MKGradientView">MKGradientView</a><br/>
+<a href="https://en.wikipedia.org/wiki/Color_gradient">Color gradient</a><br/>
+<a href="https://en.wikipedia.org/wiki/Linear_interpolation">Linear interpolation</a><br/>
+<a href="https://en.wikipedia.org/wiki/Atan2">atan2</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-09-22T15:59:35+08:00" pubdate data-updated="true">22 Sep 2017</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios/'>ios</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<!--<div id="uyan_frame"></div>-->
+<!--<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>-->
+<!-- UY END -->
+
+<!-- Gitment BEGIN -->
+<div id="comments"></div>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+const gitment = new Gitment({
+owner: 'DamianSheldon',
+repo: 'gitment',
+oauth: {
+client_id: '534142482825f386df90',
+client_secret: '19183fe61a33fcfae35316435bf3f4d516295c38',
+},
+// ...
+// For more available options, check out the documentation below
+})
+
+gitment.render('comments')
+</script>
+<!-- Gitment -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

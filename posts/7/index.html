@@ -127,6 +127,83 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-technical-interview-part-3.html">
+		
+			iOS Technical Interview Part 3</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Difference between categories and extensions?</h3>
+
+<p>A:There are two difference beween categories and extensions:</p>
+
+<ol>
+<li>The extension has no name;</li>
+<li>The implementation of the extension must be in the main @implementation block of the file.</li>
+</ol>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
+
+<h3>2.What is advantage of category?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>You can add method to existing class even to that class whose source is not available to you.</li>
+<li>You can extend functionality of a class without subclassing.</li>
+<li>You can split implementation in multiple classes.</li>
+</ul>
+
+
+<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
+
+<h3>3.What are KVO and KVC?</h3>
+
+<p>A:</p>
+
+<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
+Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
+
+<p>Reference:Cocoa Core Competencies</p>
+
+
+		
+		<a href="/blog/ios-technical-interview-part-3.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-25T18:43:44+08:00" pubdate data-updated="true">25 Feb 2016</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-technical-interview-part-2.html">
 		
 			iOS Technical Interview Part 2</a>
@@ -319,70 +396,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-unit-testing-with-ocmock.html">
-		
-			iOS Unit Testing With OCMock</a>
-	</h2>
-	<div class="entry-content">
-		<p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
-
-<p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
-
-<p>对象的方法在工作的时候可能要依赖其他对象，为了去除依赖对象对测试的影响，我们引入 Mock.</p>
-
-<blockquote><p>Mocks are ‘fake’ objects with pre-defined behavior to stand-in for concrete objects during testing. &ndash; HackaZach</p></blockquote>
-
-<p>引用 Mock 之后，我们在单元测试中如何使用它呢？</p>
-
-<blockquote><p>The general recipe for using mocks in unit-tests is:</p>
-
-<ol>
-<li>Create the mock object</li>
-<li>Specify the expected invocations and return values</li>
-<li>Associate the mock object with the code under test</li>
-<li>Execute the code under test</li>
-<li>Validate that your assertions are correct</li>
-</ol>
-</blockquote>
-
-
-		
-		<a href="/blog/ios-unit-testing-with-ocmock.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-22T14:19:12+08:00" pubdate data-updated="true">22 Jan 2016</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
 
 </div>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-09-25T09:26:11+08:00</updated>
+  <updated>2017-10-11T15:01:49+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to setup an L2TP/IPsec VPN on Debian 8]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html"/>
+    <updated>2017-10-11T08:32:44+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8</id>
+    <content type="html"><![CDATA[<p>一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个<a href="https://github.com/StreisandEffect/streisand">库</a>汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。</p>
+
+<p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
+
+<p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
+
+<p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
+幸好 Libreswan 提供了很多命令，可以使用 <code>ipsec --help</code> 查看完整的命令列表，我们可以用这些命令来帮助我们配置。</p>
+
+<!--more-->
+
+
+<p>详细的配置过程如下：</p>
+
+<p>首先我们要确认 Libreswan 的运行状态，这可以通过 <code>ipsec status</code> 命令得到，如果服务没启动，我们可以使用 <code>ipsec start</code> 启动，之后可以使用 <code>ipsec verify</code> 确认系统和配置文件有没有问题，有问题可以根据提示依次解决。没有问题之后我们添加连接配置。</p>
+
+<p>我的主配置文件如下：</p>
+
+<pre><code># /etc/ipsec.conf - Libreswan IPsec configuration file
+#
+# Manual:     ipsec.conf.5
+
+config setup
+    # Normally, pluto logs via syslog. If you want to log to a file,
+    # specify below or to disable logging, eg for embedded systems, use
+    # the file name /dev/null
+    # Note: SElinux policies might prevent pluto writing to a log file at
+    #       an unusual location.
+    #logfile=/var/log/pluto.log
+    #
+    # Do not enable debug options to debug configuration issues!
+    #
+    # plutodebug "all", "none" or a combation from below:
+    # "raw crypt parsing emitting control controlmore kernel pfkey
+    #  natt x509 dpd dns oppo oppoinfo private".
+    # Note: "private" is not included with "all", as it can show confidential
+    #       information. It must be specifically specified
+    # examples:
+    # plutodebug="control parsing"
+    # plutodebug="all crypt"
+    # Again: only enable plutodebug when asked by a developer
+    #plutodebug=none
+    #
+    # NAT-TRAVERSAL support
+    # exclude networks used on server side by adding %v4:!a.b.c.0/24
+    # It seems that T-Mobile in the US and Rogers/Fido in Canada are
+    # using 25/8 as "private" address space on their wireless networks.
+    # This range has never been announced via BGP (at least up to 2015)
+    virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:25.0.0.0/8,%v4:100.64.0.0/10,%v6:fd00::/8,%v6:fe80::/10
+    # PSK clients can have the same ID if they send it based on IP address.
+        uniqueids=no
+
+# For example connections, see your distribution's documentation directory,
+# or https://libreswan.org/wiki/
+#
+# There is also a lot of information in the manual page, "man ipsec.conf"
+#
+# It is best to add your IPsec connections as separate files in /etc/ipsec.d/
+include /etc/ipsec.d/*.conf
+</code></pre>
+
+<p> 新建 IKEv1 XAUTH with PSK 连接配置文件 /etc/ipsec.d/xauth-psk.conf 内容如下：</p>
+
+<pre><code class="`"> conn xauth-psk
+    authby=secret
+    pfs=no
+    auto=add
+    rekey=no
+    left=%defaultroute
+    leftsubnet=0.0.0.0/0
+    rightaddresspool=10.231.247.10-10.231.247.254
+    right=%any
+    # make cisco clients happy
+    cisco-unity=yes
+    # address of your internal DNS server
+    #modecfgdns1=10.231.247.1
+    modecfgdns1=8.8.8.8
+    modecfgdns2=193.110.157.123
+    leftxauthserver=yes
+    rightxauthclient=yes
+    leftmodecfgserver=yes
+    rightmodecfgclient=yes
+    modecfgpull=yes
+    #configure pam via /etc/pam.d/pluto
+    #xauthby=pam
+    xauthby=file
+    # xauthby=alwaysok MUST NOT be used with PSK
+    # Can be played with below
+    #dpddelay=30
+    #dpdtimeout=120
+    #dpdaction=clear
+    xauthfail=soft
+    ike-frag=yes
+    ikev2=never
+</code></pre>
+
+<p> 新建 /etc/ipsec.d/xauth-psk.secrets 存储 PSK 内容如下：</p>
+
+<pre><code class="`"> # If this is the only IP and only PSK based configuration, you can configure without hardcoding the IP:
+: PSK "ExampleSecret"
+</code></pre>
+
+<p> 新建 /etc/ipsec.d/passwd 存储用于认证的用户名密码，示例如下：</p>
+
+<pre><code class="`"> john:$1$5h/bAg4p$Q5/c2XjwSzYy3sh/1j8Bp/:xauth-psk
+paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
+</code></pre>
+
+<p>使用 <code>ipsec restart</code> 重启，可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，检查连接是否有问题。</p>
+
+<h2>iPhone 客户端配置</h2>
+
+<p>Settings > General > VPN > add VPN Configuration > IPSec.</p>
+
+<p>Fill in the description, server (name or IP), Account (aka username), Password and Secret (aka PSK). For PSK connection you MUST NOT enter a Group Name.</p>
+
+<p><img src="../images/200px-IOSXAUTHPSK0.png" alt="iOS XAUTH PSK0" /></p>
+
+<p><img src="../images/200px-IOSXAUTHPSK1.png" alt="iOS XAUTH PSK1" /></p>
+
+<p><img src="../images/200px-IOSXAUTHPSK3.png" alt="iOS XAUTH PSK3" /></p>
+
+<h2>macOS 客户端配置</h2>
+
+<p>System Preferences > Network > + > Interface: VPN > VPN Type: Cisco IPSec</p>
+
+<p><img src="../images/macos-xauth-psk0.png" alt="macOS XAUTH PSK0" /></p>
+
+<p><img src="../images/macos-xauth-psk1.png" alt="macOS XAUTH PSK1" /></p>
+
+<h2>Reference:</h2>
+
+<p><a href="https://libreswan.org/wiki/VPN_server_for_remote_clients_using_IKEv1_XAUTH_with_PSK">VPN server for remote clients using IKEv1 XAUTH with PSK</a><br/>
+<a href="https://libreswan.org/wiki/VPN_server_for_remote_clients_using_IKEv2">VPN server for remote clients using IKEv2</a> <br/>
+<a href="https://libreswan.org/man/ipsec.conf.5.html">ipsec.conf.5</a><br/>
+<a href="https://github.com/libreswan/libreswan/issues/47">Mac OS IKEv2 missing payload(s) (ISAKMP_NEXT_v2AUTH)</a><br/>
+<a href="https://wiki.strongswan.org/projects/strongswan/wiki/AppleIKEv2Profile">IKEv2 Configuration Profile for Apple iOS 8 and newer</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[圆锥渐变的一种简单实现]]></title>
@@ -529,72 +674,6 @@ android:layout_height="match_parent"&gt;
 </code></pre>
 
 <p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[输出自定义尺寸视频]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video.html"/>
-    <updated>2017-04-10T10:12:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video</id>
-    <content type="html"><![CDATA[<p>最近要做的一个项目中要拍摄视频，于是就开始来研究视频。看了几遍 AVFoundation Programming Guide 之后也写了个 Demo，把基本功能都过了一遍。这其中有意思的一件事情是我发现微信拍摄短视频的尺寸是 540x944, 这尺寸很奇怪，不是任何一个预设值。不清楚微信为什么用这么一个尺寸，但我想搞清楚怎么输出自定义尺寸的视频。</p>
-
-<p>AVFoundation 捕获数据输出时，各组件的关系如下：</p>
-
-<div style="text-align:center" markdown="1">
-                                                                                           <img name="Capture Detail" src="http://DamianSheldon.github.io/images/captureDetail_2x.png">
-                                                                                        </div>
-
-
-<p>要想输出自定义尺寸的视频，我们可以从输入端和输出端着手。但是从文档来看，并没有提供可以自定捕获尺寸的方法，所以只能从输出端着手。</p>
-
-<!--more-->
-
-
-<p>首先我用 AVCaptureMovieFileOutput 做输出，然后调用 <code>setOutputSettings(_ outputSettings: [AnyHashable : Any]!, for connection: AVCaptureConnection!)</code> 来达到目标。但是很不幸，控制台输出了异常，查看 AVCaptureMovieFileOutput 的头文件，</p>
-
-<blockquote><p>On iOS, you may only specify the AVVideoCodecKey in the outputSettings. If you specify any other key, an NSInvalidArgumentException will be thrown. See the availableVideoCodecTypes property.</p></blockquote>
-
-<p>所以这个方法行不通。</p>
-
-<p>于是我又尝试用 AVAssetWriter 来接收每一帧捕获的数据，然后按配置输出，理论上来讲这是可行的，实际上只有第一帧数据能成功被接收，之后的数据都会接收失败，具体原因不详。</p>
-
-<p>直接处理每一帧数据失败之后，我又反复翻阅文档，发现编辑章节中提到可以修改 renderSize, 于是又一个想法冒出来，也许可以通过修改 renderSize 来输出自定义尺寸。按照文档编写好相关代码，激动地运行测试。结果得到的是：</p>
-
-<pre><code>Optional(Error Domain=AVFoundationErrorDomain Code=-11800 "The operation could not be completed" UserInfo={NSUnderlyingError=0x1700505c0 {Error Domain=NSOSStatusErrorDomain Code=-12108 "(null)"}, NSLocalizedFailureReason=An unknown error occurred (-12108), NSLocalizedDescription=The operation could not be completed})
-</code></pre>
-
-<p>说实话，内心是崩溃的。但对这件事情还是耿耿于怀，又浏览了一下官方示例列表，发现了 AVSimpleEditoriOS,</p>
-
-<blockquote><p>AVSimpleEditor is a simple AVFoundation based movie editing application which exercises the APIs of AVVideoComposition, AVAudioMix and demonstrates how they can be used for simple video editing tasks. It also demonstrates how they interact with playback (AVPlayerItem) and export (AVAssetExportSession). The application performs trim, rotate, crop, add music, add watermark and export. This sample is ARC-enabled.</p></blockquote>
-
-<p>嗯，看到里面提到可以裁剪，于是就想它是怎么做？可以剪成我想要的大小吗？阅读相关的代码片断，原来它就是用的 renderSize 来实现裁剪的，跟我第三种方法的代码基本一致，差别是它是 Objc 写的，我用 Swift 写的。既然它能正常工作，那我就用这份代码来输出自定义尺寸吧。把代码移进来，运行测试，居然输出了指定的尺寸，难道代码用 Objc 和 Swift 写还有这种差别，整个人是懵的，这个原因暂时是不清楚的。</p>
-
-<p>虽然输出的尺寸对了，但是画面没有铺满尺寸，而且方向错了。这有点太虐了，既然都走到这一步，就想那我再试试能不手动把它纠正吧。纠正的方法是使用 transform, 但是文档对它的介绍不详细，我先参考了 QuartZ 2D Programming Guide 中 Transforms 来变换，发现不对，整个画面全变成了黑色，又在 AVSimpleEditoriOS 的注释中发现了新的线索，</p>
-
-<blockquote><p>Note: the point of origin for rotation is the upper left corner of the composition, t3 is to compensate for origin</p></blockquote>
-
-<p>这么说它用的坐标和 QuartZ 2D 还不一样啊，这么坑爹，好吧，只能先确定好它们是怎么变换的。于是我先输出一段没变换的视频，之后每次测试一个变换，用这个办法确认了它们的变换是这样的，变换的原点是屏幕的左上角，Translation 向右是 X 轴的正方向，向下是 Y 轴的正方向; Rotation 的度数为正是按顺时针方向旋转，为负则是逆时针方向旋转；Scaling 的值大于1为放大，小于1则是缩小。</p>
-
-<p>这样我就做了这么一个变换：</p>
-
-<pre><code>t1 = CGAffineTransformScale(asset.preferredTransform, sx, sy);
-
-t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
-
-t1 = CGAffineTransformTranslate(t1, 540, 0);
-</code></pre>
-
-<p>控制台报错了，说这个视频不支持编辑，这是个什么鬼？完全没有道理啊！于是我又把这段代码从下往上一行一行注释，看是谁导致的问题，发现是 <code>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));</code> ，这样我又试着调整变换的顺序，改成：</p>
-
-<pre><code>t1 = CGAffineTransformTranslate(asset.preferredTransform, 540, 0);
-
-t1 = CGAffineTransformScale(t1, sx, sy);
-
-t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
-</code></pre>
-
-<p>运行测试，苍天啊，居然可以了。经历这么一出，感觉写代码都成了玄学了, 无力吐槽!</p>
 ]]></content>
   </entry>
   

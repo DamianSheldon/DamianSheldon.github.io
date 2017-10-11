@@ -1,0 +1,422 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>How to setup an L2TP/IPsec VPN on Debian 8  | Hello World</title>
+
+<meta name="author" content="Sheldon"> 
+
+<meta name="description" content="Sheldon's personal technology blog about iOS development, Android development, Back-end development, Web development and english study."> <meta name="keywords" content="VPN, IPSec, L2TP, Libreswan, iPhone, iOS, macOS">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	<script src="/javascripts/libs/jquery-migrate-1.4.1.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+<nav id="main-nav"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+</ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+</ul>
+
+<form class="search" action="http://www.yahoo.com.cn/search" method="get">
+    <fieldset role="search">
+        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
+        <input class="search" type="text" name="p" results="0" placeholder="Search">
+    </fieldset>
+</form>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">How to Setup an L2TP/IPsec VPN on Debian 8</h2>
+	<div class="entry-content"><p>一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个<a href="https://github.com/StreisandEffect/streisand">库</a>汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。</p>
+
+<p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
+
+<p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
+
+<p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
+幸好 Libreswan 提供了很多命令，可以使用 <code>ipsec --help</code> 查看完整的命令列表，我们可以用这些命令来帮助我们配置。</p>
+
+<!--more-->
+
+
+<p>详细的配置过程如下：</p>
+
+<p>首先我们要确认 Libreswan 的运行状态，这可以通过 <code>ipsec status</code> 命令得到，如果服务没启动，我们可以使用 <code>ipsec start</code> 启动，之后可以使用 <code>ipsec verify</code> 确认系统和配置文件有没有问题，有问题可以根据提示依次解决。没有问题之后我们添加连接配置。</p>
+
+<p>我的主配置文件如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># /etc/ipsec.conf - Libreswan IPsec configuration file
+</span><span class='line'>#
+</span><span class='line'># Manual:     ipsec.conf.5
+</span><span class='line'>
+</span><span class='line'>config setup
+</span><span class='line'>  # Normally, pluto logs via syslog. If you want to log to a file,
+</span><span class='line'>  # specify below or to disable logging, eg for embedded systems, use
+</span><span class='line'>  # the file name /dev/null
+</span><span class='line'>  # Note: SElinux policies might prevent pluto writing to a log file at
+</span><span class='line'>  #       an unusual location.
+</span><span class='line'>  #logfile=/var/log/pluto.log
+</span><span class='line'>  #
+</span><span class='line'>  # Do not enable debug options to debug configuration issues!
+</span><span class='line'>  #
+</span><span class='line'>  # plutodebug "all", "none" or a combation from below:
+</span><span class='line'>  # "raw crypt parsing emitting control controlmore kernel pfkey
+</span><span class='line'>  #  natt x509 dpd dns oppo oppoinfo private".
+</span><span class='line'>  # Note: "private" is not included with "all", as it can show confidential
+</span><span class='line'>  #       information. It must be specifically specified
+</span><span class='line'>  # examples:
+</span><span class='line'>  # plutodebug="control parsing"
+</span><span class='line'>  # plutodebug="all crypt"
+</span><span class='line'>  # Again: only enable plutodebug when asked by a developer
+</span><span class='line'>  #plutodebug=none
+</span><span class='line'>  #
+</span><span class='line'>  # NAT-TRAVERSAL support
+</span><span class='line'>  # exclude networks used on server side by adding %v4:!a.b.c.0/24
+</span><span class='line'>  # It seems that T-Mobile in the US and Rogers/Fido in Canada are
+</span><span class='line'>  # using 25/8 as "private" address space on their wireless networks.
+</span><span class='line'>  # This range has never been announced via BGP (at least up to 2015)
+</span><span class='line'>  virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:25.0.0.0/8,%v4:100.64.0.0/10,%v6:fd00::/8,%v6:fe80::/10
+</span><span class='line'>  # PSK clients can have the same ID if they send it based on IP address.
+</span><span class='line'>        uniqueids=no
+</span><span class='line'>
+</span><span class='line'># For example connections, see your distribution's documentation directory,
+</span><span class='line'># or https://libreswan.org/wiki/
+</span><span class='line'>#
+</span><span class='line'># There is also a lot of information in the manual page, "man ipsec.conf"
+</span><span class='line'>#
+</span><span class='line'># It is best to add your IPsec connections as separate files in /etc/ipsec.d/
+</span><span class='line'>include /etc/ipsec.d/*.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 新建 IKEv1 XAUTH with PSK 连接配置文件 /etc/ipsec.d/xauth-psk.conf 内容如下：</p>
+
+<pre><code class="`"> conn xauth-psk
+    authby=secret
+    pfs=no
+    auto=add
+    rekey=no
+    left=%defaultroute
+    leftsubnet=0.0.0.0/0
+    rightaddresspool=10.231.247.10-10.231.247.254
+    right=%any
+    # make cisco clients happy
+    cisco-unity=yes
+    # address of your internal DNS server
+    #modecfgdns1=10.231.247.1
+    modecfgdns1=8.8.8.8
+    modecfgdns2=193.110.157.123
+    leftxauthserver=yes
+    rightxauthclient=yes
+    leftmodecfgserver=yes
+    rightmodecfgclient=yes
+    modecfgpull=yes
+    #configure pam via /etc/pam.d/pluto
+    #xauthby=pam
+    xauthby=file
+    # xauthby=alwaysok MUST NOT be used with PSK
+    # Can be played with below
+    #dpddelay=30
+    #dpdtimeout=120
+    #dpdaction=clear
+    xauthfail=soft
+    ike-frag=yes
+    ikev2=never
+</code></pre>
+
+<p> 新建 /etc/ipsec.d/xauth-psk.secrets 存储 PSK 内容如下：</p>
+
+<pre><code class="`"> # If this is the only IP and only PSK based configuration, you can configure without hardcoding the IP:
+: PSK "ExampleSecret"
+</code></pre>
+
+<p> 新建 /etc/ipsec.d/passwd 存储用于认证的用户名密码，示例如下：</p>
+
+<pre><code class="`"> john:$1$5h/bAg4p$Q5/c2XjwSzYy3sh/1j8Bp/:xauth-psk
+paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
+</code></pre>
+
+<p>使用 <code>ipsec restart</code> 重启，可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，检查连接是否有问题。</p>
+
+<h2>iPhone 客户端配置</h2>
+
+<p>Settings > General > VPN > add VPN Configuration > IPSec.</p>
+
+<p>Fill in the description, server (name or IP), Account (aka username), Password and Secret (aka PSK). For PSK connection you MUST NOT enter a Group Name.</p>
+
+<p><img src="../images/200px-IOSXAUTHPSK0.png" alt="iOS XAUTH PSK0" /></p>
+
+<p><img src="../images/200px-IOSXAUTHPSK1.png" alt="iOS XAUTH PSK1" /></p>
+
+<p><img src="../images/200px-IOSXAUTHPSK3.png" alt="iOS XAUTH PSK3" /></p>
+
+<h2>macOS 客户端配置</h2>
+
+<p>System Preferences > Network > + > Interface: VPN > VPN Type: Cisco IPSec</p>
+
+<p><img src="../images/macos-xauth-psk0.png" alt="macOS XAUTH PSK0" /></p>
+
+<p><img src="../images/macos-xauth-psk1.png" alt="macOS XAUTH PSK1" /></p>
+
+<h2>Reference:</h2>
+
+<p><a href="https://libreswan.org/wiki/VPN_server_for_remote_clients_using_IKEv1_XAUTH_with_PSK">VPN server for remote clients using IKEv1 XAUTH with PSK</a><br/>
+<a href="https://libreswan.org/wiki/VPN_server_for_remote_clients_using_IKEv2">VPN server for remote clients using IKEv2</a> <br/>
+<a href="https://libreswan.org/man/ipsec.conf.5.html">ipsec.conf.5</a><br/>
+<a href="https://github.com/libreswan/libreswan/issues/47">Mac OS IKEv2 missing payload(s) (ISAKMP_NEXT_v2AUTH)</a><br/>
+<a href="https://wiki.strongswan.org/projects/strongswan/wiki/AppleIKEv2Profile">IKEv2 Configuration Profile for Apple iOS 8 and newer</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-10-11T08:32:44+08:00" pubdate data-updated="true">11 Oct 2017</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+    
+    
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1395286292635329" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<!--<div id="uyan_frame"></div>-->
+<!--<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>-->
+<!-- UY END -->
+
+<!-- Gitment BEGIN -->
+<div id="comments"></div>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+const gitment = new Gitment({
+owner: 'DamianSheldon',
+repo: 'gitment',
+oauth: {
+client_id: '534142482825f386df90',
+client_secret: '19183fe61a33fcfae35316435bf3f4d516295c38',
+},
+// ...
+// For more available options, check out the documentation below
+})
+
+gitment.render('comments')
+</script>
+<!-- Gitment -->
+
+    
+    
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2017
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+</body>
+</html>

@@ -127,6 +127,76 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-using-avfoundation.html">
+		
+			AVFoundation 使用笔记</a>
+	</h2>
+	<div class="entry-content">
+		<p>使用一个框架时，我们可能有这么三个问题：</p>
+
+<ol>
+<li>这个框架是做什么的？</li>
+<li>为什么要使用这个框架而不是其他的框架？</li>
+<li>怎么用这个框架？</li>
+</ol>
+
+
+<h3>这个框架是做什么的？</h3>
+
+<p>Apple 在 iOS Technology Overview 中的 Audio Technologies 和 Video Technologies 分别是这么介绍 AVFoundation 的：</p>
+
+<blockquote><p>AV Foundation is an Objective-C interface for managing the recording and playback of audio and video. Use this framework for recording audio and when you need fine-grained control over the audio playback process.</p>
+
+<p>AV Foundation provides advanced video playback and recording capabilities. Use this framework in situations where you need more control over the presentation or recording of video. For example, augmented reality apps could use this framework to layer live video content with other app-provided content.</p></blockquote>
+
+<p>从这两个介绍中我们可以知道 AVFoundation 是用来播放和录制音频和视频的。</p>
+
+<p>在 AVFoundation Programming Guide 中则是这么介绍的：</p>
+
+<blockquote><p>AVFoundation is one of several frameworks that you can use to play and create time-based audiovisual media. It provides an Objective-C interface you use to work on a detailed level with time-based audiovisual data. For example, you can use it to examine, create, edit, or reencode media files. You can also get input streams from devices and manipulate video during realtime capture and playback.</p></blockquote>
+
+<p>从这里我们可以知道它不仅可以播放和创建基于时间的视听媒体，还可以让我们在很细微的层面去操作这些视听数据。例如，你可以使用它检查、创建、编辑或者重编码媒体文件。你还可以用它从设备那里拿到输出流，并且可以在实时的捕获和播放过程中操作视频。</p>
+
+<p>所以结论就是：这个框架是处理音频和视频的，而且处理的粒度可以非常细。</p>
+
+
+		
+		<a href="/blog/notes-of-using-avfoundation.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-04-06T15:09:30+08:00" pubdate data-updated="true">06 Apr 2017</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-of-android-development-part-3.html">
 		
 			Android开发问题汇总(三)</a>
@@ -296,99 +366,6 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html">
-		
-			如何搭建一个带 Dovecot 的 Postfix 邮件服务器</a>
-	</h2>
-	<div class="entry-content">
-		<p>不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。</p>
-
-<h2>准备材料</h2>
-
-<ul>
-<li>VPS</li>
-<li>域名</li>
-</ul>
-
-
-<p>VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：<a href="https://m.do.co/c/537dc7bd8a78">https://m.do.co/c/537dc7bd8a78</a></p>
-
-<p>我服务器跑的是 Debian 8 Jessie.</p>
-
-<h2>配置 DNS</h2>
-
-<h3>添加 MX 记录</h3>
-
-<p>添加从域名到 VPS IP 的 MX 记录，它指定了负责处理这个域名邮件收发的服务器。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Type    Hostname        Value         TTL
-</span><span class='line'>MX      tenneshop.com   1.2.3.4.      1800</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>验证 DNS</h3>
-
-<p>DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上几分钟之后就会生效，你可以用 dig 和 host 来验证。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@yourbase] ~# dig MX mydomain.com +short @ns1.digitalocean.com
-</span><span class='line'>50 mail.mydomain.com.
-</span><span class='line'>[root@yourbase] ~# host mail.mydomain.com ns1.digitalocean.com
-</span><span class='line'>Using domain server:
-</span><span class='line'>Name: ns1.digitalocean.com
-</span><span class='line'>Address: 198.199.120.125#53
-</span><span class='line'>Aliases:
-</span><span class='line'>
-</span><span class='line'>mail.mydomain.com has address 82.196.9.119</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-02-15T16:29:42+08:00" pubdate data-updated="true">15 Feb 2017</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archivies/'>archivies</a>
 
 </div>
 

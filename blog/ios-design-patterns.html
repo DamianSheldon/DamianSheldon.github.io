@@ -123,11 +123,11 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">(翻译)iOS 设计模式</h2>
-	<div class="entry-content"><p>iOS设计模式&ndash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。</p>
+	<div class="entry-content"><p><em>iOS 设计模式</em>&ndash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花太多注意力放到设计模式上。</p>
 
-<p>在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
+<p>在软件设计中设计模式是常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
 
-<p>如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握iOS的主要（次要）设计模式，它们在Cocoa中很常用。</p>
+<p>如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa 建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握 iOS 的主要（次要）设计模式，它们在 Cocoa 中很常用。</p>
 
 <p>教程分成多个部分，每部分包含一种设计模式。在每部分，你会看到如下顺序的解释：</p>
 
@@ -138,9 +138,9 @@ $(document).ready(
 </ul>
 
 
-<p>这篇教程中，你将创建一个Music Library应用，它会显示你的专辑和它们相关的信息。</p>
+<p>这篇教程中，你将创建一个 Music Library 应用，它会显示你的专辑和它们相关的信息。</p>
 
-<p>在开发应用的过程中，你会慢慢熟悉多数常见的Cocoa设计模式：</p>
+<p>在开发应用的过程中，你会慢慢熟悉多数常见的 Cocoa 设计模式：</p>
 
 <ul>
 <li>构造类：单例(Singleton)和 抽象工厂(Abstract Factory);</li>
@@ -165,9 +165,9 @@ $(document).ready(
 
 <h3>开始吧</h3>
 
-<p>下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动工程</a>,解压ZIP文件内容，然后在Xcode中打开。</p>
+<p>下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动工程</a>,解压 ZIP 文件内容，然后在 Xcode 中打开。</p>
 
-<p>里面内容不多，仅仅是默认的ViewController和一个未实现的简单HTTP客户端。</p>
+<p>里面内容不多，仅仅是默认的 ViewController 和一个未实现的简单 HTTP 客户端。</p>
 
 <p><strong>Note</strong>:你知道吗？当你创建一个新的工程你的代码就已经符合设计模式了。MVC, Delegate, Protocol, Singleton&ndash;你免费得到全部！:]</p>
 
@@ -185,9 +185,9 @@ $(document).ready(
 </span><span class='line'>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl year:(NSString*)year;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>注意到所有的属性都是可读的，因为Album对象被创建之后不需要被改变。</p>
+<p>注意到所有的属性都是可读的，因为 Album 对象被创建之后不需要被改变。</p>
 
-<p>方法是对象的初始化方法。当你创建一个新alum，你将传入album name, artist, album cover URL和year。</p>
+<p>方法是对象的初始化方法。当你创建一个新 alum，你将传入 album name, artist, album cover URL 和 year。</p>
 
 <p>现在打开<strong>Album.m</strong>,添加下列代码到<strong>@implementation</strong>和<strong>@end</strong>中间:</p>
 
@@ -219,7 +219,7 @@ $(document).ready(
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这里没有什么神奇的；仅仅是一个简单的init方法去创建一个新Album实例。</p>
+<p>这里没有什么神奇的；仅仅是一个简单的 init 方法去创建一个新 Album 实例。</p>
 
 <p>再次导航到<strong>File\New\File…</strong>。选择<strong>Cocoa Touch</strong>然后<strong>Objective-C class</strong>，点击<strong>Next</strong>。设置类名为<strong>AlbumView</strong>，但是这次设置它为<strong>UIView</strong>的子类。点击<strong>Next</strong>然后<strong>Create</strong>。</p>
 
@@ -230,8 +230,6 @@ $(document).ready(
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover;</span></code></pre></td></tr></table></div></figure>
 
-
-<p>Now open AlbumView.m and replace all the code after @implementation with the following code:</p>
 
 <p>现在打开<strong>AlbumView.m</strong>，用下面的代码替换<strong>@implementation</strong>之后的内容：</p>
 
@@ -291,11 +289,11 @@ $(document).ready(
 </span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
 
 
-<p>你注意到的第一件事是这里有个名为coverImage的实例变量。变量代表专辑的封面图片。第二个变量是一个指示器，当专辑在下载时它转动指示器。</p>
+<p>你注意到的第一件事是这里有个名为 coverImage 的实例变量。变量代表专辑的封面图片。第二个变量是一个指示器，当专辑在下载时它转动指示器。</p>
 
 <p>在初始化方法的实现中，你设置背影为黑色，创建一个与主视图周边有5个点距离的图片视图，创建并添加了一个活动指示器。</p>
 
-<p><strong>Note</strong>:很奇怪为什么把私有变量定义在实现文件中而不是接口文件中？这是因为AlbumView类之外的其他类并不需要知道这些变量的存在，它们仅被类的内部实现中使用。如果你是在开发库或框架让其他开发者使用，这个惯例极其重要。</p>
+<p><strong>Note</strong>:很奇怪为什么把私有变量定义在实现文件中而不是接口文件中？这是因为 AlbumView 类之外的其他类并不需要知道这些变量的存在，它们仅被类的内部实现使用。如果你是在开发库或框架让其他开发者使用，这个惯例极其重要。</p>
 
 <p>编译你的工程（<strong>Command+B</strong>）确认所有事情都准备就绪。都好了吗？然后准备迎接你的第一个设计模式！:]</p>
 
@@ -308,14 +306,14 @@ $(document).ready(
 </div>
 
 
-<p>模型&ndash;视图&ndash;控制器（MVC）是Cocoa的一个基石，它毫无疑问是被用得最多的设计模式。它依据应用中类的角色给它们分类，鼓励基于角色简洁地分隔代码。</p>
+<p>模型&ndash;视图&ndash;控制器（MVC）是 Cocoa 的一个基石，它毫无疑问是被用得最多的设计模式。它依据应用中类的角色给它们分类，鼓励基于角色简洁地分隔代码。</p>
 
 <p>这三个角色是：</p>
 
 <ul>
-<li><p>模型：持有你应用数据并定义如何操作它们的对象。例如，这个应用中的模型是你的Album类。</p></li>
-<li><p>视图：控制模型类的可视显示以及和用户的交互的对象;所有的UIView和它们的子类基本上都是。在你这个应用中AlbumView代表视图。</p></li>
-<li><p>控制器：控制器是中间件，它协调所有的工作。它从模型类访问数据并显示到视图上，监听事件，在需要时操作数据。你能猜到哪个类是你的控制器吗？对，是ViewController。</p></li>
+<li><p>模型：持有你应用数据并定义如何操作它们的对象。例如，这个应用中的模型是你的 Album 类。</p></li>
+<li><p>视图：控制模型类的可视显示以及和用户交互的对象;所有的 UIView 和它们的子类基本上都是。在你这个应用中 AlbumView 代表视图。</p></li>
+<li><p>控制器：控制器是中间件，它协调所有的工作。它从模型类访问数据并显示到视图上，监听事件，在需要时操作数据。你能猜到哪个类是你的控制器吗？对，是 ViewController。</p></li>
 </ul>
 
 
@@ -332,15 +330,15 @@ $(document).ready(
 
 <p>任何数据发生改变模型类便通知控制器，接下来，控制器将数据更新到视图上。视图接收到用户的动作时可以通知控制器，控制器会根据需要更新模型数据或获取任何请求的数据。</p>
 
-<p>你也许会奇怪为什么不拿掉Controller,在同一个类中实现视图和模型，这看起来更容易。</p>
+<p>你也许会奇怪为什么不拿掉 Controller ,在同一个类中实现视图和模型，这看起来更容易。</p>
 
-<p>这都来源于代码的去藕合和可可复用。理想情况下，视图应该完全和模型隔离，这样它可以被不同的模型复用去展示其他的数据。</p>
+<p>这都来源于代码的去藕合和可复用。理想情况下，视图应该完全和模型隔离，这样它可以被不同的模型复用去展示其他的数据。</p>
 
-<p>例如，如果未来你也想添加电影或书本到你的收藏库中，你仍然可以使用相同的AlbumView去展示你的电影和图书对象。此外，如果你创建了一个新的对象，它和专辑有些关系，你可以简单地复用你的Album类，因为它不依赖任何视图。这就是MVC的强大之处！</p>
+<p>例如，如果未来你也想添加电影或书本到你的收藏库中，你仍然可以使用相同的 AlbumView 去展示你的电影和图书对象。此外，如果你创建了一个新的对象，它和专辑有些关系，你可以简单地复用你的 Album 类，因为它不依赖任何视图。这就是 MVC 的强大之处！</p>
 
-<h3>如何使用MVC设计模式</h3>
+<h3>如何使用 MVC 设计模式</h3>
 
-<p>首先，你需要保证你工程中的类是Controller，View, Model三者之一；不要混合两个角色的功能到一个类中。你创建的<strong>Album</strong>和<strong>AlbumView</strong>到目前为止都做的很好。</p>
+<p>首先，你需要保证你工程中的类是 Controller，View, Model三者之一；不要混合两个角色的功能到一个类中。你创建的<strong>Album</strong>和<strong>AlbumView</strong>到目前为止都做的很好。</p>
 
 <p>其次，为了确保你习惯这种工作方式，你应该创建三个工程组来持有你的代码，每组对应一个类别。</p>
 
@@ -359,7 +357,7 @@ $(document).ready(
 
 <p>你的工程已经没有混乱的文件了看起来好多了。你明显能拥有其他的组和类，但这三个类别中的类是应用的核心。</p>
 
-<p>现在你的组件被组织起来了，你需要从其他地方得到你的专辑数据。你将创建一个API类用于全部代码的数据管理&ndash;这提供了一个机会和你探讨下一个设计模式&ndash;单例。</p>
+<p>现在你的组件被组织起来了，你需要从其他地方得到你的专辑数据。你将创建一个 API 类用于全部代码的数据管理&ndash;这提供了一个机会和你探讨下一个设计模式&ndash;单例。</p>
 
 <h3>单例设计模式</h3>
 
@@ -369,7 +367,7 @@ $(document).ready(
 
 <p>你也许会奇怪为什么你要关心一个类是不是只有一个实例，毕竟代码和内存都很便宜，对不对？</p>
 
-<p>有些场景对于类只存在一个实例是有意义的。例如，没有必要存在多个Logger实例，除非你想同时输出多个log文件。以或者来看一个全局配置处理类：像配置文件，对于单个共享资源实现线程安全访问要比在同时可能有很多配置文件修改时容易的多。</p>
+<p>有些场景对于类只存在一个实例是有意义的。例如，没有必要存在多个 Logger 实例，除非你想同时输出多个 log 文件。或者来看一个全局配置处理类：像配置文件，对于单个共享资源实现线程安全访问要比在同时可能有很多配置文件修改时容易的多。</p>
 
 <h3>如何使用单例设计模式</h3>
 
@@ -382,11 +380,11 @@ $(document).ready(
 </div>
 
 
-<p>上图示例了一个Logger类，它有一个属性（它就是这个单独的实例），和两个方法：sharedInstance和init。</p>
+<p>上图示例了一个 Logger 类，它有一个属性（它就是这个单独的实例），和两个方法： sharedInstance 和 init。</p>
 
-<p>客户端第一次发送sharedInstance消息，属性的实例还没被初始化，所以你创建类的一个新的实例，然后返回它的一个引用。</p>
+<p>客户端第一次发送 sharedInstance 消息，属性的实例还没被初始化，所以你创建类的一个新的实例，然后返回它的一个引用。</p>
 
-<p>下次调用sharedInstance，实例会立即返回不用初始化。这个逻辑保证任何时候都只仅存在一个实例。</p>
+<p>下次调用 sharedInstance，实例会立即返回不用初始化。这个逻辑保证任何时候都只仅存在一个实例。</p>
 
 <p>你将实现这种模式通过创建一个单例类来管理专辑的所有数据。</p>
 
@@ -405,8 +403,6 @@ $(document).ready(
 </span><span class='line'> 
 </span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
 
-
-<p>Now go to LibraryAPI.m and insert this method right after the @implentation line:</p>
 
 <p>现在到<strong>LibraryAPI.m</strong>，在<strong>@implentation</strong>之后插入这个方法：</p>
 
@@ -463,8 +459,6 @@ $(document).ready(
 </pre></td><td class='code'><pre><code class=''><span class='line'>#import "Album.h"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Next, add the following code to PersistencyManager.h after the @interface line:</p>
-
 <p>然后，添加下列代码到<strong>PersistencyManager.h</strong>中<strong>@interface</strong>后面：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -477,7 +471,7 @@ $(document).ready(
 
 <p>上面是你处理专辑数据的三个方法原型。</p>
 
-<p>打开PersistencyManager.m，添加下列代码到@implementation前面：</p>
+<p>打开 PersistencyManager.m，添加下列代码到 @implementation 前面：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -491,7 +485,7 @@ $(document).ready(
 
 <p>上面添加了一个类的扩展，它是另一种给类添加私有方法和变量而不会暴露给外部类的方法。这里你声明了一个<strong>NSMutableArray</strong>来持有专辑数据。数组的可变性可以让你很容易添加和删除专辑数据。</p>
 
-<p>现在添加下现代码实现到PersistencyManager.m文件中@implementation的后面：</p>
+<p>现在添加下现代码实现到 PersistencyManager.m 文件中 @implementation 的后面：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -523,7 +517,7 @@ $(document).ready(
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>在init中，你用5个样本专辑填充了数组。如果上面的专辑你不喜欢，用你喜欢的音乐替换它们吧. :]</p>
+<p>在 init 中，你用5个样本专辑填充了数组。如果上面的专辑你不喜欢，用你喜欢的音乐替换它们吧. :]</p>
 
 <p>现在添加下面三个方法到<strong>PersistencyManager.m</strong>：</p>
 
@@ -567,7 +561,7 @@ $(document).ready(
 
 <p>编译你的工程，确保所有的文件仍然能成功被编译。</p>
 
-<p>到这，你可能会奇怪<strong>PersistencyManager</strong>来看哪里呢？它又不是单例。<strong>LibraryAPI</strong>和<strong>PersistencyManager</strong>的关系，我们在下一节会进一步揭示，你还会看到<strong>门面</strong>设计模式。</p>
+<p>到这，你可能会奇怪<strong>PersistencyManager</strong>来自哪里呢？它又不是单例。<strong>LibraryAPI</strong>和<strong>PersistencyManager</strong>的关系，我们在下一节会进一步揭示，你还会看到<strong>门面</strong>设计模式。</p>
 
 <h3>门面设计模式</h3>
 
@@ -593,13 +587,13 @@ $(document).ready(
 
 <p>门面模式让使用系统的代码从接口和你隐藏实现的类解藕；它也减少了外部代码对内部子系统工作的依赖。当门面底下的类想改变时，这也很有用，因为门面能保留相同的API，尽管后面的代码已经改变了。</p>
 
-<p>例如，如果有一天你想替换你的后端服务，你不需要去修改使用你API的代码。</p>
+<p>例如，如果有一天你想替换你的后端服务，你不需要去修改使用你 API 的代码。</p>
 
 <h3>如何使用门面设计模式</h3>
 
 <p>目前你有<strong>PersistencyManager</strong>保存专辑数据到本地，<strong>HTTPClient</strong>处理远程交互。工程中其他的类不应该意识到这个逻辑的存在。</p>
 
-<p>为了实现这个设计模式，仅<strong>LibraryAPI</strong>应该持有<strong>PersistencyManager</strong>和<strong>HTTPClient</strong>的实例。然后，<strong>LibraryAPI</strong>会对其他的服务暴露一个简单的API。</p>
+<p>为了实现这个设计模式，仅<strong>LibraryAPI</strong>应该持有<strong>PersistencyManager</strong>和<strong>HTTPClient</strong>的实例。然后，<strong>LibraryAPI</strong>会对其他的服务暴露一个简单的 API。</p>
 
 <p><strong>Note</strong>:通常，单例在整个应用的生命周期都存在。你不应该让单例保持大多其他对象的强引用，因为他们直到应用关闭才会被释放。</p>
 
@@ -640,7 +634,7 @@ $(document).ready(
 </span><span class='line'>#import "HTTPClient.h"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这将是你唯一导入这些类的地方。记住：你的API将会是唯一的入口去访问你"复杂"的系统。</p>
+<p>这将是你唯一导入这些类的地方。记住：你的 API 将会是唯一的入口去访问你"复杂"的系统。</p>
 
 <p>现在，通过类的扩展添加些私有变量（在@implementation上面）：</p>
 
@@ -686,7 +680,7 @@ $(document).ready(
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>HTTP Client最终不会和真实的服务器交互，这里仅仅是为示例门面模式的使用，所以<strong>isOnline</strong>将一直是<strong>NO</strong>。</p>
+<p>HTTP Client 最终不会和真实的服务器交互，这里仅仅是为示例门面模式的使用，所以<strong>isOnline</strong>将一直是<strong>NO</strong>。</p>
 
 <p>下一步，添加下面三个方法到<strong>LibraryAPI.m</strong>：</p>
 
@@ -749,7 +743,7 @@ $(document).ready(
 </div>
 
 
-<p>你将会需要些东西来显示专辑数据到屏幕上&ndash;这是个完美的使用场景对于你的下个设计模式：修饰。</p>
+<p>你将会需要些东西来显示专辑数据到屏幕上&ndash;这是你的下个设计模式&ndash;修饰，完美的使用场景。</p>
 
 <h3>修饰设计模式</h3>
 
@@ -776,9 +770,7 @@ $(document).ready(
 
 <p>专辑标题是从哪来的呢？<strong>Album</strong>是一个模型对象，所以它不关心你如何展示数据。你将需要些外部代码来为<strong>Album</strong>类添加该功能，但是不能直接修改类。</p>
 
-<p>你将创建一个category，这是Album的扩展；它将定义一个新方法，这个新方法会返回一个让UITableView很容易使用的数据结构。</p>
-
-<p>The data structure will look like the following:</p>
+<p>你将创建一个 category，这是 Album的扩展；它将定义一个新方法，这个新方法会返回一个让UITableView很容易使用的数据结构。</p>
 
 <p>这个数据结构会看起来像这样：</p>
 
@@ -793,8 +785,6 @@ $(document).ready(
 
 <p>Note:你有没注意到新文件的名字？<strong>Album+TableRepresentation</strong>意味着你正在扩展<strong>Album</strong>类。这个惯例很重要，因为它易读并且它防止和你事其他人可能创建的categories冲突。</p>
 
-<p>Go to Album+TableRepresentation.h and add the following method prototype:</p>
-
 <p>进入Album+TableRepresentation.h，添加如下方法原型：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -803,9 +793,7 @@ $(document).ready(
 
 <p>注意这里的方法名前有个<strong>tr_</strong>，是<strong>category:TableRepresentation</strong>的缩写。再次提醒，像这样的惯例将防止和其他方法冲突！</p>
 
-<p><strong>Note</strong>:如果你在category中声明的方法和源类，或都同一个类其他的category（甚至父类）方法相同，运行时会使用哪个方法实现是示定义的。这种情况在你使用自己拥有类的category时很少发生，但是当使用categories添加方法到标准的Cocoa或Cocoa Touch类时能导致严重问题。</p>
-
-<p>Go to Album+TableRepresentation.m and add the following method:</p>
+<p><strong>Note</strong>:如果你在 category 中声明的方法和源类，或都同一个类其他的category（甚至父类）方法相同，运行时会使用哪个方法实现是未定义的。这种情况在你使用自己拥有类的 category 时很少发生，但是当使用 categories 添加方法到标准的 Cocoa 或 Cocoa Touch 类时能导致严重问题。</p>
 
 <p>进入<strong>Album+TableRepresentation.m</strong>，添加如下方法：</p>
 
@@ -821,8 +809,6 @@ $(document).ready(
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Consider for a moment how powerful this pattern can be:</p>
-
 <p>思考下这种模式在某个时刻有多强大：</p>
 
 <ul>
@@ -832,15 +818,15 @@ $(document).ready(
 </ul>
 
 
-<p>Apple在Foundation类中大量使用Categories。打开<strong>NSString.h</strong>看下他们是如何做的。找到 <strong>@interface NSString</strong>，你将会看到总共定义了三个categories：<strong>NSStringExtensionMethods</strong>, <strong>NSExtendedStringPropertyListParsing</strong> 和 <strong>NSStringDeprecated</strong>。Categories帮助方法组织和分隔到各个部分。</p>
+<p>Apple 在 Foundation 类中大量使用 Categories。打开<strong>NSString.h</strong>看下他们是如何做的。找到 <strong>@interface NSString</strong>，你将会看到总共定义了三个categories：<strong>NSStringExtensionMethods</strong>, <strong>NSExtendedStringPropertyListParsing</strong> 和 <strong>NSStringDeprecated</strong>。Categories 帮助方法组织和分隔到各个部分。</p>
 
 <h4>Delegation</h4>
 
-<p>另一个修饰设计模式，Delegation，是一种一个对象的行为代表或协调另一个对象。例如，当你使用<strong>UITableView</strong>，你必须实现的方法之一是<strong>tableView:numberOfRowsInSection:</strong>。</p>
+<p>另一个修饰设计模式，Delegation 是一种一个对象的行为依赖或基于另一个对象的机制。例如，当你使用<strong>UITableView</strong>，你必须实现的方法之一是<strong>tableView:numberOfRowsInSection:</strong>。</p>
 
-<p>你不能期望UITableView知道你想每个部分有多少行，因为这是应用特定的。因此，计算每个部分有多少行的任务传递给了UITableView delegate。它允许UITableView类独立于它显示的数据。</p>
+<p>你不能期望 UITableView 知道你想每个部分有多少行，因为这是应用特定的。因此，计算每个部分有多少行的任务传递给了 UITableView delegate。它允许 UITableView 类独立于它显示的数据。</p>
 
-<p>这里有一个当你创建一个UITableView时是如何进行的虚拟场景解释：</p>
+<p>这里有一个当你创建一个 UITableView 时是如何进行的虚拟场景解释：</p>
 
 <div style="text-align:center" markdown="1">
 
@@ -849,17 +835,17 @@ $(document).ready(
 </div>
 
 
-<p>UITableView对象的工作是显示table view。但是，最终它将需要一些它没有的信息。然后，它救助于它的delegates，发送消息询问额外的信息。在Objective-C中实现delegate模式，一个类通过protocol可以声明可选和必选的方法。你将教程的稍候全面了解protocols。</p>
+<p>UITableView 对象的工作是显示 table view。但是，最终它将需要一些它没有的信息。然后，它求助于它的 delegates，发送消息询问额外的信息。在 Objective-C 中实现delegate 模式，一个类通过 protocol 可以声明可选和必选的方法。教程稍候全面介绍  protocols。</p>
 
-<p>表面看起来仅仅去继承一个对象然后覆盖必要的方法要简单，但是考虑下你只能继承单一的一个类。如果你想让某个类成为两或多个对象的delegate，这是不能通过继承实现的。</p>
+<p>表面看起来仅仅去继承一个对象然后覆盖必要的方法要简单，但是考虑下你只能继承单一的一个类。如果你想让某个类成为两或多个对象的 delegate，这是不能通过继承实现的。</p>
 
-<p>Note:这是个很重要的模式。Apple应用这种方法到大多数UIKit类：<strong>UITableView</strong>, <strong>UITextView</strong>, <strong>UITextField</strong>, <strong>UIWebView</strong>, <strong>UIAlert</strong>, <strong>UIActionSheet</strong>, <strong>UICollectionView</strong>, <strong>UIPickerView</strong>, <strong>UIGestureRecognizer</strong>, <strong>UIScrollView</strong>。列表还在继续。</p>
+<p>Note:这是个很重要的模式。Apple 应用这种方法到大多数 UIKit 类：<strong>UITableView</strong>, <strong>UITextView</strong>, <strong>UITextField</strong>, <strong>UIWebView</strong>, <strong>UIAlert</strong>, <strong>UIActionSheet</strong>, <strong>UICollectionView</strong>, <strong>UIPickerView</strong>, <strong>UIGestureRecognizer</strong>, <strong>UIScrollView</strong>。列表还在继续。</p>
 
 <p>未完待续&hellip;</p>
 
 <h3>原文</h3>
 
-<p>iOS Design Patterns（<a href="http://www.raywenderlich.com/46988/ios-design-patterns%EF%BC%89">http://www.raywenderlich.com/46988/ios-design-patterns%EF%BC%89</a></p>
+<p><a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a></p>
 </div>
 
 

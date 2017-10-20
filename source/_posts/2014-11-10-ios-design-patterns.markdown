@@ -7,21 +7,21 @@ categories: [Archives, iOS Development]
 keywords: Design Patterns, iOS
 discription: Introduce to iOS Design Patterns
 ---
-iOS设计模式--你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花大多注意力放到设计模式上。  
+*iOS 设计模式*--你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花太多注意力放到设计模式上。  
 
-在软件设计中设计模式是对常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。  
+在软件设计中设计模式是常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。  
 
-如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握iOS的主要（次要）设计模式，它们在Cocoa中很常用。
+如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa 建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握 iOS 的主要（次要）设计模式，它们在 Cocoa 中很常用。
 
 教程分成多个部分，每部分包含一种设计模式。在每部分，你会看到如下顺序的解释： 
  
 * 该设计模式是什么；
-*  你为什么应该使用它；
-*  如何使用它，以及什么场景合适，使用时需要留意的常见陷阱；
+* 你为什么应该使用它；
+* 如何使用它，以及什么场景合适，使用时需要留意的常见陷阱；
 
-这篇教程中，你将创建一个Music Library应用，它会显示你的专辑和它们相关的信息。
+这篇教程中，你将创建一个 Music Library 应用，它会显示你的专辑和它们相关的信息。
 
-在开发应用的过程中，你会慢慢熟悉多数常见的Cocoa设计模式：   
+在开发应用的过程中，你会慢慢熟悉多数常见的 Cocoa 设计模式：   
 
 * 构造类：单例(Singleton)和 抽象工厂(Abstract Factory);
 * 架构类：模型-视图-控制器(MVC), 修饰(Decorator), 适配器(Adapter), 门面(Facade)和合成（Composite);
@@ -39,9 +39,9 @@ iOS设计模式--你也许听说过这个术语，但是你知道它意味着什
 
 ###开始吧
 
-下载[启动工程](http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip),解压ZIP文件内容，然后在Xcode中打开。
+下载[启动工程](http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip),解压 ZIP 文件内容，然后在 Xcode 中打开。
 
-里面内容不多，仅仅是默认的ViewController和一个未实现的简单HTTP客户端。
+里面内容不多，仅仅是默认的 ViewController 和一个未实现的简单 HTTP 客户端。
 
 **Note**:你知道吗？当你创建一个新的工程你的代码就已经符合设计模式了。MVC, Delegate, Protocol, Singleton--你免费得到全部！:]
 
@@ -57,9 +57,9 @@ iOS设计模式--你也许听说过这个术语，但是你知道它意味着什
 - (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl year:(NSString*)year;
 ```
 
-注意到所有的属性都是可读的，因为Album对象被创建之后不需要被改变。
+注意到所有的属性都是可读的，因为 Album 对象被创建之后不需要被改变。
 
-方法是对象的初始化方法。当你创建一个新alum，你将传入album name, artist, album cover URL和year。
+方法是对象的初始化方法。当你创建一个新 alum，你将传入 album name, artist, album cover URL 和 year。
 
 现在打开**Album.m**,添加下列代码到**@implementation**和**@end**中间:   
 
@@ -79,7 +79,7 @@ iOS设计模式--你也许听说过这个术语，但是你知道它意味着什
 }
 ```
 
-这里没有什么神奇的；仅仅是一个简单的init方法去创建一个新Album实例。
+这里没有什么神奇的；仅仅是一个简单的 init 方法去创建一个新 Album 实例。
 
 再次导航到**File\New\File…**。选择**Cocoa Touch**然后**Objective-C class**，点击**Next**。设置类名为**AlbumView**，但是这次设置它为**UIView**的子类。点击**Next**然后**Create**。
 
@@ -90,8 +90,6 @@ iOS设计模式--你也许听说过这个术语，但是你知道它意味着什
 ```
 - (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover;
 ```
-
-Now open AlbumView.m and replace all the code after @implementation with the following code:
 
 现在打开**AlbumView.m**，用下面的代码替换**@implementation**之后的内容：  
 
@@ -125,11 +123,11 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
 @end
 ```
 
-你注意到的第一件事是这里有个名为coverImage的实例变量。变量代表专辑的封面图片。第二个变量是一个指示器，当专辑在下载时它转动指示器。
+你注意到的第一件事是这里有个名为 coverImage 的实例变量。变量代表专辑的封面图片。第二个变量是一个指示器，当专辑在下载时它转动指示器。
 
 在初始化方法的实现中，你设置背影为黑色，创建一个与主视图周边有5个点距离的图片视图，创建并添加了一个活动指示器。
 
-**Note**:很奇怪为什么把私有变量定义在实现文件中而不是接口文件中？这是因为AlbumView类之外的其他类并不需要知道这些变量的存在，它们仅被类的内部实现中使用。如果你是在开发库或框架让其他开发者使用，这个惯例极其重要。
+**Note**:很奇怪为什么把私有变量定义在实现文件中而不是接口文件中？这是因为 AlbumView 类之外的其他类并不需要知道这些变量的存在，它们仅被类的内部实现使用。如果你是在开发库或框架让其他开发者使用，这个惯例极其重要。
 
 编译你的工程（**Command+B**）确认所有事情都准备就绪。都好了吗？然后准备迎接你的第一个设计模式！:]
 
@@ -141,15 +139,15 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
 
 </div>
 
-模型--视图--控制器（MVC）是Cocoa的一个基石，它毫无疑问是被用得最多的设计模式。它依据应用中类的角色给它们分类，鼓励基于角色简洁地分隔代码。
+模型--视图--控制器（MVC）是 Cocoa 的一个基石，它毫无疑问是被用得最多的设计模式。它依据应用中类的角色给它们分类，鼓励基于角色简洁地分隔代码。
 
 这三个角色是：
 
-* 模型：持有你应用数据并定义如何操作它们的对象。例如，这个应用中的模型是你的Album类。
+* 模型：持有你应用数据并定义如何操作它们的对象。例如，这个应用中的模型是你的 Album 类。
 
-* 视图：控制模型类的可视显示以及和用户的交互的对象;所有的UIView和它们的子类基本上都是。在你这个应用中AlbumView代表视图。
+* 视图：控制模型类的可视显示以及和用户交互的对象;所有的 UIView 和它们的子类基本上都是。在你这个应用中 AlbumView 代表视图。
 
-* 控制器：控制器是中间件，它协调所有的工作。它从模型类访问数据并显示到视图上，监听事件，在需要时操作数据。你能猜到哪个类是你的控制器吗？对，是ViewController。
+* 控制器：控制器是中间件，它协调所有的工作。它从模型类访问数据并显示到视图上，监听事件，在需要时操作数据。你能猜到哪个类是你的控制器吗？对，是 ViewController。
 
 你应用中这个设计模式好的实现意味着每个对象都会是三者之一。
 
@@ -164,15 +162,15 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
 
 任何数据发生改变模型类便通知控制器，接下来，控制器将数据更新到视图上。视图接收到用户的动作时可以通知控制器，控制器会根据需要更新模型数据或获取任何请求的数据。
 
-你也许会奇怪为什么不拿掉Controller,在同一个类中实现视图和模型，这看起来更容易。
+你也许会奇怪为什么不拿掉 Controller ,在同一个类中实现视图和模型，这看起来更容易。
 
-这都来源于代码的去藕合和可可复用。理想情况下，视图应该完全和模型隔离，这样它可以被不同的模型复用去展示其他的数据。
+这都来源于代码的去藕合和可复用。理想情况下，视图应该完全和模型隔离，这样它可以被不同的模型复用去展示其他的数据。
 
-例如，如果未来你也想添加电影或书本到你的收藏库中，你仍然可以使用相同的AlbumView去展示你的电影和图书对象。此外，如果你创建了一个新的对象，它和专辑有些关系，你可以简单地复用你的Album类，因为它不依赖任何视图。这就是MVC的强大之处！
+例如，如果未来你也想添加电影或书本到你的收藏库中，你仍然可以使用相同的 AlbumView 去展示你的电影和图书对象。此外，如果你创建了一个新的对象，它和专辑有些关系，你可以简单地复用你的 Album 类，因为它不依赖任何视图。这就是 MVC 的强大之处！
 
-###如何使用MVC设计模式
+###如何使用 MVC 设计模式
 
-首先，你需要保证你工程中的类是Controller，View, Model三者之一；不要混合两个角色的功能到一个类中。你创建的**Album**和**AlbumView**到目前为止都做的很好。
+首先，你需要保证你工程中的类是 Controller，View, Model三者之一；不要混合两个角色的功能到一个类中。你创建的**Album**和**AlbumView**到目前为止都做的很好。
 
 其次，为了确保你习惯这种工作方式，你应该创建三个工程组来持有你的代码，每组对应一个类别。
 
@@ -190,7 +188,7 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
 
 你的工程已经没有混乱的文件了看起来好多了。你明显能拥有其他的组和类，但这三个类别中的类是应用的核心。
 
-现在你的组件被组织起来了，你需要从其他地方得到你的专辑数据。你将创建一个API类用于全部代码的数据管理--这提供了一个机会和你探讨下一个设计模式--单例。
+现在你的组件被组织起来了，你需要从其他地方得到你的专辑数据。你将创建一个 API 类用于全部代码的数据管理--这提供了一个机会和你探讨下一个设计模式--单例。
 
 ###单例设计模式
 
@@ -200,7 +198,7 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
 
 你也许会奇怪为什么你要关心一个类是不是只有一个实例，毕竟代码和内存都很便宜，对不对？
 
-有些场景对于类只存在一个实例是有意义的。例如，没有必要存在多个Logger实例，除非你想同时输出多个log文件。以或者来看一个全局配置处理类：像配置文件，对于单个共享资源实现线程安全访问要比在同时可能有很多配置文件修改时容易的多。
+有些场景对于类只存在一个实例是有意义的。例如，没有必要存在多个 Logger 实例，除非你想同时输出多个 log 文件。或者来看一个全局配置处理类：像配置文件，对于单个共享资源实现线程安全访问要比在同时可能有很多配置文件修改时容易的多。
 
 ###如何使用单例设计模式
 
@@ -212,11 +210,11 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
 
 </div>
 
-上图示例了一个Logger类，它有一个属性（它就是这个单独的实例），和两个方法：sharedInstance和init。
+上图示例了一个 Logger 类，它有一个属性（它就是这个单独的实例），和两个方法： sharedInstance 和 init。
 
-客户端第一次发送sharedInstance消息，属性的实例还没被初始化，所以你创建类的一个新的实例，然后返回它的一个引用。
+客户端第一次发送 sharedInstance 消息，属性的实例还没被初始化，所以你创建类的一个新的实例，然后返回它的一个引用。
 
-下次调用sharedInstance，实例会立即返回不用初始化。这个逻辑保证任何时候都只仅存在一个实例。
+下次调用 sharedInstance，实例会立即返回不用初始化。这个逻辑保证任何时候都只仅存在一个实例。
 
 你将实现这种模式通过创建一个单例类来管理专辑的所有数据。
 
@@ -231,8 +229,6 @@ Now open AlbumView.m and replace all the code after @implementation with the fol
  
 @end
 ```
-
-Now go to LibraryAPI.m and insert this method right after the @implentation line:
 
 现在到**LibraryAPI.m**，在**@implentation**之后插入这个方法：
 
@@ -276,8 +272,6 @@ Note:想了解更多GCD内容以及它的用法，看下网站中的这两篇教
 #import "Album.h"
 ```
 
-Next, add the following code to PersistencyManager.h after the @interface line:
-
 然后，添加下列代码到**PersistencyManager.h**中**@interface**后面：
 
 ```
@@ -288,7 +282,7 @@ Next, add the following code to PersistencyManager.h after the @interface line:
 
 上面是你处理专辑数据的三个方法原型。
 
-打开PersistencyManager.m，添加下列代码到@implementation前面：
+打开 PersistencyManager.m，添加下列代码到 @implementation 前面：
 
 ```
 @interface PersistencyManager () {
@@ -299,7 +293,7 @@ Next, add the following code to PersistencyManager.h after the @interface line:
 
 上面添加了一个类的扩展，它是另一种给类添加私有方法和变量而不会暴露给外部类的方法。这里你声明了一个**NSMutableArray**来持有专辑数据。数组的可变性可以让你很容易添加和删除专辑数据。
 
-现在添加下现代码实现到PersistencyManager.m文件中@implementation的后面：
+现在添加下现代码实现到 PersistencyManager.m 文件中 @implementation 的后面：
 
 ```
 - (id)init
@@ -318,7 +312,7 @@ Next, add the following code to PersistencyManager.h after the @interface line:
 }
 ```
 
-在init中，你用5个样本专辑填充了数组。如果上面的专辑你不喜欢，用你喜欢的音乐替换它们吧. :]
+在 init 中，你用5个样本专辑填充了数组。如果上面的专辑你不喜欢，用你喜欢的音乐替换它们吧. :]
 
 现在添加下面三个方法到**PersistencyManager.m**：
 
@@ -346,7 +340,7 @@ Next, add the following code to PersistencyManager.h after the @interface line:
 
 编译你的工程，确保所有的文件仍然能成功被编译。
 
-到这，你可能会奇怪**PersistencyManager**来看哪里呢？它又不是单例。**LibraryAPI**和**PersistencyManager**的关系，我们在下一节会进一步揭示，你还会看到**门面**设计模式。
+到这，你可能会奇怪**PersistencyManager**来自哪里呢？它又不是单例。**LibraryAPI**和**PersistencyManager**的关系，我们在下一节会进一步揭示，你还会看到**门面**设计模式。
 
 ###门面设计模式
 
@@ -370,13 +364,13 @@ API的使用者们完全感觉不到它后面的复杂。当很多类协作时�
 
 门面模式让使用系统的代码从接口和你隐藏实现的类解藕；它也减少了外部代码对内部子系统工作的依赖。当门面底下的类想改变时，这也很有用，因为门面能保留相同的API，尽管后面的代码已经改变了。
 
-例如，如果有一天你想替换你的后端服务，你不需要去修改使用你API的代码。
+例如，如果有一天你想替换你的后端服务，你不需要去修改使用你 API 的代码。
 
 ###如何使用门面设计模式
 
 目前你有**PersistencyManager**保存专辑数据到本地，**HTTPClient**处理远程交互。工程中其他的类不应该意识到这个逻辑的存在。
 
-为了实现这个设计模式，仅**LibraryAPI**应该持有**PersistencyManager**和**HTTPClient**的实例。然后，**LibraryAPI**会对其他的服务暴露一个简单的API。
+为了实现这个设计模式，仅**LibraryAPI**应该持有**PersistencyManager**和**HTTPClient**的实例。然后，**LibraryAPI**会对其他的服务暴露一个简单的 API。
 
 **Note**:通常，单例在整个应用的生命周期都存在。你不应该让单例保持大多其他对象的强引用，因为他们直到应用关闭才会被释放。
 
@@ -413,7 +407,7 @@ API的使用者们完全感觉不到它后面的复杂。当很多类协作时�
 #import "HTTPClient.h"
 ```
 
-这将是你唯一导入这些类的地方。记住：你的API将会是唯一的入口去访问你"复杂"的系统。
+这将是你唯一导入这些类的地方。记住：你的 API 将会是唯一的入口去访问你"复杂"的系统。
 
 现在，通过类的扩展添加些私有变量（在@implementation上面）：
 
@@ -444,7 +438,7 @@ API的使用者们完全感觉不到它后面的复杂。当很多类协作时�
 }
 ```
 
-HTTP Client最终不会和真实的服务器交互，这里仅仅是为示例门面模式的使用，所以**isOnline**将一直是**NO**。
+HTTP Client 最终不会和真实的服务器交互，这里仅仅是为示例门面模式的使用，所以**isOnline**将一直是**NO**。
 
 下一步，添加下面三个方法到**LibraryAPI.m**：
 
@@ -485,7 +479,7 @@ HTTP Client最终不会和真实的服务器交互，这里仅仅是为示例门
 
 </div>
 
-你将会需要些东西来显示专辑数据到屏幕上--这是个完美的使用场景对于你的下个设计模式：修饰。
+你将会需要些东西来显示专辑数据到屏幕上--这是你的下个设计模式--修饰，完美的使用场景。
 
 ###修饰设计模式
 
@@ -511,9 +505,7 @@ Category是一个极其强大的机制，它允许你添加方法到已经存在
 
 专辑标题是从哪来的呢？**Album**是一个模型对象，所以它不关心你如何展示数据。你将需要些外部代码来为**Album**类添加该功能，但是不能直接修改类。
 
-你将创建一个category，这是Album的扩展；它将定义一个新方法，这个新方法会返回一个让UITableView很容易使用的数据结构。
-
-The data structure will look like the following:
+你将创建一个 category，这是 Album的扩展；它将定义一个新方法，这个新方法会返回一个让UITableView很容易使用的数据结构。
 
 这个数据结构会看起来像这样：
 
@@ -527,8 +519,6 @@ The data structure will look like the following:
 
 Note:你有没注意到新文件的名字？**Album+TableRepresentation**意味着你正在扩展**Album**类。这个惯例很重要，因为它易读并且它防止和你事其他人可能创建的categories冲突。
 
-Go to Album+TableRepresentation.h and add the following method prototype:
-
 进入Album+TableRepresentation.h，添加如下方法原型：
 
 ```
@@ -537,9 +527,7 @@ Go to Album+TableRepresentation.h and add the following method prototype:
 
 注意这里的方法名前有个**tr_**，是**category:TableRepresentation**的缩写。再次提醒，像这样的惯例将防止和其他方法冲突！
 
-**Note**:如果你在category中声明的方法和源类，或都同一个类其他的category（甚至父类）方法相同，运行时会使用哪个方法实现是示定义的。这种情况在你使用自己拥有类的category时很少发生，但是当使用categories添加方法到标准的Cocoa或Cocoa Touch类时能导致严重问题。
-
-Go to Album+TableRepresentation.m and add the following method:
+**Note**:如果你在 category 中声明的方法和源类，或都同一个类其他的category（甚至父类）方法相同，运行时会使用哪个方法实现是未定义的。这种情况在你使用自己拥有类的 category 时很少发生，但是当使用 categories 添加方法到标准的 Cocoa 或 Cocoa Touch 类时能导致严重问题。
 
 进入**Album+TableRepresentation.m**，添加如下方法：
 
@@ -551,23 +539,21 @@ Go to Album+TableRepresentation.m and add the following method:
 }
 ```
 
-Consider for a moment how powerful this pattern can be:
-
 思考下这种模式在某个时刻有多强大：
 
 * 你正在使用直接来自Album属性。
 * 你添加了内容到Album类，但是你并没有子类化它。如果你需要子类化Album，你仍然也可以这么做。
 * 这个简单的额外内容让你能返回一个UITableView式的专辑，并没有修改Album的代码。
 
-Apple在Foundation类中大量使用Categories。打开**NSString.h**看下他们是如何做的。找到 **@interface NSString**，你将会看到总共定义了三个categories：**NSStringExtensionMethods**, **NSExtendedStringPropertyListParsing** 和 **NSStringDeprecated**。Categories帮助方法组织和分隔到各个部分。
+Apple 在 Foundation 类中大量使用 Categories。打开**NSString.h**看下他们是如何做的。找到 **@interface NSString**，你将会看到总共定义了三个categories：**NSStringExtensionMethods**, **NSExtendedStringPropertyListParsing** 和 **NSStringDeprecated**。Categories 帮助方法组织和分隔到各个部分。
 
 ####Delegation
 
-另一个修饰设计模式，Delegation，是一种一个对象的行为代表或协调另一个对象。例如，当你使用**UITableView**，你必须实现的方法之一是**tableView:numberOfRowsInSection:**。
+另一个修饰设计模式，Delegation 是一种一个对象的行为依赖或基于另一个对象的机制。例如，当你使用**UITableView**，你必须实现的方法之一是**tableView:numberOfRowsInSection:**。
 
-你不能期望UITableView知道你想每个部分有多少行，因为这是应用特定的。因此，计算每个部分有多少行的任务传递给了UITableView delegate。它允许UITableView类独立于它显示的数据。
+你不能期望 UITableView 知道你想每个部分有多少行，因为这是应用特定的。因此，计算每个部分有多少行的任务传递给了 UITableView delegate。它允许 UITableView 类独立于它显示的数据。
 
-这里有一个当你创建一个UITableView时是如何进行的虚拟场景解释：
+这里有一个当你创建一个 UITableView 时是如何进行的虚拟场景解释：
 
 <div style="text-align:center" markdown="1">
 
@@ -575,15 +561,15 @@ Apple在Foundation类中大量使用Categories。打开**NSString.h**看下他�
 
 </div>
 
-UITableView对象的工作是显示table view。但是，最终它将需要一些它没有的信息。然后，它救助于它的delegates，发送消息询问额外的信息。在Objective-C中实现delegate模式，一个类通过protocol可以声明可选和必选的方法。你将教程的稍候全面了解protocols。
+UITableView 对象的工作是显示 table view。但是，最终它将需要一些它没有的信息。然后，它求助于它的 delegates，发送消息询问额外的信息。在 Objective-C 中实现delegate 模式，一个类通过 protocol 可以声明可选和必选的方法。教程稍候全面介绍  protocols。
 
-表面看起来仅仅去继承一个对象然后覆盖必要的方法要简单，但是考虑下你只能继承单一的一个类。如果你想让某个类成为两或多个对象的delegate，这是不能通过继承实现的。
+表面看起来仅仅去继承一个对象然后覆盖必要的方法要简单，但是考虑下你只能继承单一的一个类。如果你想让某个类成为两或多个对象的 delegate，这是不能通过继承实现的。
 
-Note:这是个很重要的模式。Apple应用这种方法到大多数UIKit类：**UITableView**, **UITextView**, **UITextField**, **UIWebView**, **UIAlert**, **UIActionSheet**, **UICollectionView**, **UIPickerView**, **UIGestureRecognizer**, **UIScrollView**。列表还在继续。
+Note:这是个很重要的模式。Apple 应用这种方法到大多数 UIKit 类：**UITableView**, **UITextView**, **UITextField**, **UIWebView**, **UIAlert**, **UIActionSheet**, **UICollectionView**, **UIPickerView**, **UIGestureRecognizer**, **UIScrollView**。列表还在继续。
 
 未完待续...
 
 ###原文
 
-iOS Design Patterns（http://www.raywenderlich.com/46988/ios-design-patterns）
+[iOS Design Patterns](http://www.raywenderlich.com/46988/ios-design-patterns)
 

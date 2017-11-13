@@ -127,71 +127,6 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/ios-app-data-persistence.html">
-		
-			iOS App 数据持久化</a>
-	</h2>
-	<div class="entry-content">
-		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
-
-<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
-
-<h2>文件系统基础</h2>
-
-<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。
-我们要知道把数据保存到哪，就要知道些iOS文件系统的知识。</p>
-
-<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
-
-<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
-
-<div style="text-align:center" markdown="1">
-
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
-
-</div>
-
-
-
-
-
-		
-		<a href="/blog/ios-app-data-persistence.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true">13 Nov 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
 		<a href="/blog/key-value-coding-and-key-value-observing.html">
 		
 			Key-Value Coding &amp; Key-Value Observing</a>
@@ -222,19 +157,87 @@ $(document).ready(
 
 <h3>如何使用Key-Value Coding?</h3>
 
-<p>Key-value coding支持对象属性，也可以是标量类型和结构体。在开始使用之前，我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
+<p>我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
 
 <p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
 
 <p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
 
-<p>attribute是简单值的property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
+<p>attribute 是简单值的 property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
 
-<p>to-one relationship是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
+<p>to-one relationship 是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
 
-<p>to-many relationship包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
+<p>to-many relationship 包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
 
-<p>既然key-value coding是一种间接访问对象属性的机制，访问就包括存取。</p>
+<p>要使用 Key-Value Coding，对象要符合 Key-Value Coding Compliant，符合 Key-Value Coding Compliant 则有两点要求：一是对象遵守 NSKeyValueCoding 协议；二是要实现规定的方法。</p>
+
+<p>因为 NSObject 已经遵守 NSKeyValueCoding 协议，所以类继承 NSObject 这个要求就默认满足了。于是重点就是实现规定的方法。那么规定的方法是哪些呢？</p>
+
+<p>对于 Attribute 和 To-One Relationship Compliance</p>
+
+<ul>
+<li>实现 <code>&lt;key&gt;</code> 或者 <code>is&lt;Key&gt;</code>, 或者创建 <code>&lt;key&gt;</code> 或者 <code>_&lt;key&gt;</code> 实例变量。</li>
+<li>如果属性可变，实现 <code>set&lt;Key&gt;</code> 方法。</li>
+<li>如果属性是标量，覆盖 <code>setNilValueForKey:</code> 方法去优雅处理 nil 。</li>
+</ul>
+
+
+<p>对于 to-many relationship 的属性，实现上述方法后，我们就可以对集合对象本身使用 KVC 了。但是如果我们还实现额外规定的集合存取方法，我们可以：</p>
+
+<ul>
+<li>用 NSArray 或 NSSet 之外的类为 to-many relationships 建模。</li>
+<li>改变 to-many relationships 时性能更好。</li>
+<li>提供 Key-Value observing compliant 访问你对象的集合属性的内容。</li>
+</ul>
+
+
+<p>额外规定的集合存取方法如下：</p>
+
+<ul>
+<li><p>Accessing Indexed Collections</p>
+
+<ul>
+<li><p>Indexed Collection Getters</p>
+
+<ul>
+<li><code>countOf&lt;Key&gt;</code></li>
+<li><code>objectIn&lt;Key&gt;AtIndex:</code> or <code>&lt;key&gt;AtIndexes:</code></li>
+<li>(可选)<code>get&lt;Key&gt;:range:</code></li>
+</ul>
+</li>
+<li><p>Indexed Collection Mutators</p>
+
+<ul>
+<li><code>insertObject:in&lt;Key&gt;AtIndex:</code> or <code>insert&lt;Key&gt;:atIndexes:</code></li>
+<li><code>removeObjectFrom&lt;Key&gt;AtIndex:</code> or <code>remove&lt;Key&gt;AtIndexes:</code></li>
+<li>(可选)<code>replaceObjectIn&lt;Key&gt;AtIndex:withObject:</code> or          <code>replace&lt;Key&gt;AtIndexes:with&lt;Key&gt;:</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Accessing Unordered Collections</p>
+
+<ul>
+<li><p>Unordered Collection Getters</p>
+
+<ul>
+<li><code>countOf&lt;Key&gt;</code></li>
+<li><code>enumeratorOf&lt;Key&gt;</code></li>
+<li><code>memberOf&lt;Key&gt;:</code></li>
+</ul>
+</li>
+<li><p>Unordered Collection Mutators</p>
+
+<ul>
+<li><code>add&lt;Key&gt;Object:</code> or <code>add&lt;Key&gt;:</code></li>
+<li><code>remove&lt;Key&gt;Object:</code> or <code>remove&lt;Key&gt;:</code></li>
+<li>(可选)<code>intersect&lt;Key&gt;:</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
 
 
 		
@@ -343,6 +346,67 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/setup-iterm2-to-behave-like-guake.html">
+		
+			为MacBook Pro配置一个像guake的终端</a>
+	</h2>
+	<div class="entry-content">
+		<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
+
+<h3>让iTerm2的行为像guake</h3>
+
+<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
+
+<p>2)打开iTerm2,然后iTerm2&ndash;>Prefences&hellip;->Profiles;</p>
+
+<p>3)创建一个新Profiles,命名为guake;</p>
+
+<p>4)在Window选项中根据自己的喜好配置;</p>
+
+<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
+
+<p>5)在Keys选项中激活"Show/hide iTerm2 with a system-wide hotkey",由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
+
+<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
+
+
+		
+		<a href="/blog/setup-iterm2-to-behave-like-guake.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true">07 Nov 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

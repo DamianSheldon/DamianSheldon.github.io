@@ -127,67 +127,6 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html">
-		
-			为MacBook Pro配置一个像guake的终端</a>
-	</h2>
-	<div class="entry-content">
-		<p>以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。</p>
-
-<h3>让iTerm2的行为像guake</h3>
-
-<p>1)下载<a href="http://iterm2.com/">iTerm2</a>,然后解压;</p>
-
-<p>2)打开iTerm2,然后iTerm2&ndash;>Prefences&hellip;->Profiles;</p>
-
-<p>3)创建一个新Profiles,命名为guake;</p>
-
-<p>4)在Window选项中根据自己的喜好配置;</p>
-
-<p><img name="create_new_iterm_profile" src="/images/create_new_iterm_profile.png" width="913" height="533"></p>
-
-<p>5)在Keys选项中激活"Show/hide iTerm2 with a system-wide hotkey",由于F12用来移动到Dashboard,只能用其他的快捷键了，可以根据自己喜好设置，我这里设置为⌘F12,(Note:⌘ + fn + F12);</p>
-
-<p><img name="assign_a_hotkey" src="/images/assign_a_hotkey.png" width="897" height="528"></p>
-
-
-		
-		<a href="/blog/setup-iterm2-to-behave-like-guake.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-11-07T10:31:19+08:00" pubdate data-updated="true">07 Nov 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
 		<a href="/blog/git-summary.html">
 		
 			Git 小结</a>
@@ -504,6 +443,71 @@ $(document).ready(
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html">
+		
+			iTunes 歌曲信息乱码的解决办法</a>
+	</h2>
+	<div class="entry-content">
+		<p>从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法： <br/>
+1)下载<a href="https://bitbucket.org/lazka/mutagen">Mutagen</a>; <br/>
+2)安装Mutagen;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>path_to_mutagen/setup.py build
+</span><span class='line'><span class="nv">$ </span>sudo path_to_mutagen/setup.py install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3)先将所有歌曲备份，防止操作出错；<br/>
+4)将目录下的所有MP3歌曲的编码转成Unicode;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$find</span> . -iname <span class="s2">&quot;*.mp3&quot;</span> -execdir mid3iconv -e gbk <span class="o">{}</span> <span class="se">\;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>5)将iTunes中的音乐清空，重新添加。</p>
+
+<p>Reference:<a href="http://floss.zoomquiet.io/data/20070510235547/index.html">http://floss.zoomquiet.io/data/20070510235547/index.html</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-11-03T10:23:29+08:00" pubdate data-updated="true">03 Nov 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
 
 </div>
 

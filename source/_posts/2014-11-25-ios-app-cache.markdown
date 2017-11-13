@@ -3,6 +3,7 @@ layout: post
 title: "iOS App Cache"
 date: 2014-11-25 16:36:04 +0800
 comments: true
+published: false
 categories: [Archives, iOS Development]
 keywords: Cache, iOS App, Data Model, URL Cache, Core Data, SQLite
 discription: Summary of iOS App Cache
@@ -43,3 +44,4 @@ discription: Summary of iOS App Cache
 ##Reference
 
 iOS 6 Programming Push the Limits
+

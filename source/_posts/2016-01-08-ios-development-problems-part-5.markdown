@@ -21,7 +21,7 @@ Solution:
     return image;
 }
 ```
-Reference:https://developer.apple.com/library/ios/qa/qa1817/_index.html
+Reference:[View Snapshots on iOS 7](https://developer.apple.com/library/ios/qa/qa1817/_index.html)
 
 ### 2.How to present a view controller on iOS7 without the status bar overlapping?
 
@@ -56,7 +56,7 @@ Solution:
 
 Solution:iOS 9.0.x - 9.2 Settings App Bug, Using the App Switch UI (double-press Home button) to kill the Settings App.
 
-Reference:http://stackoverflow.com/questions/2683793/settings-bundle-not-showing-up-in-iphone-settings
+Reference:[Settings bundle not showing up in iPhone settings](http://stackoverflow.com/questions/2683793/settings-bundle-not-showing-up-in-iphone-settings)
 
 ### 5.单元测试的 Target 在测试导航栏里是灰色的不能点击测试。
 
@@ -77,7 +77,7 @@ Solution:
 }
 ```
 
-Reference:http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview
+Reference:[How to change UITableViewCell Image to Circle in UITableView](http://stackoverflow.com/questions/23350728/how-to-change-uitableviewcell-image-to-circle-in-uitableview)
 
 ###7.How to downgrading Cocoapods?
 A:
@@ -96,12 +96,12 @@ $ sudo gem uninstall cocoapods
 $ sudo gem install cocoapods -v 0.39.0
 ```
 
-Reference:https://diego.org/2015/09/24/downgrading-cocoapods/
+Reference:[Downgrading Cocoapods](https://diego.org/2015/09/24/downgrading-cocoapods/)
 
 ###8.How to get UISearchDisplayController to search only after search button is pressed？
 A:Setup a delegate for the search bar and implement the searchBarSearchButtonClicked: method. Do your searching from that method. Just return NO from the shouldReloadTableForSearchString method.
 
-Reference:http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press
+Reference:[How to get UISearchDisplayController to search only after search button is pressed](http://stackoverflow.com/questions/18563529/how-to-get-uisearchdisplaycontroller-to-search-only-after-search-button-is-press)
 
 ###9.Warning: the running version of Bundler is older than the version that created the lockfile. We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.
 
@@ -200,12 +200,12 @@ NSData *dataFromUserInfo = [NSKeyedArchiver archivedDataWithRootObject:userInfo]
 NSData *dataFromUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:sUserInfoKey];
 NSDictionary *ret = [NSKeyedUnarchiver unarchiveObjectWithData:dataFromUserInfo];
 ```
-Reference:http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults
+Reference:[Attempt to set a non-property-list object as an NSUserDefaults](http://stackoverflow.com/questions/19720611/attempt-to-set-a-non-property-list-object-as-an-nsuserdefaults)
 
 ###11.Missing iOS Distribution signing identity
 A:KeyChain Access > select the System keychain > View > Show Expired Certificates > delete the expired version of the Apple Worldwide Developer Relations Certificate Authority Intermediate certificate (expired on February 14, 2016)
 
-Reference:http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for
+Reference:[Xcode 7 error: “Missing iOS Distribution signing identity for …”](http://stackoverflow.com/questions/32821189/xcode-7-error-missing-ios-distribution-signing-identity-for)
 
 ###12. FMDB unable to open db under Application Support directory.
 A:Unlike the Documents directory, the Application Support directory does not exist in the app's sandbox by default. You need to create it before you can use it.
@@ -225,8 +225,8 @@ NSURL * ApplicationSupportDirectory()
 }
 ```
 
-Reference:http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents
-http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html
+Reference:[iOS: Can't save file to 'Application Support' folder, but can to 'Documents'](http://stackoverflow.com/questions/16204988/ios-cant-save-file-to-application-support-folder-but-can-to-documents)  
+[Finding or creating the application support directory](http://www.cocoawithlove.com/2010/05/finding-or-creating-application-support.html)
 
 ###13.How to NSLog a Call stack when a program is running?
 A:
@@ -249,7 +249,7 @@ for (int i = 0; i < size; i++) {
 free(syms);
 ```
 
-Reference:http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running
+Reference:[How to NSLog a Call stack when a program is running?](http://stackoverflow.com/questions/13319551/how-to-nslog-a-call-stack-when-a-program-is-running)
 
 ###14.How does programmatically construct to-one and to-many relationship in Core Data?
 A:
@@ -268,7 +268,7 @@ employees.minCount = 0;
 employees.maxCount = 0;// max = 0 for to-many relationship
 ```
 
-Reference:http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit
+Reference:[Adding relationships in NSManagedObjectModel to programmatically created NSEntityDescription](http://stackoverflow.com/questions/13743242/adding-relationships-in-nsmanagedobjectmodel-to-programmatically-created-nsentit)
 
 ###15.ld: warning: directory not found for option '-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Developer/Library/Frameworks'
 
@@ -279,7 +279,7 @@ UnitTest > Build Settings > Search Paths > Framework Search Paths >
 $(SDKROOT)/Developer/Library/Frameworks
 $(DEVELOPER_FRAMEWORKS_DIR)
 
-Reference:http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919
+Reference:[Xcode 7 Library search path warning](http://stackoverflow.com/questions/30827022/xcode-7-library-search-path-warning/32620919#32620919)
 
 
 

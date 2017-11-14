@@ -10,7 +10,7 @@ discription: iOS development problems
 ### 1. The data couldn’t be read because it isn’t in the correct format.
 A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。
 
-Reference:http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1
+Reference:[ipatool fails to build with bitcode (xcode 7.1.1)](http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1)  
 
 ### 2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded
 A:
@@ -19,7 +19,7 @@ A:
 * If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.
 * If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.
 
-Reference:http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra
+Reference:[setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded](http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra)
 
 ### 3.父类如何关联子类通过nib初始化的属性？
 A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View
@@ -159,7 +159,7 @@ if([today compare:beginningOfOtherDate] == NSOrderedSame) {
     //otherDate is a date in the current day
 }
 ```
-Reference:http://stackoverflow.com/questions/2331129/how-to-determine-if-an-nsdate-is-today
+Reference:[How to determine if an NSDate is today?](http://stackoverflow.com/questions/2331129/how-to-determine-if-an-nsdate-is-today)  
 
 ### 11. How do you resize an image?
 A:
@@ -171,7 +171,7 @@ A:
 * When scaling images with the intent purpose of displaying thumbnails, CGImageSourceCreateThumbnailAtIndex offers a compelling solution for both rendering and caching.
 * Unless you’re already working with vImage, the extra work to use the low-level Accelerate framework for resizing doesn’t pay off.
 
-Reference:http://nshipster.com/image-resizing/
+Reference:[Image Resizing Techniques](http://nshipster.com/image-resizing/)  
 
 ### 12. How can I deal with this warning: hash mismatch?
 
@@ -180,11 +180,11 @@ warning: hash mismatch: this object file was built against a different version o
 
 ```
 
-A:Clean > Build
-Reference:http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch
+A:Clean > Build  
+Reference:[How can I deal with this warning: hash mismatch?](http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch)
 
 ### 13. Cocoa Coding Style Enforcement
-A:http://emlyn.net/posts/cocoa-coding-style-enforcement/
+A:[Cocoa Coding Style Enforcement](http://emlyn.net/posts/cocoa-coding-style-enforcement/)
 
 ### 14. Importing Swift into Objective-C Within the Same App Target
 A:
@@ -193,7 +193,7 @@ A:
 
 在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 `#import "ProductModuleName-Swift.h"`, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。
 
-Reference:https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138
+Reference:[Swift and Objective-C in the Same Project](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138)
 
 ### 15. Swift 中对应 Objectie-C 中的class 类方法
 A:

@@ -8,7 +8,7 @@ keywords: iOS App
 discription: iOS App 开发问题汇总
 ---
 
-### 1.问题描述：Checking the Entitlements for an iOS app Submission to the App Store
+### 1.Checking the Entitlements for an iOS app Submission to the App Store
 
 Making an Inspectable .ipa file  
 In the Xcode Organizer, instead of Submit to the iOS App Store, do Save for Enterprise or Ad-Hoc Deployment. This will create a local copy of the .ipa file that would be submitted to the App Store.  
@@ -26,7 +26,7 @@ $ security cms -D -i "Payload/YourApp.app/embedded.mobileprovision"
 
 where YourApp.app is the actual name of your .app bundle.
 <!-- more -->
-### 2.问题描述：
+### 2.
 
 ```
 `<PBXGroup path=`Vendors` UUID=`4931326E1B4A0EBF00741B49`>` attempted to initialize an object with an unknown UUID. `4920B77E1B58900100C9789C` for attribute: `children`. This can be the result of a merge and  the unknown UUID is being discarded.
@@ -43,7 +43,7 @@ c. Open .pbxproj with a text editor.
 5. Rerun pod installation.  
 6. Issue not happening anymore! :D
 
-Reference:https://github.com/CocoaPods/CocoaPods/issues/1822
+Reference:[Pod install result in initialize an object with an unknown UUID](https://github.com/CocoaPods/CocoaPods/issues/1822)
 
 ### 3.How do I return to an older version of our code in Subversion?
 
@@ -54,7 +54,7 @@ svn update
 svn merge -r 150:140 .
 svn commit -m "Rolled back to r140"
 ```
-Reference:http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion
+Reference:[How do I return to an older version of our code in Subversion?](http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-version-of-our-code-in-subversion)
 
 ### 4. Add top layout guide in NIB file
 
@@ -66,15 +66,15 @@ Reference:http://stackoverflow.com/questions/814433/how-do-i-return-to-an-older-
          self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 ```
-Reference:http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7
+Reference:[Status bar and navigation bar appear over my view's bounds in iOS 7](http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7)
 
 ### 5. How do I set the height of tableHeaderView (UITableView) with autolayout?
 
-Reference:http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout
+Reference:[How do I set the height of tableHeaderView (UITableView) with autolayout?](http://stackoverflow.com/questions/20982558/how-do-i-set-the-height-of-tableheaderview-uitableview-with-autolayout)
 
 ### 6. How to resize superview to fit all subviews with autolayout?
 
-Reference:http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803
+Reference:[How to resize superview to fit all subviews with autolayout?](http://stackoverflow.com/questions/18118021/how-to-resize-superview-to-fit-all-subviews-with-autolayout/18155803#18155803)
 
 ### 7.How to use c++ and objective-c together in XCode 4.2
 
@@ -83,7 +83,7 @@ Reference:http://stackoverflow.com/questions/18118021/how-to-resize-superview-to
 2. If you look at the "Build Settings" there is a place written "Compile Sources As". There is a dropdown menu there where you can select Objective-C++. In the clang/gcc commandline I think it is "-x objective-c++".
 ```
 
-Reference:http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2
+Reference:[How to use c++ and objective-c together in XCode 4.2](http://stackoverflow.com/questions/9250655/how-to-use-c-and-objective-c-together-in-xcode-4-2)
 
 ### 8.How do I change the status bar content to white?
 
@@ -124,9 +124,7 @@ Create an Incoming WebHook and export this as SLACK_URL. Can send a message to #
 
 Slack > Menu > API > Incoming Webhooks > Set up an incoming webhook integration in your Slack team to try it out.
 
-Reference:https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md#notifications
-
-###11.问题描述：
+###11.
 
 ```
 directory not found for option '-F/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/Developer/Library/Frameworks' "
@@ -145,9 +143,9 @@ The new project kept the 'Framework Search Paths' empty.
 
 Deleting those entries in my older project then removed the warning.
 
-Reference:http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning
+Reference:[Xcode 7 Library search path warning](http://stackoverflow.com/questions/30827022/xcode-7-beta-library-search-path-warning)
 
-###12.问题描述：
+###12.
 
 ```
 ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Release-iphoneos/BaiduMapAPI.framework/BaiduMapAPI(BMAddrList.o)' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
@@ -156,9 +154,9 @@ ld: '/Users/dongmeiliang/Documents/ZHYJApp/ZHYJApp/ZHYJApp/Vendors/baiduMap/Rele
 Solution:disable bitcode for this target.
 App target > Build Settings > Enable Bitcode > NO
 
-Reference:http://stackoverflow.com/questions/30848208/new-warnings-in-ios9
+Reference:[New warnings in iOS 9](http://stackoverflow.com/questions/30848208/new-warnings-in-ios9)
 
-###13.问题描述：
+###13.
 
 ```
 *** Assertion failure in +[AAPLListUtilities sharedApplicationGroupContainer], /Users/dongmeiliang/Downloads/ListerforwatchOSiOSandOSX/Objective-C/ListerKit/AAPLListUtilities.m:33
@@ -168,7 +166,7 @@ Reference:http://stackoverflow.com/questions/30848208/new-warnings-in-ios9
 Solution:Target > Lister > iCloud > Fix issue
 			Target > App Group > Fix issue
 			
-Reference:http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che
+Reference:[New Lister app error “The shared application group container is unavailable. Check your entitlements and provisioning profiles for this target…”](http://stackoverflow.com/questions/27008730/new-lister-app-error-the-shared-application-group-container-is-unavailable-che)
 
 ###14.How can I conditionally include a file based on build configuration in Xcode?
 
@@ -183,7 +181,7 @@ if [ "${CONFIGURATION}" == "Debug" ]; then
     cp -r "${PROJECT_DIR}/Settings.bundle" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
 fi
 ```
-Reference:http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode
+Reference:[How can I conditionally include a file based on build configuration in Xcode?](http://stackoverflow.com/questions/8496476/how-can-i-conditionally-include-a-file-based-on-build-configuration-in-xcode)
 ### 15.Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0
 Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warning   
 2. Locate the warning(s) (search for "Automatic Preferred Max Layout") and press expand button on the right  
@@ -191,5 +189,5 @@ Solution: 1. Go to Issue Navigator (CMD+8) and Select latest built with the warn
 4. Open the Storyboard and SEARCH (CMD+f) for the object. It will SELECT AND HIGHLIGHT the UILabel  
 5. Explictit set preferred layout width  
 
-Reference:http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8
+Reference:[Automatic Preferred Max Layout Width is not available on iOS versions prior to 8.0](http://stackoverflow.com/questions/25398312/automatic-preferred-max-layout-width-is-not-available-on-ios-versions-prior-to-8)
 

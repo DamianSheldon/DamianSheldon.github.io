@@ -8,28 +8,28 @@ keywords: iOS, UIView, Frame， Switch, Case
 description: iOS App 开发问题汇总
 ---
 
-###问题描述：Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。
+###1.Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。
 
   解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。
 
 Reference:  
-o http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work
+o [Setting the frame of an UIView does not work](http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work)
 
-###问题描述：在switch语句中，如果在case中要定义变量的话要加上大括号。
+###2.在switch语句中，如果在case中要定义变量的话要加上大括号。
 
 原因：Case statements are only 'labels'. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the 'switch' statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.  
 
-Reference:http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439
+Reference:[Why can't variables be declared in a switch statement?](http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439)
 
-###问题描述：创建Group style的UITalbeView的顶端有很大一块空白。  
+###3.创建Group style的UITalbeView的顶端有很大一块空白。  
 
 解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck - Adjust scroll view insets    
 
-Reference:http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst   
+Reference:[Why is there extra padding at the top of my UITableView with style UITableViewStyleGrouped in iOS7](http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst)   
 
 <!-- more -->
 
-###问题描述：SVN更新Cocoapods管理的第三方包的Xcode工程报错。    
+###4.SVN更新Cocoapods管理的第三方包的Xcode工程报错。    
 ```bash
 A  +  C Pods
 >   local edit, incoming delete upon update
@@ -37,9 +37,9 @@ A  +  C Pods
 
 解决办法：svn revert --depth infinity Pods  
 
-Reference:http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message  
+Reference:[how to resolve “local edit, incoming delete upon update” message](http://stackoverflow.com/questions/4317973/svn-how-to-resolve-local-edit-incoming-delete-upon-update-message)  
 
-###问题描述：local unversioned, incoming add upon update
+###5.local unversioned, incoming add upon update
 
 ```
 $svn status
@@ -61,30 +61,29 @@ $
 ```
 
 
-###问题描述：*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: '-[UIViewController _loadViewFromNibNamed:bundle:] loaded the "loc" nib but the view outlet was not set.'    
+###6.*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: '-[UIViewController _loadViewFromNibNamed:bundle:] loaded the "loc" nib but the view outlet was not set.'    
 
 解决办法：从输出的日志来看，是说 view 没有设置，事实也确实如此。我先创建了 UIViewController 类文件，然后再创建一个空的同名 xib 文件，我从 Object Library 中拉了一个 UIViewController，问题就出在这里，我应该拉一个 UIView ，并将 File's Owner 设置成正确的类名，最后将 view outlet 联接起来。所以，如果想用 xib 创建 UIViewController，建议在创建类的时候勾选创建相应的 Xib 文件，让 Xcode 做好这些工作。   
 
-Reference:http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html    
+Reference:[loaded some nib but the view outlet was not set](http://www.cnblogs.com/tivonstone/archive/2012/04/20/2460116.html)    
 
-###问题描述：设置swipe gesture的direction为UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight但是只识别一个方向。   
+###7.设置swipe gesture的direction为UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight但是只识别一个方向。   
 
 解决办法：为每个方向单独创建一个UISwipeGestureRecognizer。   
 
-Reference:http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927    
+Reference:[Detect when UIGestureRecognizer is up, down, left and right Cocos2d](http://stackoverflow.com/questions/7420078/detect-when-uigesturerecognizer-is-up-down-left-and-right-cocos2d/7760927#7760927)    
 
-
-###问题描述：应用获取用户位置信息弹出框很快自动消失
+###8.应用获取用户位置信息弹出框很快自动消失
 
 解决办法：问题的原因是CLLocationManager实例是局部变量，出了作用域很快会被销毁。因此只要将CLLocationManager实例声明为类的property或私有实例变量就能解决。
 
-Reference:http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly 
+Reference:[Current location permission dialog disappears too quickly](http://stackoverflow.com/questions/7888896/current-location-permission-dialog-disappears-too-quickly) 
 
-###问题描述：位置服务在iOS 8上失效
-解决办法：在plist配置文件中增加NSLocationAlwaysUsageDescription 或NSLocationWhenInUseUsageDescription，然后在代码中调用requestAlwaysAuthorization 或 requestWhenInUseAuthorization。NSLocationAlwaysUsageDescription的描述见Information Property List Key Reference。
-Reference:http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8
+###9.位置服务在iOS 8上失效
+解决办法：在plist配置文件中增加NSLocationAlwaysUsageDescription 或NSLocationWhenInUseUsageDescription，然后在代码中调用requestAlwaysAuthorization 或 requestWhenInUseAuthorization。NSLocationAlwaysUsageDescription的描述见Information Property List Key Reference。  
+Reference:[Location Services not working in iOS 8](http://stackoverflow.com/questions/24062509/location-services-not-working-in-ios-8)
 
-###问题描述：如何查看Framework支持哪些架构
+###10.如何查看Framework支持哪些架构
 解决办法：
 
 ```
@@ -93,7 +92,7 @@ $ cd ~/Desktop/RWUIControls.framework
 $ RWUIControls.framework  xcrun lipo -info RWUIControls
 ```
 
-###问题描述：when install Photoshop CS recently I got an error message saying that case-sensitive file system cannot be used for installation.
+###11.when install Photoshop CS recently I got an error message saying that case-sensitive file system cannot be used for installation.
 解决办法：
 I converted the default case-sensitive HFS+ partition to a case insensitive one after discovering the problem after installing a new MacBook. I assume here that you have enough disk space on your internal hard drive to duplicate the data and system files that you already have installed.
 
@@ -103,9 +102,9 @@ I converted the default case-sensitive HFS+ partition to a case insensitive one 
 * Boot holding down the Option key and select the new partition.
 * (Option)Delete the old partition with Disk Utility and increase the size of the new one.
 
-Reference:http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive
+Reference:[Convert a partition from case-sensitive to case-insensitive](http://apple.stackexchange.com/questions/15080/convert-a-partition-from-case-sensitive-to-case-insensitive)
 
-###问题描述：2015-01-14 08:42:44.898 cstApp[5711:2038701] *** Terminating app due to uncaught exception 'NSGenericException', reason: '*** Collection <__NSArrayM: 0x174253710> was mutated while being enumerated.'
+###12.2015-01-14 08:42:44.898 cstApp[5711:2038701] *** Terminating app due to uncaught exception 'NSGenericException', reason: '*** Collection <__NSArrayM: 0x174253710> was mutated while being enumerated.'
 *** First throw call stack:
 (0x18734259c 0x197a500e4 0x187341f50 0x1002ebd00 0x1001e8e94 0x1001e9e90 0x18bb28d34 0x18bb11e48 0x18bb286d0 0x18bb2835c 0x18bb218b0 0x18baf4fa8 0x18bd93f58 0x18baf3510 0x1872fa9ec 0x1872f9c90 0x1872f7d40 0x1872250a4 0x1903cf5a4 0x18bb5a3c0 0x100220370 0x1980bea08)
 libc++abi.dylib: terminating with uncaught exception of type NSException
@@ -119,7 +118,7 @@ libc++abi.dylib: terminating with uncaught exception of type NSException
     }
 ```
 
-###问题描述：AView上面有个TableView，点击TableView的Cell弹出一个小的BView，BView上面有三个小的View和一个button，现在希望点击TableView能隐藏BView，而BView上面的点击手势仍然是可以识别的。
+###13.AView上面有个TableView，点击TableView的Cell弹出一个小的BView，BView上面有三个小的View和一个button，现在希望点击TableView能隐藏BView，而BView上面的点击手势仍然是可以识别的。
 
 解决办法：AView,BView上都添加Tap手势，将ViewController设置成AView的Tap手势的代理，实现代理中的：
 
@@ -134,7 +133,7 @@ libc++abi.dylib: terminating with uncaught exception of type NSException
 }
 ```
 
-###问题描述：Build failed:
+###14.
 
 ```
 Undefined symbols for architecture x86_64:
@@ -158,12 +157,13 @@ warning: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xcto
 ```
 解决办法：问题出在libz.dylib，我把它加在静态库的Target上并不管用，应该把它加在实际应用的Target上，个人觉得这里的添加方法有点奇怪。
 
-Reference:http://stackoverflow.com/questions/18053546/undefined-symbols-for-architecture-i386-deflate-referenced-from-platcompres  
+Reference:[Undefined symbols for architecture i386: “_deflate”, referenced from PlatCompress(enumCompressOperation, CompressCookie*, void*, long) in libMo.a](http://stackoverflow.com/questions/18053546/undefined-symbols-for-architecture-i386-deflate-referenced-from-platcompres)  
 
-http://stackoverflow.com/questions/22572610/how-to-fix-is-a-dynamic-library-not-added-to-the-static-library-warning  
+[How to fix “is a dynamic library, not added to the static library” warning?](http://stackoverflow.com/questions/22572610/how-to-fix-is-a-dynamic-library-not-added-to-the-static-library-warning)  
 
-###问题描述：如何查看服务器某个端口是否打开？
-解决办法：1. nmap -PN 80 example.com  
+###15.如何查看服务器某个端口是否打开？
+解决办法：   
+1. nmap -PN 80 example.com  
 2. nc -vz google.com 80  
 3. telnet google.com 80 (To close your session, hit ctrl-])  
 

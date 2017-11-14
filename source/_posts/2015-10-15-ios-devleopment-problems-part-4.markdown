@@ -14,7 +14,7 @@ discription: iOS App Development
 [reciver deprecatedMethod];
 #pragma clang diagnostic pop
 ```
-Reference:http://nshipster.cn/pragma/
+Reference:[#pragma](http://nshipster.cn/pragma/)
 
 ### 2. Warning libopencore-amrnb.a, missing required architecture arm64
 ```
@@ -47,7 +47,7 @@ ld: symbol(s) not found for architecture arm64
 
 Solution: Project > Targets > Select your product target > Build Settings > Other Linker Flags > Add -l"stdc++"
 
-Reference:http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode
+Reference:[Creating an Objective-C++ Static Library in Xcode](http://stackoverflow.com/questions/2846679/creating-an-objective-c-static-library-in-xcode)
 
 ### 4. Suppressing performSelector may cause leaks warnings
 
@@ -58,7 +58,7 @@ Reference:http://stackoverflow.com/questions/2846679/creating-an-objective-c-sta
 #pragma clang diagnostic pop
 ```
 
-Reference:http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+Reference:[performSelector may cause a leak because its selector is unknown](http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown)
 
 ### 5.How to remove UINavigationBar and UISearchBar hairline?
 Solution:  
@@ -73,8 +73,8 @@ So we can cut a 1x1 pixel pure color image, set this image as navigation bar's s
 [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 ```
 
-Reference:http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline  
-http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line
+Reference:[How to remove UINavigationBar and UISearchBar hairline](http://stackoverflow.com/questions/19037464/how-to-remove-uinavigationbar-and-uisearchbar-hairline)  
+[How to hide UINavigationBar 1px bottom line](http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line)
 
 ### 6. Tab Bar item 设置的默认图片是白色的，但是显示却是灰色  
 Solution:
@@ -89,7 +89,7 @@ UITabBarItem *friends = [[UITabBarItem alloc] initWithTitle:@"Recommand Friends"
 Solution:
 > Create requestObj with specific cache policy ReturnCacheDataElseLoad if you can tell there is no network, or use the default behavior.
 
-Reference:http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working
+Reference:[UIWebView cache not working](http://stackoverflow.com/questions/32605084/uiwebview-cache-not-working)
 
 ### 8.How to only show bottom border of UITextField
 Solution:
@@ -102,7 +102,7 @@ myTextField.borderStyle = UITextBorderStyle.None
 myTextField.layer.addSublayer(bottomLine)
 ```
 
-Reference:http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift
+Reference:[How to only show bottom border of UITextField in Swift](http://stackoverflow.com/questions/31107994/how-to-only-show-bottom-border-of-uitextfield-in-swift)
 
 ### 9. 让Button的大小比它的内容略大
 Solution:
@@ -124,7 +124,7 @@ Otherwise, if you need to keep the style the same, do what this other posted fro
 self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
 
 ```
-Reference:http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple
+Reference:[why extra space is at top of UITableView - simple](http://stackoverflow.com/questions/20305943/why-extra-space-is-at-top-of-uitableview-simple)
 
 ### 11. 使用 UISearchDisplayController 遇到的问题
 
@@ -162,7 +162,7 @@ Solution: I recently enable Apple ID two-step verification. When I upload app to
 2. In the Security section, click Edit.
 3. Click Generate Password and follow the steps on your screen.
 
-Reference:https://support.apple.com/en-us/HT204397
+Reference:[Using app-specific passwords](https://support.apple.com/en-us/HT204397)
 
 Now we can upload app with Application Loader:
 1. Xcode > Open Developer Tool > Application Loader
@@ -171,7 +171,7 @@ Now we can upload app with Application Loader:
 4. Pick the IPA you have just exported
 5. Follow submission process
 
-Reference:http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error
+Reference:[Xcode 7.1 - Not authorized to use this service Error](http://stackoverflow.com/questions/33291394/xcode-7-1-not-authorized-to-use-this-service-error)
 
 ### 14.
 
@@ -184,6 +184,6 @@ Solotion:Removing the CFBundleExecutable key from TencentOpenApi_IOS_Bundle.bund
 ### 15. Pointer is missing a nullability type specifier
 Solution:It's simply because as soon as you supply any nullability information in a header, you are expected to supply nullability information for everything in that header. Either the whole API is unspecified or the whole API is specified, with regard to nullability. The compiler is just warning you that you have left the job half-finished.
 
-Reference:http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface
+Reference:[Pointer is missing a nullability type specifier on function interface](http://stackoverflow.com/questions/33028900/pointer-is-missing-a-nullability-type-specifier-on-function-interface)
 
 

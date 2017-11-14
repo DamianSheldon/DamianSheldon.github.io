@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-11-14T17:19:28+08:00</updated>
+  <updated>2017-11-14T17:24:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,234 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[圆锥渐变的一种简单实现]]></title>
+    <link href="http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios.html"/>
+    <updated>2017-09-22T15:59:35+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios</id>
+    <content type="html"><![CDATA[<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：
+<img src="../images/Conical-1.png" alt="Conical-1" />
+<img src="../images/Conical-2.png" alt="Conical-2" /></p>
+
+<p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
+
+<p>想法有了，接下来我们用它来实现上图中 Find My iPhone 图标的雷达效果吧。</p>
+
+<p>首先定义一个 CALayer 的子类 ConicalLayer，</p>
+
+<!--more-->
+
+
+<pre><code>// ConicalLayer.h
+@interface ConicalLayer : CALayer
+
+/// An array of CGColorRef objects defining the color of each gradient stop. 
+@property(copy) NSArray *colors;
+
+@end
+
+// ConicalLayer.m
+- (id)init
+{
+    if (!(self = [super init])) {
+        return nil;
+    }
+
+    _needsDisplayOnBoundsChange = YES;
+
+    return self;
+}
+
+- (void)drawInContext:(CGContextRef)ctx
+{
+    // Draw background
+    CGRect rect = CGContextGetClipBoundingBox(ctx);
+    CGContextSetFillColorWithColor(ctx, self.backgroundColor);
+    CGContextFillRect(ctx, rect);
+
+    if (self.colors.count &lt; 1) {
+        return;
+    }
+    else if (self.colors.count &lt; 2) {
+        // There is only one color so directly draw with it
+        CGColorRef color = (__bridge CGColorRef)(self.colors.firstObject);
+        CGContextSetFillColorWithColor(ctx, color);
+        CGContextFillRect(ctx, rect);
+        return;
+    }
+
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+    size_t width = rect.size.width;
+    size_t height = rect.size.height;
+
+    size_t bitsPerCompoent = 8;
+    size_t bytesPerRow = width * 4;
+
+    size_t bitmapByteCount = bytesPerRow * height;
+
+    uint32_t *bitmapData = calloc( bitmapByteCount / sizeof(uint32_t), sizeof(uint32_t) );
+
+    // Map color to linear array each compoent occupy 1 byte
+    uint8_t *colorCompoents = calloc(self.colors.count * 4, sizeof(uint8_t));
+
+    for (int i = 0; i &lt; self.colors.count; ++i) {
+        CGColorRef c = (__bridge CGColorRef)(self.colors[i]);
+
+        const CGFloat *compoents = CGColorGetComponents(c);
+
+        uint8_t red = compoents[0] * 255;
+        uint8_t green = compoents[1] * 255;
+        uint8_t blue = compoents[2] * 255;
+        uint8_t alpha = compoents[3] * 255;
+
+        int index = i * 4;
+        *(colorCompoents + index) = red;
+        *(colorCompoents + index + 1) = green;
+        *(colorCompoents + index + 2) = blue;
+        *(colorCompoents + index + 3) = alpha;
+    }
+
+    // Creating a Bitmap Graphics Context for conical gradient
+    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Little;
+
+    CGContextRef bitmapGraphicsCtx = CGBitmapContextCreate(bitmapData, width, height, bitsPerCompoent, bytesPerRow, colorSpace, bitmapInfo);
+
+    // Creating conical gradient from a Bitmap Graphics Context
+    CGImageRef conicalGradientImage = CGBitmapContextCreateImage(bitmapGraphicsCtx);
+
+    CGContextRelease(bitmapGraphicsCtx);
+
+    free(colorCompoents);
+
+    free(bitmapData);
+
+    CGColorSpaceRelease(colorSpace);
+
+    // Draws conical gradient image into a graphics context.
+    CGContextDrawImage(ctx, rect, conicalGradientImage);
+
+    CGImageRelease(conicalGradientImage);
+
+    // Draws three concentric
+    CGContextBeginPath(ctx);
+
+    CGFloat halfWidth = 0.5 * CGRectGetWidth(rect);
+    CGFloat maxRadii = 0.8 * halfWidth;
+    CGFloat radii = floor(0.33 * maxRadii);
+
+    for (int i = 1; i &lt; 4; ++i) {
+        CGFloat r = radii * i;
+        CGFloat dx = halfWidth - r;
+        CGRect ellipseRect = CGRectInset(rect, dx, dx);
+
+        CGContextAddEllipseInRect(ctx, ellipseRect);
+    }
+
+    CGContextSetRGBStrokeColor(ctx, 41/255.0, 234/255.0, 35/255.0, 1.0);
+    CGContextStrokePath(ctx);
+}
+
+- (BOOL)needsDisplayOnBoundsChange
+{
+    return _needsDisplayOnBoundsChange;
+}
+
+- (void)setNeedsDisplayOnBoundsChange:(BOOL)needsDisplayOnBoundsChange
+{
+}
+</code></pre>
+
+<p>现在我们把架子搭起来了，但是还没有往位图里面填充颜色，在这之前，对这段代码稍作解释，首先是我覆盖了needsDisplayOnBoundsChange 属性的 getter 和 setter 方法，原因是我设置图层关联的背景颜色时会触发这个属性变 NO，导致 <code>drawInContext</code> 不会被调用，我认为这是 Apple 的一个 bug，已经作了反馈，所以这里我使用了这么一个绕过的方法。</p>
+
+<p>其次，我把 RGB 颜色空间的颜色分量取出来放在了一个一维数组里用来备用；最后是 bitmapInfo 要或上 kCGBitmapByteOrder32Little，不然结果会不正确。</p>
+
+<p>接下来就是要填充位图的颜色，代码如下：</p>
+
+<pre><code>    // Create conical gradient bitmap data
+    CGFloat centerX = width * 0.5;
+    CGFloat centerY = height * 0.5;
+
+    double baseAngle = 2*M_PI / (self.colors.count - 1);
+
+    for (int i = 0; i &lt; height; ++i) {
+        for (int j = 0; j &lt; width; ++j) {
+            CGFloat x = j - centerX;
+            CGFloat y = i - centerY;
+
+            // define atan2 uniquely one uses the principal value in the range (−π, π]. That is, −π &lt; atan2(y, x) ≤ π.
+            double angle = atan2(y, x);
+
+            // Convert atan2 result angle to range [0, 2π]
+            if (angle &lt; 0) {
+                angle += 2 * M_PI;
+            }
+
+            // 0-360 map to linear gradient
+            double angleRatio = angle / baseAngle;
+            int colorIndex = angleRatio; // How many times of base angle?
+
+            angle -= colorIndex * baseAngle;
+            angleRatio = angle / baseAngle;
+
+            colorIndex *= 4;
+
+            uint8_t red0 = colorCompoents[colorIndex];
+            uint8_t red1 = colorCompoents[colorIndex + 4];
+
+            // Green index
+            colorIndex += 1;
+            uint8_t green0 = colorCompoents[colorIndex];
+            uint8_t green1 = colorCompoents[colorIndex + 4];
+
+            // Blue index
+            colorIndex += 1;
+            uint8_t blue0 = colorCompoents[colorIndex];
+            uint8_t blue1 = colorCompoents[colorIndex + 4];
+
+            // Alpha index
+            colorIndex += 1;
+            uint8_t alpha0 = colorCompoents[colorIndex];
+            uint8_t alpha1 = colorCompoents[colorIndex + 4];
+
+//            uint8_t red = red0 + angleRatio * (red1 - red0);
+//            uint8_t green = green0 + angleRatio * (green1 - green0);
+//            uint8_t blue = blue0 + angleRatio * (blue1 - blue0);
+//            uint8_t alpha = alpha0 + angleRatio * (alpha1 - alpha0);
+
+            uint8_t red = lerp(red0, red1, angleRatio);
+            uint8_t green = lerp(green0, green1, angleRatio);
+            uint8_t blue = lerp(blue0, blue1, angleRatio);
+            uint8_t alpha = lerp(alpha0, alpha1, angleRatio);
+
+            // Multiple alpha
+            float a = alpha / 255.0;
+
+            red *= a;
+            green *= a;
+            blue *= a;
+
+            unsigned long index = i * width + j;
+
+            *(bitmapData + index) = (red &lt;&lt; 24) | (green &lt;&lt; 16) | (blue &lt;&lt; 8) | alpha;
+        }
+    }
+</code></pre>
+
+<p>同样也稍微解释下其中的代码，首先是位图的填充要按照先行后列的顺序，行对就宽，列对应高；其次反正切函数的值域是(−π, π]，所以要把它们映射到[0, 2π]；然后我们根据角度对应的区间，选择起始和终点颜色，再由线性插值得到各自的颜色分量，实践中每个颜色分量还乘上了当前的透明度，最后合成该点的颜色。</p>
+
+<p><a href="https://github.com/DamianSheldon/QuartzDemo">完整示例</a></p>
+
+<h2>Reference:</h2>
+
+<p><a href="https://stackoverflow.com/questions/15344163/conical-gradient-in-qt-without-qconicalgradient">Conical gradient in Qt (without QConicalGradient)</a><br/>
+<a href="https://github.com/maxkonovalov/MKGradientView">MKGradientView</a><br/>
+<a href="https://en.wikipedia.org/wiki/Color_gradient">Color gradient</a><br/>
+<a href="https://en.wikipedia.org/wiki/Linear_interpolation">Linear interpolation</a><br/>
+<a href="https://en.wikipedia.org/wiki/Atan2">atan2</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 开发问题汇总(十)]]></title>
@@ -25,6 +253,221 @@
 <blockquote><p>Why are you encrypting with the private key? When you encrypt with the private key, that is considered signing not encrypting, becuase it provides no confidentiality. If you want to &ldquo;encrypt&rdquo; with the private key, look into data signing, and that should allow you to &ldquo;encrypt&rdquo; (read &ldquo;sign&rdquo;) with the private key and &ldquo;decrypt&rdquo; (read &ldquo;verify signature&rdquo;) with the public key.</p></blockquote>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/6705928/encrypting-data-with-a-private-key-on-ios">Encrypting data with a private key on iOS</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 中简单的图片处理]]></title>
+    <link href="http://DamianSheldon.github.io/blog/simple-image-processing-in-ios.html"/>
+    <updated>2017-07-14T09:49:40+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/simple-image-processing-in-ios</id>
+    <content type="html"><![CDATA[<p>在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。</p>
+
+<h3>图片格式</h3>
+
+<p>图片主要有两种格式：一种叫做位图；另一种称之为矢量图。所谓位图，就是把图片看成是由许多像素点组成；而矢量图则是用绘图指令来描述图片。举个例子，圆可以用圆点，半径，线条的粗细和颜色来描述它。从这个例子也可以看出用矢量图来描述风景，人物这样复杂的事物会比较复杂，所以它们通常会用位图来描述。</p>
+
+<p>位图和矢量图也分为很多格式，具体可能查看<a href="https://en.wikipedia.org/wiki/Image_file_formats">Image file formats</a></p>
+
+<p>下面我们讨论的是位图，在 iOS 中我们经常打交道的位图格式是 JPG 和 PNG，用来处理位图数据的类有：UIImage (UIKit)，CGImage (Core Graphics) 和 CIImage (Core Image)。Image I/O 本来是属于 Core Graphics，为了更加方便使用，Apple 将它分离出来成为单独的库。</p>
+
+<h3>旋转</h3>
+
+<p>既然位图是用一个一个的像素点来模拟图片，当我们想要旋转图片时，首先想到的方法自然是改变这些像素点的位置，这当然可以达到目标。要调整这么多像素点的位置自然要耗费不少时间，所有在数码相机刚出来那会，人们不是去改变像素点的位置，而是用一段数据来描述图片的方向等信息，这段数据称为 Exif. 所以对于 JPG 这种拥有 Exif 信息的位图，我们旋转图片的最佳做法自然是改变 Exif 里的方向信息。而 PNG 是没有 Exif 信息的，所以只能改变像素点的位置。</p>
+
+<p>UIImage 自带了几个可以旋转的方法：</p>
+
+<pre><code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+
++ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+
+- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+
+- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</code></pre>
+
+<!--more-->
+
+
+<p>我们没有这个方法的实现源码，但是我们可以输出图片的 Exif 信息来验证上面的说法。iOS 中我们可以使用 Image I/O 这个库来读取和修改图片的 Exif 信息。Image I/O 的文档不是很详细，使用时最好结合头文件的说明，而且要注意区分容器和单个图片，实验表明像方向这种信息它并不是放在 Exif 中，而是图片属性中，它的值和 UIImageOrientation 也不是一一对应的，它们的关系如下：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, DMLImagePropertyOrientation) {
+    DMLImagePropertyOrientationUp               = 1,
+    DMLImagePropertyOrientationDown             = 3,
+    DMLImagePropertyOrientationLeft             = 8,
+    DMLImagePropertyOrientationRight            = 6,
+    DMLImagePropertyOrientationUpMirrored       = 2,
+    DMLImagePropertyOrientationDownMirrored     = 4,
+    DMLImagePropertyOrientationLeftMirrored     = 5,
+    DMLImagePropertyOrientationRightMirrored    = 7
+};
+
++ (DMLImagePropertyOrientation)dml_imagePropertyOrientationFromUIImageOrientation:(UIImageOrientation)imageOrientation
+{
+    DMLImagePropertyOrientation imagePropertyOrientation = DMLImagePropertyOrientationUp;
+
+    switch (imageOrientation) {
+        case UIImageOrientationUp:
+            imagePropertyOrientation = DMLImagePropertyOrientationUp;
+            break;
+
+        case UIImageOrientationDown:
+            imagePropertyOrientation = DMLImagePropertyOrientationDown;
+            break;
+
+        case UIImageOrientationLeft:
+            imagePropertyOrientation = DMLImagePropertyOrientationLeft;
+            break;
+
+        case UIImageOrientationRight:
+            imagePropertyOrientation = DMLImagePropertyOrientationRight;
+            break;
+
+        case UIImageOrientationUpMirrored:
+            imagePropertyOrientation = DMLImagePropertyOrientationUpMirrored;
+            break;
+
+        case UIImageOrientationDownMirrored:
+            imagePropertyOrientation = DMLImagePropertyOrientationDownMirrored;
+            break;
+
+        case UIImageOrientationLeftMirrored:
+            imagePropertyOrientation = DMLImagePropertyOrientationLeftMirrored;
+            break;
+
+        case UIImageOrientationRightMirrored:
+            imagePropertyOrientation = DMLImagePropertyOrientationRightMirrored;
+            break;
+    }
+
+    return imagePropertyOrientation;
+}
+</code></pre>
+
+<p>从打印输出的内容看出 JPG 图片的方向确实改变了，然后我也写了个方法去改变图片的方向属性，得到了同样的效果，所以当我们是旋转上面提到的方向直接使用 UIImage 自带的几个旋转的方法应该是最佳选择，而要旋转任意角度，还是要通过调整像素点位置来完成。</p>
+
+<pre><code>// 输出图片的属性信息
+- (UIImageOrientation)dml_imageOrientationFromExif
+{
+    UIImageOrientation imageOrientation = UIImageOrientationRightMirrored + 1;
+
+    NSData *dataOfImage = UIImageJPEGRepresentation(self, (CGFloat)0.7);
+
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfImage, NULL);
+
+    CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+
+    NSLog(@"dml_imageOrientationFromExif image Properties:%@\n", (__bridge NSDictionary *)imageProperties);
+
+    CFRelease(imageSource);
+
+    CFNumberRef numberOfImageOrientation = CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation);
+
+    CFRelease(imageProperties);
+
+    DMLImagePropertyOrientation imagePropertyOrientation = [(__bridge NSNumber *)numberOfImageOrientation integerValue];
+
+    imageOrientation = [[self class] dml_uiimageOrientationFromImagePropertyOrientation:imagePropertyOrientation];
+
+    return imageOrientation;
+}
+
+// 修改图片的方向属性
+- (UIImage *)dml_setExifOritenation:(UIImageOrientation)imageOrientation error:(NSError * __autoreleasing *)error
+{
+    NSData *dataOfImage = UIImageJPEGRepresentation(self, (CGFloat)0.7);
+
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfImage, NULL);
+
+    /* get the file type */
+    CFStringRef UTI = CGImageSourceGetType(imageSource);
+    if ( NULL == UTI ) {
+        /* Handle Error Retrieving File Type Accordingly */
+        if (error) {
+            *error = [NSError errorWithDomain:(__bridge NSString *)kCFErrorDomainCGImageMetadata code:kCGImageMetadataErrorUnknown userInfo:@{NSLocalizedDescriptionKey: @"Handle Error Retrieving File Type Accordingly"}];
+        }
+        return nil;
+    }
+
+//    CFMutableDataRef finalImageData = (__bridge_retained CFMutableDataRef)dataOfImage.mutableCopy;
+    CFMutableDataRef finalImageData = (__bridge_retained CFMutableDataRef)[NSMutableData new];
+
+    /* create an image destination for saving the file */
+    CGImageDestinationRef destination = CGImageDestinationCreateWithData(finalImageData, UTI, 1, NULL);
+    if ( nil == destination ) {
+        /* Handle Error Creating CGImageDestinationRef Accordingly */
+        if (error) {
+            *error = [NSError errorWithDomain:(__bridge NSString *)kCFErrorDomainCGImageMetadata code:kCGImageMetadataErrorUnknown userInfo:@{NSLocalizedDescriptionKey: @"Handle Error Creating CGImageDestinationRef Accordingly"}];
+        }
+        return nil;
+    }
+
+    /* setting properties */
+//    CFDictionaryRef sourceProperties = CGImageSourceCopyProperties(imageSource, NULL);
+    CFDictionaryRef sourceProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+
+    NSLog(@"dml_setExifOritenation original properties:%@\n", (__bridge NSDictionary *)sourceProperties);
+
+    CFMutableDictionaryRef mutableSourceProperties = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, CFDictionaryGetCount(sourceProperties) + 1, sourceProperties);
+
+    DMLImagePropertyOrientation imagePropertyOrientation = [[self class] dml_imagePropertyOrientationFromUIImageOrientation:imageOrientation];
+
+    CFNumberRef numberForOritentation = CFNumberCreate(kCFAllocatorDefault, kCFNumberNSIntegerType, &amp;imagePropertyOrientation);
+
+    CFDictionarySetValue(mutableSourceProperties, kCGImagePropertyOrientation, numberForOritentation);
+
+    NSLog(@"dml_setExifOritenation edited properties:%@\n", (__bridge NSDictionary *)mutableSourceProperties);
+
+    CGImageDestinationAddImageFromSource(destination, imageSource, 0, mutableSourceProperties);
+    CGImageDestinationFinalize(destination);
+
+    UIImage *resultImage = [UIImage imageWithData:(__bridge NSData *)finalImageData];
+
+    CFRelease(numberForOritentation);
+
+    CFRelease(mutableSourceProperties);
+
+    CFRelease(sourceProperties);
+
+    // Print destination properties
+
+    NSData *dataOfDestinationImage = UIImageJPEGRepresentation(resultImage, (CGFloat)0.7);
+
+    CGImageSourceRef destinationImageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfDestinationImage, NULL);
+
+    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(destinationImageSource, 0, NULL);
+
+    NSLog(@"destination properties:%@\n", (__bridge NSDictionary *)properties);
+
+    CFRelease(properties);
+    CFRelease(destinationImageSource);
+
+    return resultImage;
+}
+</code></pre>
+
+<p>PS.理论上来讲，我们可以使用 <code>void CGImageDestinationSetProperties(CGImageDestinationRef idst, CFDictionaryRef properties);</code> 搭配 <code>bool CGImageDestinationCopyImageSource(CGImageDestinationRef idst, CGImageSourceRef isrc, CFDictionaryRef options, CFErrorRef  _Nullable *err);</code> 来改变图片的属性的，实际实验中并没有达到预期效果，原因不明。</p>
+
+<h3>缩放</h3>
+
+<p>上面提到 UIImage 的旋转方法也可以指定 Scale 因子，它是我们常说的几倍图中这个几倍因子，如果图片本来是一倍图，然后我们欺骗这个方法说是0.5倍图，那么我们会得到一张放大2倍的图，以些类推，所以我们可以考虑用这个方法来满足我们的一些简单需求，不能满足时，我们可以用 Core Graphics 将图片画到目标大小的位图上下文中来得到我们想要的图片。</p>
+
+<h3>裁剪</h3>
+
+<p>UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 <code>CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);</code>方法来实现裁剪。使用这个方法我们需要注意 Rect 要考虑图片的 scale，图片完整的 <code>rect = {0, 0, image.size.width * image.scale, image.size.height * image.scale}</code>, 所以我们指定裁剪的 rect 时也要带上 scale.</p>
+
+<h3>缩略图</h3>
+
+<p>生成缩略图可以使用 Image I/O 中的 <code>CGImageRef CGImageSourceCreateThumbnailAtIndex(CGImageSourceRef isrc, size_t index, CFDictionaryRef options);</code>方法。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li>Image I/O Programming Guide</li>
+<li><a href="https://objccn.io/issue-21-2/">图片格式</a></li>
+<li><a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -541,485 +984,6 @@ if ([assetWriter canAddInput:assetWriterInput])
 <p>Reference:<br/>
 iOS Technology Overview<br/>
 AVFoundation Programming Guide</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Photos 框架的基本使用]]></title>
-    <link href="http://DamianSheldon.github.io/blog/photos-framework-usage.html"/>
-    <updated>2016-12-23T14:23:33+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/photos-framework-usage</id>
-    <content type="html"><![CDATA[<p>从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。</p>
-
-<blockquote><p>The Assets Library framework is deprecated as of iOS 9.0. Instead, use the Photos framework instead, which in iOS 8.0 and later provides more features and better performance for working with a user’s photo library.</p></blockquote>
-
-<p>不幸的是 Apple 并没有发布相关的使用指导文档，只有一个相关 Demo。使用的时候固然可以回头参考这个 Demo，但这样的效率不是很高，很多概念也容易忘记，所以这里做个简单的总结。</p>
-
-<p>Photos 中有不少类，其中几个犹为关键。PHPhotoLibary 是我们操作 Photo Library 里面资源的入口对象，所有的操作都通过它完成。PHCollectionList 表示相册中的专题列表；PHAssetCollection 表示专题；PHAsset 表示资源，如 images, videos, and Live Photos.</p>
-
-<p>我们基本的需求就是 CRUD, 这些操作是需要用户授权的，记得先获取权限再操作， 下面我们展示相关的代码片段。</p>
-
-<h3>Create</h3>
-
-<ol>
-<li>创建一个资源</li>
-</ol>
-
-
-<pre><code>PHPhotoLibrary.shared().performChanges({
-            PHAssetChangeRequest.creationRequestForAsset(from: image)
-        }, completionHandler: {success, error in
-            if !success { print("error creating asset: \(error)") }
-        })
-</code></pre>
-
-<ol>
-<li>创建一个资源到指定的专题</li>
-</ol>
-
-
-<pre><code>PHPhotoLibrary.shared().performChanges({
-            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-            if let assetCollection = self.assetCollection {
-            let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection)
-            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-            }
-        }, completionHandler: {success, error in
-            if !success { print("error creating asset: \(error)") }
-        })
-</code></pre>
-
-<!-- more -->
-
-
-<h3>Read (Fetch)</h3>
-
-<p>获取资源是通过 PHAsset 提供的一系列以 fetchXXX 开头的类方法，选择哪个方法取决于需求，这里示例其中两个我觉得常用的方法。</p>
-
-<ol>
-<li><code>class func fetchAssets(with options: PHFetchOptions?) -&gt; PHFetchResult&lt;PHAsset&gt;</code></li>
-</ol>
-
-
-<p>我们可以用这个方法获取 Photo Library 里面所有的资源。</p>
-
-<pre><code>let allPhotosOptions = PHFetchOptions()
-    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-self.fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
-</code></pre>
-
-<ol>
-<li><code>class func fetchAssets(in assetCollection: PHAssetCollection, options: PHFetchOptions?) -&gt; PHFetchResult&lt;PHAsset&gt;</code></li>
-</ol>
-
-
-<p>我们可以用这个方法获取指定专题里面的资源。例如我们想获取 Camera Roll 这个专题里面的资源：</p>
-
-<pre><code>let cameraRoll: PHFetchResult&lt;PHAssetCollection&gt; = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject
-let fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: nil)
-</code></pre>
-
-<h3>Update (Edit)</h3>
-
-<p>编辑的基本的做法是先用资源请求一个 PHContentEditingInput，然后编辑资源，为了方便用户之后继续编辑或撤销可以实例化一个 PHAdjustmentData 对象来持有相关信息。编辑完成之后对于图片和视频需要实例化一个 PHContentEditingOutput 来完成输出，PHContentEditingOutput 的 adjustmentData 属性关联之前的 PHAdjustmentData, 并把编辑完成的内容输出到 PHContentEditingOutput 的 renderedContentURL。最后创建一个 PHAssetChangeRequest 对象，设置它的 contentEditingOutput 为
-之前实例化的 PHContentEditingOutput。</p>
-
-<p>这部分的代码会多点，具体可以查看 <a href="https://github.com/DamianSheldon/PhotosFrameworkUsage">Demo</a>.</p>
-
-<h3>Delete</h3>
-
-<pre><code>PHPhotoLibrary.shared().performChanges({ 
-        PHAssetChangeRequest.deleteAssets([self.asset] as NSArray)
-        }) { (success, error) in
-    DispatchQueue.main.sync {
-        self.trashButton.isEnabled = success ? false : true
-    }
-
-    if success {
-        print("delete asset successfully")
-    }
-    else {
-        print("can't delete asset: \(error)")
-    }
-}
-</code></pre>
-
-<h3>完整 Demo</h3>
-
-<p><a href="https://github.com/DamianSheldon/PhotosFrameworkUsage">PhotosFrameworkUsage</a></p>
-
-<h3>Caveat</h3>
-
-<p>使用过程中遇到一个坑，这里记一下。</p>
-
-<pre><code>guard let inputImage = CIImage(contentsOf: input.fullSizeImageURL!)
-            else { fatalError("can't load input image to edit") }
-
-// Apply the filter.
-let outputImage = inputImage
-    .applyingOrientation(input.fullSizeImageOrientation)
-.applyingFilter(filterName, withInputParameters: nil)
-
-// List 1.
-let uiImage = UIImage(ciImage: outputImage)
-
-// List 2.
-if let cgImage = CIContext(options: nil).createCGImage(outputImage, from: outputImage.extent) {
-    let uiImage = UIImage(cgImage:cgImage)
-}
-else {
-    print("instance UIImage from CGImage failed!")    
-}
-
-// Ouput
-if let data = UIImageJPEGRepresentation(uiImage, 0.7) {
-    // NSData - (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)atomically;
-    do {
-        try data.write(to: output.renderedContentURL)
-
-    } catch let error {
-        print("output filtered image to specify URL failed: \(error)")
-    }
-}
-else {
-    print("generate JPEG representation data failed")
-        return
-}
-</code></pre>
-
-<p>这里的问题是直接用 CIImage 实例化  UIImage 会失败，得转成 CGImage 然后实例化 UIImage. 至于它的原因我暂时还不清楚。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/29732886/uiimagejpegrepresentation-returns-nil">UIImageJPEGRepresentation returns nil</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 开发问题汇总(九)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-9.html"/>
-    <updated>2016-11-15T14:49:17+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-9</id>
-    <content type="html"><![CDATA[<h3>1.Curried functions in Swift</h3>
-
-<p>A:There’s a difference between self.methodname (which you are using), and Classname.methodname.</p>
-
-<p>The former, when called within a class’s method, will give you a function bound with that class instance. So if you call it, it will be called on that instance.</p>
-
-<p>The latter gives you a curried function that takes as an argument any instance of Classname, and returns a new function that is bound to that instance. At this point, that function is like the first case (only you can bind it to any instance you like).</p>
-
-<p>Here’s an example to try and show that a bit better:</p>
-
-<pre><code>class C {
-    private let _msg: String
-        init(msg: String) { _msg = msg }
-
-    func c_print() { print(_msg) }
-
-    func getPrinter() -&gt; ()-&gt;() { return self.c_print }
-}
-
-let c = C(msg: "woo-hoo")
-let f = c.getPrinter()
-// f is of type (())-&gt;()
-f() // prints "woo-hoo"
-
-let d = C(msg: "way-hey")
-
-let g = C.c_print
-// g is of type (C) -&gt; (()) -&gt; (),
-// you need to feed it a C:
-g(c)() // prints "woo-hoo"
-g(d)() // prints "way-hey"
-
-// instead of calling immediately,
-// you could store the return of g:
-let h = g(c)
-// at this point, f and h amount to the same thing:
-// h is of type (())-&gt;()
-h() // prints "woo-hoo"
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
-
-<h3>2.NSLog on devices in iOS 10 / Xcode 8 will truncate.</h3>
-
-<p>A:A temporary solution, just redefine all NSLOG to printf in a global header file.</p>
-
-<pre><code>#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why">NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？</a></p>
-
-<!--more-->
-
-
-<h3>3.UIImagePickerViewController is black doesn&rsquo;t work for selecting photo or taking picture.</h3>
-
-<p>A:I instance it via <code>UIImagePickerViewController(nibName:nil, boundle:nil)</code> that doesn&rsquo;t work, and change to <code>UIImagePickerViewController()</code> it works.</p>
-
-<h3>4.How to create dispatch queue in Swift?</h3>
-
-<p>A:</p>
-
-<pre><code>// Concurrent dispatch queue
-let concurrentQueue = DispatchQueue(label: "queuename", attributes:.concurrent)
-
-// Serial dispatch queue
-let serialQueue = DispatchQueue(label: "queuename")
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/37805885/how-to-create-dispatch-queue-in-swift-3">How to create dispatch queue in Swift 3</a></p>
-
-<h3>5.How to create a bitmap graphics context in Swift 3?</h3>
-
-<p>A:</p>
-
-<pre><code>// Create a bitmap graphics context with the sample buffer data
-guard let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8,
-        bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue) else {
-    return nil
-}
-</code></pre>
-
-<p>Reference: <a href="http://stackoverflow.com/questions/24109149/cgbitmapcontextcreate-error-with-swift">CGBitmapContextCreate error with swift</a></p>
-
-<h3>6.Required plug-in compatibility UUID 37B30044-3B14-46BA-ABAA-F01000C27B63 for plug-in at path &lsquo;~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/Unity4XC.xcplugin&rsquo; not present in DVTPlugInCompatibilityUUIDs</h3>
-
-<p>A:There isn&rsquo;t official document about developing plugin for Xcode, so we can only attempt to solve it. Thanks to the internet, we can get a solution by other figure out.</p>
-
-<pre><code>XCODEUUID=`defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID`
-for f in ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/*; do defaults write "$f/Contents/Info" DVTPlugInCompatibilityUUIDs -array-add $XCODEUUID; done
-</code></pre>
-
-<p>The reason probably is plugin developed compate with old Xcode, so it of course don&rsquo;t contain the lastest Xcode&rsquo;s UUID, we can manual add it if it really compate with the latest Xcode.</p>
-
-<p>Reference: <a href="http://stackoverflow.com/questions/20732327/xcode-5-required-plug-in-not-present-in-dvtplugincompatibilityuuids?rq=1">Xcode 5 - Required plug-in not present in DVTPlugInCompatibilityUUIDs?</a></p>
-
-<h3>7.Why AVCaptureSession output a wrong orientation?</h3>
-
-<p>A:AVCaptureVideoPreviewLayer and AVCaptureOutput are different output destination, so we have to set oritentation for them each.</p>
-
-<pre><code>let captureConnection = videoDataOutput.connection(withMediaType: AVMediaTypeVideo)
-
-if captureConnection!.isVideoOrientationSupported {
-captureConnection!.videoOrientation = AVCaptureVideoOrientation.portrait
-}
-else {
-print("capture connection\(captureConnection!) doesn't support video orientation")
-}
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/3561738/why-avcapturesession-output-a-wrong-orientation?rq=1">Why AVCaptureSession output a wrong orientation?</a><br/>
-<a href="https://developer.apple.com/library/content/qa/qa1744/_index.html">Technical Q&amp;A QA1744 Setting the orientation of video with AV Foundation</a></p>
-
-<h3>8.Operation stopped, the video could not be composed.</h3>
-
-<pre><code>Domain=AVFoundationErrorDomain Code=-11841 "Operation Stopped" UserInfo=0x1912c320 {NSLocalizedDescription=Operation Stopped, NSLocalizedFailureReason=The video could not be composed.}
-</code></pre>
-
-<p>A: We should instance AVMutableComposition, AVMutableCompositionTrack every time when edit.</p>
-
-<pre><code>mutableComposition = AVMutableComposition()
-
-videoCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-
-audioCompositionTrack = mutableComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
-</code></pre>
-
-<h3>9. How to get photos from iPhone simulator?</h3>
-
-<p>A: Photo files are located at :</p>
-
-<pre><code>~/Library/Developer/CoreSimulator/Devices/&lt;device UDID&gt;/data/Media/DCIM/100APPLE/
-</code></pre>
-
-<p>with Xcode 8.2. You can get <device UDID> from Devices window or using command:<code>xcrun simctl list devvices</code>.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/5488915/getting-images-from-iphone-simulator">getting images from iPhone simulator</a></p>
-
-<h3>10. Where is the default include paths of C headers in macOS?</h3>
-
-<p>A: <code>gcc -x c -v -E /dev/null</code></p>
-
-<pre><code>$ gcc -x c -v -E /dev/null
-
-...
-
-#include "..." search starts here:
-#include &lt;...&gt; search starts here:
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.0.0/include
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)
-
-...
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19852199/view-default-include-path-of-c-headers-in-mac-os-x-by-gcc-v">View default include path of C headers in Mac OS X by <code>gcc -v</code>?</a></p>
-
-<h3>11. error: include of non-modular header inside framework module</h3>
-
-<pre><code>JKEncrypt.h:11:9: error: include of non-modular header inside framework module 'JKCategories.NSData_JKEncrypt': '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.3.sdk/usr/include/CommonCrypto/CommonCryptor.h' [-Werror,-Wnon-modular-include-in-framework-module]
-#import &lt;CommonCrypto/CommonCryptor.h&gt;
-</code></pre>
-
-<p>A:Add follow instructs to your podspec file.</p>
-
-<pre><code>// Your podspec file 
-spec.user_target_xcconfig = {'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' =&gt; 'YES'}
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/24103169/swift-compiler-error-non-modular-header-inside-framework-module">Swift compiler error: “non-modular header inside framework module”</a></p>
-
-<h3>12. Is there a “space” character that is NOT trimmed from end of UILabel?</h3>
-
-<p>A:I haven&rsquo;t found such character yet. Follow sulotion is a workaround:</p>
-
-<pre><code>NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-
-[string insertAttributedString:[self emptyAtributedWhitespace] atIndex:0];
-[string appendAttributedString:[self emptyAtributedWhitespace]];
-
-label.attributedText = string;
-
-...
-
-- (NSAttributedString *)emptyAtributedWhitespace
-{
-        // You can put any random string there or how many spaces you want
-            return [[NSAttributedString alloc] initWithString:@"_" attributes:@{ NSForegroundColorAttributeName : [UIColor clearColor]}];
-}
-</code></pre>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/25836307/is-there-a-space-character-that-is-not-trimmed-from-end-of-uilabel">Is there a “space” character that is NOT trimmed from end of UILabel?</a></p>
-
-<h3>13. 如何更换 SVN 仓库地址？</h3>
-
-<p>A:</p>
-
-<pre><code>// 1. 查看仓库地址
-
-$ svn info 
-Path: .
-Working Copy Root Path: /Users/dongmeiliang/Documents/SuiShouPai
-URL: http://192.168.2.231:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
-Relative URL: ^/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
-Repository Root: http://192.168.2.231:2036/svn/mct_v1
-Repository UUID: 59ac94ce-ffd7-5644-ad12-280b91628744
-Revision: 12039
-Node Kind: directory
-Schedule: normal
-...
-
-// 2. 更换仓库地址
-
-$ svn relocate http://192.168.2.231:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP http://192.168.9.21:2036/svn/mct_v1/trunk/working/docs/UI/prototype/%E9%9A%8F%E6%89%8B%E6%8B%8D/%E9%9A%8F%E6%89%8B%E6%8B%8DAPP
-</code></pre>
-
-<h3>14. 在 iOS 中如何计算大文件的 MD5 Hash 值？</h3>
-
-<p>A:</p>
-
-<pre><code>// Standard library
-#include &lt;stdint.h&gt;
-#include &lt;stdio.h&gt;
-
-// Core Foundation
-#include &lt;CoreFoundation/CoreFoundation.h&gt;
-
-// Cryptography
-#include &lt;CommonCrypto/CommonDigest.h&gt;
-
-// In bytes
-#define FileHashDefaultChunkSizeForReadingData 4096
-
-// Function
-CFStringRef FileMD5HashCreateWithPath(CFStringRef filePath, 
-        size_t chunkSizeForReadingData) {
-
-    // Declare needed variables
-    CFStringRef result = NULL;
-    CFReadStreamRef readStream = NULL;
-
-    // Get the file URL
-    CFURLRef fileURL = 
-        CFURLCreateWithFileSystemPath(kCFAllocatorDefault, 
-                (CFStringRef)filePath, 
-                kCFURLPOSIXPathStyle, 
-                (Boolean)false);
-    if (!fileURL) goto done;
-
-    // Create and open the read stream
-    readStream = CFReadStreamCreateWithFile(kCFAllocatorDefault, 
-            (CFURLRef)fileURL);
-    if (!readStream) goto done;
-    bool didSucceed = (bool)CFReadStreamOpen(readStream);
-    if (!didSucceed) goto done;
-
-    // Initialize the hash object
-    CC_MD5_CTX hashObject;
-    CC_MD5_Init(&amp;hashObject);
-
-    // Make sure chunkSizeForReadingData is valid
-    if (!chunkSizeForReadingData) {
-        chunkSizeForReadingData = FileHashDefaultChunkSizeForReadingData;
-    }
-
-    // Feed the data to the hash object
-    bool hasMoreData = true;
-    while (hasMoreData) {
-        uint8_t buffer[chunkSizeForReadingData];
-        CFIndex readBytesCount = CFReadStreamRead(readStream, 
-                (UInt8 *)buffer, 
-                (CFIndex)sizeof(buffer));
-        if (readBytesCount == -1) break;
-        if (readBytesCount == 0) {
-            hasMoreData = false;
-            continue;
-        }
-        CC_MD5_Update(&amp;hashObject, 
-                (const void *)buffer, 
-                (CC_LONG)readBytesCount);
-    }
-
-    // Check if the read operation succeeded
-    didSucceed = !hasMoreData;
-
-    // Compute the hash digest
-    unsigned char digest[CC_MD5_DIGEST_LENGTH];
-    CC_MD5_Final(digest, &amp;hashObject);
-
-    // Abort if the read operation failed
-    if (!didSucceed) goto done;
-
-    // Compute the string result
-    char hash[2 * sizeof(digest) + 1];
-    for (size_t i = 0; i &lt; sizeof(digest); ++i) {
-        snprintf(hash + (2 * i), 3, "%02x", (int)(digest[i]));
-    }
-    result = CFStringCreateWithCString(kCFAllocatorDefault, 
-            (const char *)hash, 
-            kCFStringEncodingUTF8);
-
-done:
-
-    if (readStream) {
-        CFReadStreamClose(readStream);
-        CFRelease(readStream);
-    }
-    if (fileURL) {
-        CFRelease(fileURL);
-    }
-    return result;
-}
-</code></pre>
-
-<p>Reference:<a href="http://www.joel.lopes-da-silva.com/2010/09/07/compute-md5-or-sha-hash-of-large-file-efficiently-on-ios-and-mac-os-x/">Compute MD5 or SHA hash of large file efficiently on iOS and Mac OS X</a></p>
-
-<h3>15.静态变量应该定义在哪？</h3>
-
-<p>A: 阅读源码的时候，看到有把静态变量声明在 import 语句和类扩展块中间的；有声明在 implementation 块头部的；有声明在使用位置附近的。那么我们应该声明在哪呢？这几种声明没有意义上的差别，纯属编码风格。推荐定义在 import 语句和类扩展块中间。</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/22850548/where-to-declare-a-static-variable-in-objective-c">Where to declare a static variable in objective-c?</a></p>
 ]]></content>
   </entry>
   

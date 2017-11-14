@@ -123,7 +123,7 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">iOS App 开发问题汇总（二）</h2>
-	<div class="entry-content"><h3>问题描述：Ad Hoc分发应用</h3>
+	<div class="entry-content"><h3>1.Ad Hoc分发应用</h3>
 
 <p>导出Ad Hoc授权应用
 Xcode > Product > Archive > Export</p>
@@ -131,7 +131,7 @@ Xcode > Product > Archive > Export</p>
 <p>安装Ad Hoc分发的应用
 Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile and App.ipa > Sync</p>
 
-<h3>问题描述：Xcode编译出现如下警告提示：</h3>
+<h3>2.Xcode编译出现如下警告提示：</h3>
 
 <p>[WARN]warning: no rule to process file xxx.h’ of type sourcecode.c.h for architecture armv7</p>
 
@@ -139,12 +139,12 @@ Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile
 
 <p>点击你的xcode项目文件，然后点击[Build Phases]，确保在[Compile Sources]中没有.h文件。</p>
 
-<p>Reference:<a href="http://hearrain.com/2014/01/774">http://hearrain.com/2014/01/774</a></p>
+<p>Reference:<a href="http://hearrain.com/2014/01/774">Xcode编译提示：warning: no rule to process file &lsquo;xxx.h&rsquo; of type sourcecode.c.h for architecture armv7</a></p>
 
 <!--more-->
 
 
-<h3>问题描述:ld: warning: directory not found for option &lsquo;-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator&rsquo;</h3>
+<h3>3.ld: warning: directory not found for option &lsquo;-L/Users/dongmeiliang/Documents/soh.client.iOS/sohiOSApp/sohiOSApp/Component/BaiduMap_IOSSDK_v2-2/Release-iphonesimulator&rsquo;</h3>
 
 <p>Undefined symbols for architecture x86_64:
   &ldquo;<em>DDExtractFileNameWithoutExtension&rdquo;, referenced from:
@@ -159,7 +159,7 @@ ld: symbol(s) not found for architecture x86_64</p>
 
 <p>解决办法：从输出的日志可以看出问题是出在链接，由Cocoapods管理的第三方库安装后链接配置项没有设置正确，需要手动设置没有被自动链接的库，例如这里我需要链接：-l"Pods-CocoaAsyncSocket"。</p>
 
-<h3>问题描述:dyld: could not load inserted library &lsquo;/usr/lib/libgmalloc.dylib&rsquo; because image not found</h3>
+<h3>4.dyld: could not load inserted library &lsquo;/usr/lib/libgmalloc.dylib&rsquo; because image not found</h3>
 
 <p>解决办法：Edit Scheme > Run > Diagnostics > Memory Managerment</p>
 
@@ -167,15 +167,15 @@ ld: symbol(s) not found for architecture x86_64</p>
         uncheck Enable Guard Edges<br/>
         uncheck Enable Guard Malloc</p>
 
-<p>Reference:<a href="http://blog.csdn.net/chocolateloveme/article/details/18258443">http://blog.csdn.net/chocolateloveme/article/details/18258443</a></p>
+<p>Reference:<a href="http://blog.csdn.net/chocolateloveme/article/details/18258443">xcode : could not load inserted library: /usr/lib/libgmalloc.dylib 的解决</a></p>
 
-<h3>问题描述：APNs服务器地址</h3>
+<h3>5.APNs服务器地址</h3>
 
 <p>答案：
 gateway.push.apple.com 2195 (Product)<br/>
 gateway.sandbox.push.apple.com 2195 (Development)</p>
 
-<h3>问题描述：/Users/user/XCodeWork/iPhoneDev/MyAppSourceFolder/en.lproj/MainWindow-iPhone.xib:</h3>
+<h3>6./Users/user/XCodeWork/iPhoneDev/MyAppSourceFolder/en.lproj/MainWindow-iPhone.xib:</h3>
 
 <p>  Compilation failed. Unable to write to path:      <br/>
   /Users/user/Library/Developer/Xcode/DerivedData/MYAPPNAME-
@@ -185,9 +185,9 @@ gateway.sandbox.push.apple.com 2195 (Development)</p>
 
 <p>解决办法：For every xib&rsquo;s that we&rsquo;ve problems, in the right panel go to the first tab, &ldquo;Interface Builder Document&rdquo; -> &ldquo;Builds for&rdquo; and select &ldquo;iOS 7.0 and Later&rdquo;. My old configuration was &ldquo;iOS 4.3 and Later&rdquo;.</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path">http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/19688276/interface-builder-xib-error-unable-to-write-to-path">Interface Builder XIB Error - Unable to write to path</a></p>
 
-<h3>问题描述:duplicate symbol <em>OBJC_METACLASS</em>$_SDWebImagePrefetcher in:</h3>
+<h3>7.duplicate symbol <em>OBJC_METACLASS</em>$_SDWebImagePrefetcher in:</h3>
 
 <pre><code>/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-weima-SDWebImage.a(SDWebImagePrefetcher.o)
 /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/jiaxiaotong-dxrmnnwbexugoqfekesgvdiijcdm/Build/Products/Debug-iphonesimulator/libPods-SDWebImage.a(SDWebImagePrefetcher.o)
@@ -197,12 +197,12 @@ gateway.sandbox.push.apple.com 2195 (Development)</p>
 
 <p>解决办法：问题出现的原因是我用CocoaPods管理第三方库，在Build Settings > Linking > Other Linker Flags 里面即显示指定了-l"Pods-SDWebImagePrefetcher",又设置了变量$(inherited)。我去掉$(inherited)就好。</p>
 
-<h3>问题描述:2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument</h3>
+<h3>8.2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument</h3>
 
 <p>2015-04-05 22:35:26.917 weima[67059:2338954] NSScanner: nil string argument
 libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 
-<h3>Cannot send push notifications using Javapns/Javaapns SSL handshake failure</h3>
+<h3>9.Cannot send push notifications using Javapns/Javaapns SSL handshake failure</h3>
 
 <p>解决办法：</p>
 
@@ -220,15 +220,15 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 </span><span class='line'>openssl pkcs12 -export -inkey mykey.pem -in developer_identity.pem -out iphone_dev.p12</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure">http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/12585858/cannot-send-push-notifications-using-javapns-javaapns-ssl-handshake-failure">Cannot send push notifications using Javapns/Javaapns SSL handshake failure</a></p>
 
-<h3>导航栏如何显示两行文本？</h3>
+<h3>10.导航栏如何显示两行文本？</h3>
 
 <p>解决办法：After setting up your titleView or titleLabel, call sizeToFit on it, also make sure titleLabel.textAlignment = UITextAlignmentCenter. It&rsquo;ll be centered in the width of the navbar rather than in the space between the button edge and far edge of navbar.</p>
 
-<p>Reference <a href="http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame">http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/3681990/adjusting-navigationitem-titleviews-frame">Adjusting navigationItem.titleView&rsquo;s frame?</a></p>
 
-<h3>SVN how to resolve “local unversioned, incoming add upon update”</h3>
+<h3>11.SVN how to resolve “local unversioned, incoming add upon update”</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -256,15 +256,15 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 </span><span class='line'>$ svn status</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference <a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html</a></p>
+<p>Reference:<a href="http://tomhennigan.blogspot.com/2012/01/resolve-tree-conflict-svn-local.html">Resolve Tree Conflict SVN (local unversioned, incoming add upon update)</a></p>
 
-<h3>问题描述：Calling a C function from within a function in a .mm file</h3>
+<h3>12.Calling a C function from within a function in a .mm file</h3>
 
 <p>解决办法：The .mm file is looking to call a mangled version of the function name. You need either <strong>BEGIN_DECLS and </strong>END_DECLS around the C function declarations seen by the C++-compiled file, or you need to do the equivalent yourself. The idea is to mark those function declarations as extern &ldquo;C&rdquo; when seen by an (Obj-)C++ compiler, but not when seen by any other sort of compiler.</p>
 
-<p>Referenc: <a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file</a></p>
+<p>Referenc:<a href="http://stackoverflow.com/questions/4984523/calling-a-c-function-from-within-a-function-in-a-mm-file">Calling a C function from within a function in a .mm file</a></p>
 
-<h3>问题描述：Compilation failed. Unable to write to path</h3>
+<h3>13.Compilation failed. Unable to write to path</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -292,13 +292,13 @@ libc++abi.dylib: terminate_handler unexpectedly threw an exception</p>
 
 <p>解决办法：在Target > Build Phases > Compile Sources里去掉出错的nib文件。</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure">http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/20570340/xcode-5-storyboard-compile-failure">Xcode 5 storyboard compile failure</a></p>
 
-<h3>问题描述：Where iPhoto Pictures are Located and How to Access the iPhoto Library and Picture Files</h3>
+<h3>14.Where iPhoto Pictures are Located and How to Access the iPhoto Library and Picture Files</h3>
 
 <p>解决办法：iPhoto 11 (9.0) Photo Library Storage Location:~/Pictures/iPhoto Library.photolibrary/Masters/</p>
 
-<p>Reference:<a href="http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/">http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/</a></p>
+<p>Reference:<a href="http://osxdaily.com/2011/08/30/where-iphoto-pictures-are-located/">Where iPhoto Pictures are Located and How to Access the iPhoto Library and Picture Files</a></p>
 </div>
 
 

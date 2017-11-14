@@ -3,7 +3,7 @@ layout: post
 title: "圆锥渐变的一种简单实现"
 date: 2017-09-22 15:59:35 +0800
 comments: true
-categories: [Archives, iOS]
+categories: [Archives, iOS Development]
 keywords: Conical, Gradient, Angular
 discription: A simple conical gradient on iOS
 ---

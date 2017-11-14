@@ -40,7 +40,7 @@ A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现
 ```
 
 Reference:Apple's sample code Customizing UINavigationBar  
-http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7
+[Separator between navigation bar and view - iOS 7](http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7)
 
 <!-- more -->
 
@@ -59,7 +59,7 @@ A:
 * Go to Xcode preferences, view details of the Apple ID, and delete the provisioning file that's complaining, redownload.
 * Go to the Keychain Access, and delete the development certificate that's related to the provisioning file you just deleted.
 
-Reference:http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found
+Reference:[iOS 7.0 No code signing identities found](http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found)
 
 ### 5. How to load image from CocoaPods resource bundle ?
 A:
@@ -73,7 +73,7 @@ A:
   self.imageView.image = [UIImage imageNamed:@"DMLSelector.bundle/Checked" inBundle:bundle compatibleWithTraitCollection:nil];
 ```
 
-Reference:http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle
+Reference:[Load image from CocoaPods resource bundle](http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle)
 
 ### 6. How to specify NSLineBreakMode in boundingRectWithSize?
 A: Use NSParagraphStyleAttributeName & NSParagraphStyle:
@@ -84,7 +84,7 @@ paragraph.lineBreakMode = NSLineBreakByWordWrapping; //e.g.
 
 CGSize size = [label.text boundingRectWithSize: constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes: @{ NSFontAttributeName: label.font, NSParagraphStyleAttributeName: paragraph } context: nil].size;
 ```
-Reference:http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize
+Reference:[How to specify NSLineBreakMode in boundingRectWithSize?](http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize)
 
 ### 7.
 
@@ -122,7 +122,7 @@ From iTunes
 
 下载需要点时间，所以点开My Apps tab面不能马上看到刚下载的App,右上角有个下载进度提示，点击可以看详情。
 
-Reference:https://support.apple.com/en-qa/HT201272
+Reference:[Redownload music, movies, TV shows, apps, and books from the iTunes Store, iBooks Store, and App Store](https://support.apple.com/en-qa/HT201272)
 
 ### 9. UICollectionView's cellForItemAtIndexPath is not being called
 A: 
@@ -131,7 +131,7 @@ A:
 self.automaticallyAdjustsScrollViewInsets = NO;
 ```
 
-Reference:http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1
+Reference:[UICollectionView's cellForItemAtIndexPath is not being called](http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1)
 
 ### 10. iOS supported audio formats?
 A:
@@ -140,8 +140,8 @@ A:
 @"aac",@"adts",@"ac3",@"aif",@"aiff",@"aifc",@"caf",@"mp3",@"mp4",@"m4a",@"snd",@"au",@"sd2",@"wav"
 ```
 
-Reference:http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone
-https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition
+Reference:[Supported Audio file formats in iPhone](http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone)  
+[Audio Tutorial for iOS: File and Data Formats](https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition)
 
 ### 11. How do I put the image on the right side of the text in a UIButton?
 
@@ -160,7 +160,7 @@ CGFloat spacing          = 3;
     button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);
 ```
 
-Reference:http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
+Reference:[How do I put the image on the right side of the text in a UIButton?](http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton)
 
 extension:How to position image top title bottom in a UIButton?
 A:
@@ -283,7 +283,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 ```
-Reference:http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1
+Reference:[Detecting taps on attributed text in a UITextView in iOS](http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1)
 
 ### 14. iOS 开发中如何获取农历？
 A: iOS 8 以后 Apple 内置了农历支持，可以得到类似**2016丙申年五月十七星期二**的信息，如果你只需要这些信息就够了，那使用内置的农历就可以了。如果还想获取类似**壬辰年癸卯月庚辰日**，那可以用[LunarCalendar](https://github.com/autopear/LunarCalendar)。
@@ -301,8 +301,8 @@ A: iOS 8 以后 Apple 内置了农历支持，可以得到类似**2016丙申年�
     // Output:2016丙申年五月十七星期二
 ```
 
-Reference:https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support
-http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese
+Reference:[What does Apple mean when it says iOS 8 will include lunar calendar support?](https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support)   
+[NSCalendarIdentifierRepublicOfChina vs NSCalendarIdentifierChinese?](http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese)  
 
 ### 15. How to fix tableView's tableHeaderView overlap first cell?
 A: The core of solution is when you change the frame of tableHeaderView, you need reassign it to tableView.
@@ -323,5 +323,5 @@ A: The core of solution is when you change the frame of tableHeaderView, you nee
     self.tableHeaderView = headerView;
 ```
 
-Reference:http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell
+Reference:[tableHeaderView on top of first cell](http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell)  
 

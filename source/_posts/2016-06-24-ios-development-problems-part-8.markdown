@@ -17,7 +17,7 @@ label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range)
 };
 ```
 
-Reference:http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app
+Reference:[Detect hash tags #, mention tags @, in iOS like in Twitter App](http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app)
 
 ### 2.如何给应用重签名？
 A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：
@@ -33,7 +33,7 @@ $ security find-identity -v -p codesigning
 $ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"
 ```
 
-Reference:http://objccn.io/issue-17-2/
+Reference:[代码签名探析](http://objccn.io/issue-17-2/)
 
 <!--more-->
 
@@ -64,9 +64,7 @@ iOS controls what app appears there based on several factors, including your loc
 
 If you don't like this feature, it can be turned off in Settings -> General -> Handoff & Suggested Apps.
 
-Reference:http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen
-
-http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen
+Reference:[How did a calendar icon make it to my Lock Screen?](http://apple.stackexchange.com/questions/166983/how-did-a-calendar-icon-make-it-to-my-lock-screen)
 
 ### 5.
 
@@ -101,7 +99,7 @@ target 'AJFrameDevApp' do
 end
 ```
 
-Reference:http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486
+Reference:[Class is implemented in both. One of the two will be used](http://stackoverflow.com/questions/30581884/class-is-implemented-in-both-one-of-the-two-will-be-used/30582486)
 
 ### 6. 如何调用私有类的私有方法？真实的场景是开发了一个库，库中A持有一个私有类的属性，那么如何对私有类进行相应的单元测试呢？
 A：Objective-C的runtime可以帮我们做到，
@@ -144,19 +142,19 @@ send_type func = (send_type)objc_msgSend;
 func(anItem.callback_object, NSSelectorFromString(anItem.selector), dict);
 ```
 
-Reference:http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3
+Reference:[Too many arguments to function call, expected 0, have 3](http://stackoverflow.com/questions/24922913/too-many-arguments-to-function-call-expected-0-have-3)
 
 ### 8. Why do we need Base64?
 A:Base64 is a group of similar binary-to-text encoding schemes that represent binary data in an ASCII string format by translating it into a radix-64 representation. 
 A binary-to-text encoding is encoding of data in plain text. More precisely, it is an encoding of binary data in a sequence of characters. **These encodings are necessary for transmission of data when the channel does not allow binary data (such as email or NNTP) or is not 8-bit clean.**
 
-Reference:https://en.wikipedia.org/wiki/Base64
-https://en.wikipedia.org/wiki/Binary-to-text_encoding
+Reference:[Base64](https://en.wikipedia.org/wiki/Base64)  
+[Binary-to-text encoding](https://en.wikipedia.org/wiki/Binary-to-text_encoding)
 
 ### 9. 360° panorama libraries for ios
 A:[panoramagl](https://code.google.com/archive/p/panoramagl/)
 
-Reference:http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios
+Reference:[360° panorama libraries for ios](http://stackoverflow.com/questions/3763978/360-panorama-libraries-for-ios)
 
 ### 10. When should we use macro in iOS?
 A: As we known, macro has many disatanges:1.lack type info;2.can be redfine. Since its a keyword in C, when should we use it?
@@ -290,3 +288,5 @@ day: Måndag
 ```
 
 Reference:[How do i get Weekday and/or name of month from a NSDate variable?](http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable)
+
+

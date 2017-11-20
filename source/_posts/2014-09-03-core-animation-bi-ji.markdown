@@ -15,7 +15,7 @@ Core Animation是iOS和OS X上的图形渲染和动画的基础，你可以用�
 ##什么时候使用Core Animation? 
 > In places where you want to perform more sophisticated animations, or animations not supported by the UIView class, you can use Core Animation and the view’s underlying layer to create the animation. Because view and layer objects are intricately linked together, changes to a view’s layer affect the view itself.
 
-在你想要执行更加复杂的动画，或者UIView类不支持的动画时，你可以使用Core Animation和视图底下的layer去创建动画。因为view和layer复杂地联系在一起，改变视图的layer会影响视图本身。
+在你想要执行更加复杂的动画，或者UIView类不支持的动画时，你可以使用Core Animation和视图底下的layer去创建动画。因为view和layer错综复杂地联系在一起，改变视图的layer会影响视图本身。
 
 UIView内置可动画的属性如下表：  
 
@@ -32,6 +32,60 @@ UIView内置可动画的属性如下表：
 <!-- more -->
 
 ##如何使用Core Animation?
+
+Core Animation 支持三种动画：一、基于属性的动画；二、关键帧动画；三、Transition 动画；
+
+###基于属性的动画(Property-based animation)
+
+图层的大多数属性是支持动画的，完整列表可以查看 Core Animation Programming Guide 附录 B 中的 Animateable Properties.
+
+我们可以隐式或显示触发属性动画，直接改变支持动画的图层属性就可以触发隐式动画。
+
+```
+theLayer.opacity = 0.0;
+```
+
+隐式动画使用的是默认的时机控制和动画参数，我们也可以修改这种默认行为。Core Animation 使用 action 对象来为图层实现隐式动画行为，所以我们可以通过返回不同的 action 对象来修改默认行为。
+
+Action 对象遵守 CAAction 协议并定义了一些在图层上执行的行为。所有的 CAAnimation 对象都实现了该协议，当图层属性改变时通常就是运行这些对象。因此我们通过返回 CAAnimation 对象或者自定义 Action 对象来修改隐式动画的默认行为。
+
+那么我们应该何时何处返回 action 对象呢？ Core Animation 是按如下顺序来查找 action 对象的：
+
+1. 如果图层有代理并且代理实现了 `actionForLayer:forKey:` 方法，图层调用该方法。代理必须做下列事情之一：
+		
+	* 为指定键返回 action 对象。
+	* 如果不处理这个动作则返回 nil，这种情况搜索还会继续。
+	* 返回 NSNull 对象，这种情况搜索立即停止。
+		
+2. 图层在 actions 字典里查找指定的键。
+3. 图层在 style 字典里查找包含键的 actions 字典。（换名话说，style 字典包含 actions 键，它的值也是字典。图层在第二个字典里查找指定的键。）
+4. 图层调用 defaultActionForKey: 类方法。
+5. 图层执行 Core Animation 定义的隐式 action（如果有）。
+
+你在哪里安装 action 对象取决于你想怎样修改图层：
+	
+* 对于那些只在特定环境下使用的 actions ，或者图层已经使用代理对象，提供一个代理并实现 `actionForLayer:forKey:` 方法。
+* 对于那些通常不使用代码的图层对象，添加 action 到它的 actions 字典中。
+* 对于那些关联你图层自定义属性的 action,包含 action 到图层的 style 字典。
+* 对于那些图层的基础行为 action ,继承图层并覆盖 `defaultActionForKey:` 方法。
+
+可以通过创建和配置 CABasicAnimation 对象，然后通过 `addAnimation:forKey:` 执行显式动画。
+
+```
+CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
+fadeAnim.fromValue = [NSNumber numberWithFloat:1.0];
+fadeAnim.toValue = [NSNumber numberWithFloat:0.0];
+fadeAnim.duration = 1.0;
+[theLayer addAnimation:fadeAnim forKey:@"opacity"];
+
+// Change the actual data value in the layer to the final value.
+theLayer.opacity = 0.0;
+```
+
+###关键帧动画(Keyframe animation)
+
+###Transition animation
+
 Core Animation提供了不少类供我们在应用中使用，下图反映了这些类的关系：   
 <div style="text-align:center" markdown="1">
 
@@ -133,8 +187,6 @@ Layer对象被组织在三维空间的二维表面上并且是你和Core Animati
 当你为视图使能了图层支持，你创建的就是所谓的图层后备视图。在图层后备视图中，创建底层的图层对象和保持图层与视图同步是系统的责任。所有的iOS视图以及大多数OS X视图都是图层后备视图。然而，在OS X中，你也可以创建图层托管视图，它是自己为自己提供图层的视图。对于图层托管视图，AppKit提供了便利化的方法去管理图层，并不修改它来响应视图改变。
 
 Note:对于图层后备视图，推荐你任何时候都优先操作视图而不是图层。在iOS中，视图仅仅是图层外面的轻薄包装，所以通常你对图层的操作是能正常工作的。**但是iOS和OS X中都存在操作图层来代替视图时也许不能得到期望结果的地方。**任何可能之处，本文档都会指出这些陷阱并且尝试提供方法帮助你处理它们。
-
-**都有哪些地方呢？**
 
 除了关联你视图的图层，你也可以创建没有相应视图的图层对象。你可以将这些单独图层嵌入到你应用的其他图层中，包括那些有关联视图的图层。通常使用单独图层作为特定优化路径的一部分。例如，如果你想在多个地方使用同一张图片，你可以加载一次这张图片，把它和多个单独图层对象关联起来，然后把这些对象回到图层树上。每个图层都引用原图而不是在内存中创建自己的副本。
 

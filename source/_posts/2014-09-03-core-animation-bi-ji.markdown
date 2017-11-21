@@ -84,7 +84,148 @@ theLayer.opacity = 0.0;
 
 ###关键帧动画(Keyframe animation)
 
+属性动画是从开始值到结束值改变属性，关键帧动画对象可以线性或非线性指定一系列目标值。换句话说，就是我们可以更加细腻地控制动画，可以指定什么时间到达什么数据值。
+
+```
+// create a CGPath that implements two arcs (a bounce)
+CGMutablePathRef thePath = CGPathCreateMutable();
+CGPathMoveToPoint(thePath,NULL,74.0,74.0);
+CGPathAddCurveToPoint(thePath,NULL,74.0,500.0,
+                                   320.0,500.0,
+                                   320.0,74.0);
+
+CGPathAddCurveToPoint(thePath,NULL,320.0,500.0,
+                                   566.0,500.0,
+                                   566.0,74.0);
+
+CAKeyframeAnimation * theAnimation;
+
+// Create the animation object, specifying the position property as the key path.
+theAnimation=[CAKeyframeAnimation animationWithKeyPath:@"position"];
+theAnimation.path=thePath;
+theAnimation.duration=5.0;
+
+// Add the animation to the layer.
+[theLayer addAnimation:theAnimation forKey:@"position"];
+```
+
+那么怎么指定什么时间到达什么数据值呢？可以通过指定关键帧值和它的时间安排来完成。
+
+####指定关键帧值
+
+关键帧值是关键帧动画最重要的部分。这些值定义了动画执行路径的行为。主要方法通过一个包含对象的数组，但是对于包含 CGPoint 数据类型（例如图层的 anchorPoint 和 position）的值，可以用 CGPathRef 数据类型代替。  
+
+当指定数组时，它里面的内容取决于属性必须的数据类型。你可以直接添加某些对象到数组中；但是某些对象在添加前必须转换为 id ,所有标量类型和结构体必须用对象包裹。例如：
+
+* 对于接受 CGRect 的属性（例如 bounds 和 frame 属性），用 NSValue 包裹每个矩形。
+* 对于图层的 transform 属性，用 NSValue 包裹每个 CATransform3D 矩阵。关键帧动画会轮流应用每个变换矩阵来动画这个属性。
+* 对于 borderColor 属性，添加到数组前将每个 CGColorRef 数据类型转换成 id 类型。
+* 对于接受 CGFloat 的属性，用 NSNumber 包裹每个值。
+* 当动画图层的 contents 属性时，指定一个 CGImageRef 数组。
+
+对于接受 CGPoint 数据类型的属性，你可以创建一个 points 数组或者你可以使用 CGPathRef 对象来指定跟随的路径。当你指定一个点的数组，关键帧动画对象在两点间绘制一条直线并跟随路径。当指定一个 CGPathRef 对象，动画从路径的起点开始并跟随它的轮廓，包括任意曲线表面。你可以使用开环或闭环路径。
+
+####指定关键帧动画的时间安排
+
+关键帧动画的时间安排和节奏比简单动画要更加复杂，你可以使用多个属性来控制它：
+
+* calculationMode 属性定义了用来计算动画时间安排的算法。它的值影响如何使用其他时间安排相关属性。
+
+	* Linear 和 cubic 动画的 calculationMode 被设置为 kCAAnimationLinear 或 kCAAnimationCubic，使用提供的时间安排信息来产生动画。这些模式给你对动画时间安排最大的控制。
+	
+	* Paced 动画的 calculationMode 被设置为 kCAAnimationPaced 和 kCAAnimationCubicPaced。它不依赖 keyTimes 或 timingFunctions 属性提供外部的时间安排值。相反，是用一个常量速度隐式计算时间安排值提供给动画。
+	
+	* Discrete 动画的 calculationMode 被设置为 kCAAnimationDiscrete ,动画的属性从一个关键帧值跳跃到另一个值而不会有任何插值。该计算模式使用 keyTimes 属性中的值但是忽略 timingFunctions 属性。
+	
+* keyTimes 属性指定应用到每个关键帧值的时间标记。只有计算模式为 kCAAnimationLinear, kCAAnimationDiscrete, 或 kCAAnimationCubic 时才使用该属性。 Paced 动画不使用。
+
+* timingFunctions 属性指定每段关键帧动画使用的时间安排曲线。（该属性替换继承的 timingFunctions 属性）如果你想自己处理动画时间安排，使用 kCAAnimationLinear 或 kCAAnimationCubic 模式， keyTimes 和 timingFunctions 属性。keyTimes 定义每个关键帧值的时间点。timing functions 控制所有的中间时间值，它允许你对每段应用 ease-in 或 ease-out 曲线。如果你不指定任何时间安排函数，时间安排就是线性的。
+
 ###Transition animation
+
+Transition 动画对象为图层创建动画的可视过渡。它最常见的用途是展示一个图层的同时隐藏另一个图层。和只改变图层一个属性的基于属性的动画不同，过渡动画操纵图层缓存的图片来创建可视效果，这对于改变动画属性很难或者不可能。标准类型的过渡可以让执行 reveal，push，move，或者 crossfade 动画。在 OS X 上，你也可以使用 Core Image filters 来创建过渡，它使用其他的效果，例如 wipes, page curls, ripples 或者你设计的自定义效果。
+
+你可以创建 CATransition 对象并添加到过渡相关的图层上来执行过渡动画。使用 transition 对象来指定过渡的类型以及动画的开始和结束点。你并不需要使用完整的过渡动画。 动画时 transition 对象让你指定使用的开始和结束进度值。这些值让你可以在中间开始或结束动画。
+
+```
+CATransition* transition = [CATransition animation];
+transition.startProgress = 0;
+transition.endProgress = 1.0;
+transition.type = kCATransitionPush;
+transition.subtype = kCATransitionFromRight;
+transition.duration = 1.0;
+
+// Add the transition animation to both layers
+[myView1.layer addAnimation:transition forKey:@"transition"];
+[myView2.layer addAnimation:transition forKey:@"transition"];
+
+// Finally, change the visibility of the layers.
+myView1.hidden = YES;
+myView2.hidden = NO;
+```
+
+###动画组
+
+上面我们看到都是单个的动画，有的时候我们可能相同时执行多个动画，Core Animation 提供了两种方法：一是 CAAnimationGroup；二是嵌套 transition；
+
+用 CAAnimationGroup 同时执行两个动画：
+
+```
+// Animation 1
+CAKeyframeAnimation* widthAnim = [CAKeyframeAnimation animationWithKeyPath:@"borderWidth"];
+NSArray* widthValues = [NSArray arrayWithObjects:@1.0, @10.0, @5.0, @30.0, @0.5, @15.0, @2.0, @50.0, @0.0, nil];
+widthAnim.values = widthValues;
+widthAnim.calculationMode = kCAAnimationPaced;
+
+// Animation 2
+CAKeyframeAnimation* colorAnim = [CAKeyframeAnimation animationWithKeyPath:@"borderColor"];
+NSArray* colorValues = [NSArray arrayWithObjects:(id)[UIColor greenColor].CGColor,
+            (id)[UIColor redColor].CGColor, (id)[UIColor blueColor].CGColor,  nil];
+colorAnim.values = colorValues;
+colorAnim.calculationMode = kCAAnimationPaced;
+
+// Animation group
+CAAnimationGroup* group = [CAAnimationGroup animation];
+group.animations = [NSArray arrayWithObjects:colorAnim, widthAnim, nil];
+group.duration = 5.0;
+
+[myLayer addAnimation:group forKey:@"BorderChanges"];
+```
+
+嵌套显式过渡动画
+
+```
+[CATransaction begin]; // Outer transaction
+
+// Change the animation duration to two seconds
+[CATransaction setValue:[NSNumber numberWithFloat:2.0f]
+                forKey:kCATransactionAnimationDuration];
+// Move the layer to a new position
+theLayer.position = CGPointMake(0.0,0.0);
+
+[CATransaction begin]; // Inner transaction
+
+// Change the animation duration to five seconds
+[CATransaction setValue:[NSNumber numberWithFloat:5.0f]
+                 forKey:kCATransactionAnimationDuration];
+
+// Change the zPosition and opacity
+theLayer.zPosition=200.0;
+theLayer.opacity=0.0;
+
+[CATransaction commit]; // Inner transaction
+
+[CATransaction commit]; // Outer transaction
+```
+
+###图层自定义属性的动画
+
+上面提到的动画都是针对图层的可动画属性的，Core Animation 也支持给自定义属性添加动画。
+
+CAAnimation 和 CALayer 类扩展了 key-value coding 惯例来支持自定义属性。你可以用这种行为添加数据到图层然后通过你定义的键获取它。你甚至可以关联你的自定义属性的 actions，这样你改变属性时会执行相应的动画。
+
+
+### Core Animation 主要类和协议的关系
 
 Core Animation提供了不少类供我们在应用中使用，下图反映了这些类的关系：   
 <div style="text-align:center" markdown="1">
@@ -107,129 +248,10 @@ CAAnimation类还定义了一个动画的timing作为CAMediaTimingFunction的实
 
 * CAAnimationGroup允许一个数组的动画对象成一组，同时运行。   
 
-从上述介绍来看，我们日常使用Core Animation就主要和CABasicAnimation, CAKeyframeAnimation, CATransition以及CAAnimationGroup打交道了。在使用它们之前，我们要掌握一些基础知识。
-
-###Core Animation 基础
-
-Core Animation本身不是绘画系统。它是在硬件中合成和操作你应用内容的基础。这个基础的核心是layer对象，它用来管理和操作你应用的内容。layer捕获你的内容到一个bitmap中，这样它很容易被图形硬件操作。在大多数应用中，layers是视图管理内容的一种方法，但是你也可以根据你的需要创建单独的layer。
-
-####Layer提供绘图和动画的基础    
-Layer对象被组织在三维空间的二维表面上并且是你和Core Animation任何交互的核心。像视图，layer管理着它们表面关于几何位置，内容，和可视属性的信息。和视图不同，layer不定义他们自己的外观。layer仅仅管理围绕位图的状态信息。位图自己可以是视图绘制自身的结果，或者是你指定的图片。因为这个原因，你在应用中使用的主图层被认为是模型对象，因为他们主要管理数据。记住这个注解很重要，因为它影响动画的行为。
-
-#####基于图层的绘画模型
-
-你应用中的多数图层并不做任何最终的绘画。相反，图层捕获你应用提供的内容并将它们缓存在位图中，它们有时官能称为后备存储。当你随后改变图层的属性时，你所要做的是改变相应图层的状态信息。当改变触发动画，Core Animation传递图层的位图和状态信息到图形硬件，它用新的信息来渲染位图，像图1-1展示的的那样。在硬件上操作位图可以比软件得到更快的动画。
-
-图1-1，Core Animation是如何绘制内容的。
-<div style="text-align:center" markdown="1">
-<img name="basics_layer_rendering_2x" src="/images/basics_layer_rendering_2x.png" width="722" height="270">  
-</div>
-
-因为它是操作一张静态位图，所以基于图层的绘画和传统的基于视图的绘画技术有很大的不同。使用基于视图的绘画，视图自身的改变会导致视图的drawRect:方法被调用，它用新的参数重绘内容。但是这种绘画方式十分昂贵，因为它在主线程上用CPU完成的。Core Animation避免了这些开消通过尽可能的在硬件上操作缓存的位图来获得相同或相类似的效果。
-
-虽然Core Animation尽可能的使用缓存的内容，你的应用仍然必须提供初始内容并不停的更新它。有很多方法为你应用的图层对象提供内容，这会在Providing a Layer's Contendts中详细描述。
-
-
-#####基于图层的动画
-
-图层对象的数据和状态信息是解藕来自屏幕图层内容的可视表示。这种解藕给Core Animation一种方法去干预自己并产生从旧状态值到新状态值的动画。例如，改变图层的位置属性导致Core Animation把图层从当前位置移动到新指定的位置。类似其他属性的改变产生合适的动画。图1-2示例了一些你可以对图层应用的动画。触发动画的图层属性列表，见Animatable Properties。
-
-图1-2 你可以应用到图层的动画实例。
-
-<div style="text-align:center" markdown="1">
-
-<img name="basics_animation_types_2x" src="/images/basics_animation_types_2x.png" width="627" height="402">
-
-</div>
-
-在动画的过程中,Core Animation在硬件上进行一帧一帧绘画的所有工作。你所要做的是指定动画的起点和终点，让Core Animation做剩下的所有工作。你也可以按需要指定自定义的定时信息和动画参数。而且，如果你不提供，Core Animation会提供合适的默认值。
-
-####图层树反映动画状态的不同方面
-
-应用使用Core Animation拥有3套图层对象。每套图层在让你应用的内容出现在屏幕上均扮演不同的角色:  
-
-
-* 模型图层树（或简称图层树）上的对象是应用交互最多的。树上的模型对象存储着任何动画的目标值。任何时候你改变一个图层的属性，你就使用其中的一个对象。
-
-* 表示树上对象包含任何动画的过程值。它不仅包含动画的目标值，还反映屏幕上的当前值。你永远不应该修改这树上的对象。作为替代，你使用这些对象读取当前动画值，也许创建动画开始于某个值。
-
-* 渲染树执行最终的动画，它对Core Animation是私有的。
-
-每套图层对象都被组织成层级结构，就像应用的视图。实际上，对使能了所有视图的图层的应用，每棵树的结构都和视图的层级准备对应。但是，应用也可增加图层对象，图层并不需要和视图中的图层层级相关联。你也许会在优化你应用的内容表现的情境下这么做，它不需要叠加在视图上。图1-9展示了一个简单应用的图层分解。示例中的窗口包含一个内容视图，它自身包含一个按钮视图和两个单独的图层对象。每个视图都有相应的图层对象，它们形成图层层级。
-
-图1-9 窗口关联的图层
-
-<div style="text-align:center" markdown="1">
-
-<img name="sublayer_hierarchy_2x" src="/images/sublayer_hierarchy_2x.png" width="626" height="380" >
-
-</div>
-
-图层树上的每一个对象，表示树和渲染树上都有相对应的对象，就像图1-10看到的那样。前面提到过，应用主要和图层树上的对象交互，但是有时也会访问表示树上的对象。特别的，访问图层树对象的**presentationLayer**属性可以返回表示树上相应对象。你也许会想访问这些对象去获取动画运行中的当前属性值。
-
-图1-10 窗口的图层树
-
-<div style="text-align:center" markdown="1">
-
-<img name="sublayer_hierarchies_2x" src="/images/sublayer_hierarchies_2x.png" width="712" height="560" >
-
-</div>
-
-重要提醒：你应该只在动画运行中去访问表示树的对象。当动画在运行中，表示树包含出现在屏幕上的图层的瞬时值。这个行为和图层树是不同的，它只反映你代码设置的最终值，等于动画的最终状态。
-
-
-####图层和视图之间的关系
-
-图层不是用来替代你应用的视图的，你不能单独基于图层创建可视界面。图层为你的视图提供基础设施。特别地，图层让绘画更容易和高效，动画视图内容时维持高帧率。然而，有很多事情图层是做不了的。图层不处理事件，绘画内容，参与响应链，还有其他很多事情。出于这个原因，每个应用仍然要有一个或多个视图来处理这种交互。
-
-在iOS中，每个视图都已备份一个相应的图层对象，但是在OS X中，你必须决定哪些视图应该拥有图层。OS X v10.8及以后的版本，为你所有的视图增加图层可能是有意义的。然而，这么做不是必须的，你仍然可以在叠加到视图是不需要的地方禁止图层。图层某种程度上会增加你应用的内存使用，但是它的好处通常会多于坏处，所以在禁用图层之前测试应用的性能是最好的方法。
-
-当你为视图使能了图层支持，你创建的就是所谓的图层后备视图。在图层后备视图中，创建底层的图层对象和保持图层与视图同步是系统的责任。所有的iOS视图以及大多数OS X视图都是图层后备视图。然而，在OS X中，你也可以创建图层托管视图，它是自己为自己提供图层的视图。对于图层托管视图，AppKit提供了便利化的方法去管理图层，并不修改它来响应视图改变。
-
-Note:对于图层后备视图，推荐你任何时候都优先操作视图而不是图层。在iOS中，视图仅仅是图层外面的轻薄包装，所以通常你对图层的操作是能正常工作的。**但是iOS和OS X中都存在操作图层来代替视图时也许不能得到期望结果的地方。**任何可能之处，本文档都会指出这些陷阱并且尝试提供方法帮助你处理它们。
-
-除了关联你视图的图层，你也可以创建没有相应视图的图层对象。你可以将这些单独图层嵌入到你应用的其他图层中，包括那些有关联视图的图层。通常使用单独图层作为特定优化路径的一部分。例如，如果你想在多个地方使用同一张图片，你可以加载一次这张图片，把它和多个单独图层对象关联起来，然后把这些对象回到图层树上。每个图层都引用原图而不是在内存中创建自己的副本。
-
-
-###图层动画
-1)图层本身属性的动画可以通过CABasicAnimation和CAKeyframeAnimation添加；    
-2)图层自定义属性动画可以参看[Layer 中自定义属性的动画](http://objccn.io/issue-12-2/)。
-
-### 代码示例
-
-1. 当 CALayer 不是 UIView 后备图层时：
-
-```
-CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
-fadeAnim.fromValue = [NSNumber numberWithFloat:1.0];
-fadeAnim.toValue = [NSNumber numberWithFloat:0.0];
-fadeAnim.duration = 1.0;
-[theLayer addAnimation:fadeAnim forKey:@"opacity"];
-```
-
-2. 当 CALayer 是 UIView 后备图层时，因为 UIView 默认禁止了它的动画而在动画块中又重新使能，所以只能在动画块中执行相应的 Core Animation:
-
-```
-[UIView animateWithDuration:1.0 animations:^{
-   // Change the opacity implicitly.
-   myView.layer.opacity = 0.0;
- 
-   // Change the position explicitly.
-   CABasicAnimation* theAnim = [CABasicAnimation animationWithKeyPath:@"position"];
-   theAnim.fromValue = [NSValue valueWithCGPoint:myView.layer.position];
-   theAnim.toValue = [NSValue valueWithCGPoint:myNewPosition];
-   theAnim.duration = 3.0;
-   [myView.layer addAnimation:theAnim forKey:@"AnimateFrame"];
-}];
-```
-
-### @dynamic
-
-与 NSManagedObject 很类似， CALayer 具有为任何被声明的属性生成 dynamic 的 setter 和 getter 的能力。（Key-Value Coding Compliant Container Classes）
-
 ###Reference
 
 * Core Animation Programing Guide   
 * [动画解释](http://objccn.io/issue-12-1/)    
 * [Layer 中自定义属性的动画](http://objccn.io/issue-12-2/)
+
 

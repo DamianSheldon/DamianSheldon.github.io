@@ -224,6 +224,13 @@ theLayer.opacity=0.0;
 
 CAAnimation 和 CALayer 类扩展了 key-value coding 惯例来支持自定义属性。你可以用这种行为添加数据到图层然后通过你定义的键获取它。你甚至可以关联你的自定义属性的 actions，这样你改变属性时会执行相应的动画。
 
+### 停止显式动画
+
+停止显式动画有两种方法：
+
+* 调用图层的 `removeAnimationForKey:` 方法移除你的动画对象，可以从图层移除单个动画对象。该方法使用的是传入 `addAnimation:forKey:` 方法的键来标识动画。你指定的键不能为 nil.  
+
+* 调用图层的 `removeAllAnimations` 方法可以从图层移除所有的动画对象。该方法立即移除所有进行的动画并用当前的状态信息重绘图层。  
 
 ### Core Animation 主要类和协议的关系
 
@@ -233,20 +240,6 @@ Core Animation提供了不少类供我们在应用中使用，下图反映了这
 <img name="animations_info_2x" src="/images/animations_info_2x.png" width="552" height="446">  
 
 </div>
-
-* CAAnimation是所有动画子类的抽象类。CAAnimation实现了CAMediaTiming协议，它为动画提供duration, speed和repeat count。CAAnimation还实现了CAAction协议，协议提供标准的方法为开始一个动画去响应由layer触发的动作。   
-
-CAAnimation类还定义了一个动画的timing作为CAMediaTimingFunction的实例。timing函数像简单的Bezier曲线那样描述动画的步调。线性timing function指定动画在整个动画周期内的步调是一致,而ease-in timing function导致动画在开始时会加速。   
-
-* CAPropertyAnimation是CAAnimation的一个抽象子类，它为指定key path去动画layer属性提供支持。   
-
-* CABasicAnimation是CAPropertyAnimation的子类，它为layer的属性提供简单的插值。    
-
-* CAKeyframeAnimation(CAPropertyAnimation的子类)提供关键帧动画支持。你指定要动画的layer属性的key path,数组中的值代表动画每个阶段的值，就像一个包含key frame time和timing function的数组。当动画运行时，数组中的值依次用来插值。    
-
-* CATransition提供可以影响整个layer内容的变换效果。当动画时它褪色，推出，或显示layer的内容。在OS X上，股票变化效果可以通过提供你自定义的Core Image filters来扩展。   
-
-* CAAnimationGroup允许一个数组的动画对象成一组，同时运行。   
 
 ###Reference
 

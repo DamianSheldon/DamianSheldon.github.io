@@ -226,6 +226,25 @@ CAAnimation 和 CALayer 类扩展了 key-value coding 惯例来支持自定义�
 
 如果你想用 `actionForLayer:forKey:` 提供自定义属性相关的 action，不要实现相应的 setter 方法，不然会导致 `actionForLayer:forKey:` 不被调用。
 
+如果想通过 style 字典提供自定义属性相关的 action，可以这么做：
+
+```
+- (id)init
+{
+    if ((self = [super init])) {
+        
+        NSMutableDictionary *style = [NSMutableDictionary dictionaryWithDictionary:self.style];
+
+        NSDictionary *action = @{ClockFaceTimeKey: self.rotationAction};
+
+        [style setObject:action forKey:@"actions"];
+        
+        self.style = style;
+    }
+    return self;
+}
+```
+
 ### 停止显式动画
 
 停止显式动画有两种方法：

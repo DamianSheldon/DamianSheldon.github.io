@@ -224,6 +224,8 @@ theLayer.opacity=0.0;
 
 CAAnimation 和 CALayer 类扩展了 key-value coding 惯例来支持自定义属性。你可以用这种行为添加数据到图层然后通过你定义的键获取它。你甚至可以关联你的自定义属性的 actions，这样你改变属性时会执行相应的动画。
 
+如果你想用 `actionForLayer:forKey:` 提供自定义属性相关的 action，不要实现相应的 setter 方法，不然会导致 `actionForLayer:forKey:` 不被调用。
+
 ### 停止显式动画
 
 停止显式动画有两种方法：

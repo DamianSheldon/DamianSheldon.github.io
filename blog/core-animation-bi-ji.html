@@ -465,6 +465,38 @@ $(document).ready(
 
 <p>如果你想用 <code>actionForLayer:forKey:</code> 提供自定义属性相关的 action，不要实现相应的 setter 方法，不然会导致 <code>actionForLayer:forKey:</code> 不被调用。</p>
 
+<p>如果想通过 style 字典提供自定义属性相关的 action，可以这么做：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (id)init
+</span><span class='line'>{
+</span><span class='line'>    if ((self = [super init])) {
+</span><span class='line'>        
+</span><span class='line'>        NSMutableDictionary *style = [NSMutableDictionary dictionaryWithDictionary:self.style];
+</span><span class='line'>
+</span><span class='line'>        NSDictionary *action = @{ClockFaceTimeKey: self.rotationAction};
+</span><span class='line'>
+</span><span class='line'>        [style setObject:action forKey:@"actions"];
+</span><span class='line'>        
+</span><span class='line'>        self.style = style;
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>停止显式动画</h3>
 
 <p>停止显式动画有两种方法：</p>

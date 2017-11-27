@@ -257,4 +257,5 @@ static CGSize _extraMargins = {0,0};
 例子的代码放在GitHub的[Cocoanetics Examples](https://github.com/Cocoanetics/Examples) 仓库中。
 
 ###原文
-http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/
+[Variable-Sized Items in UICollectionView](http://www.cocoanetics.com/2013/08/variable-sized-items-in-uicollectionview/)
+

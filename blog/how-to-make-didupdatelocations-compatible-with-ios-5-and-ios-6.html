@@ -123,23 +123,24 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</h2>
-	<div class="entry-content"><p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
-当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+	<div class="entry-content"><p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code> 是CLLocationManagerDelegate protocol 中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在 newLocation 中，它是一个 CLLocation.</p>
 
-<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+<p>当 iOS 6 启动，上述方法被废弃了，建议使用新版本方法 <code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code> 或简称<code>locationManager:didUpdateLocations:</code>.</p>
+
+<p>这个快速教程的的目的是解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的 <code>locationManager:didUpdateLocations:</code> 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
 
 <h3>当方法被废弃了</h3>
 
-<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+<p>当 iOS 升级了（这会经常发生），Apple 找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到 CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的 iOS 版本中，Apple 在未来某个时间点也许会删除掉这个方法当 iOS 升级了。在那个时间点，你可能需要修改你的代码，提交到 Apple Store 通过审核流程。</p>
 
 <!-- more -->
 
 
 <h3>如何处理废弃的方法</h3>
 
-<p>已经被废弃的方法在新的iOS版本上仍然可以工作。Apple趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
+<p>已经被废弃的方法在新的 iOS 版本上仍然可以工作。Apple 趋向于让它们在未来的几个新版本中保持可用，然后再将它们从类或协议中删除。与其让你的代码在最后关头更新或重新提交到苹果商店。你可以在改变之前做好准备。</p>
 
-<p>今天的例子，我们会看下 locationManager:didUpdateToLocation:fromLocation:方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。</p>
+<p>今天的例子，我们会看下 <code>locationManager:didUpdateToLocation:fromLocation:</code> 方法以及如何让旧的废弃方法和新的方法在同一份代码中共同工作。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -195,13 +196,13 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>如果是iOS5，新的方法不会被调用，它就像自定义的方法，iOS5并不知道locationManager:didUpdateLocations:事实上是什么。旧的方法简单的alloc/init新的名为currentLocation的NSArray并且使用 initWithObjects:newLocation获取一个newLocation,然后NSArray作为信息被传递到locationManager新的方法。</p>
+<p>如果是 iOS 5，新的方法不会被调用，它就像自定义的方法，iOS 5 并不知道<code>locationManager:didUpdateLocations:</code> 事实上是什么。旧的方法简单的 alloc/init 新的名为 currentLocation 的 NSArray 并且使用 <code>initWithObjects:newLocation</code> 获取一个 <code>newLocation</code>, 然后NSArray作为信息被传递到 <code>locationManager</code> 新的方法。</p>
 
-<p>总之，如果设备是iOS5,旧的方法locationManager:didUpdateToLocation:fromLocation: 告诉代理新的位置可用，它把CLLocation加到NSArray中传递给新的方法，但设备的操作系统并不知道新方法。</p>
+<p>总之，如果设备是 iOS 5,旧的方法 <code>locationManager:didUpdateToLocation:fromLocation:</code> 告诉代理新的位置可用，它把 CLLocation 加到 NSArray 中传递给新的方法，但设备的操作系统并不知道新方法。</p>
 
-<p>如果使用的是iOS6,我们从CLLocationManagerDelegate的头文件中了解到如果代码中既有旧方法又有新方法，那么iOS会调用新方法通知代理位置更新了。</p>
+<p>如果使用的是 iOS 6,我们从 CLLocationManagerDelegate 的头文件中了解到如果代码中既有旧方法又有新方法，那么 iOS 会调用新方法通知代理位置更新了。</p>
 
-<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和关文件，因为Apple添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
+<p>虽然这个快速教程提供了一种处理废弃方法的办法，仍然会有其他很多不同的办法。另外，多查看文档和头文件，因为 Apple 添加了很多信息，它们很有可能会为你手头的任务提供解决办法。</p>
 
 <h3>原文</h3>
 

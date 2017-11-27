@@ -303,14 +303,15 @@ o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-u
 			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
 	</h2>
 	<div class="entry-content">
-		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code>是CLLocationManagerDelegate protocol中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在newLocation中，它是一个CLLocation.<br/>
-当iOS6启动，上述方法被废弃了，建议使用新版本方法<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>或简称locationManager:didUpdateLocations:.</p>
+		<p><code>- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation</code> 是CLLocationManagerDelegate protocol 中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在 newLocation 中，它是一个 CLLocation.</p>
 
-<p>这个快速教程的的创建目的是为了解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的locationManager:didUpdateLocations: 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
+<p>当 iOS 6 启动，上述方法被废弃了，建议使用新版本方法 <code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code> 或简称<code>locationManager:didUpdateLocations:</code>.</p>
+
+<p>这个快速教程的的目的是解释如何处理废弃方法，关于它什么是应该完成的以及你在哪里可以找出关于改变的更多细节。如果你想了解如何使用这个新的 <code>locationManager:didUpdateLocations:</code> 方法，看下<a href="http://www.devfright.com/didupdatelocations-ios-example/">didUpdateLocations tutorial</a>，它解释了如何使用方法提供的NSArray.</p>
 
 <h3>当方法被废弃了</h3>
 
-<p>当iOS升级了（这很经常），Apple找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的iOS版本中，Apple在未来某个时间点也许会删除掉这个方法当iOS升级了。在那个时间点，你可能需要修改你的代码，提交到Apple Store通过审核流程。</p>
+<p>当 iOS 升级了（这会经常发生），Apple 找到新的或更有效方法。当这发生了，方法可以被标记为废弃并在如何使用的地方给出一个提示。具体到 CLLocationManagerDelegate，你可以看到文档中推荐了一个不同的方法。虽然你仍然可以使用废弃的方法，即使是在已经废弃的 iOS 版本中，Apple 在未来某个时间点也许会删除掉这个方法当 iOS 升级了。在那个时间点，你可能需要修改你的代码，提交到 Apple Store 通过审核流程。</p>
 
 
 		

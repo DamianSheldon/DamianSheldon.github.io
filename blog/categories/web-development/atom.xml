@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-12-25T15:56:45+08:00</updated>
+  <updated>2018-01-04T10:17:14+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-two.html"/>
+    <updated>2018-01-04T10:08:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-two</id>
+    <content type="html"><![CDATA[<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
+
+<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
+
+<pre><code>&gt;jQuery.browser() removed
+
+&gt;The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+
+&gt;— jQuery Core 1.9 Upgrade Guide.
+</code></pre>
+
+<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
+
+<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
+
+<p>A:To include http-servlet into your class path, you have two options:</p>
+
+<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
+2. Another option is include the servlet dependency through maven itself. This will also fix the error.
+</code></pre>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+    &lt;version&gt;2.5&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(一)]]></title>
@@ -337,7 +376,7 @@ Options Indexes
 }
 </code></pre>
 
-<h3>14. 站内搜索引擎代码</h3>
+<h3>15. 站内搜索引擎代码</h3>
 
 <p>A:</p>
 
@@ -373,23 +412,9 @@ Options Indexes
 <!--Yahoo站内搜索结束-->
 
 
-<pre><code>
-Reference:[站内搜索引擎代码](http://www.amznz.com/zhannei-sousuodaima/)  
+<p>```</p>
 
-###15.Uncaught TypeError: Cannot read property 'msie' of undefined
-A:The $.browser method has been removed as of jQuery 1.9.
-</code></pre>
-
-<blockquote><p>jQuery.browser() removed</p>
-
-<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
-
-<p>— jQuery Core 1.9 Upgrade Guide.
-```</p></blockquote>
-
-<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
+<p>Reference:<a href="http://www.amznz.com/zhannei-sousuodaima/">站内搜索引擎代码</a></p>
 ]]></content>
   </entry>
   

@@ -127,6 +127,60 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-specify-a-resolution-for-output-video.html">
+		
+			输出自定义尺寸视频</a>
+	</h2>
+	<div class="entry-content">
+		<p>最近要做的一个项目中要拍摄视频，于是就开始来研究视频。看了几遍 AVFoundation Programming Guide 之后也写了个 Demo，把基本功能都过了一遍。这其中有意思的一件事情是我发现微信拍摄短视频的尺寸是 540x944, 这尺寸很奇怪，不是任何一个预设值。不清楚微信为什么用这么一个尺寸，但我想搞清楚怎么输出自定义尺寸的视频。</p>
+
+<p>AVFoundation 捕获数据输出时，各组件的关系如下：</p>
+
+<div style="text-align:center" markdown="1">
+                                                                                           <img name="Capture Detail" src="/images/captureDetail_2x.png">
+                                                                                        </div>
+
+
+<p>要想输出自定义尺寸的视频，我们可以从输入端和输出端着手。但是从文档来看，并没有提供可以自定捕获尺寸的方法，所以只能从输出端着手。</p>
+
+
+		
+		<a href="/blog/how-to-specify-a-resolution-for-output-video.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-04-10T10:12:09+08:00" pubdate data-updated="true">10 Apr 2017</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/notes-of-using-avfoundation.html">
 		
 			AVFoundation 使用笔记</a>
@@ -284,95 +338,6 @@ $(document).ready(
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html">
-		
-			Android 真机抓包</a>
-	</h2>
-	<div class="entry-content">
-		<p>在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。</p>
-
-<p>如果我们和服务端的交互没有通过 VPN, 而且也不是视频流这种网络性能要求苛刻的情况，我们可以通过 tPacketCapture 这种应用来抓包；</p>
-
-<p>其他情况我们可以通过 root 手机，然后安装 tcpdump 来抓包。</p>
-
-<p>下面我们详细介绍下 通过 tcpdump 抓包这种方法：</p>
-
-<ul>
-<li>Root 手机</li>
-</ul>
-
-
-<p>Root 手机的原理是利用系统存在的漏洞来获得 root 权限，<a href="https://forum.xda-developers.com/">XDA Developers</a> 上有不少 root 工具，很多手机都可以用它们 root。</p>
-
-<ul>
-<li>安装 tcpdump</li>
-</ul>
-
-
-<p>可以到网上搜索为 Android 编译好的 tcpdump 二进制包，例如<a href="http://www.strazzere.com/android/tcpdump">这里</a>就有一个。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy tcpdump to device
-</span><span class='line'>$ adb -d push /path/to/tcpdump /sdcard/tcpdump
-</span><span class='line'>
-</span><span class='line'>// Device shell
-</span><span class='line'>$ adb -d shell
-</span><span class='line'>
-</span><span class='line'>// Switch to root
-</span><span class='line'>$ su
-</span><span class='line'>
-</span><span class='line'>// Copy tcpdump to /data/local/
-</span><span class='line'># cat /sdcard/tcpdump /data/local/tcpdump</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-03-11T17:04:33+08:00" pubdate data-updated="true">11 Mar 2017</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
 <nav id="pagenavi">
     
         <a href="/posts/2" class="prev">Prev</a>
@@ -383,7 +348,7 @@ $(document).ready(
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2017
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2018
 
     Sheldon
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-12-25T15:56:45+08:00</updated>
+  <updated>2018-01-04T10:17:14+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-two.html"/>
+    <updated>2018-01-04T10:08:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-two</id>
+    <content type="html"><![CDATA[<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
+
+<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;jQuery.browser() removed
+</span><span class='line'>
+</span><span class='line'>&gt;The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+</span><span class='line'>
+</span><span class='line'>&gt;— jQuery Core 1.9 Upgrade Guide.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
+
+<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
+
+<p>A:To include http-servlet into your class path, you have two options:</p>
+
+<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
+2. Another option is include the servlet dependency through maven itself. This will also fix the error.
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;2.5&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to setup an L2TP/IPsec VPN on Debian 8]]></title>
@@ -6441,164 +6490,6 @@ To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p
 
 <p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8</a>
 <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Technical Interview Part 3]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-3.html"/>
-    <updated>2016-02-25T18:43:44+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-3</id>
-    <content type="html"><![CDATA[<h3>1.Difference between categories and extensions?</h3>
-
-<p>A:There are two difference beween categories and extensions:</p>
-
-<ol>
-<li>The extension has no name;</li>
-<li>The implementation of the extension must be in the main @implementation block of the file.</li>
-</ol>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
-
-<h3>2.What is advantage of category?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>You can add method to existing class even to that class whose source is not available to you.</li>
-<li>You can extend functionality of a class without subclassing.</li>
-<li>You can split implementation in multiple classes.</li>
-</ul>
-
-
-<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
-
-<h3>3.What are KVO and KVC?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
-Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
-
-<p>Reference:Cocoa Core Competencies</p>
-
-<!-- more -->
-
-
-<h3>4.Difference between shallow copy and deep copy?</h3>
-
-<p>A:
-The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):</p>
-
-<p>A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
-A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm</a></p>
-
-<h3>5.When retain count increase?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>When you create an object;</li>
-<li>When you send an object retain message;</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases</a></p>
-
-<h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
-
-<p>A: Yes, there is a autorelease pool already provided to us.</p>
-
-<h3>7.When you will create an autorelease pool in your application?</h3>
-
-<p>A:There are three occasions when you might use your own autorelease pool blocks:</p>
-
-<ul>
-<li>If you are writing a program that is not based on a UI framework, such as a command-line tool.</li>
-<li><p>If you write a loop that creates many temporary objects.
-You may use an autorelease pool block inside the loop to dispose of those objects   before the next iteration. Using an autorelease pool block in the loop helps to  reduce the maximum memory footprint of the application.</p></li>
-<li><p>If you spawn a secondary thread.
-You must create your own autorelease pool block as soon as the thread begins executing; otherwise, your application will leak objects.</p></li>
-</ul>
-
-
-<h3>8.How many autorelease pool you can create in your application? Is there any limit?</h3>
-
-<p>A: You can create autorelease pool as much as possible, there is no limit.</p>
-
-<h3>9.What is purpose of delegates?</h3>
-
-<p>A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.</p>
-
-<h3>10.What is difference between NSNotification and protocol?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Protocol is To-one Relationships; NSNotification is To-many Relationships.</li>
-<li>Protocol support bidirectional data-transfer between two classes.</li>
-</ul>
-
-
-<h3>11.Polymorphism？</h3>
-
-<p>A: The ability of different objects to respond, each in its own way, to identical messages is called polymorphism.</p>
-
-<h3>12.Singleton?</h3>
-
-<p>A:A singleton class returns the same instance no matter how many times an application requests it.</p>
-
-<h3>13.Give us example of what are delegate methods and what are data source methods of UITableView?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Delegate methods
-</span><span class='line'>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-</span><span class='line'>- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-</span><span class='line'>- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-</span><span class='line'>
-</span><span class='line'> // Data source methods
-</span><span class='line'> - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-</span><span class='line'> - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;
-</span><span class='line'> - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>14.What are mutable and immutable types in Objective C?</h3>
-
-<p>A:A mutable object can be mutated or changed. An immutable object cannot.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable</a></p>
-
-<h3>15.When to use NSMutableArray and when to use NSArray?</h3>
-
-<p>A:When collection will mutable you should use NSMutableArray, otherwise use NSArray.</p>
-
-<h3>16.What is convenience constructor?</h3>
-
-<p>A:A convenience constructor is one that performs object allocation &amp; initialization in one step &amp; returns an autoreleased object to the caller.</p>
-
-<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor</a></p>
-
-<h3>17.What is responder chain?</h3>
-
-<p>A:The responder chain is a series of linked responder objects.</p>
-
-<h3>18.What is push notification?</h3>
-
-<p>A:Apple Push Notification service (APNs for short) is the centerpiece of the remote notifications feature. It is a robust and highly efficient service for propagating information to iOS and OS X devices. Each device establishes an accredited and encrypted IP connection with the service and receives notifications over this persistent connection. If a notification for an app arrives when that app is not running, the device alerts the user that the app has data waiting for it.</p>
 ]]></content>
   </entry>
   

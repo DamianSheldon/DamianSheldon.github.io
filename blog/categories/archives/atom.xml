@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2017-12-25T15:56:45+08:00</updated>
+  <updated>2018-01-04T10:17:14+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-two.html"/>
+    <updated>2018-01-04T10:08:36+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-two</id>
+    <content type="html"><![CDATA[<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
+
+<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
+
+<pre><code>&gt;jQuery.browser() removed
+
+&gt;The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+
+&gt;— jQuery Core 1.9 Upgrade Guide.
+</code></pre>
+
+<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
+
+<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
+
+<p>A:To include http-servlet into your class path, you have two options:</p>
+
+<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
+2. Another option is include the servlet dependency through maven itself. This will also fix the error.
+</code></pre>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+    &lt;version&gt;2.5&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to setup an L2TP/IPsec VPN on Debian 8]]></title>
@@ -620,67 +659,6 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 <li><a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android 开发问题汇总(四)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-4.html"/>
-    <updated>2017-05-14T16:56:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-4</id>
-    <content type="html"><![CDATA[<h3>1.怎么给 Button 加上圆角?</h3>
-
-<p>A:Create an xml inside Drawable Folder with below code. Name it rounded_red_border.xml</p>
-
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle"&gt;
-
-// The width and color of the border   
- &lt;stroke
-        android:width="4dp"
-        android:color="#de3d3d" /&gt;
-
-// The desired corner radius. reduce it to keep it less rounded
-    &lt;corners android:radius="360dp" /&gt;
-
-// Add your desired padding
-    &lt;padding
-        android:left="20dp"
-        android:top="10dp"
-        android:right="20dp"
-        android:bottom="10dp"    &gt;
-    &lt;/padding&gt;
-
-&lt;/shape&gt;
-</code></pre>
-
-<p>Applying the border to a Layout or View</p>
-
-<p>Set the above drawable as a background to your Layout or View like LinearLayout, FrameLayout, TextView, Button etc.</p>
-
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"&gt;
-
-
-// Apply as the background of TextView
-&lt;TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="YOUR TEXT"
-    android:textSize="20dp"
-    android:textStyle="bold"
-    android:background="@drawable/rounded_red_border"
-    android:textColor="#000"
-    android:layout_centerInParent="true"/&gt;
-
-
-&lt;/RelativeLayout&gt;
-</code></pre>
-
-<p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
 ]]></content>
   </entry>
   

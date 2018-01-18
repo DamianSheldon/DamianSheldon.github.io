@@ -117,6 +117,22 @@ include /etc/ipsec.d/*.conf
 paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
  ```
 
+为了能通过 VPN 访问整个互联网，还需要提供一些 NAT 规则:
+
+```
+# Note: you should replace $INTERNET_INTERFACE with your internet facing interface.
+# Note: this line handles maquerade for both 10.231.246.0/24 and 10.231.247.0/24
+
+iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o $INTERNET_INTERFACE -m policy --dir out --pol none -j MASQUERADE
+
+```
+
+我的外网网卡是 eth0，所以我执行命令：
+
+```
+#iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o eth0 -m policy --dir out --pol none -j MASQUERADE
+```
+
 使用 `ipsec restart` 重启，可以使用 `ipsec barf | tac | head -n 100` 查看服务日志，检查连接是否有问题。
 
 ## iPhone 客户端配置

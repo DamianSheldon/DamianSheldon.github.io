@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "iOS Technical Interview Part 2"
+title: "iOS  面试题汇总(二)"
 date: 2016-02-25 16:54:55 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS
 discription: 
 ---
-1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
+###1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
 	A:
 	
 	* Write Serialization(not general thread safety): nonatomic atomic (default)
@@ -15,14 +15,14 @@ discription:
 	* API Contron :getter = methodname setter = mehtodname:
 	* Memory Management: copy strong (default) weak unsafe_unretained assign
 
-2. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？  
+###2. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？  
 	A: 
 	
 	* Write Serialization: atomic
 	* Mutability: readwrite
 	* Memory Management: assign(non-object) strong(object)
 	
-3. 什么情况使用 weak 关键字，相比 assign 有什么不同？  
+###3. 什么情况使用 weak 关键字，相比 assign 有什么不同？  
 	A:
 	什么情况使用 weak 关键字？
 	
@@ -35,10 +35,10 @@ discription:
 	* weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。
 <!-- more -->
 
-4. weak属性需要在dealloc中置nil么？  
+###4. weak属性需要在dealloc中置nil么？  
 	A: 不需要，因为 weak 属性不影响对象的引用计数。
 
-5. 用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？
+###5. 用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？
 	
 	* 对非集合类对象的copy操作
 	* 集合类对象的copy与mutableCopy
@@ -99,25 +99,25 @@ discription:
 	
 	```
 	
-6. 这个写法会出什么问题： @property (copy) NSMutableArray *array?  
+###6. 这个写法会出什么问题： @property (copy) NSMutableArray *array?  
 	A:问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；
 	问题二：如果是开发 iOS 程序，这会影响性能。
 
-7. 怎么用 copy 关键字？  
+###7. 怎么用 copy 关键字？  
 	A:声明为属性的类遵守 NSCopying 协议，而且我们希望设置新值时保存一份自己的拷贝。
 
-8. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？  
+###8. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？  
 	A:
 	> Any object that you wish to set for a copy property must support NSCopying, which means that it should conform to the NSCopying protocol.
 	> Only classes that define an “immutable vs. mutable” distinction should adopt this protocol. 
 
-9. protocol 和 category 中如何使用 @property?  
+###9. protocol 和 category 中如何使用 @property?  
 	A:
 	
 	* protocol 使用 property 和 class 类似，只是 protocol 的 property 只会生成相应 getter 和 setter 方法声明，遵守协议的类需要实现相应的 getter 和 setter 方法；
 	* category 使用 property 和 class 有点区别，主要原因是 category 不支持添加实例变量，所以 category 中可以声明组合已有类 property 的 readonly 修饰的便捷 property；或者通过关联引用来辅助实现 getter 和 setter 方法。
 
-10. @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?  
+###10. @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?  
 	A:@property 的本质是什么？
 		@property = ivar + getter + setter;
 	
@@ -125,17 +125,17 @@ discription:
 	“自动合成”( autosynthesis)
 	完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。
 
-11. @synthesize和@dynamic分别有什么作用？  
+###11. @synthesize和@dynamic分别有什么作用？  
 	A: 
 	* @synthesize 是告诉编译器怎么去合成相应属性的 getter 和 setter 方法；
 	* @dynamic 告诉编译器属性的 setter 与 getter 方法由用户自己实现，不自动合成。
 
-12. 在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？  
+###12. 在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？  
 	A:
 	* 自定义自动合成的实例变量的名称；
 	* 自动合成协议中声明 getter 和 setter 方法。
 
-13. @synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？  
+###13. @synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？  
 	A:
 	@synthesize合成实例变量的规则是什么？
 	假设声明了propertyname的属性，默认会合成_propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。
@@ -143,52 +143,57 @@ discription:
 	假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
 	不会。
 	
-14. ARC通过什么方式帮助开发者管理内存？  
+	这里还可以引伸，我们知道默认情况下编译器会为自动合成实例变量，那么当开发者也参与到存取方法的实现中来时，自动合成实例变量又会遵循怎样的规则？  
+	
+	* 如果声明的是读写属性，开发者只实现了 getter 或 setter，那么编译器会合成实例变量，两者都实现时则不合成实例变量；
+	* 如果是声明的是只读属性，开发者没有 getter，那么编译器会合成实例变量，否则不会合成。
+	
+###14. ARC通过什么方式帮助开发者管理内存？  
 	A:
 	> ARC works by adding code at compile time to ensure that objects live as long as necessary, but no longer.
 
-15. objc使用什么机制管理对象内存？  
+###15. objc使用什么机制管理对象内存？  
 	A: 引用计数机制。
 
-16. 不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）  
+###16. 不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）  
 	A: Autorelease对象出了作用域之后，会被添加到最近一次创建的自动释放池中，并会在当前的 runloop 迭代结束时释放。如果在一个vc的viewDidLoad中创建一个 Autorelease对象，那么该对象会在 viewDidAppear 方法执行前就被销毁了。
 
-17. 苹果是如何实现autoreleasepool的?  
+###17. 苹果是如何实现autoreleasepool的?  
 	A:
 
-18. 使用block时什么情况会发生引用循环，如何解决？  
+###18. 使用block时什么情况会发生引用循环，如何解决？  
 	A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。
 解决方法是将该对象使用`__weak`或者`__block`修饰符修饰之后再在block中使用。
 
 	* id weak weakSelf = self，或者 weak __typeof(self)weakSelf = self
 	* id __block weakSelf = self;
 
-19. 在block内如何修改block外部变量？  
+###19. 在block内如何修改block外部变量？  
 	A:使用 _block 存储类型修饰外部变量。
 
-20. 使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？ 
+###20. 使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题?   
 	A:使用系统的block api要不要考虑引用循环问题取决于它会不会造成引用循环，如果不会造成引用循环则不需要考虑，反之则需要考虑。UIView的block版本写动画时不需要考虑引用循环问题。
 
-21. IBOutlet连出来的视图属性为什么可以被设置成weak?  
+###21. IBOutlet连出来的视图属性为什么可以被设置成weak?  
 	A:IBOutlet 连出来的视图是视图层级的组成部分，对它已经有一个强引用，所以它可以被设置为 weak。
 
-22. IB中User Defined Runtime Attributes如何使用？  
+###22. IB中User Defined Runtime Attributes如何使用？  
 	A:
 	> Add initialization of custom runtime attributes to objects that do not have a corresponding Interface Builder inspector.
 
-23. 若一个类有实例变量 NSString *_foo ，调用setValue:forKey:时，可以以foo还是 _foo 作为key？  
+###23. 若一个类有实例变量 NSString *_foo ，调用setValue:forKey:时，可以以foo还是 _foo 作为key？  
 	A:都可以。
 
-24. KVC的keyPath中的集合运算符如何使用？  
+###24. KVC的keyPath中的集合运算符如何使用？  
 	A: 
 	* 必须是集合对象
 	* KVC支持的集合运算符
 	* 正确的  Operator key path 格式
 
-25. KVC和KVO的keyPath一定是属性么？  
+###25. KVC和KVO的keyPath一定是属性么？  
 	A:KVO支持实例变量。
 
-26. addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？  
+###26. addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？  
 	A:
 	
 	| Parameter | Function |
@@ -200,26 +205,26 @@ discription:
 	
 observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能获得KVO回调。
 
-27. 如何手动触发一个value的KVO?  
+###27. 如何手动触发一个value的KVO?  
 	A:改变值之前调用 willChangeValueForKey:，改变值之后调用 didChangeValueForKey:。
 	
 
-28. 如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？  
+###28. 如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？  
 	A: 
 	* A class that implements manual notification must override the NSObject implementation of automaticallyNotifiesObserversForKey:.For properties that perform manual notification, the subclass implementation of automaticallyNotifiesObserversForKey: should return NO. 
 	* To implement manual observer notification, you invoke willChangeValueForKey: before changing the value, and didChangeValueForKey: after changing the value. 
 
-29. apple用什么方式实现对一个对象的KVO？  
+###29. apple用什么方式实现对一个对象的KVO？  
 	A:
 	> Automatic key-value observing is implemented using a technique called isa-swizzling.
 
-30. GCD的队列（dispatch_queue_t）分哪两种类型？  
+###30. GCD的队列（dispatch_queue_t）分哪两种类型？  
 	A: 
 	
 	* DISPATCH_QUEUE_SERIAL
 	* DISPATCH_QUEUE_CONCURRENT
 
-31. 如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）  
+###31. 如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）  
 	A:
 	> Dispatch groups are a way to block a thread until one or more tasks finish executing. 
 	
@@ -234,15 +239,15 @@ observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能�
 		});
 	```
 	
-32. dispatch_barrier_async的作用是什么？  
+###32. dispatch_barrier_async的作用是什么？  
 	A:
 	> Submits a barrier block for asynchronous execution and returns immediately.
 	> A dispatch barrier allows you to create a synchronization point within a concurrent dispatch queue. When it encounters a barrier, a concurrent queue delays the execution of the barrier block (or any further blocks) until all blocks submitted before the barrier finish executing. At that point, the barrier block executes by itself. Upon completion, the queue resumes its normal execution behavior.
 
-33. 苹果为什么要废弃dispatch_get_current_queue？  
+###33. 苹果为什么要废弃dispatch_get_current_queue？  
 	A:dispatch_get_current_queue 容易造成死锁。
 
-34. 以下代码运行结果如何？
+###34. 以下代码运行结果如何？
 
 ```
 - (void)viewDidLoad
@@ -257,7 +262,7 @@ observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能�
 ```
 A: 只输出：1 。发生主线程锁死。
 
-35. runloop和线程有什么关系？  
+###35. runloop和线程有什么关系？  
 	A:
 	>Run loops are intended for situations where you want more interactivity with the thread. 
 	
@@ -266,7 +271,7 @@ A: 只输出：1 。发生主线程锁死。
 	```
 	- (void)networkRunLoopThreadEntry
     // This thread runs all of our network operation run loop callbacks.
-{
+	{
     assert( ! [NSThread isMainThread] );
     while (YES) {
         NSAutoreleasePool * pool;
@@ -279,17 +284,17 @@ A: 只输出：1 。发生主线程锁死。
         [pool drain];
     }
     assert(NO);
-}
+	}
 	```
 
-36. runloop的mode作用是什么？  
+###36. runloop的mode作用是什么？  
 A:
 > A run loop mode is a collection of input sources and timers to be monitored and a collection of run loop observers to be notified.
 >Each time you run your run loop, you specify (either explicitly or implicitly) a particular “mode” in which to run. During that pass of the run loop, only sources associated with that mode are monitored and allowed to deliver their events. (Similarly, only observers associated with that mode are notified of the run loop’s progress.) Sources associated with other modes hold on to any new events until subsequent passes through the loop in the appropriate mode.
 
 mode的作用是设置好需要监控的 input sources 和 timers，以及需要通知的 run loop observers。
 
-37. 以+ scheduledTimerWithTimeInterval...的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？  
+###37. 以+ scheduledTimerWithTimeInterval...的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？  
 A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以+ scheduledTimerWithTimeInterval...的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。
 
 如何解决？
@@ -315,15 +320,15 @@ NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
 [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 ```
 
-38. 猜想runloop内部是如何实现的？  
+###38. 猜想runloop内部是如何实现的？  
 A:
 > It is a loop your thread enters and uses to run event handlers in response to incoming events.
 
 
-39. runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？  
+###39. runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？  
 A:runtime 对注册的类， 会进行布局，对于 weak 对象会放入一个 hash 表中。 用 weak 指向的对象内存地址作为 key，当此对象的引用计数为0的时候会 dealloc，假如 weak 指向的对象内存地址是a，那么就会以a为键， 在这个 weak 表中搜索，找到所有以a为键的 weak 对象，从而设置为 nil。
 
-40. objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？  
+###40. objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？  
 A:
 > In Objective-C, messages aren’t bound to method implementations until runtime. 
 > The compiler converts a message expression,
@@ -333,7 +338,7 @@ A:
 
 编译器会把向一个对象发送的消息转化成一次objc_msgSend()函数调用。
 
-41. objc中向一个nil对象发送消息将会发生什么？  
+###41. objc中向一个nil对象发送消息将会发生什么？  
 A:
 
 	* 如果一个方法返回值是一个对象，那么发送给nil的消息将返回nil;
@@ -341,10 +346,10 @@ A:
 	* 如果方法返回值为结构体,发送给 nil 的消息将返回0。结构体中各个字段的值将都是0
 	* 如果方法的返回值不是上述提到的几种情况，那么发送给 nil 的消息的返回值将是未定义的
 
-42. _objc_msgForward 函数是做什么的，直接调用它将会发生什么？  
+###42. _objc_msgForward 函数是做什么的，直接调用它将会发生什么？  
 A:当向一个对象发送一条消息，但它并没有实现的时候，_objc_msgForward会尝试做消息转发。直接调用_objc_msgForward是非常危险的事，如果用不好会直接导致程序Crash，但是如果用得好，能做很多非常酷的事。
 
-43. 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？  
+###43. 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？  
 A:
 
 	* 不能向编译后得到的类中增加实例变量；
@@ -355,23 +360,23 @@ A:
 	* 因为编译后的类已经注册在 runtime 中，类结构体中的 objc_ivar_list 实例变量的链表 和 instance_size 实例变量的内存大小已经确定，同时runtime 会调用 class_setIvarLayout 或 class_setWeakIvarLayout 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；
 	* 运行时创建的类是可以添加实例变量，调用 class_addIvar 函数。但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。
 
-44. 一个objc对象如何进行内存布局？（考虑有父类的情况）  
+###44. 一个objc对象如何进行内存布局？（考虑有父类的情况）  
 A:
-Objective-C 对象的结构图
-ISA指针
-根类的实例变量
-倒数第二层父类的实例变量
-...
-父类的实例变量
-类的实例变量
+Objective-C 对象的结构图  
+ISA指针  
+根类的实例变量  
+倒数第二层父类的实例变量  
+...  
+父类的实例变量  
+类的实例变量  
 
-45. 一个objc对象的isa的指针指向什么？有什么作用？  
+###45. 一个objc对象的isa的指针指向什么？有什么作用？  
 A:
 > The isa pointer, as the name suggests, points to the object's class which maintains a dispatch table.
 
 指向对象的类。
 
-46. 下面的代码输出什么？ 
+###46. 下面的代码输出什么？ 
 
 ```
 @implementation Son : Father
@@ -390,22 +395,22 @@ A:
 A:都输出 Son.
 super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去父类的方法，而不是本类里的。
 
-47. 什么时候会报unrecognized selector的异常？  
+###47. 什么时候会报unrecognized selector的异常？  
 A:当调用该对象上某个方法,而该对象上没有实现这个方法的时候。
 
-48. BAD_ACCESS在什么情况下出现？  
+###48. BAD_ACCESS在什么情况下出现？  
 A:
 	* 访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。
 	* 死循环
 
-49. 如何调试BAD_ACCESS错误?  
+###49. 如何调试BAD_ACCESS错误?  
 A:
 
 	* Enable Zombie Objects
 	* Enable Address Sanitizer
 	* 重写object的respondsToSelector方法，显示出现EXEC_BAD_ACCESS前访问的最后一个object
 
-50. lldb（gdb）常用的调试命令？  
+###50. lldb（gdb）常用的调试命令？  
 A: 
 
 ```
@@ -416,31 +421,31 @@ lldb bt
 lldb c
 ```
 
-51. 使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？  
+###51. 使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？  
 A:不需要。
 
-52. runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）  
+###52. runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）  
 A:每一个类对象或对象中有一个方法列表,方法列表中记录着方法的名称,方法实现,以及参数类型,其实selector本质就是方法名称,通过这个方法名称就可以在方法列表中找到对应的方法实现.
 
-53. objc中的类方法和实例方法有什么本质区别和联系？  
+###53. objc中的类方法和实例方法有什么本质区别和联系？  
 A:
-类方法：
+类方法： 
 
-类方法是属于类对象的
-类方法只能通过类对象调用
-类方法中的self是类对象
-类方法可以调用其他的类方法
-类方法中不能访问成员变量
-类方法中不定直接调用对象方法
+类方法是属于类对象的  
+类方法只能通过类对象调用  
+类方法中的self是类对象  
+类方法可以调用其他的类方法  
+类方法中不能访问成员变量  
+类方法中不定直接调用对象方法  
 
-实例方法：
+实例方法：  
 
-实例方法是属于实例对象的
-实例方法只能通过实例对象调用
-实例方法中的self是实例对象
-实例方法中可以访问成员变量
-实例方法中直接调用实例方法
-实例方法中也可以调用类方法(通过类名)
+实例方法是属于实例对象的  
+实例方法只能通过实例对象调用  
+实例方法中的self是实例对象  
+实例方法中可以访问成员变量  
+实例方法中直接调用实例方法  
+实例方法中也可以调用类方法(通过类名)  
 
 扩展阅读：  
 o [上级向的十个iOS面试问题](http://onevcat.com/2013/04/ios-interview/)  

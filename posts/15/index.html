@@ -221,10 +221,12 @@ $(document).ready(
 		
 		<a href="/blog/ios-technical-interview-part-1.html">
 		
-			iOS Technical Interview Part 1</a>
+			iOS 面试题汇总(一)</a>
 	</h2>
 	<div class="entry-content">
 		<h3>1.Explain method swizzling. When you would use it?</h3>
+
+<p>A:Method swizzling is a feature of dynamic of Objective-C that use a new method implementation replace the original. When the original implement doesn&rsquo;t meet my need, I will use this technology.</p>
 
 <h3>2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
 
@@ -234,7 +236,7 @@ $(document).ready(
 
 <p>A:返回0</p>
 
-<p>Reference:<a href="http://nshipster.com/nil/">http://nshipster.com/nil/</a></p>
+<p>Reference:<a href="http://nshipster.com/nil/">nil / Nil / NULL / NSNull</a></p>
 
 <h3>4.Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
 
@@ -258,9 +260,11 @@ $(document).ready(
 </ol>
 
 
-<p>Reference:<a href="http://www.raywenderlich.com/2696">http://www.raywenderlich.com/2696</a></p>
+<p>Reference:<a href="http://www.raywenderlich.com/2696">Instruments Tutorial for iOS: How To Debug Memory Leaks</a></p>
 
 <h3>6.Explain how an autorelease pool works at the runtime level.</h3>
+
+<p>A:As its name, it works like a pool, any object called autorelease method be throw to this pool, all object in autorelease pool will recieve a release method when it drain that occured at each event loop end.</p>
 
 <h3>7.When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
 
@@ -293,7 +297,7 @@ $(document).ready(
 
 <p>A: NSArray</p>
 
-<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html</a></p>
+<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">NSArray or NSSet, NSDictionary or NSMapTable</a></p>
 
 <h3>10.Explain how code signing works.</h3>
 
@@ -329,7 +333,7 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 
 <p>A: The object gets released twice when the autorelease pool is destroyed.</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">Autoreleasing twice an object</a></p>
 
 <h3>16.List the five iOS app states.</h3>
 

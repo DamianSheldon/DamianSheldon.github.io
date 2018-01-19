@@ -129,48 +129,41 @@ $(document).ready(
 		
 		<a href="/blog/ios-technical-interview-part-2.html">
 		
-			iOS Technical Interview Part 2</a>
+			iOS 面试题汇总(二)</a>
 	</h2>
 	<div class="entry-content">
-		<ol>
-<li><p>@property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？<br/>
- A:</p>
+		<h3>1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？</h3>
 
-<ul>
-<li>Write Serialization(not general thread safety): nonatomic atomic (default)</li>
-<li>Mutability: readonly readwrite (default)</li>
-<li>API Contron :getter = methodname setter = mehtodname:</li>
-<li>Memory Management: copy strong (default) weak unsafe_unretained assign</li>
-</ul>
-</li>
-<li><p>ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？<br/>
- A:</p>
+<pre><code>A:
 
-<ul>
-<li>Write Serialization: atomic</li>
-<li>Mutability: readwrite</li>
-<li>Memory Management: assign(non-object) strong(object)</li>
-</ul>
-</li>
-<li><p>什么情况使用 weak 关键字，相比 assign 有什么不同？<br/>
- A:
- 什么情况使用 weak 关键字？</p>
+* Write Serialization(not general thread safety): nonatomic atomic (default)
+* Mutability: readonly readwrite (default)
+* API Contron :getter = methodname setter = mehtodname:
+* Memory Management: copy strong (default) weak unsafe_unretained assign
+</code></pre>
 
-<ul>
-<li>强引用关系的对象会发生循环引用时用weak关键字；</li>
-<li>已经被强引用的对象，如Interface Builder创建的视图被声明为weak。</li>
-</ul>
+<h3>2. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</h3>
 
+<pre><code>A: 
 
-<p> weak 相比 assign 有什么不同？</p>
+* Write Serialization: atomic
+* Mutability: readwrite
+* Memory Management: assign(non-object) strong(object)
+</code></pre>
 
-<ul>
-<li>weak 必须修饰对象，assign还可以修饰非对象；</li>
-<li>weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。</li>
-</ul>
-</li>
-</ol>
+<h3>3. 什么情况使用 weak 关键字，相比 assign 有什么不同？</h3>
 
+<pre><code>A:
+什么情况使用 weak 关键字？
+
+* 强引用关系的对象会发生循环引用时用weak关键字；
+* 已经被强引用的对象，如Interface Builder创建的视图被声明为weak。
+
+weak 相比 assign 有什么不同？
+
+* weak 必须修饰对象，assign还可以修饰非对象；
+* weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。
+</code></pre>
 
 
 		

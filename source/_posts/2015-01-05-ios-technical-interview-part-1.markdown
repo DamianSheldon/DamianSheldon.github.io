@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS Technical Interview Part 1"
+title: "iOS 面试题汇总(一)"
 date: 2015-01-05 15:44:07 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -9,6 +9,7 @@ discription: iOS Technical Interview Part 1
 ---
 
 ###1.Explain method swizzling. When you would use it?
+A:Method swizzling is a feature of dynamic of Objective-C that use a new method implementation replace the original. When the original implement doesn't meet my need, I will use this technology.
 
 ###2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.
 A:It causes strong reference cycle, and results as memory leaks.
@@ -16,7 +17,7 @@ A:It causes strong reference cycle, and results as memory leaks.
 ###3.What happens when you invoke a method on a nil pointer?
 A:返回0
 
-Reference:http://nshipster.com/nil/
+Reference:[nil / Nil / NULL / NSNull](http://nshipster.com/nil/)
 
 ###4.Give two separate and independent reasons why retainCount should never be used in shipping code.
 A: 
@@ -33,12 +34,12 @@ A:
 1. Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause
 2. Run with Apple Instruments such as Leaks to look for memory issues
 
-Reference:http://www.raywenderlich.com/2696
+Reference:[Instruments Tutorial for iOS: How To Debug Memory Leaks](http://www.raywenderlich.com/2696)
 
 
 
 ###6.Explain how an autorelease pool works at the runtime level.
-
+A:As its name, it works like a pool, any object called autorelease method be throw to this pool, all object in autorelease pool will recieve a release method when it drain that occured at each event loop end.
 
 ###7.When dealing with property declarations, what is the difference between atomic and non-atomic?
 
@@ -63,7 +64,7 @@ noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两
 ###9.Which is faster: to iterate through an NSArray or an NSSet?
 A: NSArray
 
-Reference:http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html
+Reference:[NSArray or NSSet, NSDictionary or NSMapTable](http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html)
 
 
 ###10.Explain how code signing works.
@@ -98,7 +99,7 @@ A:
 
 A: The object gets released twice when the autorelease pool is destroyed.
 
-Reference:http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object
+Reference:[Autoreleasing twice an object](http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object)
 
 ###16.List the five iOS app states.
 A:

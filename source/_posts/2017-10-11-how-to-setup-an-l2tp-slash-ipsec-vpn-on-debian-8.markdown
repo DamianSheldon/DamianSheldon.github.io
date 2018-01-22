@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to setup an L2TP/IPsec VPN on Debian 8"
+title: "How to setup a L2TP/IPsec VPN on Debian 8"
 date: 2017-10-11 08:32:44 +0800
 comments: true
 categories: [Archives]

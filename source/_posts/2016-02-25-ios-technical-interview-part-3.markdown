@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS Technical Interview Part 3"
+title: "iOS 面试题汇总(三)"
 date: 2016-02-25 18:43:44 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -14,7 +14,7 @@ A:There are two difference beween categories and extensions:
 1. The extension has no name;
 2. The implementation of the extension must be in the main @implementation block of the file.
 
-Reference:http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension
+Reference:[Difference between Category and Class Extension?](http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension)
 
 ###2.What is advantage of category?
 A:
@@ -22,8 +22,6 @@ A:
 * You can add method to existing class even to that class whose source is not available to you. 
 * You can extend functionality of a class without subclassing. 
 * You can split implementation in multiple classes. 
-
-Reference:http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html
 
 ###3.What are KVO and KVC?
 A:
@@ -39,7 +37,7 @@ The difference between shallow and deep copying is only relevant for compound ob
 A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
 A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.
 
-Reference:http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm
+Reference:[What exactly is the difference between shallow copy, deepcopy and normal assignment operation?](http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm)
 
 ###5.When retain count increase?
 A:
@@ -47,7 +45,7 @@ A:
 * When you create an object;
 * When you send an object retain message;
 
-Reference:http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases
+Reference:[Conditions in which retainCount increases or decreases](http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases)
 
 ###6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?
 A: Yes, there is a autorelease pool already provided to us.
@@ -67,6 +65,8 @@ A: You can create autorelease pool as much as possible, there is no limit.
 
 ###9.What is purpose of delegates?
 A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.
+
+>委托是一种组合方法，它使组合具有与继承同样的复用能力。在委托方式下，有两个对象参与处理一个请求，接受请求的对象将操作委托给它的代理者（delegate），它类似于子类将请求交给它的父类处理。使用继承时，被继承的操作总能引用接受请求的对象。 --设计模式
 
 ###10.What is difference between NSNotification and protocol?
 A:
@@ -99,7 +99,7 @@ A:
 ###14.What are mutable and immutable types in Objective C?
 A:A mutable object can be mutated or changed. An immutable object cannot. 
 
-Reference:http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable
+Reference:[what is difference between mutable and immutable](http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable)
 
 ###15.When to use NSMutableArray and when to use NSArray?
 A:When collection will mutable you should use NSMutableArray, otherwise use NSArray.
@@ -107,7 +107,7 @@ A:When collection will mutable you should use NSMutableArray, otherwise use NSAr
 ###16.What is convenience constructor?
 A:A convenience constructor is one that performs object allocation & initialization in one step & returns an autoreleased object to the caller.
 
-Reference:https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor
+Reference:[Objective-C (programming language): What is a convenience constructor](https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor)
 
 ###17.What is responder chain?
 A:The responder chain is a series of linked responder objects. 

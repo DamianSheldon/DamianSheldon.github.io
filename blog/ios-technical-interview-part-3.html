@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>iOS Technical Interview Part 3  | Hello World</title>
+	<title>iOS 面试题汇总(三)  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -122,7 +122,7 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS Technical Interview Part 3</h2>
+	<h2 class="title">iOS 面试题汇总(三)</h2>
 	<div class="entry-content"><h3>1.Difference between categories and extensions?</h3>
 
 <p>A:There are two difference beween categories and extensions:</p>
@@ -133,7 +133,7 @@ $(document).ready(
 </ol>
 
 
-<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">Difference between Category and Class Extension?</a></p>
 
 <h3>2.What is advantage of category?</h3>
 
@@ -145,8 +145,6 @@ $(document).ready(
 <li>You can split implementation in multiple classes.</li>
 </ul>
 
-
-<p>Reference:<a href="http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html">http://psri13.blogspot.com/2014/07/what-is-advantage-of-categories-what-is.html</a></p>
 
 <h3>3.What are KVO and KVC?</h3>
 
@@ -168,7 +166,7 @@ The difference between shallow and deep copying is only relevant for compound ob
 <p>A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
 A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm">What exactly is the difference between shallow copy, deepcopy and normal assignment operation?</a></p>
 
 <h3>5.When retain count increase?</h3>
 
@@ -180,7 +178,7 @@ A deep copy constructs a new compound object and then, recursively, inserts copi
 </ul>
 
 
-<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases">Conditions in which retainCount increases or decreases</a></p>
 
 <h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
 
@@ -206,6 +204,8 @@ You must create your own autorelease pool block as soon as the thread begins exe
 <h3>9.What is purpose of delegates?</h3>
 
 <p>A:Delegation is a simple and powerful pattern in which one object in a program acts on behalf of, or in coordination with, another object.</p>
+
+<blockquote><p>委托是一种组合方法，它使组合具有与继承同样的复用能力。在委托方式下，有两个对象参与处理一个请求，接受请求的对象将操作委托给它的代理者（delegate），它类似于子类将请求交给它的父类处理。使用继承时，被继承的操作总能引用接受请求的对象。 &ndash;设计模式</p></blockquote>
 
 <h3>10.What is difference between NSNotification and protocol?</h3>
 
@@ -254,7 +254,7 @@ You must create your own autorelease pool block as soon as the thread begins exe
 
 <p>A:A mutable object can be mutated or changed. An immutable object cannot.</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/7071096/what-is-difference-between-mutable-and-immutable">what is difference between mutable and immutable</a></p>
 
 <h3>15.When to use NSMutableArray and when to use NSArray?</h3>
 
@@ -264,7 +264,7 @@ You must create your own autorelease pool block as soon as the thread begins exe
 
 <p>A:A convenience constructor is one that performs object allocation &amp; initialization in one step &amp; returns an autoreleased object to the caller.</p>
 
-<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor</a></p>
+<p>Reference:<a href="https://www.quora.com/Objective-C-programming-language/What-is-a-convenience-constructor">Objective-C (programming language): What is a convenience constructor</a></p>
 
 <h3>17.What is responder chain?</h3>
 

@@ -183,6 +183,10 @@ id __weak weakSelf = self，或者 __weak __typeof(self)weakSelf = self
 
 还可以引申出 `__weak` 是怎么实现的。
 
+Reference:[What is the difference between a __weak and a __block reference?](https://stackoverflow.com/questions/11773342/what-is-the-difference-between-a-weak-and-a-block-reference)  
+[Variable Qualifiers](https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html)  
+[The __block Storage Type](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Blocks/Articles/bxVariables.html#//apple_ref/doc/uid/TP40007502-CH6-SW1)  
+
 ###19. 在block内如何修改block外部变量？  
 A:使用 _block 存储类型修饰外部变量。
 

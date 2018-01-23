@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "使用 Mac 时遇到的问题"
+title: "使用 Mac 时遇到的问题(一)"
 date: 2015-10-10 08:49:37 +0800
 comments: true
 categories: [Archives]

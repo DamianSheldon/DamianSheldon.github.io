@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-01-23T11:54:05+08:00</updated>
+  <updated>2018-01-23T12:07:06+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用 Mac 时遇到的问题(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac-part-two.html"/>
+    <updated>2018-01-23T11:59:31+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac-part-two</id>
+    <content type="html"><![CDATA[<h2>1. iPhone每次连接Mac都会弹出iPhoto</h2>
+
+<p>解决办法：</p>
+
+<ol>
+<li>Plug in your iPad/iPhone</li>
+<li>Open Image Capture</li>
+<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
+<li>Press the triangle in square symbol in the lower left corner.</li>
+<li>Select &ldquo;No application&rdquo; in the menu.</li>
+</ol>
+
+
+<p>iPhoto:
+Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
+set it to &ldquo;No Application&rdquo;</p>
+
+<h2>2. Add environment variable</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// ~/.bash_profile
+</span><span class='line'>export var=value</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3.SSH ask passpharse every time I use SSH key.</h2>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Enable
+</span><span class='line'>$ sudo spctl --master-disable
+</span><span class='line'>
+</span><span class='line'>// Disable
+</span><span class='line'>$sudo spctl --master-enable</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
+
+<h2>5. Mac 上批量替换文件中的字符串</h2>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -rl discription source/_posts | xargs sed -i ''  "s/discription/description/g"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
+<a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
@@ -6269,246 +6338,6 @@ Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-wi
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Debian 使用笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/notes-of-using-debian.html"/>
-    <updated>2016-02-29T21:46:20+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/notes-of-using-debian</id>
-    <content type="html"><![CDATA[<h3>1. Install pear on Debian</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ wget http://pear.php.net/go-pear.phar
-</span><span class='line'>$ sudo php go-pear.phar
-</span><span class='line'>
-</span><span class='line'>Below is a suggested file layout for your new PEAR installation.  To
-</span><span class='line'>change individual locations, type the number in front of the
-</span><span class='line'>directory.  Type 'all' to change all of them or simply press Enter to
-</span><span class='line'>accept these locations.
-</span><span class='line'>
-</span><span class='line'> 1. Installation base ($prefix)                   : /home/meiliang/pear
-</span><span class='line'> 2. Temporary directory for processing            : /tmp/pear/install
-</span><span class='line'> 3. Temporary directory for downloads             : /tmp/pear/install
-</span><span class='line'> 4. Binaries directory                            : /home/meiliang/pear/bin
-</span><span class='line'> 5. PHP code directory ($php_dir)                 : /home/meiliang/pear/share/pear
-</span><span class='line'> 6. Documentation directory                       : /home/meiliang/pear/docs
-</span><span class='line'> 7. Data directory                                : /home/meiliang/pear/data
-</span><span class='line'> 8. User-modifiable configuration files directory : /home/meiliang/pear/cfg
-</span><span class='line'> 9. Public Web Files directory                    : /home/meiliang/pear/www
-</span><span class='line'>10. System manual pages directory                 : /home/meiliang/pear/man
-</span><span class='line'>11. Tests directory                               : /home/meiliang/pear/tests
-</span><span class='line'>12. Name of configuration file                    : /home/meiliang/.pearrc
-</span><span class='line'>
-</span><span class='line'>1-12, 'all' or Enter to continue: 1
-</span><span class='line'>(Use $prefix as a shortcut for '/home/meiliang/pear', etc.)
-</span><span class='line'>Installation base ($prefix) [/home/meiliang/pear] : /usr/local/bin/pear
-</span><span class='line'>
-</span><span class='line'>$ vim .bashrc
-</span><span class='line'># Append the /usr/local/bin/pear directory in the user's home directory onto the PATH environment variable
-</span><span class='line'>export PATH=$PATH:/usr/local/bin/pear/bin
-</span><span class='line'>
-</span><span class='line'>// Reload bash configure file
-</span><span class='line'>$ source .bashrc
-</span><span class='line'>
-</span><span class='line'>$ echo $PATH
-</span><span class='line'>/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin/pear/bin
-</span><span class='line'>
-</span><span class='line'>// Check wether it works
-</span><span class='line'>$ pear version
-</span><span class='line'>PEAR Version: 1.10.1
-</span><span class='line'>PHP Version: 5.6.17-0+deb8u1
-</span><span class='line'>Zend Engine Version: 2.6.0
-</span><span class='line'>Running on: Linux Debian 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt11-1 (2015-05-24) x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<h3>2. Install PHP GD extension on Debian</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo aptitude install php5-gd
-</span><span class='line'>
-</span><span class='line'>// How do I verify that php5-gd support loaded or not?
-</span><span class='line'>// Type the following command at a shell prompt:
-</span><span class='line'>$ php5 -m | grep -i gd
-</span><span class='line'>
-</span><span class='line'>Sample outputs:
-</span><span class='line'>
-</span><span class='line'>gd</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/">http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/</a></p>
-
-<h3>3. Install PHP cURL extension on Debian</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo aptitude install php5-curl</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian">http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian</a></p>
-
-<h3>4. Install PHP mCrypt extension on Debian</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ aptitude search mCrypt
-</span><span class='line'>p   libmcrypt-dev                                                                    - De-/Encryption Library development files
-</span><span class='line'>p   libmcrypt4                                                                       - De-/Encryption Library
-</span><span class='line'>p   libtomcrypt-dev                                                                  - static library, header files and documentation for libtomcrypt
-</span><span class='line'>p   libtomcrypt0                                                                     - public domain open source cryptographic toolkit
-</span><span class='line'>p   mcrypt                                                                           - Replacement for old unix crypt(1)
-</span><span class='line'>p   php5-mcrypt                                                                      - MCrypt module for php5
-</span><span class='line'>
-</span><span class='line'>$ sudo aptitude install php5-mcrypt
-</span><span class='line'>$ sudo service apache2 restart</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>5. Default installation layouts for Apache HTTPD on Debian</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ServerRoot              ::      /etc/apache2
-</span><span class='line'>DocumentRoot            ::      /var/www
-</span><span class='line'>Apache Config Files     ::      /etc/apache2/apache2.conf
-</span><span class='line'>                        ::      /etc/apache2/ports.conf
-</span><span class='line'>Default VHost Config    ::      /etc/apache2/sites-available/default, /etc/apache2/sites-enabled/000-default
-</span><span class='line'>Module Locations        ::      /etc/apache2/mods-available, /etc/apache2/mods-enabled
-</span><span class='line'>ErrorLog                ::      /var/log/apache2/error.log
-</span><span class='line'>AccessLog               ::      /var/log/apache2/access.log
-</span><span class='line'>cgi-bin                 ::      /usr/lib/cgi-bin
-</span><span class='line'>binaries (apachectl)    ::      /usr/sbin
-</span><span class='line'>start/stop              ::      /etc/init.d/apache2 (start|stop|restart|reload|force-reload|start-htcacheclean|stop-htcacheclean)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notes:</p>
-
-<ol>
-<li>The Debian/Ubuntu layout is fully documented in /usr/share/doc/apache2/README.Debian</li>
-<li>Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called &lsquo;a2ensite&rsquo; and &lsquo;a2enmod&rsquo; which activates vhosts and modules.</li>
-<li>The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.</li>
-</ol>
-
-
-<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:</a></p>
-
-<h3>6. Can&rsquo;t connect to PPTP VPN with ufw enabled on Debian 3.16.7-ckt11-1 with kernel 3.16.0-4-amd64</h3>
-
-<p>A: Allow Port 1723 on UFW</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># ufw allow 1723</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is caused by a change for security reason in kernel 3.18 [1]. There are two ways to fix this.</p>
-
-<p>First approach is adding this rule to the file /etc/ufw/before.rules before the line # drop INVALID packets &hellip;</p>
-
-<p>-A ufw-before-input -p 47 -j ACCEPT
-Second approach is manually loading the nf_conntrack_pptp module. You can do this by running</p>
-
-<p>sudo modprobe nf_conntrack_pptp
-To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p>
-
-<p>Reference:<a href="http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18">http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18</a></p>
-
-<p><a href="http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html">http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html</a></p>
-
-<h2>7.OpenVPN server configure correct, but client can&rsquo;t brower web site block by GTW.</h2>
-
-<p>A:There is a crue the the log of VPN client issue client DNS be used. So I think this may be the problem. YES, client can brower all web site after remove all client DNS settings.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>192.168.8.1
-</span><span class='line'>202.103.96.112
-</span><span class='line'>8.8.8.8
-</span><span class='line'>208.67.222.222
-</span><span class='line'>208.67.220.220</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8</a>
-<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile</a></p>
 ]]></content>
   </entry>
   

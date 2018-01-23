@@ -127,6 +127,91 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/problems-of-android-development.html">
+		
+			Android开发问题汇总(一)</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Gradle使用代理服务器</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// /Users/&lt;username&gt;/.gradle/gradle.properties (Mac)
+</span><span class='line'># Http Proxy
+</span><span class='line'>systemProp.http.proxyHost=www.somehost.org
+</span><span class='line'>systemProp.http.proxyPort=8080
+</span><span class='line'>systemProp.http.proxyUser=userid
+</span><span class='line'>systemProp.http.proxyPassword=password
+</span><span class='line'>systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.leimingshan.com/gradle/">Gradle使用代理服务器</a></p>
+
+<h3>2.设置Gradle home</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Mac OS X
+</span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.The project is using an unsupported version of Gradle</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>The project is using an unsupported version of Gradle.
+</span><span class='line'>Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
+</span><span class='line'>
+</span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+		
+		<a href="/blog/problems-of-android-development.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-12-17T09:38:20+08:00" pubdate data-updated="true">17 Dec 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-does-app-security-communicate-with-server.html">
 		
 			在 iOS App 中使用自签名证书</a>
@@ -717,76 +802,6 @@ URL Session Programming Guide</p>
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/english-sentence.html">
-		
-			英语句子结构</a>
-	</h2>
-	<div class="entry-content">
-		<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
-
-<ol>
-<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
-<li>SVP (P:predicative)主语+谓语+表语</li>
-<li>SVO (O:object)主语+谓语+宾语</li>
-<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
-<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
-<li>There＋系动词＋主语</li>
-</ol>
-
-
-<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
-
-<p>John sleeps.<br/>
-Jill is eating.<br/>
-Jack will arrive next week.<br/>
-The tlephone rang.<br/>
-His father might have died.<br/>
-Sandy walks in the playground evening.<br/>
-He never gives up easily.<br/>
-The children listened carefully.<br/>
-Our Manager has arrived in pairs.<br/>
-The water in the jar has ran out.<br/>
-My brother will talk on the phone.<br/>
-Mummy won&rsquo;t agree.</p>
-
-
-		
-		<a href="/blog/english-sentence.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-11-27T20:19:06+08:00" pubdate data-updated="true">27 Nov 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/english/'>english</a>
 
 </div>
 

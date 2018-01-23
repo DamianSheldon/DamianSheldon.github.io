@@ -5,7 +5,7 @@ date: 2015-01-05 15:44:07 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS Interview
-discription: iOS Technical Interview Part 1
+description: iOS Technical Interview Part 1
 ---
 
 ###1.Explain method swizzling. When you would use it?

@@ -5,7 +5,7 @@ date: 2016-01-22 14:19:12 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Unit Test, OCMock
-discription: iOS Unit Testing With OCMock
+description: iOS Unit Testing With OCMock
 ---
 
 单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。  

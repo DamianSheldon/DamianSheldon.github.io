@@ -5,7 +5,7 @@ date: 2014-11-10 08:35:43 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Design Patterns, iOS
-discription: Introduce to iOS Design Patterns
+description: Introduce to iOS Design Patterns
 ---
 *iOS 设计模式*--你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花太多注意力放到设计模式上。  
 

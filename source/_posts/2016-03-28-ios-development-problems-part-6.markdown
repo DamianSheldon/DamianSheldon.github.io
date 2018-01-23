@@ -5,7 +5,7 @@ date: 2016-03-28 20:14:53 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS
-discription: iOS development problems
+description: iOS development problems
 ---
 ### 1. The data couldn’t be read because it isn’t in the correct format.
 A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。

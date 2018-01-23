@@ -5,7 +5,7 @@ date: 2017-09-22 15:59:35 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Conical, Gradient, Angular
-discription: A simple conical gradient on iOS
+description: A simple conical gradient on iOS
 ---
 
 Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：

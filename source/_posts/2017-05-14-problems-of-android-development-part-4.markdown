@@ -5,7 +5,7 @@ date: 2017-05-14 16:56:19 +0800
 comments: true
 categories: [Archives, Android] 
 keywords: Android, development 
-discription: Problems of android development. 
+description: Problems of android development. 
 ---
 ###1.怎么给 Button 加上圆角?
 A:Create an xml inside Drawable Folder with below code. Name it rounded_red_border.xml  

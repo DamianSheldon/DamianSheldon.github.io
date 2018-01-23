@@ -5,7 +5,7 @@ date: 2016-10-21 15:15:53 +0800
 comments: true
 categories: [Archive, Archives, iOS Development]
 keywords: Audio, Video
-discription: audio and video format
+description: audio and video format
 ---
 
 ## 音频格式

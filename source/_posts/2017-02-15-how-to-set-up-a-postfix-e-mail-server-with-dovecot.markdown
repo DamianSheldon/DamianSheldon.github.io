@@ -5,7 +5,7 @@ date: 2017-02-15 16:29:42 +0800
 comments: true
 categories: [Archivies] 
 keywords: Postfix, Dovecot, E-Mail, debian, jessie 
-discription: 
+description: 
 ---
 不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。
 

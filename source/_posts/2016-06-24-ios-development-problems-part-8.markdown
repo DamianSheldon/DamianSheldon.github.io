@@ -5,7 +5,7 @@ date: 2016-06-24 15:54:30 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS 
-discription: iOS development problems
+description: iOS development problems
 ---
 
 ### 1.Detect hash tags #, mention tags @, in iOS like in Twitter App

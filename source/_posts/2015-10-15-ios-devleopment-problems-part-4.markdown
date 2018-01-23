@@ -5,7 +5,7 @@ date: 2015-10-15 15:04:13 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS Development
-discription: iOS App Development
+description: iOS App Development
 ---
 ### 1. Suppressing deprecated warnings
 ```

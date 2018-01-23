@@ -5,7 +5,7 @@ date: 2015-10-10 08:49:37 +0800
 comments: true
 categories: [Archives]
 keywords: Mac
-discription: 
+description: 
 ---
 
 ## 1. How to enable the three finger drag on OS X 10.11

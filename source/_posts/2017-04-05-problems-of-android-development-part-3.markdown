@@ -5,7 +5,7 @@ date: 2017-04-05 08:48:36 +0800
 comments: true
 categories: [Archives, android] 
 keywords: Android, Problems 
-discription: 
+description: 
 ---
 
 ###1. How to define custom attributes?

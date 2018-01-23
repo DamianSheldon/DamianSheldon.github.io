@@ -5,7 +5,7 @@ date: 2016-02-25 18:43:44 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS Technical Interview
-discription: iOS Technical Interview
+description: iOS Technical Interview
 ---
 
 ###1.Difference between categories and extensions?

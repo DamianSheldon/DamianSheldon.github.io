@@ -5,7 +5,7 @@ date: 2014-11-12 16:06:13 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Key-Value Coding, Key-Value Observing
-discription: Simple summary of Key-Value Coding And Key-Value Observing
+description: Simple summary of Key-Value Coding And Key-Value Observing
 ---
 ##Key-Value Coding
 1. Key-Value Coding是什么？

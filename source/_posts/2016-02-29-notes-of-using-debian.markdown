@@ -5,7 +5,7 @@ date: 2016-02-29 21:46:20 +0800
 comments: true
 categories: [Archives]
 keywords: Debian
-discription: Notes Of Using Debian
+description: Notes Of Using Debian
 ---
 ###1. Install pear on Debian
 A:

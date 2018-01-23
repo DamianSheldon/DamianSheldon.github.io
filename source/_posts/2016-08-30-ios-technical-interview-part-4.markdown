@@ -5,7 +5,7 @@ date: 2016-08-30 10:43:36 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS Technical Interview
-discription: iOS Technical Interview  
+description: iOS Technical Interview  
 ---
 
 ###1.熟悉 CocoaPods 么？能大概讲一下工作原理么？

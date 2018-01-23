@@ -5,7 +5,7 @@ date: 2016-11-15 14:49:17 +0800
 comments: true
 categories: [Archives, iOS Development] 
 keywords: iOS, Swift
-discription: 
+description: 
 ---
 ###1.Curried functions in Swift
 A:There’s a difference between self.methodname (which you are using), and Classname.methodname.

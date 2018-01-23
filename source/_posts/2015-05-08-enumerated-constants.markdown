@@ -5,7 +5,7 @@ date: 2015-05-08 16:38:20 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Objective c, Enumerated constants
-discription: 
+description: 
 ---
 
 Objective-C中的枚举常量大致有以下四种情形：

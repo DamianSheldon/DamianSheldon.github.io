@@ -5,7 +5,7 @@ date: 2015-09-19 22:25:19 +0800
 comments: true
 categories: [Archives, Web Development]
 keywords:
-discription:
+description:
 ---
 
 ###Notes of Set up PHP development environment

@@ -5,7 +5,7 @@ date: 2015-07-30 11:36:57 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS App
-discription: iOS App 开发问题汇总
+description: iOS App 开发问题汇总
 ---
 
 ### 1.Checking the Entitlements for an iOS app Submission to the App Store

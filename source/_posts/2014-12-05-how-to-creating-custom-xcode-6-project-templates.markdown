@@ -5,7 +5,7 @@ date: 2014-12-05 14:34:04 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Xcode 6 Project Templates
-discription: How to creating custom Xcode 6 Project Templates
+description: How to creating custom Xcode 6 Project Templates
 ---
 
 随着时间的推移，这篇文章的实践部分需要更新了，我找到一个更好的工具来做这件事，这就是 [liftoff](https://github.com/liftoffcli/liftoff)。相比与手动来制作工程模板，自定义 liftoff 的配置文件要容易很多，更重要的是它提供了文档。

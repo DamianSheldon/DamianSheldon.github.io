@@ -5,7 +5,7 @@ date: 2015-07-05 21:24:55 +0800
 comments: true
 categories: [Archives, Web Development]
 keywords: https, SSL, Mac, Apache, MySQL
-discription:
+description:
 ---
 ## Apache
 ### 开启 Apache

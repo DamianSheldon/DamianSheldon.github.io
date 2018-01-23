@@ -5,7 +5,7 @@ date: 2014-11-27 20:19:06 +0800
 comments: true
 categories: [English]
 keywords: English, Syntax, Sentence
-discription: English Sentence
+description: English Sentence
 ---
 
 英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：

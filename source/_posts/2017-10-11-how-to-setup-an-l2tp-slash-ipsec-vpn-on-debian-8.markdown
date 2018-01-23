@@ -5,7 +5,7 @@ date: 2017-10-11 08:32:44 +0800
 comments: true
 categories: [Archives]
 keywords: VPN, IPSec, L2TP, Libreswan, iPhone, iOS, macOS
-discription: How to setup an L2TP/IPsec VPN on Debian 8
+description: How to setup an L2TP/IPsec VPN on Debian 8
 ---
 
 一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个[库](https://github.com/StreisandEffect/streisand)汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。  

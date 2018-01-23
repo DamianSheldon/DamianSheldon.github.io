@@ -5,7 +5,7 @@ date: 2015-11-04 09:38:13 +0800
 comments: true
 categories: [Archives]
 keywords: iOS, Continuous Integration, Deployment
-discription: Continuous Integration & Deployment for iOS Projects
+description: Continuous Integration & Deployment for iOS Projects
 ---
 本文是我做 iOS 项目持续集成和部署的笔记。
 

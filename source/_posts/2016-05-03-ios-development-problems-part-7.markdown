@@ -5,7 +5,7 @@ date: 2016-05-03 17:00:04 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS
-discription: iOS development problems
+description: iOS development problems
 ---
 
 ### 1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？

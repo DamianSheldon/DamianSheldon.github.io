@@ -5,7 +5,7 @@ date: 2014-11-07 10:31:19 +0800
 comments: true
 categories: [Archives]
 keywords: iterm2, guake
-discription: setup iterm2 to behave like guake
+description: setup iterm2 to behave like guake
 ---
 以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。
 

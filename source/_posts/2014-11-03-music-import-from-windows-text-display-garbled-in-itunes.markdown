@@ -5,7 +5,7 @@ date: 2014-11-03 10:23:29 +0800
 comments: true
 categories: [Archives]
 keywords: Garbled, 乱码, iTunes, Music
-discription: Fix Music that import from windows garbled text in iTunes
+description: Fix Music that import from windows garbled text in iTunes
 ---
 
 从Windows迁移过来的歌曲在iTunes中乱码显示，按照Apple support里面的方法添加语言并没有解决问题，因此，我推测问题应该不是出在这。经过查找，发现问题是由于歌曲的ID3中的Enconding by字段的影响，也就是说，编码格式不一样。解决办法：   

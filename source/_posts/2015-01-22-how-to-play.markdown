@@ -5,7 +5,7 @@ date: 2015-01-22 16:48:25 +0800
 comments: true
 categories: [Archive, iOS Development]
 keywords: Play, Record, Edit, Video, iOS
-discription: How to Play, Record, and Edit Videos in iOS
+description: How to Play, Record, and Edit Videos in iOS
 ---
 
 ####AVAsset

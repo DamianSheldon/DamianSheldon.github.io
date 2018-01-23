@@ -5,7 +5,7 @@ date: 2014-12-15 11:53:11 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Self-signed, Certificate, iOS, TLS/SSL, HTTPS 
-discription: App如何与Server安全交互
+description: App如何与Server安全交互
 ---
 
 大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。

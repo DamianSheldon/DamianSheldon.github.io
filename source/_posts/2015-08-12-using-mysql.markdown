@@ -5,7 +5,7 @@ date: 2015-08-12 22:01:09 +0800
 comments: true
 categories: [Archives, Web Development]
 keywords: MySQL
-discription: 
+description: 
 ---
 
 ###1.查看所有的用户

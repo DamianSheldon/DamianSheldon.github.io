@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [Archives, iOS Development]
 keywords: State Preservation Resoration
-discription: Introduce iOS App State Preservation and Restoration
+description: Introduce iOS App State Preservation and Restoration
 ---
 1. 什么是State Preservation and Restoration？
 2. 为什么要用State Preservation and Restoration？

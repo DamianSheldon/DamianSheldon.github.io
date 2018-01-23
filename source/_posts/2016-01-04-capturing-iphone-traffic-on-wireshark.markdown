@@ -5,7 +5,7 @@ date: 2016-01-04 14:43:00 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: capturing traffic, Packet Trace, rvictl, wireshark
-discription: How to Capture iPhone traffic on Wireshark
+description: How to Capture iPhone traffic on Wireshark
 ---
 开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？
 

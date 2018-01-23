@@ -5,7 +5,7 @@ date: 2016-12-23 14:23:33 +0800
 comments: true
 categories: [Archives, iOS Development] 
 keywords: Photos, PHPhotoLibrary, PHAssetCollection, PHAsset,  Assets Library 
-discription: 
+description: 
 ---
 
 从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。

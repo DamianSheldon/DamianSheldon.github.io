@@ -5,7 +5,7 @@ date: 2015-03-18 21:12:56 +0800
 comments: true
 categories: [Archives]
 keywords: Linux Useful Command Line
-discription: Linux Useful Command Line
+description: Linux Useful Command Line
 ---
 
 ###1.Create new account

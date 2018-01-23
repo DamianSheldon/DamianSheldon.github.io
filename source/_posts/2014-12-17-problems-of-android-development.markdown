@@ -5,7 +5,7 @@ date: 2014-12-17 09:38:20 +0800
 comments: true
 categories: [Archives, Android]
 keywords: Android, Gradle, Android Studio, Eclipse
-discription: Android开发问题汇总
+description: Android开发问题汇总
 ---
 ###1.Gradle使用代理服务器
 

@@ -5,7 +5,7 @@ date: 2016-02-25 16:54:55 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS
-discription: 
+description: 
 ---
 ###1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
 A:

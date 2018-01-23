@@ -5,7 +5,7 @@ date: 2015-12-12 22:27:22 +0800
 comments: true
 categories: [Archives, Web Development]
 keywords: HTML, CSS, JavaScript, Bootstrap, ionic, GMP, AngularJS, JQuery
-discription: Web Development Notes Part One
+description: Web Development Notes Part One
 ---
 
 ###1. What is href=“#” and why is it used?

@@ -5,7 +5,7 @@ date: 2018-01-04 10:08:36 +0800
 comments: true
 categories: [Archives, Web Development]
 keywords: 
-discription: Web Development Notes Part Two
+description: Web Development Notes Part Two
 ---
 
 ###1.Uncaught TypeError: Cannot read property 'msie' of undefined

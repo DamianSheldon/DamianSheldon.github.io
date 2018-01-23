@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [Archives, Web Development]
 keywords: OpenCart
-discription: Notes Of Using OpenCart
+description: Notes Of Using OpenCart
 ---
 ###1. opencart 安装中文语言包
 A:

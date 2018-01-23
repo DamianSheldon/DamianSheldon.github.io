@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [English]
 keywords: English, Sentence Elements
-discription: Summary of english sentence elements
+description: Summary of english sentence elements
 ---
 
 英语的句子成分主要有：

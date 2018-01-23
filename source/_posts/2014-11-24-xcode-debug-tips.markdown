@@ -5,7 +5,7 @@ date: 2014-11-24 17:14:52 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Debug, iOS App, Xcode
-discription: Summary of Xcode debug tips
+description: Summary of Xcode debug tips
 ---
 iOS App开发过程中不可避免地遇到程序崩溃的问题。当程序崩溃时，我们首先要找到它崩溃的原因。一旦找到原因，问题就容易解决了。Xcode Debugger是查找崩溃原因的有利工具，我们应该学会熟练使用它，迅速解决问题，节约宝贵的开发时间。
 

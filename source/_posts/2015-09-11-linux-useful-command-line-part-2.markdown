@@ -5,7 +5,7 @@ date: 2015-09-11 09:30:16 +0800
 comments: true
 categories: [Archives]
 keywords:
-discription:
+description:
 ---
 ###1.Rails Error: ImageMagick/GraphicsMagick is not installed
 

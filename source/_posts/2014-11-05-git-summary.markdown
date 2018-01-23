@@ -5,7 +5,7 @@ date: 2014-11-05 10:13:13 +0800
 comments: true
 categories: [Archives]
 keywords: Git, Summary
-discription: This is a summary of git
+description: This is a summary of git
 ---
 本文是从日常开发的角度对 Git 的总结，主要内容如下：
 

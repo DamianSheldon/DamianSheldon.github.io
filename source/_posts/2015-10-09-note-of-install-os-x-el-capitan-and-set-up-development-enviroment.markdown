@@ -5,7 +5,7 @@ date: 2015-10-09 18:00:22 +0800
 comments: true
 categories: [Archives]
 keywords: OS El Capitan, Mac 
-discription: 
+description: 
 ---
 最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 -- 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。
 

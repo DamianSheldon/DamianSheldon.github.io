@@ -5,7 +5,7 @@ date: 2017-07-14 09:49:40 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Exif, UIImage, ImageIO
-discription: Simple image processing in iOS
+description: Simple image processing in iOS
 ---
 在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。
 

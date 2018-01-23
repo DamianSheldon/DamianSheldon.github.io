@@ -5,7 +5,7 @@ date: 2014-10-09 16:24:09 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: Certificates, Provisioning, App ID, UDID, CSR 
-discription: Introduce Certificates and Provisioning Profiles
+description: Introduce Certificates and Provisioning Profiles
 ---
 在 iOS 开发中，Certificate 和 Provisioning Profle 可能是我们容易困惑的一部分内容。这篇文章我打算来梳理下这部分知识，只有理解了其中的内容，我们才能解决在开发过程可能遇到的代码签名问题。  
 

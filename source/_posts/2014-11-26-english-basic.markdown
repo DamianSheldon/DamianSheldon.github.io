@@ -5,7 +5,7 @@ date: 2014-11-26 22:01:08 +0800
 comments: true
 categories: [English]
 keywords: English, Basic Summary
-discription: Simple summary of english
+description: Simple summary of english
 ---
 
 如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。

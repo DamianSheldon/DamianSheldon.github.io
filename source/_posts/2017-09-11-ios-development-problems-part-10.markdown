@@ -5,7 +5,7 @@ date: 2017-09-11 15:42:24 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS 
-discription: 
+description: 
 ---
 
 ###1.在iOS 中如何使用私钥加密数据？

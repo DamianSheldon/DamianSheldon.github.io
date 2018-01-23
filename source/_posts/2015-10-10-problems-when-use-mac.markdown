@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "使用 Mac 遇到的问题"
+title: "使用 Mac 时遇到的问题"
 date: 2015-10-10 08:49:37 +0800
 comments: true
 categories: [Archives]
 keywords: Mac
-description: 
+description: 使用 Mac 时遇到的问题
 ---
 
 ## 1. How to enable the three finger drag on OS X 10.11
@@ -145,43 +145,5 @@ If the command sudo route flush takes longer than 10 seconds to complete, hold d
 
 Reference:https://www.ovpn.se/en/faq/troubleshooting/mac-cant-assign-requested-address-code49
 
-## 16. iPhone每次连接Mac都会弹出iPhoto
-解决办法：
 
-1. Plug in your iPad/iPhone
-2. Open Image Capture
-3. Select your device ("devMikePad")
-4. Press the triangle in square symbol in the lower left corner.
-5. Select "No application" in the menu.
 
-iPhoto:
-Preferences > General > "Connecting Camera Opens ..."
-set it to "No Application"
-
-## 17. Add environment variable
-
-```
-// ~/.bash_profile
-export var=value
-```
-
-### 18.SSH ask passpharse every time I use SSH key.
-
-A:
-
-```
-$echo -e "AddKeysToAgent yes\nUseKeychain yes" >> ~/.ssh/config
-```
-
-###19.Fix the Enable and Disable install software from anywhere in macOS Sierra
-A:
-
-```
-// Enable
-$ sudo spctl --master-disable
-
-// Disable
-$sudo spctl --master-enable
-```
-
-Reference:[Fix the Enable and Disable install software from anywhere in macOS Sierra problem](https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/)

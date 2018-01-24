@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS Technical Interview Part 4"
+title: "iOS 面试题汇总(四)"
 date: 2016-08-30 10:43:36 +0800
 comments: true
 categories: [Archives, iOS Development]
@@ -9,7 +9,7 @@ description: iOS Technical Interview
 ---
 
 ###1.熟悉 CocoaPods 么？能大概讲一下工作原理么？
-A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。
+A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。
 
 ###2.最常用的版本控制工具是什么，能大概讲讲原理么？
 A: Git
@@ -18,19 +18,38 @@ A: Git
 A:根据想要分析的问题，选择对应的　instruments　，同时参考　Instruments　User　Guide．
 
 ###4.你一般是如何调试 Bug 的
-A:复现 bug，之后单步调试定位。
+A:对于容易复现的 bug，根据复现的步骤来调试代码会比较容易定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，打到 bug 产生的原因才好解决。
 
 ###5.你在你的项目中用到了哪些设计模式？
 A: 
 
-	* 单例
-	* 委托
-	* Target-Action
-	* MVC
-	* 观察者
-	* 工厂方法
-	* 信息流
-	* 类簇
+创建型：
+	
+* 工厂方法(Factory Method)
+* 原型(Prototype)
+* 单例(Singleton)
+
+结构型：
+
+* 适配器(Adapter)
+* 桥接(Bridge)
+* 组成(Composite)
+* 装饰(Decorator)
+* 外观(Facade)
+* 享元(Flyweight)
+
+行为型：
+
+* 职责链（Chain Of Responsibility）
+* 命令(Command)
+* 解释器(Interpreter)
+* 迭代器(Iterator)
+* 中介者(Mediator)
+* 备忘录(Memento)
+* 观察者(Observer)
+* 状态(State)
+* 策略(Strategy)
+* 模板方法(Template Method)
 
 <!-- more -->
 
@@ -51,6 +70,7 @@ A：
 
 * 单例相当于全局变量，因此存在强藕合，不利于扩展和应对变化；
 * 单例违背单一设计原则；
+* 如果单例很大，由于它常驻内存，也会造成内存压力；
 
 ###7.如何把一个包含自定义对象的数组序列化到磁盘？
 A:自定义对象需要实现 NSCoding 协议，然后可以调用 NSKeyedArchiver 的`+ (BOOL)archiveRootObject:(id)rootObject toFile:(NSString *)path`方法将它序列化到磁盘。
@@ -106,7 +126,7 @@ A:
 
 你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除些之外我们应该使用 weak.
 
-Reference:http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute
+Reference:[What is the use of unsafe_unretained attribute?](http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute)
 
 ###16.Objective-C 中，meta-class 指的是什么
 A:类对象的类称为 meta-class.
@@ -119,13 +139,13 @@ A:我觉得`+[UIView animateWithDuration:animations:completion:]` 内部应该�
 
 Reference:
 
-* https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented   
-* http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood
+* [How is UIView's +animateWithDuration:animations: implemented?](https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented)   
+* [How UIView animations with blocks work under the hood](http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood)
 
 ###19.什么时候会发生「隐式动画」？
 A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。
 
-Reference:http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios
+Reference:[When exactly do implicit animations take place in iOS?](http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios)
 
 ###20.如何把一张大图缩小为1/4大小的缩略图？
 A:
@@ -136,7 +156,7 @@ A:
 * Lanczos Resampling with Core Image(Core Image)
 * vImage in Accelerate(vImage)
 
-Reference:http://nshipster.com/image-resizing/
+Reference:[Image Resizing Techniques](http://nshipster.com/image-resizing/)
 
 ###21.Toll-Free Bridging 是什么？什么情况下会使用？
 A:
@@ -180,9 +200,9 @@ A:当需要绘制的内容不能用 UIKit 实现时，会使用 Core Graphics。
 
 注意事项：
 
-	* 坐标系统
-	* 线条的宽度尽量使用整数
-	* 缓存代价昂贵的数据
+* 坐标系统
+* 线条的宽度尽量使用整数
+* 缓存代价昂贵的数据
 
 ###31.使用 Block 时需要注意哪些问题？
 A:
@@ -274,5 +294,5 @@ Reference:
 [Friday Q&A 2014-06-06: Secrets of dispatch_once](https://www.mikeash.com/pyblog/friday-qa-2014-06-06-secrets-of-dispatch_once.html)
 
 
-Reference:https://github.com/lzyy/iOS-Developer-Interview-Questions
+Reference:[iOS-Developer-Interview-Questions](https://github.com/lzyy/iOS-Developer-Interview-Questions)  
 

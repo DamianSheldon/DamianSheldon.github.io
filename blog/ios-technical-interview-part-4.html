@@ -5,7 +5,7 @@
     <!--<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
     <script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
 	<meta charset="utf-8">
-	<title>iOS Technical Interview Part 4  | Hello World</title>
+	<title>iOS 面试题汇总(四)  | Hello World</title>
 
 <meta name="author" content="Sheldon"> 
 
@@ -122,10 +122,10 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">iOS Technical Interview Part 4</h2>
+	<h2 class="title">iOS 面试题汇总(四)</h2>
 	<div class="entry-content"><h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
 
-<p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
+<p>A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
 
 <h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
 
@@ -137,21 +137,48 @@ $(document).ready(
 
 <h3>4.你一般是如何调试 Bug 的</h3>
 
-<p>A:复现 bug，之后单步调试定位。</p>
+<p>A:对于容易复现的 bug，根据复现的步骤来调试代码会比较容易定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，打到 bug 产生的原因才好解决。</p>
 
 <h3>5.你在你的项目中用到了哪些设计模式？</h3>
 
 <p>A:</p>
 
-<pre><code>* 单例
-* 委托
-* Target-Action
-* MVC
-* 观察者
-* 工厂方法
-* 信息流
-* 类簇
-</code></pre>
+<p>创建型：</p>
+
+<ul>
+<li>工厂方法(Factory Method)</li>
+<li>原型(Prototype)</li>
+<li>单例(Singleton)</li>
+</ul>
+
+
+<p>结构型：</p>
+
+<ul>
+<li>适配器(Adapter)</li>
+<li>桥接(Bridge)</li>
+<li>组成(Composite)</li>
+<li>装饰(Decorator)</li>
+<li>外观(Facade)</li>
+<li>享元(Flyweight)</li>
+</ul>
+
+
+<p>行为型：</p>
+
+<ul>
+<li>职责链（Chain Of Responsibility）</li>
+<li>命令(Command)</li>
+<li>解释器(Interpreter)</li>
+<li>迭代器(Iterator)</li>
+<li>中介者(Mediator)</li>
+<li>备忘录(Memento)</li>
+<li>观察者(Observer)</li>
+<li>状态(State)</li>
+<li>策略(Strategy)</li>
+<li>模板方法(Template Method)</li>
+</ul>
+
 
 <!-- more -->
 
@@ -183,6 +210,7 @@ $(document).ready(
 <ul>
 <li>单例相当于全局变量，因此存在强藕合，不利于扩展和应对变化；</li>
 <li>单例违背单一设计原则；</li>
+<li>如果单例很大，由于它常驻内存，也会造成内存压力；</li>
 </ul>
 
 
@@ -258,7 +286,7 @@ $(document).ready(
 
 <p>你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除些之外我们应该使用 weak.</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute">http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute">What is the use of unsafe_unretained attribute?</a></p>
 
 <h3>16.Objective-C 中，meta-class 指的是什么</h3>
 
@@ -275,8 +303,8 @@ $(document).ready(
 <p>Reference:</p>
 
 <ul>
-<li><a href="https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented">https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented</a></li>
-<li><a href="http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood">http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood</a></li>
+<li><a href="https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented">How is UIView&rsquo;s +animateWithDuration:animations: implemented?</a></li>
+<li><a href="http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood">How UIView animations with blocks work under the hood</a></li>
 </ul>
 
 
@@ -284,7 +312,7 @@ $(document).ready(
 
 <p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。</p>
 
-<p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">When exactly do implicit animations take place in iOS?</a></p>
 
 <h3>20.如何把一张大图缩小为1/4大小的缩略图？</h3>
 
@@ -299,7 +327,7 @@ $(document).ready(
 </ul>
 
 
-<p>Reference:<a href="http://nshipster.com/image-resizing/">http://nshipster.com/image-resizing/</a></p>
+<p>Reference:<a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></p>
 
 <h3>21.Toll-Free Bridging 是什么？什么情况下会使用？</h3>
 
@@ -357,10 +385,12 @@ $(document).ready(
 
 <p>注意事项：</p>
 
-<pre><code>* 坐标系统
-* 线条的宽度尽量使用整数
-* 缓存代价昂贵的数据
-</code></pre>
+<ul>
+<li>坐标系统</li>
+<li>线条的宽度尽量使用整数</li>
+<li>缓存代价昂贵的数据</li>
+</ul>
+
 
 <h3>31.使用 Block 时需要注意哪些问题？</h3>
 
@@ -490,7 +520,7 @@ $(document).ready(
 <p>Reference:
 <a href="https://www.mikeash.com/pyblog/friday-qa-2014-06-06-secrets-of-dispatch_once.html">Friday Q&amp;A 2014-06-06: Secrets of dispatch_once</a></p>
 
-<p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">https://github.com/lzyy/iOS-Developer-Interview-Questions</a></p>
+<p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">iOS-Developer-Interview-Questions</a></p>
 </div>
 
 

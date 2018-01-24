@@ -254,12 +254,12 @@ $(document).ready(
 		
 		<a href="/blog/ios-technical-interview-part-4.html">
 		
-			iOS Technical Interview Part 4</a>
+			iOS 面试题汇总(四)</a>
 	</h2>
 	<div class="entry-content">
 		<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
 
-<p>A:熟悉，项目中的 Podfile 文件指定了使用的第三方库，根据它可以找到对应的 podspec 。 podspec 文件存储着第三方库的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
+<p>A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
 
 <h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
 
@@ -271,21 +271,48 @@ $(document).ready(
 
 <h3>4.你一般是如何调试 Bug 的</h3>
 
-<p>A:复现 bug，之后单步调试定位。</p>
+<p>A:对于容易复现的 bug，根据复现的步骤来调试代码会比较容易定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，打到 bug 产生的原因才好解决。</p>
 
 <h3>5.你在你的项目中用到了哪些设计模式？</h3>
 
 <p>A:</p>
 
-<pre><code>* 单例
-* 委托
-* Target-Action
-* MVC
-* 观察者
-* 工厂方法
-* 信息流
-* 类簇
-</code></pre>
+<p>创建型：</p>
+
+<ul>
+<li>工厂方法(Factory Method)</li>
+<li>原型(Prototype)</li>
+<li>单例(Singleton)</li>
+</ul>
+
+
+<p>结构型：</p>
+
+<ul>
+<li>适配器(Adapter)</li>
+<li>桥接(Bridge)</li>
+<li>组成(Composite)</li>
+<li>装饰(Decorator)</li>
+<li>外观(Facade)</li>
+<li>享元(Flyweight)</li>
+</ul>
+
+
+<p>行为型：</p>
+
+<ul>
+<li>职责链（Chain Of Responsibility）</li>
+<li>命令(Command)</li>
+<li>解释器(Interpreter)</li>
+<li>迭代器(Iterator)</li>
+<li>中介者(Mediator)</li>
+<li>备忘录(Memento)</li>
+<li>观察者(Observer)</li>
+<li>状态(State)</li>
+<li>策略(Strategy)</li>
+<li>模板方法(Template Method)</li>
+</ul>
+
 
 
 		

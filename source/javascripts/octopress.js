@@ -116,14 +116,14 @@ function renderDeliciousLinks(items) {
   $('#delicious').html(output);
 }
 
-$.domReady(function() {
-  testFeatures();
-  wrapFlashVideos();
-  flashVideoFallback();
-  addCodeLineNumbers();
-  getNav();
-  addSidebarToggler();
-});
+//$.domReady(function() {
+//  testFeatures();
+//  wrapFlashVideos();
+//  flashVideoFallback();
+//  addCodeLineNumbers();
+//  getNav();
+//  addSidebarToggler();
+//});
 
 // iOS scaling bug fix
 // Rewritten version

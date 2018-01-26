@@ -5,7 +5,7 @@ date: 2016-02-25 16:54:55 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS
-description: 
+description: iOS Technical Interview
 ---
 ###1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
 A:
@@ -423,8 +423,9 @@ A:当调用该对象上某个方法,而该对象上没有实现这个方法的�
 
 ###48. BAD_ACCESS在什么情况下出现？  
 A:
-	* 访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。
-	* 死循环
+
+* 访问了野指针，比如对一个已经释放的对象执行了release、访问已经释放对象的成员变量或者发消息。
+* 死循环
 
 ###49. 如何调试BAD_ACCESS错误?  
 A:
@@ -475,7 +476,7 @@ o [上级向的十个iOS面试问题](http://onevcat.com/2013/04/ios-interview/)
 o [百度面试](http://studentdeng.github.io/blog/2014/02/11/baidu-interview/)  
 
 Reference:  
-o http://blog.sunnyxx.com/2015/07/04/ios-interview/  
-o https://github.com/ChenYilong/iOSInterviewQuestions
+o [iOS Interview](http://blog.sunnyxx.com/2015/07/04/ios-interview/)  
+o [iOS Interview Questions](https://github.com/ChenYilong/iOSInterviewQuestions)
 
 

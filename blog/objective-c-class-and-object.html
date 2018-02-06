@@ -132,7 +132,7 @@ $(document).ready(
 	<h2 class="title">Objective-C Class and Object</h2>
 	<div class="entry-content"><p>Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。</p>
 
-<h2>1,Class</h2>
+<h3>1.Class</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -180,7 +180,7 @@ $(document).ready(
 <!-- more -->
 
 
-<h2>2,Object</h2>
+<h3>2.Object</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -200,29 +200,29 @@ $(document).ready(
 
 <p>那么类对象是怎么创建的呢？经过查找，得到的结论是编译器创建的，编译时所谓的类是指类对象（官方文档： The class object is the compiled version of the class.）。</p>
 
-<h2>3,category</h2>
+<h3>3.category</h3>
 
 <p>因为对象在内存中的排布可以看成一个结构体，该结构体的大小并不能动态变化。所以无法在运行时动态给对象增加成员变量。
 相对的，对象的方法定义都保存在类的可变区域中。Objective-C 2.0并未在头文件中将实现暴露出来，但在Objective-C 1.0中，我们可以看到方法的定义列表是一个名为 methodLists的指针的指针。通过修改该指针指向的指针的值，就可以实现动态地为某一个类增加成员方法。这也是Category实现的原理。同时也说明了为什么Category只可为对象增加成员方法，却不能增加成员变量。</p>
 
-<h2>4,方法混写</h2>
+<h3>4.方法混写</h3>
 
 <p>因为对象的方法可以改变，因此我们就有了方法混写的技术。</p>
 
-<h2>5,isa混写</h2>
+<h3>5.isa混写</h3>
 
 <p>除了对象的方法可以动态修改，因为isa本身也只是一个指针，所以我们也可以在运行时动态地修改isa指针的值，达到替换对象整个行为的目的。</p>
 
 <p>典型示例：KVO。</p>
 
-<h2>6,参考资料</h2>
+<h3>6.参考资料</h3>
 
-<p>1,iOS 6 Programming Pushing the Limits, Rob Napier, Mugunth Kumar<br/>
-2,<a href="http://blog.csdn.net/kesalin/article/details/7211228">深入浅出Cocoa之类与对象</a><br/>
-3,<a href="http://blog.csdn.net/kesalin/article/details/7219572">深入浅出Cocoa 之动态创建类</a><br/>
-4,<a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/">Objective-C对象模型及应用</a><br/>
-5,<a href="http://blog.csdn.net/wzzvictory/article/details/8592492">Objective-C对象之类对象和元类对象（一）</a><br/>
-6,<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">Objcclass</a></p>
+<p>1.iOS 6 Programming Pushing the Limits, Rob Napier, Mugunth Kumar<br/>
+2.<a href="http://blog.csdn.net/kesalin/article/details/7211228">深入浅出Cocoa之类与对象</a><br/>
+3.<a href="http://blog.csdn.net/kesalin/article/details/7219572">深入浅出Cocoa 之动态创建类</a><br/>
+4.<a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/">Objective-C对象模型及应用</a><br/>
+5.<a href="http://blog.csdn.net/wzzvictory/article/details/8592492">Objective-C对象之类对象和元类对象（一）</a><br/>
+6.<a href="http://studentdeng.github.io/blog/2011/10/05/objcclass/">Objcclass</a></p>
 </div>
 
 

@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Linux 命令行(二)"
+title: "Linux 使用笔记(二)"
 date: 2015-09-11 09:30:16 +0800
 comments: true
 categories: [Archives]
-keywords:
-description:
+keywords: Linux, command line
+description: Linux usage notes
 ---
 ###1.Rails Error: ImageMagick/GraphicsMagick is not installed
 

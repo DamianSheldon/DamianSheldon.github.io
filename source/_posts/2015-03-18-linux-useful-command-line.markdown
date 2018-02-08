@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Linux 命令行(一)"
+title: "Linux 使用笔记(一)"
 date: 2015-03-18 21:12:56 +0800
 comments: true
 categories: [Archives]
-keywords: Linux Useful Command Line
+keywords: Linux, Command Line
 description: Linux Useful Command Line
 ---
 

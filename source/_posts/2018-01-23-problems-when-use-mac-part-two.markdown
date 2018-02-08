@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "使用 Mac 时遇到的问题(二)"
+title: "Mac 使用笔记(二)"
 date: 2018-01-23 11:59:31 +0800
 comments: true
 categories: [Archives]

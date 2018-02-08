@@ -5,7 +5,7 @@ date: 2014-11-05 10:13:13 +0800
 comments: true
 categories: [Archives]
 keywords: Git, Summary
-description: This is a summary of git
+description: A summary of basic usage of git
 ---
 本文是从日常开发的角度对 Git 的总结，主要内容如下：
 
@@ -456,7 +456,9 @@ $ git commit -amend
 $ git rebase -i HEAD~3
 ```
 
-###如何将目录覆盖下一级的同名目录？
+##问题汇总
+
+###1.如何将目录覆盖下一级的同名目录？
 ```
 // 背景
 |-A
@@ -473,7 +475,7 @@ $ git rebase -i HEAD~3
 
 ```
 
-###insufficient permission for adding an object to repository database ./objects
+###2.insufficient permission for adding an object to repository database ./objects
 
 ```
 ssh me@myserver
@@ -487,7 +489,7 @@ git config core.sharedRepository true
 
 Reference:http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi
 
-### warning: remote HEAD refers to nonexistent ref, unable to checkout
+###3.warning: remote HEAD refers to nonexistent ref, unable to checkout
 
 Solution:问题的原因是远程仓库的默认分支名不为master。
 
@@ -507,13 +509,13 @@ git push ...
 ```
 Reference:http://blog.csdn.net/gracioushe/article/details/6142793
 
-### How to untrack all delete files?
+###4.How to untrack all delete files?
 
 ```
 $ git diff-files --diff-filter=D --name-only -z | xargs -0 git rm
 ```
 
-### Resolving a 'both added' merge conflict in git?
+###5.Resolving a 'both added' merge conflict in git?
 
 A: If you use git rm git will remove all versions of that path from the index so your resolve action will leave you without either version.
 
@@ -523,12 +525,12 @@ If you want a blend you need to use a merge tool or edit it manually.
 
 Reference:http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git
 
-### Do a “git export” (like “svn export”)?
+###6.Do a “git export” (like “svn export”)?
 A:git archive master | tar -x -C /somewhere/else
 
 Reference:http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export
 
-### 部分远程分支在本地未显示
+###7.部分远程分支在本地未显示
 A:
 
 ```
@@ -536,6 +538,10 @@ $ git remote update
 $ git branch -r
 ```
 Reference:[Remote branch not showing up in “git branch -r”](https://stackoverflow.com/questions/12319968/remote-branch-not-showing-up-in-git-branch-r)
+
+###8.如何删除已经提交到仓库的大文件或敏感文件？
+A:Pro Git 的 Git Internals > Maintenance and Data Recovery > Removing Objects 给出问题的解决办法。
+
 
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

@@ -7,7 +7,7 @@
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="This is a summary of git"> <meta name="keywords" content="Git, Summary">
+<meta name="description" content="A summary of basic usage of git"> <meta name="keywords" content="Git, Summary">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -950,7 +950,9 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>如何将目录覆盖下一级的同名目录？</h3>
+<h2>问题汇总</h2>
+
+<h3>1.如何将目录覆盖下一级的同名目录？</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -979,7 +981,7 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>insufficient permission for adding an object to repository database ./objects</h3>
+<h3>2.insufficient permission for adding an object to repository database ./objects</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -998,7 +1000,7 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi">http://stackoverflow.com/questions/1918524/error-pushing-to-github-insufficient-permission-for-adding-an-object-to-reposi</a></p>
 
-<h3>warning: remote HEAD refers to nonexistent ref, unable to checkout</h3>
+<h3>3.warning: remote HEAD refers to nonexistent ref, unable to checkout</h3>
 
 <p>Solution:问题的原因是远程仓库的默认分支名不为master。</p>
 
@@ -1029,14 +1031,14 @@ $(document).ready(
 
 <p>Reference:<a href="http://blog.csdn.net/gracioushe/article/details/6142793">http://blog.csdn.net/gracioushe/article/details/6142793</a></p>
 
-<h3>How to untrack all delete files?</h3>
+<h3>4.How to untrack all delete files?</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git diff-files --diff-filter<span class="o">=</span>D --name-only -z <span class="p">|</span> xargs -0 git rm
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Resolving a &lsquo;both added&rsquo; merge conflict in git?</h3>
+<h3>5.Resolving a &lsquo;both added&rsquo; merge conflict in git?</h3>
 
 <p>A: If you use git rm git will remove all versions of that path from the index so your resolve action will leave you without either version.</p>
 
@@ -1046,13 +1048,13 @@ $(document).ready(
 
 <p>Reference:<a href="http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git">http://stackoverflow.com/questions/9823692/resolving-a-both-added-merge-conflict-in-git</a></p>
 
-<h3>Do a “git export” (like “svn export”)?</h3>
+<h3>6.Do a “git export” (like “svn export”)?</h3>
 
 <p>A:git archive master | tar -x -C /somewhere/else</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export">http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export</a></p>
 
-<h3>部分远程分支在本地未显示</h3>
+<h3>7.部分远程分支在本地未显示</h3>
 
 <p>A:</p>
 
@@ -1064,6 +1066,10 @@ $(document).ready(
 
 
 <p>Reference:<a href="https://stackoverflow.com/questions/12319968/remote-branch-not-showing-up-in-git-branch-r">Remote branch not showing up in “git branch -r”</a></p>
+
+<h3>8.如何删除已经提交到仓库的大文件或敏感文件？</h3>
+
+<p>A:Pro Git 的 Git Internals > Maintenance and Data Recovery > Removing Objects 给出问题的解决办法。</p>
 
 <h4>Reference</h4>
 

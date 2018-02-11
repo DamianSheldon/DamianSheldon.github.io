@@ -5,7 +5,7 @@ date: 2017-03-11 17:04:33 +0800
 comments: true
 categories: [Archives, Android] 
 keywords: Root, Tcpdump, ADB, tPacketCapture 
-description: 
+description: How to capture network packet on android physic device with tcpdump. 
 ---
 在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。
 

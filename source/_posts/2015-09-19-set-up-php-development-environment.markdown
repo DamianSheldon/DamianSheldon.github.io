@@ -4,8 +4,8 @@ title: "Set up PHP development environment"
 date: 2015-09-19 22:25:19 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords:
-description:
+keywords: PHP, development, environment
+description: How to set up php development environment?
 ---
 
 ###Notes of Set up PHP development environment

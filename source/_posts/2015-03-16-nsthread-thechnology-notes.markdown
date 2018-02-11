@@ -108,7 +108,7 @@ void LaunchThread()
 对于每个你创建的新线程，系统在你进程空间分配指定大小的内存充当它的栈。栈管理栈帧也是声明局部变量的地方。如果你想改变指定线程栈的大小，你需要在创建它之前就改变。所有的线程技术都提供一些设置栈大小的方法，虽然使用 NSThread 设置大小只在 iOS 和 OS X v10.5 及以上可用。下表列出了每种技术不同的方法。
 
 | 技术 | 方法 |
-| --- | ---- |
+| --- | :---- |
 | Cocoa | 在 iOS 和 OS X v10.5 及以上，分配和初始化一个 NSThread 对象(不要使用 `detachNewThreadSelector:toTarget:withObject:` 方法)。在调用 `start` 方法之前，使用 `setStackSize:`方法来指定新的栈大小。 |
 | POSIX | 创建新的 `pthread_attr_t` 并使用 `pthread_attr_setstacksize` 来改变默认的栈大小。当创建线程时传递该属性给 `pthread_create` 函数。 |
 

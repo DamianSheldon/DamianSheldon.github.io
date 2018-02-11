@@ -267,7 +267,7 @@ $(document).ready(
 
 <p>有两种方法添加任务到队列：异步或者同步。只要可能，使用 dispatch_async 和 dispatch_async_f 函数异步运行是优于同步的。当你添加块或函数到队列，没办法知道它们何时将被执行。因此，异步地添加块对象或函数让你从调用线程调度代码的运行，然后继续做其他工作。如果你从应用的主线程来调度任务，这尤为重要。</p>
 
-<p>虽然你应该应该尽可能地异步添加任务，你仍然会有需要同步添加任务去防止竞争条件或其他同步错误的时候。在这些时候，你可以使用 dispatch_sync 和 dispatch_sync_f 添加任务到队列。这些函数会阻塞当前线程的执行直到指定的任务完成。</p>
+<p>虽然你应该尽可能地异步添加任务，你仍然会有需要同步添加任务去防止竞争条件或其他同步错误的时候。在这些时候，你可以使用 dispatch_sync 和 dispatch_sync_f 添加任务到队列。这些函数会阻塞当前线程的执行直到指定的任务完成。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

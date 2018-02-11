@@ -34,7 +34,7 @@ GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步
 Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。
 
 ###Dispatch semaphores
-Dispatch semaphores 类似传统的信号量，但是通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。
+Dispatch semaphores 类似传统的信号量，但是它通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。
 
 ###Dispatch sources
 Dispatch source 产生通知响应指定的系统事件。你可以使用 dispatch sources 来监视像进程通知，信号和描述符等类似事件。当事件发生时，dispatch source 异步地提交你的任务到指定分发队列去处理。

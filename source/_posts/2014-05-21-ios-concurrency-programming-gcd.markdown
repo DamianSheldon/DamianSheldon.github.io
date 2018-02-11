@@ -31,8 +31,6 @@ GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步
 
 ###Dispatch groups
 
-Dispatch group 
-
 Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。
 
 ###Dispatch semaphores

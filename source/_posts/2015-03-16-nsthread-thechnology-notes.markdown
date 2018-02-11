@@ -98,10 +98,10 @@ void LaunchThread()
 ####设置线程相关的属性
 线程的配置项有： 
  
-	* 线程的栈大小
-	* Thread-Local 存储
-	* 线程的 Detached 状态
-	* 线程优先级
+* 线程的栈大小
+* Thread-Local 存储
+* 线程的 Detached 状态
+* 线程优先级
 
 设置线程的栈大小
 

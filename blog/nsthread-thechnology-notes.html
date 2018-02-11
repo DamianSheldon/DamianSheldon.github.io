@@ -283,17 +283,17 @@ $(document).ready(
 <thead>
 <tr>
 <th> 技术 </th>
-<th> 方法 </th>
+<th style="text-align:left;"> 方法 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td> Cocoa </td>
-<td> 在 iOS 和 OS X v10.5 及以上，分配和初始化一个 NSThread 对象(不要使用 <code>detachNewThreadSelector:toTarget:withObject:</code> 方法)。在调用 <code>start</code> 方法之前，使用 <code>setStackSize:</code>方法来指定新的栈大小。 </td>
+<td style="text-align:left;"> 在 iOS 和 OS X v10.5 及以上，分配和初始化一个 NSThread 对象(不要使用 <code>detachNewThreadSelector:toTarget:withObject:</code> 方法)。在调用 <code>start</code> 方法之前，使用 <code>setStackSize:</code>方法来指定新的栈大小。 </td>
 </tr>
 <tr>
 <td> POSIX </td>
-<td> 创建新的 <code>pthread_attr_t</code> 并使用 <code>pthread_attr_setstacksize</code> 来改变默认的栈大小。当创建线程时传递该属性给 <code>pthread_create</code> 函数。 </td>
+<td style="text-align:left;"> 创建新的 <code>pthread_attr_t</code> 并使用 <code>pthread_attr_setstacksize</code> 来改变默认的栈大小。当创建线程时传递该属性给 <code>pthread_create</code> 函数。 </td>
 </tr>
 </tbody>
 </table>

@@ -43,7 +43,7 @@ iOS中的Thread技术主要有两种：Cocoa 线程 和 POSIX 线程。
 
 * Cocoa 线程
 	
-	Cocoa 线程是用 NSThread 实现的，并且 NSObject 提供了生成新线程以及在已经运行的线程上执行代码的方法。所以使用 Cocoa 线程有四种:
+	Cocoa 线程是用 NSThread 实现的，并且 NSObject 提供了生成新线程以及在已经运行的线程上执行代码的方法。所以使用 Cocoa 线程有四种方法:
 	
 	* 使用 `detachNewThreadSelector:toTarget:withObject:` 类方法生成新线程。
 	* 创建一个新 NSThread 对象，调用它的 `start` 方法。（仅支持 iOS 和 OS X v10.5 及以上）

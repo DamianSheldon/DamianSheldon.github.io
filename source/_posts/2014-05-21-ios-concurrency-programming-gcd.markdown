@@ -70,7 +70,7 @@ dispatch_queue defaultGlobalConcurrentQueue = dispatch_get_global_queue(DISPATCH
 dispatch_queue_t myCustomConcurrentQueue = dispatch_queue_create("myCustomConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
 
 // 3. Main queue
-dispatch_queue_t mainQueue = dispatch_get_main_queue(void);
+dispatch_queue_t mainQueue = dispatch_get_main_queue();
 ```
 
 ###用块实现任务

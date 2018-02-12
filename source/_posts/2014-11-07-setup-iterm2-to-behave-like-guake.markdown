@@ -4,7 +4,7 @@ title: "为MacBook Pro配置一个像guake的终端"
 date: 2014-11-07 10:31:19 +0800
 comments: true
 categories: [Archives]
-keywords: iterm2, guake
+keywords: iterm2, guake, mac
 description: setup iterm2 to behave like guake
 ---
 以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。
@@ -41,9 +41,6 @@ description: setup iterm2 to behave like guake
 5)将这个新窗口布局设置默认布局，Preferences > Arrangements > Set it as default;   
 
 6)最后在Preferences… > General > Startup, 只选中“Open default window arrangement” 。
-
-(2017-05-15 Update)  
-根据 [@leafonsword](https://github.com/leafonsword) 的反馈，也可以通过 General > Startup > Don't open any windows 来解决。
 
 ###Reference:   
 [SETUP ITERM2 TO BEHAVE LIKE GUAKE](http://ivanvillareal.com/osx/setup-iterm2-to-behave-like-guake/)    

@@ -134,6 +134,200 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-technical-interview-part-1.html">
+		
+			iOS 面试题汇总(一)</a>
+	</h2>
+	<div class="entry-content">
+		<h3>1.Explain method swizzling. When you would use it?</h3>
+
+<p>A:Method swizzling is a feature of dynamic of Objective-C that use a new method implementation replace the original. When the original implement doesn&rsquo;t meet my need, I will use this technology.</p>
+
+<h3>2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
+
+<p>A:It causes strong reference cycle, and results as memory leaks.</p>
+
+<h3>3.What happens when you invoke a method on a nil pointer?</h3>
+
+<p>A:返回0</p>
+
+<p>Reference:<a href="http://nshipster.com/nil/">nil / Nil / NULL / NSNull</a></p>
+
+<h3>4.Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+
+<p>A:</p>
+
+<blockquote><p>There should be no reason to explicitly ask an object what its retain count is (see retainCount). The result is often misleading, as you may be unaware of what framework objects have retained an object in which you are interested. In debugging memory management issues, you should be concerned only with ensuring that your code adheres to the ownership rules.</p></blockquote>
+
+<ol>
+<li>结果不正确，因为你不知道框架中哪些对象已经引用了你感兴趣的对象;</li>
+<li>产品代码中不应该包含无用代码。</li>
+</ol>
+
+
+<h3>5.Explain your process for tracing and fixing a memory leak.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
+<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
+</ol>
+
+
+<p>Reference:<a href="http://www.raywenderlich.com/2696">Instruments Tutorial for iOS: How To Debug Memory Leaks</a></p>
+
+<h3>6.Explain how an autorelease pool works at the runtime level.</h3>
+
+<p>A:As its name, it works like a pool, any object called autorelease method be throw to this pool, all object in autorelease pool will recieve a release method when it drain that occured at each event loop end.</p>
+
+<h3>7.When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
+
+<p>A: atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@property CGRect domain;
+</span><span class='line'>
+</span><span class='line'>&lt;b&gt;thread 1:&lt;/b&gt; puppy.domain = CGRectMake (1.0, 2.0, 3.0, 4.0);
+</span><span class='line'>&lt;b&gt;thread 2:&lt;/b&gt; puppy.domain = CGRectMake (10.0, 20.0, 30.0, 40.0);
+</span><span class='line'>
+</span><span class='line'>atomic意味着在竞争赋值的情况下得到的结果是CGRectMake (1.0, 2.0, 3.0, 4.0)或者CGRectMake (10.0, 20.0, 30.0, 40.0)。
+</span><span class='line'>
+</span><span class='line'>noatomic情况得到的结果可能是CGRectMake (1.0, 2.0, 30.0, 40.0)这种两次组合的乱码。
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
+
+<h3>8.In C, how would you reverse a string as quickly as possible?</h3>
+
+<h3>9.Which is faster: to iterate through an NSArray or an NSSet?</h3>
+
+<p>A: NSArray</p>
+
+<p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">NSArray or NSSet, NSDictionary or NSMapTable</a></p>
+
+<h3>10.Explain how code signing works.</h3>
+
+<h3>11.What is posing in Objective-C?</h3>
+
+<h3>12.List six instruments that are part of the standard.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>Time Profiler</li>
+<li>Leaks</li>
+<li>Zombies</li>
+<li>Allocations</li>
+<li>Activity Monitor</li>
+<li>Core Animation</li>
+<li>Network</li>
+</ol>
+
+
+<h3>13.What are the differences between copy and retain?</h3>
+
+<p>A: copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
+
+<h3>14.What is the difference between frames and bounds?</h3>
+
+<p>A:</p>
+
+<blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
+The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
+
+<h3>15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+
+<p>A: The object gets released twice when the autorelease pool is destroyed.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">Autoreleasing twice an object</a></p>
+
+<h3>16.List the five iOS app states.</h3>
+
+<p>A:</p>
+
+<table>
+<thead>
+<tr>
+<th> State </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Not Running </td>
+<td> The app has not been launched or was running but was terminated by the system. </td>
+</tr>
+<tr>
+<td> Inactive </td>
+<td> The app is running in the foreground but is currently not receiving events. (It may be executing other code though.) An app usually stays in this state only briefly as it transitions to a different state.</td>
+</tr>
+<tr>
+<td> Active </td>
+<td> The app is running in the foreground and is receiving events. This is the normal mode for foreground apps.</td>
+</tr>
+<tr>
+<td> Background </td>
+<td> The app is in the background and executing code. Most apps enter this state briefly on their way to being suspended. However, an app that requests extra execution time may remain in this state for a period of time. In addition, an app being launched directly into the background enters this state instead of the inactive state. For information about how to execute code while in the background</td>
+</tr>
+<tr>
+<td> Suspended </td>
+<td> The app is in the background but is not executing code. The system moves apps to this state automatically and does not notify them before doing so. While suspended, an app remains in memory but does not execute any code.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
+
+<p>Reference:
+o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Interview Questions</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-01-05T15:44:07+08:00" pubdate data-updated="true">05 Jan 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-of-android-development.html">
 		
 			Android开发问题汇总(一)</a>
@@ -498,312 +692,6 @@ URL Session Programming Guide</p>
 
 
 <time datetime="2014-12-15T11:53:11+08:00" pubdate data-updated="true">15 Dec 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html">
-		
-			如何创建自定义的Xcode 6 工程模板</a>
-	</h2>
-	<div class="entry-content">
-		<p>随着时间的推移，这篇文章的实践部分需要更新了，我找到一个更好的工具来做这件事，这就是 <a href="https://github.com/liftoffcli/liftoff">liftoff</a>。相比与手动来制作工程模板，自定义 liftoff 的配置文件要容易很多，更重要的是它提供了文档。</p>
-
-<p>liftoff 支持配置工程的组，目录结构和模板。配置工程的组和目录结构是通过 .liftoffrc 文件，它查找顺序是 ./.liftoffrc > ~/.liftoffrc > 默认配置文件，可以 man liftoffrc 来查看详细介绍。</p>
-
-<p>litfoff 还可以在新建工程时通过在 .liftoffrc 中指定包含哪些文件，这些文件的来源顺序是 ./.liftoff/templates > ~/.liftoff/templates > 默认的文件。</p>
-
-<p>通过 .liftoffrc 来配置我们想要的工程结构，然后自定义Podfile 来包含工程常用的 pod，可以为我们在新建工程省些事，减轻些负担，总之还是我们之前想办法把重复的事情自动化的思想。</p>
-
-<p>下面是我的 ~/.liftoffrc:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>############################################################################
-</span><span class='line'># The following keys can be used to configure defaults for project creation
-</span><span class='line'># project_name:
-</span><span class='line'># company:
-</span><span class='line'># author:
-</span><span class='line'># prefix:
-</span><span class='line'># company_identifier:
-</span><span class='line'>############################################################################
-</span><span class='line'>
-</span><span class='line'>test_target_name: UnitTests
-</span><span class='line'>configure_git: true
-</span><span class='line'>warnings_as_errors: true
-</span><span class='line'>enable_static_analyzer: true
-</span><span class='line'>indentation_level: 4
-</span><span class='line'>use_tabs: false
-</span><span class='line'>dependency_managers: cocoapods
-</span><span class='line'>enable_settings: false
-</span><span class='line'>strict_prompts: false
-</span><span class='line'>deployment_target: 8.0
-</span><span class='line'>
-</span><span class='line'>run_script_phases:
-</span><span class='line'>  - file: todo.sh
-</span><span class='line'>    name: Warn for TODO and FIXME comments
-</span><span class='line'>  - file: bundle_version.sh
-</span><span class='line'>    name: Set version number
-</span><span class='line'>
-</span><span class='line'>templates:
-</span><span class='line'>  - test.sh: bin/test
-</span><span class='line'>  - setup.sh: bin/setup
-</span><span class='line'>  - README.md: README.md
-</span><span class='line'>
-</span><span class='line'>warnings:
-</span><span class='line'>  - GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED
-</span><span class='line'>  - GCC_WARN_MISSING_PARENTHESES
-</span><span class='line'>  - GCC_WARN_ABOUT_RETURN_TYPE
-</span><span class='line'>  - GCC_WARN_SIGN_COMPARE
-</span><span class='line'>  - GCC_WARN_CHECK_SWITCH_STATEMENTS
-</span><span class='line'>  - GCC_WARN_UNUSED_FUNCTION
-</span><span class='line'>  - GCC_WARN_UNUSED_LABEL
-</span><span class='line'>  - GCC_WARN_UNUSED_VALUE
-</span><span class='line'>  - GCC_WARN_UNUSED_VARIABLE
-</span><span class='line'>  - GCC_WARN_SHADOW
-</span><span class='line'>  - GCC_WARN_64_TO_32_BIT_CONVERSION
-</span><span class='line'>  - GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS
-</span><span class='line'>  - GCC_WARN_ABOUT_MISSING_NEWLINE
-</span><span class='line'>  - GCC_WARN_UNDECLARED_SELECTOR
-</span><span class='line'>  - GCC_WARN_TYPECHECK_CALLS_TO_PRINTF
-</span><span class='line'>  - GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS
-</span><span class='line'>  - CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS
-</span><span class='line'>  - CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF
-</span><span class='line'>  - CLANG_WARN_IMPLICIT_SIGN_CONVERSION
-</span><span class='line'>  - CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION
-</span><span class='line'>  - CLANG_WARN_EMPTY_BODY
-</span><span class='line'>  - CLANG_WARN_ENUM_CONVERSION
-</span><span class='line'>  - CLANG_WARN_INT_CONVERSION
-</span><span class='line'>  - CLANG_WARN_CONSTANT_CONVERSION
-</span><span class='line'>
-</span><span class='line'>xcode_command: open -a 'Xcode' .
-</span><span class='line'>
-</span><span class='line'>project_template: objc
-</span><span class='line'>
-</span><span class='line'>app_target_templates:
-</span><span class='line'>  objc:
-</span><span class='line'>    - &lt;%= project_name %&gt;:
-</span><span class='line'>      - Categories:
-</span><span class='line'>      - Protocols:
-</span><span class='line'>      - Headers:
-</span><span class='line'>      - Models:
-</span><span class='line'>      - Sections:
-</span><span class='line'>      - Classes:
-</span><span class='line'>      - AppDelegate:
-</span><span class='line'>        - &lt;%= prefix %&gt;AppDelegate.h
-</span><span class='line'>        - &lt;%= prefix %&gt;AppDelegate.m
-</span><span class='line'>      - Network:
-</span><span class='line'>      - DataPersistence:
-</span><span class='line'>      - Docs:
-</span><span class='line'>      - Vendors:
-</span><span class='line'>      - Resources:
-</span><span class='line'>        - Images.xcassets
-</span><span class='line'>        - Nibs:
-</span><span class='line'>          - LaunchScreen.xib
-</span><span class='line'>        - Other-Sources:
-</span><span class='line'>          - Info.plist
-</span><span class='line'>          - &lt;%= project_name %&gt;-Prefix.pch
-</span><span class='line'>          - main.m
-</span><span class='line'>  swift:
-</span><span class='line'>    - &lt;%= project_name %&gt;:
-</span><span class='line'>      - Extensions:
-</span><span class='line'>      - Protocols:
-</span><span class='line'>      - Models:
-</span><span class='line'>      - ViewModels:
-</span><span class='line'>      - Controllers:
-</span><span class='line'>        - AppDelegate.swift
-</span><span class='line'>      - Views:
-</span><span class='line'>      - Resources:
-</span><span class='line'>        - Images.xcassets
-</span><span class='line'>        - Storyboards:
-</span><span class='line'>          - Main.storyboard
-</span><span class='line'>        - Nibs:
-</span><span class='line'>          - LaunchScreen.xib
-</span><span class='line'>        - Other-Sources:
-</span><span class='line'>          - Info.plist
-</span><span class='line'>
-</span><span class='line'>test_target_templates:
-</span><span class='line'>  objc:
-</span><span class='line'>    - &lt;%= test_target_name %&gt;:
-</span><span class='line'>      - Resources:
-</span><span class='line'>        - &lt;%= test_target_name %&gt;-Info.plist
-</span><span class='line'>        - &lt;%= test_target_name %&gt;-Prefix.pch
-</span><span class='line'>      - Helpers:
-</span><span class='line'>      - Tests:
-</span><span class='line'>  swift:
-</span><span class='line'>    - &lt;%= test_target_name %&gt;:
-</span><span class='line'>      - Resources:
-</span><span class='line'>        - &lt;%= test_target_name %&gt;-Info.plist
-</span><span class='line'>      - Helpers:
-</span><span class='line'>      - Tests:</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用Xcode 6新建工程时，Apple准备了好些模板，这些模板写个Demo还是没有问题的，但是用来组织项目文件还是太弱了，所以情况经常是不得不每次去新建各种目录，这种重复性的劳动一来乏味，二来浪费时间。那么我们能不像创建自己的模板呢？这样新建的工程就能按自己的想法包含各种目录和文件。好消息是可以，坏消息是Apple没有提供相应的文档。虽然没有文档，还是试着来创建一个模板，每次都重复实在太烦（就是这么任性）。</p>
-
-<p>既然没有文档，我们就把Apple的模板复制一份，在它的基础上修改成我们需要的样子。<strong>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/</strong>有iOS所有工程模板。用户自定义的模板建议放到<strong>~/Library/Developer/Xcode/Templates/</strong>，目录如果不存在就创建。模板至少要包含两部分：一是扩展名为<strong>.xctemplate</strong>的文件夹；二是名称为<strong>TemplateInfo.plist</strong>的属性列表文件。好了，我们来创建一个自定义模板：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Step 1:
-</span><span class='line'>$ mkdir ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span><span class='line'>
-</span><span class='line'>// Step 2:
-</span><span class='line'>$ cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application/Single\ View\ Application.xctemplate/* ~/Library/Developer/Xcode/Templates/CocoaBite.xctemplate/
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/how-to-creating-custom-xcode-6-project-templates.html" class="more-link">继续阅读</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-12-05T14:34:04+08:00" pubdate data-updated="true">05 Dec 2014</time></div>
 	
 
 <div class="tags">

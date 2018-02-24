@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-02-12T15:47:18+08:00</updated>
+  <updated>2018-02-24T10:43:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,178 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[多线程的 Core Data]]></title>
+    <link href="http://DamianSheldon.github.io/blog/concurrency-with-core-data.html"/>
+    <updated>2018-02-23T16:00:35+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/concurrency-with-core-data</id>
+    <content type="html"><![CDATA[<p>平常在项目中没有使用过 Core Data, 因为我觉得它的学习曲线还挺陡峭，整个框架给人的感觉很复杂和笨重，因此一直没有使用它。但是看到喵神这份<a href="https://onevcat.com/2013/04/ios-interview/">上级向的十个 iOS 开发面试题</a>中和这份<a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度面试</a>题中都有涉及到 Core Data 的内容，我想还是有必要好好研究一下它，毕竟它是 Apple 官方的持久化方案，我们可以取其精华，弃其糟粕，另一方面未来我们也可能因为各种原因接手或参与使用 Core Data 的项目。</p>
+
+<p>这篇文章主要想探讨上面提到的面试题中的两个关于 Core Data 的问题:</p>
+
+<ol>
+<li>你实现过多线程的Core Data么？NSPersistentStoreCoordinator，NSManagedObjectContext和NSManagedObject中的哪些需要在线程中创建或者传递？你是用什么样的策略来实现的？</li>
+<li>Core Data：中多线程中处理大量数据同步时的操作。</li>
+</ol>
+
+
+<p>在回答这两个问题之前，我们先看 Apple 是怎么告诉我们使用多线程的 Core Data 的，在最新的(2017-03-27) Core Data Programming Guide 中有一节 Concurrency with Core Data，它没有直接说如何使用多线程，只是说了 managed object context 在多线程中的两种使用模式:</p>
+
+<blockquote><p>In Core Data, the managed object context can be used with two concurrency patterns, defined by NSMainQueueConcurrencyType and NSPrivateQueueConcurrencyType.</p>
+
+<p>NSMainQueueConcurrencyType is specifically for use with your application interface and can only be used on the main queue of an application.</p>
+
+<p>The NSPrivateQueueConcurrencyType configuration creates its own queue upon initialization and can be used only on that queue. Because the queue is private and internal to the NSManagedObjectContext instance, it can only be accessed through the performBlock: and the performBlockAndWait: methods.</p></blockquote>
+
+<!--more-->
+
+
+<p>对于多线程中对象的传递则有这么一段描述:</p>
+
+<blockquote><p>NSManagedObject instances are not intended to be passed between queues. Doing so can result in corruption of the data and termination of the application. When it is necessary to hand off a managed object reference from one queue to another, it must be done through NSManagedObjectID instances.</p>
+
+<p>You retrieve the managed object ID of a managed object by calling the objectID method on the NSManagedObject instance.</p></blockquote>
+
+<p>从这里我们知道，NSManagedObject 是不能在线程中传递的，必须重新创建。但是对于 NSPersistentStoreCoordinator 和 NSManagedObjectContext 是需要创建还是可以传递就不是很清楚。</p>
+
+<p>于是我又通读了全篇，说实话我看完以后还是没搞明白该如何使用多线程的 Core Data，于是我又找了 Apple 提供的多线程的 Core Data 示例代码 <a href="https://developer.apple.com/library/content/samplecode/ThreadedCoreData/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010723">ThreadedCoreData</a>，它展示了一种使用多线程的 Core Data 的方法，但是并不能解答如何使用多线程的 Core Data。因为可能还有很多其他的方法，我们要溯本求源，找到问题的关键，问题才能迎刃而解。 于是我又到 <a href="https://objccn.io">objc 中国</a>上查找，里面专门有一个 Core Data 的专题，先看了一遍<a href="https://objccn.io/issue-4-5/">导入大数据集</a>，它提供了一些解答问题2的素材，我们稍候将它总结为答案，同时它还提供了新的线索 &ndash; <a href="http://objccn.io/issue-2-2/">在后台使用 Core Data</a>，于是我又看了这篇文章。</p>
+
+<p>这篇文章提到在使用多线程的 Core Data 时，强烈建议先通读 Apple 的官方文档 Concurrency with Core Data，这也是符合学习 iOS 开发新知识的路线的，毕竟所有的知识都源于 Apple，这种方法推荐给大家，而我一开始也是这么做的，这里的问题是 Apple 的文档一直在更新，有的内容在新版本文档中被删除了，那么我们有办法找到旧版本的文档吗？</p>
+
+<p>有的，这里介绍一种方法，虽然 Apple 不提供旧版本的文档，但是有个网址&ndash;<a href="https://archive.org/web/">Internet Archive</a>它会定期备份整个互联网上重要的网址，所以我们可以结合文档的修改历史在这里找到旧版本的文档，我们看到在后台使用 Core Data 翻译于 2014/03/22，我们不妨先试下 2014-03-10 这个版本的 Core Data Programming Guide.</p>
+
+<p>这个版本是这么介绍如何使用多线程的 Core Data 的:</p>
+
+<blockquote><p>The pattern recommended for concurrent programming with Core Data is thread confinement : each thread must have its own entirely private managed object context.</p>
+
+<p>There are two possible ways to adopt the pattern:</p>
+
+<ol>
+<li>Create a separate managed object context for each thread and share a single persistent store coordinator.</li>
+</ol>
+
+
+<p>This is the typically-recommended approach.</p>
+
+<ol>
+<li>Create a separate managed object context and persistent store coordinator for each thread.</li>
+</ol>
+
+
+<p>This approach provides for greater concurrency at the expense of greater complexity (particularly if you need to communicate changes between different contexts) and increased memory usage.</p></blockquote>
+
+<p>个人认为这个版本的介绍更清晰明了，也更容易得出问题的答案：</p>
+
+<p>NSManagedObjectContext 和 NSManagedObject 是需要在线程中创建的，而 NSPersistentStoreCoordinator 是推荐传递的。策略则是创建两个线程，不妨分别称它们为工作线程和后台线程，工作线程为主，后台线程为辅，它们分别创建自己独立的 managed object context，然后共享同一个 persistent store coordinator,工作线程关注 NSManagedObjectContextDidSaveNotification 通知，当后台线程保存更改时，它便收到通知然后合并更改。代码示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Worker Thread</span>
+</span><span class='line'><span class="n">_mainManagedObjectContext</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSManagedObjectContext</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithConcurrencyType</span><span class="p">:</span><span class="n">NSMainQueueConcurrencyType</span><span class="p">];</span>
+</span><span class='line'> <span class="c1">// observe the APLEarthQuakeSource save operation with its managed object context</span>
+</span><span class='line'> <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>                                             <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">mergeChanges</span><span class="p">:)</span>
+</span><span class='line'>                                                 <span class="nl">name</span><span class="p">:</span><span class="n">NSManagedObjectContextDidSaveNotification</span>
+</span><span class='line'>                                               <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// merge changes to main context,fetchedRequestController will automatically monitor the changes and update tableview.</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateMainContext:</span><span class="p">(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="p">)</span><span class="nv">notification</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert</span><span class="p">([</span><span class="bp">NSThread</span> <span class="n">isMainThread</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">managedObjectContext</span> <span class="nl">mergeChangesFromContextDidSaveNotification</span><span class="p">:</span><span class="n">notification</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// this is called via observing &quot;NSManagedObjectContextDidSaveNotification&quot; from our APLEarthQuakeSource</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">mergeChanges:</span><span class="p">(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="p">)</span><span class="nv">notification</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;merge changes be invoked on thread:%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">notification</span><span class="p">.</span><span class="n">object</span> <span class="o">!=</span> <span class="nb">self</span><span class="p">.</span><span class="n">managedObjectContext</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">performSelectorOnMainThread</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">updateMainContext</span><span class="p">:)</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">notification</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Background Thread</span>
+</span><span class='line'><span class="bp">NSManagedObjectContext</span> <span class="o">*</span><span class="n">private</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSManagedObjectContext</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithConcurrencyType</span><span class="p">:</span><span class="n">NSPrivateQueueConcurrencyType</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">private</span> <span class="nl">performBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Do some work</span>
+</span><span class='line'>  <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">private</span> <span class="nl">save</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Handle error</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里还补充说明下 managed object context 的并发类型，我们可以用 NSMainQueueConcurrencyType 和 NSPrivateQueueConcurrencyType 来指定它的类型，按照 Apple API reference 中的说明:</p>
+
+<blockquote><p>You use contexts using the queue-based concurrency types in conjunction with performBlock: and performBlockAndWait:. You group “standard” messages to send to the context within a block to pass to one of these methods. There are two exceptions:</p>
+
+<p>  • Setter methods on queue-based managed object contexts are thread-safe. You can invoke these methods directly on any thread.</p>
+
+<p>  • If your code is executing on the main thread, you can invoke methods on the main queue style contexts directly instead of using the block based API.</p></blockquote>
+
+<p>我们可以知道 context 是结合 performBlock: 和 performBlockAndWait: 来使用并发类型的，也就是说 NSMainQueueConcurrencyType 时这两个方法是在主队列上执行 block, 而 NSPrivateQueueConcurrencyType 则是在私有队列上执行。从这里我们推出工作线程的 context 使用 NSMainQueueConcurrencyType 而后台线程的 context 使用 NSPrivateQueueConcurrencyType 应该是比较好的实践，因为我们使用多线程，必然是想获得多线程的好处，如果还指定 context 为 NSMainQueueConcurrencyType，则工作还是在主线程上，并没有被移交到子线程，实际上仍然是单线程。</p>
+
+<p>接下来我们来看第二个问题：</p>
+
+<ul>
+<li>Core Data：中多线程中处理大量数据同步时的操作。</li>
+</ul>
+
+
+<p>要想回答这个问题，我们得知道处理大量数据同步时会遇到什么问题，这样才能有的放矢。上面提到<a href="https://objccn.io/issue-4-5/">导入大数据集</a> 提供了回答此问题的素材，再结合<a href="http://objccn.io/issue-2-2/">在后台使用 Core Data</a>，我觉得可以得到问题的一个答案：</p>
+
+<p>如果大量数据的同步不需要反映到界面上，那么我们可以创建一个线程并为它配置独立的 Core Data 栈，然后批量保存；如果需要反映到界面上，则要合并修改通知再更新界面，防止界面陷入卡顿。</p>
+
+<p>正如喵神所说面试中的技术问题环节不仅是企业对应聘者技能和积累的考察，也是一个开发者自我检验的好机会。而且面试中的技术问题通常是关于某知识点的难点，即使是我们经常使用的知识，如果我们没有仔细深入地思考可能也答不上来，所以我觉得利用面试题来提高自己的技术水平和加深对某知识的掌握是不错的方法。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li>Core Data Programming Guide</li>
+<li><a href="https://objccn.io/issue-4-5/">导入大数据集</a></li>
+<li><a href="https://objccn.io/issue-2-2/">常见的后台实践</a></li>
+<li><a href="https://blog.codecentric.de/en/2014/11/concurrency-coredata/">Concurrency with CoreData</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac 使用笔记(二)]]></title>
@@ -6061,313 +6233,6 @@ A:</p>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell">tableHeaderView on top of first cell</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（六）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-6.html"/>
-    <updated>2016-03-28T20:14:53+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-6</id>
-    <content type="html"><![CDATA[<h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
-
-<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">ipatool fails to build with bitcode (xcode 7.1.1)</a></p>
-
-<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
-
-<p>A:</p>
-
-<ul>
-<li>If you manipulated constraints directly, call setNeedsLayout.</li>
-<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
-<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</a></p>
-
-<h3>3.父类如何关联子类通过nib初始化的属性？</h3>
-
-<p>A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View</p>
-
-<!-- more -->
-
-
-<h3>4. Failed to load test bundle from file</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Failed to load test bundle from file:///Users/dongmeiliang/Library/Developer/Xcode/DerivedData/JSQMessages-axyqhmblkssajpgcyzizcquhltft/Build/Products/Debug-iphonesimulator/JSQMessages.app/PlugIns/JSQMessagesTests.xctest/../JSQMessagesTests.xctest/: Error Domain=NSCocoaErrorDomain Code=4 "The bundle “$(PRODUCT_NAME)” couldn’t be loaded because its executable couldn’t be located." UserInfo={NSLocalizedFailureReason=The bundle’s executable couldn’t be located., NSLocalizedRecoverySuggestion=Try reinstalling the bundle., NSBundlePath=/Users/dongmeiliang/Library/Developer/Xcode/DerivedData/JSQMessages-axyqhmblkssajpgcyzizcquhltft/Build/Products/Debug-iphonesimulator/JSQMessages.app/PlugIns/JSQMessagesTests.xctest, NSLocalizedDescription=The bundle “$(PRODUCT_NAME)” couldn’t be loaded because its executable couldn’t be located.}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:Tests target > info.plist > delete the row <code>Bundle name $(PRODUCT_NAME)</code>;</p>
-
-<h3>5. pathForResource:ofType:inDirectory:方法有时找不到图片？</h3>
-
-<p>A:原因是这个方法必须要指定完整的名字，比如图片的名称为fail_indicator@2x.png，放在JSQMessagesAssets.bundle的images目录下，那可以用如下代码来获取这张图片：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSBundle *)jsq_messagesBundle
-</span><span class='line'>{
-</span><span class='line'>    return [NSBundle bundleForClass:[JSQMessagesViewController class]];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>+ (NSBundle *)jsq_messagesAssetBundle
-</span><span class='line'>{
-</span><span class='line'>    NSString *bundleResourcePath = [NSBundle jsq_messagesBundle].resourcePath;
-</span><span class='line'>    NSString *assetPath = [bundleResourcePath stringByAppendingPathComponent:@"JSQMessagesAssets.bundle"];
-</span><span class='line'>    return [NSBundle bundleWithPath:assetPath];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>+ (UIImage *)jsq_imageFromMessagesAssetBundleWithName:(NSString *)name
-</span><span class='line'>{
-</span><span class='line'>    NSBundle *bundle = [NSBundle jsq_messagesAssetBundle];
-</span><span class='line'>    NSString *path = [bundle pathForResource:name ofType:@"png" inDirectory:@"Images"];
-</span><span class='line'>    return [UIImage imageWithContentsOfFile:path];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>[UIImage jsq_imageFromMessagesAssetBundleWithName:@"fail_indicator@2x"];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>6.自动布局的视图加上遮罩不生效而且视图上UIImageView的图片也不显示了,具体方法如下：</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
-</span><span class='line'>{
-</span><span class='line'>    NSParameterAssert(view != nil);
-</span><span class='line'>    NSParameterAssert(image != nil);
-</span><span class='line'>    
-</span><span class='line'>    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
-</span><span class='line'>    imageViewMask.frame = CGRectInset(view.frame, 2.0f, 2.0f);
-</span><span class='line'>    
-</span><span class='line'>    view.layer.mask = imageViewMask.layer;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:先设置视图的frame。</p>
-
-<h3>7. 设置视图的frame后，视图最终的坐标和设置的坐标不一致</h3>
-
-<p>A:问题的原因是将translatesAutoresizingMaskIntoConstraints设置NO，然后再去设置视图的坐标，这样修改的坐标不会生效，解决办法就是使用坐标是不要将translatesAutoresizingMaskIntoConstraints设置为NO.</p>
-
-<h3>8.设置视图遮罩时，遮罩以宿主视图的origin为原点，所以当宿主视图的origin不是(0, 0)时，设置遮罩的frame时要考虑将宿主视图的origin设置为(0, 0)之后再进行伸缩，最终得到遮罩的frame。</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)jsq_maskView:(UIView *)view withImage:(UIImage *)image
-</span><span class='line'>{
-</span><span class='line'>    NSParameterAssert(view != nil);
-</span><span class='line'>    NSParameterAssert(image != nil);
-</span><span class='line'>    
-</span><span class='line'>    CGRect baseFrameForMask = view.frame;
-</span><span class='line'>    baseFrameForMask.origin = CGPointZero;
-</span><span class='line'>    
-</span><span class='line'>    UIImageView *imageViewMask = [[UIImageView alloc] initWithImage:image];
-</span><span class='line'>    imageViewMask.frame = CGRectInset(baseFrameForMask, 2.0f, 2.0f);
-</span><span class='line'>
-</span><span class='line'>    view.layer.mask = imageViewMask.layer;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>9.先调用方法二，然后调用方法一，最终的得到图片并没有水平翻转。</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1.
-</span><span class='line'>- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor
-</span><span class='line'>{
-</span><span class='line'>    NSParameterAssert(maskColor != nil);
-</span><span class='line'>    
-</span><span class='line'>    CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
-</span><span class='line'>    UIImage *newImage = nil;
-</span><span class='line'>    
-</span><span class='line'>    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
-</span><span class='line'>    {
-</span><span class='line'>        CGContextRef context = UIGraphicsGetCurrentContext();
-</span><span class='line'>        
-</span><span class='line'>        CGContextScaleCTM(context, 1.0f, -1.0f);
-</span><span class='line'>        CGContextTranslateCTM(context, 0.0f, -(imageRect.size.height));
-</span><span class='line'>        
-</span><span class='line'>        CGContextClipToMask(context, imageRect, self.CGImage);
-</span><span class='line'>        CGContextSetFillColorWithColor(context, maskColor.CGColor);
-</span><span class='line'>        CGContextFillRect(context, imageRect);
-</span><span class='line'>        
-</span><span class='line'>        newImage = UIGraphicsGetImageFromCurrentImageContext();
-</span><span class='line'>    }
-</span><span class='line'>    UIGraphicsEndImageContext();
-</span><span class='line'>    
-</span><span class='line'>    return newImage;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// 2.
-</span><span class='line'>+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef
-</span><span class='line'>                        scale:(CGFloat)scale
-</span><span class='line'>                  orientation:(UIImageOrientation)orientation</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Code Listing:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIImage *originImage = /* Get origin image*/
-</span><span class='line'>
-</span><span class='line'>UIImage *upMirroredImage = [UIImage imageWithCGImage:originImage.CGImage scale:originImage.scale orientation:UIImageOrientationUpMirrored];
-</span><span class='line'>
-</span><span class='line'>UIImage *upMirroredImageWithMaskedColor = [upMirroredImage jsq_imageMaskedWithColor:[UIColor grayColor]];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:调试中发现<code>+ (UIImage *)imageWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation</code> 方法应该没有直接操作图片，而是更改了图片的metadata, 然后<code>- (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor</code>是直接操作图片时没有考虑图片的metadata,于是最终得到是原图加上指定颜色遮罩的图片。</p>
-
-<h3>10. How to determine if an NSDate is today(Prior iOS 8)?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSDate *today = nil;
-</span><span class='line'>NSDate *beginningOfOtherDate = nil;
-</span><span class='line'>
-</span><span class='line'>NSDate *now = [NSDate date];
-</span><span class='line'>[[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit startDate:&today interval:NULL forDate:now];
-</span><span class='line'>[[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit startDate:&beginningOfOtherDate interval:NULL forDate:otherDate];
-</span><span class='line'>
-</span><span class='line'>if([today compare:beginningOfOtherDate] == NSOrderedSame) {
-</span><span class='line'>    //otherDate is a date in the current day
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/2331129/how-to-determine-if-an-nsdate-is-today">How to determine if an NSDate is today?</a></p>
-
-<h3>11. How do you resize an image?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>UIKit, Core Graphics, and Image I/O all perform well for scaling operations on most images.</li>
-<li>Core Image is outperformed for image scaling operations. In fact, it is specifically recommended in the Performance Best Practices section of the Core Image Programming Guide to use Core Graphics or Image I/O functions to crop or downsample images beforehand.</li>
-<li>For general image scaling without any additional functionality, UIGraphicsBeginImageContextWithOptions is probably the best option.</li>
-<li>If image quality is a consideration, consider using CGBitmapContextCreate in combination with CGContextSetInterpolationQuality.</li>
-<li>When scaling images with the intent purpose of displaying thumbnails, CGImageSourceCreateThumbnailAtIndex offers a compelling solution for both rendering and caching.</li>
-<li>Unless you’re already working with vImage, the extra work to use the low-level Accelerate framework for resizing doesn’t pay off.</li>
-</ul>
-
-
-<p>Reference:<a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></p>
-
-<h3>12. How can I deal with this warning: hash mismatch?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>warning: hash mismatch: this object file was built against a different version of the module /Users/dongmeiliang/Library/Developer/Xcode/DerivedData/ModuleCache/1ZNHC044GWHJS/SystemConfiguration-1U17T3939DDG.pcm
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:Clean > Build<br/>
-Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-with-this-warning-hash-mismatch">How can I deal with this warning: hash mismatch?</a></p>
-
-<h3>13. Cocoa Coding Style Enforcement</h3>
-
-<p>A:<a href="http://emlyn.net/posts/cocoa-coding-style-enforcement/">Cocoa Coding Style Enforcement</a></p>
-
-<h3>14. Importing Swift into Objective-C Within the Same App Target</h3>
-
-<p>A:</p>
-
-<blockquote><p>When you import Swift code into Objective-C, you rely on an Xcode-generated header file to expose those files to Objective-C. This automatically generated file is an Objective-C header that declares the Swift interfaces in your target. It can be thought of as an umbrella header for your Swift code. The name of this header is your product module name followed by adding &ldquo;-Swift.h&rdquo;. (You’ll learn more about the product module name later, in Naming Your Product Module.)</p></blockquote>
-
-<p>在同一个 App Target 中， 导入 Swift 到 Objective-C 只需要 <code>#import "ProductModuleName-Swift.h"</code>, 需要注意 ProductModuleName-Swift.h 是 Xcode 生成的文件，所以在工程中看不到，只需要在用到 Swift 的 Objective-C 文件中引用这个文件就好了。</p>
-
-<p>Reference:<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-ID138">Swift and Objective-C in the Same Project</a></p>
-
-<h3>15. Swift 中对应 Objectie-C 中的class 类方法</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   

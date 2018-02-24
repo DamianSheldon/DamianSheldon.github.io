@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-02-12T15:47:18+08:00</updated>
+  <updated>2018-02-24T10:43:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,142 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[多线程的 Core Data]]></title>
+    <link href="http://DamianSheldon.github.io/blog/concurrency-with-core-data.html"/>
+    <updated>2018-02-23T16:00:35+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/concurrency-with-core-data</id>
+    <content type="html"><![CDATA[<p>平常在项目中没有使用过 Core Data, 因为我觉得它的学习曲线还挺陡峭，整个框架给人的感觉很复杂和笨重，因此一直没有使用它。但是看到喵神这份<a href="https://onevcat.com/2013/04/ios-interview/">上级向的十个 iOS 开发面试题</a>中和这份<a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度面试</a>题中都有涉及到 Core Data 的内容，我想还是有必要好好研究一下它，毕竟它是 Apple 官方的持久化方案，我们可以取其精华，弃其糟粕，另一方面未来我们也可能因为各种原因接手或参与使用 Core Data 的项目。</p>
+
+<p>这篇文章主要想探讨上面提到的面试题中的两个关于 Core Data 的问题:</p>
+
+<ol>
+<li>你实现过多线程的Core Data么？NSPersistentStoreCoordinator，NSManagedObjectContext和NSManagedObject中的哪些需要在线程中创建或者传递？你是用什么样的策略来实现的？</li>
+<li>Core Data：中多线程中处理大量数据同步时的操作。</li>
+</ol>
+
+
+<p>在回答这两个问题之前，我们先看 Apple 是怎么告诉我们使用多线程的 Core Data 的，在最新的(2017-03-27) Core Data Programming Guide 中有一节 Concurrency with Core Data，它没有直接说如何使用多线程，只是说了 managed object context 在多线程中的两种使用模式:</p>
+
+<blockquote><p>In Core Data, the managed object context can be used with two concurrency patterns, defined by NSMainQueueConcurrencyType and NSPrivateQueueConcurrencyType.</p>
+
+<p>NSMainQueueConcurrencyType is specifically for use with your application interface and can only be used on the main queue of an application.</p>
+
+<p>The NSPrivateQueueConcurrencyType configuration creates its own queue upon initialization and can be used only on that queue. Because the queue is private and internal to the NSManagedObjectContext instance, it can only be accessed through the performBlock: and the performBlockAndWait: methods.</p></blockquote>
+
+<!--more-->
+
+
+<p>对于多线程中对象的传递则有这么一段描述:</p>
+
+<blockquote><p>NSManagedObject instances are not intended to be passed between queues. Doing so can result in corruption of the data and termination of the application. When it is necessary to hand off a managed object reference from one queue to another, it must be done through NSManagedObjectID instances.</p>
+
+<p>You retrieve the managed object ID of a managed object by calling the objectID method on the NSManagedObject instance.</p></blockquote>
+
+<p>从这里我们知道，NSManagedObject 是不能在线程中传递的，必须重新创建。但是对于 NSPersistentStoreCoordinator 和 NSManagedObjectContext 是需要创建还是可以传递就不是很清楚。</p>
+
+<p>于是我又通读了全篇，说实话我看完以后还是没搞明白该如何使用多线程的 Core Data，于是我又找了 Apple 提供的多线程的 Core Data 示例代码 <a href="https://developer.apple.com/library/content/samplecode/ThreadedCoreData/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010723">ThreadedCoreData</a>，它展示了一种使用多线程的 Core Data 的方法，但是并不能解答如何使用多线程的 Core Data。因为可能还有很多其他的方法，我们要溯本求源，找到问题的关键，问题才能迎刃而解。 于是我又到 <a href="https://objccn.io">objc 中国</a>上查找，里面专门有一个 Core Data 的专题，先看了一遍<a href="https://objccn.io/issue-4-5/">导入大数据集</a>，它提供了一些解答问题2的素材，我们稍候将它总结为答案，同时它还提供了新的线索 &ndash; <a href="http://objccn.io/issue-2-2/">在后台使用 Core Data</a>，于是我又看了这篇文章。</p>
+
+<p>这篇文章提到在使用多线程的 Core Data 时，强烈建议先通读 Apple 的官方文档 Concurrency with Core Data，这也是符合学习 iOS 开发新知识的路线的，毕竟所有的知识都源于 Apple，这种方法推荐给大家，而我一开始也是这么做的，这里的问题是 Apple 的文档一直在更新，有的内容在新版本文档中被删除了，那么我们有办法找到旧版本的文档吗？</p>
+
+<p>有的，这里介绍一种方法，虽然 Apple 不提供旧版本的文档，但是有个网址&ndash;<a href="https://archive.org/web/">Internet Archive</a>它会定期备份整个互联网上重要的网址，所以我们可以结合文档的修改历史在这里找到旧版本的文档，我们看到在后台使用 Core Data 翻译于 2014/03/22，我们不妨先试下 2014-03-10 这个版本的 Core Data Programming Guide.</p>
+
+<p>这个版本是这么介绍如何使用多线程的 Core Data 的:</p>
+
+<blockquote><p>The pattern recommended for concurrent programming with Core Data is thread confinement : each thread must have its own entirely private managed object context.</p>
+
+<p>There are two possible ways to adopt the pattern:</p>
+
+<ol>
+<li>Create a separate managed object context for each thread and share a single persistent store coordinator.</li>
+</ol>
+
+
+<p>This is the typically-recommended approach.</p>
+
+<ol>
+<li>Create a separate managed object context and persistent store coordinator for each thread.</li>
+</ol>
+
+
+<p>This approach provides for greater concurrency at the expense of greater complexity (particularly if you need to communicate changes between different contexts) and increased memory usage.</p></blockquote>
+
+<p>个人认为这个版本的介绍更清晰明了，也更容易得出问题的答案：</p>
+
+<p>NSManagedObjectContext 和 NSManagedObject 是需要在线程中创建的，而 NSPersistentStoreCoordinator 是推荐传递的。策略则是创建两个线程，不妨分别称它们为工作线程和后台线程，工作线程为主，后台线程为辅，它们分别创建自己独立的 managed object context，然后共享同一个 persistent store coordinator,工作线程关注 NSManagedObjectContextDidSaveNotification 通知，当后台线程保存更改时，它便收到通知然后合并更改。代码示例如下：</p>
+
+<pre><code class="objc">// Worker Thread
+_mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+ // observe the APLEarthQuakeSource save operation with its managed object context
+ [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mergeChanges:)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:nil];
+
+// merge changes to main context,fetchedRequestController will automatically monitor the changes and update tableview.
+- (void)updateMainContext:(NSNotification *)notification {
+
+    assert([NSThread isMainThread]);
+    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+}
+
+// this is called via observing "NSManagedObjectContextDidSaveNotification" from our APLEarthQuakeSource
+- (void)mergeChanges:(NSNotification *)notification {
+    NSLog(@"merge changes be invoked on thread:%@", [NSThread currentThread]);
+
+    if (notification.object != self.managedObjectContext) {
+        [self performSelectorOnMainThread:@selector(updateMainContext:) withObject:notification waitUntilDone:NO];
+    }
+}
+
+// Background Thread
+NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+
+[private performBlock:^{ 
+    // Do some work
+    NSError *error = nil;
+
+    if (![private save:&amp;error]) {
+        // Handle error
+    }
+}]
+</code></pre>
+
+<p>这里还补充说明下 managed object context 的并发类型，我们可以用 NSMainQueueConcurrencyType 和 NSPrivateQueueConcurrencyType 来指定它的类型，按照 Apple API reference 中的说明:</p>
+
+<blockquote><p>You use contexts using the queue-based concurrency types in conjunction with performBlock: and performBlockAndWait:. You group “standard” messages to send to the context within a block to pass to one of these methods. There are two exceptions:</p>
+
+<p>  • Setter methods on queue-based managed object contexts are thread-safe. You can invoke these methods directly on any thread.</p>
+
+<p>  • If your code is executing on the main thread, you can invoke methods on the main queue style contexts directly instead of using the block based API.</p></blockquote>
+
+<p>我们可以知道 context 是结合 performBlock: 和 performBlockAndWait: 来使用并发类型的，也就是说 NSMainQueueConcurrencyType 时这两个方法是在主队列上执行 block, 而 NSPrivateQueueConcurrencyType 则是在私有队列上执行。从这里我们推出工作线程的 context 使用 NSMainQueueConcurrencyType 而后台线程的 context 使用 NSPrivateQueueConcurrencyType 应该是比较好的实践，因为我们使用多线程，必然是想获得多线程的好处，如果还指定 context 为 NSMainQueueConcurrencyType，则工作还是在主线程上，并没有被移交到子线程，实际上仍然是单线程。</p>
+
+<p>接下来我们来看第二个问题：</p>
+
+<ul>
+<li>Core Data：中多线程中处理大量数据同步时的操作。</li>
+</ul>
+
+
+<p>要想回答这个问题，我们得知道处理大量数据同步时会遇到什么问题，这样才能有的放矢。上面提到<a href="https://objccn.io/issue-4-5/">导入大数据集</a> 提供了回答此问题的素材，再结合<a href="http://objccn.io/issue-2-2/">在后台使用 Core Data</a>，我觉得可以得到问题的一个答案：</p>
+
+<p>如果大量数据的同步不需要反映到界面上，那么我们可以创建一个线程并为它配置独立的 Core Data 栈，然后批量保存；如果需要反映到界面上，则要合并修改通知再更新界面，防止界面陷入卡顿。</p>
+
+<p>正如喵神所说面试中的技术问题环节不仅是企业对应聘者技能和积累的考察，也是一个开发者自我检验的好机会。而且面试中的技术问题通常是关于某知识点的难点，即使是我们经常使用的知识，如果我们没有仔细深入地思考可能也答不上来，所以我觉得利用面试题来提高自己的技术水平和加深对某知识的掌握是不错的方法。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li>Core Data Programming Guide</li>
+<li><a href="https://objccn.io/issue-4-5/">导入大数据集</a></li>
+<li><a href="https://objccn.io/issue-2-2/">常见的后台实践</a></li>
+<li><a href="https://blog.codecentric.de/en/2014/11/concurrency-coredata/">Concurrency with CoreData</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[圆锥渐变的一种简单实现]]></title>
@@ -541,456 +677,6 @@ t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
 </code></pre>
 
 <p>运行测试，苍天啊，居然可以了。经历这么一出，感觉写代码都成了玄学了, 无力吐槽!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AVFoundation 使用笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/notes-of-using-avfoundation.html"/>
-    <updated>2017-04-06T15:09:30+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/notes-of-using-avfoundation</id>
-    <content type="html"><![CDATA[<p>使用一个框架时，我们可能有这么三个问题：</p>
-
-<ol>
-<li>这个框架是做什么的？</li>
-<li>为什么要使用这个框架而不是其他的框架？</li>
-<li>怎么用这个框架？</li>
-</ol>
-
-
-<h3>这个框架是做什么的？</h3>
-
-<p>Apple 在 iOS Technology Overview 中的 Audio Technologies 和 Video Technologies 分别是这么介绍 AVFoundation 的：</p>
-
-<blockquote><p>AV Foundation is an Objective-C interface for managing the recording and playback of audio and video. Use this framework for recording audio and when you need fine-grained control over the audio playback process.</p>
-
-<p>AV Foundation provides advanced video playback and recording capabilities. Use this framework in situations where you need more control over the presentation or recording of video. For example, augmented reality apps could use this framework to layer live video content with other app-provided content.</p></blockquote>
-
-<p>从这两个介绍中我们可以知道 AVFoundation 是用来播放和录制音频和视频的。</p>
-
-<p>在 AVFoundation Programming Guide 中则是这么介绍的：</p>
-
-<blockquote><p>AVFoundation is one of several frameworks that you can use to play and create time-based audiovisual media. It provides an Objective-C interface you use to work on a detailed level with time-based audiovisual data. For example, you can use it to examine, create, edit, or reencode media files. You can also get input streams from devices and manipulate video during realtime capture and playback.</p></blockquote>
-
-<p>从这里我们可以知道它不仅可以播放和创建基于时间的视听媒体，还可以让我们在很细微的层面去操作这些视听数据。例如，你可以使用它检查、创建、编辑或者重编码媒体文件。你还可以用它从设备那里拿到输出流，并且可以在实时的捕获和播放过程中操作视频。</p>
-
-<p>所以结论就是：这个框架是处理音频和视频的，而且处理的粒度可以非常细。</p>
-
-<!--more-->
-
-
-<h3>为什么要用这个框架而不是其他的框架？</h3>
-
-<p>在选择框架时我们的原则应该首先是使用 Apple 自己提供的框架，其次才是第三方框架。在 Apple 自带的框架中选择时，又应该按抽象程度从高到低去选择。在音频技术中，抽象程度是这样的：Media Player framework > AVFoundation > OpenAL > Core Audio; 在视频技术中：UIImagePickerController > AVKit > AVFoundation > Core Media.</p>
-
-<p>在音视频技术中，抽象程度高于 AVFoundation 的技术多侧重于简单的播放和录制，要进行其他的操作时则要使用 AVFoundation，而且它的能力也比较强，所以通常要对媒体数据进行处理时，我们会经常使用到它，它不满足要求时才去寻找其他的技术。</p>
-
-<h3>怎么用这个框架？</h3>
-
-<p>前面提到 AVFoundation 是用来播放、录制和操作视听数据的，操作视听数据则可以细分为 Editing 和 Exporting，所以我们这里会介绍这个框架:Playback, Capture, Editing 和 Exporting 四个大方面的使用。</p>
-
-<h4>Playback</h4>
-
-<p>在介绍怎么使用 AVFoundation 播放视听媒体之前，我们还要聊聊在 AVFoundation 中是怎么表示媒体的。AVFoundation 中用来代表媒体最主要的类是 AVAsset, 一个 AVAsset 实例是一片或多片媒体数据(音频曲目和视频轨迹)集合的综合代表。它提供关于这个集合的信息，例如它的标题，持续时间，本身的展示尺寸等等。AVAsset 没有绑定特定的数据类型。它是其他用来从指定 URL 媒体创建资产实例和创建新构成的父类。</p>
-
-<p>资产中每片单独的媒体数据是统一的类型称为track. 在经典的简单场景，一个轨迹代表音频组件，另一个轨迹代表视频组件；在一个复杂的构成中，这里可能有多个重叠的音视频轨迹。</p>
-
-<p>你为播放配置资产的方法取决于你想要播放资产的种类，广义上来讲，这里有两大类型：基于文件的资产和基于流的资产。</p>
-
-<ol>
-<li><p>加载和播放基于文件的资产。</p>
-
-<ul>
-<li>Create an asset using AVURLAsset.</li>
-<li>Create an instance of AVPlayerItem using the asset.</li>
-<li>Associate the item with an instance of AVPlayer.</li>
-<li>Wait until the item’s status property indicates that it’s ready to play (typically you use key-value observing to receive a notification when the status changes).</li>
-</ul>
-</li>
-<li><p>为播放创建和准备一个 HTTP 实时流。</p></li>
-</ol>
-
-
-<pre><code>NSURL *url = [NSURL URLWithString:@"&lt;#Live stream URL#&gt;];
-// You may find a test stream at &lt;http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8&gt;.
-self.playerItem = [AVPlayerItem playerItemWithURL:url];
-[playerItem addObserver:self forKeyPath:@"status" options:0 context:&amp;ItemStatusContext];
-self.player = [AVPlayer playerWithPlayerItem:playerItem];
-</code></pre>
-
-<ol>
-<li><p>如果你不知道你拥有的 URL 是什么类型。</p>
-
-<p> 1)Try to initialize an AVURLAsset using the URL, then load its tracks key.
- If the tracks load successfully, then you create a player item for the asset.</p>
-
-<p> 2)If 1 fails, create an AVPlayerItem directly from the URL.
- Observe the player’s status property to determine whether it becomes playable.</p></li>
-</ol>
-
-
-<h4>Capture</h4>
-
-<p>为了管理来自相机、麦克风的捕获，你组装对象去表示输入和输出，使用 AVCaptureSession 的实例来协调它们之间的数据流。你最少需要：</p>
-
-<ul>
-<li>一个 AVCaptureDevice 的实例来表示输入设备，例如相机或麦克风</li>
-<li>一个 AVCaptureInput 具体子类的实例去配置来自输入设备的端口</li>
-<li>一个 AVCaptureOutput 具体子类的实例去管理到电影或静态图片的输出</li>
-<li>一个 AVCaptureSession 的实例来协调从输入到输出的数据流</li>
-</ul>
-
-
-<p>Capturing Video Frames as UIImage Objects</p>
-
-<pre><code>// 1. Create and Configure a Capture Session
-AVCaptureSession *session = [[AVCaptureSession alloc] init];
-session.sessionPreset = AVCaptureSessionPresetMedium;
-
-// 2. Create and Configure the Device and Device Input
-AVCaptureDevice *device =
-[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-
-NSError *error = nil;
-AVCaptureDeviceInput *input =
-[AVCaptureDeviceInput deviceInputWithDevice:device error:&amp;error];
-if (!input) {
-    // Handle the error appropriately.
-}
-[session addInput:input];
-
-// 3. Create and Configure the Video Data Output
-AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
-[session addOutput:output];
-output.videoSettings =
-@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-output.minFrameDuration = CMTimeMake(1, 15);
-
-dispatch_queue_t queue = dispatch_queue_create("MyQueue", NULL);
-[output setSampleBufferDelegate:self queue:queue];
-dispatch_release(queue);
-
-// 4. Implement the Sample Buffer Delegate Method
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-fromConnection:(AVCaptureConnection *)connection {
-
-    UIImage *image = imageFromSampleBuffer(sampleBuffer);
-    // Add your code here that uses the image.
-}
-// 5. Starting and Stopping Recording
-NSString *mediaType = AVMediaTypeVideo;
-
-[AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
-    if (granted)
-    {
-        //Granted access to mediaType
-        [self setDeviceAuthorized:YES];
-    }
-    else
-    {
-        //Not granted access to mediaType
-        dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"AVCam!"
-                message:@"AVCam doesn't have permission to use Camera, please change privacy settings"
-                delegate:self
-                cancelButtonTitle:@"OK"
-                otherButtonTitles:nil] show];
-                [self setDeviceAuthorized:NO];
-                });
-    }
-}];
-
-[session startRunning];
-
-// To stop recording, you send the session a stopRunning message.
-</code></pre>
-
-<h4>Editing</h4>
-
-<p>AVFoundation 框架提供了丰富的类来方便编辑音视资产。编辑 API 的核心是 composition. 一个 Compostion 是简单的来自一个或多个不同媒体资产的聚合。AVMutableCompostion 类提供插入和移除轨迹的接口，并且管理它们的时间顺序。图 3-1 展示了一个新的 composition
-是如何用由现存资产联合形成的新资产拼装在一起的。如果你所有想要做的就是将多个资产按顺序的合成到一个单一的文件，那么这就是你得知道的所有细节。如果你想对你 compostion 里面的轨迹进行自定义的音频或视频处理，你相应地需要引入一个 audio mix 或 video compostion.</p>
-
-<div style="text-align:center" markdown="1">
-    <img name="AVMutableComposition" src="http://DamianSheldon.github.io/images/avmutablecomposition_2x.png">
-</div>
-
-
-<p>使用 AVMutableAudioMix 类， 你可以在你的 composition 的音频轨迹上进行自定义音频处理，像图 3-2 显示的。你现在可以指定一个最大的音量或者设置 volume ramp.</p>
-
-<div style="text-align:center" markdown="1">
-    <img name="AVMutableAudioMix" src="http://DamianSheldon.github.io/images/avmutableaudiomix_2x.png">
-</div>
-
-
-<p>你为了编辑可以像图 3-3 那样使用 AVMutableVideoCompostion 类来直接操作你 compostion 里的视频轨迹. 拥有一个 video composition, 你可以为输出视频指定想要的渲染尺寸,缩放以及帧率。通过一个 video composition&rsquo;s instruction(由 AVMutableVideoCompositionInstruction 类代表)，你可以修改你视频的背景颜色和应用 layer instructions. 这些 layer instructions（由 AVMutableVideoCompositionLayerInstruction 类代表) 可以用来应用 transforms, transform ramps, opacity and opacity ramps。Video
-composition 类使用 animationTool 属性赋予你引入来自 Core Animation 框架效果的能力。</p>
-
-<div style="text-align:center" markdown="1">
-    <img name="AVMutableVideoCompostion" src="http://DamianSheldon.github.io/images/avmutablevideocomposition_2x.png">
-</div>
-
-
-<p>为了把你的 compostion 和 audio mix, video compostion 混合，你使用一个 AVAssetExportSession 对象，像 图 3-4 那样。你用你的 compostion 初始化 export session, 然后简单地把你的 audio mix 和 video composition 相应地赋值给 audioMix 和 videoComposition 属性。</p>
-
-<div style="text-align:center" markdown="1">
-    <img name="AVAssetExportSession" src="http://DamianSheldon.github.io/images/puttingitalltogether_2x.png">
-</div>
-
-
-<p>Combining Multiple Assets and Saving the Result to the Camera Roll</p>
-
-<pre><code>// 1. Creating the Composition
-AVMutableComposition *mutableComposition = [AVMutableComposition composition];
-AVMutableCompositionTrack *videoCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-AVMutableCompositionTrack *audioCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-
-// 2. Adding the Assets
-AVAssetTrack *firstVideoAssetTrack = [[firstVideoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-AVAssetTrack *secondVideoAssetTrack = [[secondVideoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-[videoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, firstVideoAssetTrack.timeRange.duration) ofTrack:firstVideoAssetTrack atTime:kCMTimeZero error:nil];
-[videoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, secondVideoAssetTrack.timeRange.duration) ofTrack:secondVideoAssetTrack atTime:firstVideoAssetTrack.timeRange.duration error:nil];
-[audioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, CMTimeAdd(firstVideoAssetTrack.timeRange.duration, secondVideoAssetTrack.timeRange.duration)) ofTrack:[[audioAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0] atTime:kCMTimeZero error:nil];
-
-// 3. Checking the Video Orientations
-BOOL isFirstVideoPortrait = NO;
-CGAffineTransform firstTransform = firstVideoAssetTrack.preferredTransform;
-// Check the first video track's preferred transform to determine if it was recorded in portrait mode.
-if (firstTransform.a == 0 &amp;&amp; firstTransform.d == 0 &amp;&amp; (firstTransform.b == 1.0 || firstTransform.b == -1.0) &amp;&amp; (firstTransform.c == 1.0 || firstTransform.c == -1.0)) {
-        isFirstVideoPortrait = YES;
-}
-BOOL isSecondVideoPortrait = NO;
-CGAffineTransform secondTransform = secondVideoAssetTrack.preferredTransform;
-// Check the second video track's preferred transform to determine if it was recorded in portrait mode.
-if (secondTransform.a == 0 &amp;&amp; secondTransform.d == 0 &amp;&amp; (secondTransform.b == 1.0 || secondTransform.b == -1.0) &amp;&amp; (secondTransform.c == 1.0 || secondTransform.c == -1.0)) {
-        isSecondVideoPortrait = YES;
-}
-if ((isFirstVideoAssetPortrait &amp;&amp; !isSecondVideoAssetPortrait) || (!isFirstVideoAssetPortrait &amp;&amp; isSecondVideoAssetPortrait)) {
-        UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Cannot combine a video shot in portrait mode with a video shot in landscape mode." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-            [incompatibleVideoOrientationAlert show];
-                return;
-}
-
-// 4. Applying the Video Composition Layer Instructions
-AVMutableVideoCompositionInstruction *firstVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-// Set the time range of the first instruction to span the duration of the first video track.
-firstVideoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, firstVideoAssetTrack.timeRange.duration);
-AVMutableVideoCompositionInstruction * secondVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-// Set the time range of the second instruction to span the duration of the second video track.
-secondVideoCompositionInstruction.timeRange = CMTimeRangeMake(firstVideoAssetTrack.timeRange.duration, CMTimeAdd(firstVideoAssetTrack.timeRange.duration, secondVideoAssetTrack.timeRange.duration));
-AVMutableVideoCompositionLayerInstruction *firstVideoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
-// Set the transform of the first layer instruction to the preferred transform of the first video track.
-[firstVideoLayerInstruction setTransform:firstTransform atTime:kCMTimeZero];
-AVMutableVideoCompositionLayerInstruction *secondVideoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
-// Set the transform of the second layer instruction to the preferred transform of the second video track.
-[secondVideoLayerInstruction setTransform:secondTransform atTime:firstVideoAssetTrack.timeRange.duration];
-firstVideoCompositionInstruction.layerInstructions = @[firstVideoLayerInstruction];
-secondVideoCompositionInstruction.layerInstructions = @[secondVideoLayerInstruction];
-AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
-mutableVideoComposition.instructions = @[firstVideoCompositionInstruction, secondVideoCompositionInstruction];
-
-// 5. Setting the Render Size and Frame Duration
-CGSize naturalSizeFirst, naturalSizeSecond;
-// If the first video asset was shot in portrait mode, then so was the second one if we made it here.
-if (isFirstVideoAssetPortrait) {
-    // Invert the width and height for the video tracks to ensure that they display properly.
-        naturalSizeFirst = CGSizeMake(firstVideoAssetTrack.naturalSize.height, firstVideoAssetTrack.naturalSize.width);
-            naturalSizeSecond = CGSizeMake(secondVideoAssetTrack.naturalSize.height, secondVideoAssetTrack.naturalSize.width);
-}
-else {
-    // If the videos weren't shot in portrait mode, we can just use their natural sizes.
-        naturalSizeFirst = firstVideoAssetTrack.naturalSize;
-            naturalSizeSecond = secondVideoAssetTrack.naturalSize;
-}
-float renderWidth, renderHeight;
-// Set the renderWidth and renderHeight to the max of the two videos widths and heights.
-if (naturalSizeFirst.width &gt; naturalSizeSecond.width) {
-        renderWidth = naturalSizeFirst.width;
-}
-else {
-        renderWidth = naturalSizeSecond.width;
-}
-if (naturalSizeFirst.height &gt; naturalSizeSecond.height) {
-        renderHeight = naturalSizeFirst.height;
-}
-else {
-        renderHeight = naturalSizeSecond.height;
-}
-mutableVideoComposition.renderSize = CGSizeMake(renderWidth, renderHeight);
-// Set the frame duration to an appropriate value (i.e. 30 frames per second for video).
-mutableVideoComposition.frameDuration = CMTimeMake(1,30);
-
-// 6. Exporting the Composition and Saving it to the Camera Roll
-// Create a static date formatter so we only have to initialize it once.
-static NSDateFormatter *kDateFormatter;
-if (!kDateFormatter) {
-        kDateFormatter = [[NSDateFormatter alloc] init];
-            kDateFormatter.dateStyle = NSDateFormatterMediumStyle;
-                kDateFormatter.timeStyle = NSDateFormatterShortStyle;
-}
-// Create the export session with the composition and set the preset to the highest quality.
-AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mutableComposition presetName:AVAssetExportPresetHighestQuality];
-// Set the desired output URL for the file created by the export process.
-exporter.outputURL = [[[[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:@YES error:nil] URLByAppendingPathComponent:[kDateFormatter stringFromDate:[NSDate date]]] URLByAppendingPathExtension:CFBridgingRelease(UTTypeCopyPreferredTagWithClass((CFStringRef)AVFileTypeQuickTimeMovie, kUTTagClassFilenameExtension))];
-// Set the output file type to be a QuickTime movie.
-exporter.outputFileType = AVFileTypeQuickTimeMovie;
-exporter.shouldOptimizeForNetworkUse = YES;
-exporter.videoComposition = mutableVideoComposition;
-// Asynchronously export the composition to a video file and save this file to the camera roll once export completes.
-[exporter exportAsynchronouslyWithCompletionHandler:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-                    if (exporter.status == AVAssetExportSessionStatusCompleted) {
-                                    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-                                                if ([assetsLibrary videoAtPathIsCompatibleWithSavedPhotosAlbum:exporter.outputURL]) {
-                                                                    [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:exporter.outputURL completionBlock:NULL];
-                                                                                }
-                                                                                        }
-                                                                                            });
-}];
-</code></pre>
-
-<h4>Exporting</h4>
-
-<p>为了读写视听资产，你必须使用 AVFoundation 框架提供的导出 API. AVAssetExportSession 类为简单的导出需求提供接口，例如修改文件格式或者裁剪资产的长度。对于更深的导出需求，使用 AVAssetReader 和 AVAssetWriter 类。</p>
-
-<p>当你想要操作资产的内容时使用 AVAssetReader. 例如，你可能读取资产中的音频轨迹去生成表示声波的图形。使用 AVAssetWriter 从像 sample buffers 或 still images 的媒体中生成资产。</p>
-
-<p>Reading an Asset</p>
-
-<p>每个 AVAssetReader 对象一次只能关联单个的资产， 但是这个资产可能包含多个轨迹。基于这个原因，为了配置如何去读取媒体数据，你必须在读取前给你的 asset reader 赋予 AVAssetReaderOutput 的具体子类。这里有三个具体的子类：AVAssetReaderTrackOutput, AVAssetReaderAudioMixOutput 和 AVAssetReaderVideoCompositionOutput.</p>
-
-<ol>
-<li>Creating the Asset Reader</li>
-</ol>
-
-
-<pre><code>NSError *outError;
-AVAsset *someAsset = &lt;#AVAsset that you want to read#&gt;;
-AVAssetReader *assetReader = [AVAssetReader assetReaderWithAsset:someAsset error:&amp;outError];
-BOOL success = (assetReader != nil);
-</code></pre>
-
-<ol>
-<li>Setting Up the Asset Reader Outputs</li>
-</ol>
-
-
-<pre><code>AVAsset *localAsset = assetReader.asset;
-// Get the audio track to read.
-AVAssetTrack *audioTrack = [[localAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-// Decompression settings for Linear PCM
-NSDictionary *decompressionAudioSettings = @{ AVFormatIDKey : [NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM] };
-// Create the output with the audio track and decompression settings.
-AVAssetReaderOutput *trackOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:audioTrack outputSettings:decompressionAudioSettings];
-// Add the output to the reader if possible.
-if ([assetReader canAddOutput:trackOutput])
-        [assetReader addOutput:trackOutput];
-</code></pre>
-
-<ol>
-<li>Reading the Asset’s Media Data</li>
-</ol>
-
-
-<pre><code>// Start the asset reader up.
-[self.assetReader startReading];
-BOOL done = NO;
-while (!done)
-{
-    // Copy the next sample buffer from the reader output.
-    CMSampleBufferRef sampleBuffer = [self.assetReaderOutput copyNextSampleBuffer];
-    if (sampleBuffer)
-    {
-        // Do something with sampleBuffer here.
-        CFRelease(sampleBuffer);
-        sampleBuffer = NULL;
-    }
-    else
-    {
-        // Find out why the asset reader output couldn't copy another sample buffer.
-        if (self.assetReader.status == AVAssetReaderStatusFailed)
-        {
-            NSError *failureError = self.assetReader.error;
-            // Handle the error here.
-        }
-        else
-        {
-            // The asset reader output has read all of its samples.
-            done = YES;
-        }
-    }
-}
-</code></pre>
-
-<p>Writing an Asset</p>
-
-<p>AVAssetWriter 类将多个来源的媒体数据按指定的文件格式写出到单一的文件。你不需要将你的 asset writer 对象和指定的资产关联起来，但是你必须为你想要创建的输出文件使用一个 asset writer. 因为一个 asset writer 可以写出来自多个源的媒体数据，你必须为你想要写出到输出文件的单独轨迹创建一个 AVAssetWriterInput 对象。每个 AVAssetWriterInput 对象期望收到 CMSampleBufferRef 对象格式的数据，但是如果你想追加 CVPixelBufferRef 对象到你的 asset writer input, 使用 AVAssetWriterInputPixelBufferAdaptor 类。</p>
-
-<pre><code>// 1. Creating the Asset Writer
-NSError *outError;
-NSURL *outputURL = &lt;#NSURL object representing the URL where you want to save the video#&gt;;
-AVAssetWriter *assetWriter = [AVAssetWriter assetWriterWithURL:outputURL
-fileType:AVFileTypeQuickTimeMovie
-error:&amp;outError];
-BOOL success = (assetWriter != nil);
-
-// 2. Setting Up the Asset Writer Inputs
-// Configure the channel layout as stereo.
-AudioChannelLayout stereoChannelLayout = {
-    .mChannelLayoutTag = kAudioChannelLayoutTag_Stereo,
-    .mChannelBitmap = 0,
-    .mNumberChannelDescriptions = 0
-};
-
-// Convert the channel layout object to an NSData object.
-NSData *channelLayoutAsData = [NSData dataWithBytes:&amp;stereoChannelLayout length:offsetof(AudioChannelLayout, mChannelDescriptions)];
-
-// Get the compression settings for 128 kbps AAC.
-NSDictionary *compressionAudioSettings = @{
-AVFormatIDKey         : [NSNumber numberWithUnsignedInt:kAudioFormatMPEG4AAC],
-                        AVEncoderBitRateKey   : [NSNumber numberWithInteger:128000],
-                        AVSampleRateKey       : [NSNumber numberWithInteger:44100],
-                        AVChannelLayoutKey    : channelLayoutAsData,
-                        AVNumberOfChannelsKey : [NSNumber numberWithUnsignedInteger:2]
-};
-
-// Create the asset writer input with the compression settings and specify the media type as audio.
-AVAssetWriterInput *assetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:compressionAudioSettings];
-// Add the input to the writer if possible.
-if ([assetWriter canAddInput:assetWriterInput])
-    [assetWriter addInput:assetWriterInput];
-
-// 3. Writing Media Data
-// Prepare the asset writer for writing.
-    [self.assetWriter startWriting];
-    // Start a sample-writing session.
-    [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
-    // Specify the block to execute when the asset writer is ready for media data and the queue to call it on.
-    [self.assetWriterInput requestMediaDataWhenReadyOnQueue:myInputSerialQueue usingBlock:^{
-        while ([self.assetWriterInput isReadyForMoreMediaData])
-        {
-            // Get the next sample buffer.
-            CMSampleBufferRef nextSampleBuffer = [self copyNextSampleBufferToWrite];
-            if (nextSampleBuffer)
-            {
-                // If it exists, append the next sample buffer to the output file.
-                [self.assetWriterInput appendSampleBuffer:nextSampleBuffer];
-                CFRelease(nextSampleBuffer);
-                nextSampleBuffer = nil;
-            }
-            else
-            {
-                // Assume that lack of a next sample buffer means the sample buffer source is out of samples and mark the input as finished.
-                [self.assetWriterInput markAsFinished];
-                break;
-            }
-        }
-    }];
-</code></pre>
-
-<p>Reference:<br/>
-iOS Technology Overview<br/>
-AVFoundation Programming Guide</p>
 ]]></content>
   </entry>
   

@@ -471,8 +471,13 @@ Reference:<a href="http://stackoverflow.com/questions/36467348/how-can-i-deal-wi
 <div id="comments"></div>
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
+var label_for_comment = document.title;
+if (label_for_comment.length > 52) {
+    label_for_comment = label_for_comment.substring(0, 51);
+}
+
 const gitment = new Gitment({
-id: document.title,
+id: label_for_comment,
 owner: 'DamianSheldon',
 repo: 'gitment',
 oauth: {

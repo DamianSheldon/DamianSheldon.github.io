@@ -157,7 +157,7 @@ $(document).ready(
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#x64;&#x6f;&#110;&#103;&#x6d;&#x65;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#x31;&#46;&#50;&#x35;&#53;">&#x64;&#111;&#x6e;&#x67;&#109;&#101;&#105;&#108;&#x69;&#x61;&#x6e;&#x67;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x2e;&#50;&#53;&#53;</a><br/>
+<p>1.sftp <a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#100;&#x6f;&#110;&#103;&#109;&#101;&#105;&#x6c;&#x69;&#97;&#110;&#103;&#x40;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#46;&#50;&#53;&#x35;">&#100;&#111;&#110;&#103;&#x6d;&#101;&#105;&#x6c;&#105;&#97;&#x6e;&#x67;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#46;&#50;&#x35;&#53;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -417,8 +417,13 @@ quit</p>
 <div id="comments"></div>
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
+var label_for_comment = document.title;
+if (label_for_comment.length > 52) {
+    label_for_comment = label_for_comment.substring(0, 51);
+}
+
 const gitment = new Gitment({
-id: document.title,
+id: label_for_comment,
 owner: 'DamianSheldon',
 repo: 'gitment',
 oauth: {

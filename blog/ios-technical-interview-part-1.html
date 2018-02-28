@@ -130,21 +130,21 @@ $(document).ready(
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">iOS 面试题汇总(一)</h2>
-	<div class="entry-content"><h3>1.Explain method swizzling. When you would use it?</h3>
+	<div class="entry-content"><h2>1.Explain method swizzling. When you would use it?</h2>
 
 <p>A:Method swizzling is a feature of dynamic of Objective-C that use a new method implementation replace the original. When the original implement doesn&rsquo;t meet my need, I will use this technology.</p>
 
-<h3>2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h3>
+<h2>2.Take three objects: a grandparent, parent and child. The grandparent retains the parent, the parent retains the child and the child retains the parent. The grandparent releases the parent. Explain what happens.</h2>
 
 <p>A:It causes strong reference cycle, and results as memory leaks.</p>
 
-<h3>3.What happens when you invoke a method on a nil pointer?</h3>
+<h2>3.What happens when you invoke a method on a nil pointer?</h2>
 
 <p>A:返回0</p>
 
 <p>Reference:<a href="http://nshipster.com/nil/">nil / Nil / NULL / NSNull</a></p>
 
-<h3>4.Give two separate and independent reasons why retainCount should never be used in shipping code.</h3>
+<h2>4.Give two separate and independent reasons why retainCount should never be used in shipping code.</h2>
 
 <p>A:</p>
 
@@ -156,7 +156,7 @@ $(document).ready(
 </ol>
 
 
-<h3>5.Explain your process for tracing and fixing a memory leak.</h3>
+<h2>5.Explain your process for tracing and fixing a memory leak.</h2>
 
 <p>A:</p>
 
@@ -168,11 +168,11 @@ $(document).ready(
 
 <p>Reference:<a href="http://www.raywenderlich.com/2696">Instruments Tutorial for iOS: How To Debug Memory Leaks</a></p>
 
-<h3>6.Explain how an autorelease pool works at the runtime level.</h3>
+<h2>6.Explain how an autorelease pool works at the runtime level.</h2>
 
 <p>A:As its name, it works like a pool, any object called autorelease method be throw to this pool, all object in autorelease pool will recieve a release method when it drain that occured at each event loop end.</p>
 
-<h3>7.When dealing with property declarations, what is the difference between atomic and non-atomic?</h3>
+<h2>7.When dealing with property declarations, what is the difference between atomic and non-atomic?</h2>
 
 <p>A: atomic是指存在竞争赋值时，我们会得到某次完整的赋值，而nonatomic则可能是几次赋值共同组合。</p>
 
@@ -197,21 +197,21 @@ $(document).ready(
 
 <p>再进一步，atomic是不是意味着代码是线程安全的呢？不是。atomic修饰符可以保证property的读写操作是串行的，但如果对象的指针不是atomic修饰的，代码仍然不是线程安全的。</p>
 
-<h3>8.In C, how would you reverse a string as quickly as possible?</h3>
+<h2>8.In C, how would you reverse a string as quickly as possible?</h2>
 
-<h3>9.Which is faster: to iterate through an NSArray or an NSSet?</h3>
+<h2>9.Which is faster: to iterate through an NSArray or an NSSet?</h2>
 
 <p>A: NSArray</p>
 
 <p>Reference:<a href="http://www.cocoawithlove.com/2008/08/nsarray-or-nsset-nsdictionary-or.html">NSArray or NSSet, NSDictionary or NSMapTable</a></p>
 
-<h3>10.Explain how code signing works.</h3>
+<h2>10.Explain how code signing works.</h2>
 
 <p>A:签名软件先将代码和资源使用单向 hash 算法计算出一系列的 hash 值，之后使用签名者提供的私钥来加密这些 hash 值，加密后的 hash 值存储在代码包中，在代码包中还包含签名者的证书，证书是由 Apple 签发的，能证明签名者的身份，证书里还包含签名者的公钥，操作系统之后可以使用相同的 hash 算法计算代码包里代码和资源的 hash，然后将 hash 值和用公钥解密的 hash 对比，这样就能保证代码并未被修改和确认它的来源，这就是代码签名的大致原理。</p>
 
-<h3>11.What is posing in Objective-C?</h3>
+<h2>11.What is posing in Objective-C?</h2>
 
-<h3>12.List six instruments that are part of the standard.</h3>
+<h2>12.List six instruments that are part of the standard.</h2>
 
 <p>A:</p>
 
@@ -226,24 +226,24 @@ $(document).ready(
 </ol>
 
 
-<h3>13.What are the differences between copy and retain?</h3>
+<h2>13.What are the differences between copy and retain?</h2>
 
 <p>A: copy是新创建一个对象副本；retain则是对象引用计数加一。</p>
 
-<h3>14.What is the difference between frames and bounds?</h3>
+<h2>14.What is the difference between frames and bounds?</h2>
 
 <p>A:</p>
 
 <blockquote><p>The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
 The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.</p></blockquote>
 
-<h3>15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
+<h2>15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h2>
 
 <p>A: The object gets released twice when the autorelease pool is destroyed.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">Autoreleasing twice an object</a></p>
 
-<h3>16.List the five iOS app states.</h3>
+<h2>16.List the five iOS app states.</h2>
 
 <p>A:</p>
 
@@ -281,8 +281,9 @@ The bounds property contains the bounds rectangle, which specifies the size of t
 
 <p>When a low-memory condition occurs, the system may purge suspended apps without notice to make more space for the foreground app.</p>
 
-<p>Reference:
-o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Interview Questions</a></p>
+<p>Reference:</p>
+
+<p>o <a href="http://www.raywenderlich.com/53962/ios-interview-questions">iOS Interview Questions</a></p>
 </div>
 
 

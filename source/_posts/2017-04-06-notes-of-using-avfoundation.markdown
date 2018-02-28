@@ -155,26 +155,28 @@ NSString *mediaType = AVMediaTypeVideo;
 AVFoundation 框架提供了丰富的类来方便编辑音视资产。编辑 API 的核心是 composition. 一个 Compostion 是简单的来自一个或多个不同媒体资产的聚合。AVMutableCompostion 类提供插入和移除轨迹的接口，并且管理它们的时间顺序。图 3-1 展示了一个新的 composition
 是如何用由现存资产联合形成的新资产拼装在一起的。如果你所有想要做的就是将多个资产按顺序的合成到一个单一的文件，那么这就是你得知道的所有细节。如果你想对你 compostion 里面的轨迹进行自定义的音频或视频处理，你相应地需要引入一个 audio mix 或 video compostion.
 
-<div style="text-align:center" markdown="1">
-    <img name="AVMutableComposition" src="/images/avmutablecomposition_2x.png">
-</div>
+{% img /images/avmutablecomposition_2x.png AVMutableComposition %}
+
+图 3-1
 
 使用 AVMutableAudioMix 类， 你可以在你的 composition 的音频轨迹上进行自定义音频处理，像图 3-2 显示的。你现在可以指定一个最大的音量或者设置 volume ramp.
 
-<div style="text-align:center" markdown="1">
-    <img name="AVMutableAudioMix" src="/images/avmutableaudiomix_2x.png">
-</div>
+{% img /images/avmutableaudiomix_2x.png AVMutableAudioMix %}
+
+图 3-2
+
 你为了编辑可以像图 3-3 那样使用 AVMutableVideoCompostion 类来直接操作你 compostion 里的视频轨迹. 拥有一个 video composition, 你可以为输出视频指定想要的渲染尺寸,缩放以及帧率。通过一个 video composition's instruction(由 AVMutableVideoCompositionInstruction 类代表)，你可以修改你视频的背景颜色和应用 layer instructions. 这些 layer instructions（由 AVMutableVideoCompositionLayerInstruction 类代表) 可以用来应用 transforms, transform ramps, opacity and opacity ramps。Video
 composition 类使用 animationTool 属性赋予你引入来自 Core Animation 框架效果的能力。  
 
-<div style="text-align:center" markdown="1">
-    <img name="AVMutableVideoCompostion" src="/images/avmutablevideocomposition_2x.png">
-</div>
-为了把你的 compostion 和 audio mix, video compostion 混合，你使用一个 AVAssetExportSession 对象，像 图 3-4 那样。你用你的 compostion 初始化 export session, 然后简单地把你的 audio mix 和 video composition 相应地赋值给 audioMix 和 videoComposition 属性。
+{% img /images/avmutablevideocomposition_2x.png AVMutableVideoCompostion %}
 
-<div style="text-align:center" markdown="1">
-    <img name="AVAssetExportSession" src="/images/puttingitalltogether_2x.png">
-</div>
+图 3-3
+
+为了把你的 compostion 和 audio mix, video compostion 混合，你使用一个 AVAssetExportSession 对象，像图 3-4 那样。你用你的 compostion 初始化 export session, 然后简单地把你的 audio mix 和 video composition 相应地赋值给 audioMix 和 videoComposition 属性。
+
+{% img /images/puttingitalltogether_2x.png AVAssetExportSession %}
+
+图 3-4
 
 Combining Multiple Assets and Saving the Result to the Camera Roll
 
@@ -424,5 +426,8 @@ if ([assetWriter canAddInput:assetWriterInput])
 ```
 
 Reference:  
-iOS Technology Overview  
-AVFoundation Programming Guide  
+
+* iOS Technology Overview  
+* AVFoundation Programming Guide  
+
+

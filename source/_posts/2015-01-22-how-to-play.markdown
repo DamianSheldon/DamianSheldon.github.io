@@ -5,8 +5,12 @@ date: 2015-01-22 16:48:25 +0800
 comments: true
 categories: [Archive, iOS Development]
 keywords: Play, Record, Edit, Video, iOS
-description: How to Play, Record, and Edit Videos in iOS
+description: Learn the basics of working with videos on iOS with AV Foundation in this tutorial. You'll play, record, and even do some light video editing!
 ---
+
+录制视频(并用代码播放它们)是你可以用手机来做的最酷的事情之一，但不是所有的应用都利用了它们。它需要 AVFoundation 框架，AVFoundation 从 Lion(10.7)开始是 OS X 的一部分，Apple 在 2010 年将它加入到 iOS 4.
+
+从那之后 AVFoundation 也有了相当多的成长，现在拥有 100 多个类。本教程覆盖媒体播放和一些轻量级编辑来让你开始使用 AVFoundation.
 
 ####AVAsset
 
@@ -57,3 +61,5 @@ Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompos
 Each layer instruction is used to apply a certain transform to a given track.
 
 ###[原文](http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios)
+
+

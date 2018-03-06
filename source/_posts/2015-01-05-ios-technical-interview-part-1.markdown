@@ -70,6 +70,7 @@ Reference:[NSArray or NSSet, NSDictionary or NSMapTable](http://www.cocoawithlov
 ###10.Explain how code signing works.
 A:签名软件先将代码和资源使用单向 hash 算法计算出一系列的 hash 值，之后使用签名者提供的私钥来加密这些 hash 值，加密后的 hash 值存储在代码包中，在代码包中还包含签名者的证书，证书是由 Apple 签发的，能证明签名者的身份，证书里还包含签名者的公钥，操作系统之后可以使用相同的 hash 算法计算代码包里代码和资源的 hash，然后将 hash 值和用公钥解密的 hash 对比，这样就能保证代码并未被修改和确认它的来源，这就是代码签名的大致原理。  
 
+
 ###11.What is posing in Objective-C?
 
 ###12.List six instruments that are part of the standard.

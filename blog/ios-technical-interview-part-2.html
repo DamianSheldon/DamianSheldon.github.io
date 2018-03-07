@@ -317,15 +317,15 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 <li>如果声明的是读写属性，开发者只实现了 getter 或 setter，那么编译器会合成实例变量，两者都实现时则不合成实例变量；</li>
 <li><p>如果是声明的是只读属性，开发者没有 getter，那么编译器会合成实例变量，否则不会合成。</p>
 
-<p>  Reference:<a href="https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar">iOS automatic @synthesize without creating an ivar</a></p>
+<p>  Reference:<a href="https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar">iOS automatic @synthesize without creating an ivar</a></p></li>
+</ul>
+
 
 <h3>14. ARC通过什么方式帮助开发者管理内存？</h3>
 
-A:
+<p>A:</p>
 
-<blockquote><p>ARC works by adding code at compile time to ensure that objects live as long as necessary, but no longer.</p></blockquote></li>
-</ul>
-
+<blockquote><p>ARC works by adding code at compile time to ensure that objects live as long as necessary, but no longer.</p></blockquote>
 
 <h3>15. objc使用什么机制管理对象内存？</h3>
 
@@ -337,7 +337,7 @@ A:
 
 <h3>17. 苹果是如何实现autoreleasepool的?</h3>
 
-<p>A:</p>
+<p>A: autoreleasepool 正如它的名字，它像一个池子，所以的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。</p>
 
 <h3>18. 使用block时什么情况会发生引用循环，如何解决？</h3>
 

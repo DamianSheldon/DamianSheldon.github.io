@@ -108,8 +108,9 @@ A:声明为属性的类遵守 NSCopying 协议，而且我们希望设置新值�
 
 ###8. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？  
 A:
-	> Any object that you wish to set for a copy property must support NSCopying, which means that it should conform to the NSCopying protocol.
-	> Only classes that define an “immutable vs. mutable” distinction should adopt this protocol. 
+
+> Any object that you wish to set for a copy property must support NSCopying, which means that it should conform to the NSCopying protocol.
+> Only classes that define an “immutable vs. mutable” distinction should adopt this protocol. 
 
 ###9. protocol 和 category 中如何使用 @property?  
 A:

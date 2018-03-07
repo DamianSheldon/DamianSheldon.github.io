@@ -134,7 +134,7 @@ A:
 * weak:对象的引用计数不变，对象销毁时 weak 属性自动置为nil;  
 * unsafe_unretained:对象的引用计数不变，对象销毁时 unsafe_unretained 属性成为野指针;  
 
-你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除些之外我们应该使用 weak.
+你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除此之外我们应该使用 weak.
 
 Reference:[What is the use of unsafe_unretained attribute?](http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute)
 

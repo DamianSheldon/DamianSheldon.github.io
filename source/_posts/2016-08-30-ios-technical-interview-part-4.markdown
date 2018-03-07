@@ -15,7 +15,7 @@ A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达�
 A: Git
 
 ###3.你一般是怎么用 Instruments 的？
-A:根据想要分析的问题，选择对应的　instruments　，同时参考　Instruments　User　Guide．
+A:根据想要分析的问题，选择对应的 instruments, 同时参考 Instruments User Guide．
 
 ###4.你一般是如何调试 Bug 的
 A:对于容易复现的 bug，根据复现的步骤来调试代码会比较容易定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，打到 bug 产生的原因才好解决。

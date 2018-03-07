@@ -122,20 +122,21 @@ A:
 A:@property 的本质是什么？
 	@property = ivar + getter + setter;
 	
-ivar、getter、setter 是如何生成并添加到这个类中的?
+ivar、getter、setter 是如何生成并添加到这个类中的?  
 “自动合成”( autosynthesis)
 完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。
 
 ###11. @synthesize和@dynamic分别有什么作用？  
 A: 
 
-* @synthesize 是告诉编译器怎么去合成相应属性的 getter 和 setter 方法；
+* @synthesize 有两个作用：一是指定用来合成属性的后备实例变量；二是为协议中声明的属性生成存取方法；
 * @dynamic 告诉编译器属性的 setter 与 getter 方法由用户自己实现，不自动合成。
 
 ###12. 在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？  
 A:
+
 * 自定义自动合成的实例变量的名称；
-* 自动合成协议中声明 getter 和 setter 方法。
+* 为协议中声明的属性合成 getter 和 setter 方法。
 
 ###13. @synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？  
 A:

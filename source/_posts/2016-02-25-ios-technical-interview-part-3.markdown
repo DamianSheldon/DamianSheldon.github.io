@@ -4,8 +4,8 @@ title: "iOS 面试题汇总(三)"
 date: 2016-02-25 18:43:44 +0800
 comments: true
 categories: [Archives, iOS Development]
-keywords: iOS Technical Interview
-description: iOS Technical Interview
+keywords: iOS, Technical, Interview, Category, Extension, KVO, KVC, shallow copy, deep copy
+description: iOS Technical Interview questions about categories, extension, KVO, KVC, shallow copy, deep copy and so on.
 ---
 
 ###1.Difference between categories and extensions?
@@ -73,6 +73,7 @@ A:
 
 * Protocol is To-one Relationships; NSNotification is To-many Relationships.
 * Protocol support bidirectional data-transfer between two classes.
+* Protocol doesn't need the third object to coordinate the communication.
 
 ###11.Polymorphism？
 A: The ability of different objects to respond, each in its own way, to identical messages is called polymorphism.

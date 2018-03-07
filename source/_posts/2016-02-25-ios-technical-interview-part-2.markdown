@@ -115,8 +115,8 @@ A:
 ###9. protocol 和 category 中如何使用 @property?  
 A:
 	
-* protocol 使用 property 和 class 类似，只是 protocol 的 property 只会生成相应 getter 和 setter 方法声明，遵守协议的类需要实现相应的 getter 和 setter 方法；
-* category 使用 property 和 class 有点区别，主要原因是 category 不支持添加实例变量，所以 category 中可以声明组合已有类 property 的 readonly 修饰的便捷 property；或者通过关联引用来辅助实现 getter 和 setter 方法。
+* protocol 像类一样声明 property, 遵守协议的类需要合成实例变量或实现对应的 getter 和 setter；
+* category 本身不支持添加实例变量，所以我们为它声明的属性应该能通过组合已有属性来实现对应的 getter 和 setter；如果声明的属性需要引入新的实例变量则要通过关联引用来辅助实现对应的 getter 和 setter。
 
 ###10. @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?  
 A:@property 的本质是什么？

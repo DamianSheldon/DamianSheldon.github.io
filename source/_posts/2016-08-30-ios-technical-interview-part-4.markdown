@@ -9,7 +9,7 @@ description: iOS Technical Interview
 ---
 
 ###1.熟悉 CocoaPods 么？能大概讲一下工作原理么？
-A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件，信赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。
+A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件，依赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。
 
 ###2.最常用的版本控制工具是什么，能大概讲讲原理么？
 A: Git

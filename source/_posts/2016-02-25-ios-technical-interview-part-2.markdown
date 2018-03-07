@@ -187,6 +187,8 @@ id __weak weakSelf = self，或者 __weak __typeof(self)weakSelf = self
 
 还可以引申出 `__weak` 是怎么实现的。
 
+`__weak` 是通过 weak 表来实现的，它类似 hash 表，weak 变量的地址为键，引用的对象为值，当引用的对象销毁时，通过用对象的地址在weak表中反向查到对应的变量，并将其置为 nil,然后从表中删除。
+
 Reference:[What is the difference between a __weak and a __block reference?](https://stackoverflow.com/questions/11773342/what-is-the-difference-between-a-weak-and-a-block-reference)  
 [Variable Qualifiers](https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html)  
 [The __block Storage Type](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Blocks/Articles/bxVariables.html#//apple_ref/doc/uid/TP40007502-CH6-SW1)  
@@ -353,7 +355,7 @@ A:
 
 
 ###39. runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？  
-A:runtime 对注册的类， 会进行布局，对于 weak 对象会放入一个 hash 表中。 用 weak 指向的对象内存地址作为 key，当此对象的引用计数为0的时候会 dealloc，假如 weak 指向的对象内存地址是a，那么就会以a为键， 在这个 weak 表中搜索，找到所有以a为键的 weak 对象，从而设置为 nil。
+A: runtime 将 weak 属性的后备变量作为键，引用的对象的地址作为值存入到 weak 表中，它类似 hash 表，当引用的对象销毁时，在 weak 表中用此地址反向查找对应的变量，将其置为 nil, 并将其从 weak 表中删除。
 
 ###40. objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？  
 A:

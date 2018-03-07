@@ -151,9 +151,11 @@ A:
 * 如果声明的是读写属性，开发者只实现了 getter 或 setter，那么编译器会合成实例变量，两者都实现时则不合成实例变量；
 * 如果是声明的是只读属性，开发者没有 getter，那么编译器会合成实例变量，否则不会合成。
 	
-	Reference:[iOS automatic @synthesize without creating an ivar](https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar)
+	Reference:[iOS automatic @synthesize without creating an ivar](https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar)  
+	
 ###14. ARC通过什么方式帮助开发者管理内存？  
 A:
+
 > ARC works by adding code at compile time to ensure that objects live as long as necessary, but no longer.
 
 ###15. objc使用什么机制管理对象内存？  
@@ -163,7 +165,7 @@ A: 引用计数机制。
 A: Autorelease对象出了作用域之后，会被添加到最近一次创建的自动释放池中，并会在当前的 runloop 迭代结束时释放。如果在一个vc的viewDidLoad中创建一个 Autorelease对象，那么该对象会在 viewDidAppear 方法执行前就被销毁了。
 
 ###17. 苹果是如何实现autoreleasepool的?  
-A:
+A: autoreleasepool 正如它的名字，它像一个池子，所以的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。
 
 ###18. 使用block时什么情况会发生引用循环，如何解决？  
 A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。

@@ -86,10 +86,9 @@ A:
 
 ```
 // Delegate methods
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- 
  // Data source methods
  - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
  - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;

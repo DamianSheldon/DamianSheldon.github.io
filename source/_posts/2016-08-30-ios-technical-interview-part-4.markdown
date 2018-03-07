@@ -78,8 +78,18 @@ A:自定义对象需要实现 NSCoding 协议，然后可以调用 NSKeyedArchiv
 ###8.iOS 的沙盒目录结构是怎样的？ App Bundle 里面都有什么？
 A:
 
+iOS 的沙盒目录结构如下:
+
+AppName.app  
+Documents/  
+Library/  
+tmp/  
+
 App Bundle 里面有 Info.plist, Executeable, Resource files and Other support files.
 
+Reference:  
+
+* File System Programming Guide  
 
 ###9.iOS 7的多任务添加了哪两个新的 API? 各自的使用场景是什么？
 A:

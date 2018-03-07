@@ -197,7 +197,7 @@ Reference:[Automatic removal of NSNotificationCenter or KVO observers](http://me
 A:You can also use beginUpdates method followed by the endUpdates method to animate the change in the row heights without reloading the cell.
 
 ###27.什么是 Method Swizzle，什么情况下会使用？
-A:Method Swizzle 是一种改变已存在方法实现的技术。当我们有改变已存在方法实现的需求是使用。
+A:Method Swizzle 是一种改变已存在方法实现的技术。当我们有改变已存在方法实现的需求时使用。
 
 ###28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？
 A: Layer 有两个独立的图层: 1.modelLayer;2.presentationLayer. 动画是在 presentationLayer 上，所以当动画完成时， layer 又恢复到原先的状态。

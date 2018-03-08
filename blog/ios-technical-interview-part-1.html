@@ -7,7 +7,7 @@
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="iOS Technical Interview Questions Collection."> <meta name="keywords" content="iOS, Technical, Interview, Questions">
+<meta name="description" content="iOS Technical Interview Questions about method swizzling, memory management, thread safe and so on."> <meta name="keywords" content="iOS, Technical, Interview, Questions">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -161,8 +161,22 @@ $(document).ready(
 <p>A:</p>
 
 <ol>
-<li>Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause</li>
-<li>Run with Apple Instruments such as Leaks to look for memory issues</li>
+<li>Launch Instruments, select Leaks instrument;</li>
+<li>Use App normal;</li>
+<li>Notice spike on timeline pane;</li>
+<li>Check spike is normal;</li>
+<li>Fix any where that cause memory leak;</li>
+</ol>
+
+
+<p>We also can use Allocations:</p>
+
+<ol>
+<li>Launch Instruments, select Allocations instrument;</li>
+<li>Use App normal;</li>
+<li>Make generation when state change;</li>
+<li>Compare gerations to find out memory leak;</li>
+<li>Fix memory leak;</li>
 </ol>
 
 

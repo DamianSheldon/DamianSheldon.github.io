@@ -5,7 +5,7 @@ date: 2015-01-05 15:44:07 +0800
 comments: true
 categories: [Archives, iOS Development]
 keywords: iOS, Technical, Interview, Questions
-description: iOS Technical Interview Questions Collection.
+description: iOS Technical Interview Questions about method swizzling, memory management, thread safe and so on.
 ---
 
 ###1.Explain method swizzling. When you would use it?

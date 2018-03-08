@@ -31,8 +31,19 @@ A:
 ###5.Explain your process for tracing and fixing a memory leak.
 A:
 
-1. Set the NSZombieEnabled argument in your executable options, which sometimes helps narrow down the cause
-2. Run with Apple Instruments such as Leaks to look for memory issues
+1. Launch Instruments, select Leaks instrument;
+2. Use App normal;
+3. Notice spike on timeline pane;
+4. Check spike is normal;
+5. Fix any where that cause memory leak;
+
+We also can use Allocations:
+
+1. Launch Instruments, select Allocations instrument;
+2. Use App normal;
+3. Make generation when state change;
+4. Compare gerations to find out memory leak;
+5. Fix memory leak;
 
 Reference:[Instruments Tutorial for iOS: How To Debug Memory Leaks](http://www.raywenderlich.com/2696)
 

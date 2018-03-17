@@ -134,6 +134,57 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html">
+		
+			记一次换新 iPhone</a>
+	</h2>
+	<div class="entry-content">
+		<p>说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 >&lt;。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。</p>
+
+<p>iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个地方。苹果这篇<a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a>详细介绍几种可行方法，我们可以从中选择一种方法。其实我觉得苹果应该出篇换机指南的，上面这篇文章的题目不是很容易让人把它与换机联系起来，也不是很容易记，这是我想记这么一笔的原因之一，N 年之后我再换 iPhone 的时候也可以按这篇文章的思想来指导自己迁移数据。</p>
+
+<p>这里我选择使用 iTunes 备份恢复，快速开始功能好像不是很灵光，也可能是我不会用，而 iCloud 备份是通过网络，网速会影响备份和恢复，加上最近 iPhone 的 bug 贼多，这让我不是很放心。在此之前有使用过 iTunes 备份恢复，想着即使恢复过程出了问题备份还在，所以最终选择 iTunes。</p>
+
+<p>备份过程很顺利，恢复过程就曲折了，iTunes 提示 backup is corrupt or incompatible，墨菲定理生效了，另一方面也佐证了选择 iTunes 是正确的选择，苹果什么时候能把这软件质量抓一抓，别只顾着赚钱啊。搜索找到了苹果对这个问题的解决办法：</p>
+
+
+		
+		<a href="/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html" class="more-link">继续阅读</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-03-17T10:20:21+08:00" pubdate data-updated="true">17 Mar 2018</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/concurrency-with-core-data.html">
 		
 			多线程的 Core Data</a>
@@ -288,90 +339,6 @@ set it to &ldquo;No Application&rdquo;</p>
 <div class="tags">
 
 	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-development-notes-part-two.html">
-		
-			Web 开发问题汇总(二)</a>
-	</h2>
-	<div class="entry-content">
-		<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
-
-<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;jQuery.browser() removed
-</span><span class='line'>
-</span><span class='line'>&gt;The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
-</span><span class='line'>
-</span><span class='line'>&gt;— jQuery Core 1.9 Upgrade Guide.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
-
-<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
-
-<p>A:To include http-servlet into your class path, you have two options:</p>
-
-<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
-2. Another option is include the servlet dependency through maven itself. This will also fix the error.
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
-</span><span class='line'>    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
-</span><span class='line'>    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
-</span><span class='line'>    &lt;version&gt;2.5&lt;/version&gt;
-</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-01-04T10:08:36+08:00" pubdate data-updated="true">04 Jan 2018</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
 
 </div>
 

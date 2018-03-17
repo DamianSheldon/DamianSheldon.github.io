@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-03-14T17:22:55+08:00</updated>
+  <updated>2018-03-17T12:03:30+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[记一次换新 iPhone]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html"/>
+    <updated>2018-03-17T10:20:21+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone</id>
+    <content type="html"><![CDATA[<p>说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 >&lt;。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。</p>
+
+<p>iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个地方。苹果这篇<a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a>详细介绍几种可行方法，我们可以从中选择一种方法。其实我觉得苹果应该出篇换机指南的，上面这篇文章的题目不是很容易让人把它与换机联系起来，也不是很容易记，这是我想记这么一笔的原因之一，N 年之后我再换 iPhone 的时候也可以按这篇文章的思想来指导自己迁移数据。</p>
+
+<p>这里我选择使用 iTunes 备份恢复，快速开始功能好像不是很灵光，也可能是我不会用，而 iCloud 备份是通过网络，网速会影响备份和恢复，加上最近 iPhone 的 bug 贼多，这让我不是很放心。在此之前有使用过 iTunes 备份恢复，想着即使恢复过程出了问题备份还在，所以最终选择 iTunes。</p>
+
+<p>备份过程很顺利，恢复过程就曲折了，iTunes 提示 backup is corrupt or incompatible，墨菲定理生效了，另一方面也佐证了选择 iTunes 是正确的选择，苹果什么时候能把这软件质量抓一抓，别只顾着赚钱啊。搜索找到了苹果对这个问题的解决办法：</p>
+
+<!--more-->
+
+
+<blockquote><p>If an alert says that your backup is corrupt or incompatible</p>
+
+<p>If iTunes can&rsquo;t restore from a backup because the backup is corrupt or incompatible, make sure that iTunes is updated. If you see an error that says your iOS software is too old, find out how to update your device to restore the backup. If you still can&rsquo;t restore the backup, you might not be able to use that backup. Try to use an alternate backup or an iCloud backup, or Contact Apple Support for more help.</p></blockquote>
+
+<p>检查 iTunes 的版本，显示是最新的，这是什么幺蛾子,难道就这么放弃，不存在的，我有那么容易放弃吗，开玩笑。既然有所谓的版本的问题，我怀疑是 8 的版本和 5S 的版本不一致，于是两手准备：一方面对 5S 做一次全量 iCloud 备份，如果稍后 iOS 版本都一致了 iTunes 备份还不行就使用 iCloud 备份恢复；另一方面把 8 和 5S 升级到最新的 iOS，8 用 USB 接上 iTunes 是可以升级的。8 和 5S 都升级成最新版本的系统后，又对 5S 做了一次 iTunes 备份，之后 8 用这个备份顺利恢复了。</p>
+
+<p>回顾整个恢复过程感觉还挺曲折，真心希望苹果抓抓软件质量，别让 iOS 成了 bugOS。过程中 8 和 5S 只是小版本不一致却导致恢复不成功，还挺伤害用户体验的，毕竟好几年才使用一次的杀手锏功能之一，当我要使用的时候你却告诉我: &ldquo;对不起，这次用不了!"我用新 iPhone 的喜悦感都被抛到九霄云外了。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li><a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a></li>
+<li><a href="https://sspai.com/post/41612">从数据迁移到处理旧 iPhone，这份换机指南都帮你想好了</a></li>
+<li><a href="https://support.apple.com/en-us/HT203271">If your iTunes backup couldn‘t be completed or you can‘t restore from a backup</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多线程的 Core Data]]></title>
@@ -5755,517 +5790,6 @@ This can’t be moved into an Objective-C method because it will always log the 
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/5591612/how-do-i-get-weekday-and-or-name-of-month-from-a-nsdate-variable">How do i get Weekday and/or name of month from a NSDate variable?</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS App 开发问题汇总（七）]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-development-problems-part-7.html"/>
-    <updated>2016-05-03T17:00:04+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-development-problems-part-7</id>
-    <content type="html"><![CDATA[<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
-
-<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidAppear:(BOOL)animated
-</span><span class='line'>{
-</span><span class='line'>    [super viewDidAppear:animated];
-</span><span class='line'>    
-</span><span class='line'>    self.translucent = self.navigationController.navigationBar.isTranslucent;
-</span><span class='line'>    self.navigationController.navigationBar.translucent = YES;
-</span><span class='line'>    
-</span><span class='line'>    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
-</span><span class='line'>    
-</span><span class='line'>    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
-</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
-</span><span class='line'>    
-</span><span class='line'>    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
-</span><span class='line'>    self.navigationController.navigationBar.shadowImage = newImage;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>- (void)viewWillDisappear:(BOOL)animated
-</span><span class='line'>{
-</span><span class='line'>    [super viewWillDisappear:animated];
-</span><span class='line'>    
-</span><span class='line'>    self.navigationController.navigationBar.translucent = self.translucent;
-</span><span class='line'>    
-</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
-</span><span class='line'>    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
-<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">Separator between navigation bar and view - iOS 7</a></p>
-
-<!-- more -->
-
-
-<h3>2. 自定义的View设置cornerRadius不生效</h3>
-
-<h3>3. CocoaPods 升级到1.0，Xcode 一直报 header file not found.</h3>
-
-<p>A: 仔细查看了 Xcode 的编译过程，头文件的路径是包含了的，于是怀疑是Xcode的自身可能存在问题。经过实验，可以用下面的方法解决：</p>
-
-<ol>
-<li>Clean project</li>
-<li>Window > Projects > Your Project > Delete Derived Data</li>
-<li>Build</li>
-</ol>
-
-
-<h3>4. No codesigning identities (i.e. certificate and private key pairs) that match the team ID: xxx</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Go to Xcode preferences, view details of the Apple ID, and delete the provisioning file that&rsquo;s complaining, redownload.</li>
-<li>Go to the Keychain Access, and delete the development certificate that&rsquo;s related to the provisioning file you just deleted.</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19197497/ios-7-0-no-code-signing-identities-found">iOS 7.0 No code signing identities found</a></p>
-
-<h3>5. How to load image from CocoaPods resource bundle ?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  s.resource_bundles = {
-</span><span class='line'>    'DMLSelector' =&gt; ['DMLSelector/Assets/*.png']
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-</span><span class='line'>  self.imageView.image = [UIImage imageNamed:@"DMLSelector.bundle/Checked" inBundle:bundle compatibleWithTraitCollection:nil];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/23835052/load-image-from-cocoapods-resource-bundle">Load image from CocoaPods resource bundle</a></p>
-
-<h3>6. How to specify NSLineBreakMode in boundingRectWithSize?</h3>
-
-<p>A: Use NSParagraphStyleAttributeName &amp; NSParagraphStyle:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
-</span><span class='line'>paragraph.lineBreakMode = NSLineBreakByWordWrapping; //e.g.
-</span><span class='line'>
-</span><span class='line'>CGSize size = [label.text boundingRectWithSize: constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes: @{ NSFontAttributeName: label.font, NSParagraphStyleAttributeName: paragraph } context: nil].size;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20631464/how-to-specify-nslinebreakmode-in-boundingrectwithsize">How to specify NSLineBreakMode in boundingRectWithSize?</a></p>
-
-<h3>7.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
-</span><span class='line'>INFO [2016-06-01 15:42:30.78]: --- Step: fir p ../BBCApp.ipa -T token ---
-</span><span class='line'>INFO [2016-06-01 15:42:30.78]: ---------------------------------------------------------------------
-</span><span class='line'>INFO [2016-06-01 15:42:30.78]: $ fir p ../BBCApp.ipa -T c977500277789d01cc67d82750057858
-</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'fir-cli' (&gt;= 0) among 206 total gem(s) (Gem::LoadError)
-</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/dependency.rb:307:in `to_spec'
-</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ from /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:47:in `gem'
-</span><span class='line'>INFO [2016-06-01 15:42:34.31]: ▸ from /usr/local/bin/fir:22:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A: 问题的原因是找不到fir这个命令，可以直接指定绝对路径解决。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sh "/Library/Ruby/Gems/2.0.0/gems/fir-cli-1.5.0/bin/fir p ../BBCApp.ipa -T token"</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>8. 怎么获取iPhone上已安装App的ipa文件？</h3>
-
-<p>A: 可以利用iTunes下载已购的功能。</p>
-
-<p>You can redownload apps on your iPhone or iPod touch, iPad, Mac or PC, or Apple TV (4th generation). You can also redownload some in-app purchases.</p>
-
-<p>On a Mac or PC
-From iTunes
-1. Open iTunes.
-2. Click Sign In, and then enter your Apple ID and password.
-3. Click your name and select Purchased from the menu.
-4. From the upper-right corner of the screen, click Apps.
-5. Click &ldquo;Not in My Library&rdquo; to view purchased content that isn&rsquo;t on your computer.
-6. Scroll to find the item that you want to download.
-7. Click the Download icon  in the upper-right corner of the item that you want to download. Your app downloads to your library.</p>
-
-<p>下载需要点时间，所以点开My Apps tab面不能马上看到刚下载的App,右上角有个下载进度提示，点击可以看详情。</p>
-
-<p>Reference:<a href="https://support.apple.com/en-qa/HT201272">Redownload music, movies, TV shows, apps, and books from the iTunes Store, iBooks Store, and App Store</a></p>
-
-<h3>9. UICollectionView&rsquo;s cellForItemAtIndexPath is not being called</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>self.automaticallyAdjustsScrollViewInsets = NO;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/14668781/uicollectionviews-cellforitematindexpath-is-not-being-called?rq=1">UICollectionView&rsquo;s cellForItemAtIndexPath is not being called</a></p>
-
-<h3>10. iOS supported audio formats?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@"aac",@"adts",@"ac3",@"aif",@"aiff",@"aifc",@"caf",@"mp3",@"mp4",@"m4a",@"snd",@"au",@"sd2",@"wav"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/1761460/supported-audio-file-formats-in-iphone">Supported Audio file formats in iPhone</a><br/>
-<a href="https://www.raywenderlich.com/69365/audio-tutorial-ios-file-data-formats-2014-edition">Audio Tutorial for iOS: File and Data Formats</a></p>
-
-<h3>11. How do I put the image on the right side of the text in a UIButton?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CGFloat spacing          = 3;
-</span><span class='line'>    CGFloat insetAmount      = 0.5 * spacing;
-</span><span class='line'>
-</span><span class='line'>    // First set overall size of the button:
-</span><span class='line'>    button.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
-</span><span class='line'>    [button sizeToFit];
-</span><span class='line'>
-</span><span class='line'>    // Then adjust title and image insets so image is flipped to the right and there is spacing between title and image:
-</span><span class='line'>    button.titleEdgeInsets   = UIEdgeInsetsMake(0, -button.imageView.frame.size.width - insetAmount, 0,  button.imageView.frame.size.width  + insetAmount);
-</span><span class='line'>    button.imageEdgeInsets   = UIEdgeInsetsMake(0, button.titleLabel.frame.size.width + insetAmount, 0, -button.titleLabel.frame.size.width - insetAmount);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton">How do I put the image on the right side of the text in a UIButton?</a></p>
-
-<p>extension:How to position image top title bottom in a UIButton?
-A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Objc
-</span><span class='line'>-(void)imageTopTitleBottom:(UIButton *)button
-</span><span class='line'>{
-</span><span class='line'>    // the space between the image and text
-</span><span class='line'>    CGFloat spacing = 3.0;
-</span><span class='line'>
-</span><span class='line'>    // lower the text and push it left so it appears centered
-</span><span class='line'>    //  below the image
-</span><span class='line'>    CGSize imageSize = button.imageView.image.size;
-</span><span class='line'>    button.titleEdgeInsets = UIEdgeInsetsMake(0.0, - imageSize.width, - (imageSize.height + spacing), 0.0);
-</span><span class='line'>
-</span><span class='line'>    // raise the image and push it right so it appears centered
-</span><span class='line'>    //  above the text
-</span><span class='line'>    CGSize titleSize = [button.titleLabel.text sizeWithAttributes:@{NSFontAttributeName: button.titleLabel.font}];
-</span><span class='line'>    button.imageEdgeInsets = UIEdgeInsetsMake(- (titleSize.height + spacing), 0.0, 0.0, - titleSize.width);
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// Swift
-</span><span class='line'>func imageTopTitleBottom() -&gt; Void {
-</span><span class='line'>    if let buttonImage = self.image(for: .normal), let title = self.title(for: .normal) {
-</span><span class='line'>        let spacing: CGFloat = 2.0
-</span><span class='line'>
-</span><span class='line'>            let imageSize = buttonImage.size
-</span><span class='line'>
-</span><span class='line'>            self.titleEdgeInsets = UIEdgeInsetsMake(0, -imageSize.width, -(imageSize.height + spacing), 0)
-</span><span class='line'>
-</span><span class='line'>            let titleString = title as NSString
-</span><span class='line'>
-</span><span class='line'>            let stringSize = titleString.size(attributes: [NSFontAttributeName: self.titleLabel!.font])
-</span><span class='line'>
-</span><span class='line'>            self.imageEdgeInsets = UIEdgeInsetsMake(-(stringSize.height + spacing), 0, 0, -stringSize.width)
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>12. duplicate symbol _iToastDuration</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>enum iToastDuration {
-</span><span class='line'>  iToastDurationLong = 10000,
-</span><span class='line'>  iToastDurationShort = 1000,
-</span><span class='line'>  iToastDurationNormal = 3000
-</span><span class='line'>}iToastDuration;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>typedef enum iToastDuration {
-</span><span class='line'>  iToastDurationLong = 10000,
-</span><span class='line'>  iToastDurationShort = 1000,
-</span><span class='line'>  iToastDurationNormal = 3000
-</span><span class='line'>}iToastDuration;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>13. Detecting taps on attributed text in a UITextView in iOS</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import UIKit
-</span><span class='line'>class ViewController: UIViewController, UIGestureRecognizerDelegate {
-</span><span class='line'>
-</span><span class='line'>    @IBOutlet weak var textView: UITextView!
-</span><span class='line'>
-</span><span class='line'>    override func viewDidLoad() {
-</span><span class='line'>        super.viewDidLoad()
-</span><span class='line'>
-</span><span class='line'>        // Create an attributed string
-</span><span class='line'>        let myString = NSMutableAttributedString(string: "Swift attributed text")
-</span><span class='line'>
-</span><span class='line'>        // Set an attribute on part of the string
-</span><span class='line'>        let myRange = NSRange(location: 0, length: 5) // range of "Swift"
-</span><span class='line'>        let myCustomAttribute = [ "MyCustomAttributeName": "some value"]
-</span><span class='line'>        myString.addAttributes(myCustomAttribute, range: myRange)
-</span><span class='line'>
-</span><span class='line'>        textView.attributedText = myString
-</span><span class='line'>
-</span><span class='line'>        // Add tap gesture recognizer to Text View
-</span><span class='line'>        let tap = UITapGestureRecognizer(target: self, action: #selector(myMethodToHandleTap(_:)))
-</span><span class='line'>        tap.delegate = self
-</span><span class='line'>        textView.addGestureRecognizer(tap)
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    func myMethodToHandleTap(sender: UITapGestureRecognizer) {
-</span><span class='line'>
-</span><span class='line'>        let myTextView = sender.view as! UITextView
-</span><span class='line'>        let layoutManager = myTextView.layoutManager
-</span><span class='line'>
-</span><span class='line'>        // location of tap in myTextView coordinates and taking the inset into account
-</span><span class='line'>        var location = sender.locationInView(myTextView)
-</span><span class='line'>        location.x -= myTextView.textContainerInset.left;
-</span><span class='line'>        location.y -= myTextView.textContainerInset.top;
-</span><span class='line'>
-</span><span class='line'>        // character index at tap location
-</span><span class='line'>        let characterIndex = layoutManager.characterIndexForPoint(location, inTextContainer: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-</span><span class='line'>
-</span><span class='line'>        // if index is valid then do something.
-</span><span class='line'>        if characterIndex &lt; myTextView.textStorage.length {
-</span><span class='line'>
-</span><span class='line'>            // print the character index
-</span><span class='line'>            print("character index: \(characterIndex)")
-</span><span class='line'>
-</span><span class='line'>            // print the character at the index
-</span><span class='line'>            let myRange = NSRange(location: characterIndex, length: 1)
-</span><span class='line'>            let substring = (myTextView.attributedText.string as NSString).substringWithRange(myRange)
-</span><span class='line'>            print("character at index: \(substring)")
-</span><span class='line'>
-</span><span class='line'>            // check if the tap location has a certain attribute
-</span><span class='line'>            let attributeName = "MyCustomAttributeName"
-</span><span class='line'>            let attributeValue = myTextView.attributedText.attribute(attributeName, atIndex: characterIndex, effectiveRange: nil) as? String
-</span><span class='line'>            if let value = attributeValue {
-</span><span class='line'>               print("You tapped on \(attributeName) and the value is: \(value)")
-</span><span class='line'>            }
-</span><span class='line'>
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19332283/detecting-taps-on-attributed-text-in-a-uitextview-in-ios?rq=1">Detecting taps on attributed text in a UITextView in iOS</a></p>
-
-<h3>14. iOS 开发中如何获取农历？</h3>
-
-<p>A: iOS 8 以后 Apple 内置了农历支持，可以得到类似<strong>2016丙申年五月十七星期二</strong>的信息，如果你只需要这些信息就够了，那使用内置的农历就可以了。如果还想获取类似<strong>壬辰年癸卯月庚辰日</strong>，那可以用<a href="https://github.com/autopear/LunarCalendar">LunarCalendar</a>。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSCalendar *chineseCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
-</span><span class='line'>
-</span><span class='line'>NSDateFormatter *dateFormatter = [NSDateFormatter new];
-</span><span class='line'>dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"zh_Hans_CN"];
-</span><span class='line'>dateFormatter.dateStyle = NSDateFormatterFullStyle;
-</span><span class='line'>dateFormatter.calendar = chineseCalendar;
-</span><span class='line'>
-</span><span class='line'>NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
-</span><span class='line'>
-</span><span class='line'>// Output:2016丙申年五月十七星期二</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://www.quora.com/What-does-Apple-mean-when-it-says-iOS-8-will-include-lunar-calendar-support">What does Apple mean when it says iOS 8 will include lunar calendar support?</a> <br/>
-<a href="http://stackoverflow.com/questions/27878696/nscalendaridentifierrepublicofchina-vs-nscalendaridentifierchinese">NSCalendarIdentifierRepublicOfChina vs NSCalendarIdentifierChinese?</a></p>
-
-<h3>15. How to fix tableView&rsquo;s tableHeaderView overlap first cell?</h3>
-
-<p>A: The core of solution is when you change the frame of tableHeaderView, you need reassign it to tableView.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIView *headerView = self.tableHeaderView;
-</span><span class='line'>
-</span><span class='line'>[headerView setNeedsLayout];
-</span><span class='line'>[headerView layoutIfNeeded];
-</span><span class='line'>CGFloat height = [headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-</span><span class='line'>
-</span><span class='line'>headerView.frame = ({
-</span><span class='line'>    CGRect headerFrame = headerView.frame;
-</span><span class='line'>    headerFrame.size.height = height;
-</span><span class='line'>    headerFrame;
-</span><span class='line'>});
-</span><span class='line'>
-</span><span class='line'>self.tableHeaderView = headerView;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/28782319/tableheaderview-on-top-of-first-cell">tableHeaderView on top of first cell</a></p>
 ]]></content>
   </entry>
   

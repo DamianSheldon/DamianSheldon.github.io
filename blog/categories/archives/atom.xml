@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-03-14T17:22:55+08:00</updated>
+  <updated>2018-03-26T11:07:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[记一次换新 iPhone]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html"/>
+    <updated>2018-03-17T10:20:21+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone</id>
+    <content type="html"><![CDATA[<p>说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 >&lt;。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。</p>
+
+<p>iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个地方。苹果这篇<a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a>详细介绍几种可行方法，我们可以从中选择一种方法。其实我觉得苹果应该出篇换机指南的，上面这篇文章的题目不是很容易让人把它与换机联系起来，也不是很容易记，这是我想记这么一笔的原因之一，N 年之后我再换 iPhone 的时候也可以按这篇文章的思想来指导自己迁移数据。</p>
+
+<p>这里我选择使用 iTunes 备份恢复，快速开始功能好像不是很灵光，也可能是我不会用，而 iCloud 备份是通过网络，网速会影响备份和恢复，加上最近 iPhone 的 bug 贼多，这让我不是很放心。在此之前有使用过 iTunes 备份恢复，想着即使恢复过程出了问题备份还在，所以最终选择 iTunes。</p>
+
+<p>备份过程很顺利，恢复过程就曲折了，iTunes 提示 backup is corrupt or incompatible，墨菲定理生效了，另一方面也佐证了选择 iTunes 是正确的选择，苹果什么时候能把这软件质量抓一抓，别只顾着赚钱啊。搜索找到了苹果对这个问题的解决办法：</p>
+
+<!--more-->
+
+
+<blockquote><p>If an alert says that your backup is corrupt or incompatible</p>
+
+<p>If iTunes can&rsquo;t restore from a backup because the backup is corrupt or incompatible, make sure that iTunes is updated. If you see an error that says your iOS software is too old, find out how to update your device to restore the backup. If you still can&rsquo;t restore the backup, you might not be able to use that backup. Try to use an alternate backup or an iCloud backup, or Contact Apple Support for more help.</p></blockquote>
+
+<p>检查 iTunes 的版本，显示是最新的，这是什么幺蛾子,难道就这么放弃，不存在的，我有那么容易放弃吗，开玩笑。既然有所谓的版本的问题，我怀疑是 8 的版本和 5S 的版本不一致，于是两手准备：一方面对 5S 做一次全量 iCloud 备份，如果稍后 iOS 版本都一致了 iTunes 备份还不行就使用 iCloud 备份恢复；另一方面把 8 和 5S 升级到最新的 iOS，8 用 USB 接上 iTunes 是可以升级的。8 和 5S 都升级成最新版本的系统后，又对 5S 做了一次 iTunes 备份，之后 8 用这个备份顺利恢复了。</p>
+
+<p>回顾整个恢复过程感觉还挺曲折，真心希望苹果抓抓软件质量，别让 iOS 成了 bugOS。过程中 8 和 5S 只是小版本不一致却导致恢复不成功，还挺伤害用户体验的，毕竟好几年才使用一次的杀手锏功能之一，当我要使用的时候你却告诉我: &ldquo;对不起，这次用不了!"我用新 iPhone 的喜悦感都被抛到九霄云外了。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li><a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a></li>
+<li><a href="https://sspai.com/post/41612">从数据迁移到处理旧 iPhone，这份换机指南都帮你想好了</a></li>
+<li><a href="https://support.apple.com/en-us/HT203271">If your iTunes backup couldn‘t be completed or you can‘t restore from a backup</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多线程的 Core Data]]></title>
@@ -173,7 +208,7 @@ set it to &ldquo;No Application&rdquo;</p>
 
 <h2>2. Add environment variable</h2>
 
-<pre><code>// ~/.bash_profile
+<pre><code class="bash">// ~/.bash_profile
 export var=value
 </code></pre>
 
@@ -181,14 +216,14 @@ export var=value
 
 <p>A:</p>
 
-<pre><code>$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config
+<pre><code class="bash">$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config
 </code></pre>
 
 <h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
 
 <p>A:</p>
 
-<pre><code>// Enable
+<pre><code class="bash">// Enable
 $ sudo spctl --master-disable
 
 // Disable
@@ -197,15 +232,46 @@ $sudo spctl --master-enable
 
 <p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
 
-<h2>5. Mac 上批量替换文件中的字符串</h2>
+<h2>5.Mac 上批量替换文件中的字符串</h2>
 
 <p>A:</p>
 
-<pre><code>$ grep -rl discription source/_posts | xargs sed -i ''  "s/discription/description/g"
+<pre><code class="bash">$ grep -rl discription source/_posts | xargs sed -i ''  "s/discription/description/g"
 </code></pre>
 
 <p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
 <a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
+
+<h2>6.如何查看占用指定端口的进程？</h2>
+
+<p>A:</p>
+
+<pre><code class="bash">$ lsof -i :[port]
+</code></pre>
+
+<p>结果输出中有进程的 pid, 之后我们可以用这个 pid 来杀掉该进程：</p>
+
+<pre><code class="bash">$ kill -9 [pid]
+</code></pre>
+
+<p>这些进程很可能是系统启动时就启动了，可以通过：</p>
+
+<pre><code class="bash">$ launchctl list | grep [pid]
+</code></pre>
+
+<p>来确认。如果找到有，而我们又不想它自启动了，可以在以下目录中找到配置文件：</p>
+
+<pre><code>~/Library/LaunchAgents         Per-user agents provided by the user.
+/Library/LaunchAgents          Per-user agents provided by the administrator.
+/Library/LaunchDaemons         System wide daemons provided by the administrator.
+</code></pre>
+
+<p>找到之后，可以用命令：</p>
+
+<pre><code class="bash">$ launchctl unload -w paths
+// eg:
+$ launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</code></pre>
 ]]></content>
   </entry>
   
@@ -403,234 +469,6 @@ iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o $INTERNET_INTERFACE -m poli
 <a href="https://libreswan.org/man/ipsec.conf.5.html">ipsec.conf.5</a><br/>
 <a href="https://github.com/libreswan/libreswan/issues/47">Mac OS IKEv2 missing payload(s) (ISAKMP_NEXT_v2AUTH)</a><br/>
 <a href="https://wiki.strongswan.org/projects/strongswan/wiki/AppleIKEv2Profile">IKEv2 Configuration Profile for Apple iOS 8 and newer</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[圆锥渐变的一种简单实现]]></title>
-    <link href="http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios.html"/>
-    <updated>2017-09-22T15:59:35+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios</id>
-    <content type="html"><![CDATA[<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：
-<img src="../images/Conical-1.png" alt="Conical-1" />
-<img src="../images/Conical-2.png" alt="Conical-2" /></p>
-
-<p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
-
-<p>想法有了，接下来我们用它来实现上图中 Find My iPhone 图标的雷达效果吧。</p>
-
-<p>首先定义一个 CALayer 的子类 ConicalLayer，</p>
-
-<!--more-->
-
-
-<pre><code>// ConicalLayer.h
-@interface ConicalLayer : CALayer
-
-/// An array of CGColorRef objects defining the color of each gradient stop. 
-@property(copy) NSArray *colors;
-
-@end
-
-// ConicalLayer.m
-- (id)init
-{
-    if (!(self = [super init])) {
-        return nil;
-    }
-
-    _needsDisplayOnBoundsChange = YES;
-
-    return self;
-}
-
-- (void)drawInContext:(CGContextRef)ctx
-{
-    // Draw background
-    CGRect rect = CGContextGetClipBoundingBox(ctx);
-    CGContextSetFillColorWithColor(ctx, self.backgroundColor);
-    CGContextFillRect(ctx, rect);
-
-    if (self.colors.count &lt; 1) {
-        return;
-    }
-    else if (self.colors.count &lt; 2) {
-        // There is only one color so directly draw with it
-        CGColorRef color = (__bridge CGColorRef)(self.colors.firstObject);
-        CGContextSetFillColorWithColor(ctx, color);
-        CGContextFillRect(ctx, rect);
-        return;
-    }
-
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-    size_t width = rect.size.width;
-    size_t height = rect.size.height;
-
-    size_t bitsPerCompoent = 8;
-    size_t bytesPerRow = width * 4;
-
-    size_t bitmapByteCount = bytesPerRow * height;
-
-    uint32_t *bitmapData = calloc( bitmapByteCount / sizeof(uint32_t), sizeof(uint32_t) );
-
-    // Map color to linear array each compoent occupy 1 byte
-    uint8_t *colorCompoents = calloc(self.colors.count * 4, sizeof(uint8_t));
-
-    for (int i = 0; i &lt; self.colors.count; ++i) {
-        CGColorRef c = (__bridge CGColorRef)(self.colors[i]);
-
-        const CGFloat *compoents = CGColorGetComponents(c);
-
-        uint8_t red = compoents[0] * 255;
-        uint8_t green = compoents[1] * 255;
-        uint8_t blue = compoents[2] * 255;
-        uint8_t alpha = compoents[3] * 255;
-
-        int index = i * 4;
-        *(colorCompoents + index) = red;
-        *(colorCompoents + index + 1) = green;
-        *(colorCompoents + index + 2) = blue;
-        *(colorCompoents + index + 3) = alpha;
-    }
-
-    // Creating a Bitmap Graphics Context for conical gradient
-    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Little;
-
-    CGContextRef bitmapGraphicsCtx = CGBitmapContextCreate(bitmapData, width, height, bitsPerCompoent, bytesPerRow, colorSpace, bitmapInfo);
-
-    // Creating conical gradient from a Bitmap Graphics Context
-    CGImageRef conicalGradientImage = CGBitmapContextCreateImage(bitmapGraphicsCtx);
-
-    CGContextRelease(bitmapGraphicsCtx);
-
-    free(colorCompoents);
-
-    free(bitmapData);
-
-    CGColorSpaceRelease(colorSpace);
-
-    // Draws conical gradient image into a graphics context.
-    CGContextDrawImage(ctx, rect, conicalGradientImage);
-
-    CGImageRelease(conicalGradientImage);
-
-    // Draws three concentric
-    CGContextBeginPath(ctx);
-
-    CGFloat halfWidth = 0.5 * CGRectGetWidth(rect);
-    CGFloat maxRadii = 0.8 * halfWidth;
-    CGFloat radii = floor(0.33 * maxRadii);
-
-    for (int i = 1; i &lt; 4; ++i) {
-        CGFloat r = radii * i;
-        CGFloat dx = halfWidth - r;
-        CGRect ellipseRect = CGRectInset(rect, dx, dx);
-
-        CGContextAddEllipseInRect(ctx, ellipseRect);
-    }
-
-    CGContextSetRGBStrokeColor(ctx, 41/255.0, 234/255.0, 35/255.0, 1.0);
-    CGContextStrokePath(ctx);
-}
-
-- (BOOL)needsDisplayOnBoundsChange
-{
-    return _needsDisplayOnBoundsChange;
-}
-
-- (void)setNeedsDisplayOnBoundsChange:(BOOL)needsDisplayOnBoundsChange
-{
-}
-</code></pre>
-
-<p>现在我们把架子搭起来了，但是还没有往位图里面填充颜色，在这之前，对这段代码稍作解释，首先是我覆盖了needsDisplayOnBoundsChange 属性的 getter 和 setter 方法，原因是我设置图层关联的背景颜色时会触发这个属性变 NO，导致 <code>drawInContext</code> 不会被调用，我认为这是 Apple 的一个 bug，已经作了反馈，所以这里我使用了这么一个绕过的方法。</p>
-
-<p>其次，我把 RGB 颜色空间的颜色分量取出来放在了一个一维数组里用来备用；最后是 bitmapInfo 要或上 kCGBitmapByteOrder32Little，不然结果会不正确。</p>
-
-<p>接下来就是要填充位图的颜色，代码如下：</p>
-
-<pre><code>    // Create conical gradient bitmap data
-    CGFloat centerX = width * 0.5;
-    CGFloat centerY = height * 0.5;
-
-    double baseAngle = 2*M_PI / (self.colors.count - 1);
-
-    for (int i = 0; i &lt; height; ++i) {
-        for (int j = 0; j &lt; width; ++j) {
-            CGFloat x = j - centerX;
-            CGFloat y = i - centerY;
-
-            // define atan2 uniquely one uses the principal value in the range (−π, π]. That is, −π &lt; atan2(y, x) ≤ π.
-            double angle = atan2(y, x);
-
-            // Convert atan2 result angle to range [0, 2π]
-            if (angle &lt; 0) {
-                angle += 2 * M_PI;
-            }
-
-            // 0-360 map to linear gradient
-            double angleRatio = angle / baseAngle;
-            int colorIndex = angleRatio; // How many times of base angle?
-
-            angle -= colorIndex * baseAngle;
-            angleRatio = angle / baseAngle;
-
-            colorIndex *= 4;
-
-            uint8_t red0 = colorCompoents[colorIndex];
-            uint8_t red1 = colorCompoents[colorIndex + 4];
-
-            // Green index
-            colorIndex += 1;
-            uint8_t green0 = colorCompoents[colorIndex];
-            uint8_t green1 = colorCompoents[colorIndex + 4];
-
-            // Blue index
-            colorIndex += 1;
-            uint8_t blue0 = colorCompoents[colorIndex];
-            uint8_t blue1 = colorCompoents[colorIndex + 4];
-
-            // Alpha index
-            colorIndex += 1;
-            uint8_t alpha0 = colorCompoents[colorIndex];
-            uint8_t alpha1 = colorCompoents[colorIndex + 4];
-
-//            uint8_t red = red0 + angleRatio * (red1 - red0);
-//            uint8_t green = green0 + angleRatio * (green1 - green0);
-//            uint8_t blue = blue0 + angleRatio * (blue1 - blue0);
-//            uint8_t alpha = alpha0 + angleRatio * (alpha1 - alpha0);
-
-            uint8_t red = lerp(red0, red1, angleRatio);
-            uint8_t green = lerp(green0, green1, angleRatio);
-            uint8_t blue = lerp(blue0, blue1, angleRatio);
-            uint8_t alpha = lerp(alpha0, alpha1, angleRatio);
-
-            // Multiple alpha
-            float a = alpha / 255.0;
-
-            red *= a;
-            green *= a;
-            blue *= a;
-
-            unsigned long index = i * width + j;
-
-            *(bitmapData + index) = (red &lt;&lt; 24) | (green &lt;&lt; 16) | (blue &lt;&lt; 8) | alpha;
-        }
-    }
-</code></pre>
-
-<p>同样也稍微解释下其中的代码，首先是位图的填充要按照先行后列的顺序，行对就宽，列对应高；其次反正切函数的值域是(−π, π]，所以要把它们映射到[0, 2π]；然后我们根据角度对应的区间，选择起始和终点颜色，再由线性插值得到各自的颜色分量，实践中每个颜色分量还乘上了当前的透明度，最后合成该点的颜色。</p>
-
-<p><a href="https://github.com/DamianSheldon/QuartzDemo">完整示例</a></p>
-
-<h2>Reference:</h2>
-
-<p><a href="https://stackoverflow.com/questions/15344163/conical-gradient-in-qt-without-qconicalgradient">Conical gradient in Qt (without QConicalGradient)</a><br/>
-<a href="https://github.com/maxkonovalov/MKGradientView">MKGradientView</a><br/>
-<a href="https://en.wikipedia.org/wiki/Color_gradient">Color gradient</a><br/>
-<a href="https://en.wikipedia.org/wiki/Linear_interpolation">Linear interpolation</a><br/>
-<a href="https://en.wikipedia.org/wiki/Atan2">atan2</a></p>
 ]]></content>
   </entry>
   

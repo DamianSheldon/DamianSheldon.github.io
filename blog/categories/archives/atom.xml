@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-03-26T11:07:46+08:00</updated>
+  <updated>2018-03-17T12:03:30+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -208,7 +208,7 @@ set it to &ldquo;No Application&rdquo;</p>
 
 <h2>2. Add environment variable</h2>
 
-<pre><code class="bash">// ~/.bash_profile
+<pre><code>// ~/.bash_profile
 export var=value
 </code></pre>
 
@@ -216,14 +216,14 @@ export var=value
 
 <p>A:</p>
 
-<pre><code class="bash">$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config
+<pre><code>$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config
 </code></pre>
 
 <h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
 
 <p>A:</p>
 
-<pre><code class="bash">// Enable
+<pre><code>// Enable
 $ sudo spctl --master-disable
 
 // Disable
@@ -232,46 +232,15 @@ $sudo spctl --master-enable
 
 <p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
 
-<h2>5.Mac 上批量替换文件中的字符串</h2>
+<h2>5. Mac 上批量替换文件中的字符串</h2>
 
 <p>A:</p>
 
-<pre><code class="bash">$ grep -rl discription source/_posts | xargs sed -i ''  "s/discription/description/g"
+<pre><code>$ grep -rl discription source/_posts | xargs sed -i ''  "s/discription/description/g"
 </code></pre>
 
 <p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
 <a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
-
-<h2>6.如何查看占用指定端口的进程？</h2>
-
-<p>A:</p>
-
-<pre><code class="bash">$ lsof -i :[port]
-</code></pre>
-
-<p>结果输出中有进程的 pid, 之后我们可以用这个 pid 来杀掉该进程：</p>
-
-<pre><code class="bash">$ kill -9 [pid]
-</code></pre>
-
-<p>这些进程很可能是系统启动时就启动了，可以通过：</p>
-
-<pre><code class="bash">$ launchctl list | grep [pid]
-</code></pre>
-
-<p>来确认。如果找到有，而我们又不想它自启动了，可以在以下目录中找到配置文件：</p>
-
-<pre><code>~/Library/LaunchAgents         Per-user agents provided by the user.
-/Library/LaunchAgents          Per-user agents provided by the administrator.
-/Library/LaunchDaemons         System wide daemons provided by the administrator.
-</code></pre>
-
-<p>找到之后，可以用命令：</p>
-
-<pre><code class="bash">$ launchctl unload -w paths
-// eg:
-$ launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-</code></pre>
 ]]></content>
   </entry>
   

@@ -4,8 +4,8 @@ title: "MySQL 使用笔记"
 date: 2015-08-12 22:01:09 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords: MySQL
-description: 
+keywords: MySQL, server id, notes 
+description: Mysql notes.
 ---
 
 ###1.查看所有的用户

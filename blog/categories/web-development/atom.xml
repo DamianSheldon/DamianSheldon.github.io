@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-03-26T17:13:39+08:00</updated>
+  <updated>2018-03-27T09:59:52+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -22,12 +22,11 @@
 
 <p>A:The $.browser method has been removed as of jQuery 1.9.</p>
 
-<pre><code>&gt;jQuery.browser() removed
+<blockquote><p>jQuery.browser() removed</p>
 
-&gt;The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
 
-&gt;— jQuery Core 1.9 Upgrade Guide.
-</code></pre>
+<p>— jQuery Core 1.9 Upgrade Guide.</p></blockquote>
 
 <p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
 
@@ -49,6 +48,25 @@
 </code></pre>
 
 <p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
+
+<h3>3.Dynamic Web Module 3.1 requires Java 1.7 or newer</h3>
+
+<p>A:</p>
+
+<p>Step1:<br/>
+Make sure your Java Project is configured probably to use Java 1.7.
+Right click your project > Properties > Java Compiler and set “Compiler compliance level” to 1.7</p>
+
+<p>Step2:<br/>
+Java Build Path. Click “Edit“. And change it to “Java 7”</p>
+
+<p>Step3:<br/>
+Next from the menu on the left select Project Facets > Java and set its version to 1.7</p>
+
+<p>Extra Tips:<br/>
+If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.</p>
+
+<p>Reference:<a href="https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/">How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse</a></p>
 ]]></content>
   </entry>
   

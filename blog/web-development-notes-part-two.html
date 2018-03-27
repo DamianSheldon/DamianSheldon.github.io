@@ -7,7 +7,7 @@
 
 <meta name="author" content="Sheldon"> 
 
-<meta name="description" content="Web Development Notes Part Two"> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+<meta name="description" content="Noting problems encounter during web development, every fifteen problem produce a blog, this is the second."> <meta name="keywords" content="web, jquery, servlet, eclipse">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -134,17 +134,11 @@ $(document).ready(
 
 <p>A:The $.browser method has been removed as of jQuery 1.9.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;jQuery.browser() removed
-</span><span class='line'>
-</span><span class='line'>&gt;The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
-</span><span class='line'>
-</span><span class='line'>&gt;— jQuery Core 1.9 Upgrade Guide.</span></code></pre></td></tr></table></div></figure>
+<blockquote><p>jQuery.browser() removed</p>
 
+<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
+
+<p>— jQuery Core 1.9 Upgrade Guide.</p></blockquote>
 
 <p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
 
@@ -171,6 +165,25 @@ $(document).ready(
 
 
 <p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
+
+<h3>3.Dynamic Web Module 3.1 requires Java 1.7 or newer</h3>
+
+<p>A:</p>
+
+<p>Step1:<br/>
+Make sure your Java Project is configured probably to use Java 1.7.
+Right click your project > Properties > Java Compiler and set “Compiler compliance level” to 1.7</p>
+
+<p>Step2:<br/>
+Java Build Path. Click “Edit“. And change it to “Java 7”</p>
+
+<p>Step3:<br/>
+Next from the menu on the left select Project Facets > Java and set its version to 1.7</p>
+
+<p>Extra Tips:<br/>
+If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.</p>
+
+<p>Reference:<a href="https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/">How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse</a></p>
 </div>
 
 

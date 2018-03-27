@@ -4,20 +4,20 @@ title: "Web 开发问题汇总(二)"
 date: 2018-01-04 10:08:36 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords: 
-description: Web Development Notes Part Two
+keywords: web, jquery, servlet, eclipse
+description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the second.
 ---
 
 ###1.Uncaught TypeError: Cannot read property 'msie' of undefined
 A:The $.browser method has been removed as of jQuery 1.9.
 
-```
->jQuery.browser() removed
 
->The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+> jQuery.browser() removed
 
->— jQuery Core 1.9 Upgrade Guide.
-```
+> The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.
+
+> — jQuery Core 1.9 Upgrade Guide.
+
 
 As stated in the Upgrade Guide you can try using the [jQuery Migrate plugin](https://github.com/jquery/jquery-migrate/) to restore this functionality and let jQuery Tools work.
 
@@ -37,6 +37,24 @@ A:To include http-servlet into your class path, you have two options:
 </dependency>
 ```
 
-Reference:[The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse](https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/)
+Reference:[The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse](https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/)  
+
+###3.Dynamic Web Module 3.1 requires Java 1.7 or newer
+A:
+
+Step1:  
+Make sure your Java Project is configured probably to use Java 1.7.
+Right click your project > Properties > Java Compiler and set “Compiler compliance level” to 1.7
+
+Step2:  
+Java Build Path. Click “Edit“. And change it to “Java 7”
+
+Step3:  
+Next from the menu on the left select Project Facets > Java and set its version to 1.7
+
+Extra Tips:  
+If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.
+
+Reference:[How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse](https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/)  
 
 

@@ -1,10 +1,20 @@
-{% if site.simple_search %}
+<!--{% if site.simple_search %}
    {% include custom/search_form.html %}
-{% endif %}
+   {% endif %}-->
 
 <h1><a href="{{ root_url }}/">{{ site.title }}</a></h1>
 <h4>{{site.subtitle}}</h4>
-<nav id="main-nav">{% include navigation.html %}</nav>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Menu</a>
+        {% include navigation.html %}
+    </div>
+</nav>
+
+<!--<nav id="main-nav">{% include navigation.html %}</nav>
 <nav id="mobile-nav">
 	<div class="alignleft menu">
 		<a class="button">Menu</a>
@@ -19,6 +29,6 @@
 			</form>
 		</div>
 	</div>
-</nav>
+</nav>-->
 
 {% include custom/header.html %}

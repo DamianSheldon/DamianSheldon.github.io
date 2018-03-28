@@ -1,12 +1,26 @@
-$header-height: 30px;
+#nav-collapse{
+    display: none;
+    color: #fff;
+    width: 100%;
+    padding: .625em 0 .625em 0;
+}
+
+#nav-collapse.active{
+    display: block;
+}
+
+nav[role="navigation"] ul.hide{
+    display:none;
+}
 
 #header{
+    padding-top: 1.875em;/* 30px/16px */
     // height: $header-height;
-    padding: 30px 0;
+    // padding: 30px 0;
     // margin-bottom: 100px;
 
-    line-height: $header-height;
-    @media screen and (max-width: 1040px){
+    // line-height: $header-height;
+    /* @media screen and (max-width: 1040px){
         margin-bottom: 50px;
         height: auto;
         position: relative;
@@ -14,7 +28,8 @@ $header-height: 30px;
     }
     @media screen and (max-width: 600px){
         margin-bottom:40px;
-    }
+    }*/
+
     a{
         color: $color-gray01;
         @include transition(color 0.3s);
@@ -24,22 +39,33 @@ $header-height: 30px;
         }
     }
     h1{
-        // margin-top:15px;
         text-align:center;
-        // font-weight: bold;
-        // font-size: 48px;
-        @media screen and (max-width: 1040px){
-            float: none;
-        }
+        font-size: 2em; /* 32px/16px */
+        margin-bottom: 0.625em; /*10px/16px */
     }
     h4{
-        margin-top:10px;
-        text-align:center;
-        font-weight: 100;
-        font-size: 32px;
-        @media screen and (max-width: 1040px){
-            float: none;
-        }
+        font-size: 1.125em; /* 18px/ 16px */
+        text-align: center;
+        margin-bottom: 4px;
+    }
+    a[rel=subscribe-rss] {
+        position: absolute;
+        top: 1.25em; /*20px/16px*/
+        right: 1.25em; /*20px/16px*/
+        
+        -webkit-mask-image: url(/images/rss.png);
+        -moz-mask-image: url(/images/rss.png);
+        -ms-mask-image: url(/images/rss.png);
+        -o-mask-image: url(/images/rss.png);
+        
+        background-color: #f26522;
+        
+        -webkit-mask-repeat: no-repeat;
+        -moz-mask-repeat: no-repeat;
+        -ms-mask-repeat: no-repeat;
+        -o-mask-repeat: no-repeat;
+        
+        color: transparent;
     }
 }
 #main-nav{

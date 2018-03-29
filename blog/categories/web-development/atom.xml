@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-03-27T17:32:15+08:00</updated>
+  <updated>2018-03-29T11:07:44+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -67,6 +67,27 @@ Next from the menu on the left select Project Facets > Java and set its vers
 If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.</p>
 
 <p>Reference:<a href="https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/">How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse</a></p>
+
+<h3>4.How to display available goals of maven plugin?</h3>
+
+<p>A:</p>
+
+<blockquote><p>Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:</p></blockquote>
+
+<pre><code>$ mvn javadoc:help -Ddetail -Dgoal=javadoc
+</code></pre>
+
+<p>It works of course for Maven core plugins. to list all goals of the archetype plugin :</p>
+
+<pre><code class="bash">$mvn archetype:help
+</code></pre>
+
+<p>And it works also for third party plugins. For example, to display all goals of the spring-boot plugin :</p>
+
+<pre><code>$ mvn spring-boot:help
+</code></pre>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals">How to display a list of available goals?</a></p>
 ]]></content>
   </entry>
   

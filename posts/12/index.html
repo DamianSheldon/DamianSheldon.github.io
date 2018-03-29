@@ -320,10 +320,14 @@ Apply > Run
 		
 		<a href="/blog/notes-of-wireshark.html">
 		
-			Wireshark 使用笔记</a>
+			Tcpdump 和 Wireshark 使用笔记</a>
 	</h2>
 	<div class="entry-content">
-		<h3>1.Capture HTTP traffic on your server</h3>
+		<p>Tcpdump 和 Wireshark 是两个常用的抓包工具，一个是命令行工具；一个图形界面工具，可以按自己的喜好选择。图形界面的 Wireshark 个人感觉使用更简单，但从打开到抓包花费的时间要比使用 Tcpdump 要多，有的场景也不能使用 Wireshark，例如在 Android 真机上抓包。由于使用它们时核心是一样的，就是按照包过滤语法(pcap-filter(7))来指定表达式，因此可以先使用 Wireshark 上手，之后熟练起来后在不能用 Wirehshark 的场景便可以使用 Tcpdump。</p>
+
+<h2>Wireshark</h2>
+
+<h3>1.Capture HTTP traffic on your server</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -399,9 +403,25 @@ Apply > Run
 </span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>Tcpdump</h2>
+
+<h3>1.指定 Host 和 Port 抓包</h3>
+
+<p>在开发过程中，我们可能想查看客户端和服务器的详细交互，这时我们通过指定 Host 和 Port 抓包来得到详细的 HTTP 交互。例如现在是在我的本地开发环境，服务器的端口是8080，可以用以下命令:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$sudo</span> tcpdump -i lo0 -vv <span class="s1">&#39;(src localhost and dst port 8080) or (dst localhost and src port 8080)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>Reference:</h2>
 
-<p><a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
+<ul>
+<li><a href="https://wiki.wireshark.org/CaptureFilters">CaptureFilters</a></li>
+<li><a href="https://danielmiessler.com/study/tcpdump/#src-dst-port">A tcpdump Tutorial and Primer with Examples</a></li>
+<li><a href="https://www.ibm.com/support/knowledgecenter/zh/ssw_aix_71/com.ibm.aix.cmds5/tcpdump.htm">tcpdump 命令</a></li>
+</ul>
+
 
 		
 		

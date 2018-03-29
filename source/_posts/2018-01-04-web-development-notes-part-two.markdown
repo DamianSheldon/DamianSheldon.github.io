@@ -57,4 +57,26 @@ If you have maven project try updating source and target version of java compile
 
 Reference:[How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse](https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/)  
 
+###4.How to display available goals of maven plugin?
+A:
+
+> Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:
+
+```
+$ mvn javadoc:help -Ddetail -Dgoal=javadoc
+```
+
+It works of course for Maven core plugins. to list all goals of the archetype plugin :  
+
+```bash
+$mvn archetype:help
+```
+
+And it works also for third party plugins. For example, to display all goals of the spring-boot plugin :  
+
+```
+$ mvn spring-boot:help
+```
+
+Reference:[How to display a list of available goals?](https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals)  
 

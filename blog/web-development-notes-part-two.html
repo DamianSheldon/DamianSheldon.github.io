@@ -191,14 +191,15 @@ If you have maven project try updating source and target version of java compile
 
 <blockquote><p>Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mvn javadoc:help -Ddetail -Dgoal=javadoc</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn javadoc:help -Ddetail -Dgoal<span class="o">=</span>javadoc
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>It works of course for Maven core plugins. to list all goals of the archetype plugin :</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$mvn</span> archetype:help
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn archetype:help
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -210,6 +211,12 @@ If you have maven project try updating source and target version of java compile
 
 
 <p>Reference:<a href="https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals">How to display a list of available goals?</a></p>
+
+<h3>5.Not a java source folder</h3>
+
+<p>A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。</p>
+
+<p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
 </div>
 
 

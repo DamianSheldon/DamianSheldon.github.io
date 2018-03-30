@@ -62,21 +62,29 @@ A:
 
 > Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:
 
-```
+```bash
 $ mvn javadoc:help -Ddetail -Dgoal=javadoc
 ```
 
 It works of course for Maven core plugins. to list all goals of the archetype plugin :  
 
 ```bash
-$mvn archetype:help
+$ mvn archetype:help
 ```
 
 And it works also for third party plugins. For example, to display all goals of the spring-boot plugin :  
 
-```
+```bash
 $ mvn spring-boot:help
 ```
 
 Reference:[How to display a list of available goals?](https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals)  
+
+###5.Not a java source folder
+A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。  
+
+于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.
+
+
+
 

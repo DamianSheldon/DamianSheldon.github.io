@@ -13,6 +13,22 @@ nav[role="navigation"] ul.hide{
     display:none;
 }
 
+nav[role="navigation"] {
+    width: 87.5%;
+    margin: 0 auto;
+    background: #f2f2f2;
+    border: 0.1em solid #ddd;/* 1px */
+    border-radius: 0.3125em;/* 5px/16px */
+    
+    ul {
+        list-style-type: none;
+         
+        li {
+             padding: 0 0 .625em 0;
+        }   
+    }
+}
+
 #header{
     padding-top: 1.875em;/* 30px/16px */
     // height: $header-height;
@@ -66,6 +82,25 @@ nav[role="navigation"] ul.hide{
         -o-mask-repeat: no-repeat;
         
         color: transparent;
+    }
+    
+    form {
+        input {
+            width: 100%;
+            /* border-style: solid; */
+            font-size: 1em;
+            padding-left: 1.75em;/*28px/16px*/
+            padding-top: 0;
+            padding-bottom: 0;
+            /* margin-right: 30px; */
+            border: 0.1em solid #ddd;/* 1px/16px */
+            border-radius: 0.3125em 0.3125em 0.3125em 0.3125em;/* 5px/16px */
+            height: 1.875em;/* 30px/16px */
+            background: url(../images/search.png) 8px 8px no-repeat #fff;
+            -mox-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
     }
 }
 #main-nav{

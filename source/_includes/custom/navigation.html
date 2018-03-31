@@ -6,5 +6,9 @@
     <li><a href="{{ root_url }}/web-development">Web</a></li>
     <li><a href="{{ root_url }}/english">English</a></li>
     <li><a href="{{ root_url }}/about">About</a></li>
+    
+    <form action="{{ site.simple_search }}" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:{{ site.url | shorthand_url }}">
+    </form>
 </ul>
-

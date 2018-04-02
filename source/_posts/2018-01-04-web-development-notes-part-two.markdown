@@ -85,6 +85,17 @@ A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 
 
 于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.
 
+###6.Call method with iter vaiable as argument in thymeleaf  
+A:
 
+```html
+<ul th:each="name : ${names}">
+	<li
+		th:text="|${name} = ${#session.getAttribute(
+		name )}|">uid
+		= 502</li>
+</ul>
+```
 
+Reference:[invoking a method on model with parameter](http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html)  
 

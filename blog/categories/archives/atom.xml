@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-03-30T10:44:02+08:00</updated>
+  <updated>2018-04-02T16:43:17+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -356,6 +356,44 @@ If you have maven project try updating source and target version of java compile
 <p>A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。</p>
 
 <p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
+
+<h3>6.Thymeleaf 如何支持遍历枚举</h3>
+
+<p>A:</p>
+
+<blockquote><p>The java.util.List class isn’t the onlyvalue that can be used for iteration in Thymeleaf. There is a quite complete set of objects that are considered iterable by a th:each attribute:</p>
+
+<ul>
+<li>Any object implementing java.util.Iterable</li>
+<li>Any object implementing java.util.Enumeration .</li>
+<li>Any object implementing java.util.Iterator , whose values will be used as they are returned by the iterator, without the need to cache all values in memory.</li>
+<li>Any object implementing java.util.Map . When iterating maps, iter variables will be of class java.util.Map.Entry . Any array.</li>
+<li>Any other object will be treated as if it were a single-valued list containing the object itself.</li>
+</ul>
+</blockquote>
+
+<p>上面就是可选方案，一开始我没看仔细，以为 Enumeration 可以直接遍历，之后细看是实现 java.util.Enumeration 的对象，这样综合来看将 Enumeration 转化成 List 是不错的选择。</p>
+
+<p>```html</p>
+
+<p><div th:each="attr: ${java.util.Collections.list(#httpServletRequest.attributeNames)}">
+```</p>
+
+<p>Reference:<a href="https://github.com/thymeleaf/thymeleaf/issues/321">please allow to iterate java.util.Enumeration</a></p>
+
+<h3>7.Call method with iter vaiable as argument in thymeleaf</h3>
+
+<p>A:</p>
+
+<pre><code class="html">&lt;ul th:each="name : ${names}"&gt;
+    &lt;li
+        th:text="|${name} = ${#session.getAttribute(
+        name )}|"&gt;uid
+        = 502&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>Reference:<a href="http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html">invoking a method on model with parameter</a></p>
 ]]></content>
   </entry>
   

@@ -85,7 +85,26 @@ A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 
 
 于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.
 
-###6.Call method with iter vaiable as argument in thymeleaf  
+###6.Thymeleaf 如何支持遍历枚举
+A: 
+
+> The java.util.List class isn’t the onlyvalue that can be used for iteration in Thymeleaf. There is a quite complete set of objects that are considered iterable by a th:each attribute:  
+
+> * Any object implementing java.util.Iterable
+> * Any object implementing java.util.Enumeration .
+> * Any object implementing java.util.Iterator , whose values will be used as they are returned by the iterator, without the need to cache all values in memory.
+> * Any object implementing java.util.Map . When iterating maps, iter variables will be of class java.util.Map.Entry . Any array.
+> * Any other object will be treated as if it were a single-valued list containing the object itself.
+
+上面就是可选方案，一开始我没看仔细，以为 Enumeration 可以直接遍历，之后细看是实现 java.util.Enumeration 的对象，这样综合来看将 Enumeration 转化成 List 是不错的选择。  
+
+```html
+<div th:each="attr: ${java.util.Collections.list(#httpServletRequest.attributeNames)}">
+```
+
+Reference:[please allow to iterate java.util.Enumeration](https://github.com/thymeleaf/thymeleaf/issues/321)  
+
+###7.Call method with iter vaiable as argument in thymeleaf  
 A:
 
 ```html

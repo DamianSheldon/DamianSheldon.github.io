@@ -93,4 +93,17 @@ $ launchctl unload -w paths
 $ launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
 ```
 
+##7.如何使用命令行安装 dmg？
+A:
+
+First, mount the dmg image : `sudo hdiutil attach <image>.dmg`  
+
+The image will be mounted to /Volumes/<image>. Then we can install with: `sudo installer -package /Volumes/<image>/<image>.pkg -target /`  
+
+Finally unmount the image: `sudo hdiutil detach /Volumes/<image>`.  
+
+这个需求是源于最近一次安装 mysql 时，图形界面安装无响应，之后尝试命令行成功安装，还蛮奇怪。  
+
+Reference:[Is there a command to install a dmg](https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg)  
+
 

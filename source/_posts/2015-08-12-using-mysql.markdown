@@ -155,4 +155,31 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
     ->     WITH GRANT OPTION;
 ```
 
+###15./usr/local/mysql/data/Mac-mini.local.err: Permission denied
+A: Mysql 安装好后，启动出错，详细信息如下:  
+
+```
+Mac-mini:mysql dongmeiliang$ /usr/local/mysql/bin/mysqld_safe --user=mysql &
+[3] 41906
+Mac-mini:mysql dongmeiliang$ /usr/local/mysql/bin/mysqld_safe: line 647: /usr/local/mysql/data/Mac-mini.local.err: Permission denied
+Logging to '/usr/local/mysql/data/Mac-mini.local.err'.
+2018-04-03T08:50:51.6NZ mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql/data
+/usr/local/mysql/bin/mysqld_safe: line 144: /usr/local/mysql/data/Mac-mini.local.err: Permission denied
+/usr/local/mysql/bin/mysqld_safe: line 198: /usr/local/mysql/data/Mac-mini.local.err: Permission denied
+/usr/local/mysql/bin/mysqld_safe: line 906: /usr/local/mysql/data/Mac-mini.local.err: Permission denied
+rm: /usr/local/mysql/data/Mac-mini.local.pid.shutdown: Permission denied
+2018-04-03T08:50:51.6NZ mysqld_safe mysqld from pid file /usr/local/mysql/data/Mac-mini.local.pid ended
+/usr/local/mysql/bin/mysqld_safe: line 144: /usr/local/mysql/data/Mac-mini.local.err: Permission denied
+
+[3]   Done                    /usr/local/mysql/bin/mysqld_safe --user=mysql
+```
+
+从错误信息来看是权限问题。在 General Notes on Installing MySQL on macOS 中有这么一段介绍：  
+
+>You may need (or want) to create a specific mysql user to own the MySQL directory and data. You can do this through the Directory Utility, and the mysql user should already exist. For use in single user mode, an entry for _mysql (note the underscore prefix) should already exist within the system /etc/passwd file.
+
+于是来确认 mysql 账号是否存在，我们用 Directory Utility 来做这件事情。可以按 System Preferences > Users & Groups > Network Account Server join > Open Directory Utility > Directory Editor 来打开账号管理界面，在里面确实没有 mysql 账号，于是尝试创建这个账号，但是创建失败，提示账号已经存在，这就不知道是个什么鬼了。当然我们也可以使用对应的 Directory Utility 命令 dscl， 具体可参考 [To create a user](http://damiansheldon.github.io/blog/problems-when-use-mac.html)   
+
+既然 mysql 创建不了，尝试使用其他的账号，于是把一个常用的账号加到 _mysql 组，为 /usr/local/mysql/data 赋予组写入权限，使用命令 `/usr/local/mysql/bin/mysqld_safe --user=dongmeiliang &` 成功启动。
+
 

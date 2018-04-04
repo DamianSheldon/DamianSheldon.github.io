@@ -241,7 +241,19 @@ set it to &ldquo;No Application&rdquo;</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h2>7.如何使用命令行安装 dmg？</h2>
 
+<p>A:</p>
+
+<p>First, mount the dmg image : <code>sudo hdiutil attach &lt;image&gt;.dmg</code></p>
+
+<p>The image will be mounted to /Volumes/<image>. Then we can install with: <code>sudo installer -package /Volumes/&lt;image&gt;/&lt;image&gt;.pkg -target /</code></p>
+
+<p>Finally unmount the image: <code>sudo hdiutil detach /Volumes/&lt;image&gt;</code>.</p>
+
+<p>这个需求是源于最近一次安装 mysql 时，图形界面安装无响应，之后尝试命令行成功安装，还蛮奇怪。</p>
+
+<p>Reference:<a href="https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg">Is there a command to install a dmg</a></p>
 </div>
 
 

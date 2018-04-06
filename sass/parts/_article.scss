@@ -9,6 +9,11 @@ article{
     @media screen and (max-width: 620px){
         padding: 15px 0;
     } */
+    @media screen and (min-width: 48em) { /* 768px/16px */
+        width: 40em;; /* 640px/16px */
+        margin: 0 auto 1em;
+    }
+    
     h2.title{
         // font-size: 36px;
         font-size: 1.125em; /* 18px/16px */ 
@@ -23,6 +28,9 @@ article{
         /* @media screen and (max-width: 620px) {
             font-size: 18px;
         }*/
+        @media screen and (min-width: 48em) { /* 768px/16px */
+            font-size: 1.5em;
+        }
     }
 
     a{
@@ -39,7 +47,7 @@ article{
     }*/
 
     .entry-content{
-        //line-height: 1.5;
+        line-height: 1.5;
         text-align: left;
         
         a {
@@ -70,7 +78,7 @@ article{
             &:before{
                 content: "\f061";
                 font: 1.3em $font-icon;
-                line-height: 1.6em;
+                line-height: 1.6;
                 position: absolute;
                 left: 0;
             }
@@ -95,6 +103,7 @@ article{
         p{
 //            margin-top: 10px;	
             margin-top: 0.625em; /* 10px */
+            line-height: 1.5;
         }
         h2{
             font-weight: 300;
@@ -164,7 +173,7 @@ article{
                 content: "\f040";
                 color: $color-gray03;
                 font: 1.3em $font-icon;
-                line-height: 1.6em;
+                line-height: 1.6;
                 position: absolute;
                 left: 0;
             }
@@ -187,10 +196,10 @@ article{
     }
 }
 .share{
-    padding: 15px 0;
-    padding-left:260px;
-    @media screen and (max-width: 620px) {
-        padding-left: 0px;
-    }
+//    padding: 15px 0;
+//    padding-left:260px;
+//    @media screen and (max-width: 620px) {
+//        padding-left: 0px;
+//    }
     @include border-shadow();
 }

@@ -8,10 +8,17 @@
 
 #nav-collapse.active{
     display: block;
+    @media screen and (min-width: 48em) {/* 768px/16px */
+        display: none;
+    }
 }
 
 nav[role="navigation"] ul.hide{
     display:none;
+    
+    @media screen and (min-width: 48em) {/* 768px/16px */
+        display: flex;
+    }
 }
 
 nav[role="navigation"] {
@@ -21,14 +28,39 @@ nav[role="navigation"] {
     border: 0.1em solid #ddd;/* 1px */
     border-radius: 0.3125em;/* 5px/16px */
     
+    @media screen and (min-width: 48em) {/* 768px/16px */
+        width: 100%;
+    }
+    
+    @media screen and (min-width: 64em) {/* 1024px/16px */
+        width: 87.5%;
+    }
+    
     ul {
         list-style-type: none;
-         
+        
+        @media screen and (min-width: 48em) {/* 768px/16px */
+            display: flex;
+        }
+        
         li {
 //             padding: 0 0 .625em 0;
 //            padding: 0 0 .3125em 0;
             margin: .3125em 0;
-        }   
+            
+            @media screen and (min-width: 48em) {/* 768px/16px */
+                display: inline-block;
+                flex-grow: 1;
+                text-align: center;
+            }
+        }  
+        
+        form {
+            @media screen and (min-width: 48em) {/* 768px/16px */
+                display: inline-block;
+                flex-grow: 2;
+            }
+        }
     }
 }
 
@@ -62,11 +94,17 @@ nav[role="navigation"] {
         text-align:center;
         font-size: 2em; /* 32px/16px */
 //        margin-bottom: 0.625em; /*10px/16px */
+        @media screen and (min-width: 64em) {/* 1024px/16px */
+            font-size: 3em;
+        }
     }
     h4{
         font-size: 1.125em; /* 18px/ 16px */
         text-align: center;
         margin-bottom: 0.625em; /* 10px/16px */
+        @media screen and (min-width: 64em) {/* 1024px/16px */
+            font-size: 1.6em;
+        }
     }
     a[rel=subscribe-rss] {
         position: absolute;
@@ -270,7 +308,7 @@ nav[role="navigation"] {
                 content: "\f078";
                 color: $color-gray04;
                 font: 16px $font-icon;
-                line-height: 30px;
+                line-height: 1.875; /* 30px/16px */
                 position: absolute;
                 top: 0;
                 right: 40px;
@@ -311,7 +349,7 @@ nav[role="navigation"] {
                 content: "\f002";
                 color: #f2f2f2;
                 font: 20px $font-icon;
-                line-height: 30px;
+                line-height: 1.875; /* 30px/16px */
                 position: absolute;
                 top: 0;
                 left: 7px;
@@ -362,7 +400,7 @@ nav[role="navigation"] {
             content: "\f002";
             color: $color-gray03;
             font: 18px $font-icon;
-            line-height: 30px;
+            line-height: 1.875; /* 30px/16px */
             position: absolute;
             top: 0;
             right: 125px;

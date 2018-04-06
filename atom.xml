@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-04T08:41:02+08:00</updated>
+  <updated>2018-04-06T13:25:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -702,9 +702,10 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
     <link href="http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios.html"/>
     <updated>2017-09-22T15:59:35+08:00</updated>
     <id>http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios</id>
-    <content type="html"><![CDATA[<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：
-<img src="../images/Conical-1.png" alt="Conical-1" />
-<img src="../images/Conical-2.png" alt="Conical-2" /></p>
+    <content type="html"><![CDATA[<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：</p>
+
+<p><img src="../images/Conical-1.png" title="'Conical-1'" ><br/>
+<img src="../images/Conical-2.png" title="'Conical-2'" ></p>
 
 <p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
 

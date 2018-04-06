@@ -1,25 +1,28 @@
 
 <!DOCTYPE HTML>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>How to setup a L2TP/IPsec VPN on Debian 8  | Hello World</title>
+    <head>
+        <meta charset="utf-8">
+        <title>How to setup a L2TP/IPsec VPN on Debian 8  | Hello World</title>
 
-<meta name="author" content="Sheldon"> 
+        <meta name="author" content="Sheldon"> 
+        
+        <meta name="description" content="How to setup an L2TP/IPsec VPN on Debian 8"> <meta name="keywords" content="VPN, IPSec, L2TP, Libreswan, iPhone, iOS, macOS">
 
-<meta name="description" content="How to setup an L2TP/IPsec VPN on Debian 8"> <meta name="keywords" content="VPN, IPSec, L2TP, Libreswan, iPhone, iOS, macOS">
+        <meta name="viewport" content="width=device-width">
+        
+        
+        <link rel="canonical" href="http://DamianSheldon.github.io/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-    <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="/javascripts/libs/jquery.min.js"></script>
-    <script src="/javascripts/libs/jquery-migrate-1.4.1.min.js"></script>
-	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+        <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+        
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="/javascripts/libs/jquery.min.js"></script>
+        <!--<script src="/javascripts/libs/jquery-migrate-1.4.1.min.js"></script>-->
+        <!--<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
 
 <script language="Javascript" type="text/javascript">
 $(document).ready(
@@ -54,82 +57,73 @@ $(document).ready(
   }
 );
 </script>
+-->
+        <script src="/javascripts/octopress.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 
-	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-
-</head>
+    </head>
 
 
 
 <body>
-	<header id="header" class="inner">
-   <form id="main-search" method="get" action="http://www.bing.com/search" accept-charset="utf-8" target="_blank">
-<input type="text" name="q" size="30" maxlength="255" placeholder="Search" />
-<input type="hidden" name="q1" value="site:DamianSheldon.github.io" />
-</form>
-
-
-
-<h1><a href="/">Hello World</a></h1>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
 <h4>Here's where it all happens for me.</h4>
-<nav id="main-nav"><ul>
-    <li><a href="/">Blog</a></li>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Navigation</a>
+        <ul class="nav" id="nav">
+    <li class="active"><a href="/">Blog</a></li>
     <li><a href="/archives">Archive</a></li>
     <li><a href="/ios-development">iOS</a></li>
     <li><a href="/android">Android</a></li>
     <li><a href="/web-development">Web</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
-    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    
+    <form action="https://www.bing.com/search" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:DamianSheldon.github.io">
+    </form>
 </ul>
-
-<!--<form class="search" action="http://www.yahoo.com.cn/search" method="get">
-    <fieldset role="search">
-        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
-        <input class="search" type="text" name="p" results="0" placeholder="Search">
-    </fieldset>
-</form>
--->
-</nav>
-<nav id="mobile-nav">
-	<div class="alignleft menu">
-		<a class="button">Menu</a>
-		<div class="container"><ul>
-    <li><a href="/">Blog</a></li>
-    <li><a href="/archives">Archive</a></li>
-    <li><a href="/ios-development">iOS</a></li>
-    <li><a href="/android">Android</a></li>
-    <li><a href="/web-development">Web</a></li>
-    <li><a href="/english">English</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-</ul>
-
-<!--<form class="search" action="http://www.yahoo.com.cn/search" method="get">
-    <fieldset role="search">
-        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
-        <input class="search" type="text" name="p" results="0" placeholder="Search">
-    </fieldset>
-</form>
--->
-</div>
-	</div>
-	<div class="alignright search">
-		<a class="button"></a>
-		<div class="container">
-			<form action="https://www.bing.com/search" method="get">
-				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
-			</form>
-		</div>
-	</div>
+    </div>
 </nav>
 
-
+<a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
 </header>
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">How to Setup a L2TP/IPsec VPN on Debian 8</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-10-11T08:32:44+08:00" pubdate data-updated="true">11 Oct 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+    
 	<div class="entry-content"><p>一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个<a href="https://github.com/StreisandEffect/streisand">库</a>汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。</p>
 
 <p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
@@ -330,33 +324,8 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 </div>
 
 
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-10-11T08:32:44+08:00" pubdate data-updated="true">11 Oct 2017</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
+        
+</article>
 
 	<div class="share">
 	<div>
@@ -406,12 +375,12 @@ gitment.render('comments')
 <p>Powered by <a href="http://octopress.org">Octopress</p>
 </footer>
 	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<!--<script src="/javascripts/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
 (function($){
 	$('.fancybox').fancybox();
 })(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
+</script>--> <!-- Delete or comment this line to disable Fancybox -->
 
 
 

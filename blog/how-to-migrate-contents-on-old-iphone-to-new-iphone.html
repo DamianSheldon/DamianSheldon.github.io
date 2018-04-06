@@ -1,25 +1,28 @@
 
 <!DOCTYPE HTML>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>记一次换新 iPhone  | Hello World</title>
+    <head>
+        <meta charset="utf-8">
+        <title>记一次换新 iPhone  | Hello World</title>
 
-<meta name="author" content="Sheldon"> 
+        <meta name="author" content="Sheldon"> 
+        
+        <meta name="description" content="一次换新 iPhone 的经过，过程中遇到了从 iTunes 备份中恢复遇到 your backup is corrupt or incompatible 的问题，以及我的解决办法。"> <meta name="keywords" content="backup, corrupt, incompatible, iPhone, 换机">
 
-<meta name="description" content="一次换新 iPhone 的经过，过程中遇到了从 iTunes 备份中恢复遇到 your backup is corrupt or incompatible 的问题，以及我的解决办法。"> <meta name="keywords" content="backup, corrupt, incompatible, iPhone, 换机">
+        <meta name="viewport" content="width=device-width">
+        
+        
+        <link rel="canonical" href="http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-    <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="/javascripts/libs/jquery.min.js"></script>
-    <script src="/javascripts/libs/jquery-migrate-1.4.1.min.js"></script>
-	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+        <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+        
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="/javascripts/libs/jquery.min.js"></script>
+        <!--<script src="/javascripts/libs/jquery-migrate-1.4.1.min.js"></script>-->
+        <!--<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
 
 <script language="Javascript" type="text/javascript">
 $(document).ready(
@@ -54,82 +57,73 @@ $(document).ready(
   }
 );
 </script>
+-->
+        <script src="/javascripts/octopress.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 
-	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-
-</head>
+    </head>
 
 
 
 <body>
-	<header id="header" class="inner">
-   <form id="main-search" method="get" action="http://www.bing.com/search" accept-charset="utf-8" target="_blank">
-<input type="text" name="q" size="30" maxlength="255" placeholder="Search" />
-<input type="hidden" name="q1" value="site:DamianSheldon.github.io" />
-</form>
-
-
-
-<h1><a href="/">Hello World</a></h1>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
 <h4>Here's where it all happens for me.</h4>
-<nav id="main-nav"><ul>
-    <li><a href="/">Blog</a></li>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Navigation</a>
+        <ul class="nav" id="nav">
+    <li class="active"><a href="/">Blog</a></li>
     <li><a href="/archives">Archive</a></li>
     <li><a href="/ios-development">iOS</a></li>
     <li><a href="/android">Android</a></li>
     <li><a href="/web-development">Web</a></li>
     <li><a href="/english">English</a></li>
     <li><a href="/about">About</a></li>
-    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    
+    <form action="https://www.bing.com/search" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:DamianSheldon.github.io">
+    </form>
 </ul>
-
-<!--<form class="search" action="http://www.yahoo.com.cn/search" method="get">
-    <fieldset role="search">
-        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
-        <input class="search" type="text" name="p" results="0" placeholder="Search">
-    </fieldset>
-</form>
--->
-</nav>
-<nav id="mobile-nav">
-	<div class="alignleft menu">
-		<a class="button">Menu</a>
-		<div class="container"><ul>
-    <li><a href="/">Blog</a></li>
-    <li><a href="/archives">Archive</a></li>
-    <li><a href="/ios-development">iOS</a></li>
-    <li><a href="/android">Android</a></li>
-    <li><a href="/web-development">Web</a></li>
-    <li><a href="/english">English</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-</ul>
-
-<!--<form class="search" action="http://www.yahoo.com.cn/search" method="get">
-    <fieldset role="search">
-        <input type="hidden" name="vs" value="http://DamianSheldon.github.io">
-        <input class="search" type="text" name="p" results="0" placeholder="Search">
-    </fieldset>
-</form>
--->
-</div>
-	</div>
-	<div class="alignright search">
-		<a class="button"></a>
-		<div class="container">
-			<form action="https://www.bing.com/search" method="get">
-				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:DamianSheldon.github.io">
-			</form>
-		</div>
-	</div>
+    </div>
 </nav>
 
-
+<a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
 </header>
 
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">记一次换新 iPhone</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-03-17T10:20:21+08:00" pubdate data-updated="true">17 Mar 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+    
 	<div class="entry-content"><p>说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 >&lt;。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。</p>
 
 <p>iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个地方。苹果这篇<a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a>详细介绍几种可行方法，我们可以从中选择一种方法。其实我觉得苹果应该出篇换机指南的，上面这篇文章的题目不是很容易让人把它与换机联系起来，也不是很容易记，这是我想记这么一笔的原因之一，N 年之后我再换 iPhone 的时候也可以按这篇文章的思想来指导自己迁移数据。</p>
@@ -160,33 +154,8 @@ $(document).ready(
 </div>
 
 
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-03-17T10:20:21+08:00" pubdate data-updated="true">17 Mar 2018</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-	
-</div></article>
+        
+</article>
 
 	<div class="share">
 	<div>
@@ -236,12 +205,12 @@ gitment.render('comments')
 <p>Powered by <a href="http://octopress.org">Octopress</p>
 </footer>
 	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<!--<script src="/javascripts/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
 (function($){
 	$('.fancybox').fancybox();
 })(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
+</script>--> <!-- Delete or comment this line to disable Fancybox -->
 
 
 

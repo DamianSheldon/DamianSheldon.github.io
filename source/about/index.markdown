@@ -1,9 +1,10 @@
 ---
-layout: page 
-title: "About Me"
+layout: page  
+title: "About Me"  
+comments: false  
 ---
 
-Hi, 我是 Sheldon, 是一名 iOS 开发，业余会倒腾下 Android, Web, Backend 和 Design。梦想是有一天能为自己工作，把自己的想法变成产品，然后销售自己的产品，目前还在技术的道路上打怪升级，近期的目标是成为一名架构师。   
+Hi, 欢迎来到我的博客！我是 Sheldon, 坐标长沙，目前是一名 iOS 开发，业余会倒腾下 Android, Web, Backend 和 Design。梦想有一天能为自己工作，把自己的想法变成产品，然后销售自己的产品。现在还在技术的道路上打怪升级，近期的目标是成为一名架构师。   
 
 兴趣爱好：台球。   
 

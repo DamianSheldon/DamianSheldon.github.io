@@ -84,7 +84,7 @@ Reference:[How to display a list of available goals?](https://stackoverflow.com/
 A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。  
 
 于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.
-
+<!--more-->
 ###6.Thymeleaf 如何支持遍历枚举
 A: 
 
@@ -117,4 +117,30 @@ A:
 ```
 
 Reference:[invoking a method on model with parameter](http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html)  
+
+###8.Hiding text using text-indent  
+A:
+
+```html
+<style type="text/css">
+
+h1 a {
+    text-decoration: none;
+    position: absolute; /* Depending on your placement */
+    width: 260px;
+    height: 100px;
+    bottom: 0px; /* Depending on your placement */
+    background: url(images/aext-logo.png) no-repeat left top;
+    text-indent: -99999px;
+}
+
+</style>
+
+<h1><a href="http://aext.net">AEXT.NET</a></h1>
+```
+
+在尝试过程中发现要设置 width 和 height 才能生效，可以注意下。  
+
+Reference:[CSS text-indent: An Excellent Trick To Style Your HTML Form](http://bloggingexperiment.com/css-text-indent-style-your-html-form)  
+
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-07T10:41:10+08:00</updated>
+  <updated>2018-04-07T11:01:50+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -445,6 +445,9 @@ If you have maven project try updating source and target version of java compile
 
 <p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
 
+<!--more-->
+
+
 <h3>6.Thymeleaf 如何支持遍历枚举</h3>
 
 <p>A:</p>
@@ -489,6 +492,47 @@ If you have maven project try updating source and target version of java compile
 
 
 <p>Reference:<a href="http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html">invoking a method on model with parameter</a></p>
+
+<h3>8.Hiding text using text-indent</h3>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">h1</span> <span class="nt">a</span> <span class="p">{</span>
+</span><span class='line'><span class="err">    </span><span class="k">text-decoration</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+</span><span class='line'><span class="err">    </span><span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span> <span class="c">/* Depending on your placement */</span>
+</span><span class='line'><span class="err">    </span><span class="k">width</span><span class="o">:</span> <span class="m">260px</span><span class="p">;</span>
+</span><span class='line'><span class="err">    </span><span class="k">height</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
+</span><span class='line'><span class="err">    </span><span class="k">bottom</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span> <span class="c">/* Depending on your placement */</span>
+</span><span class='line'><span class="err">    </span><span class="k">background</span><span class="o">:</span> <span class="sx">url(images/aext-logo.png)</span> <span class="k">no-repeat</span> <span class="k">left</span> <span class="k">top</span><span class="p">;</span>
+</span><span class='line'><span class="err">    </span><span class="k">text-indent</span><span class="o">:</span> <span class="m">-99999px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h1&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://aext.net&quot;</span><span class="nt">&gt;</span>AEXT.NET<span class="nt">&lt;/a&gt;&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在尝试过程中发现要设置 width 和 height 才能生效，可以注意下。</p>
+
+<p>Reference:<a href="http://bloggingexperiment.com/css-text-indent-style-your-html-form">CSS text-indent: An Excellent Trick To Style Your HTML Form</a></p>
 ]]></content>
   </entry>
   

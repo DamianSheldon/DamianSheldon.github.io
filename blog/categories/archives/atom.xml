@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-07T10:41:10+08:00</updated>
+  <updated>2018-04-07T11:01:50+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -371,6 +371,9 @@ If you have maven project try updating source and target version of java compile
 
 <p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
 
+<!--more-->
+
+
 <h3>6.Thymeleaf 如何支持遍历枚举</h3>
 
 <p>A:</p>
@@ -408,6 +411,31 @@ If you have maven project try updating source and target version of java compile
 </code></pre>
 
 <p>Reference:<a href="http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html">invoking a method on model with parameter</a></p>
+
+<h3>8.Hiding text using text-indent</h3>
+
+<p>A:</p>
+
+<pre><code class="html">&lt;style type="text/css"&gt;
+
+h1 a {
+    text-decoration: none;
+    position: absolute; /* Depending on your placement */
+    width: 260px;
+    height: 100px;
+    bottom: 0px; /* Depending on your placement */
+    background: url(images/aext-logo.png) no-repeat left top;
+    text-indent: -99999px;
+}
+
+&lt;/style&gt;
+
+&lt;h1&gt;&lt;a href="http://aext.net"&gt;AEXT.NET&lt;/a&gt;&lt;/h1&gt;
+</code></pre>
+
+<p>在尝试过程中发现要设置 width 和 height 才能生效，可以注意下。</p>
+
+<p>Reference:<a href="http://bloggingexperiment.com/css-text-indent-style-your-html-form">CSS text-indent: An Excellent Trick To Style Your HTML Form</a></p>
 ]]></content>
   </entry>
   

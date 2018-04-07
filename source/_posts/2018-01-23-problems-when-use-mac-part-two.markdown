@@ -92,7 +92,7 @@ $ launchctl unload -w paths
 // eg:
 $ launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
 ```
-
+<!--more-->
 ##7.如何使用命令行安装 dmg？
 A:
 

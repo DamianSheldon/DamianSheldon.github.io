@@ -184,3 +184,7 @@ INFO: Command line argument: -Dwtp.deploy=/Users/dongmeiliang/eclipse-workspace/
 
 Reference:[Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundException](https://stackoverflow.com/questions/32692321/tomcat-severe-exception-starting-filter-corsfilter-classnotfoundexception)  
 
+###10.如何改变 server context path?
+A:用 mvn 新建工程时，artifactId 写成了 package name，之后在访问 web 时就略显尴尬，可以通过 Window > Show View > Servers > Double click specific server > Modules > Edit target web module。 
+
+

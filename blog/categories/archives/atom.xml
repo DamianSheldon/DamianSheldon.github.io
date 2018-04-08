@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-08T10:39:40+08:00</updated>
+  <updated>2018-04-08T16:34:07+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -479,6 +479,17 @@ INFO: Command line argument: -Dwtp.deploy=/Users/dongmeiliang/eclipse-workspace/
 <p>发现类确实不存在，重新 <code>$ mvn compile</code> 之后问题解决。回想下发觉问题产生的原因是我在终端 <code>$ mvn clean</code>，然后在 eclipse 中 refresh  project ，最后直接就 debug on server 导致没有包含编译的类。</p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/32692321/tomcat-severe-exception-starting-filter-corsfilter-classnotfoundexception">Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundException</a></p>
+
+<h3>10.如何改变 server context path?</h3>
+
+<p>A:用 mvn 新建工程时，artifactId 写成了 package name，之后在访问 web 时就略显尴尬，可以通过 Window > Show View > Servers > Double click specific server > Modules > Edit target web module。</p>
+
+<h3>11.Eclipse error: “The import XXX cannot be resolved”</h3>
+
+<p>A:With me it helped changing the compiler compliance level. For unknown reasons it was set to 1.6 and I changed it to 1.8.
+Once at project level right click on project > Properties > Java Compiler, while in Eclipse click on menu Window > Preferences > Java > Compiler.</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/4322893/eclipse-error-the-import-xxx-cannot-be-resolved">Eclipse error: “The import XXX cannot be resolved”</a></p>
 ]]></content>
   </entry>
   

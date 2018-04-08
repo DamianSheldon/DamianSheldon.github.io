@@ -289,7 +289,19 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 <p>我的外网网卡是 eth0，所以我执行命令：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o eth0 -m policy --dir out --pol none -j MASQUERADE</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o eth0 -m policy --dir out --pol none -j MASQUERADE
+</span><span class='line'>
+</span><span class='line'>// Check it
+</span><span class='line'># iptables -L --table nat
+</span><span class='line'>
+</span><span class='line'>// Save it 
+</span><span class='line'># iptables-save</span></code></pre></td></tr></table></div></figure>
 
 
 <p>使用 <code>ipsec restart</code> 重启，可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，检查连接是否有问题。</p>

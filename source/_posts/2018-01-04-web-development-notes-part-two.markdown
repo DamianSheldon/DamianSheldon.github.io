@@ -143,4 +143,44 @@ h1 a {
 
 Reference:[CSS text-indent: An Excellent Trick To Style Your HTML Form](http://bloggingexperiment.com/css-text-indent-style-your-html-form)  
 
+###9.SEVERE: Exception starting filter
+A:详细错误信息如下：  
+
+```
+Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext filterStart
+SEVERE: Exception starting filter [DispatchFilter]
+java.lang.ClassNotFoundException: com.tenneshop.bookmark.web.filter.DispatchFilter
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1291)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1119)
+	at org.apache.catalina.core.DefaultInstanceManager.loadClass(DefaultInstanceManager.java:544)
+	at org.apache.catalina.core.DefaultInstanceManager.loadClassMaybePrivileged(DefaultInstanceManager.java:525)
+	at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:150)
+	at org.apache.catalina.core.ApplicationFilterConfig.getFilter(ApplicationFilterConfig.java:264)
+	at org.apache.catalina.core.ApplicationFilterConfig.<init>(ApplicationFilterConfig.java:108)
+	at org.apache.catalina.core.StandardContext.filterStart(StandardContext.java:4590)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5233)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1419)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1409)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
+SEVERE: One or more Filters failed to start. Full details will be found in the appropriate container log file
+Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
+SEVERE: Context [/bookmark] startup failed due to previous errors
+```
+
+从错误信息来看问题的原因是类找不到，于是可以到部署的目标路径下确认 `com.tenneshop.bookmark.web.filter.DispatchFilter`是否存在。从 eclipse 输出的 debug 日志中找到部署的目标路径：  
+
+```
+Apr 08, 2018 10:28:38 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dwtp.deploy=/Users/dongmeiliang/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps
+```
+
+发现类确实不存在，重新 `$ mvn compile` 之后问题解决。回想下发觉问题产生的原因是我在终端 `$ mvn clean`，然后在 eclipse 中 refresh  project ，最后直接就 debug on server 导致没有包含编译的类。  
+
+Reference:[Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundException](https://stackoverflow.com/questions/32692321/tomcat-severe-exception-starting-filter-corsfilter-classnotfoundexception)  
 

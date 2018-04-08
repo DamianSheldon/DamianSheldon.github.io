@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-07T11:12:01+08:00</updated>
+  <updated>2018-04-08T10:39:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -536,6 +536,74 @@ If you have maven project try updating source and target version of java compile
 <p>在尝试过程中发现要设置 width 和 height 才能生效，可以注意下。</p>
 
 <p>Reference:<a href="http://bloggingexperiment.com/css-text-indent-style-your-html-form">CSS text-indent: An Excellent Trick To Style Your HTML Form</a></p>
+
+<h3>9.SEVERE: Exception starting filter</h3>
+
+<p>A:详细错误信息如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext filterStart
+</span><span class='line'>SEVERE: Exception starting filter [DispatchFilter]
+</span><span class='line'>java.lang.ClassNotFoundException: com.tenneshop.bookmark.web.filter.DispatchFilter
+</span><span class='line'>  at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1291)
+</span><span class='line'>  at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1119)
+</span><span class='line'>  at org.apache.catalina.core.DefaultInstanceManager.loadClass(DefaultInstanceManager.java:544)
+</span><span class='line'>  at org.apache.catalina.core.DefaultInstanceManager.loadClassMaybePrivileged(DefaultInstanceManager.java:525)
+</span><span class='line'>  at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:150)
+</span><span class='line'>  at org.apache.catalina.core.ApplicationFilterConfig.getFilter(ApplicationFilterConfig.java:264)
+</span><span class='line'>  at org.apache.catalina.core.ApplicationFilterConfig.<span class="nt">&lt;init&gt;</span>(ApplicationFilterConfig.java:108)
+</span><span class='line'>  at org.apache.catalina.core.StandardContext.filterStart(StandardContext.java:4590)
+</span><span class='line'>  at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5233)
+</span><span class='line'>  at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+</span><span class='line'>  at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1419)
+</span><span class='line'>  at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1409)
+</span><span class='line'>  at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+</span><span class='line'>  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+</span><span class='line'>  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+</span><span class='line'>  at java.lang.Thread.run(Thread.java:745)
+</span><span class='line'>
+</span><span class='line'>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
+</span><span class='line'>SEVERE: One or more Filters failed to start. Full details will be found in the appropriate container log file
+</span><span class='line'>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
+</span><span class='line'>SEVERE: Context [/bookmark] startup failed due to previous errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从错误信息来看问题的原因是类找不到，于是可以到部署的目标路径下确认 <code>com.tenneshop.bookmark.web.filter.DispatchFilter</code>是否存在。从 eclipse 输出的 debug 日志中找到部署的目标路径：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Apr 08, 2018 10:28:38 AM org.apache.catalina.startup.VersionLoggerListener log
+</span><span class='line'>INFO: Command line argument: -Dwtp.deploy=/Users/dongmeiliang/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>发现类确实不存在，重新 <code>$ mvn compile</code> 之后问题解决。回想下发觉问题产生的原因是我在终端 <code>$ mvn clean</code>，然后在 eclipse 中 refresh  project ，最后直接就 debug on server 导致没有包含编译的类。</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/32692321/tomcat-severe-exception-starting-filter-corsfilter-classnotfoundexception">Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundException</a></p>
 ]]></content>
   </entry>
   

@@ -187,4 +187,11 @@ Reference:[Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundExc
 ###10.如何改变 server context path?
 A:用 mvn 新建工程时，artifactId 写成了 package name，之后在访问 web 时就略显尴尬，可以通过 Window > Show View > Servers > Double click specific server > Modules > Edit target web module。 
 
+###11.Eclipse error: “The import XXX cannot be resolved”
+A:With me it helped changing the compiler compliance level. For unknown reasons it was set to 1.6 and I changed it to 1.8.
+Once at project level right click on project > Properties > Java Compiler, while in Eclipse click on menu Window > Preferences > Java > Compiler.
+
+Reference:[Eclipse error: “The import XXX cannot be resolved”](https://stackoverflow.com/questions/4322893/eclipse-error-the-import-xxx-cannot-be-resolved)  
+
+
 

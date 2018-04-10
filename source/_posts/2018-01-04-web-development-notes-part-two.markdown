@@ -193,5 +193,15 @@ Once at project level right click on project > Properties > Java Compiler, while
 
 Reference:[Eclipse error: “The import XXX cannot be resolved”](https://stackoverflow.com/questions/4322893/eclipse-error-the-import-xxx-cannot-be-resolved)  
 
+###12.Index downloads are disabled, search result may be incomplete.
+A:
+
+1.	In Eclipse, click **on Windows > Preferences**, and then choose **Maven** in the left side.
+2.	Check the box "**Download repository index updates on startup**".
+* Optionally, check the boxes **Download Artifact Sources** and **Download Artifact JavaDoc**.
+3.	Click **OK**. The warning won't appear anymore.
+4.	Restart Eclipse.
+
+Reference:[How do I enable index downloads in Eclipse for Maven dependency search? ](https://stackoverflow.com/questions/24252256/how-do-i-enable-index-downloads-in-eclipse-for-maven-dependency-search)  
 
 

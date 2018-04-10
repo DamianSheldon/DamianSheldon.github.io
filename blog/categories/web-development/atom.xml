@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-10T15:49:03+08:00</updated>
+  <updated>2018-04-10T15:57:58+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -227,7 +227,17 @@ Once at project level right click on project > Properties > Java Compiler, while
 
 <p>Reference:<a href="https://stackoverflow.com/questions/24252256/how-do-i-enable-index-downloads-in-eclipse-for-maven-dependency-search">How do I enable index downloads in Eclipse for Maven dependency search? </a></p>
 
-<h3>13.</h3>
+<h3>13.How to Iterate Over a Map in Java</h3>
+
+<p>A:There are at least 4 method to iterate over a map, one is Iterating over entries using For-Each loop.</p>
+
+<pre><code class="java">Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
+for (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) {
+    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+}
+</code></pre>
+
+<p>Reference:<a href="http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/">How to Iterate Over a Map in Java</a></p>
 ]]></content>
   </entry>
   

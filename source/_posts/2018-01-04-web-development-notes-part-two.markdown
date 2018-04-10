@@ -204,4 +204,16 @@ A:
 
 Reference:[How do I enable index downloads in Eclipse for Maven dependency search? ](https://stackoverflow.com/questions/24252256/how-do-i-enable-index-downloads-in-eclipse-for-maven-dependency-search)  
 
+###13.How to Iterate Over a Map in Java
+A:There are at least 4 method to iterate over a map, one is Iterating over entries using For-Each loop.  
+
+```java
+Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+}
+```
+
+Reference:[How to Iterate Over a Map in Java](http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/)  
+
 

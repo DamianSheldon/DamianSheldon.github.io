@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-10T15:57:58+08:00</updated>
+  <updated>2018-04-12T09:21:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -647,6 +647,27 @@ Once at project level right click on project > Properties > Java Compiler, while
 
 
 <p>Reference:<a href="http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/">How to Iterate Over a Map in Java</a></p>
+
+<h3>14.How to get the row count of ResultSet?</h3>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Statement</span> <span class="n">s</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+</span><span class='line'><span class="n">ResultSet</span> <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="s">&quot;SELECT COUNT(*) AS rowcount FROM FieldMaster&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">r</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&quot;rowcount&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">r</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;MyTable has &quot;</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="s">&quot; row(s).&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java">How to get row count using ResultSet in Java?</a></p>
 ]]></content>
   </entry>
   

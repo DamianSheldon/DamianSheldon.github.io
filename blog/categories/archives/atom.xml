@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-10T15:57:58+08:00</updated>
+  <updated>2018-04-12T09:21:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -517,6 +517,20 @@ for (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) {
 </code></pre>
 
 <p>Reference:<a href="http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/">How to Iterate Over a Map in Java</a></p>
+
+<h3>14.How to get the row count of ResultSet?</h3>
+
+<p>A:</p>
+
+<pre><code>Statement s = cd.createStatement();
+ResultSet r = s.executeQuery("SELECT COUNT(*) AS rowcount FROM FieldMaster");
+r.next();
+int count = r.getInt("rowcount");
+r.close();
+System.out.println("MyTable has " + count + " row(s).");
+</code></pre>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java">How to get row count using ResultSet in Java?</a></p>
 ]]></content>
   </entry>
   

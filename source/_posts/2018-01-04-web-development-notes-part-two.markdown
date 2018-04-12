@@ -216,4 +216,17 @@ for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 
 Reference:[How to Iterate Over a Map in Java](http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/)  
 
+###14.How to get the row count of ResultSet?
+A:
+
+```
+Statement s = cd.createStatement();
+ResultSet r = s.executeQuery("SELECT COUNT(*) AS rowcount FROM FieldMaster");
+r.next();
+int count = r.getInt("rowcount");
+r.close();
+System.out.println("MyTable has " + count + " row(s).");
+```
+
+Reference:[How to get row count using ResultSet in Java?](https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java)  
 

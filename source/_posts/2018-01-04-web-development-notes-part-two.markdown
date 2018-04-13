@@ -219,7 +219,7 @@ Reference:[How to Iterate Over a Map in Java](http://www.sergiy.ca/how-to-iterat
 ###14.How to get the row count of ResultSet?
 A:
 
-```
+```java
 Statement s = cd.createStatement();
 ResultSet r = s.executeQuery("SELECT COUNT(*) AS rowcount FROM FieldMaster");
 r.next();
@@ -229,4 +229,27 @@ System.out.println("MyTable has " + count + " row(s).");
 ```
 
 Reference:[How to get row count using ResultSet in Java?](https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java)  
+
+###15.How to Generate random words in Java?
+A:
+
+```java
+public static String[] generateRandomWords(int numberOfWords)
+{
+    String[] randomStrings = new String[numberOfWords];
+    Random random = new Random();
+    for(int i = 0; i < numberOfWords; i++)
+    {
+        char[] word = new char[random.nextInt(8)+3]; // words of length 3 through 10. (1 and 2 letter words are boring.)
+        for(int j = 0; j < word.length; j++)
+        {
+            word[j] = (char)('a' + random.nextInt(26));
+        }
+        randomStrings[i] = new String(word);
+    }
+    return randomStrings;
+}
+```
+
+Reference:[Generating random words in Java?](https://stackoverflow.com/questions/4951997/generating-random-words-in-java)  
 

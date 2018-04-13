@@ -100,6 +100,72 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html">
+		
+			iOS 项目持续集成和部署笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-04T09:38:13+08:00" pubdate data-updated="true">04 Nov 2015</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>本文是我做 iOS 项目持续集成和部署的笔记。</p>
+
+<h3>安装工具</h3>
+
+<ol>
+<li><p><a href="http://jenkins-ci.org/">jenkins</a>;</p>
+
+<pre><code class="`"> $ brew update &amp;&amp; brew install jenkins
+</code></pre></li>
+<li><p><a href="https://github.com/fastlane/fastlane">fastlane</a>;</p>
+
+<pre><code class="`"> $ sudo gem install fastlane --verbose
+</code></pre></li>
+<li><p><a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md">fir-cli</a>;</p>
+
+<pre><code class="`"> $ sudo gem install fir-cli
+</code></pre></li>
+</ol>
+
+
+
+		
+		<a href="/blog/continuous-integration-and-deployment-for-ios-projects.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-devleopment-problems-part-4.html">
 		
 			iOS App 开发问题汇总（四）</a>
@@ -254,76 +320,6 @@ $(document).ready(
 
 		
 		<a href="/blog/problems-when-use-mac.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html">
-		
-			Mac 安装 OS X El Capitan</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-10-09T18:00:22+08:00" pubdate data-updated="true">09 Oct 2015</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>最近 Apple 更新了 OS X，通过 App Store 更新下载下来 OS X El Capitan 的安装时遇到问题了 &ndash; 手头的这台 Mac 之前有人分区安装了 Windows, OS X 安装在第二个分区， OS X El Capitan 却不能安装在 OS X 所在的分区，而且格式化 Windows 所在的分区又报错，也是醉了，只好重装。</p>
-
-<h2>备份数据</h2>
-
-<p>我用 sftp 把数据备份到另一台 Mac 上, 之前也试过 Migration Assitant 都是卡在最后一分钟，不知道现在这个问题改善了没有。 用 sftp 备份中间也中断了好多次，但手头也没移动硬盘也只能这么将就着了。</p>
-
-<h2>Install OS X El Capitan</h2>
-
-<ol>
-<li>需要一个 8GB 左右的 U 盘，因为 El Capitan 的大小超过 6GB ;</li>
-<li>从 App Store 下载 El Capitan;</li>
-<li>制作安装盘：</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>重新启动，按住 option 键，选择通过U盘启动，之后先进入磁盘工具里面把硬盘格式化了（你也可以选择不格式化，这样就是覆盖安装）;</li>
-</ol>
-
-
-
-		
-		<a href="/blog/note-of-install-os-x-el-capitan-and-set-up-development-enviroment.html" class="more-link">继续阅读</a>
 	</div>
 
 

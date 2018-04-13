@@ -100,6 +100,163 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/problems-when-use-mac-part-two.html">
+		
+			Mac 使用笔记(二)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-01-23T11:59:31+08:00" pubdate data-updated="true">23 Jan 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h2>1. iPhone每次连接Mac都会弹出iPhoto</h2>
+
+<p>解决办法：</p>
+
+<ol>
+<li>Plug in your iPad/iPhone</li>
+<li>Open Image Capture</li>
+<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
+<li>Press the triangle in square symbol in the lower left corner.</li>
+<li>Select &ldquo;No application&rdquo; in the menu.</li>
+</ol>
+
+
+<p>iPhoto:
+Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
+set it to &ldquo;No Application&rdquo;</p>
+
+<h2>2. Add environment variable</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// ~/.bash_profile
+</span><span class='line'><span class="nb">export </span><span class="nv">var</span><span class="o">=</span>value
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3.SSH ask passpharse every time I use SSH key.</h2>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$echo</span> -e <span class="s2">&quot;AddKeysToAgent yes\nUseKeychain yes&quot;</span> &gt;&gt; ~/.ssh/config
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Enable
+</span><span class='line'><span class="nv">$ </span>sudo spctl --master-disable
+</span><span class='line'>
+</span><span class='line'>// Disable
+</span><span class='line'><span class="nv">$sudo</span> spctl --master-enable
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
+
+<h2>5.Mac 上批量替换文件中的字符串</h2>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>grep -rl discription <span class="nb">source</span>/_posts <span class="p">|</span> xargs sed -i <span class="s1">&#39;&#39;</span>  <span class="s2">&quot;s/discription/description/g&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
+<a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
+
+<h2>6.如何查看占用指定端口的进程？</h2>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>lsof -i :<span class="o">[</span>port<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果输出中有进程的 pid, 之后我们可以用这个 pid 来杀掉该进程：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> -9 <span class="o">[</span>pid<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这些进程很可能是系统启动时就启动了，可以通过：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl list <span class="p">|</span> grep <span class="o">[</span>pid<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>来确认。如果找到有，而我们又不想它自启动了，可以在以下目录中找到配置文件：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~/Library/LaunchAgents         Per-user agents provided by the user.
+</span><span class='line'>/Library/LaunchAgents          Per-user agents provided by the administrator.
+</span><span class='line'>/Library/LaunchDaemons         System wide daemons provided by the administrator.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>找到之后，可以用命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl unload -w paths
+</span><span class='line'>// eg:
+</span><span class='line'><span class="nv">$ </span>launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/problems-when-use-mac-part-two.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-development-notes-part-two.html">
 		
 			Web 开发问题汇总(二)</a>
@@ -279,63 +436,6 @@ If you have maven project try updating source and target version of java compile
 
 		
 		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/a-simple-conical-gradient-on-ios.html">
-		
-			圆锥渐变的一种简单实现</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-09-22T15:59:35+08:00" pubdate data-updated="true">22 Sep 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：</p>
-
-<p><img src="../images/Conical-1.png" title="'Conical-1'" ><br/>
-<img src="../images/Conical-2.png" title="'Conical-2'" ></p>
-
-<p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
-
-<p>想法有了，接下来我们用它来实现上图中 Find My iPhone 图标的雷达效果吧。</p>
-
-<p>首先定义一个 CALayer 的子类 ConicalLayer，</p>
-
-
-		
-		<a href="/blog/a-simple-conical-gradient-on-ios.html" class="more-link">继续阅读</a>
 	</div>
 
 

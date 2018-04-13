@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-12T09:21:48+08:00</updated>
+  <updated>2018-04-13T11:13:34+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(三)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-three.html"/>
+    <updated>2018-04-13T11:07:25+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-three</id>
+    <content type="html"><![CDATA[<h3>1.How to send email in java?</h3>
+
+<p>A:</p>
+
+<pre><code class="java">import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+
+public class SendEmail {
+
+   public static void main(String [] args) {    
+      // Recipient's email ID needs to be mentioned.
+      String to = "abcd@gmail.com";
+
+      // Sender's email ID needs to be mentioned
+      String from = "web@gmail.com";
+
+      // Assuming you are sending email from localhost
+      String host = "localhost";
+
+      // Get system properties
+      Properties properties = System.getProperties();
+
+      // Setup mail server
+      properties.setProperty("mail.smtp.host", host);
+
+      // Get the default Session object.
+      Session session = Session.getDefaultInstance(properties);
+
+      try {
+         // Create a default MimeMessage object.
+         MimeMessage message = new MimeMessage(session);
+
+         // Set From: header field of the header.
+         message.setFrom(new InternetAddress(from));
+
+         // Set To: header field of the header.
+         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+         // Set Subject: header field
+         message.setSubject("This is the Subject Line!");
+
+         // Now set the actual message
+         message.setText("This is actual message");
+
+         // Send message
+         Transport.send(message);
+         System.out.println("Sent message successfully....");
+      } catch (MessagingException mex) {
+         mex.printStackTrace();
+      }
+   }
+}
+</code></pre>
+
+<p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
+<a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
@@ -243,7 +309,7 @@ for (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) {
 
 <p>A:</p>
 
-<pre><code>Statement s = cd.createStatement();
+<pre><code class="java">Statement s = cd.createStatement();
 ResultSet r = s.executeQuery("SELECT COUNT(*) AS rowcount FROM FieldMaster");
 r.next();
 int count = r.getInt("rowcount");
@@ -252,6 +318,29 @@ System.out.println("MyTable has " + count + " row(s).");
 </code></pre>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java">How to get row count using ResultSet in Java?</a></p>
+
+<h3>15.How to Generate random words in Java?</h3>
+
+<p>A:</p>
+
+<pre><code class="java">public static String[] generateRandomWords(int numberOfWords)
+{
+    String[] randomStrings = new String[numberOfWords];
+    Random random = new Random();
+    for(int i = 0; i &lt; numberOfWords; i++)
+    {
+        char[] word = new char[random.nextInt(8)+3]; // words of length 3 through 10. (1 and 2 letter words are boring.)
+        for(int j = 0; j &lt; word.length; j++)
+        {
+            word[j] = (char)('a' + random.nextInt(26));
+        }
+        randomStrings[i] = new String(word);
+    }
+    return randomStrings;
+}
+</code></pre>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/4951997/generating-random-words-in-java">Generating random words in Java?</a></p>
 ]]></content>
   </entry>
   
@@ -941,272 +1030,6 @@ rm: /usr/local/mysql/data/Mac-mini.local.pid.shutdown: Permission denied
 <p>于是来确认 mysql 账号是否存在，我们用 Directory Utility 来做这件事情。可以按 System Preferences > Users &amp; Groups > Network Account Server join > Open Directory Utility > Directory Editor 来打开账号管理界面，在里面确实没有 mysql 账号，于是尝试创建这个账号，但是创建失败，提示账号已经存在，这就不知道是个什么鬼了。当然我们也可以使用对应的 Directory Utility 命令 dscl， 具体可参考 <a href="http://damiansheldon.github.io/blog/problems-when-use-mac.html">To create a user</a></p>
 
 <p>既然 mysql 创建不了，尝试使用其他的账号，于是把一个常用的账号加到 _mysql 组，为 /usr/local/mysql/data 赋予组写入权限，使用命令 <code>/usr/local/mysql/bin/mysqld_safe --user=dongmeiliang &amp;</code> 成功启动。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何在 Mac 上开启 Apache, PHP, MySQL]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html"/>
-    <updated>2015-07-05T21:24:55+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite</id>
-    <content type="html"><![CDATA[<h2>Apache</h2>
-
-<h3>开启 Apache</h3>
-
-<ol>
-<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
-<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
-</ol>
-
-
-<h3>开启为系统的守护进程</h3>
-
-<pre><code>$ launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist
-</code></pre>
-
-<h3>配置 HTTPS 的详细步骤：</h3>
-
-<ol>
-<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
-
-<ul>
-<li>去掉 SSL 模块前的注释使能它:<br/>
-<code>
-LoadModule ssl_module libexec/apache2/mod_ssl.so
-</code></li>
-<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
-<code>
-Include /private/etc/apache2/extra/httpd-ssl.conf
-</code></li>
-</ul>
-</li>
-<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
-
-<ul>
-<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
-<code>
-DocumentRoot "/Users/dongmeiliang/Sites"
-</code></p></li>
-<li><p>修改 ServerName 成类似这样:<br/>
-<code>
-ServerName localhost:443
-</code></p></li>
-<li><p>指定 SSLCertificateFile<br/>
-<code>
-SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
-</code></p></li>
-<li><p>指定 SSLCertificateKeyFile <br/>
-<code>
-SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
-</code></p></li>
-<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
-</ul>
-</li>
-</ol>
-
-
-<!-- more -->
-
-
-<ol>
-<li><p>制作自签名的证书</p>
-
-<p> 1) Generate a Private Key<br/>
- <code>
- openssl genrsa -des3 -out server.key 1024
-</code></p>
-
-<p> 2) Generate a CSR (Certificate Signing Request)<br/>
- <code>
- openssl req -new -key server.key -out server.csr
-</code></p>
-
-<p> 3) Remove Passphrase from Key<br/>
- <code>
- cp server.key server.key.org  
-</code><br/>
- <code>
- openssl rsa -in server.key.org -out server.key
-</code></p>
-
-<p> 4) Generating a Self-Signed Certificate<br/>
- <code>
- openssl x509 -req -days 365 -in server.csr -signkey server.key -out     server.crt
-</code></p></li>
-<li><p>拷贝证书到配置文件指定的目录下<br/>
-<code>
-sudo cp server.crt /private/etc/apache2/ssl/ssl.crt
-sudo cp server.key /private/etc/apache2/ssl/ssl.key
-</code></p></li>
-<li><p>重启Apache，打开 <a href="https://localhost">https://localhost</a> 测试是否工作正常</p></li>
-</ol>
-
-
-<p>问题：Invalid command &lsquo;SSLMutex&rsquo;, perhaps misspelled or defined by a module not included in the server configuration<br/>
-解决办法：注释掉/private/etc/apache2/extra/httpd-ssl.conf中SSLMutex解决了这个问题。</p>
-
-<h2>PHP</h2>
-
-<ol>
-<li>Open /etc/apache2/httpd.conf with your favorite editor (eg: Vim);</li>
-<li>Uncomment LoadModule php5_module libexec/apache2/libphp5.so</li>
-<li><code>sudo apachectl restart</code></li>
-<li>Test with phpinfo.php, its content is &ldquo;&lt;?php phpinfo(); ?>&rdquo;</li>
-</ol>
-
-
-<h2>MySQL</h2>
-
-<ol>
-<li><a href="http://dev.mysql.com/downloads/mysql/">Download from the MySQL site</a>, click No thanks, just take me to the downloads!;</li>
-<li>Choose Mac OS X ver. 10.9 (x86, 64-bit), DMG Archive, because there is an issue with this version and El Capitan in that it won’t start on reboot – it will need to be started via command line explained below.</li>
-<li>Starting MySQL
-
-<ul>
-<li>Via Preference Pane</li>
-<li>Command line
-  <code>
-  $ sudo /usr/local/mysql/bin/mysqld_safe --user=mysql &amp;  
- </code></li>
-</ul>
-</li>
-<li><p>Add MySQL directory to shell path</p>
-
-<ul>
-<li>Open ~/.bash_profile</li>
-<li>export PATH=&ldquo;/usr/local/mysql/bin:$PATH&rdquo;</li>
-<li>source ~/.bash_profile</li>
-</ul>
-</li>
-<li><p>Change root password
- <code>
- mysql -u root -p
- mysql&gt; SET PASSWORD FOR
- -&gt; 'root'@'localhost' = PASSWORD('mypass');
-</code></p></li>
-<li><p>Fix the 2002 MySQL Socket error
- Fix the looming 2002 socket error – which is linking where MySQL places the socket and where OSX thinks it should be, MySQL puts it in /tmp and OSX looks for it in /var/mysql the socket is a type of file that allows mysql client/server communication.</p>
-
-<ul>
-<li>sudo mkdir /var/mysql</li>
-<li>sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock</li>
-</ul>
-</li>
-<li><p>How to Start &amp; Stop MySQL Manually on OS X</p></li>
-</ol>
-
-
-<p>Start MySQL</p>
-
-<pre><code>1. Invoke mysqld directly. This works on any platform.
-
-2. On Unix and Unix-like systems, you can invoke mysqld_safe, which tries to determine the proper options for mysqld and then runs it with those options.
-</code></pre>
-
-<pre><code>$ /usr/local/mysql/bin/mysqld_safe --user=mysql &amp;
-</code></pre>
-
-<pre><code>3. On OS X, install a launchd daemon to enable automatic MySQL startup at system startup. The daemon starts the server by invoking mysqld_safe. 
-</code></pre>
-
-<p>Stop MySQL</p>
-
-<pre><code>$ /usr/local/mysql/bin/mysqladmin shutdown
-</code></pre>
-
-<ol>
-<li><p>View MySQL&rsquo;s status</p>
-
-<pre><code class="`"> mysql&gt; status
-</code></pre></li>
-<li><p>ERROR 2002 (HY000): Can &lsquo; t connect to local MySQL server through socket &rsquo;/tmp/mysql.sock'</p>
-
-<pre><code class="`"> // View MySQL status
- $ /usr/local/mysql/support-files/mysql.server status
- /usr/local/mysql/support-files/mysql.server: line 365: pidof: command not found
- ERROR! MySQL is not running
-
- // View MySQL's error log
- $ sudo tail -f /usr/local/mysql/data/DongMeiliangsMacBook-Pro.local.err
-
- // Find today's log
- 2015-12-12T11:21:14.012289Z 0 [ERROR] InnoDB: Unable to lock ./ibdata1 error: 35
- 2015-12-12T11:21:14.012335Z 0 [Note] InnoDB: Check that you do not already have another mysqld process using the same InnoDB data or log files.
-
- // Is there mysql process
- $ sudo ps -ax | grep 'mysql'
-
- |-+= 30102 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
- | \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
- |--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
-
- // Unfortunate, there are indeed two mysql procee, so kill one
- $ sudo kill -s kill  30102
-
- // Check we succeed kill a mysql process
- $ sudo ps -ax | grep 'mysql'
-
- // Unfortunate, when I killed it, it will auto start, so I have to disable auto start it.
- |-+= 30210 root /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
- | \--- 30203 _mysql /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/us
- |--= 30207 _mysql /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr
-
- // Figure out who auto start mysql
- $ sudo launchctl list | grep 'mysql'
- 30102   0   com.mysql.mysqld
- 30374   1   com.oracle.oss.mysql.mysqld
-
- // Unloads mysql auto start service
- $ sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysql.plist
- $ sudo launchctl unload -w /Library/LaunchDaemons/com.oracle.oss.mysql.mysqld.plist
-
- // Stop mysql service
- $ sudo launchctl stop com.mysql.mysqld
- $ sudo launchctl stop com.oracle.oss.mysql.mysqld
-
- // Start mysql as non-root 
- $ sudo mysqld_safe --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr/local/mysql/data/mysqld.local.err --pid-file=/usr/local/mysql/mysqld.local.pid --log-bin=DongMeiliangsMacBook-Pro-bin --server-id=1 &amp;  
-</code></pre></li>
-</ol>
-
-
-<h4>添加VirtualHost，DocumentRoot为/Users/username/Sites/,Error message “Forbidden You don&rsquo;t have permission to access / on this server”</h4>
-
-<p>Solution:
-I faced the same issue, but I solved it by setting the options directive either in the global directory setting in the httpd.conf or in the specific directory block in httpd-vhosts.conf:</p>
-
-<pre><code>Options Indexes FollowSymLinks Includes ExecCGI
-</code></pre>
-
-<p>By default, your global directory settings is (httpd.conf line ~188):</p>
-
-<pre><code>&lt;Directory /&gt;
-     AllowOverride none
-     Require all granted
-&lt;/Directory&gt;
-</code></pre>
-
-<p>set the options to : <code>Options Indexes FollowSymLinks Includes ExecCGI</code></p>
-
-<p>Finally, it should look like:</p>
-
-<pre><code>&lt;Directory /&gt;
-     Options Indexes FollowSymLinks Includes ExecCGI
-     AllowOverride All
-     Require all granted
-&lt;/Directory&gt;
-</code></pre>
-
-<p>Also try changing &ldquo;Order deny,allow&rdquo; and &ldquo;Allow from all&rdquo; lines by &ldquo;Require all granted&rdquo;</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server">Error message “Forbidden You don&rsquo;t have permission to access / on this server”</a></p>
-
-<h3>Reference:</h3>
-
-<p><a href="http://webdevstudios.com/2013/05/24/how-to-set-up-ssl-with-osx-mountain-lions-built-in-apache/">How to Set Up SSL with OSX Mountain Lion’s Built-In Apache</a> <br/>
-<a href="http://www.akadia.com/services/ssh_test_certificate.html">How to create a self-signed SSL Certificate</a><br/>
-<a href="http://charles.lescampeurs.org/2014/04/01/how-to-configure-httpsssl-under-apache-and-osx">How to configure HTTPS/SSL under Apache and OSX</a><br/>
-<a href="http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/">Get Apache, MySQL, PHP and phpMyAdmin working on OSX 10.11 El Capitan</a></p>
 ]]></content>
   </entry>
   

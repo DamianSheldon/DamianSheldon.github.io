@@ -432,6 +432,45 @@ Once at project level right click on project > Properties > Java Compiler, while
 
 
 <p>Reference:<a href="https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java">How to get row count using ResultSet in Java?</a></p>
+
+<h3>15.How to Generate random words in Java?</h3>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">generateRandomWords</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberOfWords</span><span class="o">)</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="n">String</span><span class="o">[]</span> <span class="n">randomStrings</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">numberOfWords</span><span class="o">];</span>
+</span><span class='line'>    <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Random</span><span class="o">();</span>
+</span><span class='line'>    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfWords</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="kt">char</span><span class="o">[]</span> <span class="n">word</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">8</span><span class="o">)+</span><span class="mi">3</span><span class="o">];</span> <span class="c1">// words of length 3 through 10. (1 and 2 letter words are boring.)</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">word</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>            <span class="n">word</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="kt">char</span><span class="o">)(</span><span class="sc">&#39;a&#39;</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">26</span><span class="o">));</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="n">randomStrings</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">String</span><span class="o">(</span><span class="n">word</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">randomStrings</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/4951997/generating-random-words-in-java">Generating random words in Java?</a></p>
 </div>
 
 

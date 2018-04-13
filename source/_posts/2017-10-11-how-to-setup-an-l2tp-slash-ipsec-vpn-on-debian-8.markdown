@@ -131,6 +131,12 @@ iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o $INTERNET_INTERFACE -m poli
 
 ```
 #iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o eth0 -m policy --dir out --pol none -j MASQUERADE
+
+// Check it
+# iptables -L --table nat
+
+// Save it 
+# iptables-save
 ```
 
 使用 `ipsec restart` 重启，可以使用 `ipsec barf | tac | head -n 100` 查看服务日志，检查连接是否有问题。

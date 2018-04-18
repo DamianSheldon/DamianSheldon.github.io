@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-13T20:40:53+08:00</updated>
+  <updated>2018-04-18T16:05:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -76,6 +76,54 @@ public class SendEmail {
 
 <p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
 <a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
+
+<!--more-->
+
+
+<h3>2.Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</h3>
+
+<p>A:安装了 Eclipse 提示的升级后再重新打开时，出现上面的报错。Google 一圈后显示可能是 eclipse.ini 的锅，正好我安装了 cpp, java 和 jee 三个版本，尝试打开 java 版本的，正常打开，于是对比它们的 eclipse.ini 文件:</p>
+
+<pre><code>$ cp ~/eclipse/jee-oxygen/Eclipse.app/Contents/Eclipse/eclipse.ini  ~/eclipse-workspace/jee-eclipse.ini
+cp ~/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/eclipse.ini ~/eclipse-workspace/java-eclipse.ini
+
+$ diff eclipse-workspace/jee-eclipse.ini eclipse-workspace/java-eclipse.ini
+3,4d2
+&lt; --launcher.library
+&lt; /Users/dongmeiliang/.p2/pool/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.551.v20171108-1834
+6a5,6
+&gt; --launcher.library
+&gt; /Users/dongmeiliang/.p2/pool/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.551.v20171108-1834
+8c8
+&lt; org.eclipse.epp.package.jee.product
+---
+&gt; org.eclipse.epp.package.java.product
+18,23d17
+&lt; -javaagent:/Users/dongmeiliang/.p2/pool/plugins/com.zeroturnaround.eclipse.optimizer.plugin_1.0.11/agent/eclipse-optimizer-agent.jar
+&lt; -server
+&lt; -XX:PermSize=256m
+&lt; -XX:MaxPermSize=256m
+&lt; -XX:+UseParallelGC
+&lt; -Xverify:none
+32c26
+&lt; -Xms512m
+---
+&gt; -Xms256m
+</code></pre>
+
+<p>总共有五处不同，细看之后发现只有两处可能会产生影响，先尝试将 <code>-Xms512m</code> 改成 <code>-Xms256m</code>，问题仍然存在，将文件恢复原样，再尝试将</p>
+
+<pre><code>&lt; -javaagent:/Users/dongmeiliang/.p2/pool/plugins/com.zeroturnaround.eclipse.optimizer.plugin_1.0.11/agent/eclipse-optimizer-agent.jar
+&lt; -server
+&lt; -XX:PermSize=256m
+&lt; -XX:MaxPermSize=256m
+&lt; -XX:+UseParallelGC
+&lt; -Xverify:none
+</code></pre>
+
+<p>删除，问题顺利解决。</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/7302604/eclipse-error-failed-to-create-the-java-virtual-machine">Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</a></p>
 ]]></content>
   </entry>
   

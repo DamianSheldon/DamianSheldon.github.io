@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-04-13T20:40:53+08:00</updated>
+  <updated>2018-04-18T16:05:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -127,6 +127,87 @@
 
 <p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
 <a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
+
+<!--more-->
+
+
+<h3>2.Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</h3>
+
+<p>A:安装了 Eclipse 提示的升级后再重新打开时，出现上面的报错。Google 一圈后显示可能是 eclipse.ini 的锅，正好我安装了 cpp, java 和 jee 三个版本，尝试打开 java 版本的，正常打开，于是对比它们的 eclipse.ini 文件:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">$</span> <span class="n">cp</span> <span class="o">~/</span><span class="n">eclipse</span><span class="o">/</span><span class="n">jee</span><span class="o">-</span><span class="n">oxygen</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">.</span><span class="na">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">/</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>  <span class="o">~/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">jee</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>
+</span><span class='line'><span class="n">cp</span> <span class="o">~/</span><span class="n">eclipse</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="n">oxygen</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">.</span><span class="na">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">/</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span> <span class="o">~/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">$</span> <span class="n">diff</span> <span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">jee</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span> <span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>
+</span><span class='line'><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="n">d2</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">--</span><span class="n">launcher</span><span class="o">.</span><span class="na">library</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">equinox</span><span class="o">.</span><span class="na">launcher</span><span class="o">.</span><span class="na">cocoa</span><span class="o">.</span><span class="na">macosx</span><span class="o">.</span><span class="na">x86_64_1</span><span class="o">.</span><span class="mf">1.551</span><span class="o">.</span><span class="na">v20171108</span><span class="o">-</span><span class="mi">1834</span>
+</span><span class='line'><span class="mi">6</span><span class="n">a5</span><span class="o">,</span><span class="mi">6</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="o">--</span><span class="n">launcher</span><span class="o">.</span><span class="na">library</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">equinox</span><span class="o">.</span><span class="na">launcher</span><span class="o">.</span><span class="na">cocoa</span><span class="o">.</span><span class="na">macosx</span><span class="o">.</span><span class="na">x86_64_1</span><span class="o">.</span><span class="mf">1.551</span><span class="o">.</span><span class="na">v20171108</span><span class="o">-</span><span class="mi">1834</span>
+</span><span class='line'><span class="mi">8</span><span class="n">c8</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">epp</span><span class="o">.</span><span class="na">package</span><span class="o">.</span><span class="na">jee</span><span class="o">.</span><span class="na">product</span>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">epp</span><span class="o">.</span><span class="na">package</span><span class="o">.</span><span class="na">java</span><span class="o">.</span><span class="na">product</span>
+</span><span class='line'><span class="mi">18</span><span class="o">,</span><span class="mi">23</span><span class="n">d17</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">javaagent:</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="na">zeroturnaround</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">optimizer</span><span class="o">.</span><span class="na">plugin_1</span><span class="o">.</span><span class="mf">0.11</span><span class="o">/</span><span class="n">agent</span><span class="o">/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">optimizer</span><span class="o">-</span><span class="n">agent</span><span class="o">.</span><span class="na">jar</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="n">server</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">PermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">MaxPermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="o">+</span><span class="n">UseParallelGC</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">Xverify:</span><span class="n">none</span>
+</span><span class='line'><span class="mi">32</span><span class="n">c26</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="n">Xms512m</span>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="o">-</span><span class="n">Xms256m</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>总共有五处不同，细看之后发现只有两处可能会产生影响，先尝试将 <code>-Xms512m</code> 改成 <code>-Xms256m</code>，问题仍然存在，将文件恢复原样，再尝试将</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">javaagent:</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="na">zeroturnaround</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">optimizer</span><span class="o">.</span><span class="na">plugin_1</span><span class="o">.</span><span class="mf">0.11</span><span class="o">/</span><span class="n">agent</span><span class="o">/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">optimizer</span><span class="o">-</span><span class="n">agent</span><span class="o">.</span><span class="na">jar</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="n">server</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">PermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">MaxPermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="o">+</span><span class="n">UseParallelGC</span>
+</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">Xverify:</span><span class="n">none</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>删除，问题顺利解决。</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/7302604/eclipse-error-failed-to-create-the-java-virtual-machine">Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</a></p>
 ]]></content>
   </entry>
   

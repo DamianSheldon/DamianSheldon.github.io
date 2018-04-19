@@ -233,7 +233,9 @@ Finally, it should look like:
 
 Also try changing "Order deny,allow" and "Allow from all" lines by "Require all granted"
 
-Reference:[Error message “Forbidden You don't have permission to access / on this server”](http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server)
+Reference:[Error message “Forbidden You don't have permission to access / on this server”](http://stackoverflow.com/questions/10873295/error-message-forbidden-you-dont-have-permission-to-access-on-this-server)  
+[Per-user web directories](https://httpd.apache.org/docs/2.4/howto/public_html.html)  
+[Why do I get a "Forbidden" message whenever I try to access a particular directory?](https://wiki.apache.org/httpd/FAQ#Why_do_I_get_a_.22Forbidden.22_message_whenever_I_try_to_access_a_particular_directory.3F)  
 
 ###Reference:  
 

@@ -131,7 +131,8 @@ A:问题出现的原因：
 
 1.	使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。  
 2.	修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。   
-3.	直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： `$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')`   
+3.	直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： `$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')`   
+
 Reference:[mysqli不能使用localhost，请问这是怎么回事？](https://segmentfault.com/q/1010000000328531)  
 
 ###4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。

@@ -333,11 +333,46 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 <ol>
 <li>使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。</li>
-<li>修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。 </li>
-<li>直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： <code>$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')</code> 
+<li>修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。   </li>
+<li>直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： <code>$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')</code>   
 Reference:<a href="https://segmentfault.com/q/1010000000328531">mysqli不能使用localhost，请问这是怎么回事？</a></li>
 </ol>
 
+
+<h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">&quot;bm_form&quot;</span> <span class="na">action=</span><span class="s">&quot;/delete_bms&quot;</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://www.google.com&quot;</span><span class="nt">&gt;</span>https://www.google.com<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;del_me&quot;</span> <span class="na">value=</span><span class="s">&quot;https://www.google.com&quot;</span> <span class="nt">/&gt;&lt;/td&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/tr&gt;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nt">&lt;tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://www.twitter.com&quot;</span><span class="nt">&gt;</span>https://www.twitter.com<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;del_me&quot;</span> <span class="na">value=</span><span class="s">&quot;https://www.twitter.com&quot;</span> <span class="nt">/&gt;&lt;/td&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/tr&gt;</span>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span> <span class="na">onclick=</span><span class="s">&quot;bm_form.submit();&quot;</span><span class="nt">&gt;</span>Delete BM<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
 </div>
 
 

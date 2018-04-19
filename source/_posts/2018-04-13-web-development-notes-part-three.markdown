@@ -129,10 +129,29 @@ A:问题出现的原因：
 
 这个问题有以下几种解决方法：
 
-1.	使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。
-2.	修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。 
-3.	直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： `$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')` 
+1.	使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。  
+2.	修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。   
+3.	直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： `$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')`   
 Reference:[mysqli不能使用localhost，请问这是怎么回事？](https://segmentfault.com/q/1010000000328531)  
 
+###4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。
 
+```html
+<form name="bm_form" action="/delete_bms" method="POST">
+	<tr>
+		<td><a href="https://www.google.com">https://www.google.com</a></td>
+		<td><input type="checkbox" name="del_me" value="https://www.google.com" /></td>
+	</tr>
+	
+	<tr>
+		<td><a href="https://www.twitter.com">https://www.twitter.com</a></td>
+		<td><input type="checkbox" name="del_me" value="https://www.twitter.com" /></td>
+	</tr>
+</form>
+
+<a href="#" onclick="bm_form.submit();">Delete BM</a>
+	
+```
+
+这里展示了可以直接使用表单元素的名字直接来提交的技巧。  
 

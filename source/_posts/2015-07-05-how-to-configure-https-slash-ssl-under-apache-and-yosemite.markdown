@@ -92,9 +92,10 @@ sudo cp server.key /private/etc/apache2/ssl/ssl.key
 
 ## PHP
 1. Open /etc/apache2/httpd.conf with your favorite editor (eg: Vim);
-2. Uncomment LoadModule php5_module libexec/apache2/libphp5.so
-3. `sudo apachectl restart`
-4. Test with phpinfo.php, its content is "<?php phpinfo(); ?>"
+2. Uncomment `LoadModule cgi_module libexec/apache2/mod_cgi.so`
+3. Uncomment `LoadModule php5_module libexec/apache2/libphp5.so`
+4. `sudo apachectl restart`
+5. Test with phpinfo.php, its content is "<?php phpinfo(); ?>"
 
 ## MySQL
 1. [Download from the MySQL site](http://dev.mysql.com/downloads/mysql/), click No thanks, just take me to the downloads!;

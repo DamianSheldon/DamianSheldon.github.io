@@ -114,3 +114,25 @@ $ diff eclipse-workspace/jee-eclipse.ini eclipse-workspace/java-eclipse.ini
 
 Reference:[Eclipse error: 'Failed to create the Java Virtual Machine'](https://stackoverflow.com/questions/7302604/eclipse-error-failed-to-create-the-java-virtual-machine)  
 
+###3.`Warning: mysqli::__construct(): (HY000/2002): No such file or directory in /code/index.php on line 8 Connection failed: No such file or directory`
+A:问题出现的原因：
+当主机填写为localhost时MySQL会采用 unix domain socket连接，当主机填写为127.0.0.1时MySQL会采用TCP/IP的方式连接。使用Unix socket的连接比TCP/IP的连接更加快速与安全。这是MySQL连接的特性，可以参考官方文档的说明[4.2.2. Connecting to the MySQL Server](https://dev.mysql.com/doc/refman/5.6/en/connecting.html#id471316):  
+
+> On Unix, MySQL programs treat the host name localhost specially, in a way that is 
+> likely different from what you expect compared to other network-based programs. 
+> For connections to localhost, MySQL programs attempt to connect to the local server 
+> by using a Unix socket file. This occurs even if a --port or -P option is given to 
+> specify a port number. To ensure that the client makes a TCP/IP connection to the 
+> local server, use --host or -h to specify a host name value of 127.0.0.1, or the IP 
+> address or name of the local server. You can also specify the connection protocol 
+> explicitly, even for localhost, by using the --protocol=TCP option.
+
+这个问题有以下几种解决方法：
+
+1.	使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。
+2.	修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。 
+3.	直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： $db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock') 
+Reference:[mysqli不能使用localhost，请问这是怎么回事？](https://segmentfault.com/q/1010000000328531)  
+
+
+

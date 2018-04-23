@@ -139,7 +139,8 @@ iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o $INTERNET_INTERFACE -m poli
 # iptables-save
 ```
 
-使用 `ipsec restart` 重启，可以使用 `ipsec barf | tac | head -n 100` 查看服务日志，检查连接是否有问题。
+使用 `ipsec restart` 重启。  
+有时我们可能会遇到连接问题，这时可以在主配置文件 `/etc/ipsec.conf` 中开启 `plutodebug=none`，然后就可以使用 `ipsec barf | tac | head -n 100` 查看服务日志，帮助定位连接问题。  
 
 ## iPhone 客户端配置
 

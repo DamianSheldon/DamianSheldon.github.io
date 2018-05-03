@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-05-03T14:35:13+08:00</updated>
+  <updated>2018-05-03T15:03:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -5746,11 +5746,13 @@ tmp/</p>
 
 <h3>10.Objective-C 的 class 是如何实现的？Selector 是如何被转化为 C 语言的函数调用的？</h3>
 
-<p>A:</p>
+<p>A:
+Objective-C 的 class 是如何实现的？</p>
 
-<p>[receiver message]</p>
+<p>Objective-C 的 class 是通过 C 语言的结构体来实现的。编译器会将类按照根类实例变量，倒数第二根类实例变量，以此类推到父类实例变量，类实例变量的内存布局转换成结构体。</p>
 
-<p>=> objc_msgSend(receiver, selector);</p>
+<p>Selector 是如何被转化为 C 语言的函数调用的？<br/>
+在 Objective-C 中，消息在 runtime 时才会绑定到方法实现上。编译器将消息表达式 <code>[receiver message]</code> 转换为对函数 <code>objc_msgSend</code> 的调用。函数接收消息接收者和消息中方法的名字即 Selector 作为它的两个主要参数，所有传入消息的参数也会一并交给 <code>objc_msgSend</code>函数。</p>
 
 <h3>11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？</h3>
 

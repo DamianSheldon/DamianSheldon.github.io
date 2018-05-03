@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-05-03T15:48:16+08:00</updated>
+  <updated>2018-05-03T17:28:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -5756,6 +5756,47 @@ Objective-C 的 class 是如何实现的？</p>
 
 <h3>11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？</h3>
 
+<p>A:</p>
+
+<p>UIScrollView 大概是如何实现的？</p>
+
+<p>UIScrollView 是通过巧妙利用 UIView 已有属性实现的，它通过改变 UIScrollView bounds 的 origin 来达到移到视图的效果，改变 transforms 来实现视图缩放。</p>
+
+<p>它是如何捕捉、响应手势的？</p>
+
+<p>它可能有两种方法来做这件事：一是自己实现继承自 UIResponder 用来响应 touch event 的 <code>touchesBegan:withEvent:</code> 等一系列方法；二是添加 UIGestureRecognizer.</p>
+
+<p>于是想办法来验证，首先断点打印输出附加在 scrollview 的 gesture recognizer:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po self.gestureRecognizers
+</span><span class='line'>&lt;__NSArrayI 0x60000025bbd0&gt;(
+</span><span class='line'>&lt;UIScrollViewDelayedTouchesBeganGestureRecognizer: 0x6000001e3800; state = Failed; delaysTouchesBegan = YES; view = &lt;InfiniteScrollView 0x7f89ce813800&gt;; target= &lt;(action=delayed:, target=&lt;InfiniteScrollView 0x7f89ce813800&gt;)&gt;&gt;,
+</span><span class='line'>&lt;UIScrollViewPanGestureRecognizer: 0x7f89ce613480; state = Began; delaysTouchesEnded = NO; view = &lt;InfiniteScrollView 0x7f89ce813800&gt;; target= &lt;(action=handlePan:, target=&lt;InfiniteScrollView 0x7f89ce813800&gt;)&gt;&gt;,
+</span><span class='line'>&lt;_UIDragAutoScrollGestureRecognizer: 0x6000007a6580; state = Possible; cancelsTouchesInView = NO; delaysTouchesEnded = NO; view = &lt;InfiniteScrollView 0x7f89ce813800&gt;; target= &lt;(action=_handleAutoScroll:, target=&lt;InfiniteScrollView 0x7f89ce813800&gt;)&gt;&gt;
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到上面确实添加了好几个手势识别，例如 UIScrollViewPanGestureRecognizer，这样可以断定它是使用添加手势的方法来捕捉和响应手势的。</p>
+
+<p>更进一步，我们可以通过置换方法的办法，来确认 scrollview 是否使用了 <code>touchesBegan:withEvent:</code> 等方法来捕捉和响应手势，具体而言可以像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">Method</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">InfiniteScrollView</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">touchesBegan</span><span class="p">:</span><span class="nl">withEvent</span><span class="p">:));</span>
+</span><span class='line'><span class="n">Method</span> <span class="n">modifiedMethod</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">dml_touchesBegan</span><span class="p">:</span><span class="nl">withEvent</span><span class="p">:));</span>
+</span><span class='line'><span class="n">method_exchangeImplementations</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">modifiedMethod</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>经确认，scrollview 并没有使用相关方法。</p>
+
 <h3>12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？</h3>
 
 <p>A: Method Swizzle.</p>
@@ -5918,7 +5959,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <p>A:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -5929,17 +5970,18 @@ Objective-C 的 class 是如何实现的？</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)eoc_performSelector:(SEL)aSelector
-</span><span class='line'>withObject:(id)anArgument
-</span><span class='line'>afterDelay:(NSTimeInterval)delay
-</span><span class='line'>{
-</span><span class='line'>    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-</span><span class='line'>            typedef void (*send_type)(id, SEL, id);
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">eoc_performSelector:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span>
+</span><span class='line'><span class="nf">withObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anArgument</span>
+</span><span class='line'><span class="nf">afterDelay:</span><span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">delay</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="kt">int64_t</span><span class="p">)(</span><span class="n">delay</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">)),</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">QOS_CLASS_UTILITY</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>            <span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">send_type</span><span class="p">)(</span><span class="kt">id</span><span class="p">,</span> <span class="kt">SEL</span><span class="p">,</span> <span class="kt">id</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>            send_type func = (send_type)objc_msgSend;
-</span><span class='line'>            func(self, aSelector, anArgument);
-</span><span class='line'>            });
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>            <span class="n">send_type</span> <span class="n">func</span> <span class="o">=</span> <span class="p">(</span><span class="n">send_type</span><span class="p">)</span><span class="n">objc_msgSend</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">func</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">aSelector</span><span class="p">,</span> <span class="n">anArgument</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>注意事项：
@@ -6006,7 +6048,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <p>A:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -6016,16 +6058,17 @@ Objective-C 的 class 是如何实现的？</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void SpinlockOnce(dispatch_once_t *predicate, dispatch_block_t block) {
-</span><span class='line'>        static OSSpinLock lock = OS_SPINLOCK_INIT;
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">void</span> <span class="nf">SpinlockOnce</span><span class="p">(</span><span class="kt">dispatch_once_t</span> <span class="o">*</span><span class="n">predicate</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">static</span> <span class="n">OSSpinLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="n">OS_SPINLOCK_INIT</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        OSSpinLockLock(&lock);
-</span><span class='line'>        if(!*predicate) {
-</span><span class='line'>            block();
-</span><span class='line'>            *predicate = 1;
-</span><span class='line'>        }
-</span><span class='line'>        OSSpinLockUnlock(&lock);
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>        <span class="n">OSSpinLockLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="o">!*</span><span class="n">predicate</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">block</span><span class="p">();</span>
+</span><span class='line'>            <span class="o">*</span><span class="n">predicate</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">OSSpinLockUnlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Reference:

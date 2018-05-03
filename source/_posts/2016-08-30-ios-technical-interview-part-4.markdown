@@ -109,6 +109,38 @@ Selector 是如何被转化为 C 语言的函数调用的？
 在 Objective-C 中，消息在 runtime 时才会绑定到方法实现上。编译器将消息表达式 `[receiver message]` 转换为对函数 `objc_msgSend` 的调用。函数接收消息接收者和消息中方法的名字即 Selector 作为它的两个主要参数，所有传入消息的参数也会一并交给 `objc_msgSend`函数。
 
 ###11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？
+A:
+
+UIScrollView 大概是如何实现的？  
+
+UIScrollView 是通过巧妙利用 UIView 已有属性实现的，它通过改变 UIScrollView bounds 的 origin 来达到移到视图的效果，改变 transforms 来实现视图缩放。
+
+它是如何捕捉、响应手势的？  
+
+它可能有两种方法来做这件事：一是自己实现继承自 UIResponder 用来响应 touch event 的 `touchesBegan:withEvent:` 等一系列方法；二是添加 UIGestureRecognizer.  
+
+于是想办法来验证，首先断点打印输出附加在 scrollview 的 gesture recognizer:
+
+```
+(lldb) po self.gestureRecognizers
+<__NSArrayI 0x60000025bbd0>(
+<UIScrollViewDelayedTouchesBeganGestureRecognizer: 0x6000001e3800; state = Failed; delaysTouchesBegan = YES; view = <InfiniteScrollView 0x7f89ce813800>; target= <(action=delayed:, target=<InfiniteScrollView 0x7f89ce813800>)>>,
+<UIScrollViewPanGestureRecognizer: 0x7f89ce613480; state = Began; delaysTouchesEnded = NO; view = <InfiniteScrollView 0x7f89ce813800>; target= <(action=handlePan:, target=<InfiniteScrollView 0x7f89ce813800>)>>,
+<_UIDragAutoScrollGestureRecognizer: 0x6000007a6580; state = Possible; cancelsTouchesInView = NO; delaysTouchesEnded = NO; view = <InfiniteScrollView 0x7f89ce813800>; target= <(action=_handleAutoScroll:, target=<InfiniteScrollView 0x7f89ce813800>)>>
+)
+```
+
+可以看到上面确实添加了好几个手势识别，例如 UIScrollViewPanGestureRecognizer，这样可以断定它是使用添加手势的方法来捕捉和响应手势的。  
+
+更进一步，我们可以通过置换方法的办法，来确认 scrollview 是否使用了 `touchesBegan:withEvent:` 等方法来捕捉和响应手势，具体而言可以像这样：  
+
+```objc
+    Method origin = class_getInstanceMethod(InfiniteScrollView.class, @selector(touchesBegan:withEvent:));
+    Method modifiedMethod = class_getInstanceMethod(self.class, @selector(dml_touchesBegan:withEvent:));
+    method_exchangeImplementations(origin, modifiedMethod);
+```
+
+经确认，scrollview 并没有使用相关方法。
 
 ###12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？
 A: Method Swizzle.

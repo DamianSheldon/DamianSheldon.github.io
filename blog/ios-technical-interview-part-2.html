@@ -191,50 +191,53 @@ $(document).ready(
 <p>非集合类对象的copy与mutableCopy：
 对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[immutableObject copy] // 浅复制
-</span><span class='line'>[immutableObject mutableCopy] //深复制
-</span><span class='line'>[mutableObject copy] //深复制
-</span><span class='line'>[mutableObject mutableCopy] //深复制</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">immutableObject</span> <span class="k">copy</span><span class="p">]</span> <span class="c1">// 浅复制</span>
+</span><span class='line'><span class="p">[</span><span class="n">immutableObject</span> <span class="n">mutableCopy</span><span class="p">]</span> <span class="c1">//深复制</span>
+</span><span class='line'><span class="p">[</span><span class="n">mutableObject</span> <span class="k">copy</span><span class="p">]</span> <span class="c1">//深复制</span>
+</span><span class='line'><span class="p">[</span><span class="n">mutableObject</span> <span class="n">mutableCopy</span><span class="p">]</span> <span class="c1">//深复制</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>实例验证：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
-</span><span class='line'>NSString *stringCopy = [string copy];
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSMutableString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableString</span> <span class="nl">stringWithString</span><span class="p">:</span><span class="s">@&quot;origin&quot;</span><span class="p">];</span><span class="c1">//copy</span>
+</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">stringCopy</span> <span class="o">=</span> <span class="p">[</span><span class="n">string</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'>  
-</span><span class='line'>// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
-</span><span class='line'>[string appendString:@"origion!"]
+</span><span class='line'><span class="c1">// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：</span>
+</span><span class='line'><span class="p">[</span><span class="n">string</span> <span class="nl">appendString</span><span class="p">:</span><span class="s">@&quot;origion!&quot;</span><span class="p">]</span>
 </span><span class='line'>  
-</span><span class='line'>// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1">// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>集合类对象的copy与mutableCopy:
 对 immutable 对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[immutableObject copy] // 浅复制
-</span><span class='line'>[immutableObject mutableCopy] //单层深复制
-</span><span class='line'>[mutableObject copy] //单层深复制
-</span><span class='line'>[mutableObject mutableCopy] //单层深复制</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">immutableObject</span> <span class="k">copy</span><span class="p">]</span> <span class="c1">// 浅复制</span>
+</span><span class='line'><span class="p">[</span><span class="n">immutableObject</span> <span class="n">mutableCopy</span><span class="p">]</span> <span class="c1">//单层深复制</span>
+</span><span class='line'><span class="p">[</span><span class="n">mutableObject</span> <span class="k">copy</span><span class="p">]</span> <span class="c1">//单层深复制</span>
+</span><span class='line'><span class="p">[</span><span class="n">mutableObject</span> <span class="n">mutableCopy</span><span class="p">]</span> <span class="c1">//单层深复制</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>实例验证：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -246,18 +249,19 @@ $(document).ready(
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
-</span><span class='line'>NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
-</span><span class='line'>NSArray *copyArray = [array copy];
-</span><span class='line'>NSMutableArray *mCopyArray = [array mutableCopy];
-</span><span class='line'>// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址 是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="l">@[@[</span><span class="s">@&quot;a&quot;</span><span class="p">,</span> <span class="s">@&quot;b&quot;</span><span class="l">]</span><span class="p">,</span> <span class="l">@[</span><span class="s">@&quot;c&quot;</span><span class="p">,</span> <span class="s">@&quot;d&quot;</span><span class="l">]]</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">copyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="k">copy</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="n">mutableCopy</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址    是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：</span>
 </span><span class='line'>  
-</span><span class='line'>NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString     stringWithString:@"a"],@"b",@"c",nil];
-</span><span class='line'>NSArray *copyArray = [array copy];
-</span><span class='line'>NSMutableArray *mCopyArray = [array mutableCopy];
+</span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithObjects</span><span class="p">:[</span><span class="bp">NSMutableString</span>  <span class="nl">stringWithString</span><span class="p">:</span><span class="s">@&quot;a&quot;</span><span class="p">],</span><span class="s">@&quot;b&quot;</span><span class="p">,</span><span class="s">@&quot;c&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">copyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="k">copy</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="n">mutableCopy</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明  copyArray、mCopyArray 都对 array 进行了内容拷贝。
-</span><span class='line'>  </span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1">// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明     copyArray、mCopyArray 都对 array 进行了内容拷贝。</span>
+</span><span class='line'>  
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>6. 这个写法会出什么问题： @property (copy) NSMutableArray *array?</h3>
@@ -357,8 +361,9 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 <p>A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。
 解决方法是将该对象使用<code>__weak</code>修饰符修饰之后再在block中使用。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>id __weak weakSelf = self，或者 __weak __typeof(self)weakSelf = self</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">id</span> <span class="k">__weak</span> <span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="err">，或者</span> <span class="k">__weak</span> <span class="n">__typeof</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span><span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>有人可能会说用 <code>__block</code> 修饰符也可以，但我不认为这是正确的做法，<code>__block</code> 强调的是对变量存储位置，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，加上 <code>__block</code> 修饰只是能让我们在 block 内能修改变量。</p>
@@ -486,7 +491,7 @@ __block variables live in storage that is shared between the lexical scope of t
 
 <blockquote><p>Dispatch groups are a way to block a thread until one or more tasks finish executing.</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -494,14 +499,15 @@ __block variables live in storage that is shared between the lexical scope of t
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> dispatch_queue_t queue =        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-</span><span class='line'>  dispatch_group_t group = dispatch_group_create();
-</span><span class='line'>  dispatch_group_async(group, queue, ^{ /*加载图片1 */ });
-</span><span class='line'>  dispatch_group_async(group, queue, ^{ /*加载图片2 */ });
-</span><span class='line'>  dispatch_group_async(group, queue, ^{ /*加载图片3 */ }); 
-</span><span class='line'>  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-</span><span class='line'>          // 合并图片
-</span><span class='line'>  });</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span>      <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span> <span class="cm">/*加载图片1 */</span> <span class="p">});</span>
+</span><span class='line'>  <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span> <span class="cm">/*加载图片2 */</span> <span class="p">});</span>
+</span><span class='line'>  <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span> <span class="cm">/*加载图片3 */</span> <span class="p">});</span>
+</span><span class='line'>  <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>          <span class="c1">// 合并图片</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>32. dispatch_barrier_async的作用是什么？</h3>
@@ -517,7 +523,7 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 
 <h3>34. 以下代码运行结果如何？</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -526,15 +532,16 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidLoad
-</span><span class='line'>{
-</span><span class='line'>  [super viewDidLoad];
-</span><span class='line'>  NSLog(@"1");
-</span><span class='line'>  dispatch_sync(dispatch_get_main_queue(), ^{
-</span><span class='line'>      NSLog(@"2");
-</span><span class='line'>  });
-</span><span class='line'>  NSLog(@"3");
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;1&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">dispatch_sync</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;2&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;3&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>A: 只输出：1 。发生主线程锁死。</p>
@@ -547,7 +554,7 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 
 <p>当我们和线程有很多交互时，可以为线程配置一个 RunLoop.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -563,22 +570,23 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)networkRunLoopThreadEntry
-</span><span class='line'>// This thread runs all of our network operation run loop callbacks.
-</span><span class='line'>{
-</span><span class='line'>assert( ! [NSThread isMainThread] );
-</span><span class='line'>while (YES) {
-</span><span class='line'>    NSAutoreleasePool * pool;
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">networkRunLoopThreadEntry</span>
+</span><span class='line'><span class="c1">// This thread runs all of our network operation run loop callbacks.</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">assert</span><span class="p">(</span> <span class="o">!</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">isMainThread</span><span class="p">]</span> <span class="p">);</span>
+</span><span class='line'><span class="k">while</span> <span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    pool = [[NSAutoreleasePool alloc] init];
-</span><span class='line'>    assert(pool != nil);
+</span><span class='line'>    <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">assert</span><span class="p">(</span><span class="n">pool</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    [[NSRunLoop currentRunLoop] run];
+</span><span class='line'>    <span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="n">run</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>    [pool drain];
-</span><span class='line'>}
-</span><span class='line'>assert(NO);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">assert</span><span class="p">(</span><span class="nb">NO</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>36. runloop的mode作用是什么？</h3>
@@ -601,7 +609,7 @@ Each time you run your run loop, you specify (either explicitly or implicitly) a
 kCFRunLoopCommonModes (Core Foundation)
 This is a configurable group of commonly used modes. Associating an input source with this mode also associates it with each of the modes in the group. For Cocoa applications, this set includes the default, modal, and event tracking modes by default. Core Foundation includes just the default mode initially. You can add custom modes to the set using the CFRunLoopAddCommonMode function.</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -614,19 +622,20 @@ This is a configurable group of commonly used modes. Associating an input source
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//将timer添加到NSDefaultRunLoopMode中
-</span><span class='line'>[NSTimer scheduledTimerWithTimeInterval:1.0
-</span><span class='line'>     target:self
-</span><span class='line'>     selector:@selector(timerTick:)
-</span><span class='line'>     userInfo:nil
-</span><span class='line'>     repeats:YES];
-</span><span class='line'>//然后再添加到NSRunLoopCommonModes里
-</span><span class='line'>NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
-</span><span class='line'>     target:self
-</span><span class='line'>     selector:@selector(timerTick:)
-</span><span class='line'>     userInfo:nil
-</span><span class='line'>     repeats:YES];
-</span><span class='line'>[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//将timer添加到NSDefaultRunLoopMode中</span>
+</span><span class='line'><span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">1.0</span>
+</span><span class='line'>     <span class="nl">target</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>     <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">timerTick</span><span class="p">:)</span>
+</span><span class='line'>     <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>     <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//然后再添加到NSRunLoopCommonModes里</span>
+</span><span class='line'><span class="bp">NSTimer</span> <span class="o">*</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">timerWithTimeInterval</span><span class="p">:</span><span class="mf">1.0</span>
+</span><span class='line'>     <span class="nl">target</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>     <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">timerTick</span><span class="p">:)</span>
+</span><span class='line'>     <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>     <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="nl">addTimer</span><span class="p">:</span><span class="n">timer</span> <span class="nl">forMode</span><span class="p">:</span><span class="n">NSRunLoopCommonModes</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>38. 猜想runloop内部是如何实现的？</h3>
@@ -706,7 +715,7 @@ ISA指针<br/>
 
 <h3>46. 下面的代码输出什么？</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -717,17 +726,18 @@ ISA指针<br/>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@implementation Son : Father
-</span><span class='line'>- (id)init
-</span><span class='line'>{
-</span><span class='line'>    self = [super init];
-</span><span class='line'>    if (self) {
-</span><span class='line'>        NSLog(@"%@", NSStringFromClass([self class]));
-</span><span class='line'>        NSLog(@"%@", NSStringFromClass([super class]));
-</span><span class='line'>    }
-</span><span class='line'>    return self;
-</span><span class='line'>}
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">Son</span> : <span class="nc">Father</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="nb">self</span> <span class="k">class</span><span class="p">]));</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="nb">super</span> <span class="k">class</span><span class="p">]));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>A:都输出 Son.
@@ -762,16 +772,17 @@ super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self
 
 <p>A:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lldb po
-</span><span class='line'>lldb p
-</span><span class='line'>lldb expression
-</span><span class='line'>lldb bt
-</span><span class='line'>lldb c</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">lldb</span> <span class="n">po</span>
+</span><span class='line'><span class="n">lldb</span> <span class="n">p</span>
+</span><span class='line'><span class="n">lldb</span> <span class="n">expression</span>
+</span><span class='line'><span class="n">lldb</span> <span class="n">bt</span>
+</span><span class='line'><span class="n">lldb</span> <span class="n">c</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>51. 使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？</h3>

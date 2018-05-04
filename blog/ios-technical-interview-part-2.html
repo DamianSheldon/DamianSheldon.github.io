@@ -191,55 +191,74 @@ $(document).ready(
 <p>非集合类对象的copy与mutableCopy：
 对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：</p>
 
-<pre><code>```
-[immutableObject copy] // 浅复制
-[immutableObject mutableCopy] //深复制
-[mutableObject copy] //深复制
-[mutableObject mutableCopy] //深复制
-```
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[immutableObject copy] // 浅复制
+</span><span class='line'>[immutableObject mutableCopy] //深复制
+</span><span class='line'>[mutableObject copy] //深复制
+</span><span class='line'>[mutableObject mutableCopy] //深复制</span></code></pre></td></tr></table></div></figure>
+
 
 <p>实例验证：</p>
 
-<pre><code>```
-NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
-NSString *stringCopy = [string copy];
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
+</span><span class='line'>NSString *stringCopy = [string copy];
+</span><span class='line'>  
+</span><span class='line'>// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
+</span><span class='line'>[string appendString:@"origion!"]
+</span><span class='line'>  
+</span><span class='line'>// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。</span></code></pre></td></tr></table></div></figure>
 
-// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
-[string appendString:@"origion!"]
-
-// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。
-```
-</code></pre>
 
 <p>集合类对象的copy与mutableCopy:
 对 immutable 对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</p>
 
-<pre><code>```
-[immutableObject copy] // 浅复制
-[immutableObject mutableCopy] //单层深复制
-[mutableObject copy] //单层深复制
-[mutableObject mutableCopy] //单层深复制
-```
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[immutableObject copy] // 浅复制
+</span><span class='line'>[immutableObject mutableCopy] //单层深复制
+</span><span class='line'>[mutableObject copy] //单层深复制
+</span><span class='line'>[mutableObject mutableCopy] //单层深复制</span></code></pre></td></tr></table></div></figure>
+
 
 <p>实例验证：</p>
 
-<pre><code>```
-// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
-NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
-NSArray *copyArray = [array copy];
-NSMutableArray *mCopyArray = [array mutableCopy];
-// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址   是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
+</span><span class='line'>NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
+</span><span class='line'>NSArray *copyArray = [array copy];
+</span><span class='line'>NSMutableArray *mCopyArray = [array mutableCopy];
+</span><span class='line'>// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址 是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：
+</span><span class='line'>  
+</span><span class='line'>NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString     stringWithString:@"a"],@"b",@"c",nil];
+</span><span class='line'>NSArray *copyArray = [array copy];
+</span><span class='line'>NSMutableArray *mCopyArray = [array mutableCopy];
+</span><span class='line'>
+</span><span class='line'>// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明  copyArray、mCopyArray 都对 array 进行了内容拷贝。
+</span><span class='line'>  </span></code></pre></td></tr></table></div></figure>
 
-NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString   stringWithString:@"a"],@"b",@"c",nil];
-NSArray *copyArray = [array copy];
-NSMutableArray *mCopyArray = [array mutableCopy];
-
-// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明    copyArray、mCopyArray 都对 array 进行了内容拷贝。
-
-```
-</code></pre>
 
 <h3>6. 这个写法会出什么问题： @property (copy) NSMutableArray *array?</h3>
 

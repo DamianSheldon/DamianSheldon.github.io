@@ -434,7 +434,7 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 
 <p>A:KVO支持实例变量。</p>
 
-<h3>26. addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</h3>
+<h3>26. <code>addObserver:forKeyPath:options:context:</code>各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</h3>
 
 <p>A:</p>
 
@@ -466,19 +466,19 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 </table>
 
 
-<p>observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能获得KVO回调。</p>
+<p>observer中需要实现<code>- observeValueForKeyPath:ofObject:change:context:</code>才能获得KVO回调。</p>
 
 <h3>27. 如何手动触发一个value的KVO?</h3>
 
-<p>A:改变值之前调用 willChangeValueForKey:，改变值之后调用 didChangeValueForKey:。</p>
+<p>A:改变值之前调用 <code>willChangeValueForKey:</code>，改变值之后调用 <code>didChangeValueForKey:</code>。</p>
 
 <h3>28. 如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？</h3>
 
 <p>A:</p>
 
 <ul>
-<li>A class that implements manual notification must override the NSObject implementation of automaticallyNotifiesObserversForKey:.For properties that perform manual notification, the subclass implementation of automaticallyNotifiesObserversForKey: should return NO.</li>
-<li>To implement manual observer notification, you invoke willChangeValueForKey: before changing the value, and didChangeValueForKey: after changing the value.</li>
+<li>A class that implements manual notification must override the NSObject implementation of <code>automaticallyNotifiesObserversForKey:</code>.For properties that perform manual notification, the subclass implementation of <code>automaticallyNotifiesObserversForKey:</code> should return NO.</li>
+<li>To implement manual observer notification, you invoke <code>willChangeValueForKey:</code> before changing the value, and <code>didChangeValueForKey:</code> after changing the value.</li>
 </ul>
 
 

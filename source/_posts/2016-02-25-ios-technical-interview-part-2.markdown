@@ -53,51 +53,51 @@ A:
 非集合类对象的copy与mutableCopy：
 对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：
 	
-	```
-	[immutableObject copy] // 浅复制
-	[immutableObject mutableCopy] //深复制
-	[mutableObject copy] //深复制
-	[mutableObject mutableCopy] //深复制
-	```
+```
+[immutableObject copy] // 浅复制
+[immutableObject mutableCopy] //深复制
+[mutableObject copy] //深复制
+[mutableObject mutableCopy] //深复制
+```
 	
 实例验证：
 	
-	```
-	NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
-	NSString *stringCopy = [string copy];
+```
+NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
+NSString *stringCopy = [string copy];
 	
-	// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
-	[string appendString:@"origion!"]
+// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
+[string appendString:@"origion!"]
 	
-	// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。
-	```
+// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。
+```
 	
 集合类对象的copy与mutableCopy:
 对 immutable 对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：
 	
-	```
-	[immutableObject copy] // 浅复制
-	[immutableObject mutableCopy] //单层深复制
-	[mutableObject copy] //单层深复制
-	[mutableObject mutableCopy] //单层深复制
-	```
+```
+[immutableObject copy] // 浅复制
+[immutableObject mutableCopy] //单层深复制
+[mutableObject copy] //单层深复制
+[mutableObject mutableCopy] //单层深复制
+```
 	
 实例验证：
 	
-	```
-	// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
-	NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
-	NSArray *copyArray = [array copy];
-	NSMutableArray *mCopyArray = [array mutableCopy];
-	// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址	是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内	容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合 	immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看 	mutable 对象拷贝的例子：
+```
+// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
+NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
+NSArray *copyArray = [array copy];
+NSMutableArray *mCopyArray = [array mutableCopy];
+// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址	是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内	容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合 	immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看 	mutable 对象拷贝的例子：
 	
-	NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString 	stringWithString:@"a"],@"b",@"c",nil];
-	NSArray *copyArray = [array copy];
-	NSMutableArray *mCopyArray = [array mutableCopy];
+NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString 	stringWithString:@"a"],@"b",@"c",nil];
+NSArray *copyArray = [array copy];
+NSMutableArray *mCopyArray = [array mutableCopy];
 
-	// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明 	copyArray、mCopyArray 都对 array 进行了内容拷贝。
+// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明 	copyArray、mCopyArray 都对 array 进行了内容拷贝。
 	
-	```
+```
 	
 ###6. 这个写法会出什么问题： @property (copy) NSMutableArray *array?  
 A:问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；

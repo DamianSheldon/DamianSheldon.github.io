@@ -4,8 +4,8 @@ title: "iOS 面试题汇总(二)"
 date: 2016-02-25 16:54:55 +0800
 comments: true
 categories: [Archives, iOS Development]
-keywords: iOS
-description: iOS Technical Interview
+keywords: iOS, Technical, Interview,
+description: iOS Technical Interview questions about property attributes, weak, copy, arc and so on.
 ---
 ###1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
 A:

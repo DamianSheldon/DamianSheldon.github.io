@@ -100,8 +100,10 @@ NSMutableArray *mCopyArray = [array mutableCopy];
 ```
 	
 ###6. 这个写法会出什么问题： @property (copy) NSMutableArray *array?  
-A:问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；
-问题二：如果是开发 iOS 程序，这会影响性能。
+A:
+
+* 问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；  
+* 问题二：如果是开发 iOS 程序，这会影响性能。
 
 ###7. 怎么用 copy 关键字？  
 A:声明为属性的类遵守 NSCopying 协议，而且我们希望设置新值时保存一份自己的拷贝。

@@ -345,11 +345,11 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 
 <ul>
 <li>如果声明的是读写属性，开发者只实现了 getter 或 setter，那么编译器会合成实例变量，两者都实现时则不合成实例变量；</li>
-<li><p>如果是声明的是只读属性，开发者没有 getter，那么编译器会合成实例变量，否则不会合成。</p>
-
-<p>  Reference:<a href="https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar">iOS automatic @synthesize without creating an ivar</a></p></li>
+<li>如果是声明的是只读属性，开发者没有 getter，那么编译器会合成实例变量，否则不会合成。</li>
 </ul>
 
+
+<p>Reference:<a href="https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar">iOS automatic @synthesize without creating an ivar</a></p>
 
 <h3>14. ARC通过什么方式帮助开发者管理内存？</h3>
 
@@ -379,14 +379,14 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>有人可能会说用 <code>__block</code> 修饰符也可以，但我不认为这是正确的做法，<code>__block</code> 强调的是对变量存储位置，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，加上 <code>__block</code> 修饰只是能让我们在 block 内能修改变量。</p>
+<p>有人可能会说用 <code>__block</code> 修饰符也可以，但我不认为这是正确的做法，<code>__block</code> 强调的是对变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，<code>__block</code> 修饰符侧重点是变量存储类型，它让我们在 block 内能修改变量。</p>
 
 <p>这里便自然可以引申出探讨 <code>__weak</code> 和 <code>__block</code> 的区别。</p>
 
-<blockquote><p>You can specify that an imported variable be mutable—that is, read-write— by applying the <strong>block storage type modifier. </strong>block storage is similar to, but mutually exclusive of, the register, auto, and static storage types for local variables.
-__block variables live in storage that is shared between the lexical scope of the variable and all blocks and block copies declared or created within the variable’s lexical scope. Thus, the storage will survive the destruction of the stack frame if any copies of the blocks declared within the frame survive beyond the end of the frame (for example, by being enqueued somewhere for later execution). Multiple blocks in a given lexical scope can simultaneously use a shared variable.</p>
+<blockquote><p>You can specify that an imported variable be mutable—that is, read-write— by applying the <code>__block</code> storage type modifier. <code>__block</code> storage is similar to, but mutually exclusive of, the register, auto, and static storage types for local variables.
+<code>__block</code> variables live in storage that is shared between the lexical scope of the variable and all blocks and block copies declared or created within the variable’s lexical scope. Thus, the storage will survive the destruction of the stack frame if any copies of the blocks declared within the frame survive beyond the end of the frame (for example, by being enqueued somewhere for later execution). Multiple blocks in a given lexical scope can simultaneously use a shared variable.</p>
 
-<p>__weak specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.</p></blockquote>
+<p><code>__weak</code> specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.</p></blockquote>
 
 <p>还可以引申出 <code>__weak</code> 是怎么实现的。</p>
 

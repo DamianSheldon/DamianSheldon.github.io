@@ -181,8 +181,10 @@ A: autoreleasepool 正如它的名字，它像一个池子，所以的自动释�
 A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。
 解决方法是将该对象使用`__weak`修饰符修饰之后再在block中使用。
 
-```
-id __weak weakSelf = self，或者 __weak __typeof(self)weakSelf = self
+```objc
+id __weak weakSelf = self;
+// Or
+__weak __typeof(self)weakSelf = self;
 ```
 
 有人可能会说用 `__block` 修饰符也可以，但我不认为这是正确的做法，`__block` 强调的是对变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，`__block` 修饰符侧重点是变量存储类型，它让我们在 block 内能修改变量。
@@ -287,7 +289,7 @@ A:dispatch_get_current_queue 容易造成死锁。
 
 ###34. 以下代码运行结果如何？
 
-```
+```objc
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -307,23 +309,23 @@ A:
 	
 当我们和线程有很多交互时，可以为线程配置一个 RunLoop.
 	
-```
-	- (void)networkRunLoopThreadEntry
-    // This thread runs all of our network operation run loop callbacks.
-	{
-    assert( ! [NSThread isMainThread] );
-    while (YES) {
-        NSAutoreleasePool * pool;
+```objc
+- (void)networkRunLoopThreadEntry
+// This thread runs all of our network operation run loop callbacks.
+{
+assert( ! [NSThread isMainThread] );
+while (YES) {
+   NSAutoreleasePool * pool;
 
-        pool = [[NSAutoreleasePool alloc] init];
-        assert(pool != nil);
+   pool = [[NSAutoreleasePool alloc] init];
+   assert(pool != nil);
 
-        [[NSRunLoop currentRunLoop] run];
+   [[NSRunLoop currentRunLoop] run];
 
-        [pool drain];
-    }
-    assert(NO);
-	}
+   [pool drain];
+}
+assert(NO);
+}
 ```
 
 ###36. runloop的mode作用是什么？  

@@ -305,7 +305,7 @@ A: 只输出：1 。发生主线程锁死。
 
 ###35. runloop和线程有什么关系？  
 A:
->Run loops are intended for situations where you want more interactivity with the thread. 
+>Run loops are part of the fundamental infrastructure associated with threads.
 	
 当我们和线程有很多交互时，可以为线程配置一个 RunLoop.
 	

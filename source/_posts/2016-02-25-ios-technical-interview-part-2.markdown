@@ -10,10 +10,10 @@ description: iOS Technical Interview
 ###1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
 A:
 	
-* Write Serialization(not general thread safety): nonatomic atomic (default)
-* Mutability: readonly readwrite (default)
-* API Contron :getter = methodname setter = mehtodname:
-* Memory Management: copy strong (default) weak unsafe_unretained assign
+* Write Serialization(not general thread safety): nonatomic, atomic (default)
+* Mutability: readonly,readwrite (default)
+* API Contron: getter = methodname, setter = mehtodname:
+* Memory Management: copy, strong (default), weak, unsafe_unretained, assign
 
 ###2. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？  
 A: 

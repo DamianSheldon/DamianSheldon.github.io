@@ -161,7 +161,7 @@ A:
 * 如果声明的是读写属性，开发者只实现了 getter 或 setter，那么编译器会合成实例变量，两者都实现时则不合成实例变量；
 * 如果是声明的是只读属性，开发者没有 getter，那么编译器会合成实例变量，否则不会合成。
 	
-	Reference:[iOS automatic @synthesize without creating an ivar](https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar)  
+Reference:[iOS automatic @synthesize without creating an ivar](https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar)  
 	
 ###14. ARC通过什么方式帮助开发者管理内存？  
 A:
@@ -185,15 +185,15 @@ A:一个对象中强引用了block，在block中又使用了该对象，就会�
 id __weak weakSelf = self，或者 __weak __typeof(self)weakSelf = self
 ```
 
-有人可能会说用 `__block` 修饰符也可以，但我不认为这是正确的做法，`__block` 强调的是对变量存储位置，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，加上 `__block` 修饰只是能让我们在 block 内能修改变量。
+有人可能会说用 `__block` 修饰符也可以，但我不认为这是正确的做法，`__block` 强调的是对变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，`__block` 修饰符侧重点是变量存储类型，它让我们在 block 内能修改变量。
 
 这里便自然可以引申出探讨 `__weak` 和 `__block` 的区别。
 
-> You can specify that an imported variable be mutable—that is, read-write— by applying the __block storage type modifier. __block storage is similar to, but mutually exclusive of, the register, auto, and static storage types for local variables.
-> __block variables live in storage that is shared between the lexical scope of the variable and all blocks and block copies declared or created within the variable’s lexical scope. Thus, the storage will survive the destruction of the stack frame if any copies of the blocks declared within the frame survive beyond the end of the frame (for example, by being enqueued somewhere for later execution). Multiple blocks in a given lexical scope can simultaneously use a shared variable.
+> You can specify that an imported variable be mutable—that is, read-write— by applying the `__block` storage type modifier. `__block` storage is similar to, but mutually exclusive of, the register, auto, and static storage types for local variables.
+> `__block` variables live in storage that is shared between the lexical scope of the variable and all blocks and block copies declared or created within the variable’s lexical scope. Thus, the storage will survive the destruction of the stack frame if any copies of the blocks declared within the frame survive beyond the end of the frame (for example, by being enqueued somewhere for later execution). Multiple blocks in a given lexical scope can simultaneously use a shared variable.
 
 
-> __weak specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.
+> `__weak` specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.
 
 还可以引申出 `__weak` 是怎么实现的。
 

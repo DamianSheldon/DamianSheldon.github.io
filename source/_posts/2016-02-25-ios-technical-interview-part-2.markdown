@@ -230,7 +230,7 @@ A:
 ###25. KVC和KVO的keyPath一定是属性么？  
 A:KVO支持实例变量。
 
-###26. addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？  
+###26. `addObserver:forKeyPath:options:context:`各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？  
 A:
 	
 | Parameter | Function |
@@ -240,17 +240,17 @@ A:
 | options | A combination of the NSKeyValueObservingOptions values that specifies what is included in observation notifications. For possible values, see NSKeyValueObservingOptions. |
 | context | Arbitrary data that is passed to anObserver in observeValueForKeyPath:ofObject:change:context:. |
 	
-observer中需要实现- observeValueForKeyPath:ofObject:change:context:才能获得KVO回调。
+observer中需要实现`- observeValueForKeyPath:ofObject:change:context:`才能获得KVO回调。
 
 ###27. 如何手动触发一个value的KVO?  
-A:改变值之前调用 willChangeValueForKey:，改变值之后调用 didChangeValueForKey:。
+A:改变值之前调用 `willChangeValueForKey:`，改变值之后调用 `didChangeValueForKey:`。
 	
 
 ###28. 如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？  
 A: 
 
-* A class that implements manual notification must override the NSObject implementation of automaticallyNotifiesObserversForKey:.For properties that perform manual notification, the subclass implementation of automaticallyNotifiesObserversForKey: should return NO. 
-* To implement manual observer notification, you invoke willChangeValueForKey: before changing the value, and didChangeValueForKey: after changing the value. 
+* A class that implements manual notification must override the NSObject implementation of `automaticallyNotifiesObserversForKey:`.For properties that perform manual notification, the subclass implementation of `automaticallyNotifiesObserversForKey:` should return NO. 
+* To implement manual observer notification, you invoke `willChangeValueForKey:` before changing the value, and `didChangeValueForKey:` after changing the value. 
 
 ###29. apple用什么方式实现对一个对象的KVO？  
 A:

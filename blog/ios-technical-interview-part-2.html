@@ -375,7 +375,11 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 解决方法是将该对象使用<code>__weak</code>修饰符修饰之后再在block中使用。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">id</span> <span class="k">__weak</span> <span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="err">，或者</span> <span class="k">__weak</span> <span class="n">__typeof</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span><span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">id</span> <span class="k">__weak</span> <span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// Or</span>
+</span><span class='line'><span class="k">__weak</span> <span class="n">__typeof</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span><span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -588,14 +592,14 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'><span class="n">assert</span><span class="p">(</span> <span class="o">!</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">isMainThread</span><span class="p">]</span> <span class="p">);</span>
 </span><span class='line'><span class="k">while</span> <span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="bp">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span><span class="p">;</span>
+</span><span class='line'>   <span class="bp">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">assert</span><span class="p">(</span><span class="n">pool</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">);</span>
+</span><span class='line'>   <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>   <span class="n">assert</span><span class="p">(</span><span class="n">pool</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="n">run</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="n">run</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="n">assert</span><span class="p">(</span><span class="nb">NO</span><span class="p">);</span>
 </span><span class='line'><span class="p">}</span>

@@ -231,7 +231,7 @@ You must create your own autorelease pool block as soon as the thread begins exe
 
 <p>A:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -239,14 +239,14 @@ You must create your own autorelease pool block as soon as the thread begins exe
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Delegate methods
-</span><span class='line'>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-</span><span class='line'>- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
-</span><span class='line'>- 
-</span><span class='line'> // Data source methods
-</span><span class='line'> - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-</span><span class='line'> - (NSInteger)tableView:(UITalbleView *)tableView numberOfRowsInSections:(NSInteger)section;
-</span><span class='line'> - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Delegate methods</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">didSelectRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">heightForRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">;</span>
+</span><span class='line'><span class="o">-</span>
+</span><span class='line'> <span class="c1">// Data source methods</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nl">numberOfSectionsInTableView</span><span class="p">:(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span><span class="p">;</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nl">tableView</span><span class="p">:(</span><span class="n">UITalbleView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">numberOfRowsInSections</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">section</span><span class="p">;</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="bp">UITableViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nl">tableView</span><span class="p">:(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">cellForRowAtIndexPath</span><span class="p">:(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPath</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

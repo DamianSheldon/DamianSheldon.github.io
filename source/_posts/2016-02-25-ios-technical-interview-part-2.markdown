@@ -112,7 +112,15 @@ A:声明属性时用 copy 做它的内存管理 attribute，例如: `@property (
 A:
 
 > Any object that you wish to set for a copy property must support NSCopying, which means that it should conform to the NSCopying protocol.
-> Only classes that define an “immutable vs. mutable” distinction should adopt this protocol. 
+> Only classes that define an “immutable vs. mutable” distinction should adopt this protocol.   
+
+如何让自己的类用 copy 修饰符？  
+
+让类遵守 NSCopying 协议便可使用 copy 修饰符。  
+
+如何重写带 copy 关键字的 setter？  
+
+在 setter 中调用 copy 方法的结果赋值。  
 
 ###9. protocol 和 category 中如何使用 @property?  
 A:

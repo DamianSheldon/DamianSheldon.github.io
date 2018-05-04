@@ -53,7 +53,7 @@ A:
 非集合类对象的copy与mutableCopy：
 对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：
 	
-```
+```objc
 [immutableObject copy] // 浅复制
 [immutableObject mutableCopy] //深复制
 [mutableObject copy] //深复制
@@ -62,7 +62,7 @@ A:
 	
 实例验证：
 	
-```
+```objc
 NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
 NSString *stringCopy = [string copy];
 	
@@ -75,7 +75,7 @@ NSString *stringCopy = [string copy];
 集合类对象的copy与mutableCopy:
 对 immutable 对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：
 	
-```
+```objc
 [immutableObject copy] // 浅复制
 [immutableObject mutableCopy] //单层深复制
 [mutableObject copy] //单层深复制
@@ -84,7 +84,7 @@ NSString *stringCopy = [string copy];
 	
 实例验证：
 	
-```
+```objc
 // 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：
 NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
 NSArray *copyArray = [array copy];

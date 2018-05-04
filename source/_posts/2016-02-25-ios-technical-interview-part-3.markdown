@@ -84,7 +84,7 @@ A:A singleton class returns the same instance no matter how many times an applic
 ###13.Give us example of what are delegate methods and what are data source methods of UITableView?
 A:
 
-```
+```objc
 // Delegate methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;

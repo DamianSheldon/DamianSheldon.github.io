@@ -266,15 +266,15 @@ A:
 A:
 > Dispatch groups are a way to block a thread until one or more tasks finish executing. 
 	
-```
-		dispatch_queue_t queue = 		dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-		dispatch_group_t group = dispatch_group_create();
-		dispatch_group_async(group, queue, ^{ /*加载图片1 */ });
-		dispatch_group_async(group, queue, ^{ /*加载图片2 */ });
-		dispatch_group_async(group, queue, ^{ /*加载图片3 */ }); 
-		dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-		        // 合并图片
-		});
+```objc
+	dispatch_queue_t queue = 		dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	dispatch_group_t group = dispatch_group_create();
+	dispatch_group_async(group, queue, ^{ /*加载图片1 */ });
+	dispatch_group_async(group, queue, ^{ /*加载图片2 */ });
+	dispatch_group_async(group, queue, ^{ /*加载图片3 */ }); 
+	dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+	        // 合并图片
+	});
 ```
 	
 ###32. dispatch_barrier_async的作用是什么？  
@@ -333,8 +333,8 @@ A:
 
 mode的作用是设置好需要监控的 input sources 和 timers，以及需要通知的 run loop observers。
 
-###37. 以+ scheduledTimerWithTimeInterval...的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？  
-A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以+ scheduledTimerWithTimeInterval...的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。
+###37. 以`+ scheduledTimerWithTimeInterval...`的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？  
+A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以`+ scheduledTimerWithTimeInterval...`的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。
 
 如何解决？
 解决办法自然是希望 timer 触发的事件不被限制，也就是说在 NSEventTrackingRunLoopMode 下也能被监控，可以通过把 timer 加入到 NSRunLoopCommonModes 中，因为关联到它的 timer 也会被相应关联到 NSEventTrackingRunLoopMode 中。
@@ -343,7 +343,7 @@ A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEvent
 > kCFRunLoopCommonModes (Core Foundation)
 > This is a configurable group of commonly used modes. Associating an input source with this mode also associates it with each of the modes in the group. For Cocoa applications, this set includes the default, modal, and event tracking modes by default. Core Foundation includes just the default mode initially. You can add custom modes to the set using the CFRunLoopAddCommonMode function.
 
-```
+```objc
 //将timer添加到NSDefaultRunLoopMode中
 [NSTimer scheduledTimerWithTimeInterval:1.0
      target:self
@@ -385,8 +385,8 @@ A:
 * 如果方法返回值为结构体,发送给 nil 的消息将返回0。结构体中各个字段的值将都是0
 * 如果方法的返回值不是上述提到的几种情况，那么发送给 nil 的消息的返回值将是未定义的
 
-###42. _objc_msgForward 函数是做什么的，直接调用它将会发生什么？  
-A:当向一个对象发送一条消息，但它并没有实现的时候，_objc_msgForward会尝试做消息转发。直接调用_objc_msgForward是非常危险的事，如果用不好会直接导致程序Crash，但是如果用得好，能做很多非常酷的事。
+###42. `_objc_msgForward` 函数是做什么的，直接调用它将会发生什么？  
+A:当向一个对象发送一条消息，但它并没有实现的时候，`_objc_msgForward`会尝试做消息转发。直接调用`_objc_msgForward`是非常危险的事，如果用不好会直接导致程序Crash，但是如果用得好，能做很多非常酷的事。
 
 ###43. 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？  
 A:
@@ -417,7 +417,7 @@ A:
 
 ###46. 下面的代码输出什么？ 
 
-```
+```objc
 @implementation Son : Father
 - (id)init
 {

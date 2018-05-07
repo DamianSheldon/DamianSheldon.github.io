@@ -235,21 +235,9 @@ $(document).ready(
 </ol>
 
 
-<div style="text-align: center" markdown="1">
+<p><img src="/images/Environment.png" title="Environment" ></p>
 
-    <img name="Environment" src="/images/Environment.png" width="448" height="252">
-
-</div>
-
-
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Zombie" src="/images/Zombie.png" width="448" height="252">
-
-</div>
-
+<p><img src="/images/Zombie.png" title="Zombie" ></p>
 
 <ol>
 <li>使用malloc_history命令找到相应的对象。</li>
@@ -270,32 +258,44 @@ $(document).ready(
 </span><span class='line'>malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。</span></code></pre></td></tr></table></div></figure>
 
 
-
-
-<div style="text-align: center" markdown="1">
-
-    <img name="Malloc_history" src="/images/Malloc_history.png" width="720" height="106">
-
-</div>
-
+<p><img src="/images/Malloc_history.png" title="Malloc_history" ></p>
 
 <h3>unrecognized selector sent to instance 0x7fa71400fc10</h3>
 
 <p>A:</p>
 
-<p>1.Add a exception breakpoint;
-2.Check the description of the object in memory address<code>po (NSObject*)(0x7fa71400fc10)</code>.</p>
+<ol>
+<li>Add a exception breakpoint;</li>
+<li>Check the description of the object in memory address<code>po (NSObject*)(0x7fa71400fc10)</code>.</li>
+</ol>
+
 
 <p><a href="http://stackoverflow.com/questions/37928924/how-to-debug-unrecognized-selector-sent-to-instance">How to debug “unrecognized selector sent to instance”</a></p>
 
-<p>Reference:</p>
+<h3>error: property &lsquo;frame&rsquo; not found on object of type &lsquo;UIView *&rsquo;</h3>
 
-<p>Memory Usage Performace Guidelines <br/>
-iOS 6 Programming Pushing the Limits<br/>
-<a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a>  <br/>
-<a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a><br/>
-<a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a>   <br/>
-<a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></p>
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) expr @import UIKit
+</span><span class='line'>(lldb) po self.view.bounds</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/16926239/error-property-frame-not-found-on-object-of-type-uiview?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">error: property &lsquo;frame&rsquo; not found on object of type &lsquo;UIView *&rsquo;</a><br/>
+<a href="http://furbo.org/2015/05/11/an-import-ant-change-in-xcode/">An @import-ant Change in Xcode</a></p>
+
+<h3>Reference:</h3>
+
+<ul>
+<li>Memory Usage Performace Guidelines</li>
+<li>iOS 6 Programming Pushing the Limits</li>
+<li><a href="http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1">My App Crashed, Now What? – Part 1</a></li>
+<li><a href="http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2">My App Crashed, Now What? – Part 2</a></li>
+<li><a href="http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5">Intermediate Debugging with Xcode 4.5</a></li>
+<li><a href="http://www.iwangke.me/2013/01/15/xcode-debugging-tips/">Xcode调试技巧</a></li>
+</ul>
+
 </div>
 
 

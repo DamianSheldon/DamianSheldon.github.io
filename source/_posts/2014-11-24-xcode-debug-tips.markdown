@@ -90,17 +90,10 @@ Apple Memory Usage Performace Guidelines中介绍了记录内存分配历史的�
 
 1. 设置环境变量： MallocStackLogging，MallocStackLoggingNoCompact为1；
 
-<div style="text-align: center" markdown="1">
+{% img /images/Environment.png Environment %}
 
-	<img name="Environment" src="/images/Environment.png" width="448" height="252">
+{% img /images/Zombie.png Zombie %}
 
-</div>
-
-<div style="text-align: center" markdown="1">
-
-	<img name="Zombie" src="/images/Zombie.png" width="448" height="252">
-
-</div>
 
 2. 使用malloc_history命令找到相应的对象。
 
@@ -113,17 +106,13 @@ malloc_history <pid/partial-process-name> [options] <mode> [<address> ...]
 malloc_history 5968/224511 0x2d9e23fe0 | grep "0x2d9e23fe0"。
 ```
 
-<div style="text-align: center" markdown="1">
-
-	<img name="Malloc_history" src="/images/Malloc_history.png" width="720" height="106">
-
-</div>
+{% img /images/Malloc_history.png Malloc_history %}
 
 ###unrecognized selector sent to instance 0x7fa71400fc10
 A: 
 
-1.Add a exception breakpoint;
-2.Check the description of the object in memory address`po (NSObject*)(0x7fa71400fc10)`.
+1. Add a exception breakpoint;
+2. Check the description of the object in memory address`po (NSObject*)(0x7fa71400fc10)`.
 
 [How to debug “unrecognized selector sent to instance”](http://stackoverflow.com/questions/37928924/how-to-debug-unrecognized-selector-sent-to-instance)
 
@@ -135,3 +124,5 @@ iOS 6 Programming Pushing the Limits
 [My App Crashed, Now What? – Part 2](http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2)  
 [Intermediate Debugging with Xcode 4.5](http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5)     
 [Xcode调试技巧](http://www.iwangke.me/2013/01/15/xcode-debugging-tips/)
+
+

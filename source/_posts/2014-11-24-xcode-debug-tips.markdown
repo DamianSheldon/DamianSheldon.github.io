@@ -116,13 +116,24 @@ A:
 
 [How to debug “unrecognized selector sent to instance”](http://stackoverflow.com/questions/37928924/how-to-debug-unrecognized-selector-sent-to-instance)
 
-Reference:
+###error: property 'frame' not found on object of type 'UIView *'
+A:
 
-Memory Usage Performace Guidelines   
-iOS 6 Programming Pushing the Limits  
-[My App Crashed, Now What? – Part 1](http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1)    
-[My App Crashed, Now What? – Part 2](http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2)  
-[Intermediate Debugging with Xcode 4.5](http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5)     
-[Xcode调试技巧](http://www.iwangke.me/2013/01/15/xcode-debugging-tips/)
+```
+(lldb) expr @import UIKit
+(lldb) po self.view.bounds
+```
+
+Reference:[error: property 'frame' not found on object of type 'UIView *'](https://stackoverflow.com/questions/16926239/error-property-frame-not-found-on-object-of-type-uiview?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
+[An @import-ant Change in Xcode](http://furbo.org/2015/05/11/an-import-ant-change-in-xcode/)  
+
+###Reference:
+
+* Memory Usage Performace Guidelines   
+* iOS 6 Programming Pushing the Limits  
+* [My App Crashed, Now What? – Part 1](http://www.raywenderlich.com/10209/my-app-crashed-now-what-part-1)    
+* [My App Crashed, Now What? – Part 2](http://www.raywenderlich.com/10505/my-app-crashed-now-what-part-2)  
+* [Intermediate Debugging with Xcode 4.5](http://www.raywenderlich.com/28289/debugging-ios-apps-in-xcode-4-5)     
+* [Xcode调试技巧](http://www.iwangke.me/2013/01/15/xcode-debugging-tips/)
 
 

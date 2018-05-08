@@ -69,7 +69,7 @@ Sample outputs:
 gd
 ```
 
-Reference:http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/
+Reference:[Ubuntu Linux: Install or Add PHP-GD Support To Apache Web Server](http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/)  
 
 ###3. Install PHP cURL extension on Debian
 A:
@@ -78,7 +78,7 @@ A:
 $ sudo aptitude install php5-curl
 ```
 
-Reference:http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian
+Reference:[How do I install PHP cURL on Linux Debian?](http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian)  
 
 ###4. Install PHP mCrypt extension on Debian 
 A:
@@ -119,7 +119,7 @@ Notes:
 2. Debian/Ubuntu use symlinks to configure vhosts and load modules. Configuration files are created in their respective sites-available and mods-available directories. To activate vhosts and modules, symlinks are created in the respective sites-enabled and mods-enabled directories to the config files in either sites-available and mods-available. Debian provides scripts to handle this process called 'a2ensite' and 'a2enmod' which activates vhosts and modules.
 3. The default vhost is defined in /etc/apache2/sites-available/default, and overrides the DocumentRoot set in the server context.
 
-Reference:http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:
+Reference:[DistrosDefaultLayout](http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:)  
 
 ###6. Can't connect to PPTP VPN with ufw enabled on Debian 3.16.7-ckt11-1 with kernel 3.16.0-4-amd64
 
@@ -136,9 +136,9 @@ This is caused by a change for security reason in kernel 3.18 [1]. There are two
 
 To load this module on every boot on Ubuntu, add it to the file /etc/modules.
 
-Reference:http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18
+Reference:[Can't connect to PPTP VPN with ufw enabled on Ubuntu 14.04 with kernel 3.18](http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18)  
 
-http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html
+[How to setup pptp vpn on ubuntu 12.04](http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html)  
 
 ##7.OpenVPN server configure correct, but client can't brower web site block by GTW.
 A:There is a crue the the log of VPN client issue client DNS be used. So I think this may be the problem. YES, client can brower all web site after remove all client DNS settings.
@@ -151,8 +151,8 @@ A:There is a crue the the log of VPN client issue client DNS be used. So I think
 208.67.220.220
 ```
 
-Reference:https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8
-https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile
+Reference:[ How To Set Up an OpenVPN Server on Debian 8](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8)  
+[How To Set Up an OpenVPN Server on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile)  
 
 ##8.How to stop rpcbind and rpc.statd on debian?
 A:Both of these services are only needed if you plan on using NFS for file sharing. They are otherwise unneeded and are a potential security risk.

@@ -157,3 +157,17 @@ A:There is a crue the the log of VPN client issue client DNS be used. So I think
 Reference:https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8
 https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile
 
+##8.How to stop rpcbind and rpc.statd on debian?
+A:Both of these services are only needed if you plan on using NFS for file sharing. They are otherwise unneeded and are a potential security risk.
+
+```bash
+$sudo systemctl stop rpcbind.service
+$sudo systemctl disable rpcbind.service
+
+$sudo systemctl stop nfs-common.service
+$sudo systemctl disable nfs-common.service
+
+```
+Reference:[Is it safe to remove rpcbind?](https://www.digitalocean.com/community/questions/is-it-safe-to-remove-rpcbind)  
+[rpc.statd running on system not using NFS](https://unix.stackexchange.com/questions/20356/rpc-statd-running-on-system-not-using-nfs?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
+

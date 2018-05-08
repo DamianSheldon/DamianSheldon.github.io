@@ -239,7 +239,7 @@ $(document).ready(
 </span><span class='line'>gd</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/">http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/</a></p>
+<p>Reference:<a href="http://www.cyberciti.biz/faq/ubuntu-linux-install-or-add-php-gd-support-to-apache/">Ubuntu Linux: Install or Add PHP-GD Support To Apache Web Server</a></p>
 
 <h3>3. Install PHP cURL extension on Debian</h3>
 
@@ -249,7 +249,7 @@ $(document).ready(
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo aptitude install php5-curl</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian">http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian</a></p>
+<p>Reference:<a href="http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian">How do I install PHP cURL on Linux Debian?</a></p>
 
 <h3>4. Install PHP mCrypt extension on Debian</h3>
 
@@ -314,7 +314,7 @@ $(document).ready(
 </ol>
 
 
-<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:</a></p>
+<p>Reference:<a href="http://wiki.apache.org/httpd/DistrosDefaultLayout#Debian.2C_Ubuntu_.28Apache_httpd_2.x.29:">DistrosDefaultLayout</a></p>
 
 <h3>6. Can&rsquo;t connect to PPTP VPN with ufw enabled on Debian 3.16.7-ckt11-1 with kernel 3.16.0-4-amd64</h3>
 
@@ -326,17 +326,17 @@ $(document).ready(
 
 <p>This is caused by a change for security reason in kernel 3.18 [1]. There are two ways to fix this.</p>
 
-<p>First approach is adding this rule to the file /etc/ufw/before.rules before the line # drop INVALID packets &hellip;</p>
+<ul>
+<li>First approach is adding this rule to the file /etc/ufw/before.rules before the line # drop INVALID packets &hellip; <code>-A ufw-before-input -p 47 -j ACCEPT</code></li>
+<li>Second approach is manually loading the nf_conntrack_pptp module. You can do this by running <code>$sudo modprobe nf_conntrack_pptp</code></li>
+</ul>
 
-<p>-A ufw-before-input -p 47 -j ACCEPT
-Second approach is manually loading the nf_conntrack_pptp module. You can do this by running</p>
 
-<p>sudo modprobe nf_conntrack_pptp
-To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p>
+<p>To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p>
 
-<p>Reference:<a href="http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18">http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18</a></p>
+<p>Reference:<a href="http://askubuntu.com/questions/572497/cant-connect-to-pptp-vpn-with-ufw-enabled-on-ubuntu-14-04-with-kernel-3-18">Can&rsquo;t connect to PPTP VPN with ufw enabled on Ubuntu 14.04 with kernel 3.18</a></p>
 
-<p><a href="http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html">http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html</a></p>
+<p><a href="http://silverlinux.blogspot.com/2012/05/how-to-pptp-vpn-on-ubuntu-1204-pptpd.html">How to setup pptp vpn on ubuntu 12.04</a></p>
 
 <h2>7.OpenVPN server configure correct, but client can&rsquo;t brower web site block by GTW.</h2>
 
@@ -354,8 +354,28 @@ To load this module on every boot on Ubuntu, add it to the file /etc/modules.</p
 </span><span class='line'>208.67.220.220</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8</a>
-<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile</a></p>
+<p>Reference:<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-8"> How To Set Up an OpenVPN Server on Debian 8</a><br/>
+<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04#step-5---installing-the-client-profile">How To Set Up an OpenVPN Server on Ubuntu 14.04</a></p>
+
+<h2>8.How to stop rpcbind and rpc.statd on debian?</h2>
+
+<p>A:Both of these services are only needed if you plan on using NFS for file sharing. They are otherwise unneeded and are a potential security risk.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$sudo</span> systemctl stop rpcbind.service
+</span><span class='line'><span class="nv">$sudo</span> systemctl disable rpcbind.service
+</span><span class='line'>
+</span><span class='line'><span class="nv">$sudo</span> systemctl stop nfs-common.service
+</span><span class='line'><span class="nv">$sudo</span> systemctl disable nfs-common.service
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://www.digitalocean.com/community/questions/is-it-safe-to-remove-rpcbind">Is it safe to remove rpcbind?</a><br/>
+<a href="https://unix.stackexchange.com/questions/20356/rpc-statd-running-on-system-not-using-nfs?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">rpc.statd running on system not using NFS</a></p>
 </div>
 
 

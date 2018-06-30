@@ -114,7 +114,7 @@ A:
 * 问题二：如果是开发 iOS 程序，这会影响性能。
 
 ###7. 怎么用 copy 关键字？  
-A:声明属性时用 copy 做它的内存管理 attribute，例如: `@property (nonatomic, copy) NSString *name;`. 
+A:首先是对象所属的类遵守 NSCopying 协议，其次是我们想拥有赋值对象的副本，这时我们可以使用 copy 关键字。   
 
 ###8. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？  
 A:

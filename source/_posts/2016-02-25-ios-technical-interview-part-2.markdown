@@ -227,7 +227,7 @@ A:IBOutlet 连出来的视图是视图层级的组成部分，对它已经有一
 A:
 > Add initialization of custom runtime attributes to objects that do not have a corresponding Interface Builder inspector.
 
-###23. 若一个类有实例变量 NSString *_foo ，调用setValue:forKey:时，可以以foo还是 _foo 作为key？  
+###23. 若一个类有实例变量 `NSString *_foo` ，调用 `setValue:forKey:` 时，可以以 `foo` 还是 `_foo` 作为 key？  
 A:都可以。
 
 ###24. KVC的keyPath中的集合运算符如何使用？  

@@ -187,7 +187,7 @@ Reference:
 * [How UIView animations with blocks work under the hood](http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood)
 
 ###19.什么时候会发生「隐式动画」？
-A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。
+A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性才可以触发隐式动画。
 
 Reference:[When exactly do implicit animations take place in iOS?](http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios)
 

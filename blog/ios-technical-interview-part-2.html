@@ -292,7 +292,7 @@ $(document).ready(
 
 <h3>7. 怎么用 copy 关键字？</h3>
 
-<p>A:声明属性时用 copy 做它的内存管理 attribute，例如: <code>@property (nonatomic, copy) NSString *name;</code>.</p>
+<p>A:首先是对象所属的类遵守 NSCopying 协议，其次是我们想拥有赋值对象的副本，这时我们可以使用 copy 关键字。</p>
 
 <h3>8. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？</h3>
 

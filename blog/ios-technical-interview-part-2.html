@@ -211,10 +211,12 @@ $(document).ready(
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSMutableString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableString</span> <span class="nl">stringWithString</span><span class="p">:</span><span class="s">@&quot;origin&quot;</span><span class="p">];</span><span class="c1">//copy</span>
 </span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">stringCopy</span> <span class="o">=</span> <span class="p">[</span><span class="n">string</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'>  
-</span><span class='line'><span class="c1">// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：</span>
+</span><span class='line'><span class="c1">// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。</span>
+</span><span class='line'><span class="c1">// 即使你进行如下操作：</span>
 </span><span class='line'><span class="p">[</span><span class="n">string</span> <span class="nl">appendString</span><span class="p">:</span><span class="s">@&quot;origion!&quot;</span><span class="p">]</span>
 </span><span class='line'>  
 </span><span class='line'><span class="c1">// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。</span>
@@ -249,17 +251,31 @@ $(document).ready(
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：</span>
 </span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="l">@[@[</span><span class="s">@&quot;a&quot;</span><span class="p">,</span> <span class="s">@&quot;b&quot;</span><span class="l">]</span><span class="p">,</span> <span class="l">@[</span><span class="s">@&quot;c&quot;</span><span class="p">,</span> <span class="s">@&quot;d&quot;</span><span class="l">]]</span><span class="p">;</span>
 </span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">copyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="n">mutableCopy</span><span class="p">];</span>
-</span><span class='line'><span class="c1">// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址    是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：</span>
+</span><span class='line'><span class="c1">// 查看内容，可以看到 copyArray 和 array 的地址是一样的，</span>
+</span><span class='line'><span class="c1">// 而 mCopyArray 和 array 的地址是不同的。</span>
+</span><span class='line'><span class="c1">// 说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。</span>
+</span><span class='line'><span class="c1">// 但需要强调的是：此处的内容拷贝，仅仅是拷贝 array 这个对象，</span>
+</span><span class='line'><span class="c1">// array 集合内部的元素仍然是指针拷贝。这和上面的非集合 immutable 对象的拷贝还是挺相似的，</span>
+</span><span class='line'><span class="c1">// 那么 mutable对象的拷贝会不会类似呢？我们继续往下，</span>
+</span><span class='line'><span class="c1">// 看 mutable 对象拷贝的例子：</span>
 </span><span class='line'>  
 </span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithObjects</span><span class="p">:[</span><span class="bp">NSMutableString</span>  <span class="nl">stringWithString</span><span class="p">:</span><span class="s">@&quot;a&quot;</span><span class="p">],</span><span class="s">@&quot;b&quot;</span><span class="p">,</span><span class="s">@&quot;c&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">copyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="n">mutableCopy</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明     copyArray、mCopyArray 都对 array 进行了内容拷贝。</span>
+</span><span class='line'><span class="c1">// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，</span>
+</span><span class='line'><span class="c1">// 说明    copyArray、mCopyArray 都对 array 进行了内容拷贝。</span>
 </span><span class='line'>  
 </span></code></pre></td></tr></table></div></figure>
 

@@ -66,7 +66,8 @@ A:
 NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
 NSString *stringCopy = [string copy];
 	
-// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：
+// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。
+// 即使你进行如下操作：
 [string appendString:@"origion!"]
 	
 // stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。
@@ -89,13 +90,20 @@ NSString *stringCopy = [string copy];
 NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"]];
 NSArray *copyArray = [array copy];
 NSMutableArray *mCopyArray = [array mutableCopy];
-// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址	是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内	容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合 	immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看 	mutable 对象拷贝的例子：
+// 查看内容，可以看到 copyArray 和 array 的地址是一样的，
+// 而 mCopyArray 和 array 的地址是不同的。
+// 说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。
+// 但需要强调的是：此处的内容拷贝，仅仅是拷贝 array 这个对象，
+// array 集合内部的元素仍然是指针拷贝。这和上面的非集合 immutable 对象的拷贝还是挺相似的，
+// 那么 mutable对象的拷贝会不会类似呢？我们继续往下，
+// 看 mutable 对象拷贝的例子：
 	
 NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString 	stringWithString:@"a"],@"b",@"c",nil];
 NSArray *copyArray = [array copy];
 NSMutableArray *mCopyArray = [array mutableCopy];
 
-// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明 	copyArray、mCopyArray 都对 array 进行了内容拷贝。
+// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，
+// 说明 	copyArray、mCopyArray 都对 array 进行了内容拷贝。
 	
 ```
 	

@@ -25,7 +25,8 @@ A:
 
 ###3.What are KVO and KVC?
 A:
-> Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
+> Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.  
+
 > Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers. 
 
 Reference:Cocoa Core Competencies

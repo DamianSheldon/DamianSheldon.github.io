@@ -137,11 +137,11 @@ A:
 * category 本身不支持添加实例变量，所以我们为它声明的属性应该能通过组合已有属性来实现对应的 getter 和 setter；如果声明的属性需要引入新的实例变量则要通过关联引用来辅助实现对应的 getter 和 setter。
 
 ###10. @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?  
-A:@property 的本质是什么？
+A:@property 的本质是什么？  
 	@property = ivar + getter + setter;
 	
 ivar、getter、setter 是如何生成并添加到这个类中的?  
-“自动合成”( autosynthesis)
+“自动合成”( autosynthesis)  
 完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。
 
 ###11. @synthesize和@dynamic分别有什么作用？  
@@ -183,7 +183,7 @@ A: 引用计数机制。
 A: Autorelease对象出了作用域之后，会被添加到最近一次创建的自动释放池中，并会在当前的 runloop 迭代结束时释放。~~如果在一个vc的viewDidLoad中创建一个 Autorelease对象，那么该对象会在 viewDidAppear 方法执行前就被销毁了。~~
 
 ###17. 苹果是如何实现autoreleasepool的?  
-A: autoreleasepool 正如它的名字，它像一个池子，所以的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。
+A: autoreleasepool 正如它的名字，它像一个池子，所有的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。
 
 ###18. 使用block时什么情况会发生引用循环，如何解决？  
 A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。

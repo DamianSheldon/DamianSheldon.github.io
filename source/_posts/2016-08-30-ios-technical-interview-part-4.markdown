@@ -212,7 +212,7 @@ Toll-Free Bridging 是指 Core Foundation framework 和 Foundation framework 的
 A:系统会杀死后台内存占用量大的应用释放内存给当前运行的应用，当前的应用也会收到内存警告的通知。
 
 ###23.什么是 Protocol，Delegate 一般是怎么用的？
-A:Protocol是一份消息合约，它定义了特定场景使用的方法集合。 Delegate 一般在对象想将其一部分职责委托出去时使用，这时我们可能通过组合的方式改变一个对象行为方式，它比继承更灵活。
+A:Protocol是一份消息合约，它定义了特定场景使用的方法集合。 Delegate 一般在对象想将其一部分职责委托出去时使用，这时我们可能通过组合的方式改变一个对象的行为方式，它比继承更灵活。
 
 ###24.UIWebView 有哪些性能问题？有没有可替代的方案。
 A:

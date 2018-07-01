@@ -301,7 +301,7 @@ A:
 * vImage in Accelerate(vImage)
 
 ###35.哪些途径可以让 ViewController 瘦下来？
-A: 我们的 App 基本都是使用类 MVC 架构，要想让 ViewController 瘦下来，基本的想法肯定是把和 ViewController 弱相关的代码移出去，移到哪？要么是称到 MV 中， 要么移到一个辅助对象中。所以基本做法应该是把弱业务代码移到 Model 中，和 View 相关的代码移到 View 中；甚至引入一个辅助对象来分担可以分离出去的职责。
+A: 我们的 App 基本都是使用类 MVC 架构，要想让 ViewController 瘦下来，基本的想法肯定是把和 ViewController 弱相关的代码移出去，移到哪？要么是移到 M 或 V 中， 要么移到一个辅助对象中，这些就是可以让 ViewController 瘦下来的途径。
 
 Reference: [更轻量的 View Controllers](https://objccn.io/issue-1-1/)  
 

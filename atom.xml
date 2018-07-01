@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-07-01T15:45:24+08:00</updated>
+  <updated>2018-07-01T15:54:51+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -5912,7 +5912,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <p>A:因为之后产生了 Observer 感兴趣的通知 NotificationCenter 会调用 Observer 对应的处理方法，如果 Observer 销毁之后不从 NotificationCenter remove,那么会导致应用崩溃。</p>
 
-<p>想要实现自动 remove，如果 NotificationCenter 对 Observer 的引用在 Observer 销毁后能自动置为 nil，类似 weak 的效果，那么问题就解决了。我们不能去修改 NotificationCenter 的内部实现，所以只能用其他的办法。有一个想法是在 Observer 销毁时调用 remove，可以利用 Objective-C 的 runtime 来帮助我们实现。具体思路是混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver。</p>
+<p>如果 NotificationCenter 对 Observer 的引用在 Observer 销毁后能自动置为 nil，类似 weak 的效果，那么就实现了自动 remove。我们不能去修改 NotificationCenter 的内部实现，所以只能用其他的办法。有一个想法是在 Observer 销毁时调用 remove，可以利用 Objective-C 的 runtime 来帮助我们实现。具体思路是混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver。</p>
 
 <p>Reference:<a href="http://merowing.info/2012/03/automatic-removal-of-nsnotificationcenter-or-kvo-observers/">Automatic removal of NSNotificationCenter or KVO observers</a></p>
 

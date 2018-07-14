@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenLDAP 学习笔记 Notes"
+title: "OpenLDAP 学习笔记"
 date: 2018-07-10 21:58:07 +0800
 comments: true
 categories: [Archives]
@@ -98,6 +98,90 @@ $sudo slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d/ -u
 $sudo /usr/libexec/slapd -F /etc/openldap/slapd.d
 ```
 
+最终完整的配置文件如下:
+
+```
+#
+# See slapd.conf(5) for details on configuration options.
+# This file should NOT be world readable.
+#
+include		/private/etc/openldap/schema/core.schema
+include         /etc/openldap/schema/cosine.schema
+include         /etc/openldap/schema/inetorgperson.schema
+include         /etc/openldap/schema/nis.schema
+#include         /etc/openldap/schema/samba.schema
+include		/private/etc/openldap/schema/java.schema
+
+# Define global ACLs to disable default read access.
+
+# Do not enable referrals until AFTER you have a working directory
+# service AND an understanding of referrals.
+#referral	ldap://root.openldap.org
+
+pidfile		/private/var/db/openldap/run/slapd.pid
+argsfile	/private/var/db/openldap/run/slapd.args
+
+# Load dynamic backend modules:
+# modulepath	/usr/libexec/openldap
+# moduleload	back_bdb.la
+# moduleload	back_hdb.la
+# moduleload	back_ldap.la
+
+# Sample security restrictions
+#	Require integrity protection (prevent hijacking)
+#	Require 112-bit (3DES or better) encryption for updates
+#	Require 63-bit encryption for simple bind
+# security ssf=1 update_ssf=112 simple_bind=64
+
+# Sample access control policy:
+#	Root DSE: allow anyone to read it
+#	Subschema (sub)entry DSE: allow anyone to read it
+#	Other DSEs:
+#		Allow self write access
+#		Allow authenticated users read access
+#		Allow anonymous users to authenticate
+#	Directives needed to implement policy:
+# access to dn.base="" by * read
+# access to dn.base="cn=Subschema" by * read
+# access to *
+#	by self write
+#	by users read
+#	by anonymous auth
+#
+# if no access controls are present, the default policy
+# allows anyone and everyone to read anything but restricts
+# updates to rootdn.  (e.g., "access to * by * read")
+#
+# rootdn can always read and write EVERYTHING!
+
+#######################################################################
+# BDB database definitions
+#######################################################################
+
+database	bdb
+suffix		"dc=tenneshop,dc=com"
+rootdn		"cn=Manager,dc=tenneshop,dc=com"
+# Cleartext passwords, especially for the rootdn, should
+# be avoid.  See slappasswd(8) and slapd.conf(5) for details.
+# Use of strong authentication encouraged.
+#rootpw		secret
+#The hash was generated from password secret using the command slappasswd -s secret
+rootpw	{SSHA}Q0vdi3/5Hw+EhDrFAbvEEszq1Xf4YSyy
+# The database directory MUST exist prior to running slapd AND
+# should only be accessible by the slapd and slap tools.
+# Mode 700 recommended.
+directory	/private/var/db/openldap/openldap-data
+# Indices to maintain
+index	objectClass	eq
+
+# Some common indexes
+index   uid             pres,eq
+index   mail            pres,sub,eq
+index   cn              pres,sub,eq
+index   sn              pres,sub,eq
+index   dc              eq
+```
+
 ###客户端
 客户的配置文件位于 /etc/openldap/ldap.conf.
 
@@ -106,6 +190,28 @@ $sudo /usr/libexec/slapd -F /etc/openldap/slapd.d
 ```
 BASE            dc=tenneshop,dc=com
 URI             ldap://localhost
+```
+
+最终完整的配置文件如下:
+
+```
+#
+# LDAP Defaults
+#
+
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+#BASE	dc=example,dc=com
+#URI	ldap://ldap.example.com ldap://ldap-master.example.com:666
+BASE	dc=tenneshop,dc=com
+URI	ldap://localhost
+
+#SIZELIMIT	12
+#TIMELIMIT	15
+#DEREF		never
+#TLS_REQCERT	demand
+TLS_REQCERT allow
 ```
 
 ###创建初始项
@@ -168,9 +274,63 @@ result: 0 Success
 # numEntries: 2
 ```
 
+或认证为 rootdn (将 -x 替换为 -D <user> -W), 用上面配置的例子的话：
+
+```
+$ ldapsearch -D "cn=Manager,dc=tenneshop,dc=com" -W '(objectclass=*)'
+Enter LDAP Password:
+# extended LDIF
+#
+# LDAPv3
+# base <dc=tenneshop,dc=com> (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# tenneshop.com
+dn: dc=tenneshop,dc=com
+objectClass: dcObject
+objectClass: organization
+dc: tenneshop
+o: Tenneshop
+description: Tenneshop directory
+
+# Manager, tenneshop.com
+dn: cn=Manager,dc=tenneshop,dc=com
+objectClass: organizationalRole
+cn: Manager
+description: Directory Manager
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
+```
+
 ###遇到的问题
+####1.additional info: objectClass: value #0 invalid per syntax
+
+```
+$ ldapadd -x -D 'cn=Manager,dc=tenneshop,dc=com' -W -f /etc/openldap/root.ldif
+Enter LDAP Password:
+ldapadd: attributeDescription "dn": (possible missing newline after line 8, entry "dc=tenneshop,dc=com"?)
+adding new entry "dc=tenneshop,dc=com"
+ldap_add: Invalid syntax (21)
+	additional info: objectClass: value #0 invalid per syntax
+```
+
+A:导入的数据每行结尾含有空格所致，去掉数据每行结尾的空格。
+
+Reference:[OpenLDAP报错: additional info: objectClass: value #0 invalid per syntax](http://www.what21.com/sys/ldap_3_1483460096406.html)  
 
 ##Reference
+
+* OpenLDAP Software 2.4 Administrator's Guide
+* [openLDAP](https://wiki.archlinux.org/index.php/OpenLDAP_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.88.9B.E5.BB.BA.E5.88.9D.E5.A7.8B.E9.A1.B9)  
+* [使用OpenLDAP实现集中式认证](https://wiki.gentoo.org/wiki/Centralized_authentication_using_OpenLDAP/zh#Configuring_the_OpenLDAP_client_tools)  
+* [User Management in OpenLDAP](https://techhelplist.com/tech-tutorials/34-openldap/48-user-management-in-openldap)  
 
 
 

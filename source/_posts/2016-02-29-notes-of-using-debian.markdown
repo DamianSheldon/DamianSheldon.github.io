@@ -168,3 +168,17 @@ $sudo systemctl disable nfs-common.service
 Reference:[Is it safe to remove rpcbind?](https://www.digitalocean.com/community/questions/is-it-safe-to-remove-rpcbind)  
 [rpc.statd running on system not using NFS](https://unix.stackexchange.com/questions/20356/rpc-statd-running-on-system-not-using-nfs?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
 
+##9.Welcome to emergency mode! After loggin in, type "journalctl -xb" to view system logs, "systemctl reboot" to reboot,"systemctl default" or ctrl+D to try again to boot into default mode.
+A:在 digitalocean 上从 snapshot 创建一个 droplet, 登录后提示上述信息。`journalctl -xb` 查看系统日志发现提示的错误信息是：
+
+```
+Timed out waiting for device dev-disk-by...
+Dependency failed for /boot.
+Dependency failed for Local File Systems.
+```
+
+从错误信息来看，似乎是文件系统出错了，用 `lsblk -f` 查看下挂载的文件系统，发现并没有 /boot 分区，于是编辑 `/etc/fstab`,将未挂载的分区都注释掉，提示文件系统为只读，于是使用命令 `mount -o remount,rw /dev/vda1 /` 重新挂载根文件系统。`/etc/fstab` 也就可编辑了，之后 `systemctl reboot` 系统恢复了。
+
+Reference:[“Welcome to emergency mode!” Think it is a fsck problem](https://askubuntu.com/questions/646414/welcome-to-emergency-mode-think-it-is-a-fsck-problem?noredirect=1&lq=1)  
+
+

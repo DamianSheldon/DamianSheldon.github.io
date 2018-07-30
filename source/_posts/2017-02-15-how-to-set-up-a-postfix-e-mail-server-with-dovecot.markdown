@@ -14,7 +14,7 @@ description: How to set up a postfix e-mail server with dovecot?
 * VPS
 * 域名
 
-VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：https://m.do.co/c/537dc7bd8a78
+VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用[优惠码](https://m.do.co/c/537dc7bd8a78)购买，这样你可以获赠 10 美元。
 
 我服务器跑的是 Debian 8 Jessie.
 
@@ -707,3 +707,5 @@ QUIT
 [Dovecot](http://wiki.dovecot.org/)  
 [Linux mail command examples – send mails from command line](http://www.binarytides.com/linux-mail-command-examples/)  
 [SMTP的相关命令](http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html)  
+
+

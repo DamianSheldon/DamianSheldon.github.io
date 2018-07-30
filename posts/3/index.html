@@ -100,61 +100,6 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html">
-		
-			How to Setup a L2TP/IPsec VPN on Debian 8</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-10-11T08:32:44+08:00" pubdate data-updated="true">11 Oct 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个<a href="https://github.com/StreisandEffect/streisand">库</a>汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。</p>
-
-<p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
-
-<p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
-
-<p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
-幸好 Libreswan 提供了很多命令，可以使用 <code>ipsec --help</code> 查看完整的命令列表，我们可以用这些命令来帮助我们配置。</p>
-
-
-		
-		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
 		<a href="/blog/a-simple-conical-gradient-on-ios.html">
 		
 			圆锥渐变的一种简单实现</a>
@@ -282,6 +227,84 @@ $(document).ready(
 
 		
 		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/simple-image-processing-in-ios.html">
+		
+			iOS 中简单的图片处理</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-07-14T09:49:40+08:00" pubdate data-updated="true">14 Jul 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。</p>
+
+<h3>图片格式</h3>
+
+<p>图片主要有两种格式：一种叫做位图；另一种称之为矢量图。所谓位图，就是把图片看成是由许多像素点组成；而矢量图则是用绘图指令来描述图片。举个例子，圆可以用圆点，半径，线条的粗细和颜色来描述它。从这个例子也可以看出用矢量图来描述风景，人物这样复杂的事物会比较复杂，所以它们通常会用位图来描述。</p>
+
+<p>位图和矢量图也分为很多格式，具体可能查看<a href="https://en.wikipedia.org/wiki/Image_file_formats">Image file formats</a></p>
+
+<p>下面我们讨论的是位图，在 iOS 中我们经常打交道的位图格式是 JPG 和 PNG，用来处理位图数据的类有：UIImage (UIKit)，CGImage (Core Graphics) 和 CIImage (Core Image)。Image I/O 本来是属于 Core Graphics，为了更加方便使用，Apple 将它分离出来成为单独的库。</p>
+
+<h3>旋转</h3>
+
+<p>既然位图是用一个一个的像素点来模拟图片，当我们想要旋转图片时，首先想到的方法自然是改变这些像素点的位置，这当然可以达到目标。要调整这么多像素点的位置自然要耗费不少时间，所有在数码相机刚出来那会，人们不是去改变像素点的位置，而是用一段数据来描述图片的方向等信息，这段数据称为 Exif. 所以对于 JPG 这种拥有 Exif 信息的位图，我们旋转图片的最佳做法自然是改变 Exif 里的方向信息。而 PNG 是没有 Exif 信息的，所以只能改变像素点的位置。</p>
+
+<p>UIImage 自带了几个可以旋转的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/simple-image-processing-in-ios.html" class="more-link">继续阅读</a>
 	</div>
 
 

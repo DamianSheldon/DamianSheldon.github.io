@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-05-07T10:28:34+08:00</updated>
+  <updated>2018-08-02T09:53:55+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,529 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OpenLDAP 学习笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/openldap-notes.html"/>
+    <updated>2018-07-10T21:58:07+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/openldap-notes</id>
+    <content type="html"><![CDATA[<p>最近业余时间在自学 Java，接触到 JNDI，继而牵扯出 LDAP。在倒腾过程中感觉是个复杂的主题，决定做个简要的笔记，梳理下思路，也方便日后忘记时容易拾起。</p>
+
+<p>OpenLDAP 是 LDAP 协议的一个开源实现。LDAP 服务器本质上是一个为只读访问而优化的非关系型数据库。它主要用做地址簿查询（如 email 客户端）或对各种服务访问做后台认证以及用户数据权限管控。（例如，访问 Samba 时，LDAP 可以起到域控制器的作用；或者 Linux 系统认证 时代替 /etc/passwd 的作用。）</p>
+
+<p>以 slap 开头的命令如: slapacl, slapadd 等是服务端工具；以 ldap 开头的命令如: ldapadd, ldapcompare 等是客户端命令工具。</p>
+
+<h2>安装</h2>
+
+<p>Mac 内置了 OpenLDAP 软件包，所以可以直接使用。</p>
+
+<h2>配置</h2>
+
+<h3>服务端</h3>
+
+<p>服务端支持两种配置方法:动态运行时配置引擎和老式的 slapd.conf 文件。这里介绍通过老式的 slapd.conf 文件转换成动态运行时配置引擎来配置服务器的方法。</p>
+
+<p>服务器的配置文件位于 <code>/etc/openldap/slapd.conf</code>。在 Mac 上第一次配置时该文件还不存在，但有一个 slapd.conf.default 文件，从文件名可知，这应该是一个默认配置文件，所以我们可以在它基础上来配置。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo cp /etc/openldap/slapd.conf.default /etc/openldap/slapd.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要编辑后缀和 rootdn。典型的后缀通常是你所用的域名，但这并非强制要求，而是依赖于你如何使用你的目录。下例中以 tenneshop 做为域名，tld 为 com，rootdn 则是 LDAP 管理员的名字（这里用 Manager）。</p>
+
+<!--more-->
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>suffix     "dc=tenneshop,dc=com"
+</span><span class='line'>rootdn     "cn=Manager,dc=example,dc=com"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在删除默认 root 口令并创建一个强口令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$slappasswd -s yourfavoritepassword
+</span><span class='line'>
+</span><span class='line'>// /etc/openldap/slapd.conf
+</span><span class='line'>rootpw  {SSHA}Q0vdi3/5Hw+EhDrFAbvEEszq1Xf4YSyy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 slapd.conf 头部添加一些 schemas:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> include     /private/etc/openldap/schema/core.schema
+</span><span class='line'> include         /etc/openldap/schema/cosine.schema
+</span><span class='line'> include         /etc/openldap/schema/inetorgperson.schema
+</span><span class='line'> include         /etc/openldap/schema/nis.schema
+</span><span class='line'> #include         /etc/openldap/schema/samba.schema
+</span><span class='line'> include     /private/etc/openldap/schema/java.schema</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可能需要在 slapd.conf 底部加入一些常用的 indexes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>index   uid             pres,eq
+</span><span class='line'>index   mail            pres,sub,eq
+</span><span class='line'>index   cn              pres,sub,eq
+</span><span class='line'>index   sn              pres,sub,eq
+</span><span class='line'>index   dc              eq</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在准备数据目录，需要重命名配置文件：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo mkdir -p /private/var/db/openldap/openldap-data
+</span><span class='line'>$sudo cp /etc/openldap/DB_CONFIG.example /private/var/db/openldap/openldap-data/DB_CONFIG</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将 slapd.conf 中的改动应用到 <code>/etc/openldap/slapd.d/</code>(第一次配置时可能需要创建该目录)，<em>需要先删除老配置</em>：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo rm -rf /etc/openldap/slapd.d/*
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用下面命令生成配置文件:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每次修改 slapd.conf 后，都需要执行上面命令。检查有没有问题，可以忽略 &ldquo;bdb_monitor_db_open: monitoring disabled; configure monitor database to enable&rdquo;. 如果提示数据库不存在，可以先使用命令来检查配置文件:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d/ -u </span></code></pre></td></tr></table></div></figure>
+
+
+<p>确认配置文件没有语法错误之后，可以通过启动 slap 来创建数据库:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo /usr/libexec/slapd -F /etc/openldap/slapd.d</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最终完整的配置文件如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#
+</span><span class='line'># See slapd.conf(5) for details on configuration options.
+</span><span class='line'># This file should NOT be world readable.
+</span><span class='line'>#
+</span><span class='line'>include       /private/etc/openldap/schema/core.schema
+</span><span class='line'>include         /etc/openldap/schema/cosine.schema
+</span><span class='line'>include         /etc/openldap/schema/inetorgperson.schema
+</span><span class='line'>include         /etc/openldap/schema/nis.schema
+</span><span class='line'>#include         /etc/openldap/schema/samba.schema
+</span><span class='line'>include       /private/etc/openldap/schema/java.schema
+</span><span class='line'>
+</span><span class='line'># Define global ACLs to disable default read access.
+</span><span class='line'>
+</span><span class='line'># Do not enable referrals until AFTER you have a working directory
+</span><span class='line'># service AND an understanding of referrals.
+</span><span class='line'>#referral ldap://root.openldap.org
+</span><span class='line'>
+</span><span class='line'>pidfile       /private/var/db/openldap/run/slapd.pid
+</span><span class='line'>argsfile  /private/var/db/openldap/run/slapd.args
+</span><span class='line'>
+</span><span class='line'># Load dynamic backend modules:
+</span><span class='line'># modulepath  /usr/libexec/openldap
+</span><span class='line'># moduleload  back_bdb.la
+</span><span class='line'># moduleload  back_hdb.la
+</span><span class='line'># moduleload  back_ldap.la
+</span><span class='line'>
+</span><span class='line'># Sample security restrictions
+</span><span class='line'># Require integrity protection (prevent hijacking)
+</span><span class='line'># Require 112-bit (3DES or better) encryption for updates
+</span><span class='line'># Require 63-bit encryption for simple bind
+</span><span class='line'># security ssf=1 update_ssf=112 simple_bind=64
+</span><span class='line'>
+</span><span class='line'># Sample access control policy:
+</span><span class='line'># Root DSE: allow anyone to read it
+</span><span class='line'># Subschema (sub)entry DSE: allow anyone to read it
+</span><span class='line'># Other DSEs:
+</span><span class='line'>#     Allow self write access
+</span><span class='line'>#     Allow authenticated users read access
+</span><span class='line'>#     Allow anonymous users to authenticate
+</span><span class='line'># Directives needed to implement policy:
+</span><span class='line'># access to dn.base="" by * read
+</span><span class='line'># access to dn.base="cn=Subschema" by * read
+</span><span class='line'># access to *
+</span><span class='line'># by self write
+</span><span class='line'># by users read
+</span><span class='line'># by anonymous auth
+</span><span class='line'>#
+</span><span class='line'># if no access controls are present, the default policy
+</span><span class='line'># allows anyone and everyone to read anything but restricts
+</span><span class='line'># updates to rootdn.  (e.g., "access to * by * read")
+</span><span class='line'>#
+</span><span class='line'># rootdn can always read and write EVERYTHING!
+</span><span class='line'>
+</span><span class='line'>#######################################################################
+</span><span class='line'># BDB database definitions
+</span><span class='line'>#######################################################################
+</span><span class='line'>
+</span><span class='line'>database  bdb
+</span><span class='line'>suffix        "dc=tenneshop,dc=com"
+</span><span class='line'>rootdn        "cn=Manager,dc=tenneshop,dc=com"
+</span><span class='line'># Cleartext passwords, especially for the rootdn, should
+</span><span class='line'># be avoid.  See slappasswd(8) and slapd.conf(5) for details.
+</span><span class='line'># Use of strong authentication encouraged.
+</span><span class='line'>#rootpw       secret
+</span><span class='line'>#The hash was generated from password secret using the command slappasswd -s secret
+</span><span class='line'>rootpw    {SSHA}Q0vdi3/5Hw+EhDrFAbvEEszq1Xf4YSyy
+</span><span class='line'># The database directory MUST exist prior to running slapd AND
+</span><span class='line'># should only be accessible by the slapd and slap tools.
+</span><span class='line'># Mode 700 recommended.
+</span><span class='line'>directory /private/var/db/openldap/openldap-data
+</span><span class='line'># Indices to maintain
+</span><span class='line'>index objectClass eq
+</span><span class='line'>
+</span><span class='line'># Some common indexes
+</span><span class='line'>index   uid             pres,eq
+</span><span class='line'>index   mail            pres,sub,eq
+</span><span class='line'>index   cn              pres,sub,eq
+</span><span class='line'>index   sn              pres,sub,eq
+</span><span class='line'>index   dc              eq</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>客户端</h3>
+
+<p>客户的配置文件位于 /etc/openldap/ldap.conf.</p>
+
+<p>这个配置很简单，只需要将BASE 设置为服务器的前缀，将 URI 设置为服务器的地址:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>BASE            dc=tenneshop,dc=com
+</span><span class='line'>URI             ldap://localhost</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最终完整的配置文件如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#
+</span><span class='line'># LDAP Defaults
+</span><span class='line'>#
+</span><span class='line'>
+</span><span class='line'># See ldap.conf(5) for details
+</span><span class='line'># This file should be world readable but not world writable.
+</span><span class='line'>
+</span><span class='line'>#BASE dc=example,dc=com
+</span><span class='line'>#URI  ldap://ldap.example.com ldap://ldap-master.example.com:666
+</span><span class='line'>BASE  dc=tenneshop,dc=com
+</span><span class='line'>URI   ldap://localhost
+</span><span class='line'>
+</span><span class='line'>#SIZELIMIT    12
+</span><span class='line'>#TIMELIMIT    15
+</span><span class='line'>#DEREF        never
+</span><span class='line'>#TLS_REQCERT  demand
+</span><span class='line'>TLS_REQCERT allow</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建初始项</h3>
+
+<p>配置好客户端后，创建根项和 root 角色项：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dn: dc=tenneshop,dc=com
+</span><span class='line'>objectClass: dcObject
+</span><span class='line'>objectClass: organization
+</span><span class='line'>dc: tenneshop
+</span><span class='line'>o: Tenneshop
+</span><span class='line'>description: Tenneshop directory
+</span><span class='line'>
+</span><span class='line'>dn: cn=Manager,dc=tenneshop,dc=com
+</span><span class='line'>objectClass: organizationalRole
+</span><span class='line'>cn: Manager
+</span><span class='line'>description: Directory Manager</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将上述内容保存在文件 <code>/etc/openldap/root.ldif</code> 中，然后使用命令:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ldapadd -x -D 'cn=Manager,dc=tenneshop,dc=com' -W -f /etc/openldap/root.ldif</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加到目录服务中。</p>
+
+<h3>测试安装好的系统</h3>
+
+<p>运行下面命令:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldapsearch -x '(objectclass=*)'
+</span><span class='line'># extended LDIF
+</span><span class='line'>#
+</span><span class='line'># LDAPv3
+</span><span class='line'># base &lt;dc=tenneshop,dc=com&gt; (default) with scope subtree
+</span><span class='line'># filter: (objectclass=*)
+</span><span class='line'># requesting: ALL
+</span><span class='line'>#
+</span><span class='line'>
+</span><span class='line'># tenneshop.com
+</span><span class='line'>dn: dc=tenneshop,dc=com
+</span><span class='line'>objectClass: dcObject
+</span><span class='line'>objectClass: organization
+</span><span class='line'>dc: tenneshop
+</span><span class='line'>o: Tenneshop
+</span><span class='line'>description: Tenneshop directory
+</span><span class='line'>
+</span><span class='line'># Manager, tenneshop.com
+</span><span class='line'>dn: cn=Manager,dc=tenneshop,dc=com
+</span><span class='line'>objectClass: organizationalRole
+</span><span class='line'>cn: Manager
+</span><span class='line'>description: Directory Manager
+</span><span class='line'>
+</span><span class='line'># search result
+</span><span class='line'>search: 2
+</span><span class='line'>result: 0 Success
+</span><span class='line'>
+</span><span class='line'># numResponses: 3
+</span><span class='line'># numEntries: 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或认证为 rootdn (将 -x 替换为 -D <user> -W), 用上面配置的例子的话：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldapsearch -D "cn=Manager,dc=tenneshop,dc=com" -W '(objectclass=*)'
+</span><span class='line'>Enter LDAP Password:
+</span><span class='line'># extended LDIF
+</span><span class='line'>#
+</span><span class='line'># LDAPv3
+</span><span class='line'># base &lt;dc=tenneshop,dc=com&gt; (default) with scope subtree
+</span><span class='line'># filter: (objectclass=*)
+</span><span class='line'># requesting: ALL
+</span><span class='line'>#
+</span><span class='line'>
+</span><span class='line'># tenneshop.com
+</span><span class='line'>dn: dc=tenneshop,dc=com
+</span><span class='line'>objectClass: dcObject
+</span><span class='line'>objectClass: organization
+</span><span class='line'>dc: tenneshop
+</span><span class='line'>o: Tenneshop
+</span><span class='line'>description: Tenneshop directory
+</span><span class='line'>
+</span><span class='line'># Manager, tenneshop.com
+</span><span class='line'>dn: cn=Manager,dc=tenneshop,dc=com
+</span><span class='line'>objectClass: organizationalRole
+</span><span class='line'>cn: Manager
+</span><span class='line'>description: Directory Manager
+</span><span class='line'>
+</span><span class='line'># search result
+</span><span class='line'>search: 2
+</span><span class='line'>result: 0 Success
+</span><span class='line'>
+</span><span class='line'># numResponses: 3
+</span><span class='line'># numEntries: 2</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>遇到的问题</h3>
+
+<h4>1.additional info: objectClass: value #0 invalid per syntax</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldapadd -x -D 'cn=Manager,dc=tenneshop,dc=com' -W -f /etc/openldap/root.ldif
+</span><span class='line'>Enter LDAP Password:
+</span><span class='line'>ldapadd: attributeDescription "dn": (possible missing newline after line 8, entry "dc=tenneshop,dc=com"?)
+</span><span class='line'>adding new entry "dc=tenneshop,dc=com"
+</span><span class='line'>ldap_add: Invalid syntax (21)
+</span><span class='line'>  additional info: objectClass: value #0 invalid per syntax</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:导入的数据每行结尾含有空格所致，去掉数据每行结尾的空格。</p>
+
+<p>Reference:<a href="http://www.what21.com/sys/ldap_3_1483460096406.html">OpenLDAP报错: additional info: objectClass: value #0 invalid per syntax</a></p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>OpenLDAP Software 2.4 Administrator&rsquo;s Guide</li>
+<li><a href="https://wiki.archlinux.org/index.php/OpenLDAP_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87">openLDAP</a>#.E5.88.9B.E5.BB.BA.E5.88.9D.E5.A7.8B.E9.A1.B9)</li>
+<li><a href="https://wiki.gentoo.org/wiki/Centralized_authentication_using_OpenLDAP/zh#Configuring_the_OpenLDAP_client_tools">使用OpenLDAP实现集中式认证</a></li>
+<li><a href="https://techhelplist.com/tech-tutorials/34-openldap/48-user-management-in-openldap">User Management in OpenLDAP</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(三)]]></title>
@@ -977,6 +1500,8 @@ Once at project level right click on project > Properties > Java Compiler, while
 
 <p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
 
+<p>我用的是 digitalocean 家的 vps,总体感觉不错，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
+
 <p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
 
 <p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
@@ -1153,8 +1678,7 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 </span><span class='line'># iptables-save</span></code></pre></td></tr></table></div></figure>
 
 
-<p>使用 <code>ipsec restart</code> 重启。<br/>
-有时我们可能会遇到连接问题，这时可以在主配置文件 <code>/etc/ipsec.conf</code> 中开启 <code>plutodebug=none</code>，然后就可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，帮助定位连接问题。</p>
+<p>有时我们可能会遇到连接问题，这时可以在主配置文件 <code>/etc/ipsec.conf</code> 中开启 <code>plutodebug=all</code>，然后就可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，帮助定位连接问题。解决问题之后再使用 <code>plutodebug=none</code> 关闭调试模式，之后 <code>ipsec restart</code> 重启生效。</p>
 
 <h2>iPhone 客户端配置</h2>
 
@@ -3361,7 +3885,7 @@ composition 类使用 animationTool 属性赋予你引入来自 Core Animation �
 </ul>
 
 
-<p>VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：<a href="https://m.do.co/c/537dc7bd8a78">https://m.do.co/c/537dc7bd8a78</a></p>
+<p>VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
 
 <p>我服务器跑的是 Debian 8 Jessie.</p>
 
@@ -5609,472 +6133,6 @@ iOS Technology Overview<br/>
 
 
 <p>Reference:<a href="http://stackoverflow.com/questions/29696879/android-expected-resource-of-type-id">Android - Expected Resource of type ID</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 面试题汇总(四)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ios-technical-interview-part-4.html"/>
-    <updated>2016-08-30T10:43:36+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ios-technical-interview-part-4</id>
-    <content type="html"><![CDATA[<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
-
-<p>A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件，依赖哪些其他第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
-
-<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
-
-<p>A: 最常用的版本控制工具是 Git。它的大致原理是给工程中的文件都生成一个快照，每个版本都由所有文件的快照构成，这样便能达到版本控制的目的。</p>
-
-<h3>3.你一般是怎么用 Instruments 的？</h3>
-
-<p>A:根据想要分析的问题，选择对应的 instruments 来分析应用的行为，有疑问的地方参考 Instruments User Guide．</p>
-
-<h3>4.你一般是如何调试 Bug 的</h3>
-
-<p>A:对于容易复现的 bug，根据复现的步骤来调试代码会比较容易定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，确定 bug 产生的原因才好解决。</p>
-
-<h3>5.你在你的项目中用到了哪些设计模式？</h3>
-
-<p>A:</p>
-
-<p>创建型：</p>
-
-<ul>
-<li>工厂方法(Factory Method)</li>
-<li>原型(Prototype)</li>
-<li>单例(Singleton)</li>
-</ul>
-
-
-<p>结构型：</p>
-
-<ul>
-<li>适配器(Adapter)</li>
-<li>桥接(Bridge)</li>
-<li>组成(Composite)</li>
-<li>装饰(Decorator)</li>
-<li>外观(Facade)</li>
-<li>享元(Flyweight)</li>
-</ul>
-
-
-<p>行为型：</p>
-
-<ul>
-<li>职责链（Chain Of Responsibility）</li>
-<li>命令(Command)</li>
-<li>解释器(Interpreter)</li>
-<li>迭代器(Iterator)</li>
-<li>中介者(Mediator)</li>
-<li>备忘录(Memento)</li>
-<li>观察者(Observer)</li>
-<li>状态(State)</li>
-<li>策略(Strategy)</li>
-<li>模板方法(Template Method)</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h3>6.如何实现单例，单例会有什么弊端？</h3>
-
-<p>A：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+ (instancetype)sharedInstance
-</span><span class='line'>{
-</span><span class='line'>    static dispatch_once_t once;
-</span><span class='line'>    static id sharedInstance;
-</span><span class='line'>    dispatch_once(&once, ^{
-</span><span class='line'>        sharedInstance = [[self alloc] init];
-</span><span class='line'>    });
-</span><span class='line'>    return sharedInstance;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>太多的状态，难以理解、调试、测试；</li>
-<li>它自己控制自己的创建和生命周期违反了单一原则；</li>
-<li>由于它的全局变量属性容易导致代码高藕合；</li>
-</ol>
-
-
-<h3>7.如何把一个包含自定义对象的数组序列化到磁盘？</h3>
-
-<p>A:自定义对象需要实现 NSCoding 协议，然后可以调用 NSKeyedArchiver 的<code>+ (BOOL)archiveRootObject:(id)rootObject toFile:(NSString *)path</code>方法将它序列化到磁盘。</p>
-
-<h3>8.iOS 的沙盒目录结构是怎样的？ App Bundle 里面都有什么？</h3>
-
-<p>A:</p>
-
-<p>iOS 的沙盒目录结构如下:</p>
-
-<p>AppName.app<br/>
-Documents/<br/>
-Library/<br/>
-tmp/</p>
-
-<p>App Bundle 里面有 Info.plist, Executeable, Resource files and Other support files.</p>
-
-<p>Reference:</p>
-
-<ul>
-<li>File System Programming Guide</li>
-</ul>
-
-
-<h3>9.iOS 7的多任务添加了哪两个新的 API? 各自的使用场景是什么？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Apps that regularly update their content by contacting a server can register with the system and be launched periodically to retrieve that content in the background. To register, include the UIBackgroundModes key with the fetch value in your app’s Info.plist file. Then, when your app is launched, call the setMinimumBackgroundFetchInterval: method to determine how often it receives update messages. Finally, you must also implement the application:performFetchWithCompletionHandler: method in your app delegate.</li>
-<li>Apps that use push notifications to notify the user that new content is available can fetch the content in the background. To support this mode, include the UIBackgroundModes key with the remote-notification value in your app’s Info.plist file. You must also implement the application:didReceiveRemoteNotification:fetchCompletionHandler: method in your app delegate.</li>
-</ul>
-
-
-<p>Reference: What&rsquo;s New in iOS</p>
-
-<h3>10.Objective-C 的 class 是如何实现的？Selector 是如何被转化为 C 语言的函数调用的？</h3>
-
-<p>A:
-Objective-C 的 class 是如何实现的？</p>
-
-<p>Objective-C 的 class 是通过 C 语言的结构体来实现的。编译器会将类按照根类实例变量，倒数第二根类实例变量，以此类推到父类实例变量，类实例变量的内存布局转换成结构体。</p>
-
-<p>Selector 是如何被转化为 C 语言的函数调用的？<br/>
-在 Objective-C 中，消息在 runtime 时才会绑定到方法实现上。编译器将消息表达式 <code>[receiver message]</code> 转换为对函数 <code>objc_msgSend</code> 的调用。函数接收消息接收者和消息中方法的名字即 Selector 作为它的两个主要参数，所有传入消息的参数也会一并交给 <code>objc_msgSend</code>函数。</p>
-
-<h3>11.UIScrollView 大概是如何实现的，它是如何捕捉、响应手势的？</h3>
-
-<p>A:</p>
-
-<p>UIScrollView 大概是如何实现的？</p>
-
-<p>UIScrollView 是通过巧妙利用 UIView 已有属性实现的，它通过改变 UIScrollView bounds 的 origin 来达到移到视图的效果，改变 transforms 来实现视图缩放。</p>
-
-<p>它是如何捕捉、响应手势的？</p>
-
-<p>它可能有两种方法来做这件事：一是自己实现继承自 UIResponder 用来响应 touch event 的 <code>touchesBegan:withEvent:</code> 等一系列方法；二是添加 UIGestureRecognizer.</p>
-
-<p>于是想办法来验证，首先断点打印输出附加在 scrollview 的 gesture recognizer:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po self.gestureRecognizers
-</span><span class='line'>&lt;__NSArrayI 0x60000025bbd0&gt;(
-</span><span class='line'>&lt;UIScrollViewDelayedTouchesBeganGestureRecognizer: 0x6000001e3800; state = Failed; delaysTouchesBegan = YES; view = &lt;InfiniteScrollView 0x7f89ce813800&gt;; target= &lt;(action=delayed:, target=&lt;InfiniteScrollView 0x7f89ce813800&gt;)&gt;&gt;,
-</span><span class='line'>&lt;UIScrollViewPanGestureRecognizer: 0x7f89ce613480; state = Began; delaysTouchesEnded = NO; view = &lt;InfiniteScrollView 0x7f89ce813800&gt;; target= &lt;(action=handlePan:, target=&lt;InfiniteScrollView 0x7f89ce813800&gt;)&gt;&gt;,
-</span><span class='line'>&lt;_UIDragAutoScrollGestureRecognizer: 0x6000007a6580; state = Possible; cancelsTouchesInView = NO; delaysTouchesEnded = NO; view = &lt;InfiniteScrollView 0x7f89ce813800&gt;; target= &lt;(action=_handleAutoScroll:, target=&lt;InfiniteScrollView 0x7f89ce813800&gt;)&gt;&gt;
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以看到上面确实添加了好几个手势识别，例如 UIScrollViewPanGestureRecognizer，这样可以断定它是使用添加手势的方法来捕捉和响应手势的。</p>
-
-<p>更进一步，我们可以通过置换方法的办法，来确认 scrollview 是否使用了 <code>touchesBegan:withEvent:</code> 等方法来捕捉和响应手势，具体而言可以像这样：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">Method</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">InfiniteScrollView</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">touchesBegan</span><span class="p">:</span><span class="nl">withEvent</span><span class="p">:));</span>
-</span><span class='line'><span class="n">Method</span> <span class="n">modifiedMethod</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">dml_touchesBegan</span><span class="p">:</span><span class="nl">withEvent</span><span class="p">:));</span>
-</span><span class='line'><span class="n">method_exchangeImplementations</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">modifiedMethod</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>经确认，scrollview 并没有使用相关方法。</p>
-
-<h3>12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？</h3>
-
-<p>A: Method Swizzle.</p>
-
-<h3>13.<code>+load</code> 和 <code>+initialize</code> 的区别是什么？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>load:Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.</li>
-<li>initialize:Initializes the class before it receives its first message.</li>
-</ul>
-
-
-<h3>14.NSOperation 相比于 GCD 有哪些优势？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>可以取消操作；</li>
-<li>可以添加依赖；</li>
-<li>可以 KVO 属性;</li>
-<li>可以添加优先级;</li>
-<li>可以复用;</li>
-</ul>
-
-
-<h3>15.strong / weak / unsafe_unretained 的区别</h3>
-
-<p>A:</p>
-
-<ul>
-<li>strong:对象的引用计数加一;</li>
-<li>weak:对象的引用计数不变，对象销毁时 weak 属性自动置为nil;</li>
-<li>unsafe_unretained:对象的引用计数不变，对象销毁时 unsafe_unretained 属性成为野指针;</li>
-</ul>
-
-
-<p>你可能会奇怪，有了 weak 还要 unsafe_unretained 干什么？ 原因是 weak 是 iOS 5 才可用的，所以当你要兼容 iOS 5, 或者将 iOS 5 时代之前 MRC 代码迁移到 ARC 时会用它，除此之外我们应该使用 weak.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute">What is the use of unsafe_unretained attribute?</a></p>
-
-<h3>16.Objective-C 中，meta-class 指的是什么</h3>
-
-<p>A:类对象的类称为 meta-class.</p>
-
-<h3>17.UIView 和 CALayer 之间的关系？</h3>
-
-<p>A: UIView 会持有至少一个 CALayer 实例，CALayer 是 UIView 的骨架，它将 UIView 的内容绘制出来并提供动画支持。</p>
-
-<h3>18.<code>+[UIView animateWithDuration:animations:completion:]</code> 内部大概是如何实现的？</h3>
-
-<p>A:我觉得<code>+[UIView animateWithDuration:animations:completion:]</code> 内部应该是先使能 CALayer 实例的隐式动画，之后对 UIView animatable properties 的设置会传递到 CALayer 对应属性的 setter 方法，CALayer 的 setter 方法会触发对应的隐式动画，最后禁止 CALayer 实例的隐式动画。</p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://www.quora.com/How-is-UIViews-+animateWithDuration-animations-implemented">How is UIView&rsquo;s +animateWithDuration:animations: implemented?</a></li>
-<li><a href="http://stackoverflow.com/questions/15175750/how-uiview-animations-with-blocks-work-under-the-hood">How UIView animations with blocks work under the hood</a></li>
-</ul>
-
-
-<h3>19.什么时候会发生「隐式动画」？</h3>
-
-<p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">When exactly do implicit animations take place in iOS?</a></p>
-
-<h3>20.如何把一张大图缩小为1/4大小的缩略图？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>UIGraphicsBeginImageContextWithOptions &amp; UIImage -drawInRect:(UIKit)</li>
-<li>CGBitmapContextCreate &amp; CGContextDrawImage(Core Graphics)</li>
-<li>CGImageSourceCreateThumbnailAtIndex(Image IO)</li>
-<li>Lanczos Resampling with Core Image(Core Image)</li>
-<li>vImage in Accelerate(vImage)</li>
-</ul>
-
-
-<p>Reference:<a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></p>
-
-<h3>21.Toll-Free Bridging 是什么？什么情况下会使用？</h3>
-
-<p>A:</p>
-
-<blockquote><p>There are a number of data types in the Core Foundation framework and the Foundation framework that can be used interchangeably. Data types that can be used interchangeably are also referred to as toll-free bridged data types. This means that you can use the same data structure as the argument to a Core Foundation function call or as the receiver of an Objective-C message invocation.</p></blockquote>
-
-<p>Toll-Free Bridging 是指 Core Foundation framework 和 Foundation framework 的数据类型可以互换使用。自然是混合使用 Core Foundation framework 和 Foundation framework 时，例如 Core Graphics, Core Animation.</p>
-
-<h3>22.当系统出现内存警告时会发生什么？</h3>
-
-<p>A:系统会杀死后台内存占用量大的应用释放内存给当前运行的应用，当前的应用也会收到内存警告的通知。</p>
-
-<h3>23.什么是 Protocol，Delegate 一般是怎么用的？</h3>
-
-<p>A:Protocol是一份消息合约，它定义了特定场景使用的方法集合。 Delegate 一般在对象想将其一部分职责委托出去时使用，这时我们可能通过组合的方式改变一个对象行为方式，它比继承更灵活。</p>
-
-<h3>24.UIWebView 有哪些性能问题？有没有可替代的方案。</h3>
-
-<p>A:</p>
-
-<ul>
-<li><strong>线程阻塞问题</strong>&ndash;当在 native 层调用 stringByEvaluatingJavaScriptFromString 方法时，可能由于 javascript 是单线程的原因，会阻塞原有 js 代码的执行。这里我们的解决办法是在 js 端用 defer 将 iframe 的插入延后执行。</li>
-<li><strong>主线程的问题</strong>&ndash;UIWebView 的 stringByEvaluatingJavaScriptFromString 方法必须是主线程中执行，而主线程的执行时间过长就会 block UI 的更新。所以我们应该尽量让 stringByEvaluatingJavaScriptFromString 方法执行的时间短。</li>
-</ul>
-
-
-<p>Reference:<a href="http://blog.devtang.com/2012/03/24/talk-about-uiwebview-and-phonegap/">关于UIWebView的总结</a></p>
-
-<h3>25.为什么 NotificationCenter 要 removeObserver? 如何实现自动 remove?</h3>
-
-<p>A:因为之后产生了 Observer 感兴趣的通知 NotificationCenter 会调用 Observer 对应的处理方法，如果 Observer 销毁之后不从 NotificationCenter remove,那么会导致应用崩溃。</p>
-
-<p>想要实现自动 remove，如果 NotificationCenter 对 Observer 的引用在 Observer 销毁后能自动置为 nil，类似 weak 的效果，那么问题就解决了。我们不能去修改 NotificationCenter 的内部实现，所以只能用其他的办法。有一个想法是在 Observer 销毁时调用 remove，可以利用 Objective-C 的 runtime 来帮助我们实现。具体思路是混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver。</p>
-
-<p>Reference:<a href="http://merowing.info/2012/03/automatic-removal-of-nsnotificationcenter-or-kvo-observers/">Automatic removal of NSNotificationCenter or KVO observers</a></p>
-
-<h3>26.当 TableView 的 Cell 改变时，如何让这些改变以动画的形式呈现？</h3>
-
-<p>A:You can also use beginUpdates method followed by the endUpdates method to animate the change in the row heights without reloading the cell.</p>
-
-<h3>27.什么是 Method Swizzle，什么情况下会使用？</h3>
-
-<p>A:Method Swizzle 是一种改变已存在方法实现的技术。当我们有改变已存在方法实现的需求时使用。</p>
-
-<h3>28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？</h3>
-
-<p>A: Layer 有两个独立的图层: 1.modelLayer;2.presentationLayer. 动画是在 presentationLayer 上，所以当动画完成时， layer 又恢复到原先的状态。</p>
-
-<h3>29.你会如何存储用户的一些敏感信息，如登录的 token。</h3>
-
-<p>A:KeyChain services</p>
-
-<h3>30.什么时候会使用 Core Graphics，有什么注意事项么？</h3>
-
-<p>A:当需要绘制的内容不能用 UIKit 实现时，会使用 Core Graphics。</p>
-
-<p>注意事项：</p>
-
-<ul>
-<li>坐标系统</li>
-<li>线条的宽度尽量使用整数</li>
-<li>缓存代价昂贵的数据</li>
-</ul>
-
-
-<h3>31.使用 Block 时需要注意哪些问题？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>循环引用</li>
-<li>对象的生命周期会延长</li>
-</ul>
-
-
-<h3>32.performSelector:withObject:afterDelay: 内部大概是怎么实现的，有什么注意事项么？</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">eoc_performSelector:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span>
-</span><span class='line'><span class="nf">withObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anArgument</span>
-</span><span class='line'><span class="nf">afterDelay:</span><span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">delay</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="kt">int64_t</span><span class="p">)(</span><span class="n">delay</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">)),</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">QOS_CLASS_UTILITY</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>            <span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">send_type</span><span class="p">)(</span><span class="kt">id</span><span class="p">,</span> <span class="kt">SEL</span><span class="p">,</span> <span class="kt">id</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">send_type</span> <span class="n">func</span> <span class="o">=</span> <span class="p">(</span><span class="n">send_type</span><span class="p">)</span><span class="n">objc_msgSend</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">func</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">aSelector</span><span class="p">,</span> <span class="n">anArgument</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">});</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意事项：
-可能会导致内存泄露。因为不确定调用的方法，所以编译器不能插入合适的内存管理方法调用。例如newObject，copy之类的方法调用就会导致内存泄露。</p>
-
-<h3>33.如何播放 GIF 图片，有什么优化方案么？</h3>
-
-<p>A: 用 ImageIO 框架为每一帧动画创建一个 UIImage 对象，把这些对象聚合成一个 animatedImages 赋给 UIImageView，然后根据 GIF 的文件信息设置好 animationDuration 和 animationRepeatCount，最后调用 startAnimating。</p>
-
-<p>优化方案：</p>
-
-<ul>
-<li>variable frame delays &ndash; One approach to support variable frame delays with UIImageView is to find the greatest common divisor of all frame delays and slot longer frames multiple times in a row into the animatedImages array.</li>
-<li>memory implications &ndash; Whenever memory is the constraint, instead of storing the solution to a problem one has to recalculate it. In our case we needed a way to load and decode the frames just in time before they were displayed, and to purge the ones that were no longer on screen.</li>
-</ul>
-
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="http://engineering.flipboard.com/2014/05/animated-gif/">How FlipBoard Play Animated GIFs On iOS</a></li>
-</ul>
-
-
-<h3>34.有哪几种方式可以对图片进行缩放，使用 CoreGraphics 缩放时有什么注意事项？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>UIGraphicsBeginImageContextWithOptions &amp; UIImage -drawInRect:(UIKit)</li>
-<li>CGBitmapContextCreate &amp; CGContextDrawImage(Core Graphics)</li>
-<li>CGImageSourceCreateThumbnailAtIndex(Image IO)</li>
-<li>Lanczos Resampling with Core Image(Core Image)</li>
-<li>vImage in Accelerate(vImage)</li>
-</ul>
-
-
-<h3>35.哪些途径可以让 ViewController 瘦下来？</h3>
-
-<p>A: 我们的 App 基本都是使用类 MVC 架构，要想让 ViewController 瘦下来，基本的想法肯定是把和 ViewController 弱相关的代码移出去，移到哪？要么是称到 MV 中， 要么移到一个辅助对象中。所以基本做法应该是把弱业务代码移到 Model 中，和 View 相关的代码移到 View 中；甚至引入一个辅助对象来分担可以分离出去的职责。</p>
-
-<p>Reference: <a href="https://objccn.io/issue-1-1/">更轻量的 View Controllers</a></p>
-
-<h3>36.有哪些常见的 Crash 场景？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>数组越界</li>
-<li>向已经销毁的对象发送消息</li>
-<li>调用一个对象不支持的方法</li>
-<li>向数组或字典中插入的对象为 nil</li>
-<li>看门狗超时</li>
-<li>线程死锁</li>
-</ul>
-
-
-<h3>37.设计一套大文件（如上百M的视频）下载方案。</h3>
-
-<p>A:
-<a href="https://github.com/thibaultcha/TCBlobDownload">TCBlobDownload</a></p>
-
-<h3>38.如果让你来实现 dispatch_once，你会怎么做？</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">void</span> <span class="nf">SpinlockOnce</span><span class="p">(</span><span class="kt">dispatch_once_t</span> <span class="o">*</span><span class="n">predicate</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">static</span> <span class="n">OSSpinLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="n">OS_SPINLOCK_INIT</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">OSSpinLockLock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="o">!*</span><span class="n">predicate</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">block</span><span class="p">();</span>
-</span><span class='line'>            <span class="o">*</span><span class="n">predicate</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="n">OSSpinLockUnlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:
-<a href="https://www.mikeash.com/pyblog/friday-qa-2014-06-06-secrets-of-dispatch_once.html">Friday Q&amp;A 2014-06-06: Secrets of dispatch_once</a></p>
-
-<p>Reference:<a href="https://github.com/lzyy/iOS-Developer-Interview-Questions">iOS-Developer-Interview-Questions</a></p>
 ]]></content>
   </entry>
   

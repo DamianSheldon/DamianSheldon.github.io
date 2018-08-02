@@ -100,6 +100,84 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/simple-image-processing-in-ios.html">
+		
+			iOS 中简单的图片处理</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-07-14T09:49:40+08:00" pubdate data-updated="true">14 Jul 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。</p>
+
+<h3>图片格式</h3>
+
+<p>图片主要有两种格式：一种叫做位图；另一种称之为矢量图。所谓位图，就是把图片看成是由许多像素点组成；而矢量图则是用绘图指令来描述图片。举个例子，圆可以用圆点，半径，线条的粗细和颜色来描述它。从这个例子也可以看出用矢量图来描述风景，人物这样复杂的事物会比较复杂，所以它们通常会用位图来描述。</p>
+
+<p>位图和矢量图也分为很多格式，具体可能查看<a href="https://en.wikipedia.org/wiki/Image_file_formats">Image file formats</a></p>
+
+<p>下面我们讨论的是位图，在 iOS 中我们经常打交道的位图格式是 JPG 和 PNG，用来处理位图数据的类有：UIImage (UIKit)，CGImage (Core Graphics) 和 CIImage (Core Image)。Image I/O 本来是属于 Core Graphics，为了更加方便使用，Apple 将它分离出来成为单独的库。</p>
+
+<h3>旋转</h3>
+
+<p>既然位图是用一个一个的像素点来模拟图片，当我们想要旋转图片时，首先想到的方法自然是改变这些像素点的位置，这当然可以达到目标。要调整这么多像素点的位置自然要耗费不少时间，所有在数码相机刚出来那会，人们不是去改变像素点的位置，而是用一段数据来描述图片的方向等信息，这段数据称为 Exif. 所以对于 JPG 这种拥有 Exif 信息的位图，我们旋转图片的最佳做法自然是改变 Exif 里的方向信息。而 PNG 是没有 Exif 信息的，所以只能改变像素点的位置。</p>
+
+<p>UIImage 自带了几个可以旋转的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/simple-image-processing-in-ios.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-of-android-development-part-4.html">
 		
 			Android 开发问题汇总(四)</a>
@@ -286,79 +364,6 @@ $(document).ready(
 
 		
 		<a href="/blog/how-to-specify-a-resolution-for-output-video.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/notes-of-using-avfoundation.html">
-		
-			AVFoundation 使用笔记</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-04-06T15:09:30+08:00" pubdate data-updated="true">06 Apr 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>使用一个框架时，我们可能有这么三个问题：</p>
-
-<ol>
-<li>这个框架是做什么的？</li>
-<li>为什么要使用这个框架而不是其他的框架？</li>
-<li>怎么用这个框架？</li>
-</ol>
-
-
-<h3>这个框架是做什么的？</h3>
-
-<p>Apple 在 iOS Technology Overview 中的 Audio Technologies 和 Video Technologies 分别是这么介绍 AVFoundation 的：</p>
-
-<blockquote><p>AV Foundation is an Objective-C interface for managing the recording and playback of audio and video. Use this framework for recording audio and when you need fine-grained control over the audio playback process.</p>
-
-<p>AV Foundation provides advanced video playback and recording capabilities. Use this framework in situations where you need more control over the presentation or recording of video. For example, augmented reality apps could use this framework to layer live video content with other app-provided content.</p></blockquote>
-
-<p>从这两个介绍中我们可以知道 AVFoundation 是用来播放和录制音频和视频的。</p>
-
-<p>在 AVFoundation Programming Guide 中则是这么介绍的：</p>
-
-<blockquote><p>AVFoundation is one of several frameworks that you can use to play and create time-based audiovisual media. It provides an Objective-C interface you use to work on a detailed level with time-based audiovisual data. For example, you can use it to examine, create, edit, or reencode media files. You can also get input streams from devices and manipulate video during realtime capture and playback.</p></blockquote>
-
-<p>从这里我们可以知道它不仅可以播放和创建基于时间的视听媒体，还可以让我们在很细微的层面去操作这些视听数据。例如，你可以使用它检查、创建、编辑或者重编码媒体文件。你还可以用它从设备那里拿到输出流，并且可以在实时的捕获和播放过程中操作视频。</p>
-
-<p>所以结论就是：这个框架是处理音频和视频的，而且处理的粒度可以非常细。</p>
-
-
-		
-		<a href="/blog/notes-of-using-avfoundation.html" class="more-link">继续阅读</a>
 	</div>
 
 

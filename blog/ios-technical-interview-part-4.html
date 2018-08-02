@@ -368,7 +368,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <h3>19.什么时候会发生「隐式动画」？</h3>
 
-<p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性也可以触发隐式动画。</p>
+<p>A: CALayer 的实例是支持隐式动画的，所以修改 CALayer Animatable Properties 里面的属性都可以触发隐式动画。UIView 默认禁止了 CALayer 的隐式动画，在动画块中又使能了，所以和 UIView 关联的 CALayer 实例只能在动画块中修改 Animatable UIView properties 里的属性才可以触发隐式动画。</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/4749343/when-exactly-do-implicit-animations-take-place-in-ios">When exactly do implicit animations take place in iOS?</a></p>
 
@@ -401,7 +401,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <h3>23.什么是 Protocol，Delegate 一般是怎么用的？</h3>
 
-<p>A:Protocol是一份消息合约，它定义了特定场景使用的方法集合。 Delegate 一般在对象想将其一部分职责委托出去时使用，这时我们可能通过组合的方式改变一个对象行为方式，它比继承更灵活。</p>
+<p>A:Protocol是一份消息合约，它定义了特定场景使用的方法集合。 Delegate 一般在对象想将其一部分职责委托出去时使用，这时我们可能通过组合的方式改变一个对象的行为方式，它比继承更灵活。</p>
 
 <h3>24.UIWebView 有哪些性能问题？有没有可替代的方案。</h3>
 
@@ -419,7 +419,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <p>A:因为之后产生了 Observer 感兴趣的通知 NotificationCenter 会调用 Observer 对应的处理方法，如果 Observer 销毁之后不从 NotificationCenter remove,那么会导致应用崩溃。</p>
 
-<p>想要实现自动 remove，如果 NotificationCenter 对 Observer 的引用在 Observer 销毁后能自动置为 nil，类似 weak 的效果，那么问题就解决了。我们不能去修改 NotificationCenter 的内部实现，所以只能用其他的办法。有一个想法是在 Observer 销毁时调用 remove，可以利用 Objective-C 的 runtime 来帮助我们实现。具体思路是混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver。</p>
+<p>如果 NotificationCenter 对 Observer 的引用在 Observer 销毁后能自动置为 nil，类似 weak 的效果，那么就实现了自动 remove。我们不能去修改 NotificationCenter 的内部实现，所以只能用其他的办法。有一个想法是在 Observer 销毁时调用 remove，可以利用 Objective-C 的 runtime 来帮助我们实现。具体思路是混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver。</p>
 
 <p>Reference:<a href="http://merowing.info/2012/03/automatic-removal-of-nsnotificationcenter-or-kvo-observers/">Automatic removal of NSNotificationCenter or KVO observers</a></p>
 
@@ -528,7 +528,7 @@ Objective-C 的 class 是如何实现的？</p>
 
 <h3>35.哪些途径可以让 ViewController 瘦下来？</h3>
 
-<p>A: 我们的 App 基本都是使用类 MVC 架构，要想让 ViewController 瘦下来，基本的想法肯定是把和 ViewController 弱相关的代码移出去，移到哪？要么是称到 MV 中， 要么移到一个辅助对象中。所以基本做法应该是把弱业务代码移到 Model 中，和 View 相关的代码移到 View 中；甚至引入一个辅助对象来分担可以分离出去的职责。</p>
+<p>A: 我们的 App 基本都是使用类 MVC 架构，要想让 ViewController 瘦下来，基本的想法肯定是把和 ViewController 弱相关的代码移出去，移到哪？要么是移到 M 或 V 中， 要么移到一个辅助对象中，这些就是可以让 ViewController 瘦下来的途径。</p>
 
 <p>Reference: <a href="https://objccn.io/issue-1-1/">更轻量的 View Controllers</a></p>
 

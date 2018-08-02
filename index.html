@@ -100,6 +100,76 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/openldap-notes.html">
+		
+			OpenLDAP 学习笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-07-10T21:58:07+08:00" pubdate data-updated="true">10 Jul 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>最近业余时间在自学 Java，接触到 JNDI，继而牵扯出 LDAP。在倒腾过程中感觉是个复杂的主题，决定做个简要的笔记，梳理下思路，也方便日后忘记时容易拾起。</p>
+
+<p>OpenLDAP 是 LDAP 协议的一个开源实现。LDAP 服务器本质上是一个为只读访问而优化的非关系型数据库。它主要用做地址簿查询（如 email 客户端）或对各种服务访问做后台认证以及用户数据权限管控。（例如，访问 Samba 时，LDAP 可以起到域控制器的作用；或者 Linux 系统认证 时代替 /etc/passwd 的作用。）</p>
+
+<p>以 slap 开头的命令如: slapacl, slapadd 等是服务端工具；以 ldap 开头的命令如: ldapadd, ldapcompare 等是客户端命令工具。</p>
+
+<h2>安装</h2>
+
+<p>Mac 内置了 OpenLDAP 软件包，所以可以直接使用。</p>
+
+<h2>配置</h2>
+
+<h3>服务端</h3>
+
+<p>服务端支持两种配置方法:动态运行时配置引擎和老式的 slapd.conf 文件。这里介绍通过老式的 slapd.conf 文件转换成动态运行时配置引擎来配置服务器的方法。</p>
+
+<p>服务器的配置文件位于 <code>/etc/openldap/slapd.conf</code>。在 Mac 上第一次配置时该文件还不存在，但有一个 slapd.conf.default 文件，从文件名可知，这应该是一个默认配置文件，所以我们可以在它基础上来配置。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo cp /etc/openldap/slapd.conf.default /etc/openldap/slapd.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要编辑后缀和 rootdn。典型的后缀通常是你所用的域名，但这并非强制要求，而是依赖于你如何使用你的目录。下例中以 tenneshop 做为域名，tld 为 com，rootdn 则是 LDAP 管理员的名字（这里用 Manager）。</p>
+
+
+		
+		<a href="/blog/openldap-notes.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-development-notes-part-three.html">
 		
 			Web 开发问题汇总(三)</a>
@@ -300,70 +370,6 @@ $(document).ready(
 
 		
 		<a href="/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/concurrency-with-core-data.html">
-		
-			多线程的 Core Data</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-02-23T16:00:35+08:00" pubdate data-updated="true">23 Feb 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>平常在项目中没有使用过 Core Data, 因为我觉得它的学习曲线还挺陡峭，整个框架给人的感觉很复杂和笨重，因此一直没有使用它。但是看到喵神这份<a href="https://onevcat.com/2013/04/ios-interview/">上级向的十个 iOS 开发面试题</a>中和这份<a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度面试</a>题中都有涉及到 Core Data 的内容，我想还是有必要好好研究一下它，毕竟它是 Apple 官方的持久化方案，我们可以取其精华，弃其糟粕，另一方面未来我们也可能因为各种原因接手或参与使用 Core Data 的项目。</p>
-
-<p>这篇文章主要想探讨上面提到的面试题中的两个关于 Core Data 的问题:</p>
-
-<ol>
-<li>你实现过多线程的Core Data么？NSPersistentStoreCoordinator，NSManagedObjectContext和NSManagedObject中的哪些需要在线程中创建或者传递？你是用什么样的策略来实现的？</li>
-<li>Core Data：中多线程中处理大量数据同步时的操作。</li>
-</ol>
-
-
-<p>在回答这两个问题之前，我们先看 Apple 是怎么告诉我们使用多线程的 Core Data 的，在最新的(2017-03-27) Core Data Programming Guide 中有一节 Concurrency with Core Data，它没有直接说如何使用多线程，只是说了 managed object context 在多线程中的两种使用模式:</p>
-
-<blockquote><p>In Core Data, the managed object context can be used with two concurrency patterns, defined by NSMainQueueConcurrencyType and NSPrivateQueueConcurrencyType.</p>
-
-<p>NSMainQueueConcurrencyType is specifically for use with your application interface and can only be used on the main queue of an application.</p>
-
-<p>The NSPrivateQueueConcurrencyType configuration creates its own queue upon initialization and can be used only on that queue. Because the queue is private and internal to the NSManagedObjectContext instance, it can only be accessed through the performBlock: and the performBlockAndWait: methods.</p></blockquote>
-
-
-		
-		<a href="/blog/concurrency-with-core-data.html" class="more-link">继续阅读</a>
 	</div>
 
 

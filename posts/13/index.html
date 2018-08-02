@@ -100,6 +100,151 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-wireshark.html">
+		
+			Tcpdump 和 Wireshark 使用笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-15T09:05:51+08:00" pubdate data-updated="true">15 Sep 2015</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>Tcpdump 和 Wireshark 是两个常用的抓包工具，一个是命令行工具；一个图形界面工具，可以按自己的喜好选择。图形界面的 Wireshark 个人感觉使用更简单，但从打开到抓包花费的时间要比使用 Tcpdump 要多，有的场景也不能使用 Wireshark，例如在 Android 真机上抓包。由于使用它们时核心是一样的，就是按照包过滤语法(pcap-filter(7))来指定表达式，因此可以先使用 Wireshark 上手，之后熟练起来后在不能用 Wirehshark 的场景便可以使用 Tcpdump。</p>
+
+<h2>Wireshark</h2>
+
+<h3>1.Capture HTTP traffic on your server</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Capture &gt; Capture Filters... &gt; New &gt; OK
+</span><span class='line'>Capture &gt; Options... &gt; Capture Filter(Set to appropriate filter) &gt; Start
+</span><span class='line'>
+</span><span class='line'>host www.baidu.com
+</span><span class='line'>
+</span><span class='line'>curl -d "name=test&page=1" http://www.baidu.com</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST / HTTP/1.1
+</span><span class='line'>User-Agent: curl/7.37.1
+</span><span class='line'>Host: www.baidu.com
+</span><span class='line'>Accept: */*
+</span><span class='line'>Content-Length: 16
+</span><span class='line'>Content-Type: application/x-www-form-urlencoded
+</span><span class='line'>
+</span><span class='line'>name=test&page=1
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>HTTP/1.1 302 Moved Temporarily
+</span><span class='line'>Date: Tue, 15 Sep 2015 00:56:03 GMT
+</span><span class='line'>Content-Type: text/html
+</span><span class='line'>Content-Length: 215
+</span><span class='line'>Connection: Keep-Alive
+</span><span class='line'>Location: http://www.baidu.com/search/error.html
+</span><span class='line'>Server: BWS/1.1
+</span><span class='line'>X-UA-Compatible: IE=Edge,chrome=1
+</span><span class='line'>BDPAGETYPE: 3
+</span><span class='line'>Set-Cookie: BDSVRTM=0; path=/
+</span><span class='line'>
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;&lt;title&gt;302 Found&lt;/title&gt;&lt;/head&gt;
+</span><span class='line'>&lt;body bgcolor="white"&gt;
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;302 Found&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;hr&gt;&lt;center&gt;pr-nginx_1-0-245_BRANCH Branch
+</span><span class='line'>Time : Thu Sep 10 11:36:26 CST 2015&lt;/center&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Tcpdump</h2>
+
+<h3>1.指定 Host 和 Port 抓包</h3>
+
+<p>在开发过程中，我们可能想查看客户端和服务器的详细交互，这时我们通过指定 Host 和 Port 抓包来得到详细的 HTTP 交互。例如现在是在我的本地开发环境，服务器的端口是8080，可以用以下命令:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$sudo</span> tcpdump -i lo0 -vv <span class="s1">&#39;(src localhost and dst port 8080) or (dst localhost and src port 8080)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Reference:</h2>
+
+<ul>
+<li><a href="https://wiki.wireshark.org/CaptureFilters">CaptureFilters</a></li>
+<li><a href="https://danielmiessler.com/study/tcpdump/#src-dst-port">A tcpdump Tutorial and Primer with Examples</a></li>
+<li><a href="https://www.ibm.com/support/knowledgecenter/zh/ssw_aix_71/com.ibm.aix.cmds5/tcpdump.htm">tcpdump 命令</a></li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/linux-useful-command-line-part-2.html">
 		
 			Linux 使用笔记(二)</a>
@@ -289,109 +434,6 @@ $(document).ready(
 
 		
 		
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/using-mysql.html">
-		
-			MySQL 使用笔记</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-12T22:01:09+08:00" pubdate data-updated="true">12 Aug 2015</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.查看所有的用户</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u user -p
-</span><span class='line'>
-</span><span class='line'>As of MySQL 5.7.6, use this statement:
-</span><span class='line'>mysql&gt; SELECT User, Host, HEX(authentication_string) FROM mysql.user;
-</span><span class='line'>
-</span><span class='line'>Before MySQL 5.7.6, use this statement:
-</span><span class='line'>mysql&gt; SELECT User, Host, Password FROM mysql.user;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.查看用户的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; SHOW GRANTS FOR 'username'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3.为用户添加操作某个数据库的权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.Default options are read from the following files in the given order:</h3>
-
-<p>/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf</p>
-
-<h3>5.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; CREATE TABLE IF NOT EXISTS categories (
-</span><span class='line'>  id SMALLINT NOT NULL AUTO_INCREMENT,
-</span><span class='line'>  category VARCHAR(30) NOT NULL,
-</span><span class='line'>  PRIMARY KEY (id),
-</span><span class='line'>  UNIQUE KEY category (category)
-</span><span class='line'>)ENGINE = MyISAM DEFAULT CHARSET = utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>VARCHAR(30):can hold up to 30 characters.</li>
-<li>A UNIQUE index creates a constraint such that all values in the index must be distinct. An error occurs if you try to add a new row with a key value that matches an existing row. For all engines, a UNIQUE index permits multiple NULL values for columns that can contain NULL.</li>
-<li>DEFAULT CHARSET</li>
-</ul>
-
-
-
-		
-		<a href="/blog/using-mysql.html" class="more-link">继续阅读</a>
 	</div>
 
 

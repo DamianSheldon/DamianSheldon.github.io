@@ -211,10 +211,12 @@ $(document).ready(
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSMutableString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableString</span> <span class="nl">stringWithString</span><span class="p">:</span><span class="s">@&quot;origin&quot;</span><span class="p">];</span><span class="c1">//copy</span>
 </span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">stringCopy</span> <span class="o">=</span> <span class="p">[</span><span class="n">string</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'>  
-</span><span class='line'><span class="c1">// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：</span>
+</span><span class='line'><span class="c1">// 查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。</span>
+</span><span class='line'><span class="c1">// 即使你进行如下操作：</span>
 </span><span class='line'><span class="p">[</span><span class="n">string</span> <span class="nl">appendString</span><span class="p">:</span><span class="s">@&quot;origion!&quot;</span><span class="p">]</span>
 </span><span class='line'>  
 </span><span class='line'><span class="c1">// stringCopy 的值也不会因此改变，但是如果不使用 copy，stringCopy 的值就会被改变。</span>
@@ -249,17 +251,31 @@ $(document).ready(
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// 下面先看集合类immutable对象使用 copy 和 mutableCopy 的一个例子：</span>
 </span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="l">@[@[</span><span class="s">@&quot;a&quot;</span><span class="p">,</span> <span class="s">@&quot;b&quot;</span><span class="l">]</span><span class="p">,</span> <span class="l">@[</span><span class="s">@&quot;c&quot;</span><span class="p">,</span> <span class="s">@&quot;d&quot;</span><span class="l">]]</span><span class="p">;</span>
 </span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">copyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="n">mutableCopy</span><span class="p">];</span>
-</span><span class='line'><span class="c1">// 查看内容，可以看到 copyArray 和 array 的地址是一样的，而 mCopyArray 和 array 的地址    是不同的。说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。但需要强调的是：此处的内   容拷贝，仅仅是拷贝 array 这个对象，array 集合内部的元素仍然是指针拷贝。这和上面的非集合    immutable 对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看     mutable 对象拷贝的例子：</span>
+</span><span class='line'><span class="c1">// 查看内容，可以看到 copyArray 和 array 的地址是一样的，</span>
+</span><span class='line'><span class="c1">// 而 mCopyArray 和 array 的地址是不同的。</span>
+</span><span class='line'><span class="c1">// 说明 copy 操作进行了指针拷贝，mutableCopy 进行了内容拷贝。</span>
+</span><span class='line'><span class="c1">// 但需要强调的是：此处的内容拷贝，仅仅是拷贝 array 这个对象，</span>
+</span><span class='line'><span class="c1">// array 集合内部的元素仍然是指针拷贝。这和上面的非集合 immutable 对象的拷贝还是挺相似的，</span>
+</span><span class='line'><span class="c1">// 那么 mutable对象的拷贝会不会类似呢？我们继续往下，</span>
+</span><span class='line'><span class="c1">// 看 mutable 对象拷贝的例子：</span>
 </span><span class='line'>  
 </span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithObjects</span><span class="p">:[</span><span class="bp">NSMutableString</span>  <span class="nl">stringWithString</span><span class="p">:</span><span class="s">@&quot;a&quot;</span><span class="p">],</span><span class="s">@&quot;b&quot;</span><span class="p">,</span><span class="s">@&quot;c&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">copyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="k">copy</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span> <span class="n">mutableCopy</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，说明     copyArray、mCopyArray 都对 array 进行了内容拷贝。</span>
+</span><span class='line'><span class="c1">// 查看内存，如我们所料，copyArray、mCopyArray和 array 的内存地址都不一样，</span>
+</span><span class='line'><span class="c1">// 说明    copyArray、mCopyArray 都对 array 进行了内容拷贝。</span>
 </span><span class='line'>  
 </span></code></pre></td></tr></table></div></figure>
 
@@ -276,7 +292,7 @@ $(document).ready(
 
 <h3>7. 怎么用 copy 关键字？</h3>
 
-<p>A:声明属性时用 copy 做它的内存管理 attribute，例如: <code>@property (nonatomic, copy) NSString *name;</code>.</p>
+<p>A:首先是对象所属的类遵守 NSCopying 协议，其次是我们想拥有赋值对象的副本，这时我们可以使用 copy 关键字。</p>
 
 <h3>8. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？</h3>
 
@@ -305,11 +321,11 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 
 <h3>10. @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的?</h3>
 
-<p>A:@property 的本质是什么？
+<p>A:@property 的本质是什么？<br/>
     @property = ivar + getter + setter;</p>
 
 <p>ivar、getter、setter 是如何生成并添加到这个类中的?<br/>
-“自动合成”( autosynthesis)
+“自动合成”( autosynthesis)<br/>
 完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p>
 
 <h3>11. @synthesize和@dynamic分别有什么作用？</h3>
@@ -367,11 +383,11 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 
 <h3>17. 苹果是如何实现autoreleasepool的?</h3>
 
-<p>A: autoreleasepool 正如它的名字，它像一个池子，所以的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。</p>
+<p>A: autoreleasepool 正如它的名字，它像一个池子，所有的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。</p>
 
 <h3>18. 使用block时什么情况会发生引用循环，如何解决？</h3>
 
-<p>A:一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。
+<p>A:一个对象强引用了block，在block中又使用了该对象，就会发生循环引用。
 解决方法是将该对象使用<code>__weak</code>修饰符修饰之后再在block中使用。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -419,7 +435,7 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 
 <blockquote><p>Add initialization of custom runtime attributes to objects that do not have a corresponding Interface Builder inspector.</p></blockquote>
 
-<h3>23. 若一个类有实例变量 NSString *<em>foo ，调用setValue:forKey:时，可以以foo还是 </em>foo 作为key？</h3>
+<h3>23. 若一个类有实例变量 <code>NSString *_foo</code> ，调用 <code>setValue:forKey:</code> 时，可以以 <code>foo</code> 还是 <code>_foo</code> 作为 key？</h3>
 
 <p>A:都可以。</p>
 
@@ -615,7 +631,7 @@ Each time you run your run loop, you specify (either explicitly or implicitly) a
 
 <p>mode的作用是设置好需要监控的 input sources 和 timers，以及需要通知的 run loop observers。</p>
 
-<h3>37. 以<code>+ scheduledTimerWithTimeInterval...</code>的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？</h3>
+<h3>37. 以<code>+ scheduledTimerWithTimeInterval...</code>的方式触发的timer，在滑动页面上的列表时，timer会暂停回调，为什么？如何解决？</h3>
 
 <p>A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以<code>+ scheduledTimerWithTimeInterval...</code>的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。</p>
 

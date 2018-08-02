@@ -100,6 +100,140 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-using-debian.html">
+		
+			Debian 使用笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-29T21:46:20+08:00" pubdate data-updated="true">29 Feb 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1. Install pear on Debian</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ wget http://pear.php.net/go-pear.phar
+</span><span class='line'>$ sudo php go-pear.phar
+</span><span class='line'>
+</span><span class='line'>Below is a suggested file layout for your new PEAR installation.  To
+</span><span class='line'>change individual locations, type the number in front of the
+</span><span class='line'>directory.  Type 'all' to change all of them or simply press Enter to
+</span><span class='line'>accept these locations.
+</span><span class='line'>
+</span><span class='line'> 1. Installation base ($prefix)                   : /home/meiliang/pear
+</span><span class='line'> 2. Temporary directory for processing            : /tmp/pear/install
+</span><span class='line'> 3. Temporary directory for downloads             : /tmp/pear/install
+</span><span class='line'> 4. Binaries directory                            : /home/meiliang/pear/bin
+</span><span class='line'> 5. PHP code directory ($php_dir)                 : /home/meiliang/pear/share/pear
+</span><span class='line'> 6. Documentation directory                       : /home/meiliang/pear/docs
+</span><span class='line'> 7. Data directory                                : /home/meiliang/pear/data
+</span><span class='line'> 8. User-modifiable configuration files directory : /home/meiliang/pear/cfg
+</span><span class='line'> 9. Public Web Files directory                    : /home/meiliang/pear/www
+</span><span class='line'>10. System manual pages directory                 : /home/meiliang/pear/man
+</span><span class='line'>11. Tests directory                               : /home/meiliang/pear/tests
+</span><span class='line'>12. Name of configuration file                    : /home/meiliang/.pearrc
+</span><span class='line'>
+</span><span class='line'>1-12, 'all' or Enter to continue: 1
+</span><span class='line'>(Use $prefix as a shortcut for '/home/meiliang/pear', etc.)
+</span><span class='line'>Installation base ($prefix) [/home/meiliang/pear] : /usr/local/bin/pear
+</span><span class='line'>
+</span><span class='line'>$ vim .bashrc
+</span><span class='line'># Append the /usr/local/bin/pear directory in the user's home directory onto the PATH environment variable
+</span><span class='line'>export PATH=$PATH:/usr/local/bin/pear/bin
+</span><span class='line'>
+</span><span class='line'>// Reload bash configure file
+</span><span class='line'>$ source .bashrc
+</span><span class='line'>
+</span><span class='line'>$ echo $PATH
+</span><span class='line'>/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin/pear/bin
+</span><span class='line'>
+</span><span class='line'>// Check wether it works
+</span><span class='line'>$ pear version
+</span><span class='line'>PEAR Version: 1.10.1
+</span><span class='line'>PHP Version: 5.6.17-0+deb8u1
+</span><span class='line'>Zend Engine Version: 2.6.0
+</span><span class='line'>Running on: Linux Debian 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt11-1 (2015-05-24) x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/notes-of-using-debian.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-technical-interview-part-3.html">
 		
 			iOS 面试题汇总(三)</a>
@@ -160,8 +294,9 @@ $(document).ready(
 
 <p>A:</p>
 
-<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.
-Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
+<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.</p>
+
+<p>Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
 
 <p>Reference:Cocoa Core Competencies</p>
 
@@ -256,73 +391,6 @@ Key-value coding is a mechanism for indirectly accessing an object’s attribute
 
 		
 		<a href="/blog/ios-technical-interview-part-2.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-unit-testing-with-ocmock.html">
-		
-			iOS Unit Testing With OCMock</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-22T14:19:12+08:00" pubdate data-updated="true">22 Jan 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
-
-<p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
-
-<p>对象的方法在工作的时候可能要依赖其他对象，为了去除依赖对象对测试的影响，我们引入 Mock.</p>
-
-<blockquote><p>Mocks are ‘fake’ objects with pre-defined behavior to stand-in for concrete objects during testing. &ndash; HackaZach</p></blockquote>
-
-<p>引用 Mock 之后，我们在单元测试中如何使用它呢？</p>
-
-<blockquote><p>The general recipe for using mocks in unit-tests is:</p>
-
-<ol>
-<li>Create the mock object</li>
-<li>Specify the expected invocations and return values</li>
-<li>Associate the mock object with the code under test</li>
-<li>Execute the code under test</li>
-<li>Validate that your assertions are correct</li>
-</ol>
-</blockquote>
-
-
-		
-		<a href="/blog/ios-unit-testing-with-ocmock.html" class="more-link">继续阅读</a>
 	</div>
 
 

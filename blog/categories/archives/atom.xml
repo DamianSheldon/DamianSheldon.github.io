@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-02T11:02:14+08:00</updated>
+  <updated>2018-08-08T08:48:52+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -218,28 +218,19 @@ TLS_REQCERT allow
 <h3>创建初始项</h3>
 
 <p>配置好客户端后，创建根项和 root 角色项：
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>dn: dc=tenneshop,dc=com
-</span><span class='line'>objectClass: dcObject
-</span><span class='line'>objectClass: organization
-</span><span class='line'>dc: tenneshop
-</span><span class='line'>o: Tenneshop
-</span><span class='line'>description: Tenneshop directory&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;dn: cn=Manager,dc=tenneshop,dc=com
-</span><span class='line'>objectClass: organizationalRole
-</span><span class='line'>cn: Manager
-</span><span class='line'>description: Directory Manager</span></code></pre></td></tr></table></div></figure></p>
+```
+dn: dc=tenneshop,dc=com
+objectClass: dcObject
+objectClass: organization
+dc: tenneshop
+o: Tenneshop
+description: Tenneshop directory</p>
+
+<p>dn: cn=Manager,dc=tenneshop,dc=com
+objectClass: organizationalRole
+cn: Manager
+description: Directory Manager
+```</p>
 
 <p>将上述内容保存在文件 <code>/etc/openldap/root.ldif</code> 中，然后使用命令:</p>
 
@@ -484,6 +475,8 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 <h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
 
+<p>A:</p>
+
 <pre><code class="html">&lt;form name="bm_form" action="/delete_bms" method="POST"&gt;
     &lt;tr&gt;
         &lt;td&gt;&lt;a href="https://www.google.com"&gt;https://www.google.com&lt;/a&gt;&lt;/td&gt;
@@ -500,6 +493,16 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 </code></pre>
 
 <p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
+
+<h3>5.Ionic - Cannot find module “.”</h3>
+
+<p>A:Just remove all imports that have /umd at the final.
+In my case, I changed: 
+<code>import { IonicPageModule } from 'ionic-angular/umd';</code>
+To: 
+<code>import { IonicPageModule } from 'ionic-angular';</code></p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
 ]]></content>
   </entry>
   

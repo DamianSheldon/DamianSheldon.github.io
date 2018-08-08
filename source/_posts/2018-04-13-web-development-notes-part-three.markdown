@@ -136,6 +136,7 @@ A:问题出现的原因：
 Reference:[mysqli不能使用localhost，请问这是怎么回事？](https://segmentfault.com/q/1010000000328531)  
 
 ###4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。
+A:
 
 ```html
 <form name="bm_form" action="/delete_bms" method="POST">
@@ -155,4 +156,13 @@ Reference:[mysqli不能使用localhost，请问这是怎么回事？](https://se
 ```
 
 这里展示了可以直接使用表单元素的名字直接来提交的技巧。  
+
+###5.Ionic - Cannot find module “.”
+A:Just remove all imports that have /umd at the final.
+In my case, I changed: 
+`import { IonicPageModule } from 'ionic-angular/umd';`
+To: 
+`import { IonicPageModule } from 'ionic-angular';`
+
+Reference:[Ionic 2 - Runtime error Cannot find module “.”](https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module)  
 

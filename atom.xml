@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-02T11:02:14+08:00</updated>
+  <updated>2018-08-08T08:51:03+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -759,6 +759,8 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 <h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
 
+<p>A:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -791,6 +793,16 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 
 <p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
+
+<h3>5.Ionic - Cannot find module “.”</h3>
+
+<p>A:Just remove all imports that have /umd at the final.
+In my case, I changed: 
+<code>import { IonicPageModule } from 'ionic-angular/umd';</code>
+To: 
+<code>import { IonicPageModule } from 'ionic-angular';</code></p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
 ]]></content>
   </entry>
   

@@ -90,4 +90,13 @@ configurations.all {
 ```
 Reference:[Problem Isolated - Need Solution](https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/issues/205#issuecomment-371669478)  
 
+###4.Application error. The connection to the server was unsuccessful
+A:Add the next line into the config.xml in side the tag.
+
+```xml
+<preference name="loadUrlTimeoutValue" value="700000" />
+```
+
+Reference:[Application error. The connection to the server was unsuccessful](https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3)  
+
 

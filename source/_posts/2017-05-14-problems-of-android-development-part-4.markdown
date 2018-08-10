@@ -65,7 +65,7 @@ Reference:[Add Rounded Corners to Views and Layouts Android](http://www.gadgetsa
 ###2.Error:All flavors must now belong to a named flavor dimension.
 A:在主app的build.gradle里面的
 
-```gradle
+```
  defaultConfig {
  	targetSdkVersion：***
 	minSdkVersion ：***
@@ -81,7 +81,7 @@ Reference:[解决Error:All flavors must now belong to a named flavor dimension.]
 ###3.error: resource android:attr/fontVariationSettings not found.
 A:This is caused by an incompatibility with the android support library that changed to version 28 in the last day or so. Add follow contents to build.gradle:
 
-```gradle
+```
 configurations.all {
     resolutionStrategy {
         force 'com.android.support:support-v4:27.1.0'

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-08T08:51:03+08:00</updated>
+  <updated>2018-08-10T17:14:12+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -70,7 +70,49 @@ android:layout_height="match_parent"&gt;
 &lt;/RelativeLayout&gt;
 </code></pre>
 
+<!--more-->
+
+
 <p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
+
+<h3>2.Error:All flavors must now belong to a named flavor dimension.</h3>
+
+<p>A:在主app的build.gradle里面的</p>
+
+<pre><code class="gradle"> defaultConfig {
+   targetSdkVersion：***
+    minSdkVersion ：***
+    versionCode：***
+   versionName ：***
+    // 版本名后面添加一句话，意思就是flavor dimension
+    // 它的维度就是该版本号，这样维度就是都是统一的了
+    flavorDimensions "versionCode"
+}
+</code></pre>
+
+<p>Reference:<a href="https://blog.csdn.net/SYIF88/article/details/75009663">解决Error:All flavors must now belong to a named flavor dimension.</a></p>
+
+<h3>3.error: resource android:attr/fontVariationSettings not found.</h3>
+
+<p>A:This is caused by an incompatibility with the android support library that changed to version 28 in the last day or so. Add follow contents to build.gradle:</p>
+
+<pre><code class="gradle">configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-v4:27.1.0'
+    }
+}
+</code></pre>
+
+<p>Reference:<a href="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/issues/205#issuecomment-371669478">Problem Isolated - Need Solution</a></p>
+
+<h3>4.Application error. The connection to the server was unsuccessful</h3>
+
+<p>A:Add the next line into the config.xml in side the tag.</p>
+
+<pre><code class="xml">&lt;preference name="loadUrlTimeoutValue" value="700000" /&gt;
+</code></pre>
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3">Application error. The connection to the server was unsuccessful</a></p>
 ]]></content>
   </entry>
   
@@ -248,44 +290,27 @@ if (view != null) {<br/>
     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 }
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Reference:&lt;a href="https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard"&gt;Close/hide the Android Soft Keyboard&lt;/a&gt;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h3&gt;8.ListView 中的 EditText 捕获焦点异常。&lt;/h3&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;A:在 manifest 中配置下 Activity :&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;&lt;activity android:name= ".yourActivity" android:windowSoftInputMode="adjustPan"/&gt;
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Reference:&lt;a href="https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview"&gt;Focusable EditText inside ListView&lt;/a&gt;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h3&gt;9.Android Studio 如何设置使用本地 gradle?&lt;/h3&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;A:&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ol&gt;
-</span><span class='line'>&lt;li&gt;下载 gradle;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;在 Android Studio 中设置 gradle home:</span></code></pre></td></tr></table></div></figure>
+```
+Reference:<a href="https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard">Close/hide the Android Soft Keyboard</a></p>
+
+<h3>8.ListView 中的 EditText 捕获焦点异常。</h3>
+
+<p>A:在 manifest 中配置下 Activity :</p>
+
+<pre><code>&lt;activity android:name= ".yourActivity" android:windowSoftInputMode="adjustPan"/&gt;
+</code></pre>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview">Focusable EditText inside ListView</a></p>
+
+<h3>9.Android Studio 如何设置使用本地 gradle?</h3>
+
+<p>A:</p>
+
+<ol>
+<li>下载 gradle;</li>
+<li>解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;</li>
+<li>在 Android Studio 中设置 gradle home:
+```
 Android Studio > Preference&hellip; > Build,Excution,Deployment > Gradle > User local gradle distribution > Gradle home</li>
 </ol>
 

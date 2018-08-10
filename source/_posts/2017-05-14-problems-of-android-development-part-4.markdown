@@ -59,5 +59,23 @@ android:layout_height="match_parent">
  
 </RelativeLayout>
 ```
-
+<!--more-->
 Reference:[Add Rounded Corners to Views and Layouts Android](http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt)  
+
+###2.Error:All flavors must now belong to a named flavor dimension.
+A:在主app的build.gradle里面的
+
+```gradle
+ defaultConfig {
+ 	targetSdkVersion：***
+	minSdkVersion ：***
+	versionCode：***
+ 	versionName ：***
+	// 版本名后面添加一句话，意思就是flavor dimension
+	// 它的维度就是该版本号，这样维度就是都是统一的了
+	flavorDimensions "versionCode"
+}
+```
+Reference:[解决Error:All flavors must now belong to a named flavor dimension.](https://blog.csdn.net/SYIF88/article/details/75009663)  
+
+

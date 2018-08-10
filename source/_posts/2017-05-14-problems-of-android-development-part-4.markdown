@@ -78,4 +78,16 @@ A:在主app的build.gradle里面的
 ```
 Reference:[解决Error:All flavors must now belong to a named flavor dimension.](https://blog.csdn.net/SYIF88/article/details/75009663)  
 
+###3.error: resource android:attr/fontVariationSettings not found.
+A:This is caused by an incompatibility with the android support library that changed to version 28 in the last day or so. Add follow contents to build.gradle:
+
+```gradle
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-v4:27.1.0'
+    }
+}
+```
+Reference:[Problem Isolated - Need Solution](https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/issues/205#issuecomment-371669478)  
+
 

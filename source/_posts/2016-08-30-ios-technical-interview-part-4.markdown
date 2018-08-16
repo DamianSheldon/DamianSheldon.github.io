@@ -206,7 +206,7 @@ Reference:[Image Resizing Techniques](http://nshipster.com/image-resizing/)
 A:
 > There are a number of data types in the Core Foundation framework and the Foundation framework that can be used interchangeably. Data types that can be used interchangeably are also referred to as toll-free bridged data types. This means that you can use the same data structure as the argument to a Core Foundation function call or as the receiver of an Objective-C message invocation.
 
-Toll-Free Bridging 是指 Core Foundation framework 和 Foundation framework 的数据类型可以互换使用。自然是混合使用 Core Foundation framework 和 Foundation framework 时，例如 Core Graphics, Core Animation.
+Toll-Free Bridging 是指 Core Foundation framework 和 Foundation framework 的部分数据类型可以互换使用。自然是混合使用 Core Foundation framework 和 Foundation framework 时，例如 Core Graphics, Core Animation.
 
 ###22.当系统出现内存警告时会发生什么？
 A:系统会杀死后台内存占用量大的应用释放内存给当前运行的应用，当前的应用也会收到内存警告的通知。

@@ -12,7 +12,7 @@ A:
 	
 * Write Serialization(not general thread safety): nonatomic, atomic (default)
 * Mutability: readonly,readwrite (default)
-* API Contron: getter = methodname, setter = mehtodname:
+* API Contron: getter = methodname, setter = methodname:
 * Memory Management: copy, strong (default), weak, unsafe_unretained, assign
 
 ###2. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？  

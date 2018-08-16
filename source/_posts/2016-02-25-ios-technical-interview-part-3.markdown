@@ -9,10 +9,11 @@ description: iOS Technical Interview questions about categories, extension, KVO,
 ---
 
 ###1.Difference between categories and extensions?
-A:There are two difference beween categories and extensions:
+A:There are three difference beween categories and extensions:
 
 1. The extension has no name;
-2. The implementation of the extension must be in the main @implementation block of the file.
+2. The implementation of the extension must be in the main @implementation block of the file;
+3. The extension can easy declare property that need backend instance variable.
 
 Reference:[Difference between Category and Class Extension?](http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension)
 

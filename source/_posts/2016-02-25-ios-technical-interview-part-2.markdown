@@ -406,7 +406,7 @@ A:
 
 解释:
 
-* 因为编译后的类已经注册在 runtime 中，类结构体中的 objc_ivar_list 实例变量的链表 和 instance_size 实例变量的内存大小已经确定，同时runtime 会调用 class_setIvarLayout 或 class_setWeakIvarLayout 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；
+* 因为编译后的类已经注册在 runtime 中，类结构体内存大小已经确定，不能为新增的实例分配内存空间，所以不能向存在的类中添加实例变量；
 * 运行时创建的类是可以添加实例变量，调用 class_addIvar 函数。但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。
 
 ###44. 一个objc对象如何进行内存布局？（考虑有父类的情况）  

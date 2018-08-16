@@ -10,10 +10,10 @@ description: iOS Technical Interview questions about property attributes, weak, 
 ###1. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？  
 A:
 	
-* Write Serialization(not general thread safety): nonatomic, atomic (default)
-* Mutability: readonly,readwrite (default)
-* API Contron: getter = methodname, setter = methodname:
-* Memory Management: copy, strong (default), weak, unsafe_unretained, assign
+* Atomicity(not general thread safety): nonatomic, atomic(default)
+* Writability: readonly, readwrite(default)
+* Accessor Method Names: getter = methodname, setter = methodname:
+* Setter Semantics: strong, weak, copy, retain, assign(default)
 
 ###2. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？  
 A: 
@@ -195,7 +195,7 @@ id __weak weakSelf = self;
 __weak __typeof(self)weakSelf = self;
 ```
 
-有人可能会说用 `__block` 修饰符也可以，但我不认为这是正确的做法，`__block` 强调的是对变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，`__block` 修饰符侧重点是变量存储类型，它让我们在 block 内能修改变量。
+有人可能会说用 `__block` 修饰符也可以，但我不认为这是正确的做法，`__block` 强调的是变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环。
 
 这里便自然可以引申出探讨 `__weak` 和 `__block` 的区别。
 

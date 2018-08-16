@@ -94,8 +94,8 @@ Reference:
 ###9.iOS 7的多任务添加了哪两个新的 API? 各自的使用场景是什么？
 A:
 
-* Apps that regularly update their content by contacting a server can register with the system and be launched periodically to retrieve that content in the background. To register, include the UIBackgroundModes key with the fetch value in your app’s Info.plist file. Then, when your app is launched, call the setMinimumBackgroundFetchInterval: method to determine how often it receives update messages. Finally, you must also implement the application:performFetchWithCompletionHandler: method in your app delegate.
-* Apps that use push notifications to notify the user that new content is available can fetch the content in the background. To support this mode, include the UIBackgroundModes key with the remote-notification value in your app’s Info.plist file. You must also implement the application:didReceiveRemoteNotification:fetchCompletionHandler: method in your app delegate.
+* Apps that regularly update their content by contacting a server can register with the system and be launched periodically to retrieve that content in the background. To register, include the UIBackgroundModes key with the fetch value in your app’s Info.plist file. Then, when your app is launched, call the `setMinimumBackgroundFetchInterval:` method to determine how often it receives update messages. Finally, you must also implement the `application:performFetchWithCompletionHandler:` method in your app delegate.
+* Apps that use push notifications to notify the user that new content is available can fetch the content in the background. To support this mode, include the UIBackgroundModes key with the remote-notification value in your app’s Info.plist file. You must also implement the `application:didReceiveRemoteNotification:fetchCompletionHandler:` method in your app delegate.
 
 Reference: What's New in iOS
 

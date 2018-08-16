@@ -22,7 +22,7 @@ A:
 
 * You can add method to existing class even to that class whose source is not available to you. 
 * You can extend functionality of a class without subclassing. 
-* You can split implementation in multiple classes. 
+* You can split implementation in multiple files. 
 
 ###3.What are KVO and KVC?
 A:

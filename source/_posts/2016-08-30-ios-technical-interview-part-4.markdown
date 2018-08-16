@@ -160,7 +160,7 @@ A:
 * 可以添加优先级;
 * 可以复用;
 
-###15.strong / weak / unsafe_unretained 的区别
+###15.strong / weak / unsafe_unretained 的区别？
 
 A: 
 
@@ -172,7 +172,7 @@ A:
 
 Reference:[What is the use of unsafe_unretained attribute?](http://stackoverflow.com/questions/15968198/what-is-the-use-of-unsafe-unretained-attribute)
 
-###16.Objective-C 中，meta-class 指的是什么
+###16.Objective-C 中，meta-class 指的是什么？
 A:类对象的类称为 meta-class.
 
 ###17.UIView 和 CALayer 之间的关系？

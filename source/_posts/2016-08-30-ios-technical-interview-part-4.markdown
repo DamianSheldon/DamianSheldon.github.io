@@ -236,7 +236,7 @@ A:You can also use beginUpdates method followed by the endUpdates method to anim
 A:Method Swizzle 是一种改变已存在方法实现的技术。当我们有改变已存在方法实现的需求时使用。
 
 ###28.为什么当 Core Animation 完成时，layer 又会恢复到原先的状态？
-A: Layer 有两个独立的图层: 1.modelLayer;2.presentationLayer. 动画是在 presentationLayer 上，所以当动画完成时， layer 又恢复到原先的状态。
+A: Layer 有两个独立的图层: 1.modelLayer;2.presentationLayer. 动画是在 presentationLayer 上，正常显示的是 modelLayer，所以当动画完成时， layer 又恢复到原先的状态。
 
 ###29.你会如何存储用户的一些敏感信息，如登录的 token。
 A:KeyChain services

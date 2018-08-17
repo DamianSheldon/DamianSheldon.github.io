@@ -269,11 +269,12 @@ $(document).ready(
 	<div class="entry-content">
 		<h3>1.Difference between categories and extensions?</h3>
 
-<p>A:There are two difference beween categories and extensions:</p>
+<p>A:There are three difference beween categories and extensions:</p>
 
 <ol>
 <li>The extension has no name;</li>
-<li>The implementation of the extension must be in the main @implementation block of the file.</li>
+<li>The implementation of the extension must be in the main @implementation block of the file;</li>
+<li>The extension can easy declare property that need backend instance variable.</li>
 </ol>
 
 
@@ -286,7 +287,7 @@ $(document).ready(
 <ul>
 <li>You can add method to existing class even to that class whose source is not available to you.</li>
 <li>You can extend functionality of a class without subclassing.</li>
-<li>You can split implementation in multiple classes.</li>
+<li>You can split implementation in multiple files.</li>
 </ul>
 
 
@@ -351,10 +352,10 @@ $(document).ready(
 <p>A:</p>
 
 <ul>
-<li>Write Serialization(not general thread safety): nonatomic, atomic (default)</li>
-<li>Mutability: readonly,readwrite (default)</li>
-<li>API Contron: getter = methodname, setter = mehtodname:</li>
-<li>Memory Management: copy, strong (default), weak, unsafe_unretained, assign</li>
+<li>Atomicity(not general thread safety): nonatomic, atomic(default)</li>
+<li>Writability: readonly, readwrite(default)</li>
+<li>Accessor Method Names: getter = methodname, setter = methodname:</li>
+<li>Setter Semantics: strong, weak, copy, retain, assign(default)</li>
 </ul>
 
 

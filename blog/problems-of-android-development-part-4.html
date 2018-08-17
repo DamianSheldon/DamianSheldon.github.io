@@ -216,7 +216,64 @@ $(document).ready(
 </span><span class='line'>&lt;/RelativeLayout&gt;</span></code></pre></td></tr></table></div></figure>
 
 
+<!--more-->
+
+
 <p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
+
+<h3>2.Error:All flavors must now belong to a named flavor dimension.</h3>
+
+<p>A:在主app的build.gradle里面的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> defaultConfig {
+</span><span class='line'>     targetSdkVersion：***
+</span><span class='line'>  minSdkVersion ：***
+</span><span class='line'>  versionCode：***
+</span><span class='line'>     versionName ：***
+</span><span class='line'>  // 版本名后面添加一句话，意思就是flavor dimension
+</span><span class='line'>  // 它的维度就是该版本号，这样维度就是都是统一的了
+</span><span class='line'>  flavorDimensions "versionCode"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://blog.csdn.net/SYIF88/article/details/75009663">解决Error:All flavors must now belong to a named flavor dimension.</a></p>
+
+<h3>3.error: resource android:attr/fontVariationSettings not found.</h3>
+
+<p>A:This is caused by an incompatibility with the android support library that changed to version 28 in the last day or so. Add follow contents to build.gradle:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>configurations.all {
+</span><span class='line'>    resolutionStrategy {
+</span><span class='line'>        force 'com.android.support:support-v4:27.1.0'
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/issues/205#issuecomment-371669478">Problem Isolated - Need Solution</a></p>
+
+<h3>4.Application error. The connection to the server was unsuccessful</h3>
+
+<p>A:Add the next line into the config.xml in side the tag.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;preference name="loadUrlTimeoutValue" value="700000" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3">Application error. The connection to the server was unsuccessful</a></p>
 </div>
 
 

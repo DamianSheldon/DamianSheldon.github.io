@@ -126,11 +126,12 @@ $(document).ready(
     
 	<div class="entry-content"><h3>1.Difference between categories and extensions?</h3>
 
-<p>A:There are two difference beween categories and extensions:</p>
+<p>A:There are three difference beween categories and extensions:</p>
 
 <ol>
 <li>The extension has no name;</li>
-<li>The implementation of the extension must be in the main @implementation block of the file.</li>
+<li>The implementation of the extension must be in the main @implementation block of the file;</li>
+<li>The extension can easy declare property that need backend instance variable.</li>
 </ol>
 
 
@@ -143,7 +144,7 @@ $(document).ready(
 <ul>
 <li>You can add method to existing class even to that class whose source is not available to you.</li>
 <li>You can extend functionality of a class without subclassing.</li>
-<li>You can split implementation in multiple classes.</li>
+<li>You can split implementation in multiple files.</li>
 </ul>
 
 
@@ -184,7 +185,7 @@ A deep copy constructs a new compound object and then, recursively, inserts copi
 
 <h3>6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?</h3>
 
-<p>A: Yes, there is a autorelease pool already provided to us.</p>
+<p>A: It depends on case, if we create app base on a UI framework, there is a autorelease pool already provided to us; otherwise, we should create one by ourself.</p>
 
 <h3>7.When you will create an autorelease pool in your application?</h3>
 

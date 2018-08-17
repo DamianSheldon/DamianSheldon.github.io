@@ -93,7 +93,7 @@ Reference:[Problem Isolated - Need Solution](https://github.com/crosswalk-projec
 ###4.Application error. The connection to the server was unsuccessful
 A:Add the next line into the config.xml in side the tag.
 
-```xml
+```
 <preference name="loadUrlTimeoutValue" value="700000" />
 ```
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-17T08:53:13+08:00</updated>
+  <updated>2018-08-20T11:58:07+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -180,6 +180,32 @@ To: 
 <code>import { IonicPageModule } from 'ionic-angular';</code></p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
+
+<h3>6.Google maps report google is not define in ionic app.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>go to your project and do “ionic plugin add cordova-plugin-whitelist”</li>
+<li>add CSP meta</li>
+</ol>
+
+
+<pre><code>&lt;meta http-equiv="Content-Security-Policy" content="script-src 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'"&gt;
+</code></pre>
+
+<p>Live reload unfortunately seems not work, I get this error:</p>
+
+<pre><code>Refused to load the script 'http://localhost:35729/livereload.js?snipver=1' because it violates the following Content Security Policy directive: "script-src 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'".
+</code></pre>
+
+<p>After some google, update CSP meta works, new CSP meta as follow:</p>
+
+<pre><code>  &lt;meta http-equiv="Content-Security-Policy" content="script-src localhost:35729 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'"&gt;
+</code></pre>
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
+<a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
 ]]></content>
   </entry>
   

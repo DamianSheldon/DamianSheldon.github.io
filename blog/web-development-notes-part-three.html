@@ -386,6 +386,38 @@ To: 
 <code>import { IonicPageModule } from 'ionic-angular';</code></p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
+
+<h3>6.Google maps report google is not define in ionic app.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>go to your project and do “ionic plugin add cordova-plugin-whitelist”</li>
+<li>add CSP meta</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Live reload unfortunately seems not work, I get this error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Refused to load the script &#39;http://localhost:35729/livereload.js?snipver=1&#39; because it violates the following Content Security Policy directive: &quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After some google, update CSP meta works, new CSP meta as follow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src localhost:35729 &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
+<a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
 </div>
 
 

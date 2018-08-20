@@ -166,3 +166,29 @@ To: 
 
 Reference:[Ionic 2 - Runtime error Cannot find module “.”](https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module)  
 
+###6.Google maps report google is not define in ionic app.
+A:
+
+1. go to your project and do “ionic plugin add cordova-plugin-whitelist”
+2. add CSP meta
+
+```
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'">
+```
+
+Live reload unfortunately seems not work, I get this error:
+
+```
+Refused to load the script 'http://localhost:35729/livereload.js?snipver=1' because it violates the following Content Security Policy directive: "script-src 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'".
+```
+
+After some google, update CSP meta works, new CSP meta as follow:
+
+```
+  <meta http-equiv="Content-Security-Policy" content="script-src localhost:35729 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'">
+```
+
+Reference:[Ionic + Google Maps: ReferenceError: google is not defined](https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550)  
+[Solution for livereload problems with new CSP rules](https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449)  
+
+

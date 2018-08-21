@@ -54,7 +54,7 @@ NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许
 
 ####Property Lists
 
-当我们的需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们对象的全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。
+当我们需要持久化的数据量在几百KB内时，property list为我们提供了统一而方便的方法持久化数据。如果我们的对象全由NSDictionary, NSArray, NSString, NSDate, NSData, 或NSNumber类派生，我们可以创建property list。事实上，NSUserDefaults就是把数据保存在property list中。
 
 Property list有三种存储方式：XML, binary format, "old-style" ASCII format inherited from OpenStep。old-style format的序列化API是只读的。
 

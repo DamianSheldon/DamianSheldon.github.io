@@ -23,13 +23,7 @@ iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应�
 
 这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。
 
-<div style="text-align:center" markdown="1">
-
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
-
-</div>
-
-<!-- more -->
+{% img ../images/ios_app_layout_2x.png 383 417 "App Sandbox" %}
 
 iOS应用常用的目录列表：
 
@@ -52,7 +46,7 @@ iOS应用常用的目录列表：
 3. Archive;
 4. 数据库;
 5. Core Data。
-
+<!-- more -->
 ####NSUserDefaults
 
 NSUserDefaults类提供与默认系统交互的程序接口。默认系统允许应用去自定义它的行为来符合用户的偏好。所以它主要是用来存储些配置信息。
@@ -100,3 +94,5 @@ Archives and Serializations Programming Guide
 [对比iOS中的四种数据存储](http://www.infoq.com/cn/articles/data-storage-in-ios)    
 [IOS开发系列—Objective-C之Foundation框架](http://www.cnblogs.com/kenshincui/p/3885689.html#archiver)    
 [iOS开发系列--数据存取](http://www.cnblogs.com/kenshincui/p/4077833.html)  
+
+

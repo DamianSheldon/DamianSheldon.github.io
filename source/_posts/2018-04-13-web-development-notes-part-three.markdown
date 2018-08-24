@@ -191,4 +191,28 @@ After some google, update CSP meta works, new CSP meta as follow:
 Reference:[Ionic + Google Maps: ReferenceError: google is not defined](https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550)  
 [Solution for livereload problems with new CSP rules](https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449)  
 
+###7.Error: No provider for Navbar!
+A:Normally navbar don't provide with injector, we should access like follow:
+
+```
+// Template
+<ion-navbar #navbar color="primary">
+    <ion-title>Whatever</ion-title>
+    <ion-buttons right>
+      <button icon-only ion-button>
+        <ion-icon name='pause'></ion-icon>
+      </button>
+    </ion-buttons>
+</ion-navbar>
+  
+// Typescript
+export class Page {
+
+@ViewChild('navbar') navBar: Navbar;
+
+}
+```
+
+Reference:[Error in ./HomePage class HomePage - caused by: No provider for Navbar!](https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530)  
+
 

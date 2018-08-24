@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-23T14:40:04+08:00</updated>
+  <updated>2018-08-24T16:30:42+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -206,6 +206,30 @@ To: 
 
 <p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
 <a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
+
+<h3>7.Error: No provider for Navbar!</h3>
+
+<p>A:Normally navbar don&rsquo;t provide with injector, we should access like follow:</p>
+
+<pre><code>// Template
+&lt;ion-navbar #navbar color="primary"&gt;
+    &lt;ion-title&gt;Whatever&lt;/ion-title&gt;
+    &lt;ion-buttons right&gt;
+      &lt;button icon-only ion-button&gt;
+        &lt;ion-icon name='pause'&gt;&lt;/ion-icon&gt;
+      &lt;/button&gt;
+    &lt;/ion-buttons&gt;
+&lt;/ion-navbar&gt;
+
+// Typescript
+export class Page {
+
+@ViewChild('navbar') navBar: Navbar;
+
+}
+</code></pre>
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530">Error in ./HomePage class HomePage - caused by: No provider for Navbar!</a></p>
 ]]></content>
   </entry>
   

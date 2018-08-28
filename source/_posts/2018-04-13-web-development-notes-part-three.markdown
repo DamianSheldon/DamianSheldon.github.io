@@ -215,4 +215,20 @@ export class Page {
 
 Reference:[Error in ./HomePage class HomePage - caused by: No provider for Navbar!](https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530)  
 
+###8.How to custom back button of ionic app?
+A:
+
+```
+<ion-header>
+  <ion-navbar color='danger' hideBackButton>
+    <ion-title>product page</ion-title>
+    	<ion-buttons left>
+		<button ion-button navPop icon-only>
+              <ion-icon ios="ios-arrow-forward" md="md-arrow-forward"></ion-icon>
+		</button>
+	</ion-buttons>
+  </ion-navbar>
+</ion-header>
+```
+Reference:[Change default ion-navbar “back” button ios](https://forum.ionicframework.com/t/change-default-ion-navbar-back-button-ios/47342)  
 

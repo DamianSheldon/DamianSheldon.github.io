@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-24T16:30:42+08:00</updated>
+  <updated>2018-08-28T15:21:35+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -230,6 +230,227 @@ export class Page {
 </code></pre>
 
 <p>Reference:<a href="https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530">Error in ./HomePage class HomePage - caused by: No provider for Navbar!</a></p>
+
+<h3>8.How to custom back button of ionic app?</h3>
+
+<p>A:</p>
+
+<pre><code>&lt;ion-header&gt;
+  &lt;ion-navbar color='danger' hideBackButton&gt;
+    &lt;ion-title&gt;product page&lt;/ion-title&gt;
+        &lt;ion-buttons left&gt;
+        &lt;button ion-button navPop icon-only&gt;
+              &lt;ion-icon ios="ios-arrow-forward" md="md-arrow-forward"&gt;&lt;/ion-icon&gt;
+        &lt;/button&gt;
+    &lt;/ion-buttons&gt;
+  &lt;/ion-navbar&gt;
+&lt;/ion-header&gt;
+</code></pre>
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/change-default-ion-navbar-back-button-ios/47342">Change default ion-navbar “back” button ios</a></p>
+
+<h3>9.How to make a div take the remaining height?</h3>
+
+<p>A:</p>
+
+<ol>
+<li>Absolute Positioning</li>
+<li>Tables</li>
+<li>CSS3 calc</li>
+</ol>
+
+
+<p>Absolute Positioning</p>
+
+<p>```
+// html</p>
+
+<div id="inner_fixed">
+    I have a fixed height
+</div>
+
+
+<p> </p>
+
+<div id="inner_remaining">
+    I take up the remaining height
+</div>
+
+
+<p>// css
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+ </p>
+
+<h1>inner_fixed {</h1>
+
+<pre><code>height: 100px;
+background-color: grey;
+</code></pre>
+
+<p>}
+ </p>
+
+<h1>inner_remaining {</h1>
+
+<pre><code>background-color: #DDDDDD;    
+</code></pre>
+
+<p> 
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    width: 100%;
+}
+```</p>
+
+<p>pros</p>
+
+<ul>
+<li>easy to implement</li>
+<li>intuitive</li>
+</ul>
+
+
+<p>cons</p>
+
+<ul>
+<li>tedious to maintain (hard-coded positions)</li>
+</ul>
+
+
+<p>Tables</p>
+
+<p>```
+// html</p>
+
+<div id="outer">
+    <div id="inner_fixed">
+        I have a fixed height
+    </div>
+ 
+    <div id="inner_remaining">
+        I take up the remaining height
+    </div>
+</div>
+
+
+<p>// css
+html, body, #outer {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+ </p>
+
+<h1>outer {</h1>
+
+<pre><code>display: table;
+</code></pre>
+
+<p>}
+ </p>
+
+<h1>inner_fixed {</h1>
+
+<pre><code>height: 100px;
+background-color: grey;
+</code></pre>
+
+<p> 
+    display: table-row;
+}
+ </p>
+
+<h1>inner_remaining {</h1>
+
+<pre><code>background-color: #DDDDDD;
+</code></pre>
+
+<p> 
+    display: table-row;  <br/>
+}
+```</p>
+
+<p>pros</p>
+
+<ul>
+<li>rather “clean” solution</li>
+<li>no hard-coded values, other elements can change their height</li>
+</ul>
+
+
+<p>cons</p>
+
+<ul>
+<li>might cause some side-effects with the layout</li>
+</ul>
+
+
+<p>CSS3 calc</p>
+
+<p>```
+// html</p>
+
+<div id="inner_fixed">
+    I have a fixed height
+</div>
+
+
+<p> </p>
+
+<div id="inner_remaining">
+    I take up the remaining height
+</div>
+
+
+<p>// css
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+ </p>
+
+<h1>inner_fixed {</h1>
+
+<pre><code>height: 100px;
+background-color: grey;
+</code></pre>
+
+<p>}
+ </p>
+
+<h1>inner_remaining {</h1>
+
+<pre><code>background-color: #DDDDDD;
+</code></pre>
+
+<p> 
+    height: calc(100% - 100px);  <br/>
+}
+```</p>
+
+<p>pros</p>
+
+<ul>
+<li>easy to implement</li>
+<li>less code than the other solutions</li>
+</ul>
+
+
+<p>cons</p>
+
+<ul>
+<li>the calc function is rather new (no support for older browsers)</li>
+<li>tedious to maintain (hard-coded height)</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
 ]]></content>
   </entry>
   

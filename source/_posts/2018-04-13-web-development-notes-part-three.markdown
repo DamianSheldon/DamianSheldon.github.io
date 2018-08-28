@@ -232,3 +232,145 @@ A:
 ```
 Reference:[Change default ion-navbar “back” button ios](https://forum.ionicframework.com/t/change-default-ion-navbar-back-button-ios/47342)  
 
+###9.How to make a div take the remaining height?
+A:
+
+1. Absolute Positioning
+2. Tables
+3. CSS3 calc
+
+Absolute Positioning
+
+```
+// html
+<div id="inner_fixed">
+    I have a fixed height
+</div>
+ 
+<div id="inner_remaining">
+    I take up the remaining height
+</div>
+
+// css
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+ 
+#inner_fixed {
+    height: 100px;
+    background-color: grey;
+}
+ 
+#inner_remaining {
+    background-color: #DDDDDD;    
+ 
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    width: 100%; 
+}
+``` 
+
+pros
+
+* easy to implement
+* intuitive
+
+cons
+
+* tedious to maintain (hard-coded positions)
+
+Tables
+
+```
+// html
+<div id="outer">
+    <div id="inner_fixed">
+        I have a fixed height
+    </div>
+ 
+    <div id="inner_remaining">
+        I take up the remaining height
+    </div>
+</div>
+
+// css
+html, body, #outer {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+ 
+#outer {
+    display: table;
+}
+ 
+#inner_fixed {
+    height: 100px;
+    background-color: grey;
+ 
+    display: table-row;
+}
+ 
+#inner_remaining {
+    background-color: #DDDDDD;
+ 
+    display: table-row;    
+}
+```
+
+pros
+
+* rather “clean” solution
+* no hard-coded values, other elements can change their height
+
+cons
+
+* might cause some side-effects with the layout
+
+CSS3 calc
+
+```
+// html
+<div id="inner_fixed">
+    I have a fixed height
+</div>
+ 
+<div id="inner_remaining">
+    I take up the remaining height
+</div>
+
+// css
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+ 
+#inner_fixed {
+    height: 100px;
+    background-color: grey;
+}
+ 
+#inner_remaining {
+    background-color: #DDDDDD;
+ 
+    height: calc(100% - 100px);    
+}
+```
+
+pros
+
+* easy to implement
+* less code than the other solutions
+
+cons
+
+* the calc function is rather new (no support for older browsers)
+* tedious to maintain (hard-coded height)
+
+Reference:[How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
+
+

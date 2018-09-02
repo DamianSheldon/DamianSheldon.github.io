@@ -234,55 +234,13 @@ $(document).ready(
 
 <p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
 
-<p><img src="../images/ios_app_layout_2x.png" width="383" height="417" title="&#34;App Sandbox&#34;" alt="&#34;App Sandbox&#34;"></p>
+<div style="text-align:center" markdown="1">
 
-<p>iOS应用常用的目录列表：</p>
+<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
 
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> Directory </th>
-<th style="text-align:left;"> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> AppName.app </td>
-<td style="text-align:left;"> This is the app’s bundle</td>
-</tr>
-<tr>
-<td style="text-align:left;"> Documents/ </td>
-<td style="text-align:left;"> Use this directory to store user-generated content.</td>
-</tr>
-<tr>
-<td style="text-align:left;"> Documents/Inbox </td>
-<td style="text-align:left;"> Use this directory to access files that your app was asked to open by outside entities.</td>
-</tr>
-<tr>
-<td style="text-align:left;"> Library/ </td>
-<td style="text-align:left;"> This is the top-level directory for any files that are not user data files.</td>
-</tr>
-<tr>
-<td style="text-align:left;"> tmp/ </td>
-<td style="text-align:left;"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
-</tr>
-</tbody>
-</table>
+</div>
 
 
-<h3>数据的建议存储位置</h3>
-
-<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
-
-<h3>数据持久化的方法</h3>
-
-<ol>
-<li>NSUserDefaults;</li>
-<li>Property Lists;</li>
-<li>Archive;</li>
-<li>数据库;</li>
-<li>Core Data。</li>
-</ol>
 
 
 

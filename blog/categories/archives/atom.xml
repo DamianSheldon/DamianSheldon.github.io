@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-28T15:21:35+08:00</updated>
+  <updated>2018-09-02T21:58:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,372 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Blocks 的实现]]></title>
+    <link href="http://DamianSheldon.github.io/blog/the-implementation-of-blocks.html"/>
+    <updated>2018-09-01T15:42:34+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/the-implementation-of-blocks</id>
+    <content type="html"><![CDATA[<p>Block 的实现是面试中高频出现的问题，背后的原因我想是希望借此考察面试者对 Block 的掌握程度，在日后的工作中能够用好它；同时能从侧面反映面试者有没有深入钻研技术，以及独立思考能力如何，可谓一举多得。</p>
+
+<p>下面我们就来看看 ObjC 中的 Blocks 是如何实现。Clang 的 <code>-rewrite-objc</code> 选项可以将含有 Block 语法的源代码转换为 C++，说是 C++，其实也仅使用了 struct 结构，其本质是 C 语言。</p>
+
+<p>下面我们先转换一个简单的文件试试:</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, char ** argv)
+{
+    @autoreleasepool {
+        void (^blk)(void) = ^{
+            printf("Block\n");
+        };
+
+        blk();
+    }    
+
+    return 0;
+}
+
+// 使用命令:
+$ clang -fobjc-arc -ObjC -rewrite-objc -mios-version-min=6.0.0 -fobjc-runtime=ios-6.0.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk -arch arm64 block-essense.m  -o block-essense-in-c.c
+
+//限于篇幅，省略不相关的部分，结果如下:
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+            printf("Block\n");
+        }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+int main(int argc, char ** argv)
+{
+    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
+        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA));
+
+        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<!--more-->
+
+
+<p>可以看到持有 block 的变量实际上就是指针，而 block 本身则是结构体，在我们的例子中对应的是 <code>__main_block_impl_0</code>,功能代码则是通过函数来实现的，block 结构体内有成员变量指向该函数，这样我们对 block 的实现渐渐清晰起来了。</p>
+
+<p>Block 有一个重要的特性&ndash;自动捕获变量。这又是怎么实现的呢？我们同样可以使用上述的方法来得到答案。我们构造一个捕获变量的例子，然后来查看它的结果：</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, char ** argv)
+{
+    @autoreleasepool {
+
+        BOOL flag = YES;
+        int i = 28;
+        float pi = 3.1415;
+        char c = 'x';
+
+        void (^blk)(void) = ^{
+            printf("Block\n");
+            printf("flag:%d\n", flag);
+            printf("i:%d\n", i);
+            printf("pi:%d\n", pi);
+            printf("c:%d\n", c);
+        };
+
+        blk();
+    }
+
+    return 0;
+}
+
+// 转换之后相关部分
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  BOOL flag;
+  int i;
+  float pi;
+  char c;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, BOOL _flag, int _i, float _pi, char _c, int flags=0) : flag(_flag), i(_i), pi(_pi), c(_c) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+  BOOL flag = __cself-&gt;flag; // bound by copy
+  int i = __cself-&gt;i; // bound by copy
+  float pi = __cself-&gt;pi; // bound by copy
+  char c = __cself-&gt;c; // bound by copy
+
+            printf("Block\n");
+            printf("flag:%d\n", flag);
+            printf("i:%d\n", i);
+            printf("pi:%d\n", pi);
+            printf("c:%d\n", c);
+        }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+int main(int argc, char ** argv)
+{
+    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
+
+        BOOL flag = ((bool)1);
+        int i = 28;
+        float pi = 3.1415;
+        char c = 'x';
+
+        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, flag, i, pi, c));
+
+        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>可以看到自动捕获的标量数据是直接声明为 block 结构体的成员变量。</p>
+
+<p>除了读取捕获自动变量的值，block 还支持使用 <code>__block</code> 修饰符来修改自动捕获的变量。我们同样来看个例子：</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, char ** argv)
+{
+    @autoreleasepool {
+
+        __block BOOL flag = YES;
+        __block int i = 28;
+        __block float pi = 3.1415;
+        __block char c = 'x';
+
+        void (^blk)(void) = ^{
+            printf("Block\n");
+
+            flag = NO;
+            i = 88;
+            pi = 3.1415926;
+            c = 'a';
+
+            printf("flag:%d\n", flag);
+            printf("i:%d\n", i);
+            printf("pi:%f\n", pi);
+            printf("c:%d\n", c);
+        };
+
+        blk();
+    }
+
+    return 0;
+}
+
+// 转换之后相关部分的结果:
+struct __Block_byref_flag_0 {
+  void *__isa;
+__Block_byref_flag_0 *__forwarding;
+ int __flags;
+ int __size;
+ BOOL flag;
+};
+struct __Block_byref_i_1 {
+  void *__isa;
+__Block_byref_i_1 *__forwarding;
+ int __flags;
+ int __size;
+ int i;
+};
+struct __Block_byref_pi_2 {
+  void *__isa;
+__Block_byref_pi_2 *__forwarding;
+ int __flags;
+ int __size;
+ float pi;
+};
+struct __Block_byref_c_3 {
+  void *__isa;
+__Block_byref_c_3 *__forwarding;
+ int __flags;
+ int __size;
+ char c;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __Block_byref_flag_0 *flag; // by ref
+  __Block_byref_i_1 *i; // by ref
+  __Block_byref_pi_2 *pi; // by ref
+  __Block_byref_c_3 *c; // by ref
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_flag_0 *_flag, __Block_byref_i_1 *_i, __Block_byref_pi_2 *_pi, __Block_byref_c_3 *_c, int flags=0) : flag(_flag-&gt;__forwarding), i(_i-&gt;__forwarding), pi(_pi-&gt;__forwarding), c(_c-&gt;__forwarding) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+  __Block_byref_flag_0 *flag = __cself-&gt;flag; // bound by ref
+  __Block_byref_i_1 *i = __cself-&gt;i; // bound by ref
+  __Block_byref_pi_2 *pi = __cself-&gt;pi; // bound by ref
+  __Block_byref_c_3 *c = __cself-&gt;c; // bound by ref
+
+            printf("Block\n");
+
+            (flag-&gt;__forwarding-&gt;flag) = ((bool)0);
+            (i-&gt;__forwarding-&gt;i) = 88;
+            (pi-&gt;__forwarding-&gt;pi) = 3.1415926;
+            (c-&gt;__forwarding-&gt;c) = 'a';
+
+            printf("flag:%d\n", (flag-&gt;__forwarding-&gt;flag));
+            printf("i:%d\n", (i-&gt;__forwarding-&gt;i));
+            printf("pi:%f\n", (pi-&gt;__forwarding-&gt;pi));
+            printf("c:%d\n", (c-&gt;__forwarding-&gt;c));
+        }
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&amp;dst-&gt;flag, (void*)src-&gt;flag, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;i, (void*)src-&gt;i, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;pi, (void*)src-&gt;pi, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;c, (void*)src-&gt;c, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src-&gt;flag, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;i, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;pi, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;c, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+  void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+int main(int argc, char ** argv)
+{
+    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
+
+        __attribute__((__blocks__(byref))) __Block_byref_flag_0 flag = {(void*)0,(__Block_byref_flag_0 *)&amp;flag, 0, sizeof(__Block_byref_flag_0), ((bool)1)};
+        __attribute__((__blocks__(byref))) __Block_byref_i_1 i = {(void*)0,(__Block_byref_i_1 *)&amp;i, 0, sizeof(__Block_byref_i_1), 28};
+        __attribute__((__blocks__(byref))) __Block_byref_pi_2 pi = {(void*)0,(__Block_byref_pi_2 *)&amp;pi, 0, sizeof(__Block_byref_pi_2), 3.1415};
+        __attribute__((__blocks__(byref))) __Block_byref_c_3 c = {(void*)0,(__Block_byref_c_3 *)&amp;c, 0, sizeof(__Block_byref_c_3), 'x'};
+
+        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_flag_0 *)&amp;flag, (__Block_byref_i_1 *)&amp;i, (__Block_byref_pi_2 *)&amp;pi, (__Block_byref_c_3 *)&amp;c, 570425344));
+
+        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>可以看到使用 <code>__block</code> 修饰的变量实际上转换成了结构体变量，同样在 block 结构体中有成员变量指向它们。</p>
+
+<p>上面我们看过了使用 block 时的几种情况，我们可以尝试来总结使用 block 的情况，然后查看各种情况转换之后的代码来进一步探索 block 的实现，进而得到比较完善的答案。</p>
+
+<p>首先 block 可以按是否捕获变量分为两大类，其次捕获变量时根据是否支持修改又可以分为两类，最后捕获变量又可以分为程序的数据区域、栈上和堆上三种情况。综上，我们可以得到得到如下的 block 分类列表:</p>
+
+<ul>
+<li>不捕获变量(1)</li>
+<li><p>捕获变量</p>
+
+<ul>
+<li><p>不修改捕获的变量</p>
+
+<ul>
+<li>存在程序数据区的变量(2)</li>
+<li>存在栈上的变量(3)</li>
+<li>存在堆上的变量(4)</li>
+</ul>
+</li>
+<li><p>修改捕获的变量(<code>__block</code> 修饰的变量)</p>
+
+<ul>
+<li>存在程序数据区的变量(5)</li>
+<li>存在栈上的变量(6)</li>
+<li>存在堆上的变量(7)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>这样算下来应该是存在七种情况，我们可以分别构造各种情况的例子，然后得到 block 的实现全貌。</p>
+
+<p>全局变量和 static 变量是程序数据区变量，block 中访问全局变量和在其他地方没有什么不同，所以 block 的实现中不需要对它进行特别考虑。Static 变量在捕获时会在 block 结构体中有对应的成员变量，可以用该成员变量来读写。由于它在程序的生命周期中一直存在，所以当 block 捕获并修改它时，不需要生成对应的结构体变量，这和其他 <code>__block</code> 修饰的变量不同。</p>
+
+<p>情况三和四比较类似，它们都会在 block 结构体中增加相应的成员变量，不同之处是捕获堆上的变量， block 的描述结构体变量中会增加 copy 和 dipose 函数，用来管理对应的内存。</p>
+
+<p>情况六和七也类似，它们都是将变量转换为结构体，然后在 block 结构体增加成员变量指向它们。捕获堆上的变量时，block 内的成员变量指向变量，而这个变量是指向堆上分配的一块内存的，也就是一个对象，对象就是一块内存区域嘛，用代码示例如下：</p>
+
+<pre><code>blk_t blk;
+
+{
+  __block id __strong array = [[NSMutableArray alloc] init];
+
+  blk = [^(id obj){
+
+      [array addObject:obj];
+      NSLog(@"array count = %ld", [array count]);
+
+  } copy];
+}
+
+// __block 修饰指向 array 的变量
+struct __Block_byref_array_0 {
+  void *__isa;
+__Block_byref_array_0 *__forwarding;
+ int __flags;
+ int __size;
+ void (*__Block_byref_id_object_copy)(void*, void*);
+ void (*__Block_byref_id_object_dispose)(void*);
+ __strong id array;
+};
+
+// 表示 block 的结构体
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __Block_byref_array_0 *array; // by ref
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_array_0 *_array, int flags=0) : array(_array-&gt;__forwarding) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+</code></pre>
+
+<p>看到这里，我们有了 block 捕获变量出了作用域后还能存在原因的线索，当表示 block 的结构体从栈上拷贝到堆上，如果是只读变量，它的值赋值给 block 结构体的成员变量了；如果是 <code>__block</code> 修饰的变量，表示该变量的结构体也会一并拷贝到堆上，并由 block 持有和管理。</p>
+
+<p>至此，我们应该对 block 的实现比较清晰了。</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>Objective-C 高级编程</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OpenLDAP 学习笔记]]></title>
@@ -945,114 +1311,6 @@ NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcur
 <li><a href="https://blog.codecentric.de/en/2014/11/concurrency-coredata/">Concurrency with CoreData</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac 使用笔记(二)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac-part-two.html"/>
-    <updated>2018-01-23T11:59:31+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac-part-two</id>
-    <content type="html"><![CDATA[<h2>1. iPhone每次连接Mac都会弹出iPhoto</h2>
-
-<p>解决办法：</p>
-
-<ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
-</ol>
-
-
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
-<h2>2. Add environment variable</h2>
-
-<pre><code class="bash">// ~/.bash_profile
-export var=value
-</code></pre>
-
-<h2>3.SSH ask passpharse every time I use SSH key.</h2>
-
-<p>A:</p>
-
-<pre><code class="bash">$echo -e "AddKeysToAgent yes\nUseKeychain yes" &gt;&gt; ~/.ssh/config
-</code></pre>
-
-<h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
-
-<p>A:</p>
-
-<pre><code class="bash">// Enable
-$ sudo spctl --master-disable
-
-// Disable
-$sudo spctl --master-enable
-</code></pre>
-
-<p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
-
-<h2>5.Mac 上批量替换文件中的字符串</h2>
-
-<p>A:</p>
-
-<pre><code class="bash">$ grep -rl discription source/_posts | xargs sed -i ''  "s/discription/description/g"
-</code></pre>
-
-<p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
-<a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
-
-<h2>6.如何查看占用指定端口的进程？</h2>
-
-<p>A:</p>
-
-<pre><code class="bash">$ lsof -i :[port]
-</code></pre>
-
-<p>结果输出中有进程的 pid, 之后我们可以用这个 pid 来杀掉该进程：</p>
-
-<pre><code class="bash">$ kill -9 [pid]
-</code></pre>
-
-<p>这些进程很可能是系统启动时就启动了，可以通过：</p>
-
-<pre><code class="bash">$ launchctl list | grep [pid]
-</code></pre>
-
-<p>来确认。如果找到有，而我们又不想它自启动了，可以在以下目录中找到配置文件：</p>
-
-<pre><code>~/Library/LaunchAgents         Per-user agents provided by the user.
-/Library/LaunchAgents          Per-user agents provided by the administrator.
-/Library/LaunchDaemons         System wide daemons provided by the administrator.
-</code></pre>
-
-<p>找到之后，可以用命令：</p>
-
-<pre><code class="bash">$ launchctl unload -w paths
-// eg:
-$ launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-</code></pre>
-
-<!--more-->
-
-
-<h2>7.如何使用命令行安装 dmg？</h2>
-
-<p>A:</p>
-
-<p>First, mount the dmg image : <code>sudo hdiutil attach &lt;image&gt;.dmg</code></p>
-
-<p>The image will be mounted to /Volumes/<image>. Then we can install with: <code>sudo installer -package /Volumes/&lt;image&gt;/&lt;image&gt;.pkg -target /</code></p>
-
-<p>Finally unmount the image: <code>sudo hdiutil detach /Volumes/&lt;image&gt;</code>.</p>
-
-<p>这个需求是源于最近一次安装 mysql 时，图形界面安装无响应，之后尝试命令行成功安装，还蛮奇怪。</p>
-
-<p>Reference:<a href="https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg">Is there a command to install a dmg</a></p>
 ]]></content>
   </entry>
   

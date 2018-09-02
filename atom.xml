@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-23T14:40:04+08:00</updated>
+  <updated>2018-07-29T11:36:10+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -759,8 +759,6 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 <h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
 
-<p>A:</p>
-
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -793,48 +791,6 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 
 <p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
-
-<h3>5.Ionic - Cannot find module “.”</h3>
-
-<p>A:Just remove all imports that have /umd at the final.
-In my case, I changed: 
-<code>import { IonicPageModule } from 'ionic-angular/umd';</code>
-To: 
-<code>import { IonicPageModule } from 'ionic-angular';</code></p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
-
-<h3>6.Google maps report google is not define in ionic app.</h3>
-
-<p>A:</p>
-
-<ol>
-<li>go to your project and do “ionic plugin add cordova-plugin-whitelist”</li>
-<li>add CSP meta</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Live reload unfortunately seems not work, I get this error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Refused to load the script &#39;http://localhost:35729/livereload.js?snipver=1&#39; because it violates the following Content Security Policy directive: &quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After some google, update CSP meta works, new CSP meta as follow:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src localhost:35729 &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
-<a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
 ]]></content>
   </entry>
   
@@ -1544,8 +1500,6 @@ Once at project level right click on project > Properties > Java Compiler, while
 
 <p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
 
-<p>我用的是 digitalocean 家的 vps,总体感觉不错，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
-
 <p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
 
 <p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
@@ -1722,7 +1676,8 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 </span><span class='line'># iptables-save</span></code></pre></td></tr></table></div></figure>
 
 
-<p>有时我们可能会遇到连接问题，这时可以在主配置文件 <code>/etc/ipsec.conf</code> 中开启 <code>plutodebug=all</code>，然后就可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，帮助定位连接问题。解决问题之后再使用 <code>plutodebug=none</code> 关闭调试模式，之后 <code>ipsec restart</code> 重启生效。</p>
+<p>使用 <code>ipsec restart</code> 重启。<br/>
+有时我们可能会遇到连接问题，这时可以在主配置文件 <code>/etc/ipsec.conf</code> 中开启 <code>plutodebug=none</code>，然后就可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，帮助定位连接问题。</p>
 
 <h2>iPhone 客户端配置</h2>
 
@@ -2681,64 +2636,7 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 </span><span class='line'>&lt;/RelativeLayout&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<!--more-->
-
-
 <p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
-
-<h3>2.Error:All flavors must now belong to a named flavor dimension.</h3>
-
-<p>A:在主app的build.gradle里面的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> defaultConfig {
-</span><span class='line'>     targetSdkVersion：***
-</span><span class='line'>  minSdkVersion ：***
-</span><span class='line'>  versionCode：***
-</span><span class='line'>     versionName ：***
-</span><span class='line'>  // 版本名后面添加一句话，意思就是flavor dimension
-</span><span class='line'>  // 它的维度就是该版本号，这样维度就是都是统一的了
-</span><span class='line'>  flavorDimensions "versionCode"
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://blog.csdn.net/SYIF88/article/details/75009663">解决Error:All flavors must now belong to a named flavor dimension.</a></p>
-
-<h3>3.error: resource android:attr/fontVariationSettings not found.</h3>
-
-<p>A:This is caused by an incompatibility with the android support library that changed to version 28 in the last day or so. Add follow contents to build.gradle:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>configurations.all {
-</span><span class='line'>    resolutionStrategy {
-</span><span class='line'>        force 'com.android.support:support-v4:27.1.0'
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/issues/205#issuecomment-371669478">Problem Isolated - Need Solution</a></p>
-
-<h3>4.Application error. The connection to the server was unsuccessful</h3>
-
-<p>A:Add the next line into the config.xml in side the tag.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;preference name="loadUrlTimeoutValue" value="700000" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3">Application error. The connection to the server was unsuccessful</a></p>
 ]]></content>
   </entry>
   
@@ -3296,7 +3194,7 @@ composition 类使用 animationTool 属性赋予你引入来自 Core Animation �
 
 <h4>Exporting</h4>
 
-<p>为了导出视听资产，你必须使用 AVFoundation 框架提供的导出 API. AVAssetExportSession 类为简单的导出需求提供接口，例如修改文件格式或者裁剪资产的长度。对于更深的导出需求，使用 AVAssetReader 和 AVAssetWriter 类。</p>
+<p>为了读写视听资产，你必须使用 AVFoundation 框架提供的导出 API. AVAssetExportSession 类为简单的导出需求提供接口，例如修改文件格式或者裁剪资产的长度。对于更深的导出需求，使用 AVAssetReader 和 AVAssetWriter 类。</p>
 
 <p>当你想要操作资产的内容时使用 AVAssetReader. 例如，你可能读取资产中的音频轨迹去生成表示声波的图形。使用 AVAssetWriter 从像 sample buffers 或 still images 的媒体中生成资产。</p>
 
@@ -3986,7 +3884,7 @@ composition 类使用 animationTool 属性赋予你引入来自 Core Animation �
 </ul>
 
 
-<p>VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
+<p>VPS 我用的 DigitalOcean，打个小广告，如果你也想买个他们家的VPS,可以用我的优惠码：<a href="https://m.do.co/c/537dc7bd8a78">https://m.do.co/c/537dc7bd8a78</a></p>
 
 <p>我服务器跑的是 Debian 8 Jessie.</p>
 

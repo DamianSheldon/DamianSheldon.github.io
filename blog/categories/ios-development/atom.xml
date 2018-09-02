@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-08-28T15:21:35+08:00</updated>
+  <updated>2018-09-02T21:58:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,372 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Blocks 的实现]]></title>
+    <link href="http://DamianSheldon.github.io/blog/the-implementation-of-blocks.html"/>
+    <updated>2018-09-01T15:42:34+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/the-implementation-of-blocks</id>
+    <content type="html"><![CDATA[<p>Block 的实现是面试中高频出现的问题，背后的原因我想是希望借此考察面试者对 Block 的掌握程度，在日后的工作中能够用好它；同时能从侧面反映面试者有没有深入钻研技术，以及独立思考能力如何，可谓一举多得。</p>
+
+<p>下面我们就来看看 ObjC 中的 Blocks 是如何实现。Clang 的 <code>-rewrite-objc</code> 选项可以将含有 Block 语法的源代码转换为 C++，说是 C++，其实也仅使用了 struct 结构，其本质是 C 语言。</p>
+
+<p>下面我们先转换一个简单的文件试试:</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, char ** argv)
+{
+    @autoreleasepool {
+        void (^blk)(void) = ^{
+            printf("Block\n");
+        };
+
+        blk();
+    }    
+
+    return 0;
+}
+
+// 使用命令:
+$ clang -fobjc-arc -ObjC -rewrite-objc -mios-version-min=6.0.0 -fobjc-runtime=ios-6.0.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk -arch arm64 block-essense.m  -o block-essense-in-c.c
+
+//限于篇幅，省略不相关的部分，结果如下:
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+            printf("Block\n");
+        }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+int main(int argc, char ** argv)
+{
+    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
+        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA));
+
+        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<!--more-->
+
+
+<p>可以看到持有 block 的变量实际上就是指针，而 block 本身则是结构体，在我们的例子中对应的是 <code>__main_block_impl_0</code>,功能代码则是通过函数来实现的，block 结构体内有成员变量指向该函数，这样我们对 block 的实现渐渐清晰起来了。</p>
+
+<p>Block 有一个重要的特性&ndash;自动捕获变量。这又是怎么实现的呢？我们同样可以使用上述的方法来得到答案。我们构造一个捕获变量的例子，然后来查看它的结果：</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, char ** argv)
+{
+    @autoreleasepool {
+
+        BOOL flag = YES;
+        int i = 28;
+        float pi = 3.1415;
+        char c = 'x';
+
+        void (^blk)(void) = ^{
+            printf("Block\n");
+            printf("flag:%d\n", flag);
+            printf("i:%d\n", i);
+            printf("pi:%d\n", pi);
+            printf("c:%d\n", c);
+        };
+
+        blk();
+    }
+
+    return 0;
+}
+
+// 转换之后相关部分
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  BOOL flag;
+  int i;
+  float pi;
+  char c;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, BOOL _flag, int _i, float _pi, char _c, int flags=0) : flag(_flag), i(_i), pi(_pi), c(_c) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+  BOOL flag = __cself-&gt;flag; // bound by copy
+  int i = __cself-&gt;i; // bound by copy
+  float pi = __cself-&gt;pi; // bound by copy
+  char c = __cself-&gt;c; // bound by copy
+
+            printf("Block\n");
+            printf("flag:%d\n", flag);
+            printf("i:%d\n", i);
+            printf("pi:%d\n", pi);
+            printf("c:%d\n", c);
+        }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+int main(int argc, char ** argv)
+{
+    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
+
+        BOOL flag = ((bool)1);
+        int i = 28;
+        float pi = 3.1415;
+        char c = 'x';
+
+        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, flag, i, pi, c));
+
+        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>可以看到自动捕获的标量数据是直接声明为 block 结构体的成员变量。</p>
+
+<p>除了读取捕获自动变量的值，block 还支持使用 <code>__block</code> 修饰符来修改自动捕获的变量。我们同样来看个例子：</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, char ** argv)
+{
+    @autoreleasepool {
+
+        __block BOOL flag = YES;
+        __block int i = 28;
+        __block float pi = 3.1415;
+        __block char c = 'x';
+
+        void (^blk)(void) = ^{
+            printf("Block\n");
+
+            flag = NO;
+            i = 88;
+            pi = 3.1415926;
+            c = 'a';
+
+            printf("flag:%d\n", flag);
+            printf("i:%d\n", i);
+            printf("pi:%f\n", pi);
+            printf("c:%d\n", c);
+        };
+
+        blk();
+    }
+
+    return 0;
+}
+
+// 转换之后相关部分的结果:
+struct __Block_byref_flag_0 {
+  void *__isa;
+__Block_byref_flag_0 *__forwarding;
+ int __flags;
+ int __size;
+ BOOL flag;
+};
+struct __Block_byref_i_1 {
+  void *__isa;
+__Block_byref_i_1 *__forwarding;
+ int __flags;
+ int __size;
+ int i;
+};
+struct __Block_byref_pi_2 {
+  void *__isa;
+__Block_byref_pi_2 *__forwarding;
+ int __flags;
+ int __size;
+ float pi;
+};
+struct __Block_byref_c_3 {
+  void *__isa;
+__Block_byref_c_3 *__forwarding;
+ int __flags;
+ int __size;
+ char c;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __Block_byref_flag_0 *flag; // by ref
+  __Block_byref_i_1 *i; // by ref
+  __Block_byref_pi_2 *pi; // by ref
+  __Block_byref_c_3 *c; // by ref
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_flag_0 *_flag, __Block_byref_i_1 *_i, __Block_byref_pi_2 *_pi, __Block_byref_c_3 *_c, int flags=0) : flag(_flag-&gt;__forwarding), i(_i-&gt;__forwarding), pi(_pi-&gt;__forwarding), c(_c-&gt;__forwarding) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+  __Block_byref_flag_0 *flag = __cself-&gt;flag; // bound by ref
+  __Block_byref_i_1 *i = __cself-&gt;i; // bound by ref
+  __Block_byref_pi_2 *pi = __cself-&gt;pi; // bound by ref
+  __Block_byref_c_3 *c = __cself-&gt;c; // bound by ref
+
+            printf("Block\n");
+
+            (flag-&gt;__forwarding-&gt;flag) = ((bool)0);
+            (i-&gt;__forwarding-&gt;i) = 88;
+            (pi-&gt;__forwarding-&gt;pi) = 3.1415926;
+            (c-&gt;__forwarding-&gt;c) = 'a';
+
+            printf("flag:%d\n", (flag-&gt;__forwarding-&gt;flag));
+            printf("i:%d\n", (i-&gt;__forwarding-&gt;i));
+            printf("pi:%f\n", (pi-&gt;__forwarding-&gt;pi));
+            printf("c:%d\n", (c-&gt;__forwarding-&gt;c));
+        }
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&amp;dst-&gt;flag, (void*)src-&gt;flag, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;i, (void*)src-&gt;i, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;pi, (void*)src-&gt;pi, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;c, (void*)src-&gt;c, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src-&gt;flag, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;i, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;pi, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;c, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+  void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+int main(int argc, char ** argv)
+{
+    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
+
+        __attribute__((__blocks__(byref))) __Block_byref_flag_0 flag = {(void*)0,(__Block_byref_flag_0 *)&amp;flag, 0, sizeof(__Block_byref_flag_0), ((bool)1)};
+        __attribute__((__blocks__(byref))) __Block_byref_i_1 i = {(void*)0,(__Block_byref_i_1 *)&amp;i, 0, sizeof(__Block_byref_i_1), 28};
+        __attribute__((__blocks__(byref))) __Block_byref_pi_2 pi = {(void*)0,(__Block_byref_pi_2 *)&amp;pi, 0, sizeof(__Block_byref_pi_2), 3.1415};
+        __attribute__((__blocks__(byref))) __Block_byref_c_3 c = {(void*)0,(__Block_byref_c_3 *)&amp;c, 0, sizeof(__Block_byref_c_3), 'x'};
+
+        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_flag_0 *)&amp;flag, (__Block_byref_i_1 *)&amp;i, (__Block_byref_pi_2 *)&amp;pi, (__Block_byref_c_3 *)&amp;c, 570425344));
+
+        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>可以看到使用 <code>__block</code> 修饰的变量实际上转换成了结构体变量，同样在 block 结构体中有成员变量指向它们。</p>
+
+<p>上面我们看过了使用 block 时的几种情况，我们可以尝试来总结使用 block 的情况，然后查看各种情况转换之后的代码来进一步探索 block 的实现，进而得到比较完善的答案。</p>
+
+<p>首先 block 可以按是否捕获变量分为两大类，其次捕获变量时根据是否支持修改又可以分为两类，最后捕获变量又可以分为程序的数据区域、栈上和堆上三种情况。综上，我们可以得到得到如下的 block 分类列表:</p>
+
+<ul>
+<li>不捕获变量(1)</li>
+<li><p>捕获变量</p>
+
+<ul>
+<li><p>不修改捕获的变量</p>
+
+<ul>
+<li>存在程序数据区的变量(2)</li>
+<li>存在栈上的变量(3)</li>
+<li>存在堆上的变量(4)</li>
+</ul>
+</li>
+<li><p>修改捕获的变量(<code>__block</code> 修饰的变量)</p>
+
+<ul>
+<li>存在程序数据区的变量(5)</li>
+<li>存在栈上的变量(6)</li>
+<li>存在堆上的变量(7)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>这样算下来应该是存在七种情况，我们可以分别构造各种情况的例子，然后得到 block 的实现全貌。</p>
+
+<p>全局变量和 static 变量是程序数据区变量，block 中访问全局变量和在其他地方没有什么不同，所以 block 的实现中不需要对它进行特别考虑。Static 变量在捕获时会在 block 结构体中有对应的成员变量，可以用该成员变量来读写。由于它在程序的生命周期中一直存在，所以当 block 捕获并修改它时，不需要生成对应的结构体变量，这和其他 <code>__block</code> 修饰的变量不同。</p>
+
+<p>情况三和四比较类似，它们都会在 block 结构体中增加相应的成员变量，不同之处是捕获堆上的变量， block 的描述结构体变量中会增加 copy 和 dipose 函数，用来管理对应的内存。</p>
+
+<p>情况六和七也类似，它们都是将变量转换为结构体，然后在 block 结构体增加成员变量指向它们。捕获堆上的变量时，block 内的成员变量指向变量，而这个变量是指向堆上分配的一块内存的，也就是一个对象，对象就是一块内存区域嘛，用代码示例如下：</p>
+
+<pre><code>blk_t blk;
+
+{
+  __block id __strong array = [[NSMutableArray alloc] init];
+
+  blk = [^(id obj){
+
+      [array addObject:obj];
+      NSLog(@"array count = %ld", [array count]);
+
+  } copy];
+}
+
+// __block 修饰指向 array 的变量
+struct __Block_byref_array_0 {
+  void *__isa;
+__Block_byref_array_0 *__forwarding;
+ int __flags;
+ int __size;
+ void (*__Block_byref_id_object_copy)(void*, void*);
+ void (*__Block_byref_id_object_dispose)(void*);
+ __strong id array;
+};
+
+// 表示 block 的结构体
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __Block_byref_array_0 *array; // by ref
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_array_0 *_array, int flags=0) : array(_array-&gt;__forwarding) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+</code></pre>
+
+<p>看到这里，我们有了 block 捕获变量出了作用域后还能存在原因的线索，当表示 block 的结构体从栈上拷贝到堆上，如果是只读变量，它的值赋值给 block 结构体的成员变量了；如果是 <code>__block</code> 修饰的变量，表示该变量的结构体也会一并拷贝到堆上，并由 block 持有和管理。</p>
+
+<p>至此，我们应该对 block 的实现比较清晰了。</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>Objective-C 高级编程</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多线程的 Core Data]]></title>
@@ -631,72 +997,6 @@ NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcur
 <li><a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[输出自定义尺寸视频]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video.html"/>
-    <updated>2017-04-10T10:12:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video</id>
-    <content type="html"><![CDATA[<p>最近要做的一个项目中要拍摄视频，于是就开始来研究视频。看了几遍 AVFoundation Programming Guide 之后也写了个 Demo，把基本功能都过了一遍。这其中有意思的一件事情是我发现微信拍摄短视频的尺寸是 540x944, 这尺寸很奇怪，不是任何一个预设值。不清楚微信为什么用这么一个尺寸，但我想搞清楚怎么输出自定义尺寸的视频。</p>
-
-<p>AVFoundation 捕获数据输出时，各组件的关系如下：</p>
-
-<div style="text-align:center" markdown="1">
-                                                                                           <img name="Capture Detail" src="http://DamianSheldon.github.io/images/captureDetail_2x.png">
-                                                                                        </div>
-
-
-<p>要想输出自定义尺寸的视频，我们可以从输入端和输出端着手。但是从文档来看，并没有提供可以自定捕获尺寸的方法，所以只能从输出端着手。</p>
-
-<!--more-->
-
-
-<p>首先我用 AVCaptureMovieFileOutput 做输出，然后调用 <code>setOutputSettings(_ outputSettings: [AnyHashable : Any]!, for connection: AVCaptureConnection!)</code> 来达到目标。但是很不幸，控制台输出了异常，查看 AVCaptureMovieFileOutput 的头文件，</p>
-
-<blockquote><p>On iOS, you may only specify the AVVideoCodecKey in the outputSettings. If you specify any other key, an NSInvalidArgumentException will be thrown. See the availableVideoCodecTypes property.</p></blockquote>
-
-<p>所以这个方法行不通。</p>
-
-<p>于是我又尝试用 AVAssetWriter 来接收每一帧捕获的数据，然后按配置输出，理论上来讲这是可行的，实际上只有第一帧数据能成功被接收，之后的数据都会接收失败，具体原因不详。</p>
-
-<p>直接处理每一帧数据失败之后，我又反复翻阅文档，发现编辑章节中提到可以修改 renderSize, 于是又一个想法冒出来，也许可以通过修改 renderSize 来输出自定义尺寸。按照文档编写好相关代码，激动地运行测试。结果得到的是：</p>
-
-<pre><code>Optional(Error Domain=AVFoundationErrorDomain Code=-11800 "The operation could not be completed" UserInfo={NSUnderlyingError=0x1700505c0 {Error Domain=NSOSStatusErrorDomain Code=-12108 "(null)"}, NSLocalizedFailureReason=An unknown error occurred (-12108), NSLocalizedDescription=The operation could not be completed})
-</code></pre>
-
-<p>说实话，内心是崩溃的。但对这件事情还是耿耿于怀，又浏览了一下官方示例列表，发现了 AVSimpleEditoriOS,</p>
-
-<blockquote><p>AVSimpleEditor is a simple AVFoundation based movie editing application which exercises the APIs of AVVideoComposition, AVAudioMix and demonstrates how they can be used for simple video editing tasks. It also demonstrates how they interact with playback (AVPlayerItem) and export (AVAssetExportSession). The application performs trim, rotate, crop, add music, add watermark and export. This sample is ARC-enabled.</p></blockquote>
-
-<p>嗯，看到里面提到可以裁剪，于是就想它是怎么做？可以剪成我想要的大小吗？阅读相关的代码片断，原来它就是用的 renderSize 来实现裁剪的，跟我第三种方法的代码基本一致，差别是它是 Objc 写的，我用 Swift 写的。既然它能正常工作，那我就用这份代码来输出自定义尺寸吧。把代码移进来，运行测试，居然输出了指定的尺寸，难道代码用 Objc 和 Swift 写还有这种差别，整个人是懵的，这个原因暂时是不清楚的。</p>
-
-<p>虽然输出的尺寸对了，但是画面没有铺满尺寸，而且方向错了。这有点太虐了，既然都走到这一步，就想那我再试试能不手动把它纠正吧。纠正的方法是使用 transform, 但是文档对它的介绍不详细，我先参考了 QuartZ 2D Programming Guide 中 Transforms 来变换，发现不对，整个画面全变成了黑色，又在 AVSimpleEditoriOS 的注释中发现了新的线索，</p>
-
-<blockquote><p>Note: the point of origin for rotation is the upper left corner of the composition, t3 is to compensate for origin</p></blockquote>
-
-<p>这么说它用的坐标和 QuartZ 2D 还不一样啊，这么坑爹，好吧，只能先确定好它们是怎么变换的。于是我先输出一段没变换的视频，之后每次测试一个变换，用这个办法确认了它们的变换是这样的，变换的原点是屏幕的左上角，Translation 向右是 X 轴的正方向，向下是 Y 轴的正方向; Rotation 的度数为正是按顺时针方向旋转，为负则是逆时针方向旋转；Scaling 的值大于1为放大，小于1则是缩小。</p>
-
-<p>这样我就做了这么一个变换：</p>
-
-<pre><code>t1 = CGAffineTransformScale(asset.preferredTransform, sx, sy);
-
-t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
-
-t1 = CGAffineTransformTranslate(t1, 540, 0);
-</code></pre>
-
-<p>控制台报错了，说这个视频不支持编辑，这是个什么鬼？完全没有道理啊！于是我又把这段代码从下往上一行一行注释，看是谁导致的问题，发现是 <code>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));</code> ，这样我又试着调整变换的顺序，改成：</p>
-
-<pre><code>t1 = CGAffineTransformTranslate(asset.preferredTransform, 540, 0);
-
-t1 = CGAffineTransformScale(t1, sx, sy);
-
-t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
-</code></pre>
-
-<p>运行测试，苍天啊，居然可以了。经历这么一出，感觉写代码都成了玄学了, 无力吐槽!</p>
 ]]></content>
   </entry>
   

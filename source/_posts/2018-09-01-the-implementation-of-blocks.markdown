@@ -302,7 +302,52 @@ int main(int argc, char ** argv)
 
 全局变量和 static 变量是程序数据区变量，block 中访问全局变量和在其他地方没有什么不同，所以 block 的实现中不需要对它进行特别考虑。Static 变量在捕获时会在 block 结构体中有对应的成员变量，可以用该成员变量来读写。由于它在程序的生命周期中一直存在，所以当 block 捕获并修改它时，不需要生成对应的结构体变量，这和其他 `__block` 修饰的变量不同。
 
+情况三和四比较类似，它们都会在 block 结构体中增加相应的成员变量，不同之处是捕获堆上的变量， block 的描述结构体变量中会增加 copy 和 dipose 函数，用来管理对应的内存。
 
+情况六和七也类似，它们都是将变量转换为结构体，然后在 block 结构体增加成员变量指向它们。捕获堆上的变量时，block 内的成员变量指向变量，而这个变量是指向堆上分配的一块内存的，也就是一个对象，对象就是一块内存区域嘛，用代码示例如下：
+
+```
+blk_t blk;
+   
+{
+  __block id __strong array = [[NSMutableArray alloc] init];
+    
+  blk = [^(id obj){
+      
+      [array addObject:obj];
+      NSLog(@"array count = %ld", [array count]);
+      
+  } copy];
+}
+
+// __block 修饰指向 array 的变量
+struct __Block_byref_array_0 {
+  void *__isa;
+__Block_byref_array_0 *__forwarding;
+ int __flags;
+ int __size;
+ void (*__Block_byref_id_object_copy)(void*, void*);
+ void (*__Block_byref_id_object_dispose)(void*);
+ __strong id array;
+};
+
+// 表示 block 的结构体
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __Block_byref_array_0 *array; // by ref
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_array_0 *_array, int flags=0) : array(_array->__forwarding) {
+    impl.isa = &_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+```
+
+看到这里，我们有了 block 捕获变量出了作用域后还能存在原因的线索，当表示 block 的结构体从栈上拷贝到堆上，如果是只读变量，它的值赋值给 block 结构体的成员变量了；如果是 `__block` 修饰的变量，表示该变量的结构体也会一并拷贝到堆上，并由 block 持有和管理。
+
+至此，我们应该对 block 的实现比较清晰了。
 
 ##Reference
 

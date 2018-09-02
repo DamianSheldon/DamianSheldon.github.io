@@ -13,7 +13,7 @@ Block 的实现是面试中高频出现的问题，背后的原因我想是希�
 
 下面我们先转换一个简单的文件试试:
 
-```
+```objc
 #import <Foundation/Foundation.h>
 
 int main(int argc, char ** argv)
@@ -75,7 +75,7 @@ int main(int argc, char ** argv)
 
 Block 有一个重要的特性--自动捕获变量。这又是怎么实现的呢？我们同样可以使用上述的方法来得到答案。我们构造一个捕获变量的例子，然后来查看它的结果：
 
-```
+```objc
 #import <Foundation/Foundation.h>
 
 int main(int argc, char ** argv)
@@ -155,7 +155,7 @@ int main(int argc, char ** argv)
 
 除了读取捕获自动变量的值，block 还支持使用 `__block` 修饰符来修改自动捕获的变量。我们同样来看个例子：
 
-```
+```objc
 #import <Foundation/Foundation.h>
 
 int main(int argc, char ** argv)
@@ -306,7 +306,7 @@ int main(int argc, char ** argv)
 
 情况六和七也类似，它们都是将变量转换为结构体，然后在 block 结构体增加成员变量指向它们。捕获堆上的变量时，block 内的成员变量指向变量，而这个变量是指向堆上分配的一块内存的，也就是一个对象，对象就是一块内存区域嘛，用代码示例如下：
 
-```
+```objc
 blk_t blk;
    
 {

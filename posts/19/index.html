@@ -100,6 +100,57 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/english-basic.html">
+		
+			英语起步</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-11-26T22:01:08+08:00" pubdate data-updated="true">26 Nov 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/english/'>english</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>如果从初中开始算起自己接触英语已十多年了，但很遗憾直到今天我对自己写出的英语句子是否有语法错误是不自信的，所以我打算按自己理解的方法梳理总结下英语语法。</p>
+
+<p>C语言中有个概念叫宏，当程序预编译时，宏会被替换成原来复杂的样子，我打算按这种思路来梳理英语语法。一篇文章由若干句子组成，句子由单词和标点符号按语言发展过程形成的规则组成，这样看来语法的重点就是句子。</p>
+
+<p>既然如此，那么英语的句子的基本结构有哪些？英语的构词法是怎样的？标点符号有哪些？它们该如何使用？后续的文章会按照这种总分的结构来展开。</p>
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/xcode-debug-tips.html">
 		
 			Xcode 调试技巧（持续更新）</a>
@@ -234,171 +285,60 @@ $(document).ready(
 
 <p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
 
-<div style="text-align:center" markdown="1">
+<p><img src="../images/ios_app_layout_2x.png" width="383" height="417" title="&#34;App Sandbox&#34;" alt="&#34;App Sandbox&#34;"></p>
 
-<img name="ios_app_layout_2x" src="images/ios_app_layout_2x.png" width="383" height="417">
+<p>iOS应用常用的目录列表：</p>
 
-</div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> Directory </th>
+<th style="text-align:left;"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> AppName.app </td>
+<td style="text-align:left;"> This is the app’s bundle</td>
+</tr>
+<tr>
+<td style="text-align:left;"> Documents/ </td>
+<td style="text-align:left;"> Use this directory to store user-generated content.</td>
+</tr>
+<tr>
+<td style="text-align:left;"> Documents/Inbox </td>
+<td style="text-align:left;"> Use this directory to access files that your app was asked to open by outside entities.</td>
+</tr>
+<tr>
+<td style="text-align:left;"> Library/ </td>
+<td style="text-align:left;"> This is the top-level directory for any files that are not user data files.</td>
+</tr>
+<tr>
+<td style="text-align:left;"> tmp/ </td>
+<td style="text-align:left;"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
+</tr>
+</tbody>
+</table>
 
 
+<h3>数据的建议存储位置</h3>
+
+<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
+
+<h3>数据持久化的方法</h3>
+
+<ol>
+<li>NSUserDefaults;</li>
+<li>Property Lists;</li>
+<li>Archive;</li>
+<li>数据库;</li>
+<li>Core Data。</li>
+</ol>
 
 
 
 		
 		<a href="/blog/ios-app-data-persistence.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/key-value-coding-and-key-value-observing.html">
-		
-			Key-Value Coding &amp; Key-Value Observing</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-11-12T16:06:13+08:00" pubdate data-updated="true">12 Nov 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>Key-Value Coding</h2>
-
-<ol>
-<li>Key-Value Coding是什么？</li>
-<li>为什么要用Key-Value Coding？</li>
-<li>如何使用Key-Value Coding?</li>
-</ol>
-
-
-<h3>Key-Value Coding是什么？</h3>
-
-<blockquote><p>Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.</p></blockquote>
-
-<p>Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。</p>
-
-<h3>为什么要用Key-Value Coding？</h3>
-
-<ol>
-<li>Scripting（OS X）;</li>
-<li>简化代码和提高灵活性；</li>
-</ol>
-
-
-<h3>如何使用Key-Value Coding?</h3>
-
-<p>我们先熟悉些下key-value coding术语，后文我们用术语来阐述，方便交流。</p>
-
-<p>除了重载现有的术语，key-value coding定义了些专属的术语。</p>
-
-<p>Key-value coding可以被用来访问三种不同的类型的对象值：<strong>attributes</strong>, <strong>to-one relationships</strong>, 和<strong>to-many relationships</strong>。术语<strong>property</strong>指三种类型值的任意一种。</p>
-
-<p>attribute 是简单值的 property，像标量，字符串，或者布尔值。NSNumber和其他的不可变类型如NSColor也都被认为是attributes。</p>
-
-<p>to-one relationship 是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。</p>
-
-<p>to-many relationship 包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。</p>
-
-<p>要使用 Key-Value Coding，对象要符合 Key-Value Coding Compliant，符合 Key-Value Coding Compliant 则有两点要求：一是对象遵守 NSKeyValueCoding 协议；二是要实现规定的方法。</p>
-
-<p>因为 NSObject 已经遵守 NSKeyValueCoding 协议，所以类继承 NSObject 这个要求就默认满足了。于是重点就是实现规定的方法。那么规定的方法是哪些呢？</p>
-
-<p>对于 Attribute 和 To-One Relationship Compliance</p>
-
-<ul>
-<li>实现 <code>&lt;key&gt;</code> 或者 <code>is&lt;Key&gt;</code>, 或者创建 <code>&lt;key&gt;</code> 或者 <code>_&lt;key&gt;</code> 实例变量。</li>
-<li>如果属性可变，实现 <code>set&lt;Key&gt;</code> 方法。</li>
-<li>如果属性是标量，覆盖 <code>setNilValueForKey:</code> 方法去优雅处理 nil 。</li>
-</ul>
-
-
-<p>对于 to-many relationship 的属性，实现上述方法后，我们就可以对集合对象本身使用 KVC 了。但是如果我们还实现额外规定的集合存取方法，我们可以：</p>
-
-<ul>
-<li>用 NSArray 或 NSSet 之外的类为 to-many relationships 建模。</li>
-<li>改变 to-many relationships 时性能更好。</li>
-<li>提供 Key-Value observing compliant 访问你对象的集合属性的内容。</li>
-</ul>
-
-
-<p>额外规定的集合存取方法如下：</p>
-
-<ul>
-<li><p>Accessing Indexed Collections</p>
-
-<ul>
-<li><p>Indexed Collection Getters</p>
-
-<ul>
-<li><code>countOf&lt;Key&gt;</code></li>
-<li><code>objectIn&lt;Key&gt;AtIndex:</code> or <code>&lt;key&gt;AtIndexes:</code></li>
-<li>(可选)<code>get&lt;Key&gt;:range:</code></li>
-</ul>
-</li>
-<li><p>Indexed Collection Mutators</p>
-
-<ul>
-<li><code>insertObject:in&lt;Key&gt;AtIndex:</code> or <code>insert&lt;Key&gt;:atIndexes:</code></li>
-<li><code>removeObjectFrom&lt;Key&gt;AtIndex:</code> or <code>remove&lt;Key&gt;AtIndexes:</code></li>
-<li>(可选)<code>replaceObjectIn&lt;Key&gt;AtIndex:withObject:</code> or          <code>replace&lt;Key&gt;AtIndexes:with&lt;Key&gt;:</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Accessing Unordered Collections</p>
-
-<ul>
-<li><p>Unordered Collection Getters</p>
-
-<ul>
-<li><code>countOf&lt;Key&gt;</code></li>
-<li><code>enumeratorOf&lt;Key&gt;</code></li>
-<li><code>memberOf&lt;Key&gt;:</code></li>
-</ul>
-</li>
-<li><p>Unordered Collection Mutators</p>
-
-<ul>
-<li><code>add&lt;Key&gt;Object:</code> or <code>add&lt;Key&gt;:</code></li>
-<li><code>remove&lt;Key&gt;Object:</code> or <code>remove&lt;Key&gt;:</code></li>
-<li>(可选)<code>intersect&lt;Key&gt;:</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-
-		
-		<a href="/blog/key-value-coding-and-key-value-observing.html" class="more-link">继续阅读</a>
 	</div>
 
 

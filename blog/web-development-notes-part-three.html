@@ -342,6 +342,8 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 <h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
 
+<p>A:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -374,6 +376,376 @@ explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></bl
 
 
 <p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
+
+<h3>5.Ionic - Cannot find module “.”</h3>
+
+<p>A:Just remove all imports that have /umd at the final.
+In my case, I changed: 
+<code>import { IonicPageModule } from 'ionic-angular/umd';</code>
+To: 
+<code>import { IonicPageModule } from 'ionic-angular';</code></p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
+
+<h3>6.Google maps report google is not define in ionic app.</h3>
+
+<p>A:</p>
+
+<ol>
+<li>go to your project and do “ionic plugin add cordova-plugin-whitelist”</li>
+<li>add CSP meta</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Live reload unfortunately seems not work, I get this error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Refused to load the script &#39;http://localhost:35729/livereload.js?snipver=1&#39; because it violates the following Content Security Policy directive: &quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After some google, update CSP meta works, new CSP meta as follow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src localhost:35729 &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
+<a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
+
+<h3>7.Error: No provider for Navbar!</h3>
+
+<p>A:Normally navbar don&rsquo;t provide with injector, we should access like follow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// Template
+</span><span class='line'><span class="nt">&lt;ion-navbar</span> <span class="err">#</span><span class="na">navbar</span> <span class="na">color=</span><span class="s">&quot;primary&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ion-title&gt;</span>Whatever<span class="nt">&lt;/ion-title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ion-buttons</span> <span class="na">right</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;button</span> <span class="na">icon-only</span> <span class="na">ion-button</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;ion-icon</span> <span class="na">name=</span><span class="s">&#39;pause&#39;</span><span class="nt">&gt;&lt;/ion-icon&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/button&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ion-buttons&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ion-navbar&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// Typescript
+</span><span class='line'>export class Page {
+</span><span class='line'>
+</span><span class='line'>@ViewChild(&#39;navbar&#39;) navBar: Navbar;
+</span><span class='line'>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530">Error in ./HomePage class HomePage - caused by: No provider for Navbar!</a></p>
+
+<h3>8.How to custom back button of ionic app?</h3>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;ion-header&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ion-navbar</span> <span class="na">color=</span><span class="s">&#39;danger&#39;</span> <span class="na">hideBackButton</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ion-title&gt;</span>product page<span class="nt">&lt;/ion-title&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;ion-buttons</span> <span class="na">left</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;button</span> <span class="na">ion-button</span> <span class="na">navPop</span> <span class="na">icon-only</span><span class="nt">&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;ion-icon</span> <span class="na">ios=</span><span class="s">&quot;ios-arrow-forward&quot;</span> <span class="na">md=</span><span class="s">&quot;md-arrow-forward&quot;</span><span class="nt">&gt;&lt;/ion-icon&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/button&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/ion-buttons&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/ion-navbar&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ion-header&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://forum.ionicframework.com/t/change-default-ion-navbar-back-button-ios/47342">Change default ion-navbar “back” button ios</a></p>
+
+<h3>9.How to make a div take the remaining height?</h3>
+
+<p>A:</p>
+
+<ol>
+<li>Absolute Positioning</li>
+<li>Tables</li>
+<li>CSS3 calc</li>
+</ol>
+
+
+<p>Absolute Positioning</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// html
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_fixed&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    I have a fixed height
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span><span class='line'> 
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_remaining&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    I take up the remaining height
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
+</span><span class='line'>      height: 100%;
+</span><span class='line'>      width: 100%;
+</span><span class='line'>      margin: 0;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #inner_fixed {
+</span><span class='line'>      height: 100px;
+</span><span class='line'>      background-color: grey;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #inner_remaining {
+</span><span class='line'>      background-color: #DDDDDD;    
+</span><span class='line'>   
+</span><span class='line'>      position: absolute;
+</span><span class='line'>      top: 100px;
+</span><span class='line'>      bottom: 0;
+</span><span class='line'>      width: 100%; 
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>pros</p>
+
+<ul>
+<li>easy to implement</li>
+<li>intuitive</li>
+</ul>
+
+
+<p>cons</p>
+
+<ul>
+<li>tedious to maintain (hard-coded positions)</li>
+</ul>
+
+
+<p>Tables</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// html
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;outer&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_fixed&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        I have a fixed height
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'> 
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_remaining&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        I take up the remaining height
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body, #outer {
+</span><span class='line'>      height: 100%;
+</span><span class='line'>      width: 100%;
+</span><span class='line'>      margin: 0;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #outer {
+</span><span class='line'>      display: table;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #inner_fixed {
+</span><span class='line'>      height: 100px;
+</span><span class='line'>      background-color: grey;
+</span><span class='line'>   
+</span><span class='line'>      display: table-row;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #inner_remaining {
+</span><span class='line'>      background-color: #DDDDDD;
+</span><span class='line'>   
+</span><span class='line'>      display: table-row;    
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>pros</p>
+
+<ul>
+<li>rather “clean” solution</li>
+<li>no hard-coded values, other elements can change their height</li>
+</ul>
+
+
+<p>cons</p>
+
+<ul>
+<li>might cause some side-effects with the layout</li>
+</ul>
+
+
+<p>CSS3 calc</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// html
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_fixed&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    I have a fixed height
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span><span class='line'> 
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_remaining&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    I take up the remaining height
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
+</span><span class='line'>      height: 100%;
+</span><span class='line'>      width: 100%;
+</span><span class='line'>      margin: 0;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #inner_fixed {
+</span><span class='line'>      height: 100px;
+</span><span class='line'>      background-color: grey;
+</span><span class='line'>  }
+</span><span class='line'>   
+</span><span class='line'>  #inner_remaining {
+</span><span class='line'>      background-color: #DDDDDD;
+</span><span class='line'>   
+</span><span class='line'>      height: calc(100% - 100px);    
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>pros</p>
+
+<ul>
+<li>easy to implement</li>
+<li>less code than the other solutions</li>
+</ul>
+
+
+<p>cons</p>
+
+<ul>
+<li>the calc function is rather new (no support for older browsers)</li>
+<li>tedious to maintain (hard-coded height)</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
 </div>
 
 

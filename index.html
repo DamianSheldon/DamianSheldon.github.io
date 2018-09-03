@@ -100,6 +100,171 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/the-implementation-of-blocks.html">
+		
+			Blocks 的实现</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-09-01T15:42:34+08:00" pubdate data-updated="true">01 Sep 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>Block 的实现是面试中高频出现的问题，背后的原因我想是希望借此考察面试者对 Block 的掌握程度，在日后的工作中能够用好它；同时能从侧面反映面试者有没有深入钻研技术，以及独立思考能力如何，可谓一举多得。</p>
+
+<p>下面我们就来看看 ObjC 中的 Blocks 是如何实现。Clang 的 <code>-rewrite-objc</code> 选项可以将含有 Block 语法的源代码转换为 C++，说是 C++，其实也仅使用了 struct 结构，其本质是 C 语言。</p>
+
+<p>下面我们先转换一个简单的文件试试:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">blk</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Block</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">blk</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 使用命令:</span>
+</span><span class='line'><span class="err">$</span> <span class="n">clang</span> <span class="o">-</span><span class="n">fobjc</span><span class="o">-</span><span class="n">arc</span> <span class="o">-</span><span class="n">ObjC</span> <span class="o">-</span><span class="n">rewrite</span><span class="o">-</span><span class="n">objc</span> <span class="o">-</span><span class="n">mios</span><span class="o">-</span><span class="n">version</span><span class="o">-</span><span class="n">min</span><span class="o">=</span><span class="mf">6.0.0</span> <span class="o">-</span><span class="n">fobjc</span><span class="o">-</span><span class="n">runtime</span><span class="o">=</span><span class="n">ios</span><span class="o">-</span><span class="mf">6.0.0</span> <span class="o">-</span><span class="n">isysroot</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Platforms</span><span class="o">/</span><span class="n">iPhoneOS</span><span class="p">.</span><span class="n">platform</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">SDKs</span><span class="o">/</span><span class="n">iPhoneOS11</span><span class="mf">.3</span><span class="p">.</span><span class="n">sdk</span> <span class="o">-</span><span class="n">arch</span> <span class="n">arm64</span> <span class="n">block</span><span class="o">-</span><span class="n">essense</span><span class="p">.</span><span class="n">m</span>  <span class="o">-</span><span class="n">o</span> <span class="n">block</span><span class="o">-</span><span class="n">essense</span><span class="o">-</span><span class="k">in</span><span class="o">-</span><span class="n">c</span><span class="p">.</span><span class="n">c</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//限于篇幅，省略不相关的部分，结果如下:</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">__block_impl</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="o">*</span><span class="n">isa</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">Flags</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">Reserved</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="o">*</span><span class="n">FuncPtr</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">__main_block_impl_0</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">struct</span> <span class="n">__block_impl</span> <span class="n">impl</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">struct</span> <span class="n">__main_block_desc_0</span><span class="o">*</span> <span class="n">Desc</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">__main_block_impl_0</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">__main_block_desc_0</span> <span class="o">*</span><span class="n">desc</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">impl</span><span class="p">.</span><span class="n">isa</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">_NSConcreteStackBlock</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">impl</span><span class="p">.</span><span class="n">Flags</span> <span class="o">=</span> <span class="n">flags</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">impl</span><span class="p">.</span><span class="n">FuncPtr</span> <span class="o">=</span> <span class="n">fp</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">Desc</span> <span class="o">=</span> <span class="n">desc</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">void</span> <span class="nf">__main_block_func_0</span><span class="p">(</span><span class="k">struct</span> <span class="n">__main_block_impl_0</span> <span class="o">*</span><span class="n">__cself</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Block</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="k">struct</span> <span class="n">__main_block_desc_0</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">size_t</span> <span class="n">reserved</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">size_t</span> <span class="n">Block_size</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="n">__main_block_desc_0_DATA</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">__main_block_impl_0</span><span class="p">)};</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="cm">/* @autoreleasepool */</span> <span class="p">{</span> <span class="n">__AtAutoreleasePool</span> <span class="n">__autoreleasepool</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">blk</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="p">((</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)())</span><span class="o">&amp;</span><span class="n">__main_block_impl_0</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">__main_block_func_0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">__main_block_desc_0_DATA</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">((</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">__block_impl</span> <span class="o">*</span><span class="p">))((</span><span class="n">__block_impl</span> <span class="o">*</span><span class="p">)</span><span class="n">blk</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FuncPtr</span><span class="p">)((</span><span class="n">__block_impl</span> <span class="o">*</span><span class="p">)</span><span class="n">blk</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/the-implementation-of-blocks.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/openldap-notes.html">
 		
 			OpenLDAP 学习笔记</a>
@@ -316,60 +481,6 @@ $(document).ready(
 
 		
 		<a href="/blog/web-development-notes-part-three.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html">
-		
-			记一次换新 iPhone</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-03-17T10:20:21+08:00" pubdate data-updated="true">17 Mar 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 >&lt;。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。</p>
-
-<p>iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个地方。苹果这篇<a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a>详细介绍几种可行方法，我们可以从中选择一种方法。其实我觉得苹果应该出篇换机指南的，上面这篇文章的题目不是很容易让人把它与换机联系起来，也不是很容易记，这是我想记这么一笔的原因之一，N 年之后我再换 iPhone 的时候也可以按这篇文章的思想来指导自己迁移数据。</p>
-
-<p>这里我选择使用 iTunes 备份恢复，快速开始功能好像不是很灵光，也可能是我不会用，而 iCloud 备份是通过网络，网速会影响备份和恢复，加上最近 iPhone 的 bug 贼多，这让我不是很放心。在此之前有使用过 iTunes 备份恢复，想着即使恢复过程出了问题备份还在，所以最终选择 iTunes。</p>
-
-<p>备份过程很顺利，恢复过程就曲折了，iTunes 提示 backup is corrupt or incompatible，墨菲定理生效了，另一方面也佐证了选择 iTunes 是正确的选择，苹果什么时候能把这软件质量抓一抓，别只顾着赚钱啊。搜索找到了苹果对这个问题的解决办法：</p>
-
-
-		
-		<a href="/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html" class="more-link">继续阅读</a>
 	</div>
 
 

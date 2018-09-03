@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-02T21:58:46+08:00</updated>
+  <updated>2018-09-03T16:01:20+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -220,8 +220,9 @@ To: 
       &lt;/button&gt;
     &lt;/ion-buttons&gt;
 &lt;/ion-navbar&gt;
+</code></pre>
 
-// Typescript
+<pre><code>// Typescript
 export class Page {
 
 @ViewChild('navbar') navBar: Navbar;
@@ -277,55 +278,60 @@ export class Page {
 </div>
 
 
-<p>// css
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- </p>
+<pre><code>
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
+</span><span class='line'>        height: 100%;
+</span><span class='line'>        width: 100%;
+</span><span class='line'>        margin: 0;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_fixed {
+</span><span class='line'>        height: 100px;
+</span><span class='line'>        background-color: grey;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_remaining {
+</span><span class='line'>        background-color: #DDDDDD;    
+</span><span class='line'>     
+</span><span class='line'>        position: absolute;
+</span><span class='line'>        top: 100px;
+</span><span class='line'>        bottom: 0;
+</span><span class='line'>        width: 100%; 
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
 
-<h1>inner_fixed {</h1>
+pros
 
-<pre><code>height: 100px;
-background-color: grey;
+* easy to implement
+* intuitive
+
+cons
+
+* tedious to maintain (hard-coded positions)
+
+Tables
 </code></pre>
 
-<p>}
- </p>
-
-<h1>inner_remaining {</h1>
-
-<pre><code>background-color: #DDDDDD;    
-</code></pre>
-
-<p> 
-    position: absolute;
-    top: 100px;
-    bottom: 0;
-    width: 100%;
-}
-```</p>
-
-<p>pros</p>
-
-<ul>
-<li>easy to implement</li>
-<li>intuitive</li>
-</ul>
-
-
-<p>cons</p>
-
-<ul>
-<li>tedious to maintain (hard-coded positions)</li>
-</ul>
-
-
-<p>Tables</p>
-
-<p>```
-// html</p>
+<p>// html</p>
 
 <div id="outer">
     <div id="inner_fixed">
@@ -338,62 +344,66 @@ background-color: grey;
 </div>
 
 
-<p>// css
-html, body, #outer {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- </p>
+<pre><code>
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body, #outer {
+</span><span class='line'>        height: 100%;
+</span><span class='line'>        width: 100%;
+</span><span class='line'>        margin: 0;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #outer {
+</span><span class='line'>        display: table;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_fixed {
+</span><span class='line'>        height: 100px;
+</span><span class='line'>        background-color: grey;
+</span><span class='line'>     
+</span><span class='line'>        display: table-row;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_remaining {
+</span><span class='line'>        background-color: #DDDDDD;
+</span><span class='line'>     
+</span><span class='line'>        display: table-row;    
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
 
-<h1>outer {</h1>
+pros
 
-<pre><code>display: table;
+* rather “clean” solution
+* no hard-coded values, other elements can change their height
+
+cons
+
+* might cause some side-effects with the layout
+
+CSS3 calc
 </code></pre>
 
-<p>}
- </p>
-
-<h1>inner_fixed {</h1>
-
-<pre><code>height: 100px;
-background-color: grey;
-</code></pre>
-
-<p> 
-    display: table-row;
-}
- </p>
-
-<h1>inner_remaining {</h1>
-
-<pre><code>background-color: #DDDDDD;
-</code></pre>
-
-<p> 
-    display: table-row;  <br/>
-}
-```</p>
-
-<p>pros</p>
-
-<ul>
-<li>rather “clean” solution</li>
-<li>no hard-coded values, other elements can change their height</li>
-</ul>
-
-
-<p>cons</p>
-
-<ul>
-<li>might cause some side-effects with the layout</li>
-</ul>
-
-
-<p>CSS3 calc</p>
-
-<p>```
-// html</p>
+<p>// html</p>
 
 <div id="inner_fixed">
     I have a fixed height
@@ -407,32 +417,51 @@ background-color: grey;
 </div>
 
 
-<p>// css
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- </p>
+<p>```</p>
 
-<h1>inner_fixed {</h1>
-
-<pre><code>height: 100px;
-background-color: grey;
-</code></pre>
-
-<p>}
- </p>
-
-<h1>inner_remaining {</h1>
-
-<pre><code>background-color: #DDDDDD;
-</code></pre>
-
-<p> 
-    height: calc(100% - 100px);  <br/>
-}
-```</p>
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>html, body {
+</span><span class='line'>    height: 100%;
+</span><span class='line'>    width: 100%;
+</span><span class='line'>    margin: 0;
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>#inner_fixed {
+</span><span class='line'>    height: 100px;
+</span><span class='line'>    background-color: grey;
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>#inner_remaining {
+</span><span class='line'>    background-color: #DDDDDD;
+</span><span class='line'> 
+</span><span class='line'>    height: calc(100% - 100px);    
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
 <p>pros</p>
 

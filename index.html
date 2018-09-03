@@ -100,6 +100,61 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-technical-interview-part-1.html">
+		
+			Web 面试题汇总(一)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-09-03T17:26:10+08:00" pubdate data-updated="true">03 Sep 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Doctype作用？标准模式与兼容模式各有什么区别?</h3>
+
+<h3>2.HTML5 为什么只需要写 &lt;!DOCTYPE HTML>？</h3>
+
+<h3>3.行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？</h3>
+
+<h3>4.页面导入样式时，使用link和@import有什么区别？</h3>
+
+<h3>5.介绍一下你对浏览器内核的理解？</h3>
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/the-implementation-of-blocks.html">
 		
 			Blocks 的实现</a>
@@ -325,162 +380,6 @@ $(document).ready(
 
 		
 		<a href="/blog/openldap-notes.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-development-notes-part-three.html">
-		
-			Web 开发问题汇总(三)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-04-13T11:07:25+08:00" pubdate data-updated="true">13 Apr 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.How to send email in java?</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.mail.*</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.mail.internet.*</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.activation.*</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SendEmail</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="c1">// Recipient&#39;s email ID needs to be mentioned.</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">to</span> <span class="o">=</span> <span class="s">&quot;abcd@gmail.com&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Sender&#39;s email ID needs to be mentioned</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">from</span> <span class="o">=</span> <span class="s">&quot;web@gmail.com&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Assuming you are sending email from localhost</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Get system properties</span>
-</span><span class='line'>      <span class="n">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperties</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Setup mail server</span>
-</span><span class='line'>      <span class="n">properties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&quot;mail.smtp.host&quot;</span><span class="o">,</span> <span class="n">host</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Get the default Session object.</span>
-</span><span class='line'>      <span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="na">getDefaultInstance</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>         <span class="c1">// Create a default MimeMessage object.</span>
-</span><span class='line'>         <span class="n">MimeMessage</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">MimeMessage</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Set From: header field of the header.</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">new</span> <span class="nf">InternetAddress</span><span class="o">(</span><span class="n">from</span><span class="o">));</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Set To: header field of the header.</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">addRecipient</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">TO</span><span class="o">,</span> <span class="k">new</span> <span class="nf">InternetAddress</span><span class="o">(</span><span class="n">to</span><span class="o">));</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Set Subject: header field</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="s">&quot;This is the Subject Line!&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Now set the actual message</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;This is actual message&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Send message</span>
-</span><span class='line'>         <span class="n">Transport</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
-</span><span class='line'>         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Sent message successfully....&quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MessagingException</span> <span class="n">mex</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>         <span class="n">mex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
-<a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
-
-
-		
-		<a href="/blog/web-development-notes-part-three.html" class="more-link">继续阅读</a>
 	</div>
 
 

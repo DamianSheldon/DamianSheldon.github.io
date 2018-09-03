@@ -204,7 +204,9 @@ A:Normally navbar don't provide with injector, we should access like follow:
       </button>
     </ion-buttons>
 </ion-navbar>
-  
+```
+
+```
 // Typescript
 export class Page {
 

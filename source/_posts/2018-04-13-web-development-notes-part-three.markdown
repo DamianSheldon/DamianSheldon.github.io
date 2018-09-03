@@ -204,7 +204,9 @@ A:Normally navbar don't provide with injector, we should access like follow:
       </button>
     </ion-buttons>
 </ion-navbar>
-  
+```
+
+```
 // Typescript
 export class Page {
 
@@ -250,28 +252,31 @@ Absolute Positioning
 <div id="inner_remaining">
     I take up the remaining height
 </div>
+```
 
-// css
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- 
-#inner_fixed {
-    height: 100px;
-    background-color: grey;
-}
- 
-#inner_remaining {
-    background-color: #DDDDDD;    
- 
-    position: absolute;
-    top: 100px;
-    bottom: 0;
-    width: 100%; 
-}
-``` 
+{% codeblock css %}
+
+	html, body {
+	    height: 100%;
+	    width: 100%;
+	    margin: 0;
+	}
+	 
+	#inner_fixed {
+	    height: 100px;
+	    background-color: grey;
+	}
+	 
+	#inner_remaining {
+	    background-color: #DDDDDD;    
+	 
+	    position: absolute;
+	    top: 100px;
+	    bottom: 0;
+	    width: 100%; 
+	}
+
+{% endcodeblock %}
 
 pros
 
@@ -295,31 +300,33 @@ Tables
         I take up the remaining height
     </div>
 </div>
-
-// css
-html, body, #outer {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- 
-#outer {
-    display: table;
-}
- 
-#inner_fixed {
-    height: 100px;
-    background-color: grey;
- 
-    display: table-row;
-}
- 
-#inner_remaining {
-    background-color: #DDDDDD;
- 
-    display: table-row;    
-}
 ```
+
+{% codeblock css %}
+
+	html, body, #outer {
+	    height: 100%;
+	    width: 100%;
+	    margin: 0;
+	}
+	 
+	#outer {
+	    display: table;
+	}
+	 
+	#inner_fixed {
+	    height: 100px;
+	    background-color: grey;
+	 
+	    display: table-row;
+	}
+	 
+	#inner_remaining {
+	    background-color: #DDDDDD;
+	 
+	    display: table-row;    
+	}
+{% endcodeblock %}
 
 pros
 
@@ -341,25 +348,27 @@ CSS3 calc
 <div id="inner_remaining">
     I take up the remaining height
 </div>
-
-// css
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- 
-#inner_fixed {
-    height: 100px;
-    background-color: grey;
-}
- 
-#inner_remaining {
-    background-color: #DDDDDD;
- 
-    height: calc(100% - 100px);    
-}
 ```
+
+{% codeblock css %}
+
+	html, body {
+	    height: 100%;
+	    width: 100%;
+	    margin: 0;
+	}
+	 
+	#inner_fixed {
+	    height: 100px;
+	    background-color: grey;
+	}
+	 
+	#inner_remaining {
+	    background-color: #DDDDDD;
+	 
+	    height: calc(100% - 100px);    
+	}
+{% endcodeblock %}
 
 pros
 

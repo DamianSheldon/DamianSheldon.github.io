@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-05T10:35:44+08:00</updated>
+  <updated>2018-09-05T10:48:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -33,8 +33,8 @@
 <ul>
 <li>行内元素有：a b span img input select strong（强调的语气）</li>
 <li>块级元素有：div ul ol li dl dt dd h1 h2 h3 h4…p</li>
-<li>常见的空元素：<br> <hr> <img> <input> <link> <meta></li>
-<li>鲜为人知的空元素：   <area> <base> <col> <command> <embed> <keygen> <param> <source> <track> <wbr></li>
+<li>常见的空元素：br hr img input link meta</li>
+<li>鲜为人知的空元素：area base col command embed keygen param source track wbr</li>
 </ul>
 
 
@@ -113,33 +113,60 @@
 
 <p>A:</p>
 
-<p>```</p>
+<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>&lt;div style="height:1px;overflow:hidden;background:red"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
-<div style="height:1px;overflow:hidden;background:red"></div>
+<h3>17.网页验证码是干嘛的，是为了解决什么安全问题?</h3>
+
+<p>A:区分用户是计算机还是人。</p>
+
+<p>可以防止恶意破解密码、刷票、论坛灌水；有效防止黑客对某一个特定注册用户用暴力破解方式进行不断的登陆尝试。</p>
+
+<h3>18.title与h1的区别、b与strong的区别、i与em的区别？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>title属性没有明确意义只表示是个标题，h1则表示层次明确的标题，对页面信息的抓取也有很大的影响。</li>
+<li>b 元素用来强调文本，却不表示该文本更重要；strong 元素表示内容更重要。</li>
+<li>i 内容展示为斜体，em表示强调的文本。</li>
+</ul>
 
 
-<pre><code>
-###17.网页验证码是干嘛的，是为了解决什么安全问题?
-A:区分用户是计算机还是人。
+<h3>19.Label的作用是什么？是怎么用的？</h3>
 
-可以防止恶意破解密码、刷票、论坛灌水；有效防止黑客对某一个特定注册用户用暴力破解方式进行不断的登陆尝试。
+<p>A:label标签来定义表单控制间的关系,当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。</p>
 
-###18.title与h1的区别、b与strong的区别、i与em的区别？
-A:
-
-* title属性没有明确意义只表示是个标题，h1则表示层次明确的标题，对页面信息的抓取也有很大的影响。  
-* b 元素用来强调文本，却不表示该文本更重要；strong 元素表示内容更重要。
-* i 内容展示为斜体，em表示强调的文本。
-
-###19.Label的作用是什么？是怎么用的？
-A:label标签来定义表单控制间的关系,当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。
-</code></pre>
-
-<p><label for="Name">Number:</label>
-<input type="text" name="Name" id="Name"/></p>
-
-<p><label>Date:<input type="text" name="B"/></label>
-```</p>
+<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>&lt;label for="Name"&gt;Number:&lt;/label&gt;
+</span><span class='line'>&lt;input type="text" name="Name" id="Name"/&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;label&gt;Date:&lt;input type="text" name="B"/&gt;&lt;/label&gt;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Reference:</h2>
 
@@ -721,19 +748,28 @@ TLS_REQCERT allow
 <h3>创建初始项</h3>
 
 <p>配置好客户端后，创建根项和 root 角色项：
-```
-dn: dc=tenneshop,dc=com
-objectClass: dcObject
-objectClass: organization
-dc: tenneshop
-o: Tenneshop
-description: Tenneshop directory</p>
-
-<p>dn: cn=Manager,dc=tenneshop,dc=com
-objectClass: organizationalRole
-cn: Manager
-description: Directory Manager
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dn: dc=tenneshop,dc=com
+</span><span class='line'>objectClass: dcObject
+</span><span class='line'>objectClass: organization
+</span><span class='line'>dc: tenneshop
+</span><span class='line'>o: Tenneshop
+</span><span class='line'>description: Tenneshop directory&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;dn: cn=Manager,dc=tenneshop,dc=com
+</span><span class='line'>objectClass: organizationalRole
+</span><span class='line'>cn: Manager
+</span><span class='line'>description: Directory Manager</span></code></pre></td></tr></table></div></figure></p>
 
 <p>将上述内容保存在文件 <code>/etc/openldap/root.ldif</code> 中，然后使用命令:</p>
 
@@ -1105,29 +1141,45 @@ export class Page {
 
 
 <pre><code>
-{% codeblock css %}
-
-    html, body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-    }
-     
-    #inner_fixed {
-        height: 100px;
-        background-color: grey;
-    }
-     
-    #inner_remaining {
-        background-color: #DDDDDD;    
-     
-        position: absolute;
-        top: 100px;
-        bottom: 0;
-        width: 100%; 
-    }
-
-{% endcodeblock %}
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
+</span><span class='line'>        height: 100%;
+</span><span class='line'>        width: 100%;
+</span><span class='line'>        margin: 0;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_fixed {
+</span><span class='line'>        height: 100px;
+</span><span class='line'>        background-color: grey;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_remaining {
+</span><span class='line'>        background-color: #DDDDDD;    
+</span><span class='line'>     
+</span><span class='line'>        position: absolute;
+</span><span class='line'>        top: 100px;
+</span><span class='line'>        bottom: 0;
+</span><span class='line'>        width: 100%; 
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
 
 pros
 
@@ -1155,31 +1207,51 @@ Tables
 
 
 <pre><code>
-{% codeblock css %}
-
-    html, body, #outer {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-    }
-     
-    #outer {
-        display: table;
-    }
-     
-    #inner_fixed {
-        height: 100px;
-        background-color: grey;
-     
-        display: table-row;
-    }
-     
-    #inner_remaining {
-        background-color: #DDDDDD;
-     
-        display: table-row;    
-    }
-{% endcodeblock %}
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body, #outer {
+</span><span class='line'>        height: 100%;
+</span><span class='line'>        width: 100%;
+</span><span class='line'>        margin: 0;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #outer {
+</span><span class='line'>        display: table;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_fixed {
+</span><span class='line'>        height: 100px;
+</span><span class='line'>        background-color: grey;
+</span><span class='line'>     
+</span><span class='line'>        display: table-row;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_remaining {
+</span><span class='line'>        background-color: #DDDDDD;
+</span><span class='line'>     
+</span><span class='line'>        display: table-row;    
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
 
 pros
 
@@ -1209,27 +1281,49 @@ CSS3 calc
 
 <p>```</p>
 
-<p>{% codeblock css %}</p>
-
-<pre><code>html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
- 
-#inner_fixed {
-    height: 100px;
-    background-color: grey;
-}
- 
-#inner_remaining {
-    background-color: #DDDDDD;
- 
-    height: calc(100% - 100px);    
-}
-</code></pre>
-
-<p>{% endcodeblock %}</p>
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>html, body {
+</span><span class='line'>    height: 100%;
+</span><span class='line'>    width: 100%;
+</span><span class='line'>    margin: 0;
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>#inner_fixed {
+</span><span class='line'>    height: 100px;
+</span><span class='line'>    background-color: grey;
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>#inner_remaining {
+</span><span class='line'>    background-color: #DDDDDD;
+</span><span class='line'> 
+</span><span class='line'>    height: calc(100% - 100px);    
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
 <p>pros</p>
 

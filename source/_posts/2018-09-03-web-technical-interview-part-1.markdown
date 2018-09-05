@@ -20,8 +20,8 @@ A:
 
 * 行内元素有：a b span img input select strong（强调的语气）
 * 块级元素有：div ul ol li dl dt dd h1 h2 h3 h4…p
-* 常见的空元素：<br> <hr> <img> <input> <link> <meta>
-* 鲜为人知的空元素：	<area> <base> <col> <command> <embed> <keygen> <param> <source> <track> <wbr>
+* 常见的空元素：br hr img input link meta
+* 鲜为人知的空元素：area base col command embed keygen param source track wbr
 
 ###4.页面导入样式时，使用link和@import有什么区别？
 A:
@@ -77,9 +77,10 @@ A:
 ###16.实现不使用 border 画出1px高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。
 A:
 
-```
-<div style="height:1px;overflow:hidden;background:red"></div>
-```
+{% codeblock html %}
+
+	<div style="height:1px;overflow:hidden;background:red"></div>
+{% endcodeblock %}
 
 ###17.网页验证码是干嘛的，是为了解决什么安全问题?
 A:区分用户是计算机还是人。
@@ -96,12 +97,13 @@ A:
 ###19.Label的作用是什么？是怎么用的？
 A:label标签来定义表单控制间的关系,当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。
 
-```
-<label for="Name">Number:</label>
-<input type="text" name="Name" id="Name"/>
+{% codeblock html %}
 
-<label>Date:<input type="text" name="B"/></label>
-```
+	<label for="Name">Number:</label>
+	<input type="text" name="Name" id="Name"/>
+	
+	<label>Date:<input type="text" name="B"/></label>
+{% endcodeblock %}
 
 ##Reference:
 

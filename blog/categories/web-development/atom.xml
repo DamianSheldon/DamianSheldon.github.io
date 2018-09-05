@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-05T10:48:48+08:00</updated>
+  <updated>2018-09-05T17:30:51+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,319 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 面试题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-technical-interview-part-2.html"/>
+    <updated>2018-09-05T15:52:44+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-technical-interview-part-2</id>
+    <content type="html"><![CDATA[<h3>1.介绍一下标准的CSS的盒子模型？低版本IE的盒子模型有什么不同的？</h3>
+
+<p>A:每个元素被表示为一个矩形的方框，框的内容、内边距、边界和外边距像洋葱的膜那样，一层包着一层构建起来。</p>
+
+<p>低版本IE的盒子模型的宽度包括框的内容、内边距和边界。</p>
+
+<h3>2.CSS选择符有哪些？哪些属性可以继承？</h3>
+
+<p>A:</p>
+
+<ul>
+<li><em>简单选择器</em>（Simple selectors）：通过元素类型、class 或 id 匹配一个或多个元素。</li>
+<li><em>属性选择器</em>（Attribute selectors）：通过 属性 / 属性值 匹配一个或多个元素。</li>
+<li><em>伪类</em>（Pseudo-classes）：匹配处于确定状态的一个或多个元素，比如被鼠标指针悬停的元素，或当前被选中或未选中的复选框，或元素是DOM树中一父节点的第一个子节点。</li>
+<li><strong>伪元素</strong>（Pseudo-elements）:匹配处于相关的确定位置的一个或多个元素，例如每个段落的第一个字，或者某个元素之前生成的内容。 </li>
+<li><em>组合器</em>（Combinators）：这里不仅仅是选择器本身，还有以有效的方式组合两个或更多的选择器用于非常特定的选择的方法。例如，你可以只选择divs的直系子节点的段落，或者直接跟在headings后面的段落。</li>
+<li><em>多重选择器</em>（Multiple selectors）：这些也不是单独的选择器；这个思路是将以逗号分隔开的多个选择器放在一个CSS规则下面， 以将一组声明应用于由这些选择器选择的所有元素。</li>
+</ul>
+
+
+<p>哪些属性可以继承？</p>
+
+<ul>
+<li>所有元素可继承：visibility和cursor。</li>
+<li>内联元素可继承：letter-spacing、word-spacing、white-space、line-height、color、font、font-family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、direction。</li>
+<li>终端块状元素可继承：text-indent和text-align。</li>
+<li>列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。</li>
+<li>表格元素可继承：border-collapse。</li>
+</ul>
+
+
+<h3>3.CSS优先级算法如何计算？</h3>
+
+<p>A:CSS根据规则的重要性、专用性和源代码次序来计算优先级。</p>
+
+<p>重要性和源代码次序相对简单，专用性是用四种不同的值（或组件）来衡量的，它们可以被认为是千位，百位，十位和个位:</p>
+
+<ol>
+<li>千位：如果声明是在style 属性中该列加1分（这样的声明没有选择器，所以它们的专用性总是1000。）否则为0。</li>
+<li>百位：在整个选择器中每包含一个ID选择器就在该列中加1分。</li>
+<li>十位：在整个选择器中每包含一个类选择器、属性选择器、或者伪类就在该列中加1分。</li>
+<li>个位：在整个选择器中每包含一个元素选择器或伪元素就在该列中加1分。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>4.如何居中div？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>水平居中</li>
+<li>水平垂直居中</li>
+</ul>
+
+
+<h4>水平居中</h4>
+
+<p>给div设置一个宽度，然后添加margin:0 auto属性。</p>
+
+<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>div{
+</span><span class='line'>    width:200px;
+</span><span class='line'>    margin:0 auto;
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<h4>水平垂直居中</h4>
+
+<ul>
+<li>容器的宽高确定</li>
+</ul>
+
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>// 确定容器的宽高 宽500 高 300 的层
+</span><span class='line'>// 设置层的外边距
+</span><span class='line'>
+</span><span class='line'>div {
+</span><span class='line'>    position: relative;     /* 相对定位或绝对定位均可 */
+</span><span class='line'>    width:500px;
+</span><span class='line'>    height:300px;
+</span><span class='line'>    top: 50%;
+</span><span class='line'>    left: 50%;
+</span><span class='line'>    margin: -150px 0 0 -250px;          /* 外边距为自身宽高的一半 */
+</span><span class='line'>    background-color: pink;         /* 方便看效果 */
+</span><span class='line'> }
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li>容器的宽高未知</li>
+</ul>
+
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code> // 未知容器的宽高，利用 `transform` 属性
+</span><span class='line'>
+</span><span class='line'>div {
+</span><span class='line'>    position: absolute;     /* 相对定位或绝对定位均可 */
+</span><span class='line'>    width:500px;
+</span><span class='line'>    height:300px;
+</span><span class='line'>    top: 50%;
+</span><span class='line'>    left: 50%;
+</span><span class='line'>    transform: translate(-50%, -50%);
+</span><span class='line'>    background-color: pink;         /* 方便看效果 */
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li>利用 flex 布局</li>
+</ul>
+
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code> // 利用 flex 布局
+</span><span class='line'> // 实际使用时应考虑兼容性
+</span><span class='line'>
+</span><span class='line'>.container {
+</span><span class='line'>    display: flex;
+</span><span class='line'>    align-items: center;            /* 垂直居中 */
+</span><span class='line'>    justify-content: center;        /* 水平居中 */
+</span><span class='line'>
+</span><span class='line'> }
+</span><span class='line'>.container div {
+</span><span class='line'>    width: 100px;
+</span><span class='line'>    height: 100px;
+</span><span class='line'>    background-color: pink;         /* 方便看效果 */
+</span><span class='line'> }  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<h3>5.display有哪些值？说明他们的作用。</h3>
+
+<h3>6.position的值? relative和absolute定位原点是？</h3>
+
+<h3>7.请解释一下CSS3的Flexbox（弹性盒布局模型），以及适用场景？</h3>
+
+<h3>8.用纯CSS创建一个三角形的原理是什么？</h3>
+
+<h3>9.一个满屏 品 字布局 如何设计?</h3>
+
+<h3>10.css多列等高如何实现？</h3>
+
+<h3>11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧 ？</h3>
+
+<h3>12.li与li之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</h3>
+
+<h3>13.为什么要初始化CSS样式。</h3>
+
+<h3>14.absolute的containing block(容器块)计算方式跟正常流有什么不同？</h3>
+
+<h3>15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下以后什么区别？</h3>
+
+<h3>16.position跟display、margin collapse、overflow、float这些特性相互叠加后会怎么样？</h3>
+
+<h3>17.对BFC规范(块级格式化上下文：block formatting context)的理解？</h3>
+
+<h3>18.css定义的权重</h3>
+
+<h3>19.请解释一下为什么需要清除浮动？清除浮动的方式</h3>
+
+<h3>20.什么是外边距合并？</h3>
+
+<h3>21.zoom:1的清除浮动原理?</h3>
+
+<h3>22.移动端的布局用过媒体查询吗？</h3>
+
+<h3>23.使用 CSS 预处理器吗？喜欢那个？</h3>
+
+<h3>24.CSS优化、提高性能的方法有哪些？</h3>
+
+<h3>25.浏览器是怎样解析CSS选择器的？</h3>
+
+<h3>26.在网页中的应该使用奇数还是偶数的字体？为什么呢？</h3>
+
+<h3>27.margin和padding分别适合什么场景使用？</h3>
+
+<h3>28.抽离样式模块怎么写，说出思路，有无实践经验？</h3>
+
+<h3>29.元素竖向的百分比设定是相对于容器的高度吗？</h3>
+
+<h3>30.全屏滚动的原理是什么？用到了CSS的那些属性？</h3>
+
+<h3>31.什么是响应式设计？响应式设计的基本原理是什么？如何兼容低版本的IE？</h3>
+
+<h3>32.视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）</h3>
+
+<h3>33.<code>::before</code> 和 <code>:after</code>中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。</h3>
+
+<h3>34.如何修改chrome记住密码后自动填充表单的黄色背景 ？</h3>
+
+<h3>35.你对line-height是如何理解的？</h3>
+
+<h3>36.设置元素浮动后，该元素的display值是多少？</h3>
+
+<h3>37.怎么让Chrome支持小于12px 的文字？</h3>
+
+<h3>38.让页面里的字体变清晰，变细用CSS怎么做？</h3>
+
+<h3>39.font-style属性可以让它赋值为“oblique” oblique是什么意思？</h3>
+
+<h3>40.position:fixed;在android下无效怎么处理？</h3>
+
+<h3>41.如果需要手动写动画，你认为最小时间间隔是多久，为什么？</h3>
+
+<h3>42.display:inline-block 什么时候会显示间隙</h3>
+
+<h3>43.overflow: scroll时不能平滑滚动的问题怎么处理？</h3>
+
+<h3>44.有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度。</h3>
+
+<h3>45.png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？</h3>
+
+<h3>46.什么是Cookie 隔离？（或者说：请求资源的时候不要让它带cookie怎么做）</h3>
+
+<h3>47.style标签写在body后与body前有什么区别？</h3>
+
+<h3>48.什么是CSS 预处理器 / 后处理器？</h3>
+
+<h3>49.rem布局的优缺点?</h3>
+
+<h2>Reference:</h2>
+
+<ul>
+<li><a href="https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions/Questions-and-Answers">前端开发面试题</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 面试题汇总(一)]]></title>
@@ -1275,140 +1588,6 @@ Options Indexes
 <p>```</p>
 
 <p>Reference:<a href="http://www.amznz.com/zhannei-sousuodaima/">站内搜索引擎代码</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Set up PHP development environment]]></title>
-    <link href="http://DamianSheldon.github.io/blog/set-up-php-development-environment.html"/>
-    <updated>2015-09-19T22:25:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/set-up-php-development-environment</id>
-    <content type="html"><![CDATA[<h3>Notes of Set up PHP development environment</h3>
-
-<ol>
-<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
-<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>, php.ini locate in /etc on Yosemite;</li>
-<li><p><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;<br/>
- Addition configure for Yosemite</p>
-
-<ul>
-<li><code>sudo cp /etc/php.ini.default /etc/php.ini</code></li>
-<li>add &ldquo;zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so&rdquo; to php.ini</li>
-</ul>
-</li>
-<li><p>Debugging Local PHP Files (PHP CLI Application)</p>
-
-<ul>
-<li>Create a PHP project;</li>
-<li>Create a PHP file;</li>
-<li>Set a breakpoint in PHP file;</li>
-<li>Save file;</li>
-<li>Create a new debug configuration;
-
-<ul>
-<li>Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</li>
-<li>Run > Debug Configurations > Select PHP CLI Application > New</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
-
-<ul>
-<li>Create a PHP project;</li>
-<li>Create a PHP file;</li>
-<li>Create a new debug configuration;
-
-<ul>
-<li>Run > Debug Configurations > Select PHP Web Application > New</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Test with PHPUnit</p>
-
-<ul>
-<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
-[Main]
-Location:/usr/local/bin/phpunit
-Working Directory:${workspace_loc:/Backend/tests}
-Apply > Run
-<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
-</ul>
-</li>
-<li><p>Integrate MakeGood (failure)</p>
-
-<ul>
-<li>Installing Prerequisite Software
-
-<ul>
-<li>PHP 5.5.27 (cli)</li>
-<li>xdebug-2.3.2</li>
-<li>eclipse mars(4.5.0)</li>
-<li>PDT(3.5.0)</li>
-<li>PHPUnit (4.8.6)</li>
-</ul>
-</li>
-<li><p>Installing MakeGood
-  Help -> Install New Software&hellip; -> Add&hellip; -> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
-<li><p>Selecting a Testing Framework</p></li>
-<li><p>Resolving the Dependencies to the Testing Framework</p>
-
-<pre><code>  * Defining User Libraries
-      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
-      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
-  * Adding User Libraries to the Project
-</code></pre>
-
-<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
-</ul>
-
-
-<p> *Testing Framework Specific Configuration<br/>
-     PHPUnit</p>
-
-<pre><code> * Open the properties for the project.
- * Select MakeGood.
- * Select PHPUnit.
- * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
-</code></pre>
-
-<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
-</ol>
-
-
-<h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
-
-<p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
-
-<h3>Wait for XDebug session</h3>
-
-<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
-
-<pre><code>sudo cp /etc/php.ini.default /etc/php.ini
-
-// Add follow content to php.ini
-[XDebug]
-zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
-xdebug.remote_enable=On
-xdebug.remote_handler=dbgp
-xdebug.remote_host=helloworld.local
-xdebug.remote_port=9000
-;xdebug.remote_connect_back=1
-xdebug.remote_mode="req"
-xdebug.remote_log="/var/log/xdebug.log"
-
-sudo apachectl restart
-</code></pre>
-
-<h3>/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: &lsquo;php.h&rsquo; file not found</h3>
-
-<p>Solution:</p>
-
-<pre><code>$ xcode-select --install
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks">http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks</a></p>
 ]]></content>
   </entry>
   

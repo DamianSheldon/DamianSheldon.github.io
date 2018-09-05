@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-05T10:48:48+08:00</updated>
+  <updated>2018-09-05T17:30:51+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,319 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 面试题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-technical-interview-part-2.html"/>
+    <updated>2018-09-05T15:52:44+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-technical-interview-part-2</id>
+    <content type="html"><![CDATA[<h3>1.介绍一下标准的CSS的盒子模型？低版本IE的盒子模型有什么不同的？</h3>
+
+<p>A:每个元素被表示为一个矩形的方框，框的内容、内边距、边界和外边距像洋葱的膜那样，一层包着一层构建起来。</p>
+
+<p>低版本IE的盒子模型的宽度包括框的内容、内边距和边界。</p>
+
+<h3>2.CSS选择符有哪些？哪些属性可以继承？</h3>
+
+<p>A:</p>
+
+<ul>
+<li><em>简单选择器</em>（Simple selectors）：通过元素类型、class 或 id 匹配一个或多个元素。</li>
+<li><em>属性选择器</em>（Attribute selectors）：通过 属性 / 属性值 匹配一个或多个元素。</li>
+<li><em>伪类</em>（Pseudo-classes）：匹配处于确定状态的一个或多个元素，比如被鼠标指针悬停的元素，或当前被选中或未选中的复选框，或元素是DOM树中一父节点的第一个子节点。</li>
+<li><strong>伪元素</strong>（Pseudo-elements）:匹配处于相关的确定位置的一个或多个元素，例如每个段落的第一个字，或者某个元素之前生成的内容。 </li>
+<li><em>组合器</em>（Combinators）：这里不仅仅是选择器本身，还有以有效的方式组合两个或更多的选择器用于非常特定的选择的方法。例如，你可以只选择divs的直系子节点的段落，或者直接跟在headings后面的段落。</li>
+<li><em>多重选择器</em>（Multiple selectors）：这些也不是单独的选择器；这个思路是将以逗号分隔开的多个选择器放在一个CSS规则下面， 以将一组声明应用于由这些选择器选择的所有元素。</li>
+</ul>
+
+
+<p>哪些属性可以继承？</p>
+
+<ul>
+<li>所有元素可继承：visibility和cursor。</li>
+<li>内联元素可继承：letter-spacing、word-spacing、white-space、line-height、color、font、font-family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、direction。</li>
+<li>终端块状元素可继承：text-indent和text-align。</li>
+<li>列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。</li>
+<li>表格元素可继承：border-collapse。</li>
+</ul>
+
+
+<h3>3.CSS优先级算法如何计算？</h3>
+
+<p>A:CSS根据规则的重要性、专用性和源代码次序来计算优先级。</p>
+
+<p>重要性和源代码次序相对简单，专用性是用四种不同的值（或组件）来衡量的，它们可以被认为是千位，百位，十位和个位:</p>
+
+<ol>
+<li>千位：如果声明是在style 属性中该列加1分（这样的声明没有选择器，所以它们的专用性总是1000。）否则为0。</li>
+<li>百位：在整个选择器中每包含一个ID选择器就在该列中加1分。</li>
+<li>十位：在整个选择器中每包含一个类选择器、属性选择器、或者伪类就在该列中加1分。</li>
+<li>个位：在整个选择器中每包含一个元素选择器或伪元素就在该列中加1分。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>4.如何居中div？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>水平居中</li>
+<li>水平垂直居中</li>
+</ul>
+
+
+<h4>水平居中</h4>
+
+<p>给div设置一个宽度，然后添加margin:0 auto属性。</p>
+
+<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>div{
+</span><span class='line'>    width:200px;
+</span><span class='line'>    margin:0 auto;
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<h4>水平垂直居中</h4>
+
+<ul>
+<li>容器的宽高确定</li>
+</ul>
+
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>// 确定容器的宽高 宽500 高 300 的层
+</span><span class='line'>// 设置层的外边距
+</span><span class='line'>
+</span><span class='line'>div {
+</span><span class='line'>    position: relative;     /* 相对定位或绝对定位均可 */
+</span><span class='line'>    width:500px;
+</span><span class='line'>    height:300px;
+</span><span class='line'>    top: 50%;
+</span><span class='line'>    left: 50%;
+</span><span class='line'>    margin: -150px 0 0 -250px;          /* 外边距为自身宽高的一半 */
+</span><span class='line'>    background-color: pink;         /* 方便看效果 */
+</span><span class='line'> }
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li>容器的宽高未知</li>
+</ul>
+
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code> // 未知容器的宽高，利用 `transform` 属性
+</span><span class='line'>
+</span><span class='line'>div {
+</span><span class='line'>    position: absolute;     /* 相对定位或绝对定位均可 */
+</span><span class='line'>    width:500px;
+</span><span class='line'>    height:300px;
+</span><span class='line'>    top: 50%;
+</span><span class='line'>    left: 50%;
+</span><span class='line'>    transform: translate(-50%, -50%);
+</span><span class='line'>    background-color: pink;         /* 方便看效果 */
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li>利用 flex 布局</li>
+</ul>
+
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code> // 利用 flex 布局
+</span><span class='line'> // 实际使用时应考虑兼容性
+</span><span class='line'>
+</span><span class='line'>.container {
+</span><span class='line'>    display: flex;
+</span><span class='line'>    align-items: center;            /* 垂直居中 */
+</span><span class='line'>    justify-content: center;        /* 水平居中 */
+</span><span class='line'>
+</span><span class='line'> }
+</span><span class='line'>.container div {
+</span><span class='line'>    width: 100px;
+</span><span class='line'>    height: 100px;
+</span><span class='line'>    background-color: pink;         /* 方便看效果 */
+</span><span class='line'> }  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<h3>5.display有哪些值？说明他们的作用。</h3>
+
+<h3>6.position的值? relative和absolute定位原点是？</h3>
+
+<h3>7.请解释一下CSS3的Flexbox（弹性盒布局模型），以及适用场景？</h3>
+
+<h3>8.用纯CSS创建一个三角形的原理是什么？</h3>
+
+<h3>9.一个满屏 品 字布局 如何设计?</h3>
+
+<h3>10.css多列等高如何实现？</h3>
+
+<h3>11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧 ？</h3>
+
+<h3>12.li与li之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</h3>
+
+<h3>13.为什么要初始化CSS样式。</h3>
+
+<h3>14.absolute的containing block(容器块)计算方式跟正常流有什么不同？</h3>
+
+<h3>15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下以后什么区别？</h3>
+
+<h3>16.position跟display、margin collapse、overflow、float这些特性相互叠加后会怎么样？</h3>
+
+<h3>17.对BFC规范(块级格式化上下文：block formatting context)的理解？</h3>
+
+<h3>18.css定义的权重</h3>
+
+<h3>19.请解释一下为什么需要清除浮动？清除浮动的方式</h3>
+
+<h3>20.什么是外边距合并？</h3>
+
+<h3>21.zoom:1的清除浮动原理?</h3>
+
+<h3>22.移动端的布局用过媒体查询吗？</h3>
+
+<h3>23.使用 CSS 预处理器吗？喜欢那个？</h3>
+
+<h3>24.CSS优化、提高性能的方法有哪些？</h3>
+
+<h3>25.浏览器是怎样解析CSS选择器的？</h3>
+
+<h3>26.在网页中的应该使用奇数还是偶数的字体？为什么呢？</h3>
+
+<h3>27.margin和padding分别适合什么场景使用？</h3>
+
+<h3>28.抽离样式模块怎么写，说出思路，有无实践经验？</h3>
+
+<h3>29.元素竖向的百分比设定是相对于容器的高度吗？</h3>
+
+<h3>30.全屏滚动的原理是什么？用到了CSS的那些属性？</h3>
+
+<h3>31.什么是响应式设计？响应式设计的基本原理是什么？如何兼容低版本的IE？</h3>
+
+<h3>32.视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）</h3>
+
+<h3>33.<code>::before</code> 和 <code>:after</code>中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。</h3>
+
+<h3>34.如何修改chrome记住密码后自动填充表单的黄色背景 ？</h3>
+
+<h3>35.你对line-height是如何理解的？</h3>
+
+<h3>36.设置元素浮动后，该元素的display值是多少？</h3>
+
+<h3>37.怎么让Chrome支持小于12px 的文字？</h3>
+
+<h3>38.让页面里的字体变清晰，变细用CSS怎么做？</h3>
+
+<h3>39.font-style属性可以让它赋值为“oblique” oblique是什么意思？</h3>
+
+<h3>40.position:fixed;在android下无效怎么处理？</h3>
+
+<h3>41.如果需要手动写动画，你认为最小时间间隔是多久，为什么？</h3>
+
+<h3>42.display:inline-block 什么时候会显示间隙</h3>
+
+<h3>43.overflow: scroll时不能平滑滚动的问题怎么处理？</h3>
+
+<h3>44.有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度。</h3>
+
+<h3>45.png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？</h3>
+
+<h3>46.什么是Cookie 隔离？（或者说：请求资源的时候不要让它带cookie怎么做）</h3>
+
+<h3>47.style标签写在body后与body前有什么区别？</h3>
+
+<h3>48.什么是CSS 预处理器 / 后处理器？</h3>
+
+<h3>49.rem布局的优缺点?</h3>
+
+<h2>Reference:</h2>
+
+<ul>
+<li><a href="https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions/Questions-and-Answers">前端开发面试题</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 面试题汇总(一)]]></title>
@@ -1342,41 +1655,6 @@ CSS3 calc
 
 
 <p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[记一次换新 iPhone]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html"/>
-    <updated>2018-03-17T10:20:21+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone</id>
-    <content type="html"><![CDATA[<p>说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 >&lt;。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。</p>
-
-<p>iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个地方。苹果这篇<a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a>详细介绍几种可行方法，我们可以从中选择一种方法。其实我觉得苹果应该出篇换机指南的，上面这篇文章的题目不是很容易让人把它与换机联系起来，也不是很容易记，这是我想记这么一笔的原因之一，N 年之后我再换 iPhone 的时候也可以按这篇文章的思想来指导自己迁移数据。</p>
-
-<p>这里我选择使用 iTunes 备份恢复，快速开始功能好像不是很灵光，也可能是我不会用，而 iCloud 备份是通过网络，网速会影响备份和恢复，加上最近 iPhone 的 bug 贼多，这让我不是很放心。在此之前有使用过 iTunes 备份恢复，想着即使恢复过程出了问题备份还在，所以最终选择 iTunes。</p>
-
-<p>备份过程很顺利，恢复过程就曲折了，iTunes 提示 backup is corrupt or incompatible，墨菲定理生效了，另一方面也佐证了选择 iTunes 是正确的选择，苹果什么时候能把这软件质量抓一抓，别只顾着赚钱啊。搜索找到了苹果对这个问题的解决办法：</p>
-
-<!--more-->
-
-
-<blockquote><p>If an alert says that your backup is corrupt or incompatible</p>
-
-<p>If iTunes can&rsquo;t restore from a backup because the backup is corrupt or incompatible, make sure that iTunes is updated. If you see an error that says your iOS software is too old, find out how to update your device to restore the backup. If you still can&rsquo;t restore the backup, you might not be able to use that backup. Try to use an alternate backup or an iCloud backup, or Contact Apple Support for more help.</p></blockquote>
-
-<p>检查 iTunes 的版本，显示是最新的，这是什么幺蛾子,难道就这么放弃，不存在的，我有那么容易放弃吗，开玩笑。既然有所谓的版本的问题，我怀疑是 8 的版本和 5S 的版本不一致，于是两手准备：一方面对 5S 做一次全量 iCloud 备份，如果稍后 iOS 版本都一致了 iTunes 备份还不行就使用 iCloud 备份恢复；另一方面把 8 和 5S 升级到最新的 iOS，8 用 USB 接上 iTunes 是可以升级的。8 和 5S 都升级成最新版本的系统后，又对 5S 做了一次 iTunes 备份，之后 8 用这个备份顺利恢复了。</p>
-
-<p>回顾整个恢复过程感觉还挺曲折，真心希望苹果抓抓软件质量，别让 iOS 成了 bugOS。过程中 8 和 5S 只是小版本不一致却导致恢复不成功，还挺伤害用户体验的，毕竟好几年才使用一次的杀手锏功能之一，当我要使用的时候你却告诉我: &ldquo;对不起，这次用不了!"我用新 iPhone 的喜悦感都被抛到九霄云外了。</p>
-
-<h3>Reference</h3>
-
-<ul>
-<li><a href="https://support.apple.com/zh-cn/HT201269">将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch</a></li>
-<li><a href="https://sspai.com/post/41612">从数据迁移到处理旧 iPhone，这份换机指南都帮你想好了</a></li>
-<li><a href="https://support.apple.com/en-us/HT203271">If your iTunes backup couldn‘t be completed or you can‘t restore from a backup</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

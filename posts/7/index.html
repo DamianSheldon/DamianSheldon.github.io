@@ -100,6 +100,102 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html">
+		
+			如何搭建一个带 Dovecot 的 Postfix 邮件服务器</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-02-15T16:29:42+08:00" pubdate data-updated="true">15 Feb 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archivies/'>archivies</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。</p>
+
+<h2>准备材料</h2>
+
+<ul>
+<li>VPS</li>
+<li>域名</li>
+</ul>
+
+
+<p>VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
+
+<p>我服务器跑的是 Debian 8 Jessie.</p>
+
+<h2>配置 DNS</h2>
+
+<h3>添加 MX 记录</h3>
+
+<p>添加从域名到 VPS IP 的 MX 记录，它指定了负责处理这个域名邮件收发的服务器。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Type    Hostname        Value         TTL
+</span><span class='line'>MX      tenneshop.com   1.2.3.4.      1800</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>验证 DNS</h3>
+
+<p>DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上几分钟之后就会生效，你可以用 dig 和 host 来验证。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@yourbase] ~# dig MX mydomain.com +short @ns1.digitalocean.com
+</span><span class='line'>50 mail.mydomain.com.
+</span><span class='line'>[root@yourbase] ~# host mail.mydomain.com ns1.digitalocean.com
+</span><span class='line'>Using domain server:
+</span><span class='line'>Name: ns1.digitalocean.com
+</span><span class='line'>Address: 198.199.120.125#53
+</span><span class='line'>Aliases:
+</span><span class='line'>
+</span><span class='line'>mail.mydomain.com has address 82.196.9.119</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/photos-framework-usage.html">
 		
 			Photos 框架的基本使用</a>
@@ -316,71 +412,6 @@ $(document).ready(
 
 		
 		<a href="/blog/ios-development-problems-part-9.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/audio-and-video-file-format.html">
-		
-			音频和视频格式</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-10-21T15:15:53+08:00" pubdate data-updated="true">21 Oct 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archive/'>archive</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>音频格式</h2>
-
-<p>我们通常说的音频格式准确地讲应该是音频文件格式，它是计算机系统上用于存放数字音频数据的文件格式，也可以看作一个容器。</p>
-
-<p>音频数据的比特分布我们称为音频编码格式，它可以非压缩编码或压缩编码。压缩编码又分为无损压缩和有损压缩。</p>
-
-<p>编码器(codec)就是来编解码原始音频数据的。</p>
-
-<p>声音源 &ndash;ADC&ndash;> raw audio data &ndash;codec&ndash;> audio data(uncompressed/compressed) &ndash;packed&ndash;> audio file format(container format)</p>
-
-<blockquote><p>An audio file format is a file format for storing digital audio data on a computer system. The bit layout of the audio data (excluding metadata) is called the audio coding format and can be uncompressed, or compressed to reduce the file size, often using lossy compression. The data can be a raw bitstream in an audio coding format, but it is usually embedded in a container format or an audio data format with defined storage layer.</p>
-
-<p>It is important to distinguish between the audio coding format, the container containing the raw audio data, and an audio codec. A codec performs the encoding and decoding of the raw audio data while this encoded data is (usually) stored in a container file. Although most audio file formats support only one type of audio coding data (created with an audio coder), a multimedia container format (as Matroska or AVI) may support multiple types of audio and video data.</p>
-
-<p>There are three major groups of audio file formats:
-    • Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;
-    • Formats with lossless compression, such as FLAC, Monkey&rsquo;s Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).
-    • Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).</p></blockquote>
-
-
-		
-		<a href="/blog/audio-and-video-file-format.html" class="more-link">继续阅读</a>
 	</div>
 
 

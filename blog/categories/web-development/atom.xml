@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-07T16:20:11+08:00</updated>
+  <updated>2018-09-10T16:01:57+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -894,7 +894,128 @@ CSS3 calc
 </div>
 
 
+<pre><code>
+<figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
+</span><span class='line'>        height: 100%;
+</span><span class='line'>        width: 100%;
+</span><span class='line'>        margin: 0;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_fixed {
+</span><span class='line'>        height: 100px;
+</span><span class='line'>        background-color: grey;
+</span><span class='line'>    }
+</span><span class='line'>     
+</span><span class='line'>    #inner_remaining {
+</span><span class='line'>        background-color: #DDDDDD;
+</span><span class='line'>     
+</span><span class='line'>        height: calc(100% - 100px);    
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+pros
+
+* easy to implement
+* less code than the other solutions
+
+cons
+
+* the calc function is rather new (no support for older browsers)
+* tedious to maintain (hard-coded height)
+
+Reference:[How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
+
+###10.Property 'of' does not exist on type 'typeof Observable
+A:
+for Angular &gt;= 6.0.0
+uses RxJS 6.0.0 
+</code></pre>
+
+<p>import { of } from &lsquo;rxjs&rsquo;;</p>
+
+<pre><code>
+And its usage has been changed, you no longer call it off of Observable:
+</code></pre>
+
+<p>of(&lsquo;token&rsquo;);</p>
+
+<pre><code>
+for Angular &lt;= 5.x.xx
+</code></pre>
+
+<p>import &lsquo;rxjs/add/observable/of&rsquo;;</p>
+
+<p>Observable.of(&lsquo;token&rsquo;);</p>
+
 <p>```</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable">Property &lsquo;of&rsquo; does not exist on type &lsquo;typeof Observable</a></p>
+
+<h3>11.设置左右边框的颜色。</h3>
+
+<p>A:一开始的想法如下:</p>
+
+<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>&lt;hr style="
+</span><span class='line'>    height: 10px;
+</span><span class='line'>    border-left-color:  red;
+</span><span class='line'>    border-left-width: 10px;
+</span><span class='line'>    background-color: gray;
+</span><span class='line'>    border-right-color:  red;
+</span><span class='line'>    border-right-width: 10px;
+</span><span class='line'>"&gt;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<p>结果左边框的颜色不是红色，而是红色和灰色的合成色，这有点奇怪，暂时不知道怎么解决这个问题。</p>
+
+<p>于是想用 <code>::before</code> 和 <code>::after</code> 的伪元素来做这个事情:</p>
+
+<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>&lt;h1 class="test"&gt;Test&lt;/h1&gt;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
 <p><figure class='code'><figcaption><span>css </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -918,45 +1039,65 @@ CSS3 calc
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
 </span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>html, body {
-</span><span class='line'>    height: 100%;
-</span><span class='line'>    width: 100%;
-</span><span class='line'>    margin: 0;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>#inner_fixed {
-</span><span class='line'>    height: 100px;
-</span><span class='line'>    background-color: grey;
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>#inner_remaining {
-</span><span class='line'>    background-color: #DDDDDD;
-</span><span class='line'> 
-</span><span class='line'>    height: calc(100% - 100px);    
-</span><span class='line'>}
+</span><span class='line'>&lt;pre>&lt;code> .test {
+</span><span class='line'>   position: relative;
+</span><span class='line'>   padding: 0 10px;
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'> .test:before {
+</span><span class='line'>
+</span><span class='line'>   display: block;
+</span><span class='line'>   height: 100%;
+</span><span class='line'>
+</span><span class='line'>   content: ".";
+</span><span class='line'>   color: transparent;
+</span><span class='line'>   font-size: 0;
+</span><span class='line'>
+</span><span class='line'>   position: absolute;
+</span><span class='line'>   top: 0;
+</span><span class='line'>   left: 0;
+</span><span class='line'>   border-left: 10px solid red;
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'>  .test:after {
+</span><span class='line'>
+</span><span class='line'>   display: block;
+</span><span class='line'>   height: 100%;
+</span><span class='line'>
+</span><span class='line'>   content: ".";
+</span><span class='line'>   color: transparent;
+</span><span class='line'>   font-size: 0;
+</span><span class='line'>
+</span><span class='line'>   position: absolute;
+</span><span class='line'>   top: 0;
+</span><span class='line'>   right: 0;
+</span><span class='line'>   border-right: 10px solid red;
+</span><span class='line'> }
 </span><span class='line'>&lt;/code>&lt;/pre>
 </span><span class='line'>
 </span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
-<p>pros</p>
-
-<ul>
-<li>easy to implement</li>
-<li>less code than the other solutions</li>
-</ul>
-
-
-<p>cons</p>
-
-<ul>
-<li>the calc function is rather new (no support for older browsers)</li>
-<li>tedious to maintain (hard-coded height)</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
+<p>Reference:<a href="https://stackoverflow.com/questions/11052202/can-i-have-different-colored-left-and-top-borders-in-css-with-straight-join">Can I have different colored left and top borders in CSS with straight join?</a></p>
 ]]></content>
   </entry>
   

@@ -382,4 +382,35 @@ cons
 
 Reference:[How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
 
+###10.Property 'of' does not exist on type 'typeof Observable
+A:
+for Angular >= 6.0.0
+uses RxJS 6.0.0 
+
+```
+
+import { of } from 'rxjs';
+
+```
+
+And its usage has been changed, you no longer call it off of Observable:
+
+```
+
+of('token');
+
+```
+
+for Angular <= 5.x.xx
+
+```
+
+import 'rxjs/add/observable/of';
+
+Observable.of('token');
+
+```
+
+Reference:[Property 'of' does not exist on type 'typeof Observable](https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable)  
+
 

@@ -413,4 +413,71 @@ Observable.of('token');
 
 Reference:[Property 'of' does not exist on type 'typeof Observable](https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable)  
 
+###11.设置左右边框的颜色。
+A:一开始的想法如下:
+
+{% codeblock html %}
+
+	<hr style="
+	    height: 10px;
+	    border-left-color:  red;
+	    border-left-width: 10px;
+	    background-color: gray;
+	    border-right-color:  red;
+	    border-right-width: 10px;
+	">
+	
+{% endcodeblock %}
+
+结果左边框的颜色不是红色，而是红色和灰色的合成色，这有点奇怪，暂时不知道怎么解决这个问题。
+
+于是想用 `::before` 和 `::after` 的伪元素来做这个事情:
+
+{% codeblock html %}
+
+	<h1 class="test">Test</h1>
+
+{% endcodeblock %}
+
+{% codeblock css %}
+
+	 .test {
+	   position: relative;
+	   padding: 0 10px;
+	 }
+	 
+	 .test:before {
+	   
+	   display: block;
+	   height: 100%;
+	   
+	   content: ".";
+	   color: transparent;
+	   font-size: 0;
+	   
+	   position: absolute;
+	   top: 0;
+	   left: 0;
+	   border-left: 10px solid red;
+	 }
+	 
+	  .test:after {
+	   
+	   display: block;
+	   height: 100%;
+	   
+	   content: ".";
+	   color: transparent;
+	   font-size: 0;
+	   
+	   position: absolute;
+	   top: 0;
+	   right: 0;
+	   border-right: 10px solid red;
+	 }
+ 
+{% endcodeblock %}
+
+Reference:[Can I have different colored left and top borders in CSS with straight join?](https://stackoverflow.com/questions/11052202/can-i-have-different-colored-left-and-top-borders-in-css-with-straight-join)  
+
 

@@ -299,9 +299,64 @@ $(document).ready(
 
 <h3>5.display有哪些值？说明他们的作用。</h3>
 
+<p>A:display 所有可能的值太多了，这里说下常见的:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> display </th>
+<th style="text-align:left;"> 作用 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> none </td>
+<td style="text-align:left;"> 元素不显示，并从文档流中移除。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> inline </td>
+<td style="text-align:left;"> 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> inline-block </td>
+<td style="text-align:left;"> 默认宽度为内容宽度，可以设置宽高，同行显示。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> block </td>
+<td style="text-align:left;"> 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> list-item </td>
+<td style="text-align:left;"> 象块类型元素一样显示，并添加样式列表标记。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> table </td>
+<td style="text-align:left;"> 元素会作为块级表格来显示。 </td>
+</tr>
+</tbody>
+</table>
+
+
 <h3>6.position的值? relative和absolute定位原点是？</h3>
 
+<p>A: position  = static | relative | absolute | sticky | fixed</p>
+
+<p>relative: The element is positioned according to the normal flow of the document, and then offset relative to itself based on the values of top, right, bottom, and left.</p>
+
+<p>absolute: The element is removed from the normal document flow, and no space is created for the element in the page layout. It is positioned relative to its closest positioned ancestor, if any; otherwise, it is placed relative to the initial containing block. Its final position is determined by the values of top, right, bottom, and left.</p>
+
 <h3>7.请解释一下CSS3的Flexbox（弹性盒布局模型），以及适用场景？</h3>
+
+<p>A:Flexbox is a one-dimensional layout method for laying out items in rows or columns. Items flex to fill additional space and shrink to fit into smaller spaces. </p>
+
+<p>适用场景:</p>
+
+<ul>
+<li>Vertically centering a block of content inside its parent.</li>
+<li>Making all the children of a container take up an equal amount of the available width/height, regardless of how much width/height is available.</li>
+<li>Making all columns in a multiple column layout adopt the same height even if they contain a different amount of content.</li>
+</ul>
+
 
 <h3>8.用纯CSS创建一个三角形的原理是什么？</h3>
 

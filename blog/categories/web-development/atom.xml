@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-10T16:01:57+08:00</updated>
+  <updated>2018-09-10T17:31:21+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -229,9 +229,64 @@
 
 <h3>5.display有哪些值？说明他们的作用。</h3>
 
+<p>A:display 所有可能的值太多了，这里说下常见的:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> display </th>
+<th style="text-align:left;"> 作用 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> none </td>
+<td style="text-align:left;"> 元素不显示，并从文档流中移除。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> inline </td>
+<td style="text-align:left;"> 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> inline-block </td>
+<td style="text-align:left;"> 默认宽度为内容宽度，可以设置宽高，同行显示。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> block </td>
+<td style="text-align:left;"> 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> list-item </td>
+<td style="text-align:left;"> 象块类型元素一样显示，并添加样式列表标记。 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> table </td>
+<td style="text-align:left;"> 元素会作为块级表格来显示。 </td>
+</tr>
+</tbody>
+</table>
+
+
 <h3>6.position的值? relative和absolute定位原点是？</h3>
 
+<p>A: position  = static | relative | absolute | sticky | fixed</p>
+
+<p>relative: The element is positioned according to the normal flow of the document, and then offset relative to itself based on the values of top, right, bottom, and left.</p>
+
+<p>absolute: The element is removed from the normal document flow, and no space is created for the element in the page layout. It is positioned relative to its closest positioned ancestor, if any; otherwise, it is placed relative to the initial containing block. Its final position is determined by the values of top, right, bottom, and left.</p>
+
 <h3>7.请解释一下CSS3的Flexbox（弹性盒布局模型），以及适用场景？</h3>
+
+<p>A:Flexbox is a one-dimensional layout method for laying out items in rows or columns. Items flex to fill additional space and shrink to fit into smaller spaces. </p>
+
+<p>适用场景:</p>
+
+<ul>
+<li>Vertically centering a block of content inside its parent.</li>
+<li>Making all the children of a container take up an equal amount of the available width/height, regardless of how much width/height is available.</li>
+<li>Making all columns in a multiple column layout adopt the same height even if they contain a different amount of content.</li>
+</ul>
+
 
 <h3>8.用纯CSS创建一个三角形的原理是什么？</h3>
 
@@ -966,138 +1021,6 @@ for Angular &lt;= 5.x.xx
 <p>```</p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable">Property &lsquo;of&rsquo; does not exist on type &lsquo;typeof Observable</a></p>
-
-<h3>11.设置左右边框的颜色。</h3>
-
-<p>A:一开始的想法如下:</p>
-
-<p><figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>&lt;hr style="
-</span><span class='line'>    height: 10px;
-</span><span class='line'>    border-left-color:  red;
-</span><span class='line'>    border-left-width: 10px;
-</span><span class='line'>    background-color: gray;
-</span><span class='line'>    border-right-color:  red;
-</span><span class='line'>    border-right-width: 10px;
-</span><span class='line'>"&gt;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<p>结果左边框的颜色不是红色，而是红色和灰色的合成色，这有点奇怪，暂时不知道怎么解决这个问题。</p>
-
-<p>于是想用 <code>::before</code> 和 <code>::after</code> 的伪元素来做这个事情:</p>
-
-<p><figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>&lt;h1 class="test"&gt;Test&lt;/h1&gt;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code> .test {
-</span><span class='line'>   position: relative;
-</span><span class='line'>   padding: 0 10px;
-</span><span class='line'> }
-</span><span class='line'>
-</span><span class='line'> .test:before {
-</span><span class='line'>
-</span><span class='line'>   display: block;
-</span><span class='line'>   height: 100%;
-</span><span class='line'>
-</span><span class='line'>   content: ".";
-</span><span class='line'>   color: transparent;
-</span><span class='line'>   font-size: 0;
-</span><span class='line'>
-</span><span class='line'>   position: absolute;
-</span><span class='line'>   top: 0;
-</span><span class='line'>   left: 0;
-</span><span class='line'>   border-left: 10px solid red;
-</span><span class='line'> }
-</span><span class='line'>
-</span><span class='line'>  .test:after {
-</span><span class='line'>
-</span><span class='line'>   display: block;
-</span><span class='line'>   height: 100%;
-</span><span class='line'>
-</span><span class='line'>   content: ".";
-</span><span class='line'>   color: transparent;
-</span><span class='line'>   font-size: 0;
-</span><span class='line'>
-</span><span class='line'>   position: absolute;
-</span><span class='line'>   top: 0;
-</span><span class='line'>   right: 0;
-</span><span class='line'>   border-right: 10px solid red;
-</span><span class='line'> }
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/11052202/can-i-have-different-colored-left-and-top-borders-in-css-with-straight-join">Can I have different colored left and top borders in CSS with straight join?</a></p>
 ]]></content>
   </entry>
   

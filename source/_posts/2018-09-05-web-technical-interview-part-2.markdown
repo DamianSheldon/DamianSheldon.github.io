@@ -119,10 +119,32 @@ A:
 {% endcodeblock %}
 
 ###5.display有哪些值？说明他们的作用。
+A:display 所有可能的值太多了，这里说下常见的:
+
+| display | 作用 |
+| :------- | :--- |
+| none | 元素不显示，并从文档流中移除。 |
+| inline | 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。 |
+| inline-block | 默认宽度为内容宽度，可以设置宽高，同行显示。 |
+| block | 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。 |
+| list-item | 象块类型元素一样显示，并添加样式列表标记。 |
+| table | 元素会作为块级表格来显示。 |
 
 ###6.position的值? relative和absolute定位原点是？
+A: position  = static | relative | absolute | sticky | fixed
+
+relative: The element is positioned according to the normal flow of the document, and then offset relative to itself based on the values of top, right, bottom, and left.
+
+absolute: The element is removed from the normal document flow, and no space is created for the element in the page layout. It is positioned relative to its closest positioned ancestor, if any; otherwise, it is placed relative to the initial containing block. Its final position is determined by the values of top, right, bottom, and left.
 
 ###7.请解释一下CSS3的Flexbox（弹性盒布局模型），以及适用场景？
+A:Flexbox is a one-dimensional layout method for laying out items in rows or columns. Items flex to fill additional space and shrink to fit into smaller spaces. 
+
+适用场景:
+
+* Vertically centering a block of content inside its parent.
+* Making all the children of a container take up an equal amount of the available width/height, regardless of how much width/height is available.
+* Making all columns in a multiple column layout adopt the same height even if they contain a different amount of content.
 
 ###8.用纯CSS创建一个三角形的原理是什么？
 

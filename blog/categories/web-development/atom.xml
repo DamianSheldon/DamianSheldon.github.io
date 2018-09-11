@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-10T17:31:21+08:00</updated>
+  <updated>2018-09-11T11:55:15+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -290,19 +290,345 @@
 
 <h3>8.用纯CSS创建一个三角形的原理是什么？</h3>
 
+<p>A:采用的是均分原理。</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>.triangle{  
+</span><span class='line'>     width:0;  
+</span><span class='line'>     height:0;  
+</span><span class='line'>     margin:0 auto;  
+</span><span class='line'>     border:6px solid transparent;  
+</span><span class='line'>     border-top: 6px solid red;  
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'>// 第二种写法：
+</span><span class='line'>
+</span><span class='line'>.triangle{  
+</span><span class='line'>     width:0;  
+</span><span class='line'>     height:0;  
+</span><span class='line'>     margin:0 auto;  
+</span><span class='line'>     border-width:6px;
+</span><span class='line'>     border-color:red transparent transparent transparent;
+</span><span class='line'>     border-style:solid dashed dashed dashed;//为了兼容IE6，把没有的边框都设置为虚线
+</span><span class='line'> }
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
 <h3>9.一个满屏 品 字布局 如何设计?</h3>
 
+<p>A:方式一：上面的 div 宽100%，下面的两个 div 分别宽50%，然后用 float 或者 inline 使其不换行即可；方式二：上面的 div 宽100%，内含一个 div 水平居中，下面的div，内含两个 div,使用 absolute 定位。</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>// 方式一
+</span><span class='line'>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>    &lt;meta charset="utf-8"&gt;
+</span><span class='line'>    &lt;title&gt;满屏品字布局&lt;/title&gt;
+</span><span class='line'>    &lt;style type="text/css"&gt;
+</span><span class='line'>        *{
+</span><span class='line'>            margin: 0;
+</span><span class='line'>            padding: 0;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        html,body{
+</span><span class='line'>            height: 100%;/*此设置非常关键，因为默认的body，HTML高度为0，所以后面设置的div的高度无法用百分比显示*/
+</span><span class='line'>        }       
+</span><span class='line'>
+</span><span class='line'>        .header{
+</span><span class='line'>            height:50%; /*此步结合html,body高度为100%，解决元素相对窗口的定位问题*/
+</span><span class='line'>            width: 50%;     
+</span><span class='line'>            background: #ccc;           
+</span><span class='line'>            margin:0 auto;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        .main{
+</span><span class='line'>            width: 100%;
+</span><span class='line'>            height: 50%;
+</span><span class='line'>            background: #ddd;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        .main .left,.main .right{
+</span><span class='line'>            float: left;/*采用float方式，对元素进行左右定位*/
+</span><span class='line'>            width:50%;/*此步解决元素相对窗口的定位问题*/
+</span><span class='line'>            height:100%;/*此步解决元素相对窗口的定位问题*/
+</span><span class='line'>            background: yellow;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        .main .right{
+</span><span class='line'>            background: green;
+</span><span class='line'>        }
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;div class="header"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;div class="main"&gt;
+</span><span class='line'>    &lt;div class="left"&gt;&lt;/div&gt;
+</span><span class='line'>    &lt;div class="right"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>&lt;meta charset="utf-8"&gt;
+</span><span class='line'>    &lt;title&gt;满屏品字布局&lt;/title&gt;
+</span><span class='line'>    &lt;style type="text/css"&gt;
+</span><span class='line'>        body{  
+</span><span class='line'>          height: 1200px;  
+</span><span class='line'>      }  
+</span><span class='line'>      .main {  
+</span><span class='line'>          position: fixed;  /*此步解决元素相对窗口的定位问题*/
+</span><span class='line'>          left: 0;  
+</span><span class='line'>          top: 0;  
+</span><span class='line'>          height: 100%;  
+</span><span class='line'>          width: 100%;  
+</span><span class='line'>      }  
+</span><span class='line'>      .wrapper-up {  
+</span><span class='line'>          height: 50%;  
+</span><span class='line'>      }  
+</span><span class='line'>
+</span><span class='line'>      .wrapper-down {  
+</span><span class='line'>          height: 50%;  
+</span><span class='line'>          position: relative;  
+</span><span class='line'>      }  
+</span><span class='line'>      .div-square-up {  
+</span><span class='line'>          width: 50%;  
+</span><span class='line'>          margin: 0 auto;  
+</span><span class='line'>          border: 2px solid red;  
+</span><span class='line'>          height: 96%;  
+</span><span class='line'>          box-sizing: border-box;  
+</span><span class='line'>      }  
+</span><span class='line'>
+</span><span class='line'>      .div-square-left {  
+</span><span class='line'>          position: absolute;  /*此步解决元素左右定位问题*/
+</span><span class='line'>          left: 0;  
+</span><span class='line'>          width: 48%;  
+</span><span class='line'>          height: 100%;  
+</span><span class='line'>          box-sizing: border-box;  
+</span><span class='line'>          border: 2px solid red;  
+</span><span class='line'>      }  
+</span><span class='line'>
+</span><span class='line'>      .div-square-right {  
+</span><span class='line'>          position: absolute;   /*此步解决元素左右定位问题*/
+</span><span class='line'>          right: 0;  
+</span><span class='line'>          width: 48%;  
+</span><span class='line'>          height: 100%;  
+</span><span class='line'>          border: 2px solid red;  
+</span><span class='line'>          box-sizing: border-box;  
+</span><span class='line'>      }  
+</span><span class='line'>    &lt;/style&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>    &lt;div class="main"&gt;  
+</span><span class='line'>         &lt;div class="wrapper-up"&gt;  
+</span><span class='line'>           &lt;div class="div-square-up"&gt;&lt;/div&gt;  
+</span><span class='line'>         &lt;/div&gt;  
+</span><span class='line'>         &lt;div class="wrapper-down"&gt;  
+</span><span class='line'>           &lt;div class="div-square-left"&gt;&lt;/div&gt;  
+</span><span class='line'>           &lt;div class="div-square-right"&gt;&lt;/div&gt;  
+</span><span class='line'>         &lt;/div&gt;  
+</span><span class='line'>    &lt;/div&gt; 
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
 <h3>10.css多列等高如何实现？</h3>
+
+<p>A:利用padding-bottom|margin-bottom正负值相抵；
+设置父容器设置超出隐藏（overflow:hidden），这样子父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任 一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其他比这列矮的列会用它们的padding-bottom补偿这部分高度差。</p>
 
 <h3>11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧 ？</h3>
 
 <h3>12.li与li之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</h3>
 
+<p>A:浏览器的默认行为是把inline元素间的空白字符（空格换行tab）渲染成一个空格，也就是我们上面的代码<code>&lt;li&gt;</code>换行后会产生换行字符，而它会变成一个空格，当然空格就占用一个字符的宽度。</p>
+
+<p>解决办法:可以将 ul 的字符间隔消除，将 li 内的字符间隔设为默认。</p>
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>.wrap ul{letter-spacing: -5px;}
+</span><span class='line'>.wrap ul li{letter-spacing: normal;}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
 <h3>13.为什么要初始化CSS样式。</h3>
+
+<p>A:因为浏览器的兼容问题，不同浏览器对有些标签的默认值是不同的，如果没对CSS初始化往往会出现浏览器之间的页面显示差异。</p>
 
 <h3>14.absolute的containing block(容器块)计算方式跟正常流有什么不同？</h3>
 
-<h3>15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下以后什么区别？</h3>
+<h3>15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下有什么区别？</h3>
+
+<p>A: 对于普通元素 visibility:collapse; 会将元素完全隐藏，不占据页面布局空间，与display:none;表现相同。如果目标元素为table，visibility:collapse;将table隐藏，但是会占据页面布局空间。</p>
+
+<p>仅在Firefox下起作用,IE会显示元素,Chrome会将元素隐藏,但是占据空间.</p>
 
 <h3>16.position跟display、margin collapse、overflow、float这些特性相互叠加后会怎么样？</h3>
 
@@ -310,9 +636,34 @@
 
 <h3>18.css定义的权重</h3>
 
-<h3>19.请解释一下为什么需要清除浮动？清除浮动的方式</h3>
+<p>A:</p>
+
+<ol>
+<li>Thousands: Score one in this column if the declaration is inside a style attribute (such declarations don&rsquo;t have selectors, so their specificity is always simply 1000.) Otherwise 0.</li>
+<li>Hundreds: Score one in this column for each ID selector contained inside the overall selector.</li>
+<li>Tens: Score one in this column for each class selector, attribute selector, or pseudo-class contained inside the overall selector.</li>
+<li>Ones: Score one in this column for each element selector or pseudo-element contained inside the overall selector.</li>
+</ol>
+
+
+<h3>19.请解释一下为什么需要清除浮动？清除浮动的方式?</h3>
+
+<p>A:清除浮动是为了清除使用浮动元素产生的影响。浮动的元素，高度会塌陷，而高度的塌陷使我们页面后面的布局不能正常显示。</p>
+
+<p>清除浮动的方式:</p>
+
+<ul>
+<li>The clearfix hack</li>
+<li>Using overflow</li>
+<li>display: flow-root</li>
+</ul>
+
+
+<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Floats">Floats</a></p>
 
 <h3>20.什么是外边距合并？</h3>
+
+<p>A:外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。</p>
 
 <h3>21.zoom:1的清除浮动原理?</h3>
 
@@ -328,6 +679,8 @@
 
 <h3>27.margin和padding分别适合什么场景使用？</h3>
 
+<p>A:margin是用来隔开元素与元素的间距；padding是用来隔开元素与内容的间隔。</p>
+
 <h3>28.抽离样式模块怎么写，说出思路，有无实践经验？</h3>
 
 <h3>29.元素竖向的百分比设定是相对于容器的高度吗？</h3>
@@ -340,21 +693,57 @@
 
 <h3>33.<code>::before</code> 和 <code>:after</code>中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。</h3>
 
+<p>A: 单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。（伪元素由双冒号和伪元素名称组成）双冒号是在当前规范中引入的，用于区分伪类和伪元素。不过浏览器需要同时支持旧的已经存在的伪元素写法，比如:first-line、:first-letter、:before、:after等，而新的在CSS3中引入的伪元素则不允许再支持旧的单冒号的写法。</p>
+
+<p>想让插入的内容出现在其它内容前，使用::before，否者，使用::after；</p>
+
 <h3>34.如何修改chrome记住密码后自动填充表单的黄色背景 ？</h3>
+
+<p>A:</p>
+
+<p><figure class='code'><figcaption><span>css </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+</span><span class='line'>    background-color: rgb(250, 255, 189); /* #FAFFBD; */
+</span><span class='line'>    background-image: none;
+</span><span class='line'>    color: rgb(0, 0, 0);
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
 <h3>35.你对line-height是如何理解的？</h3>
 
 <h3>36.设置元素浮动后，该元素的display值是多少？</h3>
 
+<p>A: 自动变成了 display:block.</p>
+
 <h3>37.怎么让Chrome支持小于12px 的文字？</h3>
 
 <h3>38.让页面里的字体变清晰，变细用CSS怎么做？</h3>
 
+<p>A: <code>-webkit-font-smoothing: antialiased;</code></p>
+
 <h3>39.font-style属性可以让它赋值为“oblique” oblique是什么意思？</h3>
+
+<p>A:倾斜的字体样式</p>
 
 <h3>40.position:fixed;在android下无效怎么处理？</h3>
 
 <h3>41.如果需要手动写动画，你认为最小时间间隔是多久，为什么？</h3>
+
+<p>A:多数显示器默认频率是60Hz，即1秒刷新60次，所以理论上最小间隔为1/60＊1000ms ＝ 16.7ms</p>
 
 <h3>42.display:inline-block 什么时候会显示间隙</h3>
 

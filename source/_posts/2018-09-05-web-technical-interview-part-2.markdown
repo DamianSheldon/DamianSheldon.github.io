@@ -350,16 +350,31 @@ Reference:[Floats](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout
 A:外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。
 
 ###21.zoom:1的清除浮动原理?
+A:当设置了zoom的值之后，所设置的元素就会就会扩大或者缩小，高度宽度就会重新计算了，这里一旦改变zoom值时其实也会发生重新渲染，运用这个原理，也就解决了ie下子元素浮动时候父元素不随着自动扩大的问题。
 
 ###22.移动端的布局用过媒体查询吗？
 
 ###23.使用 CSS 预处理器吗？喜欢那个？
 
 ###24.CSS优化、提高性能的方法有哪些？
+A:
+
+作者：赵望野
+链接：https://www.zhihu.com/question/19886806/answer/50285495
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+* 加载性能 这个方面相关的 best practice 太多了，网上随便找一找就是一堆资料，比如不要用 import 啊，压缩啊等等，主要是从减少文件体积、减少阻塞加载、提高并发方面入手的，任何 hint 都逃不出这几个大方向。
+* 选择器性能 可以参考 GitHub 的这个分享 https://speakerdeck.com/jonrohan/githubs-css-performance，但 selector 的对整体性能的影响可以忽略不计了，selector 的考察更多是规范化和可维护性、健壮性方面，很少有人在实际工作当中会把选择器性能作为重点关注对象的，但也像 GitHub 这个分享里面说的一样——知道总比不知道好。
+* 渲染性能 渲染性能是 CSS 优化最重要的关注对象。页面渲染 junky 过多？看看是不是大量使用了 text-shadow？是不是开了字体抗锯齿？CSS 动画怎么实现的？合理利用 GPU 加速了吗？什么你用了 Flexible Box Model？有没有测试换个 layout 策略对 render performance 的影响？这个方面搜索一下 CSS render performance 或者 CSS animation performance 也会有一堆一堆的资料可供参考。
+* 可维护性、健壮性 命名合理吗？结构层次设计是否足够健壮？对样式进行抽象复用了吗？优雅的 CSS 不仅仅会影响后期的维护成本，也会对加载性能等方面产生影响。这方面可以多找一些 OOCSS（不是说就要用 OOCSS，而是说多了解一下）等等不同 CSS Strategy 的信息，取长补短。
+
 
 ###25.浏览器是怎样解析CSS选择器的？
+A:按照从上到下，从右到左的顺序解析。
 
 ###26.在网页中的应该使用奇数还是偶数的字体？为什么呢？
+A:一般来说，由于各种终端设备的分辨率是偶数的，设计上普遍采用偶数像素体系，奇数像素体系受到排挤，主要的冲突表现在：奇数像素宽度的东西，无法在偶数像素元素内居中显示，总是要差一个像素。
 
 ###27.margin和padding分别适合什么场景使用？
 A:margin是用来隔开元素与元素的间距；padding是用来隔开元素与内容的间隔。
@@ -367,10 +382,15 @@ A:margin是用来隔开元素与元素的间距；padding是用来隔开元素�
 ###28.抽离样式模块怎么写，说出思路，有无实践经验？
 
 ###29.元素竖向的百分比设定是相对于容器的高度吗？
+A:如果是height的话，是相对于容器高度，如果是padding-height,margin-height则是相对于容器的宽度。
 
 ###30.全屏滚动的原理是什么？用到了CSS的那些属性？
+A:可以利用css3和div的绝对定位来实现。用到了 position, transform.
+
+Reference:[全屏滚动效果](http://www.alloyteam.com/2015/04/quan-ping-gun-dong-xiao-guo-h5fullscreenpage-js/)  
 
 ###31.什么是响应式设计？响应式设计的基本原理是什么？如何兼容低版本的IE？
+A:Responsive web design (RWD) is an approach to web design that makes web pages render well on a variety of devices and window or screen sizes.
 
 ###32.视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）
 

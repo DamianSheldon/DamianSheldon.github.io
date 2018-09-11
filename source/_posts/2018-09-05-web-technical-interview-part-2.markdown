@@ -147,8 +147,152 @@ A:Flexbox is a one-dimensional layout method for laying out items in rows or co
 * Making all columns in a multiple column layout adopt the same height even if they contain a different amount of content.
 
 ###8.用纯CSS创建一个三角形的原理是什么？
+A:采用的是均分原理。
+
+{% codeblock %}
+
+	.triangle{  
+	     width:0;  
+	     height:0;  
+	     margin:0 auto;  
+	     border:6px solid transparent;  
+	     border-top: 6px solid red;  
+	 }
+	   
+	// 第二种写法：
+	
+	.triangle{  
+	     width:0;  
+	     height:0;  
+	     margin:0 auto;  
+	     border-width:6px;
+	     border-color:red transparent transparent transparent;
+	     border-style:solid dashed dashed dashed;//为了兼容IE6，把没有的边框都设置为虚线
+	 }
+{% endcodeblock %}
 
 ###9.一个满屏 品 字布局 如何设计?
+A:方式一：上面的 div 宽100%，下面的两个 div 分别宽50%，然后用 float 或者 inline 使其不换行即可；方式二：上面的 div 宽100%，内含一个 div 水平居中，下面的div，内含两个 div,使用 absolute 定位。
+
+{% codeblock %}
+
+	// 方式一
+	<!DOCTYPE html>
+	<html>
+	<head>
+	    <meta charset="utf-8">
+	    <title>满屏品字布局</title>
+	    <style type="text/css">
+	        *{
+	            margin: 0;
+	            padding: 0;
+	        }
+	
+	        html,body{
+	            height: 100%;/*此设置非常关键，因为默认的body，HTML高度为0，所以后面设置的div的高度无法用百分比显示*/
+	        }       
+	
+	        .header{
+	            height:50%; /*此步结合html,body高度为100%，解决元素相对窗口的定位问题*/
+	            width: 50%;     
+	            background: #ccc;           
+	            margin:0 auto;
+	        }
+	
+	        .main{
+	            width: 100%;
+	            height: 50%;
+	            background: #ddd;
+	        }
+	
+	        .main .left,.main .right{
+	            float: left;/*采用float方式，对元素进行左右定位*/
+	            width:50%;/*此步解决元素相对窗口的定位问题*/
+	            height:100%;/*此步解决元素相对窗口的定位问题*/
+	            background: yellow;
+	        }
+	
+	        .main .right{
+	            background: green;
+	        }
+	    </style>
+	</head>
+	<body>
+	<div class="header"></div>
+	<div class="main">
+	    <div class="left"></div>
+	    <div class="right"></div>
+	</div>
+	</body>
+	</html>
+{% endcodeblock %}
+
+{% codeblock %}
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	    <title>满屏品字布局</title>
+	    <style type="text/css">
+	        body{  
+	          height: 1200px;  
+	      }  
+	      .main {  
+	          position: fixed;  /*此步解决元素相对窗口的定位问题*/
+	          left: 0;  
+	          top: 0;  
+	          height: 100%;  
+	          width: 100%;  
+	      }  
+	      .wrapper-up {  
+	          height: 50%;  
+	      }  
+	
+	      .wrapper-down {  
+	          height: 50%;  
+	          position: relative;  
+	      }  
+	      .div-square-up {  
+	          width: 50%;  
+	          margin: 0 auto;  
+	          border: 2px solid red;  
+	          height: 96%;  
+	          box-sizing: border-box;  
+	      }  
+	
+	      .div-square-left {  
+	          position: absolute;  /*此步解决元素左右定位问题*/
+	          left: 0;  
+	          width: 48%;  
+	          height: 100%;  
+	          box-sizing: border-box;  
+	          border: 2px solid red;  
+	      }  
+	
+	      .div-square-right {  
+	          position: absolute;   /*此步解决元素左右定位问题*/
+	          right: 0;  
+	          width: 48%;  
+	          height: 100%;  
+	          border: 2px solid red;  
+	          box-sizing: border-box;  
+	      }  
+	    </style>
+	</head>
+	<body>
+	    <div class="main">  
+	         <div class="wrapper-up">  
+	           <div class="div-square-up"></div>  
+	         </div>  
+	         <div class="wrapper-down">  
+	           <div class="div-square-left"></div>  
+	           <div class="div-square-right"></div>  
+	         </div>  
+	    </div> 
+	</body>
+	</html>
+{% endcodeblock %}
 
 ###10.css多列等高如何实现？
 

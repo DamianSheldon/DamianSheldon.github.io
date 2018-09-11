@@ -295,26 +295,59 @@ A:方式一：上面的 div 宽100%，下面的两个 div 分别宽50%，然后�
 {% endcodeblock %}
 
 ###10.css多列等高如何实现？
+A:利用padding-bottom|margin-bottom正负值相抵；
+设置父容器设置超出隐藏（overflow:hidden），这样子父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任 一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其他比这列矮的列会用它们的padding-bottom补偿这部分高度差。
+
 
 ###11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧 ？
 
 ###12.li与li之间有看不见的空白间隔是什么原因引起的？有什么解决办法？
+A:浏览器的默认行为是把inline元素间的空白字符（空格换行tab）渲染成一个空格，也就是我们上面的代码`<li>`换行后会产生换行字符，而它会变成一个空格，当然空格就占用一个字符的宽度。
+
+解决办法:可以将 ul 的字符间隔消除，将 li 内的字符间隔设为默认。
+
+{% codeblock css %}
+
+	.wrap ul{letter-spacing: -5px;}
+	.wrap ul li{letter-spacing: normal;}
+{% endcodeblock %}
 
 ###13.为什么要初始化CSS样式。
+A:因为浏览器的兼容问题，不同浏览器对有些标签的默认值是不同的，如果没对CSS初始化往往会出现浏览器之间的页面显示差异。
 
 ###14.absolute的containing block(容器块)计算方式跟正常流有什么不同？
 
-###15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下以后什么区别？
+###15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下有什么区别？
+A: 对于普通元素 visibility:collapse; 会将元素完全隐藏，不占据页面布局空间，与display:none;表现相同。如果目标元素为table，visibility:collapse;将table隐藏，但是会占据页面布局空间。 
+
+仅在Firefox下起作用,IE会显示元素,Chrome会将元素隐藏,但是占据空间.
 
 ###16.position跟display、margin collapse、overflow、float这些特性相互叠加后会怎么样？
 
 ###17.对BFC规范(块级格式化上下文：block formatting context)的理解？
 
 ###18.css定义的权重
+A:
 
-###19.请解释一下为什么需要清除浮动？清除浮动的方式
+1.	Thousands: Score one in this column if the declaration is inside a style attribute (such declarations don't have selectors, so their specificity is always simply 1000.) Otherwise 0.
+2.	Hundreds: Score one in this column for each ID selector contained inside the overall selector.
+3.	Tens: Score one in this column for each class selector, attribute selector, or pseudo-class contained inside the overall selector.
+4.	Ones: Score one in this column for each element selector or pseudo-element contained inside the overall selector.
+
+
+###19.请解释一下为什么需要清除浮动？清除浮动的方式?
+A:清除浮动是为了清除使用浮动元素产生的影响。浮动的元素，高度会塌陷，而高度的塌陷使我们页面后面的布局不能正常显示。
+
+清除浮动的方式:
+
+* The clearfix hack
+* Using overflow
+* display: flow-root
+
+Reference:[Floats](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Floats)  
 
 ###20.什么是外边距合并？
+A:外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。
 
 ###21.zoom:1的清除浮动原理?
 
@@ -329,6 +362,7 @@ A:方式一：上面的 div 宽100%，下面的两个 div 分别宽50%，然后�
 ###26.在网页中的应该使用奇数还是偶数的字体？为什么呢？
 
 ###27.margin和padding分别适合什么场景使用？
+A:margin是用来隔开元素与元素的间距；padding是用来隔开元素与内容的间隔。
 
 ###28.抽离样式模块怎么写，说出思路，有无实践经验？
 
@@ -341,22 +375,40 @@ A:方式一：上面的 div 宽100%，下面的两个 div 分别宽50%，然后�
 ###32.视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）
 
 ###33.`::before` 和 `:after`中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。
+A: 单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。（伪元素由双冒号和伪元素名称组成）双冒号是在当前规范中引入的，用于区分伪类和伪元素。不过浏览器需要同时支持旧的已经存在的伪元素写法，比如:first-line、:first-letter、:before、:after等，而新的在CSS3中引入的伪元素则不允许再支持旧的单冒号的写法。
+
+想让插入的内容出现在其它内容前，使用::before，否者，使用::after；
 
 ###34.如何修改chrome记住密码后自动填充表单的黄色背景 ？
+A:
+
+{% codeblock css %}
+
+	input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+	    background-color: rgb(250, 255, 189); /* #FAFFBD; */
+	    background-image: none;
+	    color: rgb(0, 0, 0);
+	}
+
+{% endcodeblock %}
 
 ###35.你对line-height是如何理解的？
 
 ###36.设置元素浮动后，该元素的display值是多少？
+A: 自动变成了 display:block.
 
 ###37.怎么让Chrome支持小于12px 的文字？
 
 ###38.让页面里的字体变清晰，变细用CSS怎么做？
+A: `-webkit-font-smoothing: antialiased;`
 
 ###39.font-style属性可以让它赋值为“oblique” oblique是什么意思？
+A:倾斜的字体样式
 
 ###40.position:fixed;在android下无效怎么处理？
 
 ###41.如果需要手动写动画，你认为最小时间间隔是多久，为什么？
+A:多数显示器默认频率是60Hz，即1秒刷新60次，所以理论上最小间隔为1/60＊1000ms ＝ 16.7ms
 
 ###42.display:inline-block 什么时候会显示间隙
 

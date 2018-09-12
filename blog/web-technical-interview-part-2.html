@@ -639,7 +639,48 @@ $(document).ready(
 <p>A:利用padding-bottom|margin-bottom正负值相抵；
 设置父容器设置超出隐藏（overflow:hidden），这样子父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任 一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其他比这列矮的列会用它们的padding-bottom补偿这部分高度差。</p>
 
-<h3>11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧 ？</h3>
+<h3>11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧？</h3>
+
+<p>A:
+经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么?</p>
+
+<ul>
+<li>png24位的图片在iE6浏览器上出现背景，解决方案是做成PNG8.</li>
+<li>浏览器默认的margin和padding不同。解决方案是加一个全局的<code>*{margin:0;padding:0;}</code>来统一。</li>
+<li>IE6双边距bug:块属性标签float后，又有横行的margin情况下，在ie6显示margin比设置的大。浮动ie产生的双倍距离 <code>#box{ float:left; width:10px; margin:0 0 0 100px;}</code>，这种情况之下IE会产生20px的距离，解决方案是在float的标签样式控制中加入 ——<code>_display:inline;</code>将其转化为行内属性。利用 <code>_</code> 这个符号只有ie6会识别的渐进识别的方式，从总体中逐渐排除局部。</li>
+<li>IE下,可以使用获取常规属性的方法来获取自定义属性,也可以使用getAttribute()获取自定义属性;Firefox下,只能使用getAttribute()获取自定义属性。解决方法:统一通过getAttribute()获取自定义属性。</li>
+<li>IE下,even对象有x,y属性,但是没有pageX,pageY属性;Firefox下,event对象有pageX,pageY属性,但是没有x,y属性。解决方法：（条件注释）缺点是在IE浏览器下可能会增加额外的HTTP请求数。</li>
+<li>超链接访问过后hover样式就不出现了 被点击访问过的超链接样式不在具有hover和active了解决方法是改变CSS属性的排列顺序:L-V-H-A :  <code>a:link {} a:visited {} a:hover {} a:active {}</code></li>
+</ul>
+
+
+<p>常用hack的技巧？</p>
+
+<p>由于不同厂商的流览器或某浏览器的不同版本（如IE6-IE11,Firefox/Safari/Opera/Chrome等），对CSS的支持、解析不一样，导致在不同浏览器的环境中呈现出不一致的页面展现效果。这时，我们为了获得统一的页面效果，就需要针对不同的浏览器或不同版本写特定的CSS样式，我们把这个针对不同的浏览器/不同版本写相应的CSS code的过程，叫做CSS hack!</p>
+
+<p>CSS Hack大致有3种表现形式：CSS属性前缀法、选择器前缀法以及IE条件注释法（即HTML头部引用if IE）。</p>
+
+<ul>
+<li>属性前缀法(即类内部Hack)：例如 IE6能识别下划线和星号，IE7能识别星号，但不能识别下划线，IE6~IE10都认识"\9"，但firefox前述三个都不能认识。</li>
+<li>选择器前缀法(即选择器Hack)：例如 IE6能识别<code>*html .class{}</code>，IE7能识别<code>*+html .class{}</code>或者<code>*:first-child+html .class{}</code>。</li>
+<li>IE条件注释法(即HTML条件注释Hack)(注：IE10+已经不再支持条件注释)： 这类Hack不仅对CSS生效，对写在判断语句里面的所有代码都会生效。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>css</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.bb{
+</span><span class='line'>      background-color:red;/*所有识别*/
+</span><span class='line'>      background-color:#00deff\9; /*IE6、7、8识别*/
+</span><span class='line'>      +background-color:#a200ff;/*IE6、7识别*/
+</span><span class='line'>      _background-color:#1e0bd1;/*IE6识别*/
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>12.li与li之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</h3>
 
@@ -660,6 +701,27 @@ $(document).ready(
 
 <h3>14.absolute的containing block(容器块)计算方式跟正常流有什么不同？</h3>
 
+<p>A:</p>
+
+<p>The process for identifying the containing block depends entirely on the value of the element's position property:</p>
+
+<ol>
+<li>If the position property is static or relative, the containing block is formed by the edge of the content box of the nearest ancestor element that is a block container(such as an inline-block, block, or list-item element) or which establishes a formatting context (such as a table container, flex container, grid container, or the block container itself).</li>
+<li>If the position property is absolute, the containing block is formed by the edge of the padding box of the nearest ancestor element that has a position value other than static (fixed, absolute, relative, or sticky).</li>
+<li>If the position property is fixed, the containing block is established by the viewport (in the case of continuous media) or the page area (in the case of paged media).</li>
+<li><p>If the position property is absolute or fixed, the containing block may also be formed by the edge of the padding box of the nearest ancestor element that has the following:</p>
+
+<ol>
+<li>A transform or perspective value other than none</li>
+<li>A will-change value of transform or perspective</li>
+<li>A filter  value other than none or a will-change value of filter (only works on Firefox).</li>
+</ol>
+</li>
+</ol>
+
+
+<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block">Layout and the containing block</a></p>
+
 <h3>15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下有什么区别？</h3>
 
 <p>A: 对于普通元素 visibility:collapse; 会将元素完全隐藏，不占据页面布局空间，与display:none;表现相同。如果目标元素为table，visibility:collapse;将table隐藏，但是会占据页面布局空间。</p>
@@ -668,7 +730,23 @@ $(document).ready(
 
 <h3>16.position跟display、margin collapse、overflow、float这些特性相互叠加后会怎么样？</h3>
 
+<p>A:</p>
+
+<ul>
+<li>如果元素的display为none，那么元素不被渲染，position，float不起作用；</li>
+<li>如果元素拥有<code>position:absolute;</code>或者<code>position:fixed;</code>属性那么元素将为绝对定位，float不起作用；</li>
+<li>如果元素float属性不是none，元素会脱离文档流，根据float属性值来显示，有浮动；</li>
+<li>绝对定位、inline-block属性的元素，margin不会和垂直方向上的其他元素margin折叠；</li>
+</ul>
+
+
 <h3>17.对BFC规范(块级格式化上下文：block formatting context)的理解？</h3>
+
+<p>A:块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。</p>
+
+<p>块格式化上下文包含创建它的元素内部的所有内容。块格式化上下文对浮动定位与清除浮动都很重要。浮动定位和清除浮动时只会应用于同一个BFC内的元素。浮动不会影响其它BFC中元素的布局，而清除浮动只能清除同一BFC中在它前面的元素的浮动。外边距折叠（Margin collapsing）也只会发生在属于同一BFC的块级元素之间。</p>
+
+<p>Reference:<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context">块格式化上下文</a></p>
 
 <h3>18.css定义的权重</h3>
 
@@ -703,15 +781,36 @@ $(document).ready(
 
 <h3>21.zoom:1的清除浮动原理?</h3>
 
+<p>A:当设置了zoom的值之后，所设置的元素就会就会扩大或者缩小，高度宽度就会重新计算了，这里一旦改变zoom值时其实也会发生重新渲染，运用这个原理，也就解决了ie下子元素浮动时候父元素不随着自动扩大的问题。</p>
+
 <h3>22.移动端的布局用过媒体查询吗？</h3>
 
 <h3>23.使用 CSS 预处理器吗？喜欢那个？</h3>
 
 <h3>24.CSS优化、提高性能的方法有哪些？</h3>
 
+<p>A:</p>
+
+<p>作者：赵望野
+链接：<a href="https://www.zhihu.com/question/19886806/answer/50285495">https://www.zhihu.com/question/19886806/answer/50285495</a>
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+<ul>
+<li>加载性能 这个方面相关的 best practice 太多了，网上随便找一找就是一堆资料，比如不要用 import 啊，压缩啊等等，主要是从减少文件体积、减少阻塞加载、提高并发方面入手的，任何 hint 都逃不出这几个大方向。</li>
+<li>选择器性能 可以参考 GitHub 的这个分享 <a href="https://speakerdeck.com/jonrohan/githubs-css-performance%EF%BC%8C%E4%BD%86">https://speakerdeck.com/jonrohan/githubs-css-performance%EF%BC%8C%E4%BD%86</a> selector 的对整体性能的影响可以忽略不计了，selector 的考察更多是规范化和可维护性、健壮性方面，很少有人在实际工作当中会把选择器性能作为重点关注对象的，但也像 GitHub 这个分享里面说的一样——知道总比不知道好。</li>
+<li>渲染性能 渲染性能是 CSS 优化最重要的关注对象。页面渲染 junky 过多？看看是不是大量使用了 text-shadow？是不是开了字体抗锯齿？CSS 动画怎么实现的？合理利用 GPU 加速了吗？什么你用了 Flexible Box Model？有没有测试换个 layout 策略对 render performance 的影响？这个方面搜索一下 CSS render performance 或者 CSS animation performance 也会有一堆一堆的资料可供参考。</li>
+<li>可维护性、健壮性 命名合理吗？结构层次设计是否足够健壮？对样式进行抽象复用了吗？优雅的 CSS 不仅仅会影响后期的维护成本，也会对加载性能等方面产生影响。这方面可以多找一些 OOCSS（不是说就要用 OOCSS，而是说多了解一下）等等不同 CSS Strategy 的信息，取长补短。</li>
+</ul>
+
+
 <h3>25.浏览器是怎样解析CSS选择器的？</h3>
 
+<p>A:按照从上到下，从右到左的顺序解析。</p>
+
 <h3>26.在网页中的应该使用奇数还是偶数的字体？为什么呢？</h3>
+
+<p>A:一般来说，由于各种终端设备的分辨率是偶数的，设计上普遍采用偶数像素体系，奇数像素体系受到排挤，主要的冲突表现在：奇数像素宽度的东西，无法在偶数像素元素内居中显示，总是要差一个像素。</p>
 
 <h3>27.margin和padding分别适合什么场景使用？</h3>
 
@@ -721,11 +820,29 @@ $(document).ready(
 
 <h3>29.元素竖向的百分比设定是相对于容器的高度吗？</h3>
 
+<p>A:如果是height的话，是相对于容器高度，如果是padding-height,margin-height则是相对于容器的宽度。</p>
+
 <h3>30.全屏滚动的原理是什么？用到了CSS的那些属性？</h3>
+
+<p>A:可以利用css3和div的绝对定位来实现。用到了 position, transform.</p>
+
+<p>Reference:<a href="http://www.alloyteam.com/2015/04/quan-ping-gun-dong-xiao-guo-h5fullscreenpage-js/">全屏滚动效果</a></p>
 
 <h3>31.什么是响应式设计？响应式设计的基本原理是什么？如何兼容低版本的IE？</h3>
 
+<p>A:Responsive web design (RWD) is an approach to web design that makes web pages render well on a variety of devices and window or screen sizes.</p>
+
 <h3>32.视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）</h3>
+
+<p>A:</p>
+
+<ul>
+<li>利用background-attachment属性实现。 background-attachment: fixed || scroll || local 默认情况下，此属性取值scroll，页面滚动时，内容和背景一起运动，如果取值fixed，背景相对浏览器固定。</li>
+<li>通过js控制 在页面滚动过程中，我们获取页面的scrollTop的值，根据不同参数值去设置各自scene的top值，这样滚动页面的时候，不同的速度就出来了</li>
+</ul>
+
+
+<p>Reference:<a href="http://www.alloyteam.com/2014/01/parallax-scrolling-love-story/">视差滚动的爱情故事</a></p>
 
 <h3>33.<code>::before</code> 和 <code>:after</code>中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。</h3>
 
@@ -752,11 +869,17 @@ $(document).ready(
 
 <h3>35.你对line-height是如何理解的？</h3>
 
+<p>A:“行高”顾名思意指一行文字的高度。具体来说是指两行文字间基线之间的距离。</p>
+
+<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2009/11/css%E8%A1%8C%E9%AB%98line-height%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8F%8A%E5%BA%94%E7%94%A8/">css行高line-height的一些深入理解及应用</a></p>
+
 <h3>36.设置元素浮动后，该元素的display值是多少？</h3>
 
 <p>A: 自动变成了 display:block.</p>
 
 <h3>37.怎么让Chrome支持小于12px 的文字？</h3>
+
+<p>A:目前Chrome浏览器已经取消了最小字体限制。</p>
 
 <h3>38.让页面里的字体变清晰，变细用CSS怎么做？</h3>
 
@@ -774,19 +897,62 @@ $(document).ready(
 
 <h3>42.display:inline-block 什么时候会显示间隙</h3>
 
+<p>A:真正意义上的inline-block水平呈现的元素间，换行显示或空格分隔的情况下会有间距。</p>
+
+<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2012/04/inline-block-space-remove-%E5%8E%BB%E9%99%A4%E9%97%B4%E8%B7%9D/">去除inline-block元素间间距的N种方法</a></p>
+
 <h3>43.overflow: scroll时不能平滑滚动的问题怎么处理？</h3>
+
+<p>A: <code>-webkit-overflow-scrolling: touch;</code> </p>
 
 <h3>44.有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度。</h3>
 
+<p>A: <a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
+
 <h3>45.png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？</h3>
+
+<p>A:</p>
+
+<p>png:
+ 优点:无损压缩，有透明选项，压缩效率高于bmp 缺点:一般体积比同尺寸的90%压缩率的jpg要大很多(通常是5倍以上),但人眼很难识别其中的区别 用途:最常见的无损压缩图片格式,如果是经常对某图片进行编辑保存,要求图片数据100%完整,或需要透明效果(给PS当素材或用作图标等)则推荐使用</p>
+
+<p>jpg/jpeg:
+ 优点:体积比png小，打开速度比png快 缺点:属于有损压缩，每次保存都会产生数据损失(jpeg artifacts)，故不适合用于多次编辑保存。压缩率过高图像会失真 用途:网络上最最常见的格式，也是静态图片(不只是照片)就常用的保存格式，就算是同一小组开发的jp2(相当于jpg第2代)也无法取代它。一般如果肉眼无法识别与png的差别和没有特殊要求就用jpg。</p>
+
+<p>gif:</p>
+
+<p>优点:支持动画以及透明，文件小
+缺点:色域不广，只有256色
+用途:动态图</p>
+
+<p>webp:WebP是谷歌开发的一种新图片格式，同时支持有损和无损压缩的、使用直接色的、点阵图。
+从名字就可以看出来它是为Web而生的，什么叫为Web而生呢？就是说相同质量的图片，WebP具有更小的文件体积。现在网站上充满了大量的图片，如果能够降低每一个图片的文件大小，那么将大大减少浏览器和服务器之间的数据传输量，进而降低访问延迟，提升访问体验。</p>
 
 <h3>46.什么是Cookie 隔离？（或者说：请求资源的时候不要让它带cookie怎么做）</h3>
 
+<p>A:如果静态文件都放在主域名下，那静态文件请求的时候都带有的cookie的数据提交给server的，非常浪费流量，所以不如隔离开。</p>
+
+<p>因为cookie有域的限制，因此不能跨域提交请求，利用这点，可以将静态文件放在非主要域名下，这样便隔开了。请求头中就不会带有cookie数据，这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。</p>
+
+<p>同时这种方式不会将cookie传入Web Server，也减少了Web Server对cookie的处理分析环节，提高了webserver的http请求的解析速度。</p>
+
 <h3>47.style标签写在body后与body前有什么区别？</h3>
+
+<p>A:从有html标准以来到目前为止（2017年5月），标准一直是规定style元素不应出现在body元素中。
+不过网页浏览器一直有容错设计。如果style元素出现在body元素，最终效果和style元素出现在head里是一样的。但是可能引起界面闪烁、重绘或重新布局。</p>
 
 <h3>48.什么是CSS 预处理器 / 后处理器？</h3>
 
+<p>A:预处理器例如：LESS、Sass、Stylus，用来预编译Sass或less，增强css代码的复用性，提高工作效率。</p>
+
+<p>后处理器例如：PostCSS，通常被视为在完成的样式表中根据CSS规范处理CSS，让其更有效；目前最常做的是给CSS属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。</p>
+
 <h3>49.rem布局的优缺点?</h3>
+
+<p>A:</p>
+
+<p>优点：大小不受层次元素字体影响
+缺点：字体不会跟随缩放；需要使用像素值兼容部分浏览器，不便于维护。</p>
 
 <h2>Reference:</h2>
 

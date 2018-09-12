@@ -427,6 +427,7 @@ Reference:[css行高line-height的一些深入理解及应用](https://www.zhang
 A: 自动变成了 display:block.
 
 ###37.怎么让Chrome支持小于12px 的文字？
+A:目前Chrome浏览器已经取消了最小字体限制。
 
 ###38.让页面里的字体变清晰，变细用CSS怎么做？
 A: `-webkit-font-smoothing: antialiased;`
@@ -440,20 +441,54 @@ A:倾斜的字体样式
 A:多数显示器默认频率是60Hz，即1秒刷新60次，所以理论上最小间隔为1/60＊1000ms ＝ 16.7ms
 
 ###42.display:inline-block 什么时候会显示间隙
+A:真正意义上的inline-block水平呈现的元素间，换行显示或空格分隔的情况下会有间距。
 
+Reference:[去除inline-block元素间间距的N种方法](https://www.zhangxinxu.com/wordpress/2012/04/inline-block-space-remove-%E5%8E%BB%E9%99%A4%E9%97%B4%E8%B7%9D/)  
 ###43.overflow: scroll时不能平滑滚动的问题怎么处理？
+A: `-webkit-overflow-scrolling: touch;` 
 
 ###44.有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度。
+A: [How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
 
 ###45.png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？
+A:
+
+png:
+ 优点:无损压缩，有透明选项，压缩效率高于bmp 缺点:一般体积比同尺寸的90%压缩率的jpg要大很多(通常是5倍以上),但人眼很难识别其中的区别 用途:最常见的无损压缩图片格式,如果是经常对某图片进行编辑保存,要求图片数据100%完整,或需要透明效果(给PS当素材或用作图标等)则推荐使用
+
+jpg/jpeg:
+ 优点:体积比png小，打开速度比png快 缺点:属于有损压缩，每次保存都会产生数据损失(jpeg artifacts)，故不适合用于多次编辑保存。压缩率过高图像会失真 用途:网络上最最常见的格式，也是静态图片(不只是照片)就常用的保存格式，就算是同一小组开发的jp2(相当于jpg第2代)也无法取代它。一般如果肉眼无法识别与png的差别和没有特殊要求就用jpg。
+
+gif:
+
+优点:支持动画以及透明，文件小
+缺点:色域不广，只有256色
+用途:动态图
+
+webp:WebP是谷歌开发的一种新图片格式，同时支持有损和无损压缩的、使用直接色的、点阵图。
+从名字就可以看出来它是为Web而生的，什么叫为Web而生呢？就是说相同质量的图片，WebP具有更小的文件体积。现在网站上充满了大量的图片，如果能够降低每一个图片的文件大小，那么将大大减少浏览器和服务器之间的数据传输量，进而降低访问延迟，提升访问体验。
 
 ###46.什么是Cookie 隔离？（或者说：请求资源的时候不要让它带cookie怎么做）
+A:如果静态文件都放在主域名下，那静态文件请求的时候都带有的cookie的数据提交给server的，非常浪费流量，所以不如隔离开。
+
+因为cookie有域的限制，因此不能跨域提交请求，利用这点，可以将静态文件放在非主要域名下，这样便隔开了。请求头中就不会带有cookie数据，这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。
+
+同时这种方式不会将cookie传入Web Server，也减少了Web Server对cookie的处理分析环节，提高了webserver的http请求的解析速度。
 
 ###47.style标签写在body后与body前有什么区别？
+A:从有html标准以来到目前为止（2017年5月），标准一直是规定style元素不应出现在body元素中。
+不过网页浏览器一直有容错设计。如果style元素出现在body元素，最终效果和style元素出现在head里是一样的。但是可能引起界面闪烁、重绘或重新布局。
 
 ###48.什么是CSS 预处理器 / 后处理器？
+A:预处理器例如：LESS、Sass、Stylus，用来预编译Sass或less，增强css代码的复用性，提高工作效率。
+
+后处理器例如：PostCSS，通常被视为在完成的样式表中根据CSS规范处理CSS，让其更有效；目前最常做的是给CSS属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
 
 ###49.rem布局的优缺点?
+A:
+
+优点：大小不受层次元素字体影响
+缺点：字体不会跟随缩放；需要使用像素值兼容部分浏览器，不便于维护。
 
 ##Reference:
 

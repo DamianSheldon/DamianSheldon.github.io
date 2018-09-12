@@ -393,6 +393,12 @@ Reference:[全屏滚动效果](http://www.alloyteam.com/2015/04/quan-ping-gun-do
 A:Responsive web design (RWD) is an approach to web design that makes web pages render well on a variety of devices and window or screen sizes.
 
 ###32.视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）
+A:
+
+* 利用background-attachment属性实现。 background-attachment: fixed || scroll || local 默认情况下，此属性取值scroll，页面滚动时，内容和背景一起运动，如果取值fixed，背景相对浏览器固定。
+* 通过js控制 在页面滚动过程中，我们获取页面的scrollTop的值，根据不同参数值去设置各自scene的top值，这样滚动页面的时候，不同的速度就出来了
+
+Reference:[视差滚动的爱情故事](http://www.alloyteam.com/2014/01/parallax-scrolling-love-story/)  
 
 ###33.`::before` 和 `:after`中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。
 A: 单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。（伪元素由双冒号和伪元素名称组成）双冒号是在当前规范中引入的，用于区分伪类和伪元素。不过浏览器需要同时支持旧的已经存在的伪元素写法，比如:first-line、:first-letter、:before、:after等，而新的在CSS3中引入的伪元素则不允许再支持旧的单冒号的写法。
@@ -413,6 +419,9 @@ A:
 {% endcodeblock %}
 
 ###35.你对line-height是如何理解的？
+A:“行高”顾名思意指一行文字的高度。具体来说是指两行文字间基线之间的距离。
+
+Reference:[css行高line-height的一些深入理解及应用](https://www.zhangxinxu.com/wordpress/2009/11/css%E8%A1%8C%E9%AB%98line-height%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8F%8A%E5%BA%94%E7%94%A8/)  
 
 ###36.设置元素浮动后，该元素的display值是多少？
 A: 自动变成了 display:block.

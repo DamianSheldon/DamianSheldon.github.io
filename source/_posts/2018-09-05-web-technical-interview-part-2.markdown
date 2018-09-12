@@ -299,7 +299,37 @@ A:利用padding-bottom|margin-bottom正负值相抵；
 设置父容器设置超出隐藏（overflow:hidden），这样子父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任 一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其他比这列矮的列会用它们的padding-bottom补偿这部分高度差。
 
 
-###11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧 ？
+###11.经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用hack的技巧？
+A:
+经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么?
+
+* png24位的图片在iE6浏览器上出现背景，解决方案是做成PNG8.
+* 浏览器默认的margin和padding不同。解决方案是加一个全局的`*{margin:0;padding:0;}`来统一。
+* IE6双边距bug:块属性标签float后，又有横行的margin情况下，在ie6显示margin比设置的大。浮动ie产生的双倍距离 `#box{ float:left; width:10px; margin:0 0 0 100px;}`，这种情况之下IE会产生20px的距离，解决方案是在float的标签样式控制中加入 ——`_display:inline;`将其转化为行内属性。利用 `_` 这个符号只有ie6会识别的渐进识别的方式，从总体中逐渐排除局部。
+* IE下,可以使用获取常规属性的方法来获取自定义属性,也可以使用getAttribute()获取自定义属性;Firefox下,只能使用getAttribute()获取自定义属性。解决方法:统一通过getAttribute()获取自定义属性。
+* IE下,even对象有x,y属性,但是没有pageX,pageY属性;Firefox下,event对象有pageX,pageY属性,但是没有x,y属性。解决方法：（条件注释）缺点是在IE浏览器下可能会增加额外的HTTP请求数。
+* 超链接访问过后hover样式就不出现了 被点击访问过的超链接样式不在具有hover和active了解决方法是改变CSS属性的排列顺序:L-V-H-A :  `a:link {} a:visited {} a:hover {} a:active {}`
+
+常用hack的技巧？
+
+由于不同厂商的流览器或某浏览器的不同版本（如IE6-IE11,Firefox/Safari/Opera/Chrome等），对CSS的支持、解析不一样，导致在不同浏览器的环境中呈现出不一致的页面展现效果。这时，我们为了获得统一的页面效果，就需要针对不同的浏览器或不同版本写特定的CSS样式，我们把这个针对不同的浏览器/不同版本写相应的CSS code的过程，叫做CSS hack!
+
+CSS Hack大致有3种表现形式：CSS属性前缀法、选择器前缀法以及IE条件注释法（即HTML头部引用if IE）。
+
+* 属性前缀法(即类内部Hack)：例如 IE6能识别下划线和星号，IE7能识别星号，但不能识别下划线，IE6~IE10都认识"\9"，但firefox前述三个都不能认识。
+* 选择器前缀法(即选择器Hack)：例如 IE6能识别`*html .class{}`，IE7能识别`*+html .class{}`或者`*:first-child+html .class{}`。
+* IE条件注释法(即HTML条件注释Hack)(注：IE10+已经不再支持条件注释)： 这类Hack不仅对CSS生效，对写在判断语句里面的所有代码都会生效。
+
+{% codeblock css%}
+
+	.bb{
+	  	background-color:red;/*所有识别*/
+	 	background-color:#00deff\9; /*IE6、7、8识别*/
+	 	+background-color:#a200ff;/*IE6、7识别*/
+	 	_background-color:#1e0bd1;/*IE6识别*/
+	}
+
+{% endcodeblock %}
 
 ###12.li与li之间有看不见的空白间隔是什么原因引起的？有什么解决办法？
 A:浏览器的默认行为是把inline元素间的空白字符（空格换行tab）渲染成一个空格，也就是我们上面的代码`<li>`换行后会产生换行字符，而它会变成一个空格，当然空格就占用一个字符的宽度。
@@ -316,6 +346,20 @@ A:浏览器的默认行为是把inline元素间的空白字符（空格换行tab
 A:因为浏览器的兼容问题，不同浏览器对有些标签的默认值是不同的，如果没对CSS初始化往往会出现浏览器之间的页面显示差异。
 
 ###14.absolute的containing block(容器块)计算方式跟正常流有什么不同？
+A:
+
+The process for identifying the containing block depends entirely on the value of the element's position property:
+
+1.	If the position property is static or relative, the containing block is formed by the edge of the content box of the nearest ancestor element that is a block container(such as an inline-block, block, or list-item element) or which establishes a formatting context (such as a table container, flex container, grid container, or the block container itself).
+2.	If the position property is absolute, the containing block is formed by the edge of the padding box of the nearest ancestor element that has a position value other than static (fixed, absolute, relative, or sticky).
+3.	If the position property is fixed, the containing block is established by the viewport (in the case of continuous media) or the page area (in the case of paged media).
+4.	If the position property is absolute or fixed, the containing block may also be formed by the edge of the padding box of the nearest ancestor element that has the following:
+
+	1.	A transform or perspective value other than none
+	2.	A will-change value of transform or perspective
+	3.	A filter  value other than none or a will-change value of filter (only works on Firefox).
+
+Reference:[Layout and the containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block)  
 
 ###15.CSS里的visibility属性有个collapse属性值是干嘛用的？在不同浏览器下有什么区别？
 A: 对于普通元素 visibility:collapse; 会将元素完全隐藏，不占据页面布局空间，与display:none;表现相同。如果目标元素为table，visibility:collapse;将table隐藏，但是会占据页面布局空间。 
@@ -323,9 +367,19 @@ A: 对于普通元素 visibility:collapse; 会将元素完全隐藏，不占据�
 仅在Firefox下起作用,IE会显示元素,Chrome会将元素隐藏,但是占据空间.
 
 ###16.position跟display、margin collapse、overflow、float这些特性相互叠加后会怎么样？
+A:
+
+* 如果元素的display为none，那么元素不被渲染，position，float不起作用；
+* 如果元素拥有`position:absolute;`或者`position:fixed;`属性那么元素将为绝对定位，float不起作用；
+* 如果元素float属性不是none，元素会脱离文档流，根据float属性值来显示，有浮动；
+* 绝对定位、inline-block属性的元素，margin不会和垂直方向上的其他元素margin折叠；
 
 ###17.对BFC规范(块级格式化上下文：block formatting context)的理解？
+A:块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。
 
+块格式化上下文包含创建它的元素内部的所有内容。块格式化上下文对浮动定位与清除浮动都很重要。浮动定位和清除浮动时只会应用于同一个BFC内的元素。浮动不会影响其它BFC中元素的布局，而清除浮动只能清除同一BFC中在它前面的元素的浮动。外边距折叠（Margin collapsing）也只会发生在属于同一BFC的块级元素之间。
+
+Reference:[块格式化上下文](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context)  
 ###18.css定义的权重
 A:
 

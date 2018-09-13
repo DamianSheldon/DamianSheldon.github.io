@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-13T09:31:56+08:00</updated>
+  <updated>2018-09-13T15:58:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,238 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 面试题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-technical-interview-part-3.html"/>
+    <updated>2018-09-13T10:20:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-technical-interview-part-3</id>
+    <content type="html"><![CDATA[<h3>1.介绍js的基本数据类型。</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Six data types that are primitives:
+
+<ul>
+<li>Boolean. true and false.</li>
+<li>null. A special keyword denoting a null value. Because JavaScript is case-sensitive, null is not the same as Null, NULL, or any other variant.</li>
+<li>undefined. A top-level property whose value is not defined.</li>
+<li>Number. An integer or floating point number. For example: 42 or 3.14159.</li>
+<li>String. A sequence of characters that represent a text value. For example:  &ldquo;Howdy&rdquo;</li>
+<li>Symbol (new in ECMAScript 2015). A data type whose instances are unique and immutable.</li>
+</ul>
+</li>
+<li>and Object</li>
+</ul>
+
+
+<h3>2.介绍js有哪些内置对象？</h3>
+
+<h3>3.说几条写JavaScript的基本规范？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>总是使用var声明变量</li>
+<li>行末别忘了分号</li>
+<li>使用标准而不是不标准的功能</li>
+<li>使用驼峰命名（如：camelCaseNames）以及大写的常量（如：UPPERCASE），避免使用const关键字，因为IE不支持</li>
+<li>使用命名空间技术</li>
+<li>避免eval()除非反序列化（奇怪的是JSON解析并未提及）</li>
+<li>避免对象上使用with(), 数组使用for in</li>
+<li>使用对象以及数组字面量而不是更冗长的声明</li>
+<li>要知道truthy和falsy规则</li>
+<li>JavaScript资源中不使用IE条件注释</li>
+<li>不修改内置对象的原型——这会让人颜面扫地，因为这是让JavaScript更加强大的功能之一，但你知道这会导致问题</li>
+<li>小心使用闭包以及不要循环引用</li>
+<li>同样，小心使用”this”</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2012/07/google-html-css-javascript-style-guides/">翻译：谷歌HTML、CSS和JavaScript风格规范</a></p>
+
+<h3>4.JavaScript原型，原型链 ? 有什么特点？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>原型：每个对象都有一个原型对象，它充当继承方法和属性来源的模板对象。</li>
+<li>原型链：对象的原型对象也可能有原型，依此类推，便形成原型链。</li>
+<li>特点：非常强大；非常灵活；</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>5.JavaScript有几种类型的值？，你能画一下他们的内存图吗？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>栈类型：Undefined，Null，Boolean，Number、String</li>
+<li>堆类型：对象、数组和函数</li>
+</ul>
+
+
+<h3>6.如何将字符串转化为数字，例如'12.3b'?</h3>
+
+<h3>7.如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为12,000,000.11?</h3>
+
+<h3>8.如何实现数组的随机排序？</h3>
+
+<h3>9.Javascript如何实现继承？</h3>
+
+<h3>10.JavaScript继承的几种实现方式？</h3>
+
+<h3>11.javascript创建对象的几种方式？</h3>
+
+<h3>12.Javascript作用链域?</h3>
+
+<h3>13.谈谈This对象的理解。</h3>
+
+<h3>14.eval是做什么的？</h3>
+
+<h3>15.什么是window对象? 什么是document对象?</h3>
+
+<h3>16.null，undefined 的区别？</h3>
+
+<h3>17.写一个通用的事件侦听器函数。</h3>
+
+<h3>18.[&ldquo;1&rdquo;, &ldquo;2&rdquo;, &ldquo;3&rdquo;].map(parseInt) 答案是多少？</h3>
+
+<h3>19.事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？</h3>
+
+<h3>20.什么是闭包（closure），为什么要用它？</h3>
+
+<h3>21.javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？</h3>
+
+<h3>22.如何判断一个对象是否属于某个类？</h3>
+
+<h3>23.new操作符具体干了什么呢?</h3>
+
+<h3>24.用原生JavaScript的实现过什么功能吗？</h3>
+
+<h3>25.Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？</h3>
+
+<h3>26.JSON 的了解？</h3>
+
+<h3>27.<code>[].forEach.call($$("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1&lt;&lt;24))).toString(16)})</code> 能解释一下这段代码的意思吗？</h3>
+
+<h3>28.js延迟加载的方式有哪些？</h3>
+
+<h3>29.Ajax 是什么? 如何创建一个Ajax？</h3>
+
+<h3>30.Ajax 解决浏览器缓存问题？</h3>
+
+<h3>31.同步和异步的区别?</h3>
+
+<h3>32.如何解决跨域问题?</h3>
+
+<h3>33.页面编码和被请求的资源编码如果不一致如何处理？</h3>
+
+<h3>34.服务器代理转发时，该如何处理cookie？</h3>
+
+<h3>35.模块化开发怎么做?</h3>
+
+<h3>36.AMD（Modules/Asynchronous-Definition）、CMD（Common Module Definition）规范区别？</h3>
+
+<h3>37.requireJS的核心原理是什么？（如何动态加载的？如何避免多次加载的？如何 缓存的？）</h3>
+
+<h3>38.JS模块加载器的轮子怎么造，也就是如何实现一个模块加载器？</h3>
+
+<h3>39.谈一谈你对ECMAScript6的了解？</h3>
+
+<h3>40.ECMAScript6 怎么写class么，为什么会出现class这种东西?</h3>
+
+<h3>41.异步加载JS的方式有哪些？</h3>
+
+<h3>42.documen.write和 innerHTML的区别?</h3>
+
+<h3>43.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?</h3>
+
+<h3>44.<code>.call()</code> 和 <code>.apply()</code> 的区别？</h3>
+
+<h3>45.数组和对象有哪些原生方法，列举一下？</h3>
+
+<h3>46.JS 怎么实现一个类?怎么实例化这个类?</h3>
+
+<h3>47.JavaScript中的作用域与变量声明提升？</h3>
+
+<h3>48.如何编写高性能的Javascript？</h3>
+
+<h3>49.那些操作会造成内存泄漏？</h3>
+
+<h3>50.JQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
+
+<h3>51.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？</h3>
+
+<h3>52.jquery中如何将数组转化为json字符串，然后再转化回来？</h3>
+
+<h3>53.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？</h3>
+
+<h3>54.jquery.extend 与 jquery.fn.extend的区别？</h3>
+
+<h3>55.jQuery 的队列是如何实现的？队列可以用在哪些地方？</h3>
+
+<h3>56.谈一下Jquery中的bind(),live(),delegate(),on()的区别？</h3>
+
+<h3>57.JQuery一个对象可以同时绑定多个事件，这是如何实现的？</h3>
+
+<h3>58.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>
+
+<h3>59.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）</h3>
+
+<h3>60.针对 jQuery性能的优化方法？</h3>
+
+<h3>61.Jquery与jQuery UI 有啥区别？</h3>
+
+<h3>62.JQuery的源码看过吗？能不能简单说一下它的实现原理？</h3>
+
+<h3>63.jquery 中如何将数组转化为json字符串，然后再转化回来？</h3>
+
+<h3>64.jQuery和Zepto的区别？各自的使用场景？</h3>
+
+<h3>65.针对 jQuery 的优化方法？</h3>
+
+<h3>66.Zepto的点透问题如何解决？</h3>
+
+<h3>67.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？</h3>
+
+<h3>68.如何判断当前脚本运行在浏览器还是node环境中？</h3>
+
+<h3>69.移动端最小触控区域是多大？</h3>
+
+<h3>70.jQuery 的 slideUp动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?</h3>
+
+<h3>71.把 Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别？浏览器会如何解析它们？</h3>
+
+<h3>72.移动端的点击事件的有延迟，时间是多久，为什么会有？ 怎么解决这个延时？（click 有 300ms 延迟,为了实现safari的双击事件的设计，浏览器要知道你是不是要双击操作。）</h3>
+
+<h3>73.解释JavaScript中的作用域与变量声明提升？</h3>
+
+<h3>74.Node.js的适用场景？</h3>
+
+<h3>75.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?</h3>
+
+<h3>76.检测浏览器版本版本有哪些方式？</h3>
+
+<h3>77.What is a Polyfill?</h3>
+
+<h3>78.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？</h3>
+
+<h3>79.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？</h3>
+
+<h3>80.使用JS实现获取文件扩展名？</h3>
+
+<h3>81.Webpack热更新实现原理?</h3>
+
+<h3>82.请介绍一下JS之事件节流？</h3>
+
+<h3>83.什么是JS的函数防抖？</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 面试题汇总(二)]]></title>
@@ -7009,221 +7241,6 @@ composition 类使用 animationTool 属性赋予你引入来自 Core Animation �
 <a href="http://wiki.dovecot.org/">Dovecot</a><br/>
 <a href="http://www.binarytides.com/linux-mail-command-examples/">Linux mail command examples – send mails from command line</a><br/>
 <a href="http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html">SMTP的相关命令</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Photos 框架的基本使用]]></title>
-    <link href="http://DamianSheldon.github.io/blog/photos-framework-usage.html"/>
-    <updated>2016-12-23T14:23:33+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/photos-framework-usage</id>
-    <content type="html"><![CDATA[<p>从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。</p>
-
-<blockquote><p>The Assets Library framework is deprecated as of iOS 9.0. Instead, use the Photos framework instead, which in iOS 8.0 and later provides more features and better performance for working with a user’s photo library.</p></blockquote>
-
-<p>不幸的是 Apple 并没有发布相关的使用指导文档，只有一个相关 Demo。使用的时候固然可以回头参考这个 Demo，但这样的效率不是很高，很多概念也容易忘记，所以这里做个简单的总结。</p>
-
-<p>Photos 中有不少类，其中几个犹为关键。PHPhotoLibary 是我们操作 Photo Library 里面资源的入口对象，所有的操作都通过它完成。PHCollectionList 表示相册中的专题列表；PHAssetCollection 表示专题；PHAsset 表示资源，如 images, videos, and Live Photos.</p>
-
-<p>我们基本的需求就是 CRUD, 这些操作是需要用户授权的，记得先获取权限再操作， 下面我们展示相关的代码片段。</p>
-
-<h3>Create</h3>
-
-<ol>
-<li>创建一个资源</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
-</span><span class='line'>            PHAssetChangeRequest.creationRequestForAsset(from: image)
-</span><span class='line'>        }, completionHandler: {success, error in
-</span><span class='line'>            if !success { print("error creating asset: \(error)") }
-</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>创建一个资源到指定的专题</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
-</span><span class='line'>            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-</span><span class='line'>            if let assetCollection = self.assetCollection {
-</span><span class='line'>            let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection)
-</span><span class='line'>            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-</span><span class='line'>            }
-</span><span class='line'>        }, completionHandler: {success, error in
-</span><span class='line'>            if !success { print("error creating asset: \(error)") }
-</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<h3>Read (Fetch)</h3>
-
-<p>获取资源是通过 PHAsset 提供的一系列以 fetchXXX 开头的类方法，选择哪个方法取决于需求，这里示例其中两个我觉得常用的方法。</p>
-
-<ol>
-<li><code>class func fetchAssets(with options: PHFetchOptions?) -&gt; PHFetchResult&lt;PHAsset&gt;</code></li>
-</ol>
-
-
-<p>我们可以用这个方法获取 Photo Library 里面所有的资源。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let allPhotosOptions = PHFetchOptions()
-</span><span class='line'>    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-</span><span class='line'>self.fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li><code>class func fetchAssets(in assetCollection: PHAssetCollection, options: PHFetchOptions?) -&gt; PHFetchResult&lt;PHAsset&gt;</code></li>
-</ol>
-
-
-<p>我们可以用这个方法获取指定专题里面的资源。例如我们想获取 Camera Roll 这个专题里面的资源：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let cameraRoll: PHFetchResult&lt;PHAssetCollection&gt; = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject
-</span><span class='line'>let fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: nil)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Update (Edit)</h3>
-
-<p>编辑的基本的做法是先用资源请求一个 PHContentEditingInput，然后编辑资源，为了方便用户之后继续编辑或撤销可以实例化一个 PHAdjustmentData 对象来持有相关信息。编辑完成之后对于图片和视频需要实例化一个 PHContentEditingOutput 来完成输出，PHContentEditingOutput 的 adjustmentData 属性关联之前的 PHAdjustmentData, 并把编辑完成的内容输出到 PHContentEditingOutput 的 renderedContentURL。最后创建一个 PHAssetChangeRequest 对象，设置它的 contentEditingOutput 为
-之前实例化的 PHContentEditingOutput。</p>
-
-<p>这部分的代码会多点，具体可以查看 <a href="https://github.com/DamianSheldon/PhotosFrameworkUsage">Demo</a>.</p>
-
-<h3>Delete</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({ 
-</span><span class='line'>        PHAssetChangeRequest.deleteAssets([self.asset] as NSArray)
-</span><span class='line'>        }) { (success, error) in
-</span><span class='line'>    DispatchQueue.main.sync {
-</span><span class='line'>        self.trashButton.isEnabled = success ? false : true
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    if success {
-</span><span class='line'>        print("delete asset successfully")
-</span><span class='line'>    }
-</span><span class='line'>    else {
-</span><span class='line'>        print("can't delete asset: \(error)")
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>完整 Demo</h3>
-
-<p><a href="https://github.com/DamianSheldon/PhotosFrameworkUsage">PhotosFrameworkUsage</a></p>
-
-<h3>Caveat</h3>
-
-<p>使用过程中遇到一个坑，这里记一下。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>guard let inputImage = CIImage(contentsOf: input.fullSizeImageURL!)
-</span><span class='line'>            else { fatalError("can't load input image to edit") }
-</span><span class='line'>
-</span><span class='line'>// Apply the filter.
-</span><span class='line'>let outputImage = inputImage
-</span><span class='line'>    .applyingOrientation(input.fullSizeImageOrientation)
-</span><span class='line'>.applyingFilter(filterName, withInputParameters: nil)
-</span><span class='line'>
-</span><span class='line'>// List 1.
-</span><span class='line'>let uiImage = UIImage(ciImage: outputImage)
-</span><span class='line'>
-</span><span class='line'>// List 2.
-</span><span class='line'>if let cgImage = CIContext(options: nil).createCGImage(outputImage, from: outputImage.extent) {
-</span><span class='line'>    let uiImage = UIImage(cgImage:cgImage)
-</span><span class='line'>}
-</span><span class='line'>else {
-</span><span class='line'>    print("instance UIImage from CGImage failed!")    
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// Ouput
-</span><span class='line'>if let data = UIImageJPEGRepresentation(uiImage, 0.7) {
-</span><span class='line'>    // NSData - (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)atomically;
-</span><span class='line'>    do {
-</span><span class='line'>        try data.write(to: output.renderedContentURL)
-</span><span class='line'>
-</span><span class='line'>    } catch let error {
-</span><span class='line'>        print("output filtered image to specify URL failed: \(error)")
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>else {
-</span><span class='line'>    print("generate JPEG representation data failed")
-</span><span class='line'>        return
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里的问题是直接用 CIImage 实例化  UIImage 会失败，得转成 CGImage 然后实例化 UIImage. 至于它的原因我暂时还不清楚。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/29732886/uiimagejpegrepresentation-returns-nil">UIImageJPEGRepresentation returns nil</a></p>
 ]]></content>
   </entry>
   

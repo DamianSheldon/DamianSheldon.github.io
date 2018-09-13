@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-13T09:31:56+08:00</updated>
+  <updated>2018-09-13T15:58:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,238 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 面试题汇总(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-technical-interview-part-3.html"/>
+    <updated>2018-09-13T10:20:22+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-technical-interview-part-3</id>
+    <content type="html"><![CDATA[<h3>1.介绍js的基本数据类型。</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Six data types that are primitives:
+
+<ul>
+<li>Boolean. true and false.</li>
+<li>null. A special keyword denoting a null value. Because JavaScript is case-sensitive, null is not the same as Null, NULL, or any other variant.</li>
+<li>undefined. A top-level property whose value is not defined.</li>
+<li>Number. An integer or floating point number. For example: 42 or 3.14159.</li>
+<li>String. A sequence of characters that represent a text value. For example:  &ldquo;Howdy&rdquo;</li>
+<li>Symbol (new in ECMAScript 2015). A data type whose instances are unique and immutable.</li>
+</ul>
+</li>
+<li>and Object</li>
+</ul>
+
+
+<h3>2.介绍js有哪些内置对象？</h3>
+
+<h3>3.说几条写JavaScript的基本规范？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>总是使用var声明变量</li>
+<li>行末别忘了分号</li>
+<li>使用标准而不是不标准的功能</li>
+<li>使用驼峰命名（如：camelCaseNames）以及大写的常量（如：UPPERCASE），避免使用const关键字，因为IE不支持</li>
+<li>使用命名空间技术</li>
+<li>避免eval()除非反序列化（奇怪的是JSON解析并未提及）</li>
+<li>避免对象上使用with(), 数组使用for in</li>
+<li>使用对象以及数组字面量而不是更冗长的声明</li>
+<li>要知道truthy和falsy规则</li>
+<li>JavaScript资源中不使用IE条件注释</li>
+<li>不修改内置对象的原型——这会让人颜面扫地，因为这是让JavaScript更加强大的功能之一，但你知道这会导致问题</li>
+<li>小心使用闭包以及不要循环引用</li>
+<li>同样，小心使用”this”</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2012/07/google-html-css-javascript-style-guides/">翻译：谷歌HTML、CSS和JavaScript风格规范</a></p>
+
+<h3>4.JavaScript原型，原型链 ? 有什么特点？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>原型：每个对象都有一个原型对象，它充当继承方法和属性来源的模板对象。</li>
+<li>原型链：对象的原型对象也可能有原型，依此类推，便形成原型链。</li>
+<li>特点：非常强大；非常灵活；</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>5.JavaScript有几种类型的值？，你能画一下他们的内存图吗？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>栈类型：Undefined，Null，Boolean，Number、String</li>
+<li>堆类型：对象、数组和函数</li>
+</ul>
+
+
+<h3>6.如何将字符串转化为数字，例如'12.3b'?</h3>
+
+<h3>7.如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为12,000,000.11?</h3>
+
+<h3>8.如何实现数组的随机排序？</h3>
+
+<h3>9.Javascript如何实现继承？</h3>
+
+<h3>10.JavaScript继承的几种实现方式？</h3>
+
+<h3>11.javascript创建对象的几种方式？</h3>
+
+<h3>12.Javascript作用链域?</h3>
+
+<h3>13.谈谈This对象的理解。</h3>
+
+<h3>14.eval是做什么的？</h3>
+
+<h3>15.什么是window对象? 什么是document对象?</h3>
+
+<h3>16.null，undefined 的区别？</h3>
+
+<h3>17.写一个通用的事件侦听器函数。</h3>
+
+<h3>18.[&ldquo;1&rdquo;, &ldquo;2&rdquo;, &ldquo;3&rdquo;].map(parseInt) 答案是多少？</h3>
+
+<h3>19.事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？</h3>
+
+<h3>20.什么是闭包（closure），为什么要用它？</h3>
+
+<h3>21.javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？</h3>
+
+<h3>22.如何判断一个对象是否属于某个类？</h3>
+
+<h3>23.new操作符具体干了什么呢?</h3>
+
+<h3>24.用原生JavaScript的实现过什么功能吗？</h3>
+
+<h3>25.Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？</h3>
+
+<h3>26.JSON 的了解？</h3>
+
+<h3>27.<code>[].forEach.call($$("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1&lt;&lt;24))).toString(16)})</code> 能解释一下这段代码的意思吗？</h3>
+
+<h3>28.js延迟加载的方式有哪些？</h3>
+
+<h3>29.Ajax 是什么? 如何创建一个Ajax？</h3>
+
+<h3>30.Ajax 解决浏览器缓存问题？</h3>
+
+<h3>31.同步和异步的区别?</h3>
+
+<h3>32.如何解决跨域问题?</h3>
+
+<h3>33.页面编码和被请求的资源编码如果不一致如何处理？</h3>
+
+<h3>34.服务器代理转发时，该如何处理cookie？</h3>
+
+<h3>35.模块化开发怎么做?</h3>
+
+<h3>36.AMD（Modules/Asynchronous-Definition）、CMD（Common Module Definition）规范区别？</h3>
+
+<h3>37.requireJS的核心原理是什么？（如何动态加载的？如何避免多次加载的？如何 缓存的？）</h3>
+
+<h3>38.JS模块加载器的轮子怎么造，也就是如何实现一个模块加载器？</h3>
+
+<h3>39.谈一谈你对ECMAScript6的了解？</h3>
+
+<h3>40.ECMAScript6 怎么写class么，为什么会出现class这种东西?</h3>
+
+<h3>41.异步加载JS的方式有哪些？</h3>
+
+<h3>42.documen.write和 innerHTML的区别?</h3>
+
+<h3>43.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?</h3>
+
+<h3>44.<code>.call()</code> 和 <code>.apply()</code> 的区别？</h3>
+
+<h3>45.数组和对象有哪些原生方法，列举一下？</h3>
+
+<h3>46.JS 怎么实现一个类?怎么实例化这个类?</h3>
+
+<h3>47.JavaScript中的作用域与变量声明提升？</h3>
+
+<h3>48.如何编写高性能的Javascript？</h3>
+
+<h3>49.那些操作会造成内存泄漏？</h3>
+
+<h3>50.JQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
+
+<h3>51.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？</h3>
+
+<h3>52.jquery中如何将数组转化为json字符串，然后再转化回来？</h3>
+
+<h3>53.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？</h3>
+
+<h3>54.jquery.extend 与 jquery.fn.extend的区别？</h3>
+
+<h3>55.jQuery 的队列是如何实现的？队列可以用在哪些地方？</h3>
+
+<h3>56.谈一下Jquery中的bind(),live(),delegate(),on()的区别？</h3>
+
+<h3>57.JQuery一个对象可以同时绑定多个事件，这是如何实现的？</h3>
+
+<h3>58.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>
+
+<h3>59.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）</h3>
+
+<h3>60.针对 jQuery性能的优化方法？</h3>
+
+<h3>61.Jquery与jQuery UI 有啥区别？</h3>
+
+<h3>62.JQuery的源码看过吗？能不能简单说一下它的实现原理？</h3>
+
+<h3>63.jquery 中如何将数组转化为json字符串，然后再转化回来？</h3>
+
+<h3>64.jQuery和Zepto的区别？各自的使用场景？</h3>
+
+<h3>65.针对 jQuery 的优化方法？</h3>
+
+<h3>66.Zepto的点透问题如何解决？</h3>
+
+<h3>67.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？</h3>
+
+<h3>68.如何判断当前脚本运行在浏览器还是node环境中？</h3>
+
+<h3>69.移动端最小触控区域是多大？</h3>
+
+<h3>70.jQuery 的 slideUp动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?</h3>
+
+<h3>71.把 Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别？浏览器会如何解析它们？</h3>
+
+<h3>72.移动端的点击事件的有延迟，时间是多久，为什么会有？ 怎么解决这个延时？（click 有 300ms 延迟,为了实现safari的双击事件的设计，浏览器要知道你是不是要双击操作。）</h3>
+
+<h3>73.解释JavaScript中的作用域与变量声明提升？</h3>
+
+<h3>74.Node.js的适用场景？</h3>
+
+<h3>75.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?</h3>
+
+<h3>76.检测浏览器版本版本有哪些方式？</h3>
+
+<h3>77.What is a Polyfill?</h3>
+
+<h3>78.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？</h3>
+
+<h3>79.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？</h3>
+
+<h3>80.使用JS实现获取文件扩展名？</h3>
+
+<h3>81.Webpack热更新实现原理?</h3>
+
+<h3>82.请介绍一下JS之事件节流？</h3>
+
+<h3>83.什么是JS的函数防抖？</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 面试题汇总(二)]]></title>
@@ -1850,372 +2082,6 @@ System.out.println("MyTable has " + count + " row(s).");
 </code></pre>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/4951997/generating-random-words-in-java">Generating random words in Java?</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(一)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-one.html"/>
-    <updated>2015-12-12T22:27:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-one</id>
-    <content type="html"><![CDATA[<h3>1. What is href=“#” and why is it used?</h3>
-
-<p>Solution:</p>
-
-<pre><code>A hashtag - # within a hyperlink specifies an html element id to which the window should be scrolled.  
-href="#some-id" would scroll to an element on the current page such as &lt;div id="some-id"&gt;.
-
-href="//site.com/#some-id" would go to site.com and scroll to the id on that page.  
-
-href="#" doesn't specify an id name, but does have a corresponding location - the top of the page. Clicking an anchor with href="#" will move the scroll position to the top.
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used">http://stackoverflow.com/questions/4855168/what-is-href-and-why-is-it-used</a></p>
-
-<h3>2. How to debug your web page, technology stack is LAMP.</h3>
-
-<p>Solution:View log, figure out what cause problems.</p>
-
-<pre><code>$ tail -f /var/log/apache2/error_log
-[Fri Dec 11 21:34:57.003657 2015] [:error] [pid 17465] [client ::1:50505] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/dongmeiliang/Sites/knowledgeispower/includes/header.html on line 7
-[Fri Dec 11 21:34:57.003701 2015] [:error] [pid 17465] [client ::1:50505] PHP Stack trace:
-[Fri Dec 11 21:34:57.003723 2015] [:error] [pid 17465] [client ::1:50505] PHP   1. {main}() /Users/dongmeiliang/Sites/knowledgeispower/index.php:0
-</code></pre>
-
-<!-- more -->
-
-
-<h3>3. Install mcrypt_filter extension on El capitan</h3>
-
-<pre><code>// Please make sure the PHP extensions listed below are installed.
-mCrypt
-
-// PECL is a repository of PHP extensions that are made available to you via the » PEAR packaging system. 
-
-// There are several options for downloading PECL extensions, such as:
-o The pecl install extname command downloads the extensions code automatically, so in this case there is no need for a separate download.
-o » http://pecl.php.net/ The PECL web site contains information about the different extensions that are offered by the PHP Development Team. The information available here includes: ChangeLog, release notes, requirements and other similar details.
-o pecl download extname PECL extensions that have releases listed on the PECL web site are available for download and installation using the » pecl command. Specific revisions may also be specified.
-o SVN Most PECL extensions also reside in SVN. A web-based view may be seen at » http://svn.php.net/viewvc/pecl/. To download straight from SVN, the following sequence of commands may be used:
-
-$ pecl search mCrypt
-Retrieving data...0%
-Matched packages, channel pecl.php.net:
-=======================================
-Package       Stable/(Latest) Local
-mcrypt_filter 0.1.0 (beta)          Applies mcrypt symmetric encryption using stream filters
-
-$ pecl install mcrypt_filter
-Failed to download pecl/mcrypt_filter within preferred state "stable", latest release is version 0.1.0, stability "beta", use "channel://pecl.php.net/mcrypt_filter-0.1.0" to install
-install failed
-
-$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter
-Attempting to discover channel "pecl.php.net/mcrypt_filter-0.1.0"...
-Attempting fallback to https instead of http on channel "pecl.php.net/mcrypt_filter-0.1.0"...
-unknown channel "pecl.php.net/mcrypt_filter-0.1.0" in "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
-invalid package name/package file "channel://pecl.php.net/mcrypt_filter-0.1.0/mcrypt_filter"
-install failed
-
-$ pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-Cannot install, php_dir for channel "pecl.php.net" is not writeable by the current user
-DongMeiliangsMacBook-Pro:upload dongmeiliang$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-Password:
-downloading mcrypt_filter-0.1.0.tgz ...
-Starting to download mcrypt_filter-0.1.0.tgz (4,586 bytes)
-...
-checking for mcrypt support... yes, shared
-configure: error: mcrypt.h not found. Please reinstall libmcrypt.
-ERROR: `/private/tmp/pear/install/mcrypt_filter/configure --with-php-config=/usr/bin/php-config' failed
-
-// Resolve configure: error: mcrypt.h not found. Please reinstall libmcrypt.
-Get libmcrypt 2.5.8 from Sourceforge: http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download
-
-$ tar -zxvf libmcrypt-2.5.8.tar.gz
-$ mkdir -p /usr/local/src
-$ mv libmcrypt-2.5.8 /usr/local/src/
-$ cd /usr/local/src/libmcrypt-2.5.8/
-$ ./configure --prefix=/usr/local
-$ make &amp;&amp; make install
-
-// Continue install mCrypt extension
-$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-...
-
-12472464 40 -rwxr-xr-x  1 root  wheel  16704 Feb 15 21:41 /private/tmp/pear/install/pear-build-rootEyJ4Jg/install-mcrypt_filter-0.1.0/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so
-
-Build process completed successfully
-Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
-ERROR: failed to write /usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so (copy(/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so): failed to open stream: Operation not permitted)
-
-We need to disable SIP.
-
-OSX 10.11 El Capitan ships with a new security process referred to as SIP or Security Integrity Protection also known as rootless.
-
-What this essentially does is protect certain system level directories from being changes, notably
-
-o /System
-o /sbin
-o /usr
-o not /usr/local
-
-// Disabling SIP in OSX
-o Reboot your Mac into Recovery Mode by rebooting and holding down ‘command’ + ‘r’
-o Launch a Terminal session and enter csrutil disable
-o Reboot
-
-// Reinstall mCrypt extension
-$ sudo pecl install channel://pecl.php.net/mcrypt_filter-0.1.0
-
-...
-
-Build process completed successfully
-Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/mcrypt_filter.so'
-install ok: channel://pecl.php.net/mcrypt_filter-0.1.0
-configuration option "php_ini" is not set to php.ini location
-You should add "extension=mcrypt_filter.so" to php.ini
-</code></pre>
-
-<p>Reference:<a href="http://www.nginx.cn/2196.html">http://www.nginx.cn/2196.html</a>
-<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a></p>
-
-<h3>4.Install mcrypt for php on Mac OSX 10.11 El Capitan</h3>
-
-<p>o Disable SIP/rootless
-You need to disable the new System Integrity Protection to install into some system protected directories – this involves a recovery reboot and disabling with.</p>
-
-<pre><code>$ csrutil disable
-</code></pre>
-
-<p>o Getting it on in OS X El Capitan 10.11</p>
-
-<pre><code>$ cd ~ ; mkdir mcrypt ; cd mcrypt
-</code></pre>
-
-<p><a href="http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download">Get libmcrypt 2.5.8 from Sourceforge</a>,  this is direct download link.</p>
-
-<p><a href="http://php.net/releases/index.php">Get the php code in a tar.gz or .bz2 format</a>- (version 5.5.27 is the one that currently ships with OSX 10.11)</p>
-
-<p>Move both of these files that you downloaded into your working directory – mcrypt in this instance, and go back to Terminal</p>
-
-<pre><code>$ cd ~/mcrypt
-</code></pre>
-
-<p>Expand both files via the command line or just double click them in the Finder:</p>
-
-<pre><code>$ tar -zxvf libmcrypt-2.5.8.tar.gz
-$ tar -zxvf php-5.5.27.tar.gz
-</code></pre>
-
-<p>o Configuring libmcrypt</p>
-
-<pre><code>$ cd libmcrypt-2.5.8
-$ ./configure
-$ make
-$ sudo make install
-</code></pre>
-
-<p>o Compile mcrypt php Extension</p>
-
-<pre><code>$ cd ../php-5.5.27/ext/mcrypt/
-$ /usr/bin/phpize
-$ ./configure
-$ make
-$ sudo make install
-</code></pre>
-
-<p>o Enabling mcrypt.so  php Extension</p>
-
-<pre><code>// Open /etc/php.ini and add the line below at the end
-extension=mcrypt.so
-
-// If there is no php.ini file,  then you need to make one from php.ini.default in the same location like so:
-$ sudo cp /etc/php.ini.default /etc/php.ini
-
-// And allow write capability
-$ sudo chmod u+w  /etc/php.ini
-
-// Then add the line as above in your favourite text editor:
-$ sudo vi /etc/php.ini
-
-// make sure dynamic extensions are set to on…
-extension_dl = On
-
-// If it didn’t load you may need to declare the extensions directory in /etc/php.ini
-extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20100525/"
-</code></pre>
-
-<p>o Restart Apache</p>
-
-<pre><code>$ sudo apachectl restart
-</code></pre>
-
-<p>That’s it, create a php page with the function phpinfo();  to see if it loaded correctly.</p>
-
-<p>Reference:<a href="http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/">http://coolestguidesontheplanet.com/install-mcrypt-for-php-on-mac-osx-10-10-yosemite-for-a-development-server/</a>
-<a href="http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/">http://coolestguidesontheplanet.com/what-is-sip-in-osx-10-11-el-capitan/</a></p>
-
-<h3>4. How to set up Apache MySQL PHP on Debian?</h3>
-
-<p>A:<a href="https://wiki.debian.org/LaMp">https://wiki.debian.org/LaMp</a></p>
-
-<h3>5. Where is apache error log path on Debian?</h3>
-
-<p>A:/var/log/apache2/error.log</p>
-
-<h3>6.</h3>
-
-<pre><code>$ php arrayTests.php
-PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/extensions/no-debug-non-zts-20121212/' - dlopen(/usr/lib/php/extensions/no-debug-non-zts-20121212/, 9): no suitable image found.  Did find:
-    /usr/lib/php/extensions/no-debug-non-zts-20121212/: not a file in Unknown on line 0
-</code></pre>
-
-<p>A:这个问题的原因是本来我应该是设置 extension_dir 的，结果在 php.ini里写成了 extension， 更正之后问题就解决了。</p>
-
-<pre><code>extension_dir = "/usr/lib/php/extensions/no-debug-non-zts-20121212/"
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library">http://stackoverflow.com/questions/5282264/php-warning-php-startup-unable-to-load-dynamic-library</a></p>
-
-<h3>7.Why should the &lsquo;&amp;&rsquo; (ampersand) character be HTML escaped?</h3>
-
-<p>A:The reason we escape the &amp; is precisely because it is the first character in special characters such as &amp;rsquo. If it is not escaped, some programs may be expecting a special character to begin when they see the ampersand.</p>
-
-<p>But it is only escaped when you actually want the ampersand to show. You would not escape it in a special character. So you would always use &amp;rsquo and never &amp;rsquo.</p>
-
-<p>Reference:<a href="https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped">https://www.quora.com/Why-should-the-ampersand-character-be-HTML-escaped</a></p>
-
-<h3>8.Evaluate JavaScript in terminal on Mac</h3>
-
-<p>A:</p>
-
-<pre><code>// 1.
-$ osascript test.js
-// 2.
-// Use specified language and evaluate given script file
-$jrunscript -l js -f test.js
-$jrunscript test.js
-</code></pre>
-
-<h3>9.How to debug JavaScript?</h3>
-
-<p>A:
-Reference:<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript">https://developer.mozilla.org/en-US/docs/Mozilla/Debugging/Debugging_JavaScript</a></p>
-
-<h3>10.How to use WebSocket with an Apache server while main develop language is PHP?</h3>
-
-<p>A:
-One path is to use an independent installed web sockets server.</p>
-
-<p>For PHP you can try: <a href="http://code.google.com/p/phpwebsocket/">http://code.google.com/p/phpwebsocket/</a> or <a href="http://code.google.com/p/phpws/">http://code.google.com/p/phpws/</a></p>
-
-<p>There are some other projects which you can try as well.</p>
-
-<p>Basically, you need to upload, unpack and start running the process.</p>
-
-<p>On the frontend, you&rsquo;ll have javascript connecting to the server on the specific port.</p>
-
-<p>Most websocket servers have a demo which echoes back whatever it hears, so this is a good place to write some test code. You may even find a rudimentary chat implementation.</p>
-
-<p>The tricky part is to monitor the web socket server and to make sure it runs smoothly and continuously.</p>
-
-<p>Try to test on as many browsers/devices as possible as this will decide on which websocket server implementation you choose. There are old and new protocols you have to watch out for.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server">http://stackoverflow.com/questions/11334320/using-websocket-on-apache-server</a></p>
-
-<h3>11.How do I enable apache file and directory indexing under Linux or UNIX?</h3>
-
-<p>A:Under Apache web server automatic index generation is enabled with using Options +Indexes or Options Indexes directive.
-If a URL which maps to a directory is requested, and there is no DirectoryIndex (e.g., index.html) in that directory, then mod_autoindex will return a formatted listing of the directory.</p>
-
-<pre><code>// Option 1: Using Apache config file
-// Add directory option to Apache configuration file /etc/httpd/httpd.conf or /etc/apache2/apache2.conf:
-# vi /etc/apache2/apache2.conf
-
-// Add following code:
-&lt;Directory /var/www/domain.com/pdfs&gt;
-Options Indexes FollowSymLinks
-&lt;/Directory&gt;
-
-// Save and close the file. Restart Apache:
-# /etc/init.d/httpd restart
-
-// OR
-# /etc/init.d/apache2 restart
-
-// Option 2: Using .htaccess Files with Apache
-// You can place config line Options Indexes in .htaccess file. Make sure .htaccess file support is enabled.
-// Change directory to pdfs
-$ cd pdfs
-
-// Open .htaccess file
-$ vi .htaccess
-
-// Append following apache directive:
-Options Indexes
-
-//Save and close the file.
-</code></pre>
-
-<p>Reference:<a href="https://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/">How do I enable apache file and directory indexing under Linux or UNIX?</a></p>
-
-<h3>13.Twig:RuntimeException: Unable to create the cache directory</h3>
-
-<p>A:The reason is web run via user www that hasn&rsquo;t right create cache directory in target position.</p>
-
-<pre><code>sudo chown -R www:staff path/to/application
-</code></pre>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20127884/runtimeexception-unable-to-create-the-cache-directory-var-www-sonata-app-cach">RuntimeException: Unable to create the cache directory</a></p>
-
-<h3>14.How to center a ul element?</h3>
-
-<p>A:</p>
-
-<pre><code>ul {
-    display: table;
-    margin: auto;
-}
-</code></pre>
-
-<h3>15. 站内搜索引擎代码</h3>
-
-<p>A:</p>
-
-<p>```</p>
-
-<!--Google站内搜索开始-->
-
-
-<p><form method=get action="http://www.google.com/search">
-<input type=text name=q>
-<input type=submit name=btnG value="Google 搜索">
-<input type=hidden name=ie value=GB2312>
-<input type=hidden name=oe value=GB2312>
-<input type=hidden name=hl value=zh-CN>
-<input type=hidden name=domains value="www.amznz.com">
-<input type=hidden name=sitesearch value="www.amznz.com">
-</form></p>
-
-<!--Google站内搜索结束-->
-
-
-
-
-<!--Yahoo站内搜索开始-->
-
-
-<p><form action="http://www.yahoo.com.cn/search">
-<input type=text name="p">
-<input type="submit" value="Yahoo 搜索">
-<input type=hidden name=vs value="www.amznz.com">
-</form></p>
-
-<!--Yahoo站内搜索结束-->
-
-
-<p>```</p>
-
-<p>Reference:<a href="http://www.amznz.com/zhannei-sousuodaima/">站内搜索引擎代码</a></p>
 ]]></content>
   </entry>
   

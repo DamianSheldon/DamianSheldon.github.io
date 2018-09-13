@@ -100,6 +100,137 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/vim.html">
+		
+			Vim 使用笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-10T21:09:05+08:00" pubdate data-updated="true">10 Sep 2015</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.查看帮助</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:help</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.查看quickref</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:help quickref</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.语法高亮</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:syn-on      :syntax on              start using syntax highlighting
+</span><span class='line'>:syn-off      :syntax off             stop using syntax highlighting</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.Move cursor to its last position</h3>
+
+<p>The quickest way is to hit either:</p>
+
+<p>&lsquo;&rsquo;
+(two apostrophes) or:</p>
+
+<p>``
+(two backticks).</p>
+
+<h3>5.Show line number</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set number</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6.Auto indent</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set autoindent</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>7.Set background</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set background=dark
+</span><span class='line'>:set background=light</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8.Common move command</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0, ^ line head
+</span><span class='line'>$, g_ line foot
+</span><span class='line'>ctl + f forword page
+</span><span class='line'>ctl + b back page</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9.用vim编辑一个文件，改动了很多内容；最终要保存时却发现没有权限</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:w !sudo tee % &gt; /dev/null</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.caiyiting.com/blog/2014/vim-sudo.html">http://www.caiyiting.com/blog/2014/vim-sudo.html</a></p>
+
+<h3>10.替换文字时有特殊字符怎么办？</h3>
+
+<p>A:用 \ 转义。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%s/\/Users\/dongmeiliang\/Sites/\/home\/meiliang\/public_html/g</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>扩展阅读</h2>
+
+<ul>
+<li><a href="https://coolshell.cn/articles/11312.html">无插件VIM编程技巧</a></li>
+<li><a href="https://coolshell.cn/articles/5426.html">简明 VIM 练级攻略</a></li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/using-mysql.html">
 		
 			MySQL 使用笔记</a>
@@ -257,109 +388,6 @@ $ security cms -D -i &ldquo;Payload/YourApp.app/embedded.mobileprovision&rdquo;<
 
 		
 		<a href="/blog/ios-development-problem-part-3.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html">
-		
-			如何在 Mac 上开启 Apache, PHP, MySQL</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-05T21:24:55+08:00" pubdate data-updated="true">05 Jul 2015</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>Apache</h2>
-
-<h3>开启 Apache</h3>
-
-<ol>
-<li>Applications > Utilities > Terminal > <code>sudo apachectl start</code></li>
-<li>Open <a href="http://localhost">http://localhost</a> with safari you can see &ldquo;It&rsquo;s works!&rdquo;.</li>
-</ol>
-
-
-<h3>开启为系统的守护进程</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>配置 HTTPS 的详细步骤：</h3>
-
-<ol>
-<li><p>在配置文件中使能HTTPS/SSL：/private/etc/apache2/httpd.conf</p>
-
-<ul>
-<li>去掉 SSL 模块前的注释使能它:<br/>
-<code>
-LoadModule ssl_module libexec/apache2/mod_ssl.so
-</code></li>
-<li>去掉包含 SSL 配置文件前的注释，以便顶层配置文件能包含它:<br/>
-<code>
-Include /private/etc/apache2/extra/httpd-ssl.conf
-</code></li>
-</ul>
-</li>
-<li><p>定制/private/apache2/extra/httpd-ssl.conf</p>
-
-<ul>
-<li><p>更新 DocumentRoot 指向你的 Web 根目录:<br/>
-<code>
-DocumentRoot "/Users/dongmeiliang/Sites"
-</code></p></li>
-<li><p>修改 ServerName 成类似这样:<br/>
-<code>
-ServerName localhost:443
-</code></p></li>
-<li><p>指定 SSLCertificateFile<br/>
-<code>
-SSLCertificateFile "/private/etc/apache2/ssl/ssl.crt"
-</code></p></li>
-<li><p>指定 SSLCertificateKeyFile <br/>
-<code>
-SSLCertificateKeyFile "/private/etc/apache2/ssl/ssl.key"
-</code></p></li>
-<li>在 SSLCACertificatePath 和 SSLCARevocationPath 配置项前加上 # ，注释掉它们。</li>
-</ul>
-</li>
-</ol>
-
-
-
-		
-		<a href="/blog/how-to-configure-https-slash-ssl-under-apache-and-yosemite.html" class="more-link">继续阅读</a>
 	</div>
 
 

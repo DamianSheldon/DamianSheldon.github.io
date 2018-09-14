@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-14T10:43:38+08:00</updated>
+  <updated>2018-09-14T17:32:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -105,11 +105,135 @@
 
 <h3>8.如何实现数组的随机排序？</h3>
 
+<p>A:Fisher–Yates Shuffle,</p>
+
+<pre><code>function shuffle(array) {
+  var m = array.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
+</code></pre>
+
+<p>Reference:<a href="https://bost.ocks.org/mike/shuffle/">Fisher–Yates Shuffle</a><br/>
+<a href="https://www.h5jun.com/post/array-shuffle.html">数组的完全随机排列</a></p>
+
 <h3>9.Javascript如何实现继承？</h3>
+
+<p>A:Javascript 使用原型链实现继承。</p>
 
 <h3>10.JavaScript继承的几种实现方式？</h3>
 
+<p>A:</p>
+
+<ol>
+<li>原型链继承</li>
+<li>构造继承</li>
+<li>实例继承</li>
+<li>拷贝继承</li>
+<li>组合继承</li>
+</ol>
+
+
+<pre><code>// Base animal class
+function Animal(name)
+{
+    // Property
+    this.name = name || 'Animal';
+
+    // Instance method
+    this.sleep = function() {
+        console.log(this.name + ' is sleeping');
+    };
+}
+
+// Prototype method
+Animal.prototype.eat = function(food) {
+    console.log(this.name + ' is eating ' + food);
+};
+
+// 1. 原型链继承
+function Cat() {
+
+}
+
+Cat.prototype = new Animal();
+Cat.prototype.name = 'tom';
+
+var cat = new Cat();
+console.log('cat name ' + cat.name);
+cat.sleep();
+
+// 2. 构造继承
+
+function Dog(name) {
+    Animal.call(this);
+
+    this.name = name || 'snoopy';
+}
+
+var dog = new Dog();
+console.log('dog name ' + dog.name);
+dog.sleep();
+
+// 3. 实例继承
+
+function Pig(name) {
+    var instance = new Animal();
+    instance.name = name || 'Penny';
+
+    return instance;
+}
+
+var pig = new Pig();
+console.log('pig name ' + pig.name);
+pig.sleep();
+
+// 4. 拷贝继承
+
+function Bird(name) {
+    var animal = new Animal();
+
+    for (var p in animal) {
+        Bird.prototype[p] = animal[p];
+    }
+    Bird.prototype.name = name || 'kiwi';
+}
+
+var bird = new Bird();
+console.log('bird name ' + bird.name);
+bird.sleep();
+
+// 5. 组合继承
+
+function Horse(name) {
+    Animal.call(this);
+    this.name = name || 'Chitu';
+}
+Horse.prototype = new Animal();
+Horse.prototype.constructor = Horse;
+
+var horse = new Horse();
+console.log('horse name ' + horse.name);
+horse.sleep();
+</code></pre>
+
+<p>Reference:<a href="http://www.cnblogs.com/humin/p/4556820.html">JS实现继承的几种方式</a></p>
+
 <h3>11.javascript创建对象的几种方式？</h3>
+
+<p>A: 参考JavaScript高级程序设计。</p>
 
 <h3>12.Javascript作用链域?</h3>
 
@@ -117,9 +241,27 @@
 
 <h3>14.eval是做什么的？</h3>
 
+<p>A:The eval() function evaluates JavaScript code represented as a string.</p>
+
 <h3>15.什么是window对象? 什么是document对象?</h3>
 
+<p>A:</p>
+
+<ul>
+<li>The Window interface represents a window containing a DOM document;</li>
+<li>The Document interface represents any web page loaded in the browser and serves as an entry point into the web page&rsquo;s content, which is the DOM tree. </li>
+</ul>
+
+
 <h3>16.null，undefined 的区别？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>The value null represents the intentional absence of any object value.</li>
+<li>The global undefined property represents the primitive value undefined.</li>
+</ul>
+
 
 <h3>17.写一个通用的事件侦听器函数。</h3>
 

@@ -211,11 +211,233 @@ $(document).ready(
 
 <h3>8.如何实现数组的随机排序？</h3>
 
+<p>A:Fisher–Yates Shuffle,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function shuffle(array) {
+</span><span class='line'>  var m = array.length, t, i;
+</span><span class='line'>
+</span><span class='line'>  // While there remain elements to shuffle…
+</span><span class='line'>  while (m) {
+</span><span class='line'>
+</span><span class='line'>    // Pick a remaining element…
+</span><span class='line'>    i = Math.floor(Math.random() * m--);
+</span><span class='line'>
+</span><span class='line'>    // And swap it with the current element.
+</span><span class='line'>    t = array[m];
+</span><span class='line'>    array[m] = array[i];
+</span><span class='line'>    array[i] = t;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return array;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://bost.ocks.org/mike/shuffle/">Fisher–Yates Shuffle</a><br/>
+<a href="https://www.h5jun.com/post/array-shuffle.html">数组的完全随机排列</a></p>
+
 <h3>9.Javascript如何实现继承？</h3>
+
+<p>A:Javascript 使用原型链实现继承。</p>
 
 <h3>10.JavaScript继承的几种实现方式？</h3>
 
+<p>A:</p>
+
+<ol>
+<li>原型链继承</li>
+<li>构造继承</li>
+<li>实例继承</li>
+<li>拷贝继承</li>
+<li>组合继承</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Base animal class
+</span><span class='line'>function Animal(name)
+</span><span class='line'>{
+</span><span class='line'>    // Property
+</span><span class='line'>    this.name = name || 'Animal';
+</span><span class='line'>
+</span><span class='line'>    // Instance method
+</span><span class='line'>    this.sleep = function() {
+</span><span class='line'>        console.log(this.name + ' is sleeping');
+</span><span class='line'>    };
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Prototype method
+</span><span class='line'>Animal.prototype.eat = function(food) {
+</span><span class='line'>    console.log(this.name + ' is eating ' + food);
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>// 1. 原型链继承
+</span><span class='line'>function Cat() {
+</span><span class='line'>
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Cat.prototype = new Animal();
+</span><span class='line'>Cat.prototype.name = 'tom';
+</span><span class='line'>
+</span><span class='line'>var cat = new Cat();
+</span><span class='line'>console.log('cat name ' + cat.name);
+</span><span class='line'>cat.sleep();
+</span><span class='line'>
+</span><span class='line'>// 2. 构造继承
+</span><span class='line'>
+</span><span class='line'>function Dog(name) {
+</span><span class='line'>    Animal.call(this);
+</span><span class='line'>
+</span><span class='line'>    this.name = name || 'snoopy';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var dog = new Dog();
+</span><span class='line'>console.log('dog name ' + dog.name);
+</span><span class='line'>dog.sleep();
+</span><span class='line'>
+</span><span class='line'>// 3. 实例继承
+</span><span class='line'>
+</span><span class='line'>function Pig(name) {
+</span><span class='line'>    var instance = new Animal();
+</span><span class='line'>    instance.name = name || 'Penny';
+</span><span class='line'>
+</span><span class='line'>    return instance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var pig = new Pig();
+</span><span class='line'>console.log('pig name ' + pig.name);
+</span><span class='line'>pig.sleep();
+</span><span class='line'>
+</span><span class='line'>// 4. 拷贝继承
+</span><span class='line'>
+</span><span class='line'>function Bird(name) {
+</span><span class='line'>    var animal = new Animal();
+</span><span class='line'>
+</span><span class='line'>    for (var p in animal) {
+</span><span class='line'>        Bird.prototype[p] = animal[p];
+</span><span class='line'>    }
+</span><span class='line'>    Bird.prototype.name = name || 'kiwi';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var bird = new Bird();
+</span><span class='line'>console.log('bird name ' + bird.name);
+</span><span class='line'>bird.sleep();
+</span><span class='line'>
+</span><span class='line'>// 5. 组合继承
+</span><span class='line'>
+</span><span class='line'>function Horse(name) {
+</span><span class='line'>    Animal.call(this);
+</span><span class='line'>    this.name = name || 'Chitu';
+</span><span class='line'>}
+</span><span class='line'>Horse.prototype = new Animal();
+</span><span class='line'>Horse.prototype.constructor = Horse;
+</span><span class='line'>
+</span><span class='line'>var horse = new Horse();
+</span><span class='line'>console.log('horse name ' + horse.name);
+</span><span class='line'>horse.sleep();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.cnblogs.com/humin/p/4556820.html">JS实现继承的几种方式</a></p>
+
 <h3>11.javascript创建对象的几种方式？</h3>
+
+<p>A: 参考JavaScript高级程序设计。</p>
 
 <h3>12.Javascript作用链域?</h3>
 
@@ -223,9 +445,27 @@ $(document).ready(
 
 <h3>14.eval是做什么的？</h3>
 
+<p>A:The eval() function evaluates JavaScript code represented as a string.</p>
+
 <h3>15.什么是window对象? 什么是document对象?</h3>
 
+<p>A:</p>
+
+<ul>
+<li>The Window interface represents a window containing a DOM document;</li>
+<li>The Document interface represents any web page loaded in the browser and serves as an entry point into the web page&rsquo;s content, which is the DOM tree. </li>
+</ul>
+
+
 <h3>16.null，undefined 的区别？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>The value null represents the intentional absence of any object value.</li>
+<li>The global undefined property represents the primitive value undefined.</li>
+</ul>
+
 
 <h3>17.写一个通用的事件侦听器函数。</h3>
 

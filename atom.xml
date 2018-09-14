@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-13T16:05:04+08:00</updated>
+  <updated>2018-09-14T10:43:38+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -89,7 +89,19 @@
 
 <h3>6.如何将字符串转化为数字，例如'12.3b'?</h3>
 
+<p>A:<code>parseFloat('12.3b');</code></p>
+
 <h3>7.如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为12,000,000.11?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>方法一：使用正则表达式, <code>String(Number).replace(/(\d)(?=(\d{3})+$)/g, "$1,");</code></li>
+<li>方法二：使用toLocaleString()方法, Number.toLocaleString(&lsquo;en-US&rsquo;);</li>
+</ul>
+
+
+<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2017/09/web-page-comma-number/">请使用千位分隔符(逗号)表示web网页中的大数字</a></p>
 
 <h3>8.如何实现数组的随机排序？</h3>
 

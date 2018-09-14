@@ -67,10 +67,128 @@ A:
 Reference:[请使用千位分隔符(逗号)表示web网页中的大数字](https://www.zhangxinxu.com/wordpress/2017/09/web-page-comma-number/)  
 
 ###8.如何实现数组的随机排序？
+A:Fisher–Yates Shuffle,
+
+```
+function shuffle(array) {
+  var m = array.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
+```
+
+Reference:[Fisher–Yates Shuffle](https://bost.ocks.org/mike/shuffle/)  
+[数组的完全随机排列](https://www.h5jun.com/post/array-shuffle.html) 
 
 ###9.Javascript如何实现继承？
+A:Javascript 使用原型链实现继承。
 
 ###10.JavaScript继承的几种实现方式？
+A:
+
+1. 原型链继承
+2. 构造继承
+3. 实例继承
+4. 拷贝继承
+5. 组合继承
+
+```
+// Base animal class
+function Animal(name)
+{
+    // Property
+    this.name = name || 'Animal';
+
+    // Instance method
+    this.sleep = function() {
+        console.log(this.name + ' is sleeping');
+    };
+}
+
+// Prototype method
+Animal.prototype.eat = function(food) {
+    console.log(this.name + ' is eating ' + food);
+};
+
+// 1. 原型链继承
+function Cat() {
+
+}
+
+Cat.prototype = new Animal();
+Cat.prototype.name = 'tom';
+
+var cat = new Cat();
+console.log('cat name ' + cat.name);
+cat.sleep();
+
+// 2. 构造继承
+
+function Dog(name) {
+    Animal.call(this);
+
+    this.name = name || 'snoopy';
+}
+
+var dog = new Dog();
+console.log('dog name ' + dog.name);
+dog.sleep();
+
+// 3. 实例继承
+
+function Pig(name) {
+    var instance = new Animal();
+    instance.name = name || 'Penny';
+
+    return instance;
+}
+
+var pig = new Pig();
+console.log('pig name ' + pig.name);
+pig.sleep();
+
+// 4. 拷贝继承
+
+function Bird(name) {
+    var animal = new Animal();
+
+    for (var p in animal) {
+        Bird.prototype[p] = animal[p];
+    }
+    Bird.prototype.name = name || 'kiwi';
+}
+
+var bird = new Bird();
+console.log('bird name ' + bird.name);
+bird.sleep();
+
+// 5. 组合继承
+
+function Horse(name) {
+    Animal.call(this);
+    this.name = name || 'Chitu';
+}
+Horse.prototype = new Animal();
+Horse.prototype.constructor = Horse;
+
+var horse = new Horse();
+console.log('horse name ' + horse.name);
+horse.sleep();
+```
+
+Reference:[JS实现继承的几种方式](http://www.cnblogs.com/humin/p/4556820.html)  
 
 ###11.javascript创建对象的几种方式？
 

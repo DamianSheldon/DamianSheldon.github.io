@@ -191,18 +191,29 @@ horse.sleep();
 Reference:[JS实现继承的几种方式](http://www.cnblogs.com/humin/p/4556820.html)  
 
 ###11.javascript创建对象的几种方式？
+A: 参考JavaScript高级程序设计。
 
 ###12.Javascript作用链域?
 
 ###13.谈谈This对象的理解。
 
 ###14.eval是做什么的？
+A:The eval() function evaluates JavaScript code represented as a string.
 
 ###15.什么是window对象? 什么是document对象?
+A:
+
+* The Window interface represents a window containing a DOM document;
+* The Document interface represents any web page loaded in the browser and serves as an entry point into the web page's content, which is the DOM tree. 
 
 ###16.null，undefined 的区别？
+A:
+
+* The value null represents the intentional absence of any object value.
+* The global undefined property represents the primitive value undefined.
 
 ###17.写一个通用的事件侦听器函数。
+
 
 ###18.["1", "2", "3"].map(parseInt) 答案是多少？
 

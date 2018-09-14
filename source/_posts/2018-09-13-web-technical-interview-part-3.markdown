@@ -56,8 +56,15 @@ A:
 * 堆类型：对象、数组和函数
 
 ###6.如何将字符串转化为数字，例如'12.3b'?
+A:`parseFloat('12.3b');`
 
 ###7.如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为12,000,000.11?
+A:
+
+* 方法一：使用正则表达式, `String(Number).replace(/(\d)(?=(\d{3})+$)/g, "$1,");`
+* 方法二：使用toLocaleString()方法, Number.toLocaleString('en-US');
+
+Reference:[请使用千位分隔符(逗号)表示web网页中的大数字](https://www.zhangxinxu.com/wordpress/2017/09/web-page-comma-number/)  
 
 ###8.如何实现数组的随机排序？
 

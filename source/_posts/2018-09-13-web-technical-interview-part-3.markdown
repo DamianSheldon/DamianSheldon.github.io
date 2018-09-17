@@ -293,6 +293,17 @@ Reference:[严格模式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript
 A:使用 instanceof 操作符。
 
 ###23.new操作符具体干了什么呢?
+A:When the code new Foo(...) is executed, the following things happen:
+
+1.	A new object is created, inheriting from Foo.prototype.
+2.	The constructor function Foo is called with the specified arguments, and with this bound to the newly created object. new Foo is equivalent to newFoo(), i.e. if no argument list is specified, Foo is called without arguments.
+3.	The object returned by the constructor function becomes the result of the whole new expression. If the constructor function doesn't explicitly return an object, the object created in step 1 is used instead. (Normally constructors don't return a value, but they can choose to do so if they want to override the normal object creation process.)
+
+```js
+ var obj  = {};
+ obj.__proto__ = Base.prototype;
+ Base.call(obj);
+```
 
 ###24.用原生JavaScript的实现过什么功能吗？
 

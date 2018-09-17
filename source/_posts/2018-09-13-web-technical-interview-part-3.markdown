@@ -325,6 +325,24 @@ A:
 
 
 ###29.Ajax 是什么? 如何创建一个Ajax？
+A: AJAX 是 "Asynchronous JavaScript and XML" 的简称，指的是一套综合了多项技术的浏览器端网页开发技术。
+
+如何创建一个Ajax？
+
+``` js
+var xmlHttp;
+if (typeof XMLHttpRequest != "undefined") {
+    xmlHttp = new XMLHttpRequest();
+} else if (window.ActiveXObject) {
+    var aVersions = ["Msxml2.XMLHttp.5.0", "Msxml2.XMLHttp.4.0", "Msxml2.XMLHttp.3.0", "Msxml2.XMLHttp", "Microsoft.XMLHttp"];
+    for (var i = 0; i < aVersions.length; i++) {
+        try {
+            xmlHttp = new ActiveXObject(aVersions[i]);
+            break;
+        } catch (e) {}
+    }
+}
+```
 
 ###30.Ajax 解决浏览器缓存问题？
 

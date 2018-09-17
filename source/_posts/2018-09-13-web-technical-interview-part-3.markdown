@@ -290,6 +290,7 @@ A:javascript 代码中的`"use strict";`是开启严格模式的意思。
 Reference:[严格模式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)  
 
 ###22.如何判断一个对象是否属于某个类？
+A:使用 instanceof 操作符。
 
 ###23.new操作符具体干了什么呢?
 

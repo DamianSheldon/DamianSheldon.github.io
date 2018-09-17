@@ -308,6 +308,7 @@ A:When the code new Foo(...) is executed, the following things happen:
 ###24.用原生JavaScript的实现过什么功能吗？
 
 ###25.Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？
+A:`hasOwnProperty()`.  
 
 ###26.JSON 的了解？
 

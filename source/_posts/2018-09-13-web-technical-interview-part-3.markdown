@@ -262,6 +262,19 @@ IE的事件机制是冒泡，而火狐同时支持冒泡和捕获；冒泡是指
 阻止事件冒泡：`e.stopPropagation()`，旧IE则是使用 `e.cancelBubble = true；`
 
 ###20.什么是闭包（closure），为什么要用它？
+A:
+>Closures are self-contained blocks of functionality that can be passed around and used in your code. --The Swift Programming Language
+
+闭包是自包含的功能块，它可以在你的代码中传递和使用。  
+
+为什么要用它？  
+当我们使用高阶函数或实际需要交换状态时，闭包优于其他方法。
+
+> First of all, there is nothing that is impossible without using closures. You can always replace a closure by an object implementing a specific interface. It's only a matter of brevity and reduced coupling.
+> Second, keep in mind that closures are often used inappropriately, where a simple function reference or other construct would be more clear. You shouldn't take every example you see as a best practice.
+> Where closures really shine over other constructs is when using higher-order functions, when you actually need to communicate state, and you can make it a one-liner.
+
+Reference:[Why would a program use a closure?](https://softwareengineering.stackexchange.com/questions/285941/why-would-a-program-use-a-closure)  
 
 ###21.javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
 

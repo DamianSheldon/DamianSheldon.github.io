@@ -276,7 +276,18 @@ A:
 
 Reference:[Why would a program use a closure?](https://softwareengineering.stackexchange.com/questions/285941/why-would-a-program-use-a-closure)  
 
-###21.javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
+###21.javascript 代码中的`"use strict";`是什么意思 ? 使用它区别是什么？
+A:javascript 代码中的`"use strict";`是开启严格模式的意思。  
+
+使用它的区别:  
+
+* 将问题直接转化为错误（如语法错误或运行时错误）;
+* 简化了如何为给定名称的特定变量计算;
+* 简化了 eval 以及 arguments;
+* 将写"安全“JavaScript的步骤变得更简单;
+* 改变了预测未来ECMAScript行为的方式。
+
+Reference:[严格模式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)  
 
 ###22.如何判断一个对象是否属于某个类？
 

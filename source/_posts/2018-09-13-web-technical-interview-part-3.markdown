@@ -250,6 +250,16 @@ An integer between 2 and 36 that represents the radix (the base in mathematica
 最后我们来看 `parseInt('3', 2)`，radix 是 2，也就是将字符串按二进制转换，二进制只有数字 0 和 1，那么 3 肯定是转换不了，结果就是 NaN。
 
 ###19.事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？
+A:
+> In computing, an event is an action or occurrence recognized by software, often originating asynchronously from the external environment, that may be handled by the software. --wikipedia
+
+事件是被软件识别的动作或发生的事。  
+
+IE与火狐的事件机制有什么区别？  
+IE的事件机制是冒泡，而火狐同时支持冒泡和捕获；冒泡是指事件从最具体的元素接收，然后逐级向上传播，直到不具体的节点（通常指文档节点）；而捕获相反，它是从不具体的节点开始，逐步到最具体的节点； 
+
+如何阻止冒泡？
+阻止事件冒泡：`e.stopPropagation()`，旧IE则是使用 `e.cancelBubble = true；`
 
 ###20.什么是闭包（closure），为什么要用它？
 

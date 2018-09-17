@@ -215,7 +215,39 @@ A:
 ###17.写一个通用的事件侦听器函数。
 
 
-###18.["1", "2", "3"].map(parseInt) 答案是多少？
+###18.`["1", "2", "3"].map(parseInt)` 答案是多少？
+A:答案是[1, NaN, NaN]。
+
+原因:  
+先看下 map 和 parseInt 这两个 API:
+
+```
+
+var new_array = arr.map(function callback(currentValue[, index[, array]]) {
+    // Return element for new_array
+}[, thisArg])
+	
+parseInt(string, radix);
+string
+The value to parse. If the string argument is not a string, then it is converted to a string (using the ToString abstract operation). Leading whitespace in the string argument is ignored.
+radix
+An integer between 2 and 36 that represents the radix (the base in mathematical numeral systems) of the above mentioned string. 
+
+```
+
+从 API 我们知道，`["1", "2", "3"].map(parseInt)` 会转化为依次调用 `parseInt('1', 0); parseInt('2', 1); parseInt('3', 2);`。
+
+上面提到 radix 的范围是[2, 36]，如果 radix 不在这个范围自然是不支持转换，结果就是 NaN。但它对 0 进行了特殊处理，描述如下:  
+
+> If radix is undefined or 0 (or absent), JavaScript assumes the following:
+> 
+> 	* If the input string begins with "0x" or "0X", radix is 16 (hexadecimal) and the remainder of the string is parsed.
+> 	* If the input string begins with "0", radix is eight (octal) or 10 (decimal).  Exactly which radix is chosen is implementation-dependent.  ECMAScript 5 specifies that 10 (decimal) is used, but not all browsers support this yet.  For this reason always specify a radix when using parseInt.
+> 	* If the input string begins with any other value, the radix is 10 (decimal).
+
+所以, `parseInt('1', 0)` 的结果是 1， `parseInt('2', 1)` 的结果是 NaN。  
+
+最后我们来看 `parseInt('3', 2)`，radix 是 2，也就是将字符串按二进制转换，二进制只有数字 0 和 1，那么 3 肯定是转换不了，结果就是 NaN。
 
 ###19.事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？
 

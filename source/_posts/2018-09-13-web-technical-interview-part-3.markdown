@@ -313,6 +313,7 @@ A:`hasOwnProperty()`.
 ###26.JSON 的了解？
 
 ###27.`[].forEach.call($$("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)})` 能解释一下这段代码的意思吗？
+A:给所有的元素加上一个一像素颜色随机的边框。
 
 ###28.js延迟加载的方式有哪些？
 

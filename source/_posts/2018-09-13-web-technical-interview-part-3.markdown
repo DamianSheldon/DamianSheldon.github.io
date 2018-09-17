@@ -355,7 +355,23 @@ A:
 
 ###31.同步和异步的区别?
 
+
 ###32.如何解决跨域问题?
+A:跨域通信的方法大致可以分为两类：
+
+* 一类是Hack，比如通过title, navigation等对象传递信息，JSONP可以说是一个最优秀的Hack。
+	
+	* 设置 document.domain
+	* 有src的标签
+	* JSONP
+	* navigation 对象
+	
+* 另一类是HTML5支持，一个是Access-Control-Allow-Origin响应头，一个是window.postMessage。
+	
+	* 跨域资源共享（CORS）
+	* window.postMessage
+
+Reference:[Web开发中跨域的几种解决方案](https://harttle.land/2015/10/10/cross-origin.html)  
 
 ###33.页面编码和被请求的资源编码如果不一致如何处理？
 

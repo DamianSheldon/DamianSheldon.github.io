@@ -316,6 +316,13 @@ A:`hasOwnProperty()`.
 A:给所有的元素加上一个一像素颜色随机的边框。
 
 ###28.js延迟加载的方式有哪些？
+A:
+
+* 使用 defer 属性
+* 使用 async 属性
+* 动态创建DOM方式，例如，监听 onload 事件，定时之后再向 head 添加 script 标签；或 ajax 下载后再添加 （用得最多）
+* js 放在 body 最后
+
 
 ###29.Ajax 是什么? 如何创建一个Ajax？
 

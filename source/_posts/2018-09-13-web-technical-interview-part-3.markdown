@@ -374,6 +374,8 @@ A:跨域通信的方法大致可以分为两类：
 Reference:[Web开发中跨域的几种解决方案](https://harttle.land/2015/10/10/cross-origin.html)  
 
 ###33.页面编码和被请求的资源编码如果不一致如何处理？
+A:一个未经验证的想法:设置 `XMLHttpRequest.responseType = "blob";`，这样
+`XMLHttpRequest.response` 的结果是 Blob,之后利用 `instanceOfFileReader.readAsText(blob[, encoding]);` 得到想要的结果。
 
 ###34.服务器代理转发时，该如何处理cookie？
 

@@ -488,6 +488,7 @@ Reference:[4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them](htt
 ###78.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？
 
 ###79.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？
+A:按照W3C的标准，先发生捕获事件，后发生冒泡事件。
 
 ###80.使用JS实现获取文件扩展名？
 

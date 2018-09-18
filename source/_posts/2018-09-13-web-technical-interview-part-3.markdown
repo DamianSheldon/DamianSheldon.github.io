@@ -399,6 +399,14 @@ A:document.write只能重绘整个页面，innerHTML可以重绘页面的一部�
 
 
 ###43.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?
+A:
+
+* 添加：`appendChild()`     
+* 移除：`removeChild()`  
+* 移动：`appendChild()`， If the given child is a reference to an existing node in the document, appendChild() moves it from its current position to the new position 
+* 复制：`cloneNode()`
+* 创建：`createDocumentFragment(), createElement(), createTextNode()`
+* 查找`getElementById(), getElementsByClassName(), getElementsByName(), getElementsByTagName(), getElementsByTagNameNS()`
 
 ###44.`.call()` 和 `.apply()` 的区别？
 

@@ -378,6 +378,7 @@ A:一个未经验证的想法:设置 `XMLHttpRequest.responseType = "blob";`，�
 `XMLHttpRequest.response` 的结果是 Blob,之后利用 `instanceOfFileReader.readAsText(blob[, encoding]);` 得到想要的结果。
 
 ###34.服务器代理转发时，该如何处理cookie？
+A:
 
 ###35.模块化开发怎么做?
 
@@ -394,6 +395,8 @@ A:一个未经验证的想法:设置 `XMLHttpRequest.responseType = "blob";`，�
 ###41.异步加载JS的方式有哪些？
 
 ###42.documen.write和 innerHTML的区别?
+A:document.write只能重绘整个页面，innerHTML可以重绘页面的一部分。
+
 
 ###43.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?
 

@@ -409,6 +409,7 @@ A:
 * 查找`getElementById(), getElementsByClassName(), getElementsByName(), getElementsByTagName(), getElementsByTagNameNS()`
 
 ###44.`.call()` 和 `.apply()` 的区别？
+A:While the syntax of this function is almost identical to that of apply(), the fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.
 
 ###45.数组和对象有哪些原生方法，列举一下？
 

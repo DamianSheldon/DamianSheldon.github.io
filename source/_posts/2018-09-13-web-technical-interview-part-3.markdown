@@ -501,5 +501,9 @@ A:按照W3C的标准，先发生捕获事件，后发生冒泡事件。
 ###82.请介绍一下JS之事件节流？
 A:事件节流就是降低事件响应的速率。
 
+>In software, a throttling process, or a throttling controller as it is sometimes called, is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.
+
 ###83.什么是JS的函数防抖？
+A:当调用动作过n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则将重新计算执行时间。
+
 

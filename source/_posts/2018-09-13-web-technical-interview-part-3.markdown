@@ -420,6 +420,14 @@ A:While the syntax of this function is almost identical to that of apply(), the
 ###48.如何编写高性能的Javascript？
 
 ###49.那些操作会造成内存泄漏？
+A:
+
+* Accidental global variables
+* Forgotten timers or callbacks
+* Out of DOM references
+* Closures
+
+Reference:[4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)  
 
 ###50.JQuery的源码看过吗？能不能简单概况一下它的实现原理？
 

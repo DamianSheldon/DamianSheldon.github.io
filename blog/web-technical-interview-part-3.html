@@ -711,9 +711,25 @@ Where closures really shine over other constructs is when using higher-order fun
 
 <h3>42.documen.write和 innerHTML的区别?</h3>
 
+<p>A:document.write只能重绘整个页面，innerHTML可以重绘页面的一部分。</p>
+
 <h3>43.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?</h3>
 
+<p>A:</p>
+
+<ul>
+<li>添加：<code>appendChild()</code></li>
+<li>移除：<code>removeChild()</code></li>
+<li>移动：<code>appendChild()</code>， If the given child is a reference to an existing node in the document, appendChild() moves it from its current position to the new position </li>
+<li>复制：<code>cloneNode()</code></li>
+<li>创建：<code>createDocumentFragment(), createElement(), createTextNode()</code></li>
+<li>查找<code>getElementById(), getElementsByClassName(), getElementsByName(), getElementsByTagName(), getElementsByTagNameNS()</code></li>
+</ul>
+
+
 <h3>44.<code>.call()</code> 和 <code>.apply()</code> 的区别？</h3>
+
+<p>A:While the syntax of this function is almost identical to that of apply(), the fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.</p>
 
 <h3>45.数组和对象有哪些原生方法，列举一下？</h3>
 
@@ -724,6 +740,18 @@ Where closures really shine over other constructs is when using higher-order fun
 <h3>48.如何编写高性能的Javascript？</h3>
 
 <h3>49.那些操作会造成内存泄漏？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Accidental global variables</li>
+<li>Forgotten timers or callbacks</li>
+<li>Out of DOM references</li>
+<li>Closures</li>
+</ul>
+
+
+<p>Reference:<a href="https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/">4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them</a></p>
 
 <h3>50.JQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
 
@@ -777,13 +805,23 @@ Where closures really shine over other constructs is when using higher-order fun
 
 <h3>75.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?</h3>
 
-<h3>76.检测浏览器版本版本有哪些方式？</h3>
+<h3>76.检测浏览器版本有哪些方式？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>Navigator.appVersion</li>
+<li>Navigator.userAgent</li>
+</ul>
+
 
 <h3>77.What is a Polyfill?</h3>
 
 <h3>78.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？</h3>
 
 <h3>79.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？</h3>
+
+<p>A:按照W3C的标准，先发生捕获事件，后发生冒泡事件。</p>
 
 <h3>80.使用JS实现获取文件扩展名？</h3>
 

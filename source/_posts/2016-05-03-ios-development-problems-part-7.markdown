@@ -106,23 +106,18 @@ sh "/Library/Ruby/Gems/2.0.0/gems/fir-cli-1.5.0/bin/fir p ../BBCApp.ipa -T token
 ```
 
 ### 8. 怎么获取iPhone上已安装App的ipa文件？
-A: 可以利用iTunes下载已购的功能。
+A: 可以利用iTunes下载已购的功能，虽然 12.7 版本不支持，但老版本支持，所以可以安装老版本。
 
-You can redownload apps on your iPhone or iPod touch, iPad, Mac or PC, or Apple TV (4th generation). You can also redownload some in-app purchases.
+You can have iTunes 12.7 and iTunes 12.6.3 installed side-by-side.
 
-On a Mac or PC
-From iTunes
-1. Open iTunes.
-2. Click Sign In, and then enter your Apple ID and password.
-3. Click your name and select Purchased from the menu.
-4. From the upper-right corner of the screen, click Apps.
-5. Click "Not in My Library" to view purchased content that isn't on your computer.
-6. Scroll to find the item that you want to download.
-7. Click the Download icon  in the upper-right corner of the item that you want to download. Your app downloads to your library.
+1.	Install iTunes 12.6.3 from the links above.
+2.	Copy the iTunes app and paste it to where you want, rename if necessary.
+3.	Hold Option and double click iTunes. Create a new library in a separate location. iTunes 12.6.3 and iTunes 12.7 can't use the same library because iTunes 12.7 will update the file and iTunes 12.6.3 won't be able to understand it.
+4.	Manually download the latest iTunes from Apple's website and run the installer to update your main copy of iTunes.
+5.	(Optional) Change your iTunes 12.6.3 icon to a different icon to help distinguish between the two. (Right-click, Get Info, drag new icon onto existing icon).
+Important: You will need to Option-Open each time you switch versions so that you can select the correct library and don't update the older library to 12.7 format.
 
-下载需要点时间，所以点开My Apps tab面不能马上看到刚下载的App,右上角有个下载进度提示，点击可以看详情。
-
-Reference:[Redownload music, movies, TV shows, apps, and books from the iTunes Store, iBooks Store, and App Store](https://support.apple.com/en-qa/HT201272)
+Reference:[How do I download an iOS App (IPA) file to my Mac after iTunes 12.7 update?](https://apple.stackexchange.com/questions/298391/how-do-i-download-an-ios-app-ipa-file-to-my-mac-after-itunes-12-7-update)  
 
 ### 9. UICollectionView's cellForItemAtIndexPath is not being called
 A: 

@@ -481,7 +481,11 @@ Reference:[4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them](htt
 
 ###75.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?
 
-###76.检测浏览器版本版本有哪些方式？
+###76.检测浏览器版本有哪些方式？
+A:
+
+* Navigator.appVersion
+* Navigator.userAgent
 
 ###77.What is a Polyfill?
 

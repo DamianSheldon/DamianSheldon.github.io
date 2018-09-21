@@ -191,7 +191,52 @@ horse.sleep();
 Reference:[JS实现继承的几种方式](http://www.cnblogs.com/humin/p/4556820.html)  
 
 ###11.javascript创建对象的几种方式？
-A: 参考JavaScript高级程序设计。
+A: 
+
+* declare an object literal
+* use a constructor function
+* use the Object() constructor 
+* use the create() method
+
+``` js
+// declare an object literal
+var person = {
+  name: ['Bob', 'Smith'],
+  age: 32,
+  gender: 'male',
+  interests: ['music', 'skiing'],
+  bio: function() {
+    alert(this.name[0] + ' ' + this.name[1] + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+  },
+  greeting: function() {
+    alert('Hi! I\'m ' + this.name[0] + '.');
+  }
+};
+
+// use a constructor function
+function Person(name) {
+  this.name = name;
+  this.greeting = function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  };
+}
+
+var person1 = new Person('Bob');
+var person2 = new Person('Sarah');
+
+// use the Object() constructor
+var person1 = new Object();
+person1.name = 'Chris';
+person1['age'] = 38;
+person1.greeting = function() {
+  alert('Hi! I\'m ' + this.name + '.');
+};
+
+// use the create() method
+var person2 = Object.create(person1);
+```
+
+Reference:[Object-oriented JavaScript for beginners](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS)  
 
 ###12.Javascript作用链域?
 

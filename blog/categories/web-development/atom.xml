@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-18T21:30:53+08:00</updated>
+  <updated>2018-09-21T16:22:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -233,7 +233,54 @@ horse.sleep();
 
 <h3>11.javascript创建对象的几种方式？</h3>
 
-<p>A: 参考JavaScript高级程序设计。</p>
+<p>A:</p>
+
+<ul>
+<li>declare an object literal</li>
+<li>use a constructor function</li>
+<li>use the Object() constructor </li>
+<li>use the create() method</li>
+</ul>
+
+
+<pre><code class="js">// declare an object literal
+var person = {
+  name: ['Bob', 'Smith'],
+  age: 32,
+  gender: 'male',
+  interests: ['music', 'skiing'],
+  bio: function() {
+    alert(this.name[0] + ' ' + this.name[1] + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+  },
+  greeting: function() {
+    alert('Hi! I\'m ' + this.name[0] + '.');
+  }
+};
+
+// use a constructor function
+function Person(name) {
+  this.name = name;
+  this.greeting = function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  };
+}
+
+var person1 = new Person('Bob');
+var person2 = new Person('Sarah');
+
+// use the Object() constructor
+var person1 = new Object();
+person1.name = 'Chris';
+person1['age'] = 38;
+person1.greeting = function() {
+  alert('Hi! I\'m ' + this.name + '.');
+};
+
+// use the create() method
+var person2 = Object.create(person1);
+</code></pre>
+
+<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS">Object-oriented JavaScript for beginners</a></p>
 
 <h3>12.Javascript作用链域?</h3>
 

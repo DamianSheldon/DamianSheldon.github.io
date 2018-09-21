@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-09-18T21:30:53+08:00</updated>
+  <updated>2018-09-21T16:22:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -331,7 +331,90 @@
 
 <h3>11.javascript创建对象的几种方式？</h3>
 
-<p>A: 参考JavaScript高级程序设计。</p>
+<p>A:</p>
+
+<ul>
+<li>declare an object literal</li>
+<li>use a constructor function</li>
+<li>use the Object() constructor </li>
+<li>use the create() method</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// declare an object literal</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">],</span>
+</span><span class='line'>  <span class="nx">age</span><span class="o">:</span> <span class="mi">32</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">gender</span><span class="o">:</span> <span class="s1">&#39;male&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">interests</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;music&#39;</span><span class="p">,</span> <span class="s1">&#39;skiing&#39;</span><span class="p">],</span>
+</span><span class='line'>  <span class="nx">bio</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">+</span> <span class="s1">&#39; years old. He likes &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">interests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; and &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">interests</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">greeting</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi! I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// use a constructor function</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi! I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">person2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Sarah&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// use the Object() constructor</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'><span class="nx">person1</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Chris&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">person1</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">38</span><span class="p">;</span>
+</span><span class='line'><span class="nx">person1</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi! I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// use the create() method</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">person2</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">person1</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS">Object-oriented JavaScript for beginners</a></p>
 
 <h3>12.Javascript作用链域?</h3>
 
@@ -370,7 +453,7 @@
 <p>原因:<br/>
 先看下 map 和 parseInt 这两个 API:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -379,17 +462,15 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>var new_array = arr.map(function callback(currentValue[, index[, array]]) {
-</span><span class='line'>    // Return element for new_array
-</span><span class='line'>}[, thisArg])
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">new_array</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">currentValue</span><span class="p">[,</span> <span class="nx">index</span><span class="p">[,</span> <span class="nx">array</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Return element for new_array</span>
+</span><span class='line'><span class="p">}[,</span> <span class="nx">thisArg</span><span class="p">])</span>
 </span><span class='line'>  
-</span><span class='line'>parseInt(string, radix);
-</span><span class='line'>string
-</span><span class='line'>The value to parse. If the string argument is not a string, then it is converted to a string (using the ToString abstract operation). Leading whitespace in the string argument is ignored.
-</span><span class='line'>radix
-</span><span class='line'>An integer between 2 and 36 that represents the radix (the base in mathematical numeral systems) of the above mentioned string. 
+</span><span class='line'><span class="nb">parseInt</span><span class="p">(</span><span class="nx">string</span><span class="p">,</span> <span class="nx">radix</span><span class="p">);</span>
+</span><span class='line'><span class="nx">string</span>
+</span><span class='line'><span class="nx">The</span> <span class="nx">value</span> <span class="nx">to</span> <span class="nx">parse</span><span class="p">.</span> <span class="nx">If</span> <span class="nx">the</span><span class="err"> </span><span class="nx">string</span><span class="err"> </span><span class="nx">argument</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">a</span> <span class="nx">string</span><span class="p">,</span> <span class="nx">then</span> <span class="nx">it</span> <span class="nx">is</span> <span class="nx">converted</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">string</span> <span class="p">(</span><span class="nx">using</span> <span class="nx">the</span><span class="err"> </span><span class="nx">ToString</span><span class="err"> </span><span class="kr">abstract</span> <span class="nx">operation</span><span class="p">).</span> <span class="nx">Leading</span> <span class="nx">whitespace</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">string</span> <span class="nx">argument</span> <span class="nx">is</span> <span class="nx">ignored</span><span class="p">.</span>
+</span><span class='line'><span class="nx">radix</span>
+</span><span class='line'><span class="nx">An</span> <span class="nx">integer</span> <span class="nx">between</span> <span class="mi">2</span> <span class="nx">and</span> <span class="mi">36</span> <span class="nx">that</span> <span class="nx">represents</span> <span class="nx">the</span><span class="err"> </span><span class="nx">radix</span><span class="err"> </span><span class="p">(</span><span class="nx">the</span> <span class="nx">base</span> <span class="k">in</span> <span class="nx">mathematical</span> <span class="nx">numeral</span> <span class="nx">systems</span><span class="p">)</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">above</span> <span class="nx">mentioned</span> <span class="nx">string</span><span class="p">.</span><span class="err"> </span>
 </span></code></pre></td></tr></table></div></figure>
 
 

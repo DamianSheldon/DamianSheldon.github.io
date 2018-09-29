@@ -241,7 +241,36 @@ Reference:[Object-oriented JavaScript for beginners](https://developer.mozilla.o
 ###12.Javascript作用链域?
 
 ###13.谈谈This对象的理解。
+A:In most cases, the value of this is determined by how a function is called. 
 
+* Global Context (1)
+* Function context
+	* Simple call (2.1)
+	* The bind method (2.2)
+	* Arrow functions (2.3)
+	* As an object method (2.4)
+	* As a constructor Section (2.5)
+	* As a DOM event handler (2.6)
+	* In an inline event handler (2.7)
+	
+1) In the global execution context (outside of any function), this refers to the global object whether in strict mode or not.  
+
+2.1) If the value of this is not set by the call in non-strict mode, this will default to the global object, which is window in a browser. In strict mode, if this was not defined by the execution context, it remains undefined.  
+
+2.2) ECMAScript 5 introduced Function.prototype.bind. Calling f.bind(someObject)creates a new function with the same body and scope as f, but where this occurs in the original function, in the new function it is permanently bound to the first argument of bind, regardless of how the function is being used.  
+
+2.3) In arrow functions, this retains the value of the enclosing lexical context's this. In global code, it will be set to the global object.  
+
+2.4) When a function is called as a method of an object, its this is set to the object the method is called on.  
+
+2.5) When a function is used as a constructor (with the new keyword), its this is bound to the new object being constructed.  
+
+2.6) When a function is used as an event handler, its this is set to the element the event fired from (some browsers do not follow this convention for listeners added dynamically with methods other than addEventListener).  
+
+2.7) When the code is called from an inline on-event handler, its this is set to the DOM element on which the listener is placed.  
+
+Reference:[this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)  
+  
 ###14.eval是做什么的？
 A:The eval() function evaluates JavaScript code represented as a string.
 

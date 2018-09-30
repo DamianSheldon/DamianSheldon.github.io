@@ -509,7 +509,7 @@ A:返回的就是 jQuery 对象。因为 new 表达式之后的constructor返回
 
 Reference:[jQuery诞生记-原理与机制](https://www.zhangxinxu.com/wordpress/2013/07/jquery-%E5%8E%9F%E7%90%86-%E6%9C%BA%E5%88%B6/)  
 
-###51.jquery中如何将数组转化为json字符串，然后再转化回来？
+###51.jQuery中如何将数组转化为json字符串，然后再转化回来？
 
 ###52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？
 
@@ -517,9 +517,9 @@ Reference:[jQuery诞生记-原理与机制](https://www.zhangxinxu.com/wordpress
 
 ###54.jQuery 的队列是如何实现的？队列可以用在哪些地方？
 
-###55.谈一下Jquery中的bind(),live(),delegate(),on()的区别？
+###55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？
 
-###56.JQuery一个对象可以同时绑定多个事件，这是如何实现的？
+###56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？
 
 ###57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？
 
@@ -527,9 +527,9 @@ Reference:[jQuery诞生记-原理与机制](https://www.zhangxinxu.com/wordpress
 
 ###59.针对 jQuery性能的优化方法？
 
-###60.Jquery与jQuery UI 有啥区别？
+###60.jQuery与jQuery UI 有啥区别？
 
-###61.jquery 中如何将数组转化为json字符串，然后再转化回来？
+###61.jQuery 中如何将数组转化为json字符串，然后再转化回来？
 
 ###62.jQuery和Zepto的区别？各自的使用场景？
 

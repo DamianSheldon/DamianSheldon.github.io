@@ -505,6 +505,7 @@ Reference:[4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them](htt
 A:jQuery 主要是利用 js 原型继承的灵活性，将 DOM，Ajax 等操作包裹到函数中来实现的。
 
 ###50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？
+A:返回的就是 jQuery 对象。因为 new 表达式之后的constructor返回（return）一个引用对象（数组，对象，函数等），都将覆盖new创建的匿名对象，如果返回（return）一个原始类型（无return时其实为return原始类型undefined），那么就返回new创建的匿名对象。为了屏蔽这种差异，简化代码，支持链式调用等原因，所以显示的返回了 jQuery 对象。
 
 ###51.jquery中如何将数组转化为json字符串，然后再转化回来？
 

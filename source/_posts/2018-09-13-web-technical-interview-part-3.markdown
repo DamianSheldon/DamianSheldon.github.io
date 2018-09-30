@@ -507,6 +507,8 @@ A:jQuery 主要是利用 js 原型继承的灵活性，将 DOM，Ajax 等操作�
 ###50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？
 A:返回的就是 jQuery 对象。因为 new 表达式之后的constructor返回（return）一个引用对象（数组，对象，函数等），都将覆盖new创建的匿名对象，如果返回（return）一个原始类型（无return时其实为return原始类型undefined），那么就返回new创建的匿名对象。为了屏蔽这种差异，简化代码，支持链式调用等原因，所以显示的返回了 jQuery 对象。
 
+Reference:[jQuery诞生记-原理与机制](https://www.zhangxinxu.com/wordpress/2013/07/jquery-%E5%8E%9F%E7%90%86-%E6%9C%BA%E5%88%B6/)  
+
 ###51.jquery中如何将数组转化为json字符串，然后再转化回来？
 
 ###52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？

@@ -501,7 +501,8 @@ A:
 
 Reference:[4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)  
 
-###59.JQuery的源码看过吗？能不能简单概况一下它的实现原理？
+###59.jQuery的源码看过吗？能不能简单概况一下它的实现原理？
+A:jQuery 主要是利用 js 原型继承的灵活性，将 DOM，Ajax 等操作包裹到函数中来实现的。
 
 ###50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？
 

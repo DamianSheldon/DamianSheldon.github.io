@@ -513,7 +513,7 @@ Reference:[jQuery诞生记-原理与机制](https://www.zhangxinxu.com/wordpress
 
 ###52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？
 
-###53.jquery.extend 与 jquery.fn.extend的区别？
+###53.jQuery.extend 与 jQuery.fn.extend的区别？
 
 ###54.jQuery 的队列是如何实现的？队列可以用在哪些地方？
 

@@ -869,9 +869,15 @@ Where closures really shine over other constructs is when using higher-order fun
 
 <p>Reference:<a href="https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/">4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them</a></p>
 
-<h3>59.JQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
+<h3>59.jQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
+
+<p>A:jQuery 主要是利用 js 原型继承的灵活性，将 DOM，Ajax 等操作包裹到函数中来实现的。</p>
 
 <h3>50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？</h3>
+
+<p>A:返回的就是 jQuery 对象。因为 new 表达式之后的constructor返回（return）一个引用对象（数组，对象，函数等），都将覆盖new创建的匿名对象，如果返回（return）一个原始类型（无return时其实为return原始类型undefined），那么就返回new创建的匿名对象。为了屏蔽这种差异，简化代码，支持链式调用等原因，所以显示的返回了 jQuery 对象。</p>
+
+<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2013/07/jquery-%E5%8E%9F%E7%90%86-%E6%9C%BA%E5%88%B6/">jQuery诞生记-原理与机制</a></p>
 
 <h3>51.jquery中如何将数组转化为json字符串，然后再转化回来？</h3>
 

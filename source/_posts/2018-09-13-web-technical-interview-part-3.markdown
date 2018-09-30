@@ -466,13 +466,11 @@ A:
 
 ###40.ECMAScript6 怎么写class么，为什么会出现class这种东西?
 
-###41.异步加载JS的方式有哪些？
-
-###42.documen.write和 innerHTML的区别?
+###41.documen.write和 innerHTML的区别?
 A:document.write只能重绘整个页面，innerHTML可以重绘页面的一部分。
 
 
-###43.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?
+###42.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?
 A:
 
 * 添加：`appendChild()`     
@@ -482,18 +480,18 @@ A:
 * 创建：`createDocumentFragment(), createElement(), createTextNode()`
 * 查找：`getElementById(), getElementsByClassName(), getElementsByName(), getElementsByTagName(), getElementsByTagNameNS()`
 
-###44.`.call()` 和 `.apply()` 的区别？
+###43.`.call()` 和 `.apply()` 的区别？
 A:While the syntax of this function is almost identical to that of apply(), the fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.
 
-###45.数组和对象有哪些原生方法，列举一下？
+###44.数组和对象有哪些原生方法，列举一下？
 
-###46.JS 怎么实现一个类?怎么实例化这个类?
+###45.JS 怎么实现一个类?怎么实例化这个类?
 
-###47.JavaScript中的作用域与变量声明提升？
+###46.JavaScript中的作用域与变量声明提升？
 
-###48.如何编写高性能的Javascript？
+###47.如何编写高性能的Javascript？
 
-###49.那些操作会造成内存泄漏？
+###48.那些操作会造成内存泄漏？
 A:
 
 * Accidental global variables
@@ -503,81 +501,79 @@ A:
 
 Reference:[4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)  
 
-###50.JQuery的源码看过吗？能不能简单概况一下它的实现原理？
+###59.JQuery的源码看过吗？能不能简单概况一下它的实现原理？
 
-###51.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？
+###50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？
 
-###52.jquery中如何将数组转化为json字符串，然后再转化回来？
+###51.jquery中如何将数组转化为json字符串，然后再转化回来？
 
-###53.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？
+###52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？
 
-###54.jquery.extend 与 jquery.fn.extend的区别？
+###53.jquery.extend 与 jquery.fn.extend的区别？
 
-###55.jQuery 的队列是如何实现的？队列可以用在哪些地方？
+###54.jQuery 的队列是如何实现的？队列可以用在哪些地方？
 
-###56.谈一下Jquery中的bind(),live(),delegate(),on()的区别？
+###55.谈一下Jquery中的bind(),live(),delegate(),on()的区别？
 
-###57.JQuery一个对象可以同时绑定多个事件，这是如何实现的？
+###56.JQuery一个对象可以同时绑定多个事件，这是如何实现的？
 
-###58.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？
+###57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？
 
-###59.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）
+###58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）
 
-###60.针对 jQuery性能的优化方法？
+###59.针对 jQuery性能的优化方法？
 
-###61.Jquery与jQuery UI 有啥区别？
+###60.Jquery与jQuery UI 有啥区别？
 
-###62.JQuery的源码看过吗？能不能简单说一下它的实现原理？
+###61.jquery 中如何将数组转化为json字符串，然后再转化回来？
 
-###63.jquery 中如何将数组转化为json字符串，然后再转化回来？
+###62.jQuery和Zepto的区别？各自的使用场景？
 
-###64.jQuery和Zepto的区别？各自的使用场景？
+###63.针对 jQuery 的优化方法？
 
-###65.针对 jQuery 的优化方法？
+###64.Zepto的点透问题如何解决？
 
-###66.Zepto的点透问题如何解决？
+###65.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？
 
-###67.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？
+###66.如何判断当前脚本运行在浏览器还是node环境中？
 
-###68.如何判断当前脚本运行在浏览器还是node环境中？
+###67.移动端最小触控区域是多大？
 
-###69.移动端最小触控区域是多大？
+###68.jQuery 的 slideUp动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?
 
-###70.jQuery 的 slideUp动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?
+###69.把 Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别？浏览器会如何解析它们？
 
-###71.把 Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别？浏览器会如何解析它们？
+###70.移动端的点击事件的有延迟，时间是多久，为什么会有？ 怎么解决这个延时？（click 有 300ms 延迟,为了实现safari的双击事件的设计，浏览器要知道你是不是要双击操作。）
 
-###72.移动端的点击事件的有延迟，时间是多久，为什么会有？ 怎么解决这个延时？（click 有 300ms 延迟,为了实现safari的双击事件的设计，浏览器要知道你是不是要双击操作。）
+###71.解释JavaScript中的作用域与变量声明提升？
 
-###73.解释JavaScript中的作用域与变量声明提升？
+###72.Node.js的适用场景？
 
-###74.Node.js的适用场景？
+###73.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?
 
-###75.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?
-
-###76.检测浏览器版本有哪些方式？
+###74.检测浏览器版本有哪些方式？
 A:
 
 * Navigator.appVersion
 * Navigator.userAgent
 
-###77.What is a Polyfill?
+###75.What is a Polyfill?
 
-###78.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？
+###76.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？
 
-###79.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？
+###77.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？
 A:按照W3C的标准，先发生捕获事件，后发生冒泡事件。
 
-###80.使用JS实现获取文件扩展名？
+###78.使用JS实现获取文件扩展名？
 
-###81.Webpack热更新实现原理?
+###79.Webpack热更新实现原理?
 
-###82.请介绍一下JS之事件节流？
+###80.请介绍一下JS之事件节流？
 A:事件节流就是降低事件响应的速率。
 
 >In software, a throttling process, or a throttling controller as it is sometimes called, is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.
 
-###83.什么是JS的函数防抖？
+###81.什么是JS的函数防抖？
 A:当调用动作过n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则将重新计算执行时间。
 
 

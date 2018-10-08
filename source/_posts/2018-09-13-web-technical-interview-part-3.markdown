@@ -515,7 +515,13 @@ A:可以使用浏览器内建 JSON 对象的 parse，stringify 方法。如果�
 ###52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？
 A:jQuery 的属性拷贝(extend)的实现原理是利用 js 的动态性，遍历源对象的属性并将其添加到目标对象上。利用递归遍历可以实现深拷贝。
 
-###53.jQuery.extend 与 jQuery.fn.extend的区别？
+###53.jQuery.extend 与 jQuery.fn.extend 的区别？
+A:  
+
+* jQuery.extend: Merge the contents of two or more objects together into the first object.
+* jQuery.fn.extend: Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.
+
+从 jQuery API 文档对它们的介绍，我们可以知道 jQuery.extend 侧重将两个或多个对象合并到第一个对象；而 jQuery.fn.extend 是将对象合并到 jQuery 原型上来提供新的 jQuery 实例方法。
 
 ###54.jQuery 的队列是如何实现的？队列可以用在哪些地方？
 

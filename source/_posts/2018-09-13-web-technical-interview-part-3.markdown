@@ -524,6 +524,9 @@ A:
 从 jQuery API 文档对它们的介绍，我们可以知道 jQuery.extend 侧重将两个或多个对象合并到第一个对象；而 jQuery.fn.extend 是将对象合并到 jQuery 原型上来提供新的 jQuery 实例方法。
 
 ###54.jQuery 的队列是如何实现的？队列可以用在哪些地方？
+A:jQuery 的队列是利用数组实现的。队列可以用在实现动画效果上。  
+
+>Queues are the foundation for all animations in jQuery, they allow a series functions to be executed asynchronously on an element.   
 
 ###55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？
 

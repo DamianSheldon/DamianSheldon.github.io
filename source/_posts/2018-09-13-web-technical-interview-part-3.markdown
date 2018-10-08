@@ -513,6 +513,7 @@ Reference:[jQuery诞生记-原理与机制](https://www.zhangxinxu.com/wordpress
 A:可以使用浏览器内建 JSON 对象的 parse，stringify 方法。如果浏览器不支持这些方法，jQuery 1.4.1 到 3.0 版本的 parseJSON 方法可以解析 JSON 字符串；如果要编码的话则可以通过引入其他 js JSON 库来完成。
 
 ###52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？
+A:jQuery 的属性拷贝(extend)的实现原理是利用 js 的动态性，遍历源对象的属性并将其添加到目标对象上。利用递归遍历可以实现深拷贝。
 
 ###53.jQuery.extend 与 jQuery.fn.extend的区别？
 

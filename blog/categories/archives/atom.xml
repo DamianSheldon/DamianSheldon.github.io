@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-10-08T08:28:22+08:00</updated>
+  <updated>2018-10-08T11:42:59+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -619,9 +619,25 @@ if (typeof XMLHttpRequest != "undefined") {
 
 <h3>52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？</h3>
 
-<h3>53.jQuery.extend 与 jQuery.fn.extend的区别？</h3>
+<p>A:jQuery 的属性拷贝(extend)的实现原理是利用 js 的动态性，遍历源对象的属性并将其添加到目标对象上。利用递归遍历可以实现深拷贝。</p>
+
+<h3>53.jQuery.extend 与 jQuery.fn.extend 的区别？</h3>
+
+<p>A:</p>
+
+<ul>
+<li>jQuery.extend: Merge the contents of two or more objects together into the first object.</li>
+<li>jQuery.fn.extend: Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.</li>
+</ul>
+
+
+<p>从 jQuery API 文档对它们的介绍，我们可以知道 jQuery.extend 侧重将两个或多个对象合并到第一个对象；而 jQuery.fn.extend 是将对象合并到 jQuery 原型上来提供新的 jQuery 实例方法。</p>
 
 <h3>54.jQuery 的队列是如何实现的？队列可以用在哪些地方？</h3>
+
+<p>A:jQuery 的队列是利用数组实现的。队列可以用在实现动画效果上。</p>
+
+<blockquote><p>Queues are the foundation for all animations in jQuery, they allow a series functions to be executed asynchronously on an element. </p></blockquote>
 
 <h3>55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-10-08T17:31:24+08:00</updated>
+  <updated>2018-10-09T17:27:05+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -138,98 +138,143 @@
 <p>A:</p>
 
 <ol>
-<li>原型链继承</li>
-<li>构造继承</li>
-<li>实例继承</li>
-<li>拷贝继承</li>
-<li>组合继承</li>
+<li>Prototype Chaning</li>
+<li>Constructor Stealing</li>
+<li>Combination Inheritance</li>
+<li>Prototypal Inheritance</li>
+<li>Parasitic Inheritance</li>
+<li>Parasitic Combination Inheritance</li>
 </ol>
 
 
-<pre><code>// Base animal class
-function Animal(name)
-{
-    // Property
-    this.name = name || 'Animal';
-
-    // Instance method
-    this.sleep = function() {
-        console.log(this.name + ' is sleeping');
-    };
+<pre><code>// 1. Prototype Chaning
+function SuperType() {
+    this.property = true;
 }
+SuperType.prototype.getSuperValue = function () {
+    return this.property;
+};
+function SubType() {
+    this.subproperty = false;
+}
+//inherit from SuperType 
+SubType.prototype = new SuperType();
+SubType.prototype.getSubValue = function () {
+    return this.subproperty;
+};
+var instance = new SubType();
+alert(instance.getSuperValue()); //true
 
-// Prototype method
-Animal.prototype.eat = function(food) {
-    console.log(this.name + ' is eating ' + food);
+// 2. Constructor Stealing
+function SuperType() {
+    this.colors = ["red", "blue", "green"];
+}
+function SubType() {
+    //inherit from SuperType 
+    SuperType.call(this);
+}
+var instance1 = new SubType();
+instance1.colors.push("black");
+
+alert(instance1.colors); //”red,blue,green,black”
+var instance2 = new SubType();
+alert(instance2.colors); //”red,blue,green”
+
+// 3. Combination Inheritance
+function SuperType(name) {
+    this.name = name;
+    this.colors = ["red", "blue", "green"];
+}
+SuperType.prototype.sayName = function () {
+    alert(this.name);
 };
 
-// 1. 原型链继承
-function Cat() {
+function SubType(name, age) {
+    //inherit properties 
+    SuperType.call(this, name);
+    this.age = age;
+}
+//inherit methods
+SubType.prototype = new SuperType();
+SubType.prototype.sayAge = function () {
+    alert(this.age);
+};
+var instance1 = new SubType("Nicholas", 29);
+instance1.colors.push("black"); alert(instance1.colors); //”red,blue,green,black” 
+instance1.sayName(); //”Nicholas”; 
+instance1.sayAge(); //29
 
+var instance2 = new SubType("Greg", 27);
+alert(instance2.colors); //”red,blue,green” 
+instance2.sayName(); //”Greg”; 
+instance2.sayAge(); //27
+
+// 4. Prototypal Inheritance
+function object(o) {
+    function F() { }
+    F.prototype = o;
+    return new F();
 }
 
-Cat.prototype = new Animal();
-Cat.prototype.name = 'tom';
+var person = {
+    name: "Nicholas",
+    friends: ["Shelby", "Court", "Van"]
+};
+var anotherPerson = object(person);
+anotherPerson.name = "Greg";
+anotherPerson.friends.push("Rob");
 
-var cat = new Cat();
-console.log('cat name ' + cat.name);
-cat.sleep();
+var yetAnotherPerson = object(person);
+yetAnotherPerson.name = "Linda";
+yetAnotherPerson.friends.push("Barbie");
+alert(person.friends); //”Shelby,Court,Van,Rob,Barbie”
 
-// 2. 构造继承
-
-function Dog(name) {
-    Animal.call(this);
-
-    this.name = name || 'snoopy';
-}
-
-var dog = new Dog();
-console.log('dog name ' + dog.name);
-dog.sleep();
-
-// 3. 实例继承
-
-function Pig(name) {
-    var instance = new Animal();
-    instance.name = name || 'Penny';
-
-    return instance;
-}
-
-var pig = new Pig();
-console.log('pig name ' + pig.name);
-pig.sleep();
-
-// 4. 拷贝继承
-
-function Bird(name) {
-    var animal = new Animal();
-
-    for (var p in animal) {
-        Bird.prototype[p] = animal[p];
+// 5. Parasitic Inheritance
+function createAnother(original) {
+    //create a new object by calling a function
+    var clone = object(original);
+    //augment the object in some way
+    clone.sayHi = function () {
+        alert("Hi");
     }
-    Bird.prototype.name = name || 'kiwi';
+    //return the object
+    return clone;
 }
 
-var bird = new Bird();
-console.log('bird name ' + bird.name);
-bird.sleep();
+var person = {
+    name: "Nicholas",
+    friends: ["Shelby", "Court", "Van"]
+};
+var anotherPerson = createAnother(person);
+anotherPerson.sayHi(); //”hi”
 
-// 5. 组合继承
-
-function Horse(name) {
-    Animal.call(this);
-    this.name = name || 'Chitu';
+// 6. Parasitic Combination Inheritance
+function inheritPrototype(subType, superType) {
+    var prototype = object(superType.prototype); //create object
+    prototype.constructor = subType; //augment object
+    subType.prototype = prototype;//assign object
 }
-Horse.prototype = new Animal();
-Horse.prototype.constructor = Horse;
 
-var horse = new Horse();
-console.log('horse name ' + horse.name);
-horse.sleep();
+function SuperType(name) {
+    this.name = name;
+    this.colors = ["red", "blue", "green"];
+}
+SuperType.prototype.sayName = function () {
+    alert(this.name);
+};
+function SubType(name, age) {
+    SuperType.call(this, name);
+    this.age = age;
+}
+
+inheritPrototype(SubType, SuperType);
+
+SubType.prototype.sayAge = function () {
+    alert(this.age);
+};
 </code></pre>
 
-<p>Reference:<a href="http://www.cnblogs.com/humin/p/4556820.html">JS实现继承的几种方式</a></p>
+<p>Reference: JavaScript 高级程序设计</p>
 
 <h3>11.javascript创建对象的几种方式？</h3>
 

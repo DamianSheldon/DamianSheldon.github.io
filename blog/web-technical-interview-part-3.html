@@ -985,6 +985,18 @@ Where closures really shine over other constructs is when using higher-order fun
 
 <h3>55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？</h3>
 
+<p>A:</p>
+
+<p>bind():Attach a handler to a specific element.</p>
+
+<p>live():All <code>.live()</code> event handlers are bound to the document root by default.</p>
+
+<p>delegate():The <code>.delegate()</code> method provides a clear difference between the context of where to attach delegated event handler, and the selector to match when the event bubbles up to the delegated element.</p>
+
+<p>on():The .on() method gives us a semantic approach for creating directly bound events as well as delegated events. It eliminates the need to use the deprecated .bind(), .live(), and .delegate() methods, providing a single API for creating events.</p>
+
+<p>Reference:<a href="https://learn.jquery.com/events/history-of-events/">History of jQuery Events</a></p>
+
 <h3>56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？</h3>
 
 <h3>57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>

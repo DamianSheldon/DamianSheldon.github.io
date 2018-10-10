@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-10-10T14:51:51+08:00</updated>
+  <updated>2018-10-10T15:24:54+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -710,6 +710,18 @@ if (typeof XMLHttpRequest != "undefined") {
 <blockquote><p>Queues are the foundation for all animations in jQuery, they allow a series functions to be executed asynchronously on an element. </p></blockquote>
 
 <h3>55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？</h3>
+
+<p>A:</p>
+
+<p>bind():Attach a handler to a specific element.</p>
+
+<p>live():All <code>.live()</code> event handlers are bound to the document root by default.</p>
+
+<p>delegate():The <code>.delegate()</code> method provides a clear difference between the context of where to attach delegated event handler, and the selector to match when the event bubbles up to the delegated element.</p>
+
+<p>on():The .on() method gives us a semantic approach for creating directly bound events as well as delegated events. It eliminates the need to use the deprecated .bind(), .live(), and .delegate() methods, providing a single API for creating events.</p>
+
+<p>Reference:<a href="https://learn.jquery.com/events/history-of-events/">History of jQuery Events</a></p>
 
 <h3>56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？</h3>
 

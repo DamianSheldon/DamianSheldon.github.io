@@ -599,6 +599,17 @@ A:jQuery 的队列是利用数组实现的。队列可以用在实现动画效�
 >Queues are the foundation for all animations in jQuery, they allow a series functions to be executed asynchronously on an element.   
 
 ###55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？
+A:
+
+bind():Attach a handler to a specific element.
+
+live():All `.live()` event handlers are bound to the document root by default.
+
+delegate():The `.delegate()` method provides a clear difference between the context of where to attach delegated event handler, and the selector to match when the event bubbles up to the delegated element.
+
+on():The .on() method gives us a semantic approach for creating directly bound events as well as delegated events. It eliminates the need to use the deprecated .bind(), .live(), and .delegate() methods, providing a single API for creating events.
+
+Reference:[History of jQuery Events](https://learn.jquery.com/events/history-of-events/)  
 
 ###56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？
 

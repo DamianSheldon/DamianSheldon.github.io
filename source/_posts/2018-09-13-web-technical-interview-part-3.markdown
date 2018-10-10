@@ -614,6 +614,25 @@ Reference:[History of jQuery Events](https://learn.jquery.com/events/history-of-
 ###56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？
 
 ###57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？
+A:
+
+```
+// Create the event.
+var event = document.createEvent('Event');
+
+// Define that the event name is 'build'.
+event.initEvent('build', true, true);
+
+// Listen for the event.
+elem.addEventListener('build', function (e) {
+  // e.target matches elem
+}, false);
+
+// target can be any Element or other EventTarget.
+elem.dispatchEvent(event);
+```
+
+`callbacks.fire()`:Call all of the callbacks with the given arguments.
 
 ###58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）
 

@@ -640,6 +640,11 @@ A:`jQuery.fn.find()`
 ###59.针对 jQuery性能的优化方法？
 
 ###60.jQuery与jQuery UI 有啥区别？
+A:
+
+* jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. 
+
+* jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.
 
 ###61.jQuery和Zepto的区别？各自的使用场景？
 

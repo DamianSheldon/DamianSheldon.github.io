@@ -234,6 +234,26 @@ SubType.prototype.sayAge = function () {
 
 ```
 
+Prototype Chaning: 
+The major issue revolves around prototypes that contain reference values.
+A second issue with prototype chaining is that you cannot pass arguments into the supertype constructor when the subtype instance is being created. 
+Due to this and the aforementioned issue with reference values on the prototype, prototype chaining is rarely used alone.
+
+Constructor Stealing:
+The downside to using constructor stealing exclusively is that it introduces the same problems as the constructor pattern for custom types: methods must be defined inside the constructor, so there’s no function reuse. Further, methods defined on the supertype’s prototype are not accessible on the subtype, so all types can use only the constructor pattern. Due to these issues, constructor stealing is rarely used on its own.
+
+Combination Inheritance:
+Addressing the downsides of both prototype chaining and constructor stealing, combination inheritance is the most frequently used inheritance pattern in JavaScript. It also preserves the behavior of instanceof and isPrototypeOf() for identifying the composition of objects.
+
+Prototypal Inheritance:
+Prototypal inheritance is useful when there is no need for the overhead of creating separate constructors but you still need an object to behave similarly to another. Keep in mind that properties containing reference values will always share those values, similar to using the prototype pattern.
+
+Parasitic Inheritance:
+Keep in mind that adding functions to objects using parasitic inheritance leads to inefficiencies related to function reuse, similar to the constructor pattern.
+
+Parasitic Combination Inheritance:
+Parasitic combination inheritance is considered the most optimal inheritance paradigm for reference types.
+
 Reference: JavaScript 高级程序设计
 
 ###11.javascript创建对象的几种方式？

@@ -634,7 +634,8 @@ elem.dispatchEvent(event);
 
 `callbacks.fire()`:Call all of the callbacks with the given arguments.
 
-###58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）
+###58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？
+A:`jQuery.fn.find()`
 
 ###59.针对 jQuery性能的优化方法？
 

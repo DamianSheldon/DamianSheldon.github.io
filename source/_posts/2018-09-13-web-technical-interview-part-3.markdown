@@ -285,6 +285,10 @@ var person2 = Object.create(person1);
 Reference:[Object-oriented JavaScript for beginners](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS)  
 
 ###12.Javascript作用链域?
+A:
+When code is executed in a context, a scope chain of variable objects is created. The purpose of the scope chain is to provide ordered access to all variables and functions that an execution context has access to. The front of the scope chain is always the variable object of the context whose code is executing. 
+
+If the context is a function, then the activation object is used as the variable object. An activation object starts with a single variable defined called arguments (this doesn’t exist for the global context). The next variable object in the chain is from the containing context, and the next after that is from the next containing context. This pattern continues until the global context is reached; the global context’s variable object is always the last of the scope chain.  
 
 ###13.谈谈This对象的理解。
 A:In most cases, the value of this is determined by how a function is called. 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-10-10T15:24:54+08:00</updated>
+  <updated>2018-10-10T16:38:17+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -727,11 +727,40 @@ if (typeof XMLHttpRequest != "undefined") {
 
 <h3>57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>
 
-<h3>58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）</h3>
+<p>A:</p>
+
+<pre><code>// Create the event.
+var event = document.createEvent('Event');
+
+// Define that the event name is 'build'.
+event.initEvent('build', true, true);
+
+// Listen for the event.
+elem.addEventListener('build', function (e) {
+  // e.target matches elem
+}, false);
+
+// target can be any Element or other EventTarget.
+elem.dispatchEvent(event);
+</code></pre>
+
+<p><code>callbacks.fire()</code>:Call all of the callbacks with the given arguments.</p>
+
+<h3>58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？</h3>
+
+<p>A:<code>jQuery.fn.find()</code></p>
 
 <h3>59.针对 jQuery性能的优化方法？</h3>
 
 <h3>60.jQuery与jQuery UI 有啥区别？</h3>
+
+<p>A:</p>
+
+<ul>
+<li><p>jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. </p></li>
+<li><p>jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.</p></li>
+</ul>
+
 
 <h3>61.jQuery和Zepto的区别？各自的使用场景？</h3>
 

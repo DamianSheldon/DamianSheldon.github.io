@@ -1001,11 +1001,54 @@ Where closures really shine over other constructs is when using higher-order fun
 
 <h3>57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>
 
-<h3>58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？（jQuery.fn.find()进入Sizzle）</h3>
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Create the event.</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">event</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s1">&#39;Event&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Define that the event name is &#39;build&#39;.</span>
+</span><span class='line'><span class="nx">event</span><span class="p">.</span><span class="nx">initEvent</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Listen for the event.</span>
+</span><span class='line'><span class="nx">elem</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// e.target matches elem</span>
+</span><span class='line'><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// target can be any Element or other EventTarget.</span>
+</span><span class='line'><span class="nx">elem</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>callbacks.fire()</code>:Call all of the callbacks with the given arguments.</p>
+
+<h3>58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？</h3>
+
+<p>A:<code>jQuery.fn.find()</code></p>
 
 <h3>59.针对 jQuery性能的优化方法？</h3>
 
 <h3>60.jQuery与jQuery UI 有啥区别？</h3>
+
+<p>A:</p>
+
+<ul>
+<li><p>jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. </p></li>
+<li><p>jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.</p></li>
+</ul>
+
 
 <h3>61.jQuery和Zepto的区别？各自的使用场景？</h3>
 

@@ -653,6 +653,9 @@ A:
 ###63.Zepto的点透问题如何解决？
 
 ###64.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？
+A:实际上就是如何去实现 SPA。
+
+Reference:[How Single-Page Applications Work](https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46)  
 
 ###65.如何判断当前脚本运行在浏览器还是node环境中？
 

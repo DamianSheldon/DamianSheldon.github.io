@@ -486,6 +486,26 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>Prototype Chaning:
+The major issue revolves around prototypes that contain reference values.
+A second issue with prototype chaining is that you cannot pass arguments into the supertype constructor when the subtype instance is being created.
+Due to this and the aforementioned issue with reference values on the prototype, prototype chaining is rarely used alone.</p>
+
+<p>Constructor Stealing:
+The downside to using constructor stealing exclusively is that it introduces the same problems as the constructor pattern for custom types: methods must be defined inside the constructor, so there’s no function reuse. Further, methods defined on the supertype’s prototype are not accessible on the subtype, so all types can use only the constructor pattern. Due to these issues, constructor stealing is rarely used on its own.</p>
+
+<p>Combination Inheritance:
+Addressing the downsides of both prototype chaining and constructor stealing, combination inheritance is the most frequently used inheritance pattern in JavaScript. It also preserves the behavior of instanceof and isPrototypeOf() for identifying the composition of objects.</p>
+
+<p>Prototypal Inheritance:
+Prototypal inheritance is useful when there is no need for the overhead of creating separate constructors but you still need an object to behave similarly to another. Keep in mind that properties containing reference values will always share those values, similar to using the prototype pattern.</p>
+
+<p>Parasitic Inheritance:
+Keep in mind that adding functions to objects using parasitic inheritance leads to inefficiencies related to function reuse, similar to the constructor pattern.</p>
+
+<p>Parasitic Combination Inheritance:
+Parasitic combination inheritance is considered the most optimal inheritance paradigm for reference types.</p>
+
 <p>Reference: JavaScript 高级程序设计</p>
 
 <h3>11.javascript创建对象的几种方式？</h3>
@@ -576,6 +596,11 @@
 <p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS">Object-oriented JavaScript for beginners</a></p>
 
 <h3>12.Javascript作用链域?</h3>
+
+<p>A:
+When code is executed in a context, a scope chain of variable objects is created. The purpose of the scope chain is to provide ordered access to all variables and functions that an execution context has access to. The front of the scope chain is always the variable object of the context whose code is executing.</p>
+
+<p>If the context is a function, then the activation object is used as the variable object. An activation object starts with a single variable defined called arguments (this doesn’t exist for the global context). The next variable object in the chain is from the containing context, and the next after that is from the next containing context. This pattern continues until the global context is reached; the global context’s variable object is always the last of the scope chain.</p>
 
 <h3>13.谈谈This对象的理解。</h3>
 

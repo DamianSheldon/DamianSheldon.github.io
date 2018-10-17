@@ -178,6 +178,10 @@ $ git checkout -- file
 // 回到过去某个版本
 $ git log
 $ git reset --hard commit_id
+// --hard 会让工作区的内容也撤销，如果我们想保留工作区的内容则不需要加--hard
+// 例如新建工程时，忘了先加gitignore 文件，这时我们便可以使用它回滚索引记录，
+// 添加 gitignore 文件后重新添加后再提交。
+$ git reset commit_id 
 
 // 回到过去某个版本之后又想返回未来的版本
 $ git reflog

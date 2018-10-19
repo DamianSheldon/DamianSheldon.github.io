@@ -402,11 +402,19 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 回到过去某个版本
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 回到过去某个版本</span>
 </span><span class='line'><span class="nv">$ </span>git log
 </span><span class='line'><span class="nv">$ </span>git reset --hard commit_id
+</span><span class='line'><span class="c"># --hard 会让工作区的内容也撤销，如果我们想保留工作区的内容则不需要加--hard</span>
+</span><span class='line'><span class="c"># 例如新建工程时，忘了先加gitignore 文件，这时我们便可以使用它回滚索引记录，</span>
+</span><span class='line'><span class="c"># 添加 gitignore 文件后重新添加后再提交。</span>
+</span><span class='line'><span class="nv">$ </span>git reset commit_id
 </span><span class='line'>
-</span><span class='line'>// 回到过去某个版本之后又想返回未来的版本
+</span><span class='line'><span class="c"># 回到过去某个版本之后又想返回未来的版本</span>
 </span><span class='line'><span class="nv">$ </span>git reflog
 </span><span class='line'><span class="nv">$ </span>git reset --hard commit_id
 </span></code></pre></td></tr></table></div></figure>

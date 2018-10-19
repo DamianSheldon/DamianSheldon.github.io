@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-10-17T16:10:19+08:00</updated>
+  <updated>2018-10-19T09:39:13+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -290,27 +290,44 @@ if (view != null) {<br/>
     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 }
-```
-Reference:<a href="https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard">Close/hide the Android Soft Keyboard</a></p>
-
-<h3>8.ListView 中的 EditText 捕获焦点异常。</h3>
-
-<p>A:在 manifest 中配置下 Activity :</p>
-
-<pre><code>&lt;activity android:name= ".yourActivity" android:windowSoftInputMode="adjustPan"/&gt;
-</code></pre>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview">Focusable EditText inside ListView</a></p>
-
-<h3>9.Android Studio 如何设置使用本地 gradle?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>下载 gradle;</li>
-<li>解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;</li>
-<li>在 Android Studio 中设置 gradle home:
-```
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Reference:&lt;a href="https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard"&gt;Close/hide the Android Soft Keyboard&lt;/a&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h3&gt;8.ListView 中的 EditText 捕获焦点异常。&lt;/h3&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;A:在 manifest 中配置下 Activity :&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;&lt;activity android:name= ".yourActivity" android:windowSoftInputMode="adjustPan"/&gt;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Reference:&lt;a href="https://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview"&gt;Focusable EditText inside ListView&lt;/a&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h3&gt;9.Android Studio 如何设置使用本地 gradle?&lt;/h3&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;A:&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;ol&gt;
+</span><span class='line'>&lt;li&gt;下载 gradle;&lt;/li&gt;
+</span><span class='line'>&lt;li&gt;解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;&lt;/li&gt;
+</span><span class='line'>&lt;li&gt;在 Android Studio 中设置 gradle home:</span></code></pre></td></tr></table></div></figure>
 Android Studio > Preference&hellip; > Build,Excution,Deployment > Gradle > User local gradle distribution > Gradle home</li>
 </ol>
 

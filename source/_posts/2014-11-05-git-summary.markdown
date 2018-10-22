@@ -550,6 +550,16 @@ Reference:[Remote branch not showing up in “git branch -r”](https://stackove
 ###8.如何删除已经提交到仓库的大文件或敏感文件？
 A:Pro Git 的 Git Internals > Maintenance and Data Recovery > Removing Objects 给出问题的解决办法。
 
+###9.Git is ignoring files that aren't in gitignore
+A:Use git check-ignore command to debug your gitignore file (exclude files).For example:  
+
+```
+$ git check-ignore -v config.php
+.gitignore:2:src    config.php
+
+```
+
+Reference:[Git is ignoring files that aren't in gitignore](https://stackoverflow.com/questions/9436405/git-is-ignoring-files-that-arent-in-gitignore)          
 
 ####Reference
 [Pro Git](http://git-scm.com/book/zh/v1)

@@ -816,6 +816,10 @@
 <span class='line-number'>61</span>
 <span class='line-number'>62</span>
 <span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>// Add all current changes in file to the next commit
 </span><span class='line'><span class="nv">$ </span>git add &lt;file&gt;
 </span><span class='line'>
@@ -879,6 +883,10 @@
 </span><span class='line'>
 </span><span class='line'>// Example 2
 </span><span class='line'><span class="nv">$ </span>git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
+</span><span class='line'>
+</span><span class='line'>// Check whether file tracked or not
+</span><span class='line'>// Ref: https://stackoverflow.com/questions/2405305/how-to-tell-if-a-file-is-git-tracked-by-shell-exit-code
+</span><span class='line'><span class="nv">$ </span>git ls-files --error-unmatch &lt;file name&gt;
 </span></code></pre></td></tr></table></div></figure>
 
 

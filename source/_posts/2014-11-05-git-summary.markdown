@@ -439,6 +439,10 @@ $ git checkout master~2 Makefile
 // Example 2
 $ git checkout 4280f4a14319752308007124cb2a15fffd696025 Networking.podspec
 
+// Check whether file tracked or not
+// Ref: https://stackoverflow.com/questions/2405305/how-to-tell-if-a-file-is-git-tracked-by-shell-exit-code
+$ git ls-files --error-unmatch <file name>
+
 ```
 
 ### 操作 commit

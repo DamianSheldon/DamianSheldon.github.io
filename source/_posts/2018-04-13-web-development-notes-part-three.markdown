@@ -413,5 +413,7 @@ Observable.of('token');
 
 Reference:[Property 'of' does not exist on type 'typeof Observable](https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable)  
 
+###11.class path resource [keystore.jks ] cannot be resolved to URL because it does not exist
+A:Reason is that a space appended to end. Remove end space in application.properties works. I confirm keystore.jks is in target classes, but runtime complain can't find it. why? After some google, still not found right solution, suddenly I notice there a space at end, may be that is the reason. Fact show my doubt is right.  
 
 

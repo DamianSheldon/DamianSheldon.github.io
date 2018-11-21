@@ -197,3 +197,18 @@ $ ffmpeg -i input.mp3 -c:a aac output.m4a
 
 Reference:[FFmpeg command to convert MP3 to AAC](http://superuser.com/questions/370625/ffmpeg-command-to-convert-mp3-to-aac)
 
+###14. How to enable tab to complete for new users
+A:Sounds like you created this user with the `useradd` command. This is a low level command, and not the prefered way to create a user. By default it will point the user's shell to /bin/sh, not /bin/bash. So you will not get the nice autocompletion. You can check user's shell with command ` echo $SHELL`, list all available shells `cat /etc/shells`, change the user's shell:
+
+```
+$ sudo usermod --shell /bin/bash [username]
+```
+
+This should give you bash autocompletion. You probably also want to copy /etc/skel/.bashrc to the user's home directory.
+
+In the future, prefer the `adduser` command. Despite the similar name, it has different results. It will default to using /bin/bash as the shell and seed the new user's home directory with the files from /etc/skel/
+
+Reference:[How to enable tab to complete for new users in ubuntu](https://www.digitalocean.com/community/questions/how-to-enable-tab-to-complete-for-new-users-in-ubuntu)  
+[3 Ways to Change a Users Default Shell in Linux](https://www.tecmint.com/change-a-users-default-shell-in-linux/)  
+
+

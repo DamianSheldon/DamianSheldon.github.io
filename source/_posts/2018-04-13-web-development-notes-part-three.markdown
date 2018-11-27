@@ -424,14 +424,20 @@ Reference:[Double dash in "Program argument" of "Run configurations" becomes "\u
 ###13.How to find out what auto-configuration is currently being applied by Spring Boot?
 A:If you need to find out what auto-configuration is currently being applied, and why, start your application with the --debug switch. For example:
 
-```
+{% codeblock %}
+
 $ java -jar myproject-0.0.1-SNAPSHOT.jar --debug
-```
+
+{% endcodeblock %}
+
 
 I also find we can enable debug property archive this goal.
 
-```
-# application.properites
+{% codeblock %}
+
+#application.properites
 debug=true
-```
+
+{% endcodeblock %}
+
 

@@ -421,3 +421,17 @@ A:Run > Debug Configurations... > Arguments > Right click in the text field, des
 
 Reference:[Double dash in "Program argument" of "Run configurations" becomes "\u2014"](https://bugs.eclipse.org/bugs/show_bug.cgi?id=519109)  
 
+###13.How to find out what auto-configuration is currently being applied by Spring Boot?
+A:If you need to find out what auto-configuration is currently being applied, and why, start your application with the --debug switch. For example:
+
+```
+$ java -jar myproject-0.0.1-SNAPSHOT.jar --debug
+```
+
+I also find we can enable debug property archive this goal.
+
+```
+# application.properites
+debug=true
+```
+

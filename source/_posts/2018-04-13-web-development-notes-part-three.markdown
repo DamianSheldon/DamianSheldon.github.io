@@ -416,4 +416,8 @@ Reference:[Property 'of' does not exist on type 'typeof Observable](https://stac
 ###11.class path resource [keystore.jks ] cannot be resolved to URL because it does not exist
 A:Reason is that a space appended to end. Remove end space in application.properties works. I confirm keystore.jks is in target classes, but runtime complain can't find it. why? After some google, still not found right solution, suddenly I notice there a space at end, may be that is the reason. Fact show my doubt is right.  
 
+###12.How to pass program argument start with two hyphen(dash) to java in eclipse?
+A:Run > Debug Configurations... > Arguments > Right click in the text field, deselect "Substitutions" > "Smart Dashes"  
+
+Reference:[Double dash in "Program argument" of "Run configurations" becomes "\u2014"](https://bugs.eclipse.org/bugs/show_bug.cgi?id=519109)  
 

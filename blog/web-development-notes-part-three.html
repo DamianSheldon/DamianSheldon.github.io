@@ -744,6 +744,30 @@ uses RxJS 6.0.0 </p>
 <h3>11.class path resource [keystore.jks ] cannot be resolved to URL because it does not exist</h3>
 
 <p>A:Reason is that a space appended to end. Remove end space in application.properties works. I confirm keystore.jks is in target classes, but runtime complain can&rsquo;t find it. why? After some google, still not found right solution, suddenly I notice there a space at end, may be that is the reason. Fact show my doubt is right.</p>
+
+<h3>12.How to pass program argument start with two hyphen(dash) to java in eclipse?</h3>
+
+<p>A:Run > Debug Configurations&hellip; > Arguments > Right click in the text field, deselect &ldquo;Substitutions&rdquo; > &ldquo;Smart Dashes&rdquo;</p>
+
+<p>Reference:<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=519109">Double dash in &ldquo;Program argument&rdquo; of &ldquo;Run configurations&rdquo; becomes &ldquo;\u2014&rdquo;</a></p>
+
+<h3>13.How to find out what auto-configuration is currently being applied by Spring Boot?</h3>
+
+<p>A:If you need to find out what auto-configuration is currently being applied, and why, start your application with the &ndash;debug switch. For example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -jar myproject-0.0.1-SNAPSHOT.jar --debug</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also find we can enable debug property archive this goal.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#application.properites
+</span><span class='line'>debug=true</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

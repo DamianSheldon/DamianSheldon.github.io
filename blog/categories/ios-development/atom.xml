@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-11-27T16:58:41+08:00</updated>
+  <updated>2018-12-04T16:36:06+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,233 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App Distribution]]></title>
+    <link href="http://DamianSheldon.github.io/blog/ios-app-distribution.html"/>
+    <updated>2018-12-04T14:33:49+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/ios-app-distribution</id>
+    <content type="html"><![CDATA[<p>iOS App 有不少分发方法，她们散落在 Apple 的文档中，并未归总到一处，所以本文对她们进行了总结，方便查阅。</p>
+
+<p>首先我们简单梳理下这些分发方法，然后重点说明下 ipa 文件的安装方法。 Apple 制作的这张表格将分发方法归纳得很全：</p>
+
+<table>
+<thead>
+<tr>
+<th> Method </th>
+<th style="text-align:left;"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> App Store </td>
+<td style="text-align:left;"> Distributes your app through the App Store, signed with an Apple Developer Program distribution provisioning profile. </td>
+</tr>
+<tr>
+<td> Ad Hoc </td>
+<td style="text-align:left;"> Distributes your app to testers with registered devices, signed with an ad hoc provisioning profile.<br>The devices need to be registered in your developer account and are limited to 100 devices per product family per year. If you don’t want to use a portion of these development devices for testing, distribute your app using TestFlight instead.<br>If you are a member of the Apple Developer Enterprise Program, choose this option to test your app. Only members of the Apple Developer Program have access to App Store Connect and TestFlight. </td>
+</tr>
+<tr>
+<td> Development </td>
+<td style="text-align:left;"> Distributes your app to testers with registered devices, signed with a development provisioning profile. </td>
+</tr>
+<tr>
+<td> Enterprise </td>
+<td style="text-align:left;"> Distributes your app to users in your organization, signed with an Apple Developer Enterprise Program distribution provisioning profile. </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>虽然分发方法有很多，但可以分为两类：一类是通过 App Store 分发；另一类则是在 App Store 外分发。通过 App Store 分发时的流程很统一，都是上传应用到 iTunes Connection，等待审核发布，所以没有什么好说的。但是在 App Store 外发布时选择就多样了，我们既可以走像 App Store 分发那样流程的 TestFlight，也可以导出 ipa 文件然后安装。</p>
+
+<p>下面我们介绍在 iPhone 上安装 ipa 的方法：</p>
+
+<h2>Install using iTunes</h2>
+
+<blockquote><p>iTunes 12.7 for Mac was released on Tuesday with a major change in the app. Apple has redesign iTunes so that it focuses on sales of music, movies, TV shows, audiobooks, and podcasts. It no longer has an App Store for buying apps for your iPhone or iPad. Therefore, you can no long install your iOS App (.ipa file) through iTunes any longer.</p></blockquote>
+
+<ol>
+<li>Download the .ipa file after the build completes.</li>
+<li>Open iTunes, go to App library.</li>
+<li>Drag and drop the downloaded .ipa file into the App library.</li>
+<li>Connect your device to iTunes and go to your device apps.</li>
+<li>Click Install button of the app and click Sync button. </li>
+</ol>
+
+
+<!--more-->
+
+
+<h2>Install using Apple Configurator 2</h2>
+
+<ol>
+<li>Install Apple Configurator 2 on your Mac from the App Store.</li>
+<li>Connect your device to your Mac.</li>
+<li>Open Apple Configurator 2, select your device. If you device doesn’t appear here, please make sure that your device is successfully connected to your Mac.</li>
+</ol>
+
+
+<h2>Install using Xcode</h2>
+
+<ol>
+<li>Connect your device to your Mac.</li>
+<li>Open Xcode, go to Window > Devices .</li>
+<li>Then, the Devices screen will appear. Choose the device you want to install the app on.</li>
+<li>Drag and drop your .ipa file into the Installed Apps.</li>
+</ol>
+
+
+<h2>Install using OTA Deployment</h2>
+
+<p>OTA (Over-The-Air) Deployment enables you to install your built apps (ad-hoc build) via HTTPS.</p>
+
+<ol>
+<li>Download the .ipa file after the build completes.</li>
+<li>Upload the .ipa file to the site you want.</li>
+<li>Create a .plist file for this built application. The .plist file should look like this:</li>
+</ol>
+
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC &ldquo;-//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;&lt;a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd&lt;/a>&rdquo;>
+</span><span class='line'>&lt;plist version="1.0">
+</span><span class='line'>&lt;dict>
+</span><span class='line'>    &lt;key>items&lt;/key>
+</span><span class='line'>    &lt;array>
+</span><span class='line'>        &lt;dict>
+</span><span class='line'>            &lt;key>assets&lt;/key>
+</span><span class='line'>            &lt;array>
+</span><span class='line'>                &lt;dict>
+</span><span class='line'>                    &lt;key>kind&lt;/key>
+</span><span class='line'>                    &lt;string>software-package&lt;/string>
+</span><span class='line'>                    &lt;key>url&lt;/key>
+</span><span class='line'>                    &lt;string>&lt;a href="https://www.anysite.com/application/your_app.ipa">https://www.anysite.com/application/your_app.ipa&lt;/a>&lt;/string>
+</span><span class='line'>                &lt;/dict>
+</span><span class='line'>            &lt;/array>
+</span><span class='line'>            &lt;key>metadata&lt;/key>
+</span><span class='line'>            &lt;dict>
+</span><span class='line'>                &lt;key>bundle-identifier&lt;/key>
+</span><span class='line'>                &lt;string>com.example.helloworld&lt;/string>
+</span><span class='line'>                &lt;key>bundle-version&lt;/key>
+</span><span class='line'>                &lt;string>1.0.0&lt;/string>
+</span><span class='line'>                &lt;key>kind&lt;/key>
+</span><span class='line'>                &lt;string>software&lt;/string>
+</span><span class='line'>                &lt;key>title&lt;/key>
+</span><span class='line'>                &lt;string>HELLO&lt;/string>
+</span><span class='line'>            &lt;/dict>
+</span><span class='line'>        &lt;/dict>
+</span><span class='line'>    &lt;/array>
+</span><span class='line'>&lt;/dict>
+</span><span class='line'>&lt;/plist>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<ol>
+<li>Upload the <code>.plist</code> file to the site you want. Make sure this file must be accessed via HTTPS protocol. </li>
+<li>Create a webpage embedded the link to the uploaded <code>.plist</code> file using special <code>itms-services://</code> protocol. See blow example: 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/li>
+</span><span class='line'>&lt;/ol>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&url=https://example.com/manifest.plist">Install App&lt;/a></span></code></pre></td></tr></table></div></figure></p>
+
+<p>使用 OTA 方式部署安装，需要自己架设 Web 服务器，目前市面上也有免费提供此安装服务的产品，如 <a href="https://fir.im/">Fir.im</a>，<a href="https://www.pgyer.com/">蒲公英</a>。</p>
+
+<p>如果我们希望自己架设 Web 服务器来提供 OTA 分发，则相应地需要做些配置工作：</p>
+
+<h2>HTTPS</h2>
+
+<p>保证 ipa 文件是通过 HTTPS 访问，所以网站必须是由 iOS 信任的证书签名的。如果是没有信任锚的自签名证书，并且不能被 iOS 设备验证，那么安装会失败。</p>
+
+<h2>Set server MIME types</h2>
+
+<p>你也许需要配置你的 web 服务器以便清单文件和应用文件能正确传输。</p>
+
+<p>For the server, add the MIME types to the web service’s MIME types settings:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>application/octet-stream ipa 
+</span><span class='line'>text/xml plist</span></code></pre></td></tr></table></div></figure> 
+For Microsoft’s Internet Information Server (IIS), use IIS Manager to add the MIME type in the Properties page of the server:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>.ipa application/octet-stream 
+</span><span class='line'>.plist text/xml</span></code></pre></td></tr></table></div></figure> </p>
+
+<p>同时，如果设备是连接到一个封闭的内部网络，我们必须保证如下访问：</p>
+
+<h2>Network configuration requirements</h2>
+
+<ul>
+<li><a href="https://ax.init.itunes.apple.com:">https://ax.init.itunes.apple.com:</a> The device obtains the current file-size limit for downloading apps over the cellular network. If this website isn’t reachable, installation may fail. </li>
+<li><a href="https://ppq.apple.com:">https://ppq.apple.com:</a> The device contacts this website to check the status of the distribution certificate used to sign the provisioning profile. </li>
+</ul>
+
+
+<h1>Reference</h1>
+
+<ul>
+<li><p><a href="https://help.apple.com/xcode/mac/current/#/dev31de635e5">Distribution methods</a></p></li>
+<li><p><a href="https://web.archive.org/web/20171114184350/https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012582-CH1-SW1">App Distribution Guide</a></p></li>
+<li><p><a href="https://docs.monaca.io/en/products_guide/monaca_ide/deploy/non_market_deploy/#install-using-ota-deployment">Non-market App Distribution</a></p></li>
+<li><p><a href="https://help.apple.com/deployment/ios/#/apda0e3426d7">Distribute in-house apps from a web server</a></p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Blocks 的实现]]></title>
@@ -782,221 +1009,6 @@ NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcur
 <p>Reference:</p>
 
 <p><a href="https://stackoverflow.com/questions/26594367/what-is-the-use-of-entitlements-plist-file">What is the use of entitlements.plist file?</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 中简单的图片处理]]></title>
-    <link href="http://DamianSheldon.github.io/blog/simple-image-processing-in-ios.html"/>
-    <updated>2017-07-14T09:49:40+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/simple-image-processing-in-ios</id>
-    <content type="html"><![CDATA[<p>在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。</p>
-
-<h3>图片格式</h3>
-
-<p>图片主要有两种格式：一种叫做位图；另一种称之为矢量图。所谓位图，就是把图片看成是由许多像素点组成；而矢量图则是用绘图指令来描述图片。举个例子，圆可以用圆点，半径，线条的粗细和颜色来描述它。从这个例子也可以看出用矢量图来描述风景，人物这样复杂的事物会比较复杂，所以它们通常会用位图来描述。</p>
-
-<p>位图和矢量图也分为很多格式，具体可能查看<a href="https://en.wikipedia.org/wiki/Image_file_formats">Image file formats</a></p>
-
-<p>下面我们讨论的是位图，在 iOS 中我们经常打交道的位图格式是 JPG 和 PNG，用来处理位图数据的类有：UIImage (UIKit)，CGImage (Core Graphics) 和 CIImage (Core Image)。Image I/O 本来是属于 Core Graphics，为了更加方便使用，Apple 将它分离出来成为单独的库。</p>
-
-<h3>旋转</h3>
-
-<p>既然位图是用一个一个的像素点来模拟图片，当我们想要旋转图片时，首先想到的方法自然是改变这些像素点的位置，这当然可以达到目标。要调整这么多像素点的位置自然要耗费不少时间，所有在数码相机刚出来那会，人们不是去改变像素点的位置，而是用一段数据来描述图片的方向等信息，这段数据称为 Exif. 所以对于 JPG 这种拥有 Exif 信息的位图，我们旋转图片的最佳做法自然是改变 Exif 里的方向信息。而 PNG 是没有 Exif 信息的，所以只能改变像素点的位置。</p>
-
-<p>UIImage 自带了几个可以旋转的方法：</p>
-
-<pre><code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-
-+ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-
-- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-
-- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-</code></pre>
-
-<!--more-->
-
-
-<p>我们没有这个方法的实现源码，但是我们可以输出图片的 Exif 信息来验证上面的说法。iOS 中我们可以使用 Image I/O 这个库来读取和修改图片的 Exif 信息。Image I/O 的文档不是很详细，使用时最好结合头文件的说明，而且要注意区分容器和单个图片，实验表明像方向这种信息它并不是放在 Exif 中，而是图片属性中，它的值和 UIImageOrientation 也不是一一对应的，它们的关系如下：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, DMLImagePropertyOrientation) {
-    DMLImagePropertyOrientationUp               = 1,
-    DMLImagePropertyOrientationDown             = 3,
-    DMLImagePropertyOrientationLeft             = 8,
-    DMLImagePropertyOrientationRight            = 6,
-    DMLImagePropertyOrientationUpMirrored       = 2,
-    DMLImagePropertyOrientationDownMirrored     = 4,
-    DMLImagePropertyOrientationLeftMirrored     = 5,
-    DMLImagePropertyOrientationRightMirrored    = 7
-};
-
-+ (DMLImagePropertyOrientation)dml_imagePropertyOrientationFromUIImageOrientation:(UIImageOrientation)imageOrientation
-{
-    DMLImagePropertyOrientation imagePropertyOrientation = DMLImagePropertyOrientationUp;
-
-    switch (imageOrientation) {
-        case UIImageOrientationUp:
-            imagePropertyOrientation = DMLImagePropertyOrientationUp;
-            break;
-
-        case UIImageOrientationDown:
-            imagePropertyOrientation = DMLImagePropertyOrientationDown;
-            break;
-
-        case UIImageOrientationLeft:
-            imagePropertyOrientation = DMLImagePropertyOrientationLeft;
-            break;
-
-        case UIImageOrientationRight:
-            imagePropertyOrientation = DMLImagePropertyOrientationRight;
-            break;
-
-        case UIImageOrientationUpMirrored:
-            imagePropertyOrientation = DMLImagePropertyOrientationUpMirrored;
-            break;
-
-        case UIImageOrientationDownMirrored:
-            imagePropertyOrientation = DMLImagePropertyOrientationDownMirrored;
-            break;
-
-        case UIImageOrientationLeftMirrored:
-            imagePropertyOrientation = DMLImagePropertyOrientationLeftMirrored;
-            break;
-
-        case UIImageOrientationRightMirrored:
-            imagePropertyOrientation = DMLImagePropertyOrientationRightMirrored;
-            break;
-    }
-
-    return imagePropertyOrientation;
-}
-</code></pre>
-
-<p>从打印输出的内容看出 JPG 图片的方向确实改变了，然后我也写了个方法去改变图片的方向属性，得到了同样的效果，所以当我们是旋转上面提到的方向直接使用 UIImage 自带的几个旋转的方法应该是最佳选择，而要旋转任意角度，还是要通过调整像素点位置来完成。</p>
-
-<pre><code>// 输出图片的属性信息
-- (UIImageOrientation)dml_imageOrientationFromExif
-{
-    UIImageOrientation imageOrientation = UIImageOrientationRightMirrored + 1;
-
-    NSData *dataOfImage = UIImageJPEGRepresentation(self, (CGFloat)0.7);
-
-    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfImage, NULL);
-
-    CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-
-    NSLog(@"dml_imageOrientationFromExif image Properties:%@\n", (__bridge NSDictionary *)imageProperties);
-
-    CFRelease(imageSource);
-
-    CFNumberRef numberOfImageOrientation = CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation);
-
-    CFRelease(imageProperties);
-
-    DMLImagePropertyOrientation imagePropertyOrientation = [(__bridge NSNumber *)numberOfImageOrientation integerValue];
-
-    imageOrientation = [[self class] dml_uiimageOrientationFromImagePropertyOrientation:imagePropertyOrientation];
-
-    return imageOrientation;
-}
-
-// 修改图片的方向属性
-- (UIImage *)dml_setExifOritenation:(UIImageOrientation)imageOrientation error:(NSError * __autoreleasing *)error
-{
-    NSData *dataOfImage = UIImageJPEGRepresentation(self, (CGFloat)0.7);
-
-    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfImage, NULL);
-
-    /* get the file type */
-    CFStringRef UTI = CGImageSourceGetType(imageSource);
-    if ( NULL == UTI ) {
-        /* Handle Error Retrieving File Type Accordingly */
-        if (error) {
-            *error = [NSError errorWithDomain:(__bridge NSString *)kCFErrorDomainCGImageMetadata code:kCGImageMetadataErrorUnknown userInfo:@{NSLocalizedDescriptionKey: @"Handle Error Retrieving File Type Accordingly"}];
-        }
-        return nil;
-    }
-
-//    CFMutableDataRef finalImageData = (__bridge_retained CFMutableDataRef)dataOfImage.mutableCopy;
-    CFMutableDataRef finalImageData = (__bridge_retained CFMutableDataRef)[NSMutableData new];
-
-    /* create an image destination for saving the file */
-    CGImageDestinationRef destination = CGImageDestinationCreateWithData(finalImageData, UTI, 1, NULL);
-    if ( nil == destination ) {
-        /* Handle Error Creating CGImageDestinationRef Accordingly */
-        if (error) {
-            *error = [NSError errorWithDomain:(__bridge NSString *)kCFErrorDomainCGImageMetadata code:kCGImageMetadataErrorUnknown userInfo:@{NSLocalizedDescriptionKey: @"Handle Error Creating CGImageDestinationRef Accordingly"}];
-        }
-        return nil;
-    }
-
-    /* setting properties */
-//    CFDictionaryRef sourceProperties = CGImageSourceCopyProperties(imageSource, NULL);
-    CFDictionaryRef sourceProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-
-    NSLog(@"dml_setExifOritenation original properties:%@\n", (__bridge NSDictionary *)sourceProperties);
-
-    CFMutableDictionaryRef mutableSourceProperties = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, CFDictionaryGetCount(sourceProperties) + 1, sourceProperties);
-
-    DMLImagePropertyOrientation imagePropertyOrientation = [[self class] dml_imagePropertyOrientationFromUIImageOrientation:imageOrientation];
-
-    CFNumberRef numberForOritentation = CFNumberCreate(kCFAllocatorDefault, kCFNumberNSIntegerType, &amp;imagePropertyOrientation);
-
-    CFDictionarySetValue(mutableSourceProperties, kCGImagePropertyOrientation, numberForOritentation);
-
-    NSLog(@"dml_setExifOritenation edited properties:%@\n", (__bridge NSDictionary *)mutableSourceProperties);
-
-    CGImageDestinationAddImageFromSource(destination, imageSource, 0, mutableSourceProperties);
-    CGImageDestinationFinalize(destination);
-
-    UIImage *resultImage = [UIImage imageWithData:(__bridge NSData *)finalImageData];
-
-    CFRelease(numberForOritentation);
-
-    CFRelease(mutableSourceProperties);
-
-    CFRelease(sourceProperties);
-
-    // Print destination properties
-
-    NSData *dataOfDestinationImage = UIImageJPEGRepresentation(resultImage, (CGFloat)0.7);
-
-    CGImageSourceRef destinationImageSource = CGImageSourceCreateWithData((__bridge CFDataRef)dataOfDestinationImage, NULL);
-
-    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(destinationImageSource, 0, NULL);
-
-    NSLog(@"destination properties:%@\n", (__bridge NSDictionary *)properties);
-
-    CFRelease(properties);
-    CFRelease(destinationImageSource);
-
-    return resultImage;
-}
-</code></pre>
-
-<p>PS.理论上来讲，我们可以使用 <code>void CGImageDestinationSetProperties(CGImageDestinationRef idst, CFDictionaryRef properties);</code> 搭配 <code>bool CGImageDestinationCopyImageSource(CGImageDestinationRef idst, CGImageSourceRef isrc, CFDictionaryRef options, CFErrorRef  _Nullable *err);</code> 来改变图片的属性的，实际实验中并没有达到预期效果，原因不明。</p>
-
-<h3>缩放</h3>
-
-<p>上面提到 UIImage 的旋转方法也可以指定 Scale 因子，它是我们常说的几倍图中这个几倍因子，如果图片本来是一倍图，然后我们欺骗这个方法说是0.5倍图，那么我们会得到一张放大2倍的图，以些类推，所以我们可以考虑用这个方法来满足我们的一些简单需求，不能满足时，我们可以用 Core Graphics 将图片画到目标大小的位图上下文中来得到我们想要的图片。</p>
-
-<h3>裁剪</h3>
-
-<p>UIImage 没有裁剪相关的方法，我们可以使用 Core Graphics 中的 <code>CGImageRef CGImageCreateWithImageInRect(CGImageRef image, CGRect rect);</code>方法来实现裁剪。使用这个方法我们需要注意 Rect 要考虑图片的 scale，图片完整的 <code>rect = {0, 0, image.size.width * image.scale, image.size.height * image.scale}</code>, 所以我们指定裁剪的 rect 时也要带上 scale.</p>
-
-<h3>缩略图</h3>
-
-<p>生成缩略图可以使用 Image I/O 中的 <code>CGImageRef CGImageSourceCreateThumbnailAtIndex(CGImageSourceRef isrc, size_t index, CFDictionaryRef options);</code>方法。</p>
-
-<h3>Reference</h3>
-
-<ul>
-<li>Image I/O Programming Guide</li>
-<li><a href="https://objccn.io/issue-21-2/">图片格式</a></li>
-<li><a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

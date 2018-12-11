@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2018-12-04T16:36:06+08:00</updated>
+  <updated>2018-12-11T11:16:29+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -4451,6 +4451,98 @@ set it to &ldquo;No Application&rdquo;</p>
 <p>这个需求是源于最近一次安装 mysql 时，图形界面安装无响应，之后尝试命令行成功安装，还蛮奇怪。</p>
 
 <p>Reference:<a href="https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg">Is there a command to install a dmg</a></p>
+
+<h2>8.How to start Mac&rsquo;s built-in SMTP server?</h2>
+
+<p>A:Mac include a built-in SMTP server, but its configuration on Mojave seems not property for daemon. Because KeepAlive not set to true, so we have to correct it. However its configuration file locate at <code>/System/Library/LaunchDaemons/org.postfix.master.plist</code>, we can&rsquo;t edit it even as root, SIP only can diable on recovery OS on mojave. Eventually I think a workaround, detail as follow:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo launchctl unload -w /System/Library/LaunchDaemons/org.postfix.master.plist
+</span><span class='line'>$ sudo mv /System/Library/LaunchDaemons/org.postfix.master.plist /Library/LaunchDaemons/org.postfix.master.plist  
+</span><span class='line'>
+</span><span class='line'>// Edit plist
+</span><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+</span><span class='line'>&lt;plist version="1.0">
+</span><span class='line'>&lt;dict>
+</span><span class='line'>  &lt;key>Label&lt;/key>
+</span><span class='line'>  &lt;string>org.postfix.master&lt;/string>
+</span><span class='line'>  &lt;key>Program&lt;/key>
+</span><span class='line'>  &lt;string>/usr/libexec/postfix/master&lt;/string>
+</span><span class='line'>  &lt;key>ProgramArguments&lt;/key>
+</span><span class='line'>  &lt;array>
+</span><span class='line'>      &lt;string>master&lt;/string>
+</span><span class='line'>      &lt;string>-e&lt;/string>
+</span><span class='line'>      &lt;string>60&lt;/string>
+</span><span class='line'>  &lt;/array>
+</span><span class='line'>  &lt;key>QueueDirectories&lt;/key>
+</span><span class='line'>  &lt;array>
+</span><span class='line'>      &lt;string>/var/spool/postfix/maildrop&lt;/string>
+</span><span class='line'>  &lt;/array>
+</span><span class='line'>  &lt;key>AbandonProcessGroup&lt;/key>
+</span><span class='line'>  &lt;true/>
+</span><span class='line'>    &lt;key>RunAtLoad&lt;/key>
+</span><span class='line'>    &lt;true/>
+</span><span class='line'>    &lt;key>KeepAlive&lt;/key>
+</span><span class='line'>    &lt;true/>
+</span><span class='line'>&lt;/dict>
+</span><span class='line'>&lt;/plist>
+</span><span class='line'>
+</span><span class='line'>// Check plist syntax 
+</span><span class='line'>$ plutil -lint /Library/LaunchDaemons/org.postfix.master.plist
+</span><span class='line'>
+</span><span class='line'>// Load service
+</span><span class='line'>$ sudo launchctl load -w /Library/LaunchDaemons/org.postfix.master.plist
+</span><span class='line'>
+</span><span class='line'>// Check service
+</span><span class='line'>$ sudo lsof -i :25
+</span><span class='line'>
+</span><span class='line'>// Or 
+</span><span class='line'>$ telnet localhost 25</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   

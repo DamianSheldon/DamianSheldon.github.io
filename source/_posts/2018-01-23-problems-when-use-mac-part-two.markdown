@@ -106,4 +106,53 @@ Finally unmount the image: `sudo hdiutil detach /Volumes/<image>`.
 
 Reference:[Is there a command to install a dmg](https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg)  
 
+##8.How to start Mac's built-in SMTP server?
+A:Mac include a built-in SMTP server, but its configuration on Mojave seems not property for daemon. Because KeepAlive not set to true, so we have to correct it. However its configuration file locate at `/System/Library/LaunchDaemons/org.postfix.master.plist`, we can't edit it even as root, SIP only can diable on recovery OS on mojave. Eventually I think a workaround, detail as follow:
+
+{% codeblock %}
+
+$ sudo launchctl unload -w /System/Library/LaunchDaemons/org.postfix.master.plist
+$ sudo mv /System/Library/LaunchDaemons/org.postfix.master.plist /Library/LaunchDaemons/org.postfix.master.plist  
+
+// Edit plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>org.postfix.master</string>
+	<key>Program</key>
+	<string>/usr/libexec/postfix/master</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>master</string>
+		<string>-e</string>
+		<string>60</string>
+	</array>
+	<key>QueueDirectories</key>
+	<array>
+		<string>/var/spool/postfix/maildrop</string>
+	</array>
+	<key>AbandonProcessGroup</key>
+	<true/>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>
+
+// Check plist syntax 
+$ plutil -lint /Library/LaunchDaemons/org.postfix.master.plist
+
+// Load service
+$ sudo launchctl load -w /Library/LaunchDaemons/org.postfix.master.plist
+
+// Check service
+$ sudo lsof -i :25
+
+// Or 
+$ telnet localhost 25
+{% endcodeblock %}
+
 

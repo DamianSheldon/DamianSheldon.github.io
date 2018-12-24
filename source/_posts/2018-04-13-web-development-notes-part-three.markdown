@@ -440,4 +440,13 @@ debug=true
 
 {% endcodeblock %}
 
+###14.How to search files inside source jars in eclipse?
+A:Recently discovered the following plugin has beta support for searching into linked source jars: [eclipse-instasearch](https://github.com/ajermakovics/eclipse-instasearch)  
+
+You have to enable searching source jars in the preferences as it is turned off by default.To enable searching in jars, go to Window > Preferences > General > Search > InstaSearch and select the option that says "Index JAR source attachments (beta)" .
+
+Depending on how much source you have, the indexing process is very slow, but then search is very fast.
+
+Reference:[How to make eclipse “File Search” to also search inside source jars containing some text?](https://stackoverflow.com/questions/5295889/how-to-make-eclipse-file-search-to-also-search-inside-source-jars-containing-s)  
+
 

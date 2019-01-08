@@ -32,7 +32,11 @@ GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'
 ```
 
 ###4.Default options are read from the following files in the given order:
-/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf
+
+1. `/etc/my.cnf`
+2. `/etc/mysql/my.cnf`
+3. `/usr/local/mysql/etc/my.cnf`
+4. `~/.my.cnf`
 
 ###5.
 

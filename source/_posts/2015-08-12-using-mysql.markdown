@@ -98,10 +98,11 @@ A: set server-id
 ```
 sudo /usr/local/mysql/bin/mysqld --user=_mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/usr/local/mysql/data/mysqld.local.err --pid-file=/usr/local/mysql/data/mysqld.local.pid --log-bin --server-id=1
 ```
-> When enabling binary logs, the server ID is automatically set to '1'.  --(https://bugs.mysql.com/bug.php?id=56739)
+> When enabling binary logs, the server ID is automatically set to '1'.  --(https://bugs.mysql.com/bug.php?id=56739)  
 
-Q:How can i get server_id in MYSQL?
-A:SELECT @@server_id
+Q:How can i get server_id in MYSQL?  
+
+A:`SELECT @@server_id`
 
 ###9.Q:如何分屏查看输出结果？
 A:

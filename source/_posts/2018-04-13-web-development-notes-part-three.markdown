@@ -449,4 +449,29 @@ Depending on how much source you have, the indexing process is very slow, but th
 
 Reference:[How to make eclipse “File Search” to also search inside source jars containing some text?](https://stackoverflow.com/questions/5295889/how-to-make-eclipse-file-search-to-also-search-inside-source-jars-containing-s)  
 
+###15.How to get Pseudo-Element properties with JavaScript?
+A:Assume your CSS looks like:
+
+{% codeblock %}
+.element:before {
+	content: 'NEW';
+	color: rgb(255, 0, 0);
+}
+
+{% endcodeblock %}
+
+To retrieve the color property of the `.element:before`, you could use the following JavaScript:
+
+{% codeblock %}
+var color = window.getComputedStyle(
+	document.querySelector('.element'), ':before'
+).getPropertyValue('color')
+
+// Access with chrome provide variable $0
+var beforePesudoElem = $0;
+var display = window.getComputedStyle(beforePesudoElem).getPropertyValue('display');
+{% endcodeblock %}
+
+Reference:[Get Pseudo-Element Properties with JavaScript](https://davidwalsh.name/pseudo-element)  
+
 

@@ -776,6 +776,40 @@ uses RxJS 6.0.0 </p>
 <p>Depending on how much source you have, the indexing process is very slow, but then search is very fast.</p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/5295889/how-to-make-eclipse-file-search-to-also-search-inside-source-jars-containing-s">How to make eclipse “File Search” to also search inside source jars containing some text?</a></p>
+
+<h3>15.How to get Pseudo-Element properties with JavaScript?</h3>
+
+<p>A:Assume your CSS looks like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.element:before {
+</span><span class='line'>  content: 'NEW';
+</span><span class='line'>  color: rgb(255, 0, 0);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To retrieve the color property of the <code>.element:before</code>, you could use the following JavaScript:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var color = window.getComputedStyle(
+</span><span class='line'>  document.querySelector('.element'), ':before'
+</span><span class='line'>).getPropertyValue('color')
+</span><span class='line'>
+</span><span class='line'>// Access with chrome provide variable $0
+</span><span class='line'>var beforePesudoElem = $0;
+</span><span class='line'>var display = window.getComputedStyle(beforePesudoElem).getPropertyValue('display');</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://davidwalsh.name/pseudo-element">Get Pseudo-Element Properties with JavaScript</a></p>
 </div>
 
 

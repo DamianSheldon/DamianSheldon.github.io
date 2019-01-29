@@ -196,7 +196,7 @@ id __weak weakSelf = self;
 __weak __typeof(self)weakSelf = self;
 ```
 
-有人可能会说用 `__block` 修饰符也可以，但我不认为这是正确的做法，`__block` 强调的是变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环。
+有人可能会说用 `__block` 修饰符也可以，但我不推荐这种做法，`__block` 强调的是变量存储类型，而不是对象的引用计数，最后是通过将对象置为 nil 来打破引用循环，这本质是手动打破引用循环，很繁琐，也很容易出错。
 
 这里便自然可以引申出探讨 `__weak` 和 `__block` 的区别。
 
@@ -208,7 +208,7 @@ __weak __typeof(self)weakSelf = self;
 
 还可以引申出 `__weak` 是怎么实现的。
 
-`__weak` 是通过 weak 表来实现的，它类似 hash 表，weak 变量的地址为键，引用的对象为值，当引用的对象销毁时，通过用对象的地址在weak表中反向查到对应的变量，并将其置为 nil,然后从表中删除。
+`__weak` 是通过 weak 表来实现的，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过用对象的地址在weak表中找到对应的变量，并将其置为 nil,然后从表中删除。
 
 Reference:[What is the difference between a __weak and a __block reference?](https://stackoverflow.com/questions/11773342/what-is-the-difference-between-a-weak-and-a-block-reference)  
 [Variable Qualifiers](https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html)  

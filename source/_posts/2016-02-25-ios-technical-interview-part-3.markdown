@@ -50,7 +50,7 @@ A:
 Reference:[Conditions in which retainCount increases or decreases](http://stackoverflow.com/questions/4254346/conditions-in-which-retaincount-increases-or-decreases)
 
 ###6.If we don’t create any autorelease pool in our application then is there any autorelease pool already provided to us?
-A: It depends on case, if we create app base on a UI framework, there is a autorelease pool already provided to us; otherwise, we should create one by ourself.
+A: It depends on case, if we create app base on an UI framework, there is an autorelease pool already provided to us; otherwise, we should create one by ourself.
 
 ###7.When you will create an autorelease pool in your application?
 A:There are three occasions when you might use your own autorelease pool blocks:

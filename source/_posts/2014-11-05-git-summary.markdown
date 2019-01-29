@@ -525,9 +525,9 @@ $ git diff-files --diff-filter=D --name-only -z | xargs -0 git rm
 
 ###5.Resolving a 'both added' merge conflict in git?
 
-A: If you use git rm git will remove all versions of that path from the index so your resolve action will leave you without either version.
+A: If you use `git rm` git will remove all versions of that path from the index so your resolve action will leave you without either version.
 
-You can use git checkout --ours file to chose the version from the branch onto which you are rebasing or git checkout --theirs file to chose the version from the branch which you are rebasing.
+You can use `git checkout --ours` file to chose the version from the branch onto which you are rebasing or `git checkout --theirs` file to chose the version from the branch which you are rebasing.
 
 If you want a blend you need to use a merge tool or edit it manually.
 

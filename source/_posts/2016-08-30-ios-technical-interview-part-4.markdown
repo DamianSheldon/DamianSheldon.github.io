@@ -143,7 +143,7 @@ UIScrollView 是通过巧妙利用 UIView 已有属性实现的，它通过改�
 经确认，scrollview 并没有使用相关方法。
 
 ###12.Objective-C 如何对已有的方法，添加自己的功能代码以实现类似记录日志这样的功能？
-A: Method Swizzle.
+A: 使用 AOP, 给方法增加切面。
 
 ###13.`+load` 和 `+initialize` 的区别是什么？
 A:

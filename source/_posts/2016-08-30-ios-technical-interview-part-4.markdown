@@ -225,7 +225,7 @@ Reference:[关于UIWebView的总结](http://blog.devtang.com/2012/03/24/talk-abo
 ###25.为什么 NotificationCenter 要 removeObserver? 如何实现自动 remove?
 A:因为如果不 removeObserver， 收到 Observer 观察的通知时 NotificationCenter 会继续调用 Observer 对应的处理方法，此时 Observer 可能已经销毁，那么 NotificationCenter 是在访问已销毁的对象，会导致应用崩溃。
 
-手动 remove 时，我们是在 dealloc 方法里实现的，现在想要自动，很自然会想到动态往 dealloc 中插入方法调用，这可能通过 AOP 来实现，但我们可能需要引入 AOP 实现库。既然说到动，我们可以试试 Objective-C 的 runtime。和它相关的关联引用就是将两个对象的生命周期关联起来，于是通过混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver，这样就实现了自动 remove,相比于 AOP 应该更简单。
+手动 remove 时，我们是在 dealloc 方法里实现的，现在想要自动，很自然会想到动态往 dealloc 中插入方法调用，这可以通过 AOP 来实现，但我们可能需要引入 AOP 实现库。既然说到动，我们也会想到 Objective-C 的 runtime。和它相关的关联引用就是将两个对象的生命周期关联起来，于是我们可以通过混写 addObserver 的方法，在这个混写方法中创建一个对象和 Observer 的生命周期关联起来，然后在这个关联对象的销毁方法中调用 removeObserver，这样就实现了自动 remove,相比于 AOP 应该更简单。
 
 Reference:[Automatic removal of NSNotificationCenter or KVO observers](http://merowing.info/2012/03/automatic-removal-of-nsnotificationcenter-or-kvo-observers/)
 

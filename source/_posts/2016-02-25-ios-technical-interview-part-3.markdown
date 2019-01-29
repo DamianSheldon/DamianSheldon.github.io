@@ -34,12 +34,10 @@ Reference:Cocoa Core Competencies
 <!-- more -->
 ###4.Difference between shallow copy and deep copy?
 A:
-The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
 
-A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
-A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.
-
-Reference:[What exactly is the difference between shallow copy, deepcopy and normal assignment operation?](http://stackoverflow.com/questions/17246693/what-exactly-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignm)
+* shallow copy reference origin object, deep copy create a new object through clone origin object
+* deep copy is more complex than shallow copy
+* deep copy is more expensive
 
 ###5.When retain count increase?
 A:

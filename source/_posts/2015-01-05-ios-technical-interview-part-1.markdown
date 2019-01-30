@@ -107,6 +107,11 @@ A:
 >The frame property contains the frame rectangle, which specifies the size and location of the view in its superview’s coordinate system.
 >The bounds property contains the bounds rectangle, which specifies the size of the view (and its content origin) in the view’s own local coordinate system.
 
+extend:
+
+Does frames' size always equal to bounds' size?  
+A: No, if view's transform is not CGAffineTransformIdentity, its may not equal.
+
 ###15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];
 
 A: The object gets released twice when the autorelease pool is destroyed.

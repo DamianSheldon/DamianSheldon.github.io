@@ -619,13 +619,15 @@ This is a configurable group of commonly used modes. Associating an input source
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
+<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//将timer添加到NSDefaultRunLoopMode中</span>
 </span><span class='line'><span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">1.0</span>
 </span><span class='line'>     <span class="nl">target</span><span class="p">:</span><span class="nb">self</span>
 </span><span class='line'>     <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">timerTick</span><span class="p">:)</span>
 </span><span class='line'>     <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span>
 </span><span class='line'>     <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</span><span class='line'><span class="c1">//然后再添加到NSRunLoopCommonModes里</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//将timer添加到NSRunLoopCommonModes中</span>
 </span><span class='line'><span class="bp">NSTimer</span> <span class="o">*</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">timerWithTimeInterval</span><span class="p">:</span><span class="mf">1.0</span>
 </span><span class='line'>     <span class="nl">target</span><span class="p">:</span><span class="nb">self</span>
 </span><span class='line'>     <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">timerTick</span><span class="p">:)</span>

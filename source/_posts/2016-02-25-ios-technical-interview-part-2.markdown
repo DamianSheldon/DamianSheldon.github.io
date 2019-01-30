@@ -208,7 +208,7 @@ __weak __typeof(self)weakSelf = self;
 
 还可以引申出 `__weak` 是怎么实现的。
 
-`__weak` 是通过 weak 表来实现的，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过用对象的地址在weak表中找到对应的变量，并将其置为 nil,然后从表中删除。
+`__weak` 是通过 weak 表来实现的，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过对象的地址在weak表中找到对应的变量的地址，并将值其置为 nil,然后从表中删除。
 
 Reference:[What is the difference between a __weak and a __block reference?](https://stackoverflow.com/questions/11773342/what-is-the-difference-between-a-weak-and-a-block-reference)  
 [Variable Qualifiers](https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html)  

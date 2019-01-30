@@ -361,7 +361,8 @@ A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEvent
      selector:@selector(timerTick:)
      userInfo:nil
      repeats:YES];
-//然后再添加到NSRunLoopCommonModes里
+     
+//将timer添加到NSRunLoopCommonModes中
 NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
      target:self
      selector:@selector(timerTick:)

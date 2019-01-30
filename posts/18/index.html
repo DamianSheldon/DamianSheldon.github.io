@@ -423,7 +423,7 @@ A: No, if view&rsquo;s transform is not CGAffineTransformIdentity, its may not e
 
 <h3>15.What happens when the following code executes? Ball *ball = [[[[Ball alloc] init] autorelease] autorelease];</h3>
 
-<p>A: The object gets released twice when the autorelease pool is destroyed.</p>
+<p>A: The object gets released twice when the autorelease pool is drain, so it may causes app crash.</p>
 
 <p>Reference:<a href="http://stackoverflow.com/questions/11291801/autoreleasing-twice-an-object">Autoreleasing twice an object</a></p>
 

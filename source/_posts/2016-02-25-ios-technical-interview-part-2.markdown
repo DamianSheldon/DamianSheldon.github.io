@@ -377,7 +377,7 @@ A:
 
 
 ###39. runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？  
-A: runtime 将 weak 属性的后备变量作为键，引用的对象的地址作为值存入到 weak 表中，它类似 hash 表，当引用的对象销毁时，在 weak 表中用此地址反向查找对应的变量，将其置为 nil, 并将其从 weak 表中删除。
+A: runtime 将后备变量引用对象的地址作为键，weak 属性的后备变量的地址作为值，存入到 weak 表中，它类似 hash 表，当引用的对象销毁时，通过对象的地址在weak表中找到对应的变量地址，将其值置为 nil, 并将其从 weak 表中删除，这样便实现了 weak 属性。
 
 ###40. objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？  
 A:

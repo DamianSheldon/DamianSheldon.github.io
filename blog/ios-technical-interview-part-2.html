@@ -374,7 +374,7 @@ Only classes that define an “immutable vs. mutable” distinction should adopt
 
 <p>还可以引申出 <code>__weak</code> 是怎么实现的。</p>
 
-<p><code>__weak</code> 是通过 weak 表来实现的，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过用对象的地址在weak表中找到对应的变量，并将其置为 nil,然后从表中删除。</p>
+<p><code>__weak</code> 是通过 weak 表来实现的，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过对象的地址在weak表中找到对应的变量的地址，并将值其置为 nil,然后从表中删除。</p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/11773342/what-is-the-difference-between-a-weak-and-a-block-reference">What is the difference between a <strong>weak and a </strong>block reference?</a><br/>
 <a href="https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html">Variable Qualifiers</a><br/>
@@ -645,7 +645,7 @@ This is a configurable group of commonly used modes. Associating an input source
 
 <h3>39. runtime 如何实现 weak 属性?/runtime如何实现weak变量的自动置nil？</h3>
 
-<p>A: runtime 将 weak 属性的后备变量作为键，引用的对象的地址作为值存入到 weak 表中，它类似 hash 表，当引用的对象销毁时，在 weak 表中用此地址反向查找对应的变量，将其置为 nil, 并将其从 weak 表中删除。</p>
+<p>A: runtime 将后备变量引用对象的地址作为键，weak 属性的后备变量的地址作为值，存入到 weak 表中，它类似 hash 表，当引用的对象销毁时，通过对象的地址在weak表中找到对应的变量地址，将其值置为 nil, 并将其从 weak 表中删除，这样便实现了 weak 属性。</p>
 
 <h3>40. objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？</h3>
 

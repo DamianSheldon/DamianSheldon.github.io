@@ -742,6 +742,8 @@ ISA指针<br/>
 <p>A:都输出 Son.
 super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去调用父类的分发表里的方法，而不是调用本类分发表里的方法。</p>
 
+<blockquote><p>super is simply a flag to the compiler telling it where to begin searching for the method to perform; it’s used only as the receiver of a message. But self is a variable name that can be used in any number of ways, even assigned a new value.</p></blockquote>
+
 <h3>47. 什么时候会报unrecognized selector的异常？</h3>
 
 <p>A:当调用该对象上某个方法,而该对象上没有实现这个方法的时候。</p>

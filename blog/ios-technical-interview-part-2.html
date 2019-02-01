@@ -257,8 +257,9 @@ Objective-C: Adds default automatic synthesis of properties (iOS and 64-bit OS 
 
 <p>因为这些类都有对应的可变子类，使用 copy 可以避免可变对象的修改对赋值产生影响，无论给赋值是一个可变对象还是不可对象,属性最终都拥有一个不可变的副本.</p>
 
-<p>如果改用strong关键字，可能造成什么问题？
-如果我们使用是 strong ,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么有可能会影响该属性.</p>
+<p>如果改用strong关键字，可能造成什么问题？</p>
+
+<p>如果我们使用是 strong ,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么有可能会影响该属性.</p>
 
 <h3>13.对非集合类对象的copy操作</h3>
 
@@ -356,11 +357,13 @@ Objective-C: Adds default automatic synthesis of properties (iOS and 64-bit OS 
 
 <h3>15.@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？</h3>
 
-<p> A:@synthesize合成实例变量的规则是什么？
-假设声明了propertyname的属性，默认会合成_propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。</p>
+<p> A:@synthesize合成实例变量的规则是什么？</p>
 
-<p>假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
-不会。</p>
+<p>假设声明了propertyname的属性，默认会合成_propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。</p>
+
+<p>假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？</p>
+
+<p>不会。</p>
 
 <p>这里还可以引伸，我们知道默认情况下编译器会为自动合成实例变量，那么当开发者也参与到存取方法的实现中来时，自动合成实例变量又会遵循怎样的规则？</p>
 

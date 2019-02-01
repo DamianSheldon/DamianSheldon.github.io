@@ -479,7 +479,37 @@ A:
 
 ###41.苹果为什么要废弃dispatch_get_current_queue？  
 
-A:dispatch_get_current_queue 容易造成死锁。
+A:dispatch_get_current_queue 容易误用造成死锁，所以苹果在iOS6废弃了dispatch_get_current_queue()方法。
+
+例如下面示例代码：
+
+```
+
+- (void)deadLockFunc
+{
+    dispatch_queue_t queueA = dispatch_queue_create("com.yiyaaixuexi.queueA", NULL);
+    dispatch_queue_t queueB = dispatch_queue_create("com.yiyaaixuexi.queueB", NULL);
+    dispatch_sync(queueA, ^{
+        dispatch_sync(queueB, ^{
+            dispatch_block_t block = ^{
+                //do something
+            };
+            func(queueA, block);
+        });
+    });
+}
+
+void func(dispatch_queue_t queue, dispatch_block_t block)
+{
+    if (dispatch_get_current_queue() == queue) {
+        block();
+    }else{
+        dispatch_sync(queue, block);
+    }
+}
+```
+
+Reference:[被废弃的dispatch_get_current_queue](https://blog.csdn.net/yiyaaixuexi/article/details/17752925)  
 
 ###42.以下代码运行结果如何？  
 

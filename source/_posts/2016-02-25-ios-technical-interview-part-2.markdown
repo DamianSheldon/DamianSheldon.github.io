@@ -496,7 +496,7 @@ A:dispatch_get_current_queue 容易造成死锁。
 ```
 A: 只输出：1 。发生主线程锁死。
 
-###43.addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？  
+###43.`addObserver:forKeyPath:options:context:`各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？  
 
 A:
 	

@@ -477,6 +477,8 @@ A:
 > Submits a barrier block for asynchronous execution and returns immediately.
 > A dispatch barrier allows you to create a synchronization point within a concurrent dispatch queue. When it encounters a barrier, a concurrent queue delays the execution of the barrier block (or any further blocks) until all blocks submitted before the barrier finish executing. At that point, the barrier block executes by itself. Upon completion, the queue resumes its normal execution behavior.
 
+dispatch_barrier_async 的作用是允许你在并发队列中创建一个同步点。
+
 ###41.苹果为什么要废弃dispatch_get_current_queue？  
 
 A:dispatch_get_current_queue 容易误用造成死锁，所以苹果在iOS6废弃了dispatch_get_current_queue()方法。

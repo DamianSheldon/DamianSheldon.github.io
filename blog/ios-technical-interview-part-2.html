@@ -109,7 +109,7 @@
 
 <p> A:属性想拥有独立的赋值副本，且赋值对象的类遵守 NSCopying 协议，这时我们可以使用 copy 关键字。</p>
 
-<h3>3.这个写法会出什么问题： @property (copy) NSMutableArray *array;</h3>
+<h3>3.这个写法会出什么问题： <code>@property (copy) NSMutableArray *array;</code></h3>
 
 <p> A:</p>
 
@@ -389,11 +389,12 @@ Objective-C: Adds default automatic synthesis of properties (iOS and 64-bit OS 
 
 <p> A:</p>
 
-<blockquote><p>In Objective-C, it is valid to send a message to nil—it simply has no effect at runtime. There are several patterns in Cocoa that take advantage of this fact. The value returned from a message to nil may also be valid:
-  • If the method returns an object, then a message sent to nil returns 0 (nil). For example:
-  • <code>Person *motherInLaw = [[aPerson spouse] mother];</code>
-  •  If the spouse object here is nil, then mother is sent to nil and the method returns nil.
-  • If the method returns any pointer type, any integer scalar of size less than or equal to sizeof(void*), a float, a double, a long double, or a long long, then a message sent to nil returns 0.
+<blockquote><p>In Objective-C, it is valid to send a message to nil—it simply has no effect at runtime. There are several patterns in Cocoa that take advantage of this fact. The value returned from a message to nil may also be valid:</p>
+
+<p>  • If the method returns an object, then a message sent to nil returns 0 (nil). For example:  <code>Person *motherInLaw = [[aPerson spouse] mother];</code><br/>
+ > If the spouse object here is nil, then mother is sent to nil and the method returns nil.</p>
+
+<p>  • If the method returns any pointer type, any integer scalar of size less than or equal to sizeof(void*), a float, a double, a long double, or a long long, then a message sent to nil returns 0.
   • If the method returns a struct, as defined by the OS X ABI Function Call Guide to be returned in registers, then a message sent to nil returns 0.0 for every field in the struct. Other struct data types will not be filled with zeros.
   • If the method returns anything other than the aforementioned value types, the return value of a message sent to nil is undefined.</p></blockquote>
 
@@ -434,8 +435,9 @@ ISA指针<br/>
 
 <p>指向对象的类。</p>
 
-<p>有什么用？
-方法调用的底层实现信赖于它。</p>
+<p>有什么用？</p>
+
+<p>方法调用的底层实现信赖于它。</p>
 
 <h3>22.下面的代码输出什么？</h3>
 
@@ -624,7 +626,7 @@ This is a configurable group of commonly used modes. Associating an input source
 
 <h3>34.苹果是如何实现autoreleasepool的？</h3>
 
-<p>A: autoreleasepool 正如它的名字，它像一个池子，所有的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。</p>
+<p>A: 苹果是通过类似数组的数据结构来实现 autoreleasepool 的，所有的自动释放对象都被添加到这个数组中，当 autoreleasepool 要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了。</p>
 
 <h3>35.使用block时什么情况会发生引用循环，如何解决？</h3>
 
@@ -712,9 +714,62 @@ This is a configurable group of commonly used modes. Associating an input source
 <blockquote><p>Submits a barrier block for asynchronous execution and returns immediately.
 A dispatch barrier allows you to create a synchronization point within a concurrent dispatch queue. When it encounters a barrier, a concurrent queue delays the execution of the barrier block (or any further blocks) until all blocks submitted before the barrier finish executing. At that point, the barrier block executes by itself. Upon completion, the queue resumes its normal execution behavior.</p></blockquote>
 
+<p>dispatch_barrier_async 的作用是允许你在并发队列中创建一个同步点。</p>
+
 <h3>41.苹果为什么要废弃dispatch_get_current_queue？</h3>
 
-<p>A:dispatch_get_current_queue 容易造成死锁。</p>
+<p>A:dispatch_get_current_queue 容易误用造成死锁，所以苹果在iOS6废弃了dispatch_get_current_queue()方法。</p>
+
+<p>例如下面示例代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deadLockFunc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">dispatch_queue_t</span> <span class="n">queueA</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.yiyaaixuexi.queueA&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">dispatch_queue_t</span> <span class="n">queueB</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.yiyaaixuexi.queueB&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">dispatch_sync</span><span class="p">(</span><span class="n">queueA</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">dispatch_sync</span><span class="p">(</span><span class="n">queueB</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>            <span class="kt">dispatch_block_t</span> <span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>                <span class="c1">//do something</span>
+</span><span class='line'>            <span class="p">};</span>
+</span><span class='line'>            <span class="n">func</span><span class="p">(</span><span class="n">queueA</span><span class="p">,</span> <span class="n">block</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="kt">dispatch_queue_t</span> <span class="n">queue</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">dispatch_get_current_queue</span><span class="p">()</span> <span class="o">==</span> <span class="n">queue</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">block</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">dispatch_sync</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">block</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://blog.csdn.net/yiyaaixuexi/article/details/17752925">被废弃的dispatch_get_current_queue</a></p>
 
 <h3>42.以下代码运行结果如何？</h3>
 
@@ -741,7 +796,7 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 
 <p>A: 只输出：1 。发生主线程锁死。</p>
 
-<h3>43.addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</h3>
+<h3>43.<code>addObserver:forKeyPath:options:context:</code>各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</h3>
 
 <p>A:</p>
 
@@ -779,7 +834,7 @@ A dispatch barrier allows you to create a synchronization point within a concurr
 
 <p>A:改变值之前调用 <code>willChangeValueForKey:</code>，改变值之后调用 <code>didChangeValueForKey:</code>。</p>
 
-<h3>45.若一个类有实例变量 NSString *<em>foo ，调用setValue:forKey:时，可以以foo还是 </em>foo 作为key？</h3>
+<h3>45.若一个类有实例变量 <code>NSString *_foo</code> ，调用<code>setValue:forKey:</code>时，可以以<code>foo</code>还是 <code>_foo</code> 作为<code>key</code>？</h3>
 
 <p>A:都可以。</p>
 

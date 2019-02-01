@@ -137,11 +137,12 @@ A:
 * Memory Management: assign(non-object) strong(object)
 
 ###12.用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？  
- A:为什么？
+ A:为什么？  
 
 因为这些类都有对应的可变子类，使用 copy 可以避免可变对象的修改对赋值产生影响，无论给赋值是一个可变对象还是不可对象,属性最终都拥有一个不可变的副本.
 	
-如果改用strong关键字，可能造成什么问题？
+如果改用strong关键字，可能造成什么问题？  
+
 如果我们使用是 strong ,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么有可能会影响该属性.
 
 ###13.对非集合类对象的copy操作  
@@ -202,10 +203,12 @@ NSMutableArray *mCopyArray = [array mutableCopy];
 ```
 
 ###15.@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？  
- A:@synthesize合成实例变量的规则是什么？
+ A:@synthesize合成实例变量的规则是什么？  
+
 假设声明了propertyname的属性，默认会合成_propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。
 
-假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
+假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？  
+
 不会。
 	
 这里还可以引伸，我们知道默认情况下编译器会为自动合成实例变量，那么当开发者也参与到存取方法的实现中来时，自动合成实例变量又会遵循怎样的规则？  

@@ -513,7 +513,7 @@ observer中需要实现`- observeValueForKeyPath:ofObject:change:context:`才能
 
 A:改变值之前调用 `willChangeValueForKey:`，改变值之后调用 `didChangeValueForKey:`。
 
-###45.若一个类有实例变量 NSString *_foo ，调用setValue:forKey:时，可以以foo还是 _foo 作为key？  
+###45.若一个类有实例变量 `NSString *_foo` ，调用`setValue:forKey:`时，可以以`foo`还是 `_foo` 作为`key`？  
 
 A:都可以。
 

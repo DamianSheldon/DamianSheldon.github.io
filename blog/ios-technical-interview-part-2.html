@@ -224,13 +224,15 @@ You use the @dynamic keyword to tell the compiler that you will fulfill the AP
 <blockquote><p>Xcode 4.0 Developer Preview 4
 Objective-C: Adds default automatic synthesis of properties (iOS and 64-bit OS X). You don’t need the @synthesize directive in the implementation sections for the compiler to synthesize accessors for declared properties.</p></blockquote>
 
-<p>追问：我们如何通过动态方法求解(dynamic method resolution)来动态提供方法实现？
-A:Objective-C 方法是至少有 self 和 _cmd 两个参数的简单 C 函数，我们通过实现符合签名的函数，然后在 <code>resolveInstanceMethod:</code> 和 <code>resolveClassMethod:</code> 实现中通过 class_addMethod 将函数添加到类中作为方法来完成动态提供方法实现。</p>
+<p>追问：我们如何通过动态方法求解(dynamic method resolution)来动态提供方法实现？</p>
+
+<p>A:Objective-C 方法是至少有 self 和 _cmd 两个参数的简单 C 函数，我们通过实现符合签名的函数，然后在 <code>resolveInstanceMethod:</code> 和 <code>resolveClassMethod:</code> 实现中通过 class_addMethod 将函数添加到类中作为方法来完成动态提供方法实现。</p>
 
 <p>追问：动态方法求解(dynamic method resolution) 是如何工作的？</p>
 
-<p>追问：既然说到动态方法求解(dynamic method resolution),我们可能会联想到消息转发(message forwarding),那么动态方法求解和消息转发是什么关系？消息转发又是如何工作的呢？
-A:</p>
+<p>追问：既然说到动态方法求解(dynamic method resolution),我们可能会联想到消息转发(message forwarding),那么动态方法求解和消息转发是什么关系？消息转发又是如何工作的呢？</p>
+
+<p>A:</p>
 
 <blockquote><p>Forwarding methods (as described in Message Forwarding) and dynamic method resolution are, largely, orthogonal. A class has the opportunity to dynamically resolve a method before the forwarding mechanism kicks in. If respondsToSelector: or instancesRespondToSelector: is invoked, the dynamic method resolver is given the opportunity to provide an IMP for the selector first. If you implement resolveInstanceMethod: but want particular selectors to actually be forwarded via the forwarding mechanism, you return NO for those selectors.</p></blockquote>
 

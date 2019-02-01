@@ -226,10 +226,11 @@ Reference:[iOS automatic @synthesize without creating an ivar](https://stackover
 
 ###17.objc中向一个nil对象发送消息将会发生什么？  
  A:
-> In Objective-C, it is valid to send a message to nil—it simply has no effect at runtime. There are several patterns in Cocoa that take advantage of this fact. The value returned from a message to nil may also be valid:
-> 	•	If the method returns an object, then a message sent to nil returns 0 (nil). For example:
-> 	•	`Person *motherInLaw = [[aPerson spouse] mother];`
-> 	•	 If the spouse object here is nil, then mother is sent to nil and the method returns nil.
+> In Objective-C, it is valid to send a message to nil—it simply has no effect at runtime. There are several patterns in Cocoa that take advantage of this fact. The value returned from a message to nil may also be valid:  
+> 
+> 	•	If the method returns an object, then a message sent to nil returns 0 (nil). For example:  `Person *motherInLaw = [[aPerson spouse] mother];`  
+> > If the spouse object here is nil, then mother is sent to nil and the method returns nil.  
+>
 > 	•	If the method returns any pointer type, any integer scalar of size less than or equal to sizeof(void*), a float, a double, a long double, or a long long, then a message sent to nil returns 0.
 > 	•	If the method returns a struct, as defined by the OS X ABI Function Call Guide to be returned in registers, then a message sent to nil returns 0.0 for every field in the struct. Other struct data types will not be filled with zeros.
 > 	•	If the method returns anything other than the aforementioned value types, the return value of a message sent to nil is undefined.
@@ -265,7 +266,8 @@ ISA指针
 
 指向对象的类。
 
-有什么用？
+有什么用？  
+
 方法调用的底层实现信赖于它。
 
 ###22.下面的代码输出什么？  
@@ -402,7 +404,7 @@ A:
 
 ###34.苹果是如何实现autoreleasepool的？  
 
-A: autoreleasepool 正如它的名字，它像一个池子，所有的自动释放对象都被添加到这个池子，当池子要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了，苹果就是大致按这种原理来实现 autoreleasepool的。
+A: 苹果是通过类似数组的数据结构来实现 autoreleasepool 的，所有的自动释放对象都被添加到这个数组中，当 autoreleasepool 要排干时，里面所有的对象的引用计数都会减一，计数为零的对象就被销毁了。
 
 ###35.使用block时什么情况会发生引用循环，如何解决？  
 

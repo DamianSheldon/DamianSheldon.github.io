@@ -113,17 +113,19 @@ A:不需要，因为 weak 属性不影响对象的引用计数。
 >Xcode 4.0 Developer Preview 4
 >Objective-C: Adds default automatic synthesis of properties (iOS and 64-bit OS X). You don’t need the @synthesize directive in the implementation sections for the compiler to synthesize accessors for declared properties.
 
-追问：我们如何通过动态方法求解(dynamic method resolution)来动态提供方法实现？
+追问：我们如何通过动态方法求解(dynamic method resolution)来动态提供方法实现？  
+
 A:Objective-C 方法是至少有 self 和 _cmd 两个参数的简单 C 函数，我们通过实现符合签名的函数，然后在 `resolveInstanceMethod:` 和 `resolveClassMethod:` 实现中通过 class_addMethod 将函数添加到类中作为方法来完成动态提供方法实现。
 
-追问：动态方法求解(dynamic method resolution) 是如何工作的？
+追问：动态方法求解(dynamic method resolution) 是如何工作的？  
 
-追问：既然说到动态方法求解(dynamic method resolution),我们可能会联想到消息转发(message forwarding),那么动态方法求解和消息转发是什么关系？消息转发又是如何工作的呢？
+追问：既然说到动态方法求解(dynamic method resolution),我们可能会联想到消息转发(message forwarding),那么动态方法求解和消息转发是什么关系？消息转发又是如何工作的呢？  
+
 A:
 
 > Forwarding methods (as described in Message Forwarding) and dynamic method resolution are, largely, orthogonal. A class has the opportunity to dynamically resolve a method before the forwarding mechanism kicks in. If respondsToSelector: or instancesRespondToSelector: is invoked, the dynamic method resolver is given the opportunity to provide an IMP for the selector first. If you implement resolveInstanceMethod: but want particular selectors to actually be forwarded via the forwarding mechanism, you return NO for those selectors.
 
-动态方法求解和消息转发是正交关系。
+动态方法求解和消息转发是正交关系。  
 
 追问：在使用 CoreData 时，通过我们会用 @dynamic 来实现 NSManagedObject 子类声明的属性，那么 CoreData 是如何在运行时满足 API 要求的呢？
 

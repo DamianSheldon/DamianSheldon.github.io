@@ -22,7 +22,7 @@ weak 相比 assign 有什么不同？
 ###2.怎么用 copy 关键字？(我觉得题目应该改为什么情况使用 copy 关键字，怎么用 copy 关键字这个问法有点奇怪，比如怎么用手机，那问题的答案就是手机的使用说明书，按这样来回答问题，那我们就应该说，声明属性时加上 copy 关键字)  
  A:属性想拥有独立的赋值副本，且赋值对象的类遵守 NSCopying 协议，这时我们可以使用 copy 关键字。   
 
-###3.这个写法会出什么问题： @property (copy) NSMutableArray *array;  
+###3.这个写法会出什么问题： `@property (copy) NSMutableArray *array;`  
  A:
 
 * 问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；  

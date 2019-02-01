@@ -342,11 +342,12 @@ A:
 
 mode 是需要监控的 input sources 和 timers的集合，以及需要通知的 run loop observers的集合。
 
-###28.以+ scheduledTimerWithTimeInterval...的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？  
+###28.以`+ scheduledTimerWithTimeInterval...`的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？  
 
 A:滑动页面的列表时 RunLoop 会从 NSDefaultRunLoopMode 切换到 NSEventTrackingRunLoopMode，而以`+ scheduledTimerWithTimeInterval...`的方式触发的timer默认是在 NSDefaultRunLoopMode 下被监控，所以会出现暂停回调。
 
-如何解决？
+如何解决？  
+
 解决办法自然是希望 timer 触发的事件不被限制，也就是说在 NSEventTrackingRunLoopMode 下也能被监控，可以通过把 timer 加入到 NSRunLoopCommonModes 中，因为关联到它的 timer 也会被相应关联到 NSEventTrackingRunLoopMode 中。
 
 > NSRunLoopCommonModes (Cocoa)

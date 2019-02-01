@@ -87,7 +87,9 @@
 
     </div>
     
-	<div class="entry-content"><h3>1.什么情况使用 weak 关键字，相比 assign 有什么不同？ A:什么情况使用 weak 关键字？</h3>
+	<div class="entry-content"><h3>1.什么情况使用 weak 关键字，相比 assign 有什么不同？</h3>
+
+<p> A:什么情况使用 weak 关键字？</p>
 
 <ul>
 <li>强引用关系的对象会发生循环引用时用weak关键字；</li>
@@ -103,9 +105,13 @@
 </ul>
 
 
-<h3>2.怎么用 copy 关键字？(我觉得题目应该改为什么情况使用 copy 关键字，怎么用 copy 关键字这个问法有点奇怪，比如怎么用手机，那问题的答案就是手机的使用说明书，按这样来回答问题，那我们就应该说，声明属性时加上 copy 关键字)   A:属性想拥有独立的赋值副本，且赋值对象的类遵守 NSCopying 协议，这时我们可以使用 copy 关键字。</h3>
+<h3>2.怎么用 copy 关键字？(我觉得题目应该改为什么情况使用 copy 关键字，怎么用 copy 关键字这个问法有点奇怪，比如怎么用手机，那问题的答案就是手机的使用说明书，按这样来回答问题，那我们就应该说，声明属性时加上 copy 关键字)</h3>
 
-<h3>3.这个写法会出什么问题： @property (copy) NSMutableArray *array; A:</h3>
+<p> A:属性想拥有独立的赋值副本，且赋值对象的类遵守 NSCopying 协议，这时我们可以使用 copy 关键字。</p>
+
+<h3>3.这个写法会出什么问题： @property (copy) NSMutableArray *array;</h3>
+
+<p> A:</p>
 
 <ul>
 <li>问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；</li>
@@ -138,7 +144,12 @@ If you specify strong, copy, or retain and do not specify nonatomic, then i
 
 <p>从文档的修改记录来看，这后一次修改时间是2011-10-12，维基上查了下 Mid 2011(July) 的 MacBook Air 的低配处理器参数为: 1.6 GHz (i5-2467M) dual-core Intel Core i5 with 3 MB shared L3 cacheOptional 1.8 GHz (i7-2677M) dual-core Intel Core i7 with 4 MB shared L3 cache, 内存为：2 GB (11" base model; Optional 4 GB) or 4 GB of 1333 MHz DDR3 SDRAM (all other models)，目前 Apple 还支持 iPhone 5S，它的处理器：64-bit 1.3 GHz dual-core Apple Cyclone，内存：1 GB LPDDR3 RAM，很遗憾数据好像没有全面超越，不过也比较接近了，当设备淘汰到 iPhone 6S 时，我们有理由在 iOS 开发中直接使用 atomic 关键字了。</p>
 
-<h3>4.如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？ A:</h3>
+<!--more-->
+
+
+<h3>4.如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？</h3>
+
+<p> A:</p>
 
 <blockquote><p>copy
 Specifies that a copy of the object should be used for assignment.
@@ -170,11 +181,17 @@ Declared properties address these issues by providing the following features:
 
 <p>完成属性定义后，编译器会自动生成访问这些属性所需的方法，此过程叫做“自动合成”(autosynthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p>
 
-<h3>6.@protocol 和 category 中如何使用 @property A:使用 @property 分为声明和实现，protocol 只需要声明，因此只需要依照 property 语法声明就好。category 不仅要声明而且要实现，因为category 本身不支持增加实例变量，所以我们需要自己实现相应的 getter 和 setter 方法，如果声明的属性不是通过组合已有属性而是引入新的实例变量，我们需要借助关联引用来实现。</h3>
+<h3>6.@protocol 和 category 中如何使用 @property</h3>
 
-<h3>7.runtime 如何实现 weak 属性 A:runtime 通过 weak 表来实现 weak 属性，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过对象的地址在weak表中找到对应的变量的地址，并将值其置为 nil,然后从表中删除。</h3>
+<p> A:使用 @property 分为声明和实现，protocol 只需要声明，因此只需要依照 property 语法声明就好。category 不仅要声明而且要实现，因为category 本身不支持增加实例变量，所以我们需要自己实现相应的 getter 和 setter 方法，如果声明的属性不是通过组合已有属性而是引入新的实例变量，我们需要借助关联引用来实现。</p>
 
-<h3>8.@property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？ A:</h3>
+<h3>7.runtime 如何实现 weak 属性</h3>
+
+<p> A:runtime 通过 weak 表来实现 weak 属性，它类似 hash 表，以赋值对象的地址为键，weak 变量的地址为值，当赋值对象销毁时，通过对象的地址在weak表中找到对应的变量的地址，并将值其置为 nil,然后从表中删除。</p>
+
+<h3>8.@property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？</h3>
+
+<p> A:</p>
 
 <ul>
 <li>Atomicity(not general thread safety): nonatomic, atomic(default)</li>
@@ -188,7 +205,9 @@ Declared properties address these issues by providing the following features:
 
 <p>A:不需要，因为 weak 属性不影响对象的引用计数。</p>
 
-<h3>10.@synthesize和@dynamic分别有什么作用？ A:</h3>
+<h3>10.@synthesize和@dynamic分别有什么作用？</h3>
+
+<p> A:</p>
 
 <blockquote><p>@synthesize
 You use the @synthesize directive to tell the compiler that it should synthesize the setter and/or getter methods for a property if you do not supply them within the @implementation block. The @synthesize directive also synthesizes an appropriate instance variable if it is not otherwise declared.</p>
@@ -219,7 +238,9 @@ A:</p>
 
 <p>追问：在使用 CoreData 时，通过我们会用 @dynamic 来实现 NSManagedObject 子类声明的属性，那么 CoreData 是如何在运行时满足 API 要求的呢？</p>
 
-<h3>11.ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？ A:</h3>
+<h3>11.ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</h3>
+
+<p> A:</p>
 
 <ul>
 <li>Write Serialization: atomic</li>
@@ -228,14 +249,18 @@ A:</p>
 </ul>
 
 
-<h3>12.用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？ A:为什么？</h3>
+<h3>12.用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</h3>
+
+<p> A:为什么？</p>
 
 <p>因为这些类都有对应的可变子类，使用 copy 可以避免可变对象的修改对赋值产生影响，无论给赋值是一个可变对象还是不可对象,属性最终都拥有一个不可变的副本.</p>
 
 <p>如果改用strong关键字，可能造成什么问题？
 如果我们使用是 strong ,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么有可能会影响该属性.</p>
 
-<h3>13.对非集合类对象的copy操作 A:对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：</h3>
+<h3>13.对非集合类对象的copy操作</h3>
+
+<p> A:对 immutable 对象进行 copy 操作，是指针复制，mutableCopy 操作时内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。用代码简单表示如下：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -269,7 +294,9 @@ A:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>14.集合类对象的copy与mutableCopy A:对 immutable 集合类对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</h3>
+<h3>14.集合类对象的copy与mutableCopy</h3>
+
+<p> A:对 immutable 集合类对象进行 copy，是指针复制， mutableCopy 是内容复制；对 mutable 对象进行 copy 和 mutableCopy 都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -325,9 +352,10 @@ A:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>15.@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？ A:@synthesize合成实例变量的规则是什么？</h3>
+<h3>15.@synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？</h3>
 
-<p>假设声明了propertyname的属性，默认会合成_propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。</p>
+<p> A:@synthesize合成实例变量的规则是什么？
+假设声明了propertyname的属性，默认会合成_propertyname的实例变量，也可以自定义合成实例变量的名称，如果目标合成实例变量已经存在则不再合成。</p>
 
 <p>假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
 不会。</p>
@@ -342,7 +370,9 @@ A:</p>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/12933785/ios-automatic-synthesize-without-creating-an-ivar">iOS automatic @synthesize without creating an ivar</a></p>
 
-<h3>16.在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？ A:</h3>
+<h3>16.在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？</h3>
+
+<p> A:</p>
 
 <ul>
 <li>自定义自动合成的实例变量的名称；</li>
@@ -350,7 +380,9 @@ A:</p>
 </ul>
 
 
-<h3>17.objc中向一个nil对象发送消息将会发生什么？ A:</h3>
+<h3>17.objc中向一个nil对象发送消息将会发生什么？</h3>
+
+<p> A:</p>
 
 <blockquote><p>In Objective-C, it is valid to send a message to nil—it simply has no effect at runtime. There are several patterns in Cocoa that take advantage of this fact. The value returned from a message to nil may also be valid:
   • If the method returns an object, then a message sent to nil returns 0 (nil). For example:
@@ -362,7 +394,9 @@ A:</p>
 
 <p>objc中向一个nil对象发送消息在运行时不会有什么效果。</p>
 
-<h3>18.objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？ A:</h3>
+<h3>18.objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？</h3>
+
+<p> A:</p>
 
 <blockquote><p>In Objective-C, messages aren’t bound to method implementations until runtime.
 The compiler converts a message expression,</p>
@@ -372,11 +406,14 @@ into a call on a messaging function, objc_msgSend.</p></blockquote>
 
 <p>编译器会把向一个对象发送的消息转化成一次objc_msgSend()函数调用。</p>
 
-<h3>19.什么时候会报unrecognized selector的异常？ A:当调用该对象上某个方法,而该对象上没有实现这个方法的时候。</h3>
+<h3>19.什么时候会报unrecognized selector的异常？</h3>
 
-<h3>20.一个objc对象如何进行内存布局？（考虑有父类的情况） A:</h3>
+<p> A:当调用该对象上某个方法,而该对象上没有实现这个方法的时候。</p>
 
-<p>Objective-C 对象的结构图<br/>
+<h3>20.一个objc对象如何进行内存布局？（考虑有父类的情况）</h3>
+
+<p> A:
+Objective-C 对象的结构图<br/>
 ISA指针<br/>
 根类的实例变量<br/>
 倒数第二层父类的实例变量<br/>
@@ -384,7 +421,9 @@ ISA指针<br/>
 父类的实例变量<br/>
 类的实例变量</p>
 
-<h3>21.一个objc对象的isa的指针指向什么？有什么作用？ A:</h3>
+<h3>21.一个objc对象的isa的指针指向什么？有什么作用？</h3>
+
+<p> A:</p>
 
 <blockquote><p>The isa pointer, as the name suggests, points to the object&rsquo;s class which maintains a dispatch table.</p></blockquote>
 

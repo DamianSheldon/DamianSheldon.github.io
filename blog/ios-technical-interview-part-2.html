@@ -666,11 +666,26 @@ This is a configurable group of commonly used modes. Associating an input source
 
 <p>追问：为什么加上 <code>_block</code> 就可以修改外部变量了？这是怎么实现的？</p>
 
+<p>因为加上 <code>_block</code> 修饰外部变量以后，编译器会为该变量生成相应的对象结构体，block 内部和外部都是读写这个对象结构体，而且会插入相应的内存管理代码，这样便能实现修改 block 外部变量。而不加 <code>_block</code> 时，变量都是只读的，会直接赋给 block 结构体成员变量，block 内部是通过成员变量取值，而外部仍然是直接通过变量取值。</p>
+
 <h3>37.使用系统的某些block API（如UIView的block版本写动画时），是否也考虑引用循环问题？</h3>
 
 <p>A:使用系统的block api要不要考虑引用循环问题取决于它会不会造成引用循环，如果不会造成引用循环则不需要考虑，反之则需要考虑。UIView的block版本写动画时不需要考虑引用循环问题。</p>
 
 <p>追问：那你能举个需要考虑引用循环的系统 block API 吗？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// GCD</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">dispatch_async</span><span class="p">(</span><span class="kt">dispatch_queue_t</span> <span class="n">queue</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// NSNotificationCenter</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">addObserverForName:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">NSNotificationName</span><span class="p">)</span><span class="nv">name</span> <span class="nf">object:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="p">)</span><span class="nv">obj</span> <span class="nf">queue:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="p">)</span><span class="nv">queue</span> <span class="nf">usingBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="n">note</span><span class="p">))</span><span class="nv">block</span> <span class="n">API_AVAILABLE</span><span class="p">(</span><span class="n">macos</span><span class="p">(</span><span class="mf">10.6</span><span class="p">),</span> <span class="n">ios</span><span class="p">(</span><span class="mf">4.0</span><span class="p">),</span> <span class="n">watchos</span><span class="p">(</span><span class="mf">2.0</span><span class="p">),</span> <span class="n">tvos</span><span class="p">(</span><span class="mf">9.0</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>38.GCD的队列（dispatch_queue_t）分哪两种类型？</h3>
 

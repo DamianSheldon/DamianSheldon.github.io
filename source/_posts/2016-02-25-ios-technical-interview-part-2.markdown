@@ -448,7 +448,15 @@ A:使用 `_block` 存储类型修饰外部变量。
 
 A:使用系统的block api要不要考虑引用循环问题取决于它会不会造成引用循环，如果不会造成引用循环则不需要考虑，反之则需要考虑。UIView的block版本写动画时不需要考虑引用循环问题。
 
-追问：那你能举个需要考虑引用循环的系统 block API 吗？
+追问：那你能举个需要考虑引用循环的系统 block API 吗？  
+
+```
+// GCD
+void dispatch_async(dispatch_queue_t queue, dispatch_block_t block);
+
+// NSNotificationCenter
+- (id <NSObject>)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(NSNotification *note))block API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0));
+```
 
 ###38.GCD的队列（dispatch_queue_t）分哪两种类型？  
 

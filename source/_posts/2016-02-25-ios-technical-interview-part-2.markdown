@@ -440,7 +440,9 @@ Reference:[What is the difference between a __weak and a __block reference?](htt
 
 A:使用 `_block` 存储类型修饰外部变量。
 
-追问：为什么加上 `_block` 就可以修改外部变量了？这是怎么实现的？
+追问：为什么加上 `_block` 就可以修改外部变量了？这是怎么实现的？  
+
+因为加上 `_block` 修饰外部变量以后，编译器会为该变量生成相应的对象结构体，block 内部和外部都是读写这个对象结构体，而且会插入相应的内存管理代码，这样便能实现修改 block 外部变量。而不加 `_block` 时，变量都是只读的，会直接赋给 block 结构体成员变量，block 内部是通过成员变量取值，而外部仍然是直接通过变量取值。
 
 ###37.使用系统的某些block API（如UIView的block版本写动画时），是否也考虑引用循环问题？  
 

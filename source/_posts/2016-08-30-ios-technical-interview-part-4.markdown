@@ -113,7 +113,7 @@ A:
 
 UIScrollView 大概是如何实现的？  
 
-UIScrollView 是通过巧妙利用 UIView 已有属性实现的，它通过改变 UIScrollView bounds 的 origin 来达到移到视图的效果，改变 transforms 来实现视图缩放。
+UIScrollView 是通过巧妙利用 UIView 已有属性实现的，它通过改变 UIScrollView bounds 的 origin 来达到移动视图的效果，改变 transforms 来实现视图缩放。
 
 它是如何捕捉、响应手势的？  
 

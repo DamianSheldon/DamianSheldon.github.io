@@ -4,8 +4,8 @@ title: "音频和视频格式"
 date: 2016-10-21 15:15:53 +0800
 comments: true
 categories: [Archive, Archives, iOS Development]
-keywords: Audio, Video
-description: audio and video format
+keywords: Audio, Video, Codec, iOS, Android
+description: Summary iOS and Android support audio and video codec format
 ---
 
 ## 音频格式
@@ -16,16 +16,19 @@ description: audio and video format
 
 编码器(codec)就是来编解码原始音频数据的。
 
-声音源 --ADC--> raw audio data --codec--> audio data(uncompressed/compressed) --packed--> audio file format(container format)
+声音源 `--ADC-->` raw audio data `--codec-->` audio data(uncompressed/compressed) `--packed-->` audio file format(container format)
 
 >An audio file format is a file format for storing digital audio data on a computer system. The bit layout of the audio data (excluding metadata) is called the audio coding format and can be uncompressed, or compressed to reduce the file size, often using lossy compression. The data can be a raw bitstream in an audio coding format, but it is usually embedded in a container format or an audio data format with defined storage layer.
 
 > It is important to distinguish between the audio coding format, the container containing the raw audio data, and an audio codec. A codec performs the encoding and decoding of the raw audio data while this encoded data is (usually) stored in a container file. Although most audio file formats support only one type of audio coding data (created with an audio coder), a multimedia container format (as Matroska or AVI) may support multiple types of audio and video data.
 
->There are three major groups of audio file formats:
-	•	Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;
-	•	Formats with lossless compression, such as FLAC, Monkey's Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).
-	•	Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).
+>There are three major groups of audio file formats: 
+> 
+>	•	Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;  
+>
+>	•	Formats with lossless compression, such as FLAC, Monkey's Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).  
+>
+>	•	Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).  
 
 <!--more-->
 
@@ -44,6 +47,8 @@ description: audio and video format
 ## iOS and Android supported audio & video codec formats
 
 ### iOS 
+
+在 iOS Technology Overview 中 Apple 介绍说，
 
 iOS supports many industry-standard and Apple-specific audio formats, including the following:
 
@@ -71,31 +76,76 @@ iOS supports many industry-standard video formats and compression standards, inc
 * MPEG-4 video, up to 2.5 Mbps, 640 by 480 pixels, 30 frames per second, Simple Profile with AAC-LC audio up to 160 Kbps, 48 kHz, stereo audio in .m4v, .mp4, and .mov file formats
 * Numerous audio formats, including the ones listed in Audio Technologies
 
+在 Multimedia Programming Guide 的 Using Audio 中对音频格式相应介绍如下，    
+
+Audio playback formats and codecs  
+
+| Audio decoder/playback format | Hardware-assisted decoding | Software-based decoding |
+| :---- | :---- | :--- |
+| AAC (MPEG-4 Advanced Audio Coding) | Yes | Yes, starting in iOS 3.0 |
+| ALAC (Apple Lossless) | Yes | Yes, starting in iOS 3.0 |
+| HE-AAC (MPEG-4 High Efficiency AAC) | Yes | - |
+| iLBC (internet Low Bitrate Codec, another format for speech) | - | Yes |
+| IMA4 (IMA/ADPCM) | - | Yes |
+| Linear PCM (uncompressed, linear pulse-code modulation) | - | Yes |
+| MP3 (MPEG-1 audio layer 3) | Yes | Yes, starting in iOS 3.0 |
+| µ-law and a-law | - | Yes |
+
+Audio recording formats and codecs  
+
+| Audio encoder/recording format | Hardware-assisted encoding | Software-based encoding |
+| :---- | :---- | :---- |
+| AAC (MPEG-4 Advanced Audio Coding) | Yes, starting in iOS 3.1 for iPhone 3GS and iPod touch (2nd generation) Yes, starting in iOS 3.2 for iPad | Yes, starting in iOS 4.0 for iPhone 3GS and iPod touch (2nd generation) |
+| ALAC (Apple Lossless) | - | Yes |
+| iLBC (internet Low Bitrate Codec, for speech) | - | Yes |
+| IMA4 (IMA/ADPCM) | - | Yes |
+| Linear PCM (uncompressed, linear pulse-code modulation) | - | Yes |
+| µ-law and a-law | - | Yes |
+
+我们将上面的信息综合，可以得到下表：  
+
+| Format / Codec | Encoder | Decoder | File Extension |
+| :--- | :---: | :---: | :--- |
+| AAC (MPEG-4 Advanced Audio Coding) | Yes | Yes | MPEG/3GPP container <br> .m4a, .mp4, .3gp <br> Apple container <br> .m4a, .m4b, .m4p, .m4r, .m4v <br> ADTS stream <br> .aac |
+| ALAC (Apple Lossless) | Yes | Yes | .m4a .caf |
+| HE-AAC (MPEG-4 High Efficiency AAC) | Yes| No | Same as AAC |
+| iLBC (internet Low Bitrate Codec, another format for speech) | Yes | Yes | .lbc |
+| IMA4 (IMA/ADPCM) | Yes | Yes |  |
+| Linear PCM (uncompressed, linear pulse-code modulation) | Yes | Yes | .L16, .WAV, .AIFF, .AU, .PCM |
+| MP3 (MPEG-1 audio layer 3) | Yes | No | .mp3 |
+| µ-law and a-law | Yes | Yes | Same as Linear PCM |
+
 ### Android
 
-Audio
+Audio  
 
-* AAC LC
-* HE-AACv1 (AAC+)
-* HE-AACv2 (enhanced AAC+)
-* AAC ELD (enhanced low delay AAC)
-* AMR-NB
-* AMR-WB
-* FLAC
-* MP3
-* MIDI
-* Vorbis
-* PCM/WAVE
-* Opus
+| Format / Codec | Encoder | Decoder | File Extension |
+| :--- | :---: | :---: | :--- |
+| AAC LC | Yes | Yes | MPEG/3GPP container <br> .m4a, .mp4, .3gp <br> Apple container <br> .m4a, .m4b, .m4p, .m4r, .m4v <br> ADTS stream <br> .aac |
+| HE-AACv1 (AAC+) | Yes(Android 4.1+) | Yes |  |
+| HE-AACv2 (enhanced AAC+) | No | Yes |  |
+| AAC ELD (enhanced low delay AAC) | Yes(Android 4.1+) | Yes(Android 4.1+) |  |
+| AMR-NB | Yes | Yes | .3gp |
+| AMR-WB | Yes | Yes | .3gp |
+| FLAC | Yes(Android 4.1+) | Yes(Android 3.1+) | .flac |
+| GSM | No | Yes | .gsm |
+| MIDI | No | Yes | Type 0 and 1 (.mid, .xmf, .mxmf)<br>RTTTL/RTX (.rtttl, .rtx)<br>OTA (.ota) <br>iMelody (.imy) |
+| MP3 | No | Yes | .mp3 |
+| Opus | No | Yes(Android 5.0+) | .mkv |
+| PCM/WAVE | Yes(Android 4.1+) | Yes | .wav |
+| Vorbis | No | Yes | Ogg (.ogg) <br>Matroska (.mkv, Android 4.0+) |
 
 Video
 
-* H.263
-* H.264 AVC
-* H.265 HEVC
-* MPEG-4 SP
-* VP8
-* VP9
+| Format / Codec | Encoder | Decoder | File Extension |
+| :--- | :---: | :---: | :--- |
+| H.263 | Yes | Yes | 3GPP (.3gp) <br>MPEG-4 (.mp4) |
+| H.264 AVC Baseline Profile (BP) | Yes(Android 3.0+) | Yes | 3GPP (.3gp)<br>MPEG-4 (.mp4)<br>MPEG-TS (.ts, AAC audio only, not seekable, Android 3.0+) |
+| H.264 AVC Main Profile (MP) | Yes(Android 6.0+) | Yes |  |
+| H.265 HEVC | No | Yes(Android 5.0+) | MPEG-4 (.mp4) |
+| MPEG-4 SP | No | Yes | 3GPP (.3gp) |
+| VP8 | Yes(Android 4.3+) | Yes(Android 2.3.3+) | WebM (.webm)<br> Matroska (.mkv, Android 4.0+) |
+| VP9 | No | Yes(Android 4.4+) | WebM (.webm)<br> Matroska (.mkv, Android 4.0+) |
 
 ### iOS 和 Android 都支持的音频、视频格式
 
@@ -103,6 +153,7 @@ Audio
 
 * AAC LC (Low-Complexity profile)
 * Linear PCM
+* MP3(Decode only)
 
 Video
 
@@ -116,9 +167,10 @@ To address various applications ranging from low-quality, low-resolution surveil
 
 ##Reference:
 
-[Audio file format](https://en.wikipedia.org/wiki/Audio_file_format)  
-[Video file format](https://en.wikipedia.org/wiki/Video_file_format)  
-iOS Technology Overview  
-[Supported Media Formats](https://developer.android.com/guide/appendix/media-formats.html)  
+* [Audio file format](https://en.wikipedia.org/wiki/Audio_file_format)  
+* [Video file format](https://en.wikipedia.org/wiki/Video_file_format)  
+* iOS Technology Overview  
+* [Supported Media Formats](https://developer.android.com/guide/appendix/media-formats.html)  
+* Multimedia Programming Guide  
 
 

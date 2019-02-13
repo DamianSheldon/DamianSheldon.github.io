@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archive | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archive/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-02-12T15:22:43+08:00</updated>
+  <updated>2019-02-13T13:01:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -26,16 +26,19 @@
 
 <p>编码器(codec)就是来编解码原始音频数据的。</p>
 
-<p>声音源 &ndash;ADC&ndash;> raw audio data &ndash;codec&ndash;> audio data(uncompressed/compressed) &ndash;packed&ndash;> audio file format(container format)</p>
+<p>声音源 <code>--ADC--&gt;</code> raw audio data <code>--codec--&gt;</code> audio data(uncompressed/compressed) <code>--packed--&gt;</code> audio file format(container format)</p>
 
 <blockquote><p>An audio file format is a file format for storing digital audio data on a computer system. The bit layout of the audio data (excluding metadata) is called the audio coding format and can be uncompressed, or compressed to reduce the file size, often using lossy compression. The data can be a raw bitstream in an audio coding format, but it is usually embedded in a container format or an audio data format with defined storage layer.</p>
 
 <p>It is important to distinguish between the audio coding format, the container containing the raw audio data, and an audio codec. A codec performs the encoding and decoding of the raw audio data while this encoded data is (usually) stored in a container file. Although most audio file formats support only one type of audio coding data (created with an audio coder), a multimedia container format (as Matroska or AVI) may support multiple types of audio and video data.</p>
 
-<p>There are three major groups of audio file formats:
-    • Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;
-    • Formats with lossless compression, such as FLAC, Monkey&rsquo;s Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).
-    • Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).</p></blockquote>
+<p>There are three major groups of audio file formats:</p>
+
+<p>  • Uncompressed audio formats, such as WAV, AIFF, AU or raw header-less PCM;</p>
+
+<p>  • Formats with lossless compression, such as FLAC, Monkey&rsquo;s Audio (filename extension .ape), WavPack (filename extension .wv), TTA, ATRAC Advanced Lossless, ALAC (filename extension .m4a), MPEG-4 SLS, MPEG-4 ALS, MPEG-4 DST, Windows Media Audio Lossless (WMA Lossless), and Shorten (SHN).</p>
+
+<p>  • Formats with lossy compression, such as Opus, MP3, Vorbis, Musepack, AAC, ATRAC and Windows Media Audio Lossy (WMA lossy).</p></blockquote>
 
 <!--more-->
 
@@ -55,6 +58,8 @@
 <h2>iOS and Android supported audio &amp; video codec formats</h2>
 
 <h3>iOS</h3>
+
+<p>在 iOS Technology Overview 中 Apple 介绍说，</p>
 
 <p>iOS supports many industry-standard and Apple-specific audio formats, including the following:</p>
 
@@ -90,36 +95,324 @@
 </ul>
 
 
+<p>在 Multimedia Programming Guide 的 Using Audio 中对音频格式相应介绍如下，</p>
+
+<p>Audio playback formats and codecs</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> Audio decoder/playback format </th>
+<th style="text-align:left;"> Hardware-assisted decoding </th>
+<th style="text-align:left;"> Software-based decoding </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> AAC (MPEG-4 Advanced Audio Coding) </td>
+<td style="text-align:left;"> Yes </td>
+<td style="text-align:left;"> Yes, starting in iOS 3.0 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> ALAC (Apple Lossless) </td>
+<td style="text-align:left;"> Yes </td>
+<td style="text-align:left;"> Yes, starting in iOS 3.0 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> HE-AAC (MPEG-4 High Efficiency AAC) </td>
+<td style="text-align:left;"> Yes </td>
+<td style="text-align:left;"> - </td>
+</tr>
+<tr>
+<td style="text-align:left;"> iLBC (internet Low Bitrate Codec, another format for speech) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> IMA4 (IMA/ADPCM) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> Linear PCM (uncompressed, linear pulse-code modulation) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> MP3 (MPEG-1 audio layer 3) </td>
+<td style="text-align:left;"> Yes </td>
+<td style="text-align:left;"> Yes, starting in iOS 3.0 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> µ-law and a-law </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Audio recording formats and codecs</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> Audio encoder/recording format </th>
+<th style="text-align:left;"> Hardware-assisted encoding </th>
+<th style="text-align:left;"> Software-based encoding </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> AAC (MPEG-4 Advanced Audio Coding) </td>
+<td style="text-align:left;"> Yes, starting in iOS 3.1 for iPhone 3GS and iPod touch (2nd generation) Yes, starting in iOS 3.2 for iPad </td>
+<td style="text-align:left;"> Yes, starting in iOS 4.0 for iPhone 3GS and iPod touch (2nd generation) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> ALAC (Apple Lossless) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> iLBC (internet Low Bitrate Codec, for speech) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> IMA4 (IMA/ADPCM) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> Linear PCM (uncompressed, linear pulse-code modulation) </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+<tr>
+<td style="text-align:left;"> µ-law and a-law </td>
+<td style="text-align:left;"> - </td>
+<td style="text-align:left;"> Yes </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>我们将上面的信息综合，可以得到下表：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> Format / Codec </th>
+<th style="text-align:center;"> Encoder </th>
+<th style="text-align:center;"> Decoder </th>
+<th style="text-align:left;"> File Extension </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> AAC (MPEG-4 Advanced Audio Coding) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> MPEG/3GPP container <br> .m4a, .mp4, .3gp <br> Apple container <br> .m4a, .m4b, .m4p, .m4r, .m4v <br> ADTS stream <br> .aac </td>
+</tr>
+<tr>
+<td style="text-align:left;"> ALAC (Apple Lossless) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .m4a .caf </td>
+</tr>
+<tr>
+<td style="text-align:left;"> HE-AAC (MPEG-4 High Efficiency AAC) </td>
+<td style="text-align:center;"> Yes</td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:left;"> Same as AAC </td>
+</tr>
+<tr>
+<td style="text-align:left;"> iLBC (internet Low Bitrate Codec, another format for speech) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .lbc </td>
+</tr>
+<tr>
+<td style="text-align:left;"> IMA4 (IMA/ADPCM) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;">  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> Linear PCM (uncompressed, linear pulse-code modulation) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .L16, .WAV, .AIFF, .AU, .PCM </td>
+</tr>
+<tr>
+<td style="text-align:left;"> MP3 (MPEG-1 audio layer 3) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:left;"> .mp3 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> µ-law and a-law </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> Same as Linear PCM </td>
+</tr>
+</tbody>
+</table>
+
+
 <h3>Android</h3>
 
 <p>Audio</p>
 
-<ul>
-<li>AAC LC</li>
-<li>HE-AACv1 (AAC+)</li>
-<li>HE-AACv2 (enhanced AAC+)</li>
-<li>AAC ELD (enhanced low delay AAC)</li>
-<li>AMR-NB</li>
-<li>AMR-WB</li>
-<li>FLAC</li>
-<li>MP3</li>
-<li>MIDI</li>
-<li>Vorbis</li>
-<li>PCM/WAVE</li>
-<li>Opus</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> Format / Codec </th>
+<th style="text-align:center;"> Encoder </th>
+<th style="text-align:center;"> Decoder </th>
+<th style="text-align:left;"> File Extension </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> AAC LC </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> MPEG/3GPP container <br> .m4a, .mp4, .3gp <br> Apple container <br> .m4a, .m4b, .m4p, .m4r, .m4v <br> ADTS stream <br> .aac </td>
+</tr>
+<tr>
+<td style="text-align:left;"> HE-AACv1 (AAC+) </td>
+<td style="text-align:center;"> Yes(Android 4.1+) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;">  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> HE-AACv2 (enhanced AAC+) </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;">  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> AAC ELD (enhanced low delay AAC) </td>
+<td style="text-align:center;"> Yes(Android 4.1+) </td>
+<td style="text-align:center;"> Yes(Android 4.1+) </td>
+<td style="text-align:left;">  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> AMR-NB </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .3gp </td>
+</tr>
+<tr>
+<td style="text-align:left;"> AMR-WB </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .3gp </td>
+</tr>
+<tr>
+<td style="text-align:left;"> FLAC </td>
+<td style="text-align:center;"> Yes(Android 4.1+) </td>
+<td style="text-align:center;"> Yes(Android 3.1+) </td>
+<td style="text-align:left;"> .flac </td>
+</tr>
+<tr>
+<td style="text-align:left;"> GSM </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .gsm </td>
+</tr>
+<tr>
+<td style="text-align:left;"> MIDI </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> Type 0 and 1 (.mid, .xmf, .mxmf)<br>RTTTL/RTX (.rtttl, .rtx)<br>OTA (.ota) <br>iMelody (.imy) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> MP3 </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .mp3 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> Opus </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes(Android 5.0+) </td>
+<td style="text-align:left;"> .mkv </td>
+</tr>
+<tr>
+<td style="text-align:left;"> PCM/WAVE </td>
+<td style="text-align:center;"> Yes(Android 4.1+) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> .wav </td>
+</tr>
+<tr>
+<td style="text-align:left;"> Vorbis </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> Ogg (.ogg) <br>Matroska (.mkv, Android 4.0+) </td>
+</tr>
+</tbody>
+</table>
 
 
 <p>Video</p>
 
-<ul>
-<li>H.263</li>
-<li>H.264 AVC</li>
-<li>H.265 HEVC</li>
-<li>MPEG-4 SP</li>
-<li>VP8</li>
-<li>VP9</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> Format / Codec </th>
+<th style="text-align:center;"> Encoder </th>
+<th style="text-align:center;"> Decoder </th>
+<th style="text-align:left;"> File Extension </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> H.263 </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> 3GPP (.3gp) <br>MPEG-4 (.mp4) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> H.264 AVC Baseline Profile (BP) </td>
+<td style="text-align:center;"> Yes(Android 3.0+) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> 3GPP (.3gp)<br>MPEG-4 (.mp4)<br>MPEG-TS (.ts, AAC audio only, not seekable, Android 3.0+) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> H.264 AVC Main Profile (MP) </td>
+<td style="text-align:center;"> Yes(Android 6.0+) </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;">  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> H.265 HEVC </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes(Android 5.0+) </td>
+<td style="text-align:left;"> MPEG-4 (.mp4) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> MPEG-4 SP </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes </td>
+<td style="text-align:left;"> 3GPP (.3gp) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> VP8 </td>
+<td style="text-align:center;"> Yes(Android 4.3+) </td>
+<td style="text-align:center;"> Yes(Android 2.3.3+) </td>
+<td style="text-align:left;"> WebM (.webm)<br> Matroska (.mkv, Android 4.0+) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> VP9 </td>
+<td style="text-align:center;"> No </td>
+<td style="text-align:center;"> Yes(Android 4.4+) </td>
+<td style="text-align:left;"> WebM (.webm)<br> Matroska (.mkv, Android 4.0+) </td>
+</tr>
+</tbody>
+</table>
 
 
 <h3>iOS 和 Android 都支持的音频、视频格式</h3>
@@ -129,6 +422,7 @@
 <ul>
 <li>AAC LC (Low-Complexity profile)</li>
 <li>Linear PCM</li>
+<li>MP3(Decode only)</li>
 </ul>
 
 
@@ -146,10 +440,14 @@
 
 <h2>Reference:</h2>
 
-<p><a href="https://en.wikipedia.org/wiki/Audio_file_format">Audio file format</a><br/>
-<a href="https://en.wikipedia.org/wiki/Video_file_format">Video file format</a><br/>
-iOS Technology Overview<br/>
-<a href="https://developer.android.com/guide/appendix/media-formats.html">Supported Media Formats</a></p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Audio_file_format">Audio file format</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Video_file_format">Video file format</a></li>
+<li>iOS Technology Overview</li>
+<li><a href="https://developer.android.com/guide/appendix/media-formats.html">Supported Media Formats</a></li>
+<li>Multimedia Programming Guide</li>
+</ul>
+
 ]]></content>
   </entry>
   

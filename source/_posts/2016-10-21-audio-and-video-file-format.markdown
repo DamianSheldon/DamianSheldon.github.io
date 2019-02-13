@@ -108,11 +108,11 @@ Audio recording formats and codecs
 | :--- | :---: | :---: | :--- |
 | AAC (MPEG-4 Advanced Audio Coding) | Yes | Yes | MPEG/3GPP container <br> .m4a, .mp4, .3gp <br> Apple container <br> .m4a, .m4b, .m4p, .m4r, .m4v <br> ADTS stream <br> .aac |
 | ALAC (Apple Lossless) | Yes | Yes | .m4a .caf |
-| HE-AAC (MPEG-4 High Efficiency AAC) | Yes| No | Same as AAC |
+| HE-AAC (MPEG-4 High Efficiency AAC) | No| Yes | Same as AAC |
 | iLBC (internet Low Bitrate Codec, another format for speech) | Yes | Yes | .lbc |
 | IMA4 (IMA/ADPCM) | Yes | Yes |  |
 | Linear PCM (uncompressed, linear pulse-code modulation) | Yes | Yes | .L16, .WAV, .AIFF, .AU, .PCM |
-| MP3 (MPEG-1 audio layer 3) | Yes | No | .mp3 |
+| MP3 (MPEG-1 audio layer 3) | No | Yes | .mp3 |
 | µ-law and a-law | Yes | Yes | Same as Linear PCM |
 
 ### Android

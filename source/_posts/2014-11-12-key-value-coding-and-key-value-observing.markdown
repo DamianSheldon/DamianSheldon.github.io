@@ -16,7 +16,7 @@ description: Simple summary of Key-Value Coding And Key-Value Observing
 ###Key-Value Coding是什么？
 > Key-value coding is a mechanism for accessing an object’s properties indirectly, using strings to identify properties, rather than through invocation of an accessor method or accessing them directly through instance variables.
 
-Key-value coding是一种间接访问对象属性和机制，使用字符串去区别属性，而不是通过调用存取方法或者通过实例变量直接访问它们。
+Key-value coding是一种间接访问对象属性的机制，使用字符串去标识属性，而不是通过调用存取方法或者通过实例变量直接访问它们。
 
 
 ###为什么要用Key-Value Coding？
@@ -35,7 +35,7 @@ attribute 是简单值的 property，像标量，字符串，或者布尔值。N
 
 to-one relationship 是拥有自己properties的对象。这些内部的properties可以改变而对象却不变。例如，NSView实例的superview就是to-one relationship。
 
-to-many relationship 包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合并且通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像它们是NSArray或NSSet那样访问它们。
+to-many relationship 包括一个相关对象的集合。NSArray或NSSet经常被用来持有这样一个集合。但是，key-value coding允许你使用自定义的类作为集合，通过实现在to-many Properties中讨论的key-value coding存取方法仍然可以可以像NSArray或NSSet那样访问它们。
 
 要使用 Key-Value Coding，对象要符合 Key-Value Coding Compliant，符合 Key-Value Coding Compliant 则有两点要求：一是对象遵守 NSKeyValueCoding 协议；二是要实现规定的方法。
 
@@ -47,7 +47,7 @@ to-many relationship 包括一个相关对象的集合。NSArray或NSSet经常�
 * 如果属性可变，实现 `set<Key>` 方法。
 * 如果属性是标量，覆盖 `setNilValueForKey: ` 方法去优雅处理 nil 。
 
-对于 to-many relationship 的属性，实现上述方法后，我们就可以对集合对象本身使用 KVC 了。但是如果我们还实现额外规定的集合存取方法，我们可以：
+对于 to-many relationship 的属性，实现上述方法后，我们就可以对集合对象本身使用 KVC 了。但是如果我们还实现额外规定的集合存取方法，我们可以得到更多好处：
 
 * 用 NSArray 或 NSSet 之外的类为 to-many relationships 建模。
 * 改变 to-many relationships 时性能更好。
@@ -96,7 +96,7 @@ to-many relationship 包括一个相关对象的集合。NSArray或NSSet经常�
 
 >Key-value observing is a mechanism that allows objects to be notified of changes to specified properties of other objects.
 
-Key-value observing是一种允许一对对象的特定属性改变时另一个对象被通知的机制。
+Key-value observing是一种允许一个对象的特定属性改变时另一个对象被通知的机制。
 
 
 ###为什么要用Key-Value Observing？
@@ -119,7 +119,7 @@ KVO的主要好处是你不需要实现一套属性每次改变发送通知的�
 * 类为属性发射 KVO 改变通知。
 * 合适的注册了依赖 key 。
 
-有两种技术发射改变通知。 NSObject 提供自动支持而且默认对类 key-value coding compliant 的属性是可用的。通常如果你遵从 Cocoa 编码和命名惯例，你不用编写任务额外代码就可以使用自动的改变通知。
+有两种技术发射改变通知。 NSObject 提供自动支持而且默认对类 key-value coding compliant 的属性是可用的。通常如果你遵从 Cocoa 编码和命名惯例，你不用编写任何额外代码就可以使用自动的改变通知。
 
 手动改变通知可以在发射通知时提供更细腻的控制，但需要额外编码。你可以通过实现类方法`automaticallyNotifiesObserversForKey:` 来控制你子类的属性是否自动通知。
 

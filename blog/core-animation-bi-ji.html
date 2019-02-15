@@ -184,7 +184,7 @@
 
 <ul>
 <li>对于那些只在特定环境下使用的 actions ，或者图层已经使用代理对象，提供一个代理并实现 <code>actionForLayer:forKey:</code> 方法。</li>
-<li>对于那些通常不使用代码的图层对象，添加 action 到它的 actions 字典中。</li>
+<li>对于那些通常不使用代理的图层对象，添加 action 到它的 actions 字典中。</li>
 <li>对于那些关联你图层自定义属性的 action,包含 action 到图层的 style 字典。</li>
 <li>对于那些图层的基础行为 action ,继承图层并覆盖 <code>defaultActionForKey:</code> 方法。</li>
 </ul>
@@ -331,7 +331,7 @@
 
 <h3>动画组</h3>
 
-<p>上面我们看到都是单个的动画，有的时候我们可能相同时执行多个动画，Core Animation 提供了两种方法：一是 CAAnimationGroup；二是嵌套 transition；</p>
+<p>上面我们看到都是单个的动画，有的时候我们可能想同时执行多个动画，Core Animation 提供了两种方法：一是 CAAnimationGroup；二是嵌套 transition；</p>
 
 <p>用 CAAnimationGroup 同时执行两个动画：</p>
 
@@ -445,15 +445,37 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>- (id)init
 </span><span class='line'>{
 </span><span class='line'>    if ((self = [super init])) {
 </span><span class='line'>        
 </span><span class='line'>        NSMutableDictionary *style = [NSMutableDictionary dictionaryWithDictionary:self.style];
 </span><span class='line'>
-</span><span class='line'>        NSDictionary *action = @{ClockFaceTimeKey: self.rotationAction};
-</span><span class='line'>
-</span><span class='line'>        [style setObject:action forKey:@"actions"];
+</span><span class='line'>          NSDictionary *actions = [style objectForKey:@"actions"];
+</span><span class='line'>          
+</span><span class='line'>          NSMutableDictionary *newActions;
+</span><span class='line'>          
+</span><span class='line'>          if (actions) {
+</span><span class='line'>              newActions = [actions mutableCopy];
+</span><span class='line'>          }
+</span><span class='line'>          else {
+</span><span class='line'>              newActions = [NSMutableDictionary dictionary];
+</span><span class='line'>          }
+</span><span class='line'>          
+</span><span class='line'>          [newActions setObject:self.rotationAction forKey:ClockFaceTimeKey];
+</span><span class='line'>          
+</span><span class='line'>        [style setObject:newActions forKey:@"actions"];
 </span><span class='line'>        
 </span><span class='line'>        self.style = style;
 </span><span class='line'>    }

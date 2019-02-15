@@ -178,7 +178,7 @@ dispatch_semaphore_signal(fd_sema);
 
 ##Dispatch Sources
 
-Dispatch source 是一个协调指定低层系统事件的数据类型。Grand Central Dispatch 支持如下类型的 dispatch source:
+Dispatch source 是一个协调指定底层系统事件的数据类型。Grand Central Dispatch 支持如下类型的 dispatch source:
 
 * Timer dispatch sources 产生周期性的通知。
 * Signal dispatch sources 当一个 UNIX 信号来到时通知你。
@@ -200,7 +200,7 @@ Dispatch source 是一个协调指定低层系统事件的数据类型。Grand C
 
 Dispatch sources 替换了异步回调函数，它过去被用于处理系统相关的事件。当你配置 dispatch source，你指定你想要监视的事件，分发队列和用来处理事件的代码。你可以使用 block 对象或者函数。当一个感兴趣的事件到达，dispatch source 提交你的 block 或函数到指定的分发队列。
 
-和你手动提交到队列的任务不同，dispatch sources 为你的应用提交一个连续的事件源。dispatch source 一直保持附加到它自己的分发队列，除非你显示取消。当被附加后，任何时候相关的事件发生了，它提交它相关的任务代码到分发队列。某些事件，例如 timer source 定期发生，但大部分只有当指定条件出现零星发生。因为这个原因，dispatch source 保留它们相关的分发队列防止它们过早释放。
+和你手动提交到队列的任务不同，dispatch sources 为你的应用提供一个连续的事件源。dispatch source 一直保持附加到它自己的分发队列，除非你显示取消。当被附加后，任何时候相关的事件发生了，它提交它相关的任务代码到分发队列。某些事件，例如 timer source 定期发生，但大部分只有当指定条件出现零星发生。因为这个原因，dispatch source 保留它们相关的分发队列防止它们过早释放。
 
 从上面的介绍我们可以得出使用 dispatch source 时主要就是做三件事：1.指定想要监视的事件；2.提供分发队列；3.编写处理事件的代码。
 

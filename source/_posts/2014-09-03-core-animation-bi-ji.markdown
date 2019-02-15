@@ -65,7 +65,7 @@ Action 对象遵守 CAAction 协议并定义了一些在图层上执行的行为
 你在哪里安装 action 对象取决于你想怎样修改图层：
 	
 * 对于那些只在特定环境下使用的 actions ，或者图层已经使用代理对象，提供一个代理并实现 `actionForLayer:forKey:` 方法。
-* 对于那些通常不使用代码的图层对象，添加 action 到它的 actions 字典中。
+* 对于那些通常不使用代理的图层对象，添加 action 到它的 actions 字典中。
 * 对于那些关联你图层自定义属性的 action,包含 action 到图层的 style 字典。
 * 对于那些图层的基础行为 action ,继承图层并覆盖 `defaultActionForKey:` 方法。
 
@@ -166,7 +166,7 @@ myView2.hidden = NO;
 
 ###动画组
 
-上面我们看到都是单个的动画，有的时候我们可能相同时执行多个动画，Core Animation 提供了两种方法：一是 CAAnimationGroup；二是嵌套 transition；
+上面我们看到都是单个的动画，有的时候我们可能想同时执行多个动画，Core Animation 提供了两种方法：一是 CAAnimationGroup；二是嵌套 transition；
 
 用 CAAnimationGroup 同时执行两个动画：
 
@@ -235,9 +235,20 @@ CAAnimation 和 CALayer 类扩展了 key-value coding 惯例来支持自定义�
         
         NSMutableDictionary *style = [NSMutableDictionary dictionaryWithDictionary:self.style];
 
-        NSDictionary *action = @{ClockFaceTimeKey: self.rotationAction};
-
-        [style setObject:action forKey:@"actions"];
+			NSDictionary *actions = [style objectForKey:@"actions"];
+			
+			NSMutableDictionary *newActions;
+			
+			if (actions) {
+				newActions = [actions mutableCopy];
+			}
+			else {
+				newActions = [NSMutableDictionary dictionary];
+			}
+			
+			[newActions setObject:self.rotationAction forKey:ClockFaceTimeKey];
+			
+        [style setObject:newActions forKey:@"actions"];
         
         self.style = style;
     }

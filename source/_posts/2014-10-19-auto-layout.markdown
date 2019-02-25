@@ -45,9 +45,9 @@ Auto Layout 的使用方法有两种：一是通过 Interface Builder, 二是 Co
 ###Masonry
 用代码建立约束时，使用 Apple 提供的 API 代码量还不少，于是就有了 Masonry。她想解决的核心问题就是想让代码布局的表达更简洁高效。目前来看，她的做法还挺受开发者的欢迎，我们可以按需选择使用，毕竟学习她，以后在项目中维护她也是要花时间的啊，只是看这个时间比用 Apple 的 API 完成布局的时间哪个更划算。由于她被广泛使用，所以我们很有可能会要和她打交道，所以这里对它做个简要的使用总结，方便日后查阅。  
 
-Masonry 通过 MASConstraintMaker 来收集 MASConstraint，全部收集完了再建立约束。MASConstraint 是 Masonry 对约束表达的封装，也是 Masonry 实现链式调用的关键，它有两个字类: MASViewConstaint 和 MASCompositeConstraint。 Masonry 还用 MASViewAttribute 封装一侧约束的 View 和 Attribute，来辅助 MASConstraint 的工作。  
+Masonry 通过 MASConstraintMaker 来收集 MASConstraint，全部收集完了再建立约束。MASConstraint 是 Masonry 对约束表达的封装，也是 Masonry 实现链式调用的关键，它有两个子类: MASViewConstaint 和 MASCompositeConstraint。 Masonry 还用 MASViewAttribute 封装一侧约束的 View 和 Attribute，来辅助 MASConstraint 的工作。  
 
-建立约束的情况大致有如下四大类：
+建立约束的情况大致有如下三大类：
 
 ```
 [view mas_makeConstraints:^(MASConstraintMaker *make) {

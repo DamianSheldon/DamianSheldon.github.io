@@ -178,6 +178,27 @@
 
 <p>你可以在单个元素，或一系列元素间以约束的形式来定义这些关系。</p>
 
+<h4>Constraint(约束)</h4>
+
+<p>约束是 Auto Layout 的基石，它表达着界面元素布局的规则。我们可以把约束想像成人类语言表述的数学形式。例如，设计师可能会说“这个按钮的左边缘应该与容器视图的左边缘有20个点的偏移。”，它可以转化为button.left = (container.left + 20)，进而抽象出更一般的表达，y = m*x + b，这就是约束。这里的 y 和 x 是 View 的 attributes，m 和 b 是浮点值。在 Auto Layout 中，她们的取值和含义可以简述如下：</p>
+
+<ul>
+<li>attributes 有left, right, top, bottom, leading, trailing, width, height, centerX, centerY 和 baseline；</li>
+<li>m 表示倍率；</li>
+<li>b 实际上是 Constant value, 是物理大小的偏移；</li>
+<li>=，是 Relation, Auto Layout 支持 &lt;=, = , >= 三种关系；</li>
+<li>Priority level, 约束还支持优先级，优先级高的先满足。</li>
+</ul>
+
+
+<h4>Intrinsic Content Size</h4>
+
+<p>有的视图在给定内容后就确定了自己的大小，我们把这种大小称为：Intrinsic Content Size。 例如，按钮的大小是基于它的标题加上四周的留白。Auto Layout 是在每个尺寸上用一对约束来表示 Intrinsic Content Size。这一对约束称为 content hugging 和 compression resistance，简称 CHCR, 我们可以通过调整关联元素的 CHCR 的大小来实现她们布局容器的大小调整时谁缩小谁放大。 </p>
+
+<p>Auto Layout 是 Apple 对图形界面元素布局给出的解决方案，她是一种自然语言的布局表达，非常自然清切，个人觉得她比 Web 的布局要强势，可以指哪放哪。这是使用过程中的一个感受，但并不代表 Auto Layout 就比 Web 的布局方法要好，只能说各有千秋吧。</p>
+
+<p>在布局过程中，界面上的元素可以看成一棵视图树，为了确定布局，视图的位置和大小都要确定，位置都是通过约束来建立，一般就是和父视图建立约束，根视图则是和窗体。视图的大小则可以通过 Intrinsic Content Size 或 约束建立。基于这些输入，Auto Layout 就可以计算出最终的布局信息。</p>
+
 
 		
 		<a href="/blog/auto-layout.html" class="more-link">继续阅读</a>

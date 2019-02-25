@@ -10,15 +10,15 @@ description: iOS的绘图系统
 
 在 iOS 开发过程中，有时我们可能需要自己用代码绘制应用的部分内容，这时候就需要和绘图系统打交道了。 iOS 的绘图系统很强大，我们可以用它来做很多事情；另一方面 Apple 做了很多艰苦卓绝的工作，使得大多数情况下我们可以很轻松完成绘制任务。
 
-大多数人应该都有过绘画的经历，这和 iOS 中的绘画很类似，我相信最开始研究计算机图形学的先驱肯定汲取了很多绘画的精髓，所以我们联系绘画来理解 iOS 中的绘画会很帮助。
+大多数人应该都有过绘画的经历，这和 iOS 中的绘画很类似，我相信最开始研究计算机图形学的先驱肯定汲取了很多绘画的精髓，所以我们联系绘画来理解 iOS 中的绘画会很有帮助。
 
-当我们在现实生活中绘画时，我们会思考些什么？有些事情是肯定会要考虑的，比如，要画什么内容？画到哪里？用什么东西画?怎么画？在 iOS 中绘画，我们同样要考虑这些问题，只不过这时要和 Apple 定义的术语联系起来，因为我们在她定义的世界里，所以就要按她的规则来做事。  
+当我们在现实生活中绘画时，我们会思考些什么？有些事情是肯定会要考虑的，比如，要画什么内容？画到哪里？用什么东西画?怎么画？在 iOS 中绘画，我们同样要考虑这些问题，只不过这时要和 Apple 定义的术语联系起来，因为我们在她定义的世界里，所以就要按她的规则来行事。  
 
-要画什么内容是由应用的需求决定的，所以不在我们讨论的范围，我们重点关注画到哪里?用什么东西画？怎么画这些问题。iOS 上图形软件技术堆栈大致是这样的：UIKit graphics > Core Graphics(Quartz 2D), Core Animation > OpenGL ES。
+要画什么内容是由应用的需求决定的，所以不在我们讨论的范围，我们重点关注画到哪里?用什么东西画？怎么画这些问题。iOS 上图形软件技术栈大致是这样的：UIKit graphics > Core Graphics(Quartz 2D), Core Animation > OpenGL ES。
 
 Open GL ES 是移动版本的 OpenGL, 它能实现高性能的 2D 和 3D 图形绘制，它不是 Apple 的成果，却是 iOS 图形技术的基石。Apple 在它之上抽象封装了 Core Graphics, Core Animation 等库。大多数应用开发者主要和 2D 图形打交道，所以我们主要使用 Core Graphics，Core Animation。Core Animation 主要为应用提供动画支持，UIKit graphics 的功能相对简单，所以这里我们聚焦 Core Graphics，也称为 Quartz。
 
-上面也可以用来回答用什么画这个问题，即我们可以用 UIKit graphics, Core Animation, OpenGL ES 画，如果我们主要是绘制 2D 图形，那么使用 Core Graphics 是比较正确的选择。
+上面也可以用来回答用什么画这个问题，即我们可以用 UIKit graphics, Core Graphics, Core Animation, OpenGL ES 画，如果我们主要是绘制 2D 图形，那么使用 Core Graphics 是比较正确的选择。
 
 ##画到哪里
 画到哪里在 iOS 中对应 Graphic Context，我们不妨翻译为图形上下文。在 iOS 应用中有如下可用的图形上下文：bitmap graphics context，PDF graphics context，window graphics context 和 layer context。

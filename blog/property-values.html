@@ -317,7 +317,7 @@
 
 <h2>可改变性</h2>
 
-<p>属性可以是只读的。你对象可能有些属性实际上是计算得到的值。Puppy 有 名字和姓，全名是它们两者的连接:</p>
+<p>属性可以是只读的。你对象可能有些属性实际上是计算得到的值。Puppy 有名字和姓，全名是它们两者的连接:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -343,7 +343,7 @@
 
 <h2>内存管理</h2>
 
-<p>Cocod 对于内存管理有很多选择。非对象值以字节方式复制。对象指针可以是 strong，它意味着指向的对象将被保持存活。你可以有 weak 对象指针，它不保持其他对象存活，如果指向的对象销毁了它会被回填为零。你可以复制对象而不再引用原始对象。你也可以有只进行字节复制的对象指针而不进行内存管理。</p>
+<p>Cocoa 对于内存管理有很多选择。非对象值以字节方式复制。对象指针可以是 strong，它意味着指向的对象将被保持存活。你可以有 weak 对象指针，它不保持其他对象存活，如果指向的对象销毁了它会被回填为零。你可以复制对象而不再引用原始对象。你也可以有只进行字节复制的对象指针而不进行内存管理。</p>
 
 <p>你应该总是为 NSString attribute 使用复制。这个的动机可以在<a href="https://www.bignerdranch.com/blog/about-mutability/">关于可改变性</a> 的 &ldquo;Mutable Stripping&rdquo; 节找到。</p>
 

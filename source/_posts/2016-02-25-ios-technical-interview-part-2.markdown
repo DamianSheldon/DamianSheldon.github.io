@@ -235,11 +235,15 @@ Reference:[iOS automatic @synthesize without creating an ivar](https://stackover
 > In Objective-C, it is valid to send a message to nil—it simply has no effect at runtime. There are several patterns in Cocoa that take advantage of this fact. The value returned from a message to nil may also be valid:  
 > 
 > 	•	If the method returns an object, then a message sent to nil returns 0 (nil). For example:  `Person *motherInLaw = [[aPerson spouse] mother];`  
-> > If the spouse object here is nil, then mother is sent to nil and the method returns nil.  
 >
-> 	•	If the method returns any pointer type, any integer scalar of size less than or equal to sizeof(void*), a float, a double, a long double, or a long long, then a message sent to nil returns 0.
-> 	•	If the method returns a struct, as defined by the OS X ABI Function Call Guide to be returned in registers, then a message sent to nil returns 0.0 for every field in the struct. Other struct data types will not be filled with zeros.
-> 	•	If the method returns anything other than the aforementioned value types, the return value of a message sent to nil is undefined.
+> If the spouse object here is nil, then mother is sent to nil and the method returns nil.  
+>  
+> 	•	If the method returns any pointer type, any integer scalar of size less than or equal to sizeof(void*), a float, a double, a long double, or a long long, then a message sent to nil returns 0.  
+> 
+> 	•	If the method returns a struct, as defined by the OS X ABI Function Call Guide to be returned in registers, then a message sent to nil returns 0.0 for every field in the struct. Other struct data types will not be filled with zeros.  
+> 
+> 	•	If the method returns anything other than the aforementioned value types, the return value of a message sent to nil is undefined.  
+> 
 
 objc中向一个nil对象发送消息在运行时不会有什么效果。
 

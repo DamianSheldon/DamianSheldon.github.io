@@ -67,12 +67,18 @@ return result;
 
 A: 
 
-> You typically access an object’s properties (in the sense of its attributes and relationships) through a pair of accessor (getter/setter) methods. By using accessor methods, you adhere to the principle of encapsulation (see Mechanisms Of Abstraction in Object-Oriented Programming with Objective-C). You can exercise tight control of the behavior of the getter/setter pair and the underlying state management while clients of the API remain insulated from the implementation changes.
-> Although using accessor methods therefore has significant advantages, writing accessor methods is a tedious process. Moreover, aspects of the property that may be important to consumers of the API are left obscured—such as whether the accessor methods are thread-safe or whether new values are copied when set.
-> Declared properties address these issues by providing the following features:
-> 	•	The property declaration provides a clear, explicit specification of how the accessor methods behave.
-> 	•	The compiler can synthesize accessor methods for you, according to the specification you provide in the declaration.
-> 	•	Properties are represented syntactically as identifiers and are scoped, so the compiler can detect use of undeclared properties.
+> You typically access an object’s properties (in the sense of its attributes and relationships) through a pair of accessor (getter/setter) methods. By using accessor methods, you adhere to the principle of encapsulation (see Mechanisms Of Abstraction in Object-Oriented Programming with Objective-C). You can exercise tight control of the behavior of the getter/setter pair and the underlying state management while clients of the API remain insulated from the implementation changes.  
+> 
+> Although using accessor methods therefore has significant advantages, writing accessor methods is a tedious process. Moreover, aspects of the property that may be important to consumers of the API are left obscured—such as whether the accessor methods are thread-safe or whether new values are copied when set.  
+> 
+> Declared properties address these issues by providing the following features:  
+> 
+> 	•	The property declaration provides a clear, explicit specification of how the accessor methods behave.  
+> 
+> 	•	The compiler can synthesize accessor methods for you, according to the specification you provide in the declaration.  
+> 
+> 	•	Properties are represented syntactically as identifiers and are scoped, so the compiler can detect use of undeclared properties.  
+> 
 
 从 Apple 的上面的介绍，我觉得 @property 的本质是一种优雅的表达对象属性的语法。
 

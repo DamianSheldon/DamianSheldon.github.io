@@ -45,7 +45,7 @@ id result = [[value retain] autorelease];
 return result;
 ```
 
-从文档的修改记录来看，这后一次修改时间是2011-10-12，维基上查了下 Mid 2011(July) 的 MacBook Air 的低配处理器参数为: 1.6 GHz (i5-2467M) dual-core Intel Core i5 with 3 MB shared L3 cacheOptional 1.8 GHz (i7-2677M) dual-core Intel Core i7 with 4 MB shared L3 cache, 内存为：2 GB (11" base model; Optional 4 GB) or 4 GB of 1333 MHz DDR3 SDRAM (all other models)，目前 Apple 还支持 iPhone 5S，它的处理器：64-bit 1.3 GHz dual-core Apple Cyclone，内存：1 GB LPDDR3 RAM，很遗憾数据好像没有全面超越，不过也比较接近了，当设备淘汰到 iPhone 6S 时，我们有理由在 iOS 开发中直接使用 atomic 关键字了。
+从文档的修改记录来看，最后一次修改时间是2011-10-12，维基上查了下 Mid 2011(July) 的 MacBook Air 的低配处理器参数为: 1.6 GHz (i5-2467M) dual-core Intel Core i5 with 3 MB shared L3 cacheOptional 1.8 GHz (i7-2677M) dual-core Intel Core i7 with 4 MB shared L3 cache, 内存为：2 GB (11" base model; Optional 4 GB) or 4 GB of 1333 MHz DDR3 SDRAM (all other models)，目前 Apple 还支持 iPhone 5S，它的处理器：64-bit 1.3 GHz dual-core Apple Cyclone，内存：1 GB LPDDR3 RAM，很遗憾数据好像没有全面超越，不过也比较接近了，当设备淘汰到 iPhone 6S 时，我们有理由在 iOS 开发中直接使用 atomic 关键字了。
 <!--more-->
 ###4.如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？  
  A:
@@ -67,12 +67,18 @@ return result;
 
 A: 
 
-> You typically access an object’s properties (in the sense of its attributes and relationships) through a pair of accessor (getter/setter) methods. By using accessor methods, you adhere to the principle of encapsulation (see Mechanisms Of Abstraction in Object-Oriented Programming with Objective-C). You can exercise tight control of the behavior of the getter/setter pair and the underlying state management while clients of the API remain insulated from the implementation changes.
-> Although using accessor methods therefore has significant advantages, writing accessor methods is a tedious process. Moreover, aspects of the property that may be important to consumers of the API are left obscured—such as whether the accessor methods are thread-safe or whether new values are copied when set.
-> Declared properties address these issues by providing the following features:
-> 	•	The property declaration provides a clear, explicit specification of how the accessor methods behave.
-> 	•	The compiler can synthesize accessor methods for you, according to the specification you provide in the declaration.
-> 	•	Properties are represented syntactically as identifiers and are scoped, so the compiler can detect use of undeclared properties.
+> You typically access an object’s properties (in the sense of its attributes and relationships) through a pair of accessor (getter/setter) methods. By using accessor methods, you adhere to the principle of encapsulation (see Mechanisms Of Abstraction in Object-Oriented Programming with Objective-C). You can exercise tight control of the behavior of the getter/setter pair and the underlying state management while clients of the API remain insulated from the implementation changes.  
+> 
+> Although using accessor methods therefore has significant advantages, writing accessor methods is a tedious process. Moreover, aspects of the property that may be important to consumers of the API are left obscured—such as whether the accessor methods are thread-safe or whether new values are copied when set.  
+> 
+> Declared properties address these issues by providing the following features:  
+> 
+> 	•	The property declaration provides a clear, explicit specification of how the accessor methods behave.  
+> 
+> 	•	The compiler can synthesize accessor methods for you, according to the specification you provide in the declaration.  
+> 
+> 	•	Properties are represented syntactically as identifiers and are scoped, so the compiler can detect use of undeclared properties.  
+> 
 
 从 Apple 的上面的介绍，我觉得 @property 的本质是一种优雅的表达对象属性的语法。
 

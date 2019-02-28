@@ -294,9 +294,29 @@ ISA指针
   return self;
 }
 @end
+
+// Test driver code
+Son *son = [Son new];
 ```
 A:都输出 Son.
-super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去调用父类的分发表里的方法，而不是调用本类分发表里的方法。
+super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去调用父类的分发表里的方法，而不是调用本类分发表里的方法。于是 self 从类的方法列表， super 从父类的方法列表沿继承链向上查找，最终在 NSObject 的方法方法列表里找到方法实现，class 方法是返回接收者的类对象，而 super 只是个标识，实际上两者的接收者都是 son 实例，所以最终的结果就是 Son。  
+
+假设我们现在基于 Son 定义 GrandSon 类，代码如下:
+
+```
+@interface GrandSon : Son
+
+@end
+
+@implementation GrandSon
+
+@end
+
+// Test driver code
+GrandSon *grandSon = [GrandSon new];
+```
+
+此时输出的是什么呢？基于上述的的解释，现在的对象是 grandSon，它的类是 GrandSon，于是输出便是 GrandSon。  
 
 >super is simply a flag to the compiler telling it where to begin searching for the method to perform; it’s used only as the receiver of a message. But self is a variable name that can be used in any number of ways, even assigned a new value.
 

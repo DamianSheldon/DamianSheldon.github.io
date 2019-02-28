@@ -460,6 +460,9 @@ ISA指针<br/>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">Son</span> : <span class="nc">Father</span>
 </span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
 </span><span class='line'><span class="p">{</span>
@@ -471,11 +474,41 @@ ISA指针<br/>
 </span><span class='line'>  <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Test driver code</span>
+</span><span class='line'><span class="n">Son</span> <span class="o">*</span><span class="n">son</span> <span class="o">=</span> <span class="p">[</span><span class="n">Son</span> <span class="n">new</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>A:都输出 Son.
-super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去调用父类的分发表里的方法，而不是调用本类分发表里的方法。</p>
+super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者！他们两个的不同点在于：super 会告诉编译器，调用 class 这个方法时，要去调用父类的分发表里的方法，而不是调用本类分发表里的方法。于是 self 从类的方法列表， super 从父类的方法列表沿继承链向上查找，最终在 NSObject 的方法方法列表里找到方法实现，class 方法是返回接收者的类对象，而 super 只是个标识，实际上两者的接收者都是 son 实例，所以最终的结果就是 Son。</p>
+
+<p>假设我们现在基于 Son 定义 GrandSon 类，代码如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">GrandSon</span> : <span class="nc">Son</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">GrandSon</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Test driver code</span>
+</span><span class='line'><span class="n">GrandSon</span> <span class="o">*</span><span class="n">grandSon</span> <span class="o">=</span> <span class="p">[</span><span class="n">GrandSon</span> <span class="n">new</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此时输出的是什么呢？基于上述的的解释，现在的对象是 grandSon，它的类是 GrandSon，于是输出便是 GrandSon。</p>
 
 <blockquote><p>super is simply a flag to the compiler telling it where to begin searching for the method to perform; it’s used only as the receiver of a message. But self is a variable name that can be used in any number of ways, even assigned a new value.</p></blockquote>
 

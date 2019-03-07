@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-02-28T21:47:26+08:00</updated>
+  <updated>2019-03-07T17:29:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 界面布局]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-ui-layout.html"/>
+    <updated>2019-03-06T09:27:15+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-ui-layout</id>
+    <content type="html"><![CDATA[<p>Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。</p>
+
+<p>Web 诞生的背景是更好的共享信息，而这信息起初便是文字、图片。为了展示图文信息，涌现出了很多布局方式，一种称为流的布局方式在竞争中胜出了。</p>
+
+<p>在这种布局方式中，界面元素被大体分为两类：一类是块级元素；另一类是是内联元素。块级元素负责结构布局，内联元素负责内容。在默认情况下，块级元素会像水流一样填满容器的宽度，内联元素则是从左至右，从上往下堆叠。很显然完全使用默认的布局行为是不能完成所有的需求的，于是在此基础上通过破坏流演化出新的布局行为，进而来满足我们的各种布局需求。所以总结下来，Web 的布局方法主要是如下几种：</p>
+
+<ul>
+<li>默认流布局行为</li>
+<li>Float</li>
+<li>Positioning</li>
+<li>Table layout</li>
+<li>Flexbox</li>
+<li>Grid</li>
+</ul>
+
+
+<p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
+
+<p><img class="center" src="images/css-box-model.png"></p>
+
+<p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
+
+<p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
+
+<p><img class="center" src="images/html-element-tree.png"></p>
+
+<p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
+
+<p>Positioning 布局方法是通过改变元素的 position 值来改变她的位置，她可能的值为：<code>static | relative | absolute| fixed</code>，static 是默认值，relative 是相对默认位置定位，absolute 是相对父元素中第一个不为 static 的元素定位，fixed 则是相对 viewport，这些属性大大增强了布局定位能力。</p>
+
+<!--more-->
+
+
+<p>除了 Positioning 可以改变破坏流，Float 也可以。她本身是用来实现文字环绕图片的效果，但这种特性也可以用来实现布局。这些布局方法在处理某些界面布局时非常困难，甚至不可能，于是 Flexbox, Grid 等的新布局方法出现了。所以总结一下就是，默认流布局行为、Float 和 Positioning 可以控制块元素在容器中的位置，而 Table layout、 Flexbox 和 Grid 主要是控制布局容器内部的布局行为。</p>
+
+<p>梳理完控制位置的方法，我们来看下元素的大小。先看内联非替换元素，它的大小与 font-size 和包含的内容相关。而内联替换元素的大小计算规则要复杂些，基本规则是依次取如下尺寸:</p>
+
+<ul>
+<li>CSS 尺寸；</li>
+<li>HTML 尺寸；</li>
+<li>固有尺寸；</li>
+</ul>
+
+
+<p>祼露的 <code>&lt;img&gt;</code> 元素是个例外，需要留意下，但不影响内在的梳理脉胳。</p>
+
+<p>块级替换元素使用内联替换元素相同的计算规则。所以，我们重点来看下块级非替换元素的尺寸计算。首先，我们肯定可以使用 width 和 height 直接设置她的尺寸，但如果是应用在页面的主体结构布局上是和流布局的理念想违背，我们希望她的宽度是自动填满布局容器，高度是基于她的内容，也就是内联元素。</p>
+
+<p>块元素内部每行内联元素由行框盒子包含，有多少行就有多少个行框盒子，而 <code>line-height</code> 以决定行框盒子的高度，所以块级非替换元素主要由 <code>line-height</code> 决定高度。但是她也受 <code>vertical-align</code> 的影响，这时候由于内联元素和幽灵空白节点的默认基线对齐影响，会造成高度会有些许变化，这是我们需要注意的。</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>CSS 世界</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App Distribution]]></title>
@@ -7218,163 +7282,6 @@ composition 类使用 animationTool 属性赋予你引入来自 Core Animation �
 </pre></td><td class='code'><pre><code class=''><span class='line'> Android Studio &gt; Preference... &gt; Build,Excution,Deployment &gt; Gradle &gt; User local gradle distribution &gt; Gradle home
 </span><span class='line'>
 </span><span class='line'> Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android 真机抓包]]></title>
-    <link href="http://DamianSheldon.github.io/blog/capturing-android-physic-device-traffic-on-tcpdump.html"/>
-    <updated>2017-03-11T17:04:33+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/capturing-android-physic-device-traffic-on-tcpdump</id>
-    <content type="html"><![CDATA[<p>在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。</p>
-
-<p>如果我们和服务端的交互没有通过 VPN, 而且也不是视频流这种网络性能要求苛刻的情况，我们可以通过 tPacketCapture 这种应用来抓包；</p>
-
-<p>其他情况我们可以通过 root 手机，然后安装 tcpdump 来抓包。</p>
-
-<p>下面我们详细介绍下 通过 tcpdump 抓包这种方法：</p>
-
-<ul>
-<li>Root 手机</li>
-</ul>
-
-
-<p>Root 手机的原理是利用系统存在的漏洞来获得 root 权限，<a href="https://forum.xda-developers.com/">XDA Developers</a> 上有不少 root 工具，很多手机都可以用它们 root。</p>
-
-<ul>
-<li>安装 tcpdump</li>
-</ul>
-
-
-<p>可以到网上搜索为 Android 编译好的 tcpdump 二进制包，例如<a href="http://www.strazzere.com/android/tcpdump">这里</a>就有一个。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy tcpdump to device
-</span><span class='line'>$ adb -d push /path/to/tcpdump /sdcard/tcpdump
-</span><span class='line'>
-</span><span class='line'>// Device shell
-</span><span class='line'>$ adb -d shell
-</span><span class='line'>
-</span><span class='line'>// Switch to root
-</span><span class='line'>$ su
-</span><span class='line'>
-</span><span class='line'>// Copy tcpdump to /data/local/
-</span><span class='line'># cat /sdcard/tcpdump /data/local/tcpdump</span></code></pre></td></tr></table></div></figure>
-
-
-<!--more-->
-
-
-<ul>
-<li>抓包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/# cd /data/local
-</span><span class='line'>/# ./tcpdump -i any -p -s 0 -w /sdcard/capture.pcap
-</span><span class='line'>
-</span><span class='line'>//  Options
-</span><span class='line'>    # "-i any": listen on any network interface
-</span><span class='line'>
-</span><span class='line'>　　# "-p": disable promiscuous mode (doesn't work anyway)
-</span><span class='line'>
-</span><span class='line'>　　# "-s 0": capture the entire packet
-</span><span class='line'>
-</span><span class='line'>　　# "-w": write packets to a file (rather than printing to stdout)
-</span><span class='line'>
-</span><span class='line'>　　... do whatever you want to capture, then ^C to stop it ...</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>分析</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy capture.pcap to computer
-</span><span class='line'>$ adb -d pull /sdcard/capture.pcap /path/to/capture.pcap
-</span><span class='line'>
-</span><span class='line'>Analyze with Wireshark.</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Shell Commands</li>
-</ul>
-
-
-<p>Android 手机上的命令通常不全，我们可以通过安装 BusyBox 来提供一个相对完成 Shell 命令集方便我们的开发工作。</p>
-
-<p>1,Download <a href="http://www.busybox.net/downloads/binaries">BusyBox</a> 的压缩包;<br/>
-2,获取设备 CPU 的架构版本 <code>adb -d shell cat /proc/cpuinfo</code><br/>
-3,解开压缩包，把对应 CPU 架构版本的二进制包生命名为 busybox,例如 <code>mv busybox-armv7l busybox</code>;<br/>
-4,安装 busybox 到设备上，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy busybox to device
-</span><span class='line'>$adb -d push /path/to/busybox /sdcard/busybox
-</span><span class='line'>
-</span><span class='line'>// Switch to device shell
-</span><span class='line'>$adb -d shell
-</span><span class='line'>
-</span><span class='line'>// Install busybox
-</span><span class='line'>$ su
-</span><span class='line'>
-</span><span class='line'>\# cat /sdcard/busybox /system/xbin/busybox
-</span><span class='line'>
-</span><span class='line'>// Check install result
-</span><span class='line'># busybox 
-</span><span class='line'>
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Reference</h2>
-
-<ul>
-<li><a href="http://www.cnblogs.com/likwo/archive/2012/09/06/2673944.html">Android通过tcpdump抓包</a></li>
-<li><a href="http://www.cnblogs.com/blues_/p/3582097.html">转adb Shell root 权限</a></li>
-<li><a href="http://www.cnblogs.com/xiaowenji/archive/2011/03/12/1982309.html">为Android安装BusyBox —— 完整的bash shell</a></li>
-</ul>
 
 ]]></content>
   </entry>

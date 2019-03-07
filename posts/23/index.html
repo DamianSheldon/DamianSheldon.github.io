@@ -63,6 +63,70 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/variable-sized-items-in-uicollectionview.html">
+		
+			(翻译)Variable-Sized Items in UICollectionView</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-11-04T11:27:12+08:00" pubdate data-updated="true">04 Nov 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>基本训练</h3>
+
+<p>我们以 “Single View Application” 为模板新建一个工程。在 ViewController.xib 上添加一个UICollectionView 让它覆盖整个 view。</p>
+
+<p><img name="Variable-Sized_Items_in_UICollectionView01" src="/images/Variable-Sized_Items_in_UICollectionView01.png" width="1110" height="783"></p>
+
+<p>Collection View 和它的祖父类似，有 delegate 和 dataSource 两个 outlet,我们把它们连接到 “File’s Owner”,这里的 “File’s Owner” 是 ViewController 类。这样 Collection View 的内容和交互就受 ViewController 控制。我们也需要一个 outlet 来引用 Collection View,所以用 Assistant editor 增加一个。刚在 ViewController.h 中添加的 outlet property 可以是weak，因为作为 ViewController 的视图的子视图，它也会被充分的保留。</p>
+
+<h3>单元格</h3>
+
+<p>我们需要设计一个 Cell 原型来显示内容。如果你的 Collection View 是在 View controller’s XIB ,你必须在先在代码中注册 Cell 才能使用。如果你是在 Storyboard 中新建的 CollectionView，并在 CollectionView 的区域内创建的原型 Cell,那么你就不需要注册 Cell identifier 了。因为我们并没有从 Storyboard 中开始，所以需要手动来创建。</p>
+
+<p>我们在 Interface Builder 中创建一个原型 Cell，设置它的背影为白色，添加一个 UILabel，添加 Label 到父视图边缘的约束，分别是 5 points 的距离。因为我们想让 Label 的文字来决定它的尺寸，所以选中 Label ,然后从 Editor menu 中选择 “Size to Fit Content”。后面我们会看到它是否会按照我们想像的那样工作。</p>
+
+<p><img name="Variable-Sized_Items_in_UICollectionView02" src="/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
+
+<p>我们设置 Identifier 为 “TagCell” 以便我们能在设计中引用。</p>
+
+
+		
+		<a href="/blog/variable-sized-items-in-uicollectionview.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/music-import-from-windows-text-display-garbled-in-itunes.html">
 		
 			iTunes 歌曲信息乱码的解决办法</a>
@@ -202,71 +266,6 @@
 
 		
 		<a href="/blog/auto-layout.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-certificates.html">
-		
-			iOS Development--Certificates, Provisioning Profiles</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-10-09T16:24:09+08:00" pubdate data-updated="true">09 Oct 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>在 iOS 开发中，Certificate 和 Provisioning Profle 可能是我们容易困惑的一部分内容。这篇文章我打算来梳理下这部分知识，只有理解了其中的内容，我们才能解决在开发过程可能遇到的代码签名问题。</p>
-
-<p>先来看张图，所谓一图胜千言：</p>
-
-<div style="text-align: center" markdown="1"> 
-    <img name="LaunchApp" src="/images/LaunchApp.png" width="697" height="573">  
-</div>
-
-
-<p>从这张图上我们可以看到，只有应用的 bundle ID 匹配 App ID, certificate 匹配到 Provisioning Profile 中的 Certificate, device ID 匹配到 Provisioning Profile 中的 device ID。嗯，这中间牵涉到的内容就有：</p>
-
-<ul>
-<li>App ID</li>
-<li>Certificate</li>
-<li>Device ID</li>
-<li>Provisioning Profile</li>
-</ul>
-
-
-
-		
-		<a href="/blog/ios-development-certificates.html" class="more-link">继续阅读</a>
 	</div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-02-28T21:47:26+08:00</updated>
+  <updated>2019-03-07T17:29:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 界面布局]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-ui-layout.html"/>
+    <updated>2019-03-06T09:27:15+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-ui-layout</id>
+    <content type="html"><![CDATA[<p>Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。</p>
+
+<p>Web 诞生的背景是更好的共享信息，而这信息起初便是文字、图片。为了展示图文信息，涌现出了很多布局方式，一种称为流的布局方式在竞争中胜出了。</p>
+
+<p>在这种布局方式中，界面元素被大体分为两类：一类是块级元素；另一类是是内联元素。块级元素负责结构布局，内联元素负责内容。在默认情况下，块级元素会像水流一样填满容器的宽度，内联元素则是从左至右，从上往下堆叠。很显然完全使用默认的布局行为是不能完成所有的需求的，于是在此基础上通过破坏流演化出新的布局行为，进而来满足我们的各种布局需求。所以总结下来，Web 的布局方法主要是如下几种：</p>
+
+<ul>
+<li>默认流布局行为</li>
+<li>Float</li>
+<li>Positioning</li>
+<li>Table layout</li>
+<li>Flexbox</li>
+<li>Grid</li>
+</ul>
+
+
+<p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
+
+<p><img class="center" src="images/css-box-model.png"></p>
+
+<p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
+
+<p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
+
+<p><img class="center" src="images/html-element-tree.png"></p>
+
+<p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
+
+<p>Positioning 布局方法是通过改变元素的 position 值来改变她的位置，她可能的值为：<code>static | relative | absolute| fixed</code>，static 是默认值，relative 是相对默认位置定位，absolute 是相对父元素中第一个不为 static 的元素定位，fixed 则是相对 viewport，这些属性大大增强了布局定位能力。</p>
+
+<!--more-->
+
+
+<p>除了 Positioning 可以改变破坏流，Float 也可以。她本身是用来实现文字环绕图片的效果，但这种特性也可以用来实现布局。这些布局方法在处理某些界面布局时非常困难，甚至不可能，于是 Flexbox, Grid 等的新布局方法出现了。所以总结一下就是，默认流布局行为、Float 和 Positioning 可以控制块元素在容器中的位置，而 Table layout、 Flexbox 和 Grid 主要是控制布局容器内部的布局行为。</p>
+
+<p>梳理完控制位置的方法，我们来看下元素的大小。先看内联非替换元素，它的大小与 font-size 和包含的内容相关。而内联替换元素的大小计算规则要复杂些，基本规则是依次取如下尺寸:</p>
+
+<ul>
+<li>CSS 尺寸；</li>
+<li>HTML 尺寸；</li>
+<li>固有尺寸；</li>
+</ul>
+
+
+<p>祼露的 <code>&lt;img&gt;</code> 元素是个例外，需要留意下，但不影响内在的梳理脉胳。</p>
+
+<p>块级替换元素使用内联替换元素相同的计算规则。所以，我们重点来看下块级非替换元素的尺寸计算。首先，我们肯定可以使用 width 和 height 直接设置她的尺寸，但如果是应用在页面的主体结构布局上是和流布局的理念想违背，我们希望她的宽度是自动填满布局容器，高度是基于她的内容，也就是内联元素。</p>
+
+<p>块元素内部每行内联元素由行框盒子包含，有多少行就有多少个行框盒子，而 <code>line-height</code> 以决定行框盒子的高度，所以块级非替换元素主要由 <code>line-height</code> 决定高度。但是她也受 <code>vertical-align</code> 的影响，这时候由于内联元素和幽灵空白节点的默认基线对齐影响，会造成高度会有些许变化，这是我们需要注意的。</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>CSS 世界</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 面试题汇总(三)]]></title>
@@ -2484,271 +2548,6 @@ for Angular &lt;= 5.x.xx
 </span><span class='line'>var display = window.getComputedStyle(beforePesudoElem).getPropertyValue(&lsquo;display&rsquo;);</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Reference:<a href="https://davidwalsh.name/pseudo-element">Get Pseudo-Element Properties with JavaScript</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-two.html"/>
-    <updated>2018-01-04T10:08:36+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-two</id>
-    <content type="html"><![CDATA[<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
-
-<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
-
-<blockquote><p>jQuery.browser() removed</p>
-
-<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
-
-<p>— jQuery Core 1.9 Upgrade Guide.</p></blockquote>
-
-<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
-
-<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
-
-<p>A:To include http-servlet into your class path, you have two options:</p>
-
-<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
-2. Another option is include the servlet dependency through maven itself. This will also fix the error.
-</code></pre>
-
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
-    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
-    &lt;version&gt;2.5&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
-
-<h3>3.Dynamic Web Module 3.1 requires Java 1.7 or newer</h3>
-
-<p>A:</p>
-
-<p>Step1:<br/>
-Make sure your Java Project is configured probably to use Java 1.7.
-Right click your project > Properties > Java Compiler and set “Compiler compliance level” to 1.7</p>
-
-<p>Step2:<br/>
-Java Build Path. Click “Edit“. And change it to “Java 7”</p>
-
-<p>Step3:<br/>
-Next from the menu on the left select Project Facets > Java and set its version to 1.7</p>
-
-<p>Extra Tips:<br/>
-If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.</p>
-
-<p>Reference:<a href="https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/">How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse</a></p>
-
-<h3>4.How to display available goals of maven plugin?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:</p></blockquote>
-
-<pre><code class="bash">$ mvn javadoc:help -Ddetail -Dgoal=javadoc
-</code></pre>
-
-<p>It works of course for Maven core plugins. to list all goals of the archetype plugin :</p>
-
-<pre><code class="bash">$ mvn archetype:help
-</code></pre>
-
-<p>And it works also for third party plugins. For example, to display all goals of the spring-boot plugin :</p>
-
-<pre><code class="bash">$ mvn spring-boot:help
-</code></pre>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals">How to display a list of available goals?</a></p>
-
-<h3>5.Not a java source folder</h3>
-
-<p>A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。</p>
-
-<p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
-
-<!--more-->
-
-
-<h3>6.Thymeleaf 如何支持遍历枚举</h3>
-
-<p>A:</p>
-
-<blockquote><p>The java.util.List class isn’t the onlyvalue that can be used for iteration in Thymeleaf. There is a quite complete set of objects that are considered iterable by a th:each attribute:</p>
-
-<ul>
-<li>Any object implementing java.util.Iterable</li>
-<li>Any object implementing java.util.Enumeration .</li>
-<li>Any object implementing java.util.Iterator , whose values will be used as they are returned by the iterator, without the need to cache all values in memory.</li>
-<li>Any object implementing java.util.Map . When iterating maps, iter variables will be of class java.util.Map.Entry . Any array.</li>
-<li>Any other object will be treated as if it were a single-valued list containing the object itself.</li>
-</ul>
-</blockquote>
-
-<p>上面就是可选方案，一开始我没看仔细，以为 Enumeration 可以直接遍历，之后细看是实现 java.util.Enumeration 的对象，这样综合来看将 Enumeration 转化成 List 是不错的选择。</p>
-
-<p>```html</p>
-
-<p><div th:each="attr: ${java.util.Collections.list(#httpServletRequest.attributeNames)}">
-```</p>
-
-<p>Reference:<a href="https://github.com/thymeleaf/thymeleaf/issues/321">please allow to iterate java.util.Enumeration</a></p>
-
-<h3>7.Call method with iter vaiable as argument in thymeleaf</h3>
-
-<p>A:</p>
-
-<pre><code class="html">&lt;ul th:each="name : ${names}"&gt;
-    &lt;li
-        th:text="|${name} = ${#session.getAttribute(
-        name )}|"&gt;uid
-        = 502&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-
-<p>Reference:<a href="http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html">invoking a method on model with parameter</a></p>
-
-<h3>8.Hiding text using text-indent</h3>
-
-<p>A:</p>
-
-<pre><code class="html">&lt;style type="text/css"&gt;
-
-h1 a {
-    text-decoration: none;
-    position: absolute; /* Depending on your placement */
-    width: 260px;
-    height: 100px;
-    bottom: 0px; /* Depending on your placement */
-    background: url(images/aext-logo.png) no-repeat left top;
-    text-indent: -99999px;
-}
-
-&lt;/style&gt;
-
-&lt;h1&gt;&lt;a href="http://aext.net"&gt;AEXT.NET&lt;/a&gt;&lt;/h1&gt;
-</code></pre>
-
-<p>在尝试过程中发现要设置 width 和 height 才能生效，可以注意下。</p>
-
-<p>Reference:<a href="http://bloggingexperiment.com/css-text-indent-style-your-html-form">CSS text-indent: An Excellent Trick To Style Your HTML Form</a></p>
-
-<h3>9.SEVERE: Exception starting filter</h3>
-
-<p>A:详细错误信息如下：</p>
-
-<pre><code>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext filterStart
-SEVERE: Exception starting filter [DispatchFilter]
-java.lang.ClassNotFoundException: com.tenneshop.bookmark.web.filter.DispatchFilter
-    at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1291)
-    at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1119)
-    at org.apache.catalina.core.DefaultInstanceManager.loadClass(DefaultInstanceManager.java:544)
-    at org.apache.catalina.core.DefaultInstanceManager.loadClassMaybePrivileged(DefaultInstanceManager.java:525)
-    at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:150)
-    at org.apache.catalina.core.ApplicationFilterConfig.getFilter(ApplicationFilterConfig.java:264)
-    at org.apache.catalina.core.ApplicationFilterConfig.&lt;init&gt;(ApplicationFilterConfig.java:108)
-    at org.apache.catalina.core.StandardContext.filterStart(StandardContext.java:4590)
-    at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5233)
-    at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
-    at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1419)
-    at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1409)
-    at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-    at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
-    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
-    at java.lang.Thread.run(Thread.java:745)
-
-Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
-SEVERE: One or more Filters failed to start. Full details will be found in the appropriate container log file
-Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
-SEVERE: Context [/bookmark] startup failed due to previous errors
-</code></pre>
-
-<p>从错误信息来看问题的原因是类找不到，于是可以到部署的目标路径下确认 <code>com.tenneshop.bookmark.web.filter.DispatchFilter</code>是否存在。从 eclipse 输出的 debug 日志中找到部署的目标路径：</p>
-
-<pre><code>Apr 08, 2018 10:28:38 AM org.apache.catalina.startup.VersionLoggerListener log
-INFO: Command line argument: -Dwtp.deploy=/Users/dongmeiliang/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps
-</code></pre>
-
-<p>发现类确实不存在，重新 <code>$ mvn compile</code> 之后问题解决。回想下发觉问题产生的原因是我在终端 <code>$ mvn clean</code>，然后在 eclipse 中 refresh  project ，最后直接就 debug on server 导致没有包含编译的类。</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/32692321/tomcat-severe-exception-starting-filter-corsfilter-classnotfoundexception">Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundException</a></p>
-
-<h3>10.如何改变 server context path?</h3>
-
-<p>A:用 mvn 新建工程时，artifactId 写成了 package name，之后在访问 web 时就略显尴尬，可以通过 Window > Show View > Servers > Double click specific server > Modules > Edit target web module。</p>
-
-<h3>11.Eclipse error: “The import XXX cannot be resolved”</h3>
-
-<p>A:With me it helped changing the compiler compliance level. For unknown reasons it was set to 1.6 and I changed it to 1.8.
-Once at project level right click on project > Properties > Java Compiler, while in Eclipse click on menu Window > Preferences > Java > Compiler.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/4322893/eclipse-error-the-import-xxx-cannot-be-resolved">Eclipse error: “The import XXX cannot be resolved”</a></p>
-
-<h3>12.Index downloads are disabled, search result may be incomplete.</h3>
-
-<p>A:</p>
-
-<ol>
-<li>In Eclipse, click <strong>on Windows > Preferences</strong>, and then choose <strong>Maven</strong> in the left side.</li>
-<li>Check the box &ldquo;<strong>Download repository index updates on startup</strong>&rdquo;.</li>
-<li>Optionally, check the boxes <strong>Download Artifact Sources</strong> and <strong>Download Artifact JavaDoc</strong>.</li>
-<li>Click <strong>OK</strong>. The warning won&rsquo;t appear anymore.</li>
-<li>Restart Eclipse.</li>
-</ol>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/24252256/how-do-i-enable-index-downloads-in-eclipse-for-maven-dependency-search">How do I enable index downloads in Eclipse for Maven dependency search? </a></p>
-
-<h3>13.How to Iterate Over a Map in Java</h3>
-
-<p>A:There are at least 4 method to iterate over a map, one is Iterating over entries using For-Each loop.</p>
-
-<pre><code class="java">Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
-for (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) {
-    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-}
-</code></pre>
-
-<p>Reference:<a href="http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/">How to Iterate Over a Map in Java</a></p>
-
-<h3>14.How to get the row count of ResultSet?</h3>
-
-<p>A:</p>
-
-<pre><code class="java">Statement s = cd.createStatement();
-ResultSet r = s.executeQuery("SELECT COUNT(*) AS rowcount FROM FieldMaster");
-r.next();
-int count = r.getInt("rowcount");
-r.close();
-System.out.println("MyTable has " + count + " row(s).");
-</code></pre>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java">How to get row count using ResultSet in Java?</a></p>
-
-<h3>15.How to Generate random words in Java?</h3>
-
-<p>A:</p>
-
-<pre><code class="java">public static String[] generateRandomWords(int numberOfWords)
-{
-    String[] randomStrings = new String[numberOfWords];
-    Random random = new Random();
-    for(int i = 0; i &lt; numberOfWords; i++)
-    {
-        char[] word = new char[random.nextInt(8)+3]; // words of length 3 through 10. (1 and 2 letter words are boring.)
-        for(int j = 0; j &lt; word.length; j++)
-        {
-            word[j] = (char)('a' + random.nextInt(26));
-        }
-        randomStrings[i] = new String(word);
-    }
-    return randomStrings;
-}
-</code></pre>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/4951997/generating-random-words-in-java">Generating random words in Java?</a></p>
 ]]></content>
   </entry>
   

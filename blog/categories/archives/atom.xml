@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-02-28T21:47:26+08:00</updated>
+  <updated>2019-03-07T17:29:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 界面布局]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-ui-layout.html"/>
+    <updated>2019-03-06T09:27:15+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-ui-layout</id>
+    <content type="html"><![CDATA[<p>Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。</p>
+
+<p>Web 诞生的背景是更好的共享信息，而这信息起初便是文字、图片。为了展示图文信息，涌现出了很多布局方式，一种称为流的布局方式在竞争中胜出了。</p>
+
+<p>在这种布局方式中，界面元素被大体分为两类：一类是块级元素；另一类是是内联元素。块级元素负责结构布局，内联元素负责内容。在默认情况下，块级元素会像水流一样填满容器的宽度，内联元素则是从左至右，从上往下堆叠。很显然完全使用默认的布局行为是不能完成所有的需求的，于是在此基础上通过破坏流演化出新的布局行为，进而来满足我们的各种布局需求。所以总结下来，Web 的布局方法主要是如下几种：</p>
+
+<ul>
+<li>默认流布局行为</li>
+<li>Float</li>
+<li>Positioning</li>
+<li>Table layout</li>
+<li>Flexbox</li>
+<li>Grid</li>
+</ul>
+
+
+<p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
+
+<p><img class="center" src="images/css-box-model.png"></p>
+
+<p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
+
+<p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
+
+<p><img class="center" src="images/html-element-tree.png"></p>
+
+<p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
+
+<p>Positioning 布局方法是通过改变元素的 position 值来改变她的位置，她可能的值为：<code>static | relative | absolute| fixed</code>，static 是默认值，relative 是相对默认位置定位，absolute 是相对父元素中第一个不为 static 的元素定位，fixed 则是相对 viewport，这些属性大大增强了布局定位能力。</p>
+
+<!--more-->
+
+
+<p>除了 Positioning 可以改变破坏流，Float 也可以。她本身是用来实现文字环绕图片的效果，但这种特性也可以用来实现布局。这些布局方法在处理某些界面布局时非常困难，甚至不可能，于是 Flexbox, Grid 等的新布局方法出现了。所以总结一下就是，默认流布局行为、Float 和 Positioning 可以控制块元素在容器中的位置，而 Table layout、 Flexbox 和 Grid 主要是控制布局容器内部的布局行为。</p>
+
+<p>梳理完控制位置的方法，我们来看下元素的大小。先看内联非替换元素，它的大小与 font-size 和包含的内容相关。而内联替换元素的大小计算规则要复杂些，基本规则是依次取如下尺寸:</p>
+
+<ul>
+<li>CSS 尺寸；</li>
+<li>HTML 尺寸；</li>
+<li>固有尺寸；</li>
+</ul>
+
+
+<p>祼露的 <code>&lt;img&gt;</code> 元素是个例外，需要留意下，但不影响内在的梳理脉胳。</p>
+
+<p>块级替换元素使用内联替换元素相同的计算规则。所以，我们重点来看下块级非替换元素的尺寸计算。首先，我们肯定可以使用 width 和 height 直接设置她的尺寸，但如果是应用在页面的主体结构布局上是和流布局的理念想违背，我们希望她的宽度是自动填满布局容器，高度是基于她的内容，也就是内联元素。</p>
+
+<p>块元素内部每行内联元素由行框盒子包含，有多少行就有多少个行框盒子，而 <code>line-height</code> 以决定行框盒子的高度，所以块级非替换元素主要由 <code>line-height</code> 决定高度。但是她也受 <code>vertical-align</code> 的影响，这时候由于内联元素和幽灵空白节点的默认基线对齐影响，会造成高度会有些许变化，这是我们需要注意的。</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>CSS 世界</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS App Distribution]]></title>
@@ -2142,372 +2206,6 @@ elem.dispatchEvent(event);
 
 <ul>
 <li><a href="https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions/Questions-and-Answers">前端开发面试题</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Blocks 的实现]]></title>
-    <link href="http://DamianSheldon.github.io/blog/the-implementation-of-blocks.html"/>
-    <updated>2018-09-01T15:42:34+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/the-implementation-of-blocks</id>
-    <content type="html"><![CDATA[<p>Block 的实现是面试中高频出现的问题，背后的原因我想是希望借此考察面试者对 Block 的掌握程度，在日后的工作中能够用好它；同时能从侧面反映面试者有没有深入钻研技术，以及独立思考能力如何，可谓一举多得。</p>
-
-<p>下面我们就来看看 ObjC 中的 Blocks 是如何实现。Clang 的 <code>-rewrite-objc</code> 选项可以将含有 Block 语法的源代码转换为 C++，说是 C++，其实也仅使用了 struct 结构，其本质是 C 语言。</p>
-
-<p>下面我们先转换一个简单的文件试试:</p>
-
-<pre><code class="objc">#import &lt;Foundation/Foundation.h&gt;
-
-int main(int argc, char ** argv)
-{
-    @autoreleasepool {
-        void (^blk)(void) = ^{
-            printf("Block\n");
-        };
-
-        blk();
-    }    
-
-    return 0;
-}
-
-// 使用命令:
-$ clang -fobjc-arc -ObjC -rewrite-objc -mios-version-min=6.0.0 -fobjc-runtime=ios-6.0.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk -arch arm64 block-essense.m  -o block-essense-in-c.c
-
-//限于篇幅，省略不相关的部分，结果如下:
-struct __block_impl {
-  void *isa;
-  int Flags;
-  int Reserved;
-  void *FuncPtr;
-};
-
-struct __main_block_impl_0 {
-  struct __block_impl impl;
-  struct __main_block_desc_0* Desc;
-  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
-    impl.isa = &amp;_NSConcreteStackBlock;
-    impl.Flags = flags;
-    impl.FuncPtr = fp;
-    Desc = desc;
-  }
-};
-static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
-
-            printf("Block\n");
-        }
-
-static struct __main_block_desc_0 {
-  size_t reserved;
-  size_t Block_size;
-} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
-int main(int argc, char ** argv)
-{
-    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
-        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA));
-
-        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
-    }
-
-    return 0;
-}
-</code></pre>
-
-<!--more-->
-
-
-<p>可以看到持有 block 的变量实际上就是指针，而 block 本身则是结构体，在我们的例子中对应的是 <code>__main_block_impl_0</code>,功能代码则是通过函数来实现的，block 结构体内有成员变量指向该函数，这样我们对 block 的实现渐渐清晰起来了。</p>
-
-<p>Block 有一个重要的特性&ndash;自动捕获变量。这又是怎么实现的呢？我们同样可以使用上述的方法来得到答案。我们构造一个捕获变量的例子，然后来查看它的结果：</p>
-
-<pre><code class="objc">#import &lt;Foundation/Foundation.h&gt;
-
-int main(int argc, char ** argv)
-{
-    @autoreleasepool {
-
-        BOOL flag = YES;
-        int i = 28;
-        float pi = 3.1415;
-        char c = 'x';
-
-        void (^blk)(void) = ^{
-            printf("Block\n");
-            printf("flag:%d\n", flag);
-            printf("i:%d\n", i);
-            printf("pi:%d\n", pi);
-            printf("c:%d\n", c);
-        };
-
-        blk();
-    }
-
-    return 0;
-}
-
-// 转换之后相关部分
-struct __main_block_impl_0 {
-  struct __block_impl impl;
-  struct __main_block_desc_0* Desc;
-  BOOL flag;
-  int i;
-  float pi;
-  char c;
-  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, BOOL _flag, int _i, float _pi, char _c, int flags=0) : flag(_flag), i(_i), pi(_pi), c(_c) {
-    impl.isa = &amp;_NSConcreteStackBlock;
-    impl.Flags = flags;
-    impl.FuncPtr = fp;
-    Desc = desc;
-  }
-};
-static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
-  BOOL flag = __cself-&gt;flag; // bound by copy
-  int i = __cself-&gt;i; // bound by copy
-  float pi = __cself-&gt;pi; // bound by copy
-  char c = __cself-&gt;c; // bound by copy
-
-            printf("Block\n");
-            printf("flag:%d\n", flag);
-            printf("i:%d\n", i);
-            printf("pi:%d\n", pi);
-            printf("c:%d\n", c);
-        }
-
-static struct __main_block_desc_0 {
-  size_t reserved;
-  size_t Block_size;
-} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
-int main(int argc, char ** argv)
-{
-    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
-
-        BOOL flag = ((bool)1);
-        int i = 28;
-        float pi = 3.1415;
-        char c = 'x';
-
-        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, flag, i, pi, c));
-
-        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
-    }
-
-    return 0;
-}
-</code></pre>
-
-<p>可以看到自动捕获的标量数据是直接声明为 block 结构体的成员变量。</p>
-
-<p>除了读取捕获自动变量的值，block 还支持使用 <code>__block</code> 修饰符来修改自动捕获的变量。我们同样来看个例子：</p>
-
-<pre><code class="objc">#import &lt;Foundation/Foundation.h&gt;
-
-int main(int argc, char ** argv)
-{
-    @autoreleasepool {
-
-        __block BOOL flag = YES;
-        __block int i = 28;
-        __block float pi = 3.1415;
-        __block char c = 'x';
-
-        void (^blk)(void) = ^{
-            printf("Block\n");
-
-            flag = NO;
-            i = 88;
-            pi = 3.1415926;
-            c = 'a';
-
-            printf("flag:%d\n", flag);
-            printf("i:%d\n", i);
-            printf("pi:%f\n", pi);
-            printf("c:%d\n", c);
-        };
-
-        blk();
-    }
-
-    return 0;
-}
-
-// 转换之后相关部分的结果:
-struct __Block_byref_flag_0 {
-  void *__isa;
-__Block_byref_flag_0 *__forwarding;
- int __flags;
- int __size;
- BOOL flag;
-};
-struct __Block_byref_i_1 {
-  void *__isa;
-__Block_byref_i_1 *__forwarding;
- int __flags;
- int __size;
- int i;
-};
-struct __Block_byref_pi_2 {
-  void *__isa;
-__Block_byref_pi_2 *__forwarding;
- int __flags;
- int __size;
- float pi;
-};
-struct __Block_byref_c_3 {
-  void *__isa;
-__Block_byref_c_3 *__forwarding;
- int __flags;
- int __size;
- char c;
-};
-
-struct __main_block_impl_0 {
-  struct __block_impl impl;
-  struct __main_block_desc_0* Desc;
-  __Block_byref_flag_0 *flag; // by ref
-  __Block_byref_i_1 *i; // by ref
-  __Block_byref_pi_2 *pi; // by ref
-  __Block_byref_c_3 *c; // by ref
-  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_flag_0 *_flag, __Block_byref_i_1 *_i, __Block_byref_pi_2 *_pi, __Block_byref_c_3 *_c, int flags=0) : flag(_flag-&gt;__forwarding), i(_i-&gt;__forwarding), pi(_pi-&gt;__forwarding), c(_c-&gt;__forwarding) {
-    impl.isa = &amp;_NSConcreteStackBlock;
-    impl.Flags = flags;
-    impl.FuncPtr = fp;
-    Desc = desc;
-  }
-};
-static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
-  __Block_byref_flag_0 *flag = __cself-&gt;flag; // bound by ref
-  __Block_byref_i_1 *i = __cself-&gt;i; // bound by ref
-  __Block_byref_pi_2 *pi = __cself-&gt;pi; // bound by ref
-  __Block_byref_c_3 *c = __cself-&gt;c; // bound by ref
-
-            printf("Block\n");
-
-            (flag-&gt;__forwarding-&gt;flag) = ((bool)0);
-            (i-&gt;__forwarding-&gt;i) = 88;
-            (pi-&gt;__forwarding-&gt;pi) = 3.1415926;
-            (c-&gt;__forwarding-&gt;c) = 'a';
-
-            printf("flag:%d\n", (flag-&gt;__forwarding-&gt;flag));
-            printf("i:%d\n", (i-&gt;__forwarding-&gt;i));
-            printf("pi:%f\n", (pi-&gt;__forwarding-&gt;pi));
-            printf("c:%d\n", (c-&gt;__forwarding-&gt;c));
-        }
-static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&amp;dst-&gt;flag, (void*)src-&gt;flag, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;i, (void*)src-&gt;i, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;pi, (void*)src-&gt;pi, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&amp;dst-&gt;c, (void*)src-&gt;c, 8/*BLOCK_FIELD_IS_BYREF*/);}
-
-static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src-&gt;flag, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;i, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;pi, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src-&gt;c, 8/*BLOCK_FIELD_IS_BYREF*/);}
-
-static struct __main_block_desc_0 {
-  size_t reserved;
-  size_t Block_size;
-  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
-  void (*dispose)(struct __main_block_impl_0*);
-} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
-int main(int argc, char ** argv)
-{
-    /* @autoreleasepool */ { __AtAutoreleasePool __autoreleasepool; 
-
-        __attribute__((__blocks__(byref))) __Block_byref_flag_0 flag = {(void*)0,(__Block_byref_flag_0 *)&amp;flag, 0, sizeof(__Block_byref_flag_0), ((bool)1)};
-        __attribute__((__blocks__(byref))) __Block_byref_i_1 i = {(void*)0,(__Block_byref_i_1 *)&amp;i, 0, sizeof(__Block_byref_i_1), 28};
-        __attribute__((__blocks__(byref))) __Block_byref_pi_2 pi = {(void*)0,(__Block_byref_pi_2 *)&amp;pi, 0, sizeof(__Block_byref_pi_2), 3.1415};
-        __attribute__((__blocks__(byref))) __Block_byref_c_3 c = {(void*)0,(__Block_byref_c_3 *)&amp;c, 0, sizeof(__Block_byref_c_3), 'x'};
-
-        void (*blk)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_flag_0 *)&amp;flag, (__Block_byref_i_1 *)&amp;i, (__Block_byref_pi_2 *)&amp;pi, (__Block_byref_c_3 *)&amp;c, 570425344));
-
-        ((void (*)(__block_impl *))((__block_impl *)blk)-&gt;FuncPtr)((__block_impl *)blk);
-    }
-
-    return 0;
-}
-</code></pre>
-
-<p>可以看到使用 <code>__block</code> 修饰的变量实际上转换成了结构体变量，同样在 block 结构体中有成员变量指向它们。</p>
-
-<p>上面我们看过了使用 block 时的几种情况，我们可以尝试来总结使用 block 的情况，然后查看各种情况转换之后的代码来进一步探索 block 的实现，进而得到比较完善的答案。</p>
-
-<p>首先 block 可以按是否捕获变量分为两大类，其次捕获变量时根据是否支持修改又可以分为两类，最后捕获变量又可以分为程序的数据区域、栈上和堆上三种情况。综上，我们可以得到得到如下的 block 分类列表:</p>
-
-<ul>
-<li>不捕获变量(1)</li>
-<li><p>捕获变量</p>
-
-<ul>
-<li><p>不修改捕获的变量</p>
-
-<ul>
-<li>存在程序数据区的变量(2)</li>
-<li>存在栈上的变量(3)</li>
-<li>存在堆上的变量(4)</li>
-</ul>
-</li>
-<li><p>修改捕获的变量(<code>__block</code> 修饰的变量)</p>
-
-<ul>
-<li>存在程序数据区的变量(5)</li>
-<li>存在栈上的变量(6)</li>
-<li>存在堆上的变量(7)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>这样算下来应该是存在七种情况，我们可以分别构造各种情况的例子，然后得到 block 的实现全貌。</p>
-
-<p>全局变量和 static 变量是程序数据区变量，block 中访问全局变量和在其他地方没有什么不同，所以 block 的实现中不需要对它进行特别考虑。Static 变量在捕获时会在 block 结构体中有对应的成员变量，可以用该成员变量来读写。由于它在程序的生命周期中一直存在，所以当 block 捕获并修改它时，不需要生成对应的结构体变量，这和其他 <code>__block</code> 修饰的变量不同。</p>
-
-<p>情况三和四比较类似，它们都会在 block 结构体中增加相应的成员变量，不同之处是捕获堆上的变量， block 的描述结构体变量中会增加 copy 和 dipose 函数，用来管理对应的内存。</p>
-
-<p>情况六和七也类似，它们都是将变量转换为结构体，然后在 block 结构体增加成员变量指向它们。捕获堆上的变量时，block 内的成员变量指向变量，而这个变量是指向堆上分配的一块内存的，也就是一个对象，对象就是一块内存区域嘛，用代码示例如下：</p>
-
-<pre><code class="objc">blk_t blk;
-
-{
-  __block id __strong array = [[NSMutableArray alloc] init];
-
-  blk = [^(id obj){
-
-      [array addObject:obj];
-      NSLog(@"array count = %ld", [array count]);
-
-  } copy];
-}
-
-// __block 修饰指向 array 的变量
-struct __Block_byref_array_0 {
-  void *__isa;
-__Block_byref_array_0 *__forwarding;
- int __flags;
- int __size;
- void (*__Block_byref_id_object_copy)(void*, void*);
- void (*__Block_byref_id_object_dispose)(void*);
- __strong id array;
-};
-
-// 表示 block 的结构体
-struct __main_block_impl_0 {
-  struct __block_impl impl;
-  struct __main_block_desc_0* Desc;
-  __Block_byref_array_0 *array; // by ref
-  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_array_0 *_array, int flags=0) : array(_array-&gt;__forwarding) {
-    impl.isa = &amp;_NSConcreteStackBlock;
-    impl.Flags = flags;
-    impl.FuncPtr = fp;
-    Desc = desc;
-  }
-};
-</code></pre>
-
-<p>看到这里，我们有了 block 捕获变量出了作用域后还能存在原因的线索，当表示 block 的结构体从栈上拷贝到堆上，如果是只读变量，它的值赋值给 block 结构体的成员变量了；如果是 <code>__block</code> 修饰的变量，表示该变量的结构体也会一并拷贝到堆上，并由 block 持有和管理。</p>
-
-<p>至此，我们应该对 block 的实现比较清晰了。</p>
-
-<h2>Reference</h2>
-
-<ul>
-<li>Objective-C 高级编程</li>
 </ul>
 
 ]]></content>

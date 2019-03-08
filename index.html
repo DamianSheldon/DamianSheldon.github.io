@@ -114,13 +114,13 @@
 
 <p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
 
-<p><img class="center" src="images/css-box-model.png"></p>
+<p><img class="center" src="/images/css-box-model.png"></p>
 
 <p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
 
 <p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
 
-<p><img class="center" src="images/html-element-tree.png"></p>
+<p><img class="center" src="/images/html-element-tree.png"></p>
 
 <p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
 

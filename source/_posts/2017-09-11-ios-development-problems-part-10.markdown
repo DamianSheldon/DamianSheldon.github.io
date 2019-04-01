@@ -34,5 +34,12 @@ A:
 
 Reference:  
 
-[What is the use of entitlements.plist file?](https://stackoverflow.com/questions/26594367/what-is-the-use-of-entitlements-plist-file)
+[What is the use of entitlements.plist file?](https://stackoverflow.com/questions/26594367/what-is-the-use-of-entitlements-plist-file)  
+
+###4.A valid provisioning profile for this executable was not found  
+A:Because Xcode compain about provisioning profile, so I decide to check the installed profiles on device, detail instructs are Window > Devices and Simulators > Select your device > right click > Show Provisioning Profiles...; Yes, no profile is here. It looks like we should mannual install one.  
+
+Where is the provisioning profiles Xcode managed? We can locate it by a simple way:Show project navigator > Select your project > General > Signing > Click info button follow Provisioning Profile > Drag the profile icon in popup menu to terminal. One of my profiles is : `/Users/dongmeiliang/Library/MobileDevice/Provisioning\ Profiles/1923e84f-743b-4453-8876-9763596ad09b.mobileprovision` , My Xcode version is 10.1 (10B61).  
+
+Reference:[Refresh devices in team provisioning profile managed by Xcode 7?](https://stackoverflow.com/questions/32729193/refresh-devices-in-team-provisioning-profile-managed-by-xcode-7)  
 

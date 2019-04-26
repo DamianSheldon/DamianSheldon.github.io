@@ -118,6 +118,10 @@ A:
 
 {% endcodeblock %}
 
+###Further Reading
+[Centering in CSS: A Complete Guide](https://css-tricks.com/centering-css-complete-guide/)  
+
+
 ###5.display有哪些值？说明他们的作用。
 A:display 所有可能的值太多了，这里说下常见的:
 

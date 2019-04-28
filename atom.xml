@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-04-26T22:02:40+08:00</updated>
+  <updated>2019-04-28T15:38:58+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -7295,6 +7295,42 @@ composition 类使用 animationTool 属性赋予你引入来自 Core Animation �
 </span><span class='line'>
 </span><span class='line'> Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>10.Could not find method leftShift() for arguments on task of type org.gradle.api.DefaultTask</h3>
+
+<p>A:&lt;&lt; was deprecated in 4.x and removed in 5.0.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>task createDB&lt;&lt;{
+</span><span class='line'>    description= "Creates the Database. Needs database name to be passed (like: -PdbName=someDBname)"
+</span><span class='line'>    sql = Sql.newInstance( 'jdbc:mysql:thin://localhost:3306/', mysqlUser, mysqlPassword, 'org.drizzle.jdbc.DrizzleDriver' )
+</span><span class='line'>    sql.execute( 'create database '+"`$dbName`" )
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Change to 
+</span><span class='line'>task createDB {
+</span><span class='line'>   description= "Creates the Database. Needs database name to be passed (like: -PdbName=someDBname)"
+</span><span class='line'>   doLast {    
+</span><span class='line'>    sql = Sql.newInstance( 'jdbc:mysql:thin://localhost:3306/', mysqlUser, mysqlPassword, 'org.drizzle.jdbc.DrizzleDriver' )
+</span><span class='line'>    sql.execute( 'create database '+"`$dbName`" )
+</span><span class='line'>   } 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:[Could not find method leftShift() for arguments on task of type org.gradle.api.DefaultTask)[<a href="https://discuss.gradle.org/t/could-not-find-method-leftshift-for-arguments-on-task-of-type-org-gradle-api-defaulttask/30614">https://discuss.gradle.org/t/could-not-find-method-leftshift-for-arguments-on-task-of-type-org-gradle-api-defaulttask/30614</a>)</p>
 ]]></content>
   </entry>
   

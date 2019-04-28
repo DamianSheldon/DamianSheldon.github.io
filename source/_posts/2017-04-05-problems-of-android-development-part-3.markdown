@@ -186,8 +186,33 @@ A:
 1. 下载 gradle;
 2. 解压 gradle 到合适的目录，例如 /Users/meiliang/.gradle/local_gradle_distribution/;
 3. 在 Android Studio 中设置 gradle home: 
+
 ```
  Android Studio > Preference... > Build,Excution,Deployment > Gradle > User local gradle distribution > Gradle home
 
  Gradle home :/Users/meiliang/.gradle/local_gradle_distribution/gradle-3.3
 ```
+
+###10.Could not find method leftShift() for arguments on task of type org.gradle.api.DefaultTask
+A:<< was deprecated in 4.x and removed in 5.0.  
+
+```
+task createDB<<{
+    description= "Creates the Database. Needs database name to be passed (like: -PdbName=someDBname)"
+    sql = Sql.newInstance( 'jdbc:mysql:thin://localhost:3306/', mysqlUser, mysqlPassword, 'org.drizzle.jdbc.DrizzleDriver' )
+    sql.execute( 'create database '+"`$dbName`" )
+}
+
+// Change to 
+task createDB {
+   description= "Creates the Database. Needs database name to be passed (like: -PdbName=someDBname)"
+   doLast {    
+    sql = Sql.newInstance( 'jdbc:mysql:thin://localhost:3306/', mysqlUser, mysqlPassword, 'org.drizzle.jdbc.DrizzleDriver' )
+    sql.execute( 'create database '+"`$dbName`" )
+   } 
+}
+```
+
+Reference:[Could not find method leftShift() for arguments on task of type org.gradle.api.DefaultTask)[https://discuss.gradle.org/t/could-not-find-method-leftshift-for-arguments-on-task-of-type-org-gradle-api-defaulttask/30614)  
+
+

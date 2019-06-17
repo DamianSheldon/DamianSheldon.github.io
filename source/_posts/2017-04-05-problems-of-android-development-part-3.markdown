@@ -215,4 +215,10 @@ task createDB {
 
 Reference:[Could not find method leftShift() for arguments on task of type org.gradle.api.DefaultTask)[https://discuss.gradle.org/t/could-not-find-method-leftshift-for-arguments-on-task-of-type-org-gradle-api-defaulttask/30614)  
 
+###11.How to unzip and view content of aar?
+A:
+
+```
+$jar -xvf app-debug.aar
+```
 

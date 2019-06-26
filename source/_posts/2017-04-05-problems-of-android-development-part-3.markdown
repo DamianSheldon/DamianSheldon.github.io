@@ -222,3 +222,10 @@ A:
 $jar -xvf app-debug.aar
 ```
 
+###12.How to update local aar module?
+A:
+
+1. Update yourLib.aar file in module, eg. copy new version aar to module dir
+2. Sync Project with Gradle Files
+
+

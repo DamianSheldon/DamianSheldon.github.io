@@ -228,4 +228,14 @@ A:
 1. Update yourLib.aar file in module, eg. copy new version aar to module dir
 2. Sync Project with Gradle Files
 
+###13.Where is the merged AndroidManifest.xml?
+A:
+
+```
+/project/module/build/intermediates/manifests/full/debug/AndroidManifest.xml
+```
+
+Reference:[MANIFEST MERGER: It is possible to see the resulting mixed Manifest?](https://stackoverflow.com/questions/32087870/manifest-merger-it-is-possible-to-see-the-resulting-mixed-manifest)  
+
+
 

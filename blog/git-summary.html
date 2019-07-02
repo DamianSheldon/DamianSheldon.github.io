@@ -1057,9 +1057,45 @@
 
 <p>Reference:<a href="https://stackoverflow.com/questions/9436405/git-is-ignoring-files-that-arent-in-gitignore">Git is ignoring files that aren&rsquo;t in gitignore</a></p>
 
+<h3>10.How to resolve deleted by us merge conflict?</h3>
+
+<p>A:Decide if you want keep the removed file. You may want to view the latest changes made to the removed file in your text editor.</p>
+
+<p>To add the removed file back to your repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add README.md
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To remove this file from your repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git rm README.md
+</span><span class='line'>&gt; README.md: needs merge
+</span><span class='line'>&gt; rm <span class="s1">&#39;README.md&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Commit your changes with a comment.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Resolved merge conflict by keeping README.md file.&quot;</span>
+</span><span class='line'>&gt; <span class="o">[</span>branch-d 6f89e49<span class="o">]</span> Merge branch <span class="s1">&#39;branch-c&#39;</span> into branch-d
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://help.github.com/en/articles/resolving-a-merge-conflict-using-the-command-line">Resolving a merge conflict using the command line</a></p>
+
 <h4>Reference</h4>
 
-<p><a href="http://git-scm.com/book/zh/v1">Pro Git</a></p>
+<ul>
+<li><a href="http://git-scm.com/book/zh/v1">Pro Git</a></li>
+</ul>
+
 </div>
 
 

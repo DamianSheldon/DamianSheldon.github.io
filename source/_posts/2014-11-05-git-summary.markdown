@@ -561,6 +561,33 @@ $ git check-ignore -v config.php
 
 Reference:[Git is ignoring files that aren't in gitignore](https://stackoverflow.com/questions/9436405/git-is-ignoring-files-that-arent-in-gitignore)          
 
-####Reference
-[Pro Git](http://git-scm.com/book/zh/v1)
+###10.How to resolve deleted by us merge conflict?
+A:Decide if you want keep the removed file. You may want to view the latest changes made to the removed file in your text editor.
+
+To add the removed file back to your repository:
+
+```
+$ git add README.md
+```
+
+To remove this file from your repository:
+
+```
+$ git rm README.md
+> README.md: needs merge
+> rm 'README.md'
+```
+
+Commit your changes with a comment.
+
+```
+$ git commit -m "Resolved merge conflict by keeping README.md file."
+> [branch-d 6f89e49] Merge branch 'branch-c' into branch-d
+```
+
+Reference:[Resolving a merge conflict using the command line](https://help.github.com/en/articles/resolving-a-merge-conflict-using-the-command-line)   
+
+####Reference  
+
+* [Pro Git](http://git-scm.com/book/zh/v1)  
 

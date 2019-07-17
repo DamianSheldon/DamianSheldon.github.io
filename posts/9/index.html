@@ -63,6 +63,132 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-development-problems-part-9.html">
+		
+			iOS 开发问题汇总(九)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-11-15T14:49:17+08:00" pubdate data-updated="true">15 Nov 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Curried functions in Swift</h3>
+
+<p>A:There’s a difference between self.methodname (which you are using), and Classname.methodname.</p>
+
+<p>The former, when called within a class’s method, will give you a function bound with that class instance. So if you call it, it will be called on that instance.</p>
+
+<p>The latter gives you a curried function that takes as an argument any instance of Classname, and returns a new function that is bound to that instance. At this point, that function is like the first case (only you can bind it to any instance you like).</p>
+
+<p>Here’s an example to try and show that a bit better:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class C {
+</span><span class='line'>    private let _msg: String
+</span><span class='line'>        init(msg: String) { _msg = msg }
+</span><span class='line'>
+</span><span class='line'>    func c_print() { print(_msg) }
+</span><span class='line'>
+</span><span class='line'>    func getPrinter() -&gt; ()-&gt;() { return self.c_print }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let c = C(msg: "woo-hoo")
+</span><span class='line'>let f = c.getPrinter()
+</span><span class='line'>// f is of type (())-&gt;()
+</span><span class='line'>f() // prints "woo-hoo"
+</span><span class='line'>
+</span><span class='line'>let d = C(msg: "way-hey")
+</span><span class='line'>
+</span><span class='line'>let g = C.c_print
+</span><span class='line'>// g is of type (C) -&gt; (()) -&gt; (),
+</span><span class='line'>// you need to feed it a C:
+</span><span class='line'>g(c)() // prints "woo-hoo"
+</span><span class='line'>g(d)() // prints "way-hey"
+</span><span class='line'>
+</span><span class='line'>// instead of calling immediately,
+</span><span class='line'>// you could store the return of g:
+</span><span class='line'>let h = g(c)
+</span><span class='line'>// at this point, f and h amount to the same thing:
+</span><span class='line'>// h is of type (())-&gt;()
+</span><span class='line'>h() // prints "woo-hoo"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
+
+<h3>2.NSLog on devices in iOS 10 / Xcode 8 will truncate.</h3>
+
+<p>A:A temporary solution, just redefine all NSLOG to printf in a global header file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why">NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？</a></p>
+
+
+		
+		<a href="/blog/ios-development-problems-part-9.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/audio-and-video-file-format.html">
 		
 			音频和视频格式</a>
@@ -249,109 +375,6 @@
 
 		
 		<a href="/blog/problems-of-android-development-part-2.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-technical-interview-part-4.html">
-		
-			iOS 面试题汇总(四)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-08-30T10:43:36+08:00" pubdate data-updated="true">30 Aug 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
-
-<p>A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件等，依赖哪些第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
-
-<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
-
-<p>A: 最常用的版本控制工具是 Git。它的大致原理是工程每次提交时所有更改的文件都会生成快照，快照代表当前版本的文件，这些快照通过树型结构组织起来，树随着工程更改生长，通过这种方式来进行版本管理。</p>
-
-<h3>3.你一般是怎么用 Instruments 的？</h3>
-
-<p>A:根据想要分析的问题，选择对应的 instruments 来分析应用的行为，有疑问的地方参考 Instruments User Guide．</p>
-
-<h3>4.你一般是如何调试 Bug 的？</h3>
-
-<p>A:对于容易复现的 bug，根据复现的步骤来定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，这时可以配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，确定 bug 产生的原因才好解决。</p>
-
-<h3>5.你在你的项目中用到了哪些设计模式？</h3>
-
-<p>A:</p>
-
-<p>创建型：</p>
-
-<ul>
-<li>工厂方法(Factory Method)</li>
-<li>原型(Prototype)</li>
-<li>单例(Singleton)</li>
-</ul>
-
-
-<p>结构型：</p>
-
-<ul>
-<li>适配器(Adapter)</li>
-<li>桥接(Bridge)</li>
-<li>组成(Composite)</li>
-<li>装饰(Decorator)</li>
-<li>外观(Facade)</li>
-<li>享元(Flyweight)</li>
-</ul>
-
-
-<p>行为型：</p>
-
-<ul>
-<li>职责链（Chain Of Responsibility）</li>
-<li>命令(Command)</li>
-<li>解释器(Interpreter)</li>
-<li>迭代器(Iterator)</li>
-<li>中介者(Mediator)</li>
-<li>备忘录(Memento)</li>
-<li>观察者(Observer)</li>
-<li>状态(State)</li>
-<li>策略(Strategy)</li>
-<li>模板方法(Template Method)</li>
-</ul>
-
-
-
-		
-		<a href="/blog/ios-technical-interview-part-4.html" class="more-link">继续阅读</a>
 	</div>
 
 

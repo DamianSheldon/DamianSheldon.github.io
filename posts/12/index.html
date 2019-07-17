@@ -63,6 +63,109 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-technical-interview-part-2.html">
+		
+			iOS 面试题汇总(二)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-25T16:54:55+08:00" pubdate data-updated="true">25 Feb 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.什么情况使用 weak 关键字，相比 assign 有什么不同？</h3>
+
+<p> A:什么情况使用 weak 关键字？</p>
+
+<ul>
+<li>强引用关系的对象会发生循环引用时用weak关键字；</li>
+<li>已经被强引用的对象，如Interface Builder创建的视图被声明为weak。</li>
+</ul>
+
+
+<p>weak 相比 assign 有什么不同？</p>
+
+<ul>
+<li>weak 必须修饰对象，assign还可以修饰非对象；</li>
+<li>weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。</li>
+</ul>
+
+
+<h3>2.怎么用 copy 关键字？(我觉得题目应该改为什么情况使用 copy 关键字，怎么用 copy 关键字这个问法有点奇怪，比如怎么用手机，那问题的答案就是手机的使用说明书，按这样来回答问题，那我们就应该说，声明属性时加上 copy 关键字)</h3>
+
+<p> A:属性想拥有独立的赋值副本，且赋值对象的类遵守 NSCopying 协议，这时我们可以使用 copy 关键字。</p>
+
+<h3>3.这个写法会出什么问题： <code>@property (copy) NSMutableArray *array;</code></h3>
+
+<p> A:</p>
+
+<ul>
+<li>问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；</li>
+<li>问题二：如果是开发 iOS 程序，这会影响性能。</li>
+</ul>
+
+
+<p>扩展：</p>
+
+<p>Apple 在 The Objective-C Programming Language 中介绍 atomic 时说：</p>
+
+<blockquote><p>Properties are atomic by default so that synthesized accessors provide robust access to properties in a multithreaded environment—that is, the value returned from the getter or set via the setter is always fully retrieved or set regardless of what other threads are executing concurrently.
+If you specify strong, copy, or retain and do not specify nonatomic, then in a reference-counted environment, a synthesized get accessor for an object property uses a lock and retains and autoreleases the returned value—the implementation will be similar to the following:</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[_internal lock]; // lock using an object-level lock
+</span><span class='line'>
+</span><span class='line'>id result = [[value retain] autorelease];
+</span><span class='line'>
+</span><span class='line'>[_internal unlock];
+</span><span class='line'>
+</span><span class='line'>return result;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从文档的修改记录来看，最后一次修改时间是2011-10-12，维基上查了下 Mid 2011(July) 的 MacBook Air 的低配处理器参数为: 1.6 GHz (i5-2467M) dual-core Intel Core i5 with 3 MB shared L3 cacheOptional 1.8 GHz (i7-2677M) dual-core Intel Core i7 with 4 MB shared L3 cache, 内存为：2 GB (11" base model; Optional 4 GB) or 4 GB of 1333 MHz DDR3 SDRAM (all other models)，目前 Apple 还支持 iPhone 5S，它的处理器：64-bit 1.3 GHz dual-core Apple Cyclone，内存：1 GB LPDDR3 RAM，很遗憾数据好像没有全面超越，不过也比较接近了，当设备淘汰到 iPhone 6S 时，我们有理由在 iOS 开发中直接使用 atomic 关键字了。</p>
+
+
+		
+		<a href="/blog/ios-technical-interview-part-2.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-unit-testing-with-ocmock.html">
 		
 			iOS Unit Testing With OCMock</a>
@@ -236,60 +339,6 @@
 
 		
 		<a href="/blog/ios-development-problems-part-5.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/capturing-iphone-traffic-on-wireshark.html">
-		
-			用 Wireshark 抓 iPhone 网络请求的数据包</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-04T14:43:00+08:00" pubdate data-updated="true">04 Jan 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？</p>
-
-<blockquote><p>iOS does not support packet tracing directly. However, if you&rsquo;re developing for iOS you can take a packet trace of your app in a number of different ways:</p>
-
-<p>If the problem you&rsquo;re trying to debug occurs on Wi-Fi, you can put your iOS device on a test Wi-Fi network. See Wi-Fi Capture for details.<br/>
-If your app uses HTTP, you can configure your iOS device to use a debugging HTTP proxy (such as Charles HTTP Proxy).<br/>
-In iOS 5 and later you can use the remote virtual interface facility.</p></blockquote>
-
-
-		
-		<a href="/blog/capturing-iphone-traffic-on-wireshark.html" class="more-link">继续阅读</a>
 	</div>
 
 

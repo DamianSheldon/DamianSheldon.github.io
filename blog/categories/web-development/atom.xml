@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-07-02T09:08:36+08:00</updated>
+  <updated>2019-07-17T08:55:06+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(四)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-four.html"/>
+    <updated>2019-07-16T17:24:01+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-four</id>
+    <content type="html"><![CDATA[<h3>1.如何实现如下布局：两个元素A和B，其中A的宽度为包裹其内容，B则占用剩余的宽度？</h3>
+
+<p>A:A 元素利用 float 的包裹性，B 元素则利用 BFC。</p>
+
+<p>```</p>
+
+<div class="container">
+    <div class="right"></div>
+    <div class="left"></div>
+</div>
+
+
+<p>.container {
+    width:600px;
+    height:200px;
+    border:1px solid;
+}
+.left {
+    width:auto;
+    height:200px;
+    background:red;
+    overflow:hidden;
+}
+.right {
+    height:200px;
+    width:200px;
+    background:blue;
+    float:left;
+}
+```</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width">Expand a div to fill the remaining width</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 界面布局]]></title>
@@ -1985,573 +2025,6 @@ elem.dispatchEvent(event);
 <li><a href="https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions/Questions-and-Answers">前端开发面试题</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(三)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-three.html"/>
-    <updated>2018-04-13T11:07:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-three</id>
-    <content type="html"><![CDATA[<h3>1.How to send email in java?</h3>
-
-<p>A:</p>
-
-<pre><code class="java">import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
-
-public class SendEmail {
-
-   public static void main(String [] args) {    
-      // Recipient's email ID needs to be mentioned.
-      String to = "abcd@gmail.com";
-
-      // Sender's email ID needs to be mentioned
-      String from = "web@gmail.com";
-
-      // Assuming you are sending email from localhost
-      String host = "localhost";
-
-      // Get system properties
-      Properties properties = System.getProperties();
-
-      // Setup mail server
-      properties.setProperty("mail.smtp.host", host);
-
-      // Get the default Session object.
-      Session session = Session.getDefaultInstance(properties);
-
-      try {
-         // Create a default MimeMessage object.
-         MimeMessage message = new MimeMessage(session);
-
-         // Set From: header field of the header.
-         message.setFrom(new InternetAddress(from));
-
-         // Set To: header field of the header.
-         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-         // Set Subject: header field
-         message.setSubject("This is the Subject Line!");
-
-         // Now set the actual message
-         message.setText("This is actual message");
-
-         // Send message
-         Transport.send(message);
-         System.out.println("Sent message successfully....");
-      } catch (MessagingException mex) {
-         mex.printStackTrace();
-      }
-   }
-}
-</code></pre>
-
-<p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
-<a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
-
-<!--more-->
-
-
-<h3>2.Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</h3>
-
-<p>A:安装了 Eclipse 提示的升级后再重新打开时，出现上面的报错。Google 一圈后显示可能是 eclipse.ini 的锅，正好我安装了 cpp, java 和 jee 三个版本，尝试打开 java 版本的，正常打开，于是对比它们的 eclipse.ini 文件:</p>
-
-<pre><code>$ cp ~/eclipse/jee-oxygen/Eclipse.app/Contents/Eclipse/eclipse.ini  ~/eclipse-workspace/jee-eclipse.ini
-cp ~/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/eclipse.ini ~/eclipse-workspace/java-eclipse.ini
-
-$ diff eclipse-workspace/jee-eclipse.ini eclipse-workspace/java-eclipse.ini
-3,4d2
-&lt; --launcher.library
-&lt; /Users/dongmeiliang/.p2/pool/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.551.v20171108-1834
-6a5,6
-&gt; --launcher.library
-&gt; /Users/dongmeiliang/.p2/pool/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.551.v20171108-1834
-8c8
-&lt; org.eclipse.epp.package.jee.product
----
-&gt; org.eclipse.epp.package.java.product
-18,23d17
-&lt; -javaagent:/Users/dongmeiliang/.p2/pool/plugins/com.zeroturnaround.eclipse.optimizer.plugin_1.0.11/agent/eclipse-optimizer-agent.jar
-&lt; -server
-&lt; -XX:PermSize=256m
-&lt; -XX:MaxPermSize=256m
-&lt; -XX:+UseParallelGC
-&lt; -Xverify:none
-32c26
-&lt; -Xms512m
----
-&gt; -Xms256m
-</code></pre>
-
-<p>总共有五处不同，细看之后发现只有两处可能会产生影响，先尝试将 <code>-Xms512m</code> 改成 <code>-Xms256m</code>，问题仍然存在，将文件恢复原样，再尝试将</p>
-
-<pre><code>&lt; -javaagent:/Users/dongmeiliang/.p2/pool/plugins/com.zeroturnaround.eclipse.optimizer.plugin_1.0.11/agent/eclipse-optimizer-agent.jar
-&lt; -server
-&lt; -XX:PermSize=256m
-&lt; -XX:MaxPermSize=256m
-&lt; -XX:+UseParallelGC
-&lt; -Xverify:none
-</code></pre>
-
-<p>删除，问题顺利解决。</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/7302604/eclipse-error-failed-to-create-the-java-virtual-machine">Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</a></p>
-
-<h3>3.<code>Warning: mysqli::__construct(): (HY000/2002): No such file or directory in /code/index.php on line 8 Connection failed: No such file or directory</code></h3>
-
-<p>A:问题出现的原因：
-当主机填写为localhost时MySQL会采用 unix domain socket连接，当主机填写为127.0.0.1时MySQL会采用TCP/IP的方式连接。使用Unix socket的连接比TCP/IP的连接更加快速与安全。这是MySQL连接的特性，可以参考官方文档的说明<a href="https://dev.mysql.com/doc/refman/5.6/en/connecting.html#id471316">4.2.2. Connecting to the MySQL Server</a>:</p>
-
-<blockquote><p>On Unix, MySQL programs treat the host name localhost specially, in a way that is
-likely different from what you expect compared to other network-based programs.
-For connections to localhost, MySQL programs attempt to connect to the local server
-by using a Unix socket file. This occurs even if a &ndash;port or -P option is given to
-specify a port number. To ensure that the client makes a TCP/IP connection to the
-local server, use &ndash;host or -h to specify a host name value of 127.0.0.1, or the IP
-address or name of the local server. You can also specify the connection protocol
-explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></blockquote>
-
-<p>这个问题有以下几种解决方法：</p>
-
-<ol>
-<li>使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。</li>
-<li>修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。   </li>
-<li>直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： <code>$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')</code></li>
-</ol>
-
-
-<p>Reference:<a href="https://segmentfault.com/q/1010000000328531">mysqli不能使用localhost，请问这是怎么回事？</a></p>
-
-<h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
-
-<p>A:</p>
-
-<pre><code class="html">&lt;form name="bm_form" action="/delete_bms" method="POST"&gt;
-    &lt;tr&gt;
-        &lt;td&gt;&lt;a href="https://www.google.com"&gt;https://www.google.com&lt;/a&gt;&lt;/td&gt;
-        &lt;td&gt;&lt;input type="checkbox" name="del_me" value="https://www.google.com" /&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-
-    &lt;tr&gt;
-        &lt;td&gt;&lt;a href="https://www.twitter.com"&gt;https://www.twitter.com&lt;/a&gt;&lt;/td&gt;
-        &lt;td&gt;&lt;input type="checkbox" name="del_me" value="https://www.twitter.com" /&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/form&gt;
-
-&lt;a href="#" onclick="bm_form.submit();"&gt;Delete BM&lt;/a&gt;
-</code></pre>
-
-<p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
-
-<h3>5.Ionic - Cannot find module “.”</h3>
-
-<p>A:Just remove all imports that have /umd at the final.
-In my case, I changed: 
-<code>import { IonicPageModule } from 'ionic-angular/umd';</code>
-To: 
-<code>import { IonicPageModule } from 'ionic-angular';</code></p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
-
-<h3>6.Google maps report google is not define in ionic app.</h3>
-
-<p>A:</p>
-
-<ol>
-<li>go to your project and do “ionic plugin add cordova-plugin-whitelist”</li>
-<li>add CSP meta</li>
-</ol>
-
-
-<pre><code>&lt;meta http-equiv="Content-Security-Policy" content="script-src 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'"&gt;
-</code></pre>
-
-<p>Live reload unfortunately seems not work, I get this error:</p>
-
-<pre><code>Refused to load the script 'http://localhost:35729/livereload.js?snipver=1' because it violates the following Content Security Policy directive: "script-src 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'".
-</code></pre>
-
-<p>After some google, update CSP meta works, new CSP meta as follow:</p>
-
-<pre><code>  &lt;meta http-equiv="Content-Security-Policy" content="script-src localhost:35729 'self' https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ 'unsafe-inline' 'unsafe-eval'"&gt;
-</code></pre>
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
-<a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
-
-<h3>7.Error: No provider for Navbar!</h3>
-
-<p>A:Normally navbar don&rsquo;t provide with injector, we should access like follow:</p>
-
-<pre><code>// Template
-&lt;ion-navbar #navbar color="primary"&gt;
-    &lt;ion-title&gt;Whatever&lt;/ion-title&gt;
-    &lt;ion-buttons right&gt;
-      &lt;button icon-only ion-button&gt;
-        &lt;ion-icon name='pause'&gt;&lt;/ion-icon&gt;
-      &lt;/button&gt;
-    &lt;/ion-buttons&gt;
-&lt;/ion-navbar&gt;
-</code></pre>
-
-<pre><code>// Typescript
-export class Page {
-
-@ViewChild('navbar') navBar: Navbar;
-
-}
-</code></pre>
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530">Error in ./HomePage class HomePage - caused by: No provider for Navbar!</a></p>
-
-<h3>8.How to custom back button of ionic app?</h3>
-
-<p>A:</p>
-
-<pre><code>&lt;ion-header&gt;
-  &lt;ion-navbar color='danger' hideBackButton&gt;
-    &lt;ion-title&gt;product page&lt;/ion-title&gt;
-        &lt;ion-buttons left&gt;
-        &lt;button ion-button navPop icon-only&gt;
-              &lt;ion-icon ios="ios-arrow-forward" md="md-arrow-forward"&gt;&lt;/ion-icon&gt;
-        &lt;/button&gt;
-    &lt;/ion-buttons&gt;
-  &lt;/ion-navbar&gt;
-&lt;/ion-header&gt;
-</code></pre>
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/change-default-ion-navbar-back-button-ios/47342">Change default ion-navbar “back” button ios</a></p>
-
-<h3>9.How to make a div take the remaining height?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Absolute Positioning</li>
-<li>Tables</li>
-<li>CSS3 calc</li>
-</ol>
-
-
-<p>Absolute Positioning</p>
-
-<p>```
-// html</p>
-
-<div id="inner_fixed">
-    I have a fixed height
-</div>
-
-
-<p> </p>
-
-<div id="inner_remaining">
-    I take up the remaining height
-</div>
-
-
-<pre><code>
-<figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
-</span><span class='line'>        height: 100%;
-</span><span class='line'>        width: 100%;
-</span><span class='line'>        margin: 0;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #inner_fixed {
-</span><span class='line'>        height: 100px;
-</span><span class='line'>        background-color: grey;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #inner_remaining {
-</span><span class='line'>        background-color: #DDDDDD;    
-</span><span class='line'>     
-</span><span class='line'>        position: absolute;
-</span><span class='line'>        top: 100px;
-</span><span class='line'>        bottom: 0;
-</span><span class='line'>        width: 100%; 
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-pros
-
-* easy to implement
-* intuitive
-
-cons
-
-* tedious to maintain (hard-coded positions)
-
-Tables
-</code></pre>
-
-<p>// html</p>
-
-<div id="outer">
-    <div id="inner_fixed">
-        I have a fixed height
-    </div>
- 
-    <div id="inner_remaining">
-        I take up the remaining height
-    </div>
-</div>
-
-
-<pre><code>
-<figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>html, body, #outer {
-</span><span class='line'>        height: 100%;
-</span><span class='line'>        width: 100%;
-</span><span class='line'>        margin: 0;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #outer {
-</span><span class='line'>        display: table;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #inner_fixed {
-</span><span class='line'>        height: 100px;
-</span><span class='line'>        background-color: grey;
-</span><span class='line'>     
-</span><span class='line'>        display: table-row;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #inner_remaining {
-</span><span class='line'>        background-color: #DDDDDD;
-</span><span class='line'>     
-</span><span class='line'>        display: table-row;    
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-pros
-
-* rather “clean” solution
-* no hard-coded values, other elements can change their height
-
-cons
-
-* might cause some side-effects with the layout
-
-CSS3 calc
-</code></pre>
-
-<p>// html</p>
-
-<div id="inner_fixed">
-    I have a fixed height
-</div>
-
-
-<p> </p>
-
-<div id="inner_remaining">
-    I take up the remaining height
-</div>
-
-
-<pre><code>
-<figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
-</span><span class='line'>        height: 100%;
-</span><span class='line'>        width: 100%;
-</span><span class='line'>        margin: 0;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #inner_fixed {
-</span><span class='line'>        height: 100px;
-</span><span class='line'>        background-color: grey;
-</span><span class='line'>    }
-</span><span class='line'>     
-</span><span class='line'>    #inner_remaining {
-</span><span class='line'>        background-color: #DDDDDD;
-</span><span class='line'>     
-</span><span class='line'>        height: calc(100% - 100px);    
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-pros
-
-* easy to implement
-* less code than the other solutions
-
-cons
-
-* the calc function is rather new (no support for older browsers)
-* tedious to maintain (hard-coded height)
-
-Reference:[How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
-
-###10.Property 'of' does not exist on type 'typeof Observable
-A:
-for Angular &gt;= 6.0.0
-uses RxJS 6.0.0 
-</code></pre>
-
-<p>import { of } from &lsquo;rxjs&rsquo;;</p>
-
-<pre><code>
-And its usage has been changed, you no longer call it off of Observable:
-</code></pre>
-
-<p>of(&lsquo;token&rsquo;);</p>
-
-<pre><code>
-for Angular &lt;= 5.x.xx
-</code></pre>
-
-<p>import &lsquo;rxjs/add/observable/of&rsquo;;</p>
-
-<p>Observable.of(&lsquo;token&rsquo;);</p>
-
-<p>```</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable">Property &lsquo;of&rsquo; does not exist on type &lsquo;typeof Observable</a></p>
-
-<h3>11.class path resource [keystore.jks ] cannot be resolved to URL because it does not exist</h3>
-
-<p>A:Reason is that a space appended to end. Remove end space in application.properties works. I confirm keystore.jks is in target classes, but runtime complain can&rsquo;t find it. why? After some google, still not found right solution, suddenly I notice there a space at end, may be that is the reason. Fact show my doubt is right.</p>
-
-<h3>12.How to pass program argument start with two hyphen(dash) to java in eclipse?</h3>
-
-<p>A:Run > Debug Configurations&hellip; > Arguments > Right click in the text field, deselect &ldquo;Substitutions&rdquo; > &ldquo;Smart Dashes&rdquo;</p>
-
-<p>Reference:<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=519109">Double dash in &ldquo;Program argument&rdquo; of &ldquo;Run configurations&rdquo; becomes &ldquo;\u2014&rdquo;</a></p>
-
-<h3>13.How to find out what auto-configuration is currently being applied by Spring Boot?</h3>
-
-<p>A:If you need to find out what auto-configuration is currently being applied, and why, start your application with the &ndash;debug switch. For example:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$ java -jar myproject-0.0.1-SNAPSHOT.jar &ndash;debug&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<p>I also find we can enable debug property archive this goal.</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>application.properites&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>debug=true&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<h3>14.How to search files inside source jars in eclipse?</h3>
-
-<p>A:Recently discovered the following plugin has beta support for searching into linked source jars: <a href="https://github.com/ajermakovics/eclipse-instasearch">eclipse-instasearch</a></p>
-
-<p>You have to enable searching source jars in the preferences as it is turned off by default.To enable searching in jars, go to Window > Preferences > General > Search > InstaSearch and select the option that says &ldquo;Index JAR source attachments (beta)&rdquo; .</p>
-
-<p>Depending on how much source you have, the indexing process is very slow, but then search is very fast.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/5295889/how-to-make-eclipse-file-search-to-also-search-inside-source-jars-containing-s">How to make eclipse “File Search” to also search inside source jars containing some text?</a></p>
-
-<h3>15.How to get Pseudo-Element properties with JavaScript?</h3>
-
-<p>A:Assume your CSS looks like:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.element:before {
-</span><span class='line'>    content: &lsquo;NEW&rsquo;;
-</span><span class='line'>    color: rgb(255, 0, 0);
-</span><span class='line'>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<p>To retrieve the color property of the <code>.element:before</code>, you could use the following JavaScript:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var color = window.getComputedStyle(
-</span><span class='line'>    document.querySelector(&lsquo;.element&rsquo;), &lsquo;:before&rsquo;
-</span><span class='line'>).getPropertyValue(&lsquo;color&rsquo;)&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// Access with chrome provide variable $0
-</span><span class='line'>var beforePesudoElem = $0;
-</span><span class='line'>var display = window.getComputedStyle(beforePesudoElem).getPropertyValue(&lsquo;display&rsquo;);</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Reference:<a href="https://davidwalsh.name/pseudo-element">Get Pseudo-Element Properties with JavaScript</a></p>
 ]]></content>
   </entry>
   

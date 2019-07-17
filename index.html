@@ -63,6 +63,103 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-development-notes-part-four.html">
+		
+			Web 开发问题汇总(四)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2019-07-16T17:24:01+08:00" pubdate data-updated="true">16 Jul 2019</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.如何实现如下布局：两个元素A和B，其中A的宽度为包裹其内容，B则占用剩余的宽度？</h3>
+
+<p>A:A 元素利用 float 的包裹性，B 元素则利用 BFC。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="container"&gt;
+</span><span class='line'>    &lt;div class="right"&gt;&lt;/div&gt;
+</span><span class='line'>    &lt;div class="left"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>.container {
+</span><span class='line'>    width:600px;
+</span><span class='line'>    height:200px;
+</span><span class='line'>    border:1px solid;
+</span><span class='line'>}
+</span><span class='line'>.left {
+</span><span class='line'>    width:auto;
+</span><span class='line'>    height:200px;
+</span><span class='line'>    background:red;
+</span><span class='line'>    overflow:hidden;
+</span><span class='line'>}
+</span><span class='line'>.right {
+</span><span class='line'>    height:200px;
+</span><span class='line'>    width:200px;
+</span><span class='line'>    background:blue;
+</span><span class='line'>    float:left;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width">Expand a div to fill the remaining width</a></p>
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-ui-layout.html">
 		
 			Web 界面布局</a>
@@ -224,108 +321,6 @@
 
 		
 		<a href="/blog/ios-app-distribution.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-technical-interview-part-3.html">
-		
-			Web 面试题汇总(三)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-09-13T10:20:22+08:00" pubdate data-updated="true">13 Sep 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.介绍js的基本数据类型。</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Six data types that are primitives:
-
-<ul>
-<li>Boolean. true and false.</li>
-<li>null. A special keyword denoting a null value. Because JavaScript is case-sensitive, null is not the same as Null, NULL, or any other variant.</li>
-<li>undefined. A top-level property whose value is not defined.</li>
-<li>Number. An integer or floating point number. For example: 42 or 3.14159.</li>
-<li>String. A sequence of characters that represent a text value. For example:  &ldquo;Howdy&rdquo;</li>
-<li>Symbol (new in ECMAScript 2015). A data type whose instances are unique and immutable.</li>
-</ul>
-</li>
-<li>and Object</li>
-</ul>
-
-
-<h3>2.介绍js有哪些内置对象？</h3>
-
-<h3>3.说几条写JavaScript的基本规范？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>总是使用var声明变量</li>
-<li>行末别忘了分号</li>
-<li>使用标准而不是不标准的功能</li>
-<li>使用驼峰命名（如：camelCaseNames）以及大写的常量（如：UPPERCASE），避免使用const关键字，因为IE不支持</li>
-<li>使用命名空间技术</li>
-<li>避免eval()除非反序列化（奇怪的是JSON解析并未提及）</li>
-<li>避免对象上使用with(), 数组使用for in</li>
-<li>使用对象以及数组字面量而不是更冗长的声明</li>
-<li>要知道truthy和falsy规则</li>
-<li>JavaScript资源中不使用IE条件注释</li>
-<li>不修改内置对象的原型——这会让人颜面扫地，因为这是让JavaScript更加强大的功能之一，但你知道这会导致问题</li>
-<li>小心使用闭包以及不要循环引用</li>
-<li>同样，小心使用”this”</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2012/07/google-html-css-javascript-style-guides/">翻译：谷歌HTML、CSS和JavaScript风格规范</a></p>
-
-<h3>4.JavaScript原型，原型链 ? 有什么特点？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>原型：每个对象都有一个原型对象，它充当继承方法和属性来源的模板对象。</li>
-<li>原型链：对象的原型对象也可能有原型，依此类推，便形成原型链。</li>
-<li>特点：强大而灵活。</li>
-</ul>
-
-
-
-		
-		<a href="/blog/web-technical-interview-part-3.html" class="more-link">继续阅读</a>
 	</div>
 
 

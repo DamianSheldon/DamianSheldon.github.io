@@ -29,6 +29,7 @@ iPhone 可以将旧手机数据迁移到新手机，这是我喜欢它的一个�
 * [将内容从旧 iOS 设备传输到新 iPhone、iPad 或 iPod touch](https://support.apple.com/zh-cn/HT201269)  
 * [从数据迁移到处理旧 iPhone，这份换机指南都帮你想好了](https://sspai.com/post/41612)  
 * [If your iTunes backup couldn‘t be completed or you can‘t restore from a backup](https://support.apple.com/en-us/HT203271)  
+* [出售、赠送或折抵换购 iPhone、iPad 或 iPod touch 前该怎么做](https://support.apple.com/zh-cn/HT201351)  
 
 
 

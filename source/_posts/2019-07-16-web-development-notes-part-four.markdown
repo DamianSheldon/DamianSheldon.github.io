@@ -41,11 +41,11 @@ Reference:[Expand a div to fill the remaining width](https://stackoverflow.com/q
 ###2.Meaning of ~ in import of scss files
 A:
 
-> From documentation on a sass-loader#imports project,  
+> From documentation on a `sass-loader#imports` project,  
 
 > > webpack provides an advanced mechanism to resolve files. The sass-loader uses node-sass' custom importer feature to pass all queries to the webpack resolving engine. Thus you can import your Sass modules from node_modules. Just prepend them with a ~ to tell webpack that this is not a relative import  
 
 > So if you have a file named foo.css and a module foo then you would use ~ if you want to include the module.
 
-
+Reference:[Meaning of ~ in import of scss files](https://stackoverflow.com/questions/38880187/meaning-of-in-import-of-scss-files)  
 

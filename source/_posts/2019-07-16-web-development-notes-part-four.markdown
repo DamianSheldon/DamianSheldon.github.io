@@ -38,4 +38,14 @@ A:A 元素利用 float 的包裹性，B 元素则利用 BFC。
 
 Reference:[Expand a div to fill the remaining width](https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width)  
 
+###2.Meaning of ~ in import of scss files
+A:
+
+> From documentation on a sass-loader#imports project,  
+
+> > webpack provides an advanced mechanism to resolve files. The sass-loader uses node-sass' custom importer feature to pass all queries to the webpack resolving engine. Thus you can import your Sass modules from node_modules. Just prepend them with a ~ to tell webpack that this is not a relative import  
+
+> So if you have a file named foo.css and a module foo then you would use ~ if you want to include the module.
+
+
 

@@ -49,3 +49,31 @@ A:
 
 Reference:[Meaning of ~ in import of scss files](https://stackoverflow.com/questions/38880187/meaning-of-in-import-of-scss-files)  
 
+<!--more-->
+
+###3.为什么创建 Observable 时传入的函数签名不需要包含 this? 示例如下:
+
+```
+// API Document:
+constructor(subscribe?: (this: Observable<T>, subscriber: Subscriber<T>) => TeardownLogic)
+
+// Usage code:
+const observable = new Observable(subscriber => {
+  subscriber.next(1);
+  subscriber.next(2);
+  subscriber.next(3);
+  setTimeout(() => {
+    subscriber.next(4);
+    subscriber.complete();
+  }, 1000);
+});
+```
+
+A:Here this is a special syntax in Typescript. It specifies the type of the "this" the function expects. So here it just means it should be called by a Observable with the same Type T as the Subscriber.  
+
+It comes first in the parameter list. It is a fake parameter, and should invoked without it.  
+
+More info can be found [Here](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#specifying-the-type-of-this-for-functions).  
+
+Reference:[Confused by Rxjs Observable constructor and 'this' argument](https://stackoverflow.com/questions/54886652/confused-by-rxjs-observable-constructor-and-this-argument)  
+

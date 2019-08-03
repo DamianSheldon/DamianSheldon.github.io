@@ -150,6 +150,47 @@
 <p>So if you have a file named foo.css and a module foo then you would use ~ if you want to include the module.</p></blockquote>
 
 <p>Reference:<a href="https://stackoverflow.com/questions/38880187/meaning-of-in-import-of-scss-files">Meaning of ~ in import of scss files</a></p>
+
+<!--more-->
+
+
+<h3>3.为什么创建 Observable 时传入的函数签名不需要包含 this? 示例如下:</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// API Document:
+</span><span class='line'>constructor(subscribe?: (this: Observable&lt;T&gt;, subscriber: Subscriber&lt;T&gt;) =&gt; TeardownLogic)
+</span><span class='line'>
+</span><span class='line'>// Usage code:
+</span><span class='line'>const observable = new Observable(subscriber =&gt; {
+</span><span class='line'>  subscriber.next(1);
+</span><span class='line'>  subscriber.next(2);
+</span><span class='line'>  subscriber.next(3);
+</span><span class='line'>  setTimeout(() =&gt; {
+</span><span class='line'>    subscriber.next(4);
+</span><span class='line'>    subscriber.complete();
+</span><span class='line'>  }, 1000);
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A:Here this is a special syntax in Typescript. It specifies the type of the &ldquo;this&rdquo; the function expects. So here it just means it should be called by a Observable with the same Type T as the Subscriber.</p>
+
+<p>It comes first in the parameter list. It is a fake parameter, and should invoked without it.</p>
+
+<p>More info can be found <a href="https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#specifying-the-type-of-this-for-functions">Here</a>.</p>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/54886652/confused-by-rxjs-observable-constructor-and-this-argument">Confused by Rxjs Observable constructor and &lsquo;this&rsquo; argument</a></p>
 </div>
 
 

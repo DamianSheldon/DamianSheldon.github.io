@@ -77,3 +77,13 @@ More info can be found [Here](https://github.com/Microsoft/TypeScript/wiki/What
 
 Reference:[Confused by Rxjs Observable constructor and 'this' argument](https://stackoverflow.com/questions/54886652/confused-by-rxjs-observable-constructor-and-this-argument)  
 
+###4.How to make a div take the remaining height?
+A:
+
+1. Flex
+2. Absolute Positioning
+3. Table
+4. CSS3 cacl
+
+Reference:[How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
+

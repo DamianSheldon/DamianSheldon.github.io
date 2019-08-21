@@ -6,7 +6,6 @@ comments: true
 categories: [Archives, iOS Development, Android, Web Development]
 keywords: ionic, cordova, angular, cross-platform, React Native, iOS, android, Web
 description: An Introduction to mobile cross-platform development.
-published: false
 ---
 
 最近几年随着移动端开发日益成熟以及 Web 技术的快速发展，跨平台开发技术如雨后春笋一般冒出来，这是所有从业者不能忽视的现象。这种现象导致很多公司主动或被动去研究相关的技术。我也不例外，对它的研究应该是夹杂着被动和主动。作为原生开发者，本来对日常的开发工作驾轻就熟，恐怕内心本身不会有太多意愿去迁移到新的技术，至少我一开始是这种心态；另一方面，跨平台开发在行业内日益受到关注，倒逼开发者去了解它、研究它。对于变化，我们可能本能的抗拒，但内心理性的声音告诉我们：变化是永恒的不变，我们应该拥抱变化。  
@@ -24,10 +23,4 @@ published: false
 除了 Cordova 和 React Native，Google 最近还推出 Flutter，由于技术栈差异很大，以及个人精力有限，暂时不打算研究。我决定在 Cordova 和 React Native 中选择。React Native 虽然性能不错，但各平台需要自己的代码，这和一份代码的初衷不符；另外它动态部署事件的能力也稍逊一筹，框架本身的发展和原生藕合很紧密。基于这些原因，我偏向选择 Cordova。  
 
 Cordova 让 Web 访问设备的能力比较方便，屏蔽了很多差异，但是它没有提供 UI 支持，如果我们想做出漂亮的界面，需要自己做，或者更好的办法是找一个好用的 UI 库。而且最好是搭配一个 SPA 框架，因为我们的应用通常不会只有一个界面，SPA 可以帮助我们在单个 WebView 里实现应用的功能。至此我们的脉络应该是比较清晰了，综合这些信息，我觉得 ionic 是个不错的选择。对于原生开发者，我们一开始可能对 Web 技术不是很熟悉，ionic 将相关技术整合在一起，这降低了学习的门槛。说到这里，我想起在前期，在搜索过程中，很多国产的跨平台技术映入眼帘，如 APICloud, DCloud,但我觉得技术群众基础也很重要，这样我们学的技术在其他公司能有用武之地，也容易招到合适的人才，综合考虑便没有选择这些技术。  
-
-##Ionic 使用笔记
-
-Ionic 将 cordova 和 angular 组合在一起，它也正在支持其他流行的 SPA 框架，如 Vue, React,我这里主要是使用 angular。Ionic 对 angular 做了一些定制，让它更适合移动端开发。  
-
-它用 Page 对应 App 的界面，界面之间可以 Push 或 Modal Present 跳转，单个界面的开发则是使用 angular。
 

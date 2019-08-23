@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-08-23T15:30:34+08:00</updated>
+  <updated>2019-08-23T15:44:21+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -104,6 +104,60 @@ const observable = new Observable(subscriber =&gt; {
 
 
 <p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
+
+<h3>5.Dynamic modal height based on content in Ionic4?</h3>
+
+<p>A:</p>
+
+<p>```
+// Modal page template:</p>
+
+<div class="inner-content">
+    <!-- Construct your view hierarchy here-->
+</div>
+
+
+<p>// Present method:
+async presentAutoHeightModal() {
+    const modal = await this.modalController.create({
+      component: AutoHeightModalPage,
+      cssClass: &lsquo;auto-height&rsquo;
+    });</p>
+
+<pre><code>return await modal.present();
+</code></pre>
+
+<p>}</p>
+
+<p>// app.scss
+ion-modal.auto-height {
+    flex-direction: column;
+    justify-content: flex-end;
+    &ndash;height: auto;</p>
+
+<pre><code>.ion-page {
+    position: relative;
+    display: block;
+    contain: content;
+
+    .inner-content {
+        max-height: 80vh;
+        overflow: auto;
+        padding: 10px;
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595">Dynamic modal height based on content in Ionic v4</a></li>
+<li><a href="https://github.com/ionic-team/ionic/issues/16852">resize modal based on content</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -156,13 +210,13 @@ const observable = new Observable(subscriber =&gt; {
 
 <p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
 
-<p><img class="center" src="/images/css-box-model.png"></p>
+<p>{% img center /images/css-box-model.png %}</p>
 
 <p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
 
 <p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
 
-<p><img class="center" src="/images/html-element-tree.png"></p>
+<p>{% img center /images/html-element-tree.png %}</p>
 
 <p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
 
@@ -284,90 +338,51 @@ const observable = new Observable(subscriber =&gt; {
 </ol>
 
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;!DOCTYPE plist PUBLIC &ldquo;-//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;&lt;a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd&lt;/a>&rdquo;>
-</span><span class='line'>&lt;plist version="1.0">
-</span><span class='line'>&lt;dict>
-</span><span class='line'>    &lt;key>items&lt;/key>
-</span><span class='line'>    &lt;array>
-</span><span class='line'>        &lt;dict>
-</span><span class='line'>            &lt;key>assets&lt;/key>
-</span><span class='line'>            &lt;array>
-</span><span class='line'>                &lt;dict>
-</span><span class='line'>                    &lt;key>kind&lt;/key>
-</span><span class='line'>                    &lt;string>software-package&lt;/string>
-</span><span class='line'>                    &lt;key>url&lt;/key>
-</span><span class='line'>                    &lt;string>&lt;a href="https://www.anysite.com/application/your_app.ipa">https://www.anysite.com/application/your_app.ipa&lt;/a>&lt;/string>
-</span><span class='line'>                &lt;/dict>
-</span><span class='line'>            &lt;/array>
-</span><span class='line'>            &lt;key>metadata&lt;/key>
-</span><span class='line'>            &lt;dict>
-</span><span class='line'>                &lt;key>bundle-identifier&lt;/key>
-</span><span class='line'>                &lt;string>com.example.helloworld&lt;/string>
-</span><span class='line'>                &lt;key>bundle-version&lt;/key>
-</span><span class='line'>                &lt;string>1.0.0&lt;/string>
-</span><span class='line'>                &lt;key>kind&lt;/key>
-</span><span class='line'>                &lt;string>software&lt;/string>
-</span><span class='line'>                &lt;key>title&lt;/key>
-</span><span class='line'>                &lt;string>HELLO&lt;/string>
-</span><span class='line'>            &lt;/dict>
-</span><span class='line'>        &lt;/dict>
-</span><span class='line'>    &lt;/array>
-</span><span class='line'>&lt;/dict>
-</span><span class='line'>&lt;/plist>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}</p>
+
+<p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+&lt;!DOCTYPE plist PUBLIC &ldquo;-//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd</a>&rdquo;>
+<plist version="1.0">
+<dict>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>assets</key>
+            <array>
+                <dict>
+                    <key>kind</key>
+                    <string>software-package</string>
+                    <key>url</key>
+                    <string><a href="https://www.anysite.com/application/your_app.ipa">https://www.anysite.com/application/your_app.ipa</a></string>
+                </dict>
+            </array>
+            <key>metadata</key>
+            <dict>
+                <key>bundle-identifier</key>
+                <string>com.example.helloworld</string>
+                <key>bundle-version</key>
+                <string>1.0.0</string>
+                <key>kind</key>
+                <string>software</string>
+                <key>title</key>
+                <string>HELLO</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist></p>
+
+<p>{% endcodeblock %}</p>
 
 <ol>
 <li>Upload the <code>.plist</code> file to the site you want. Make sure this file must be accessed via HTTPS protocol. </li>
 <li>Create a webpage embedded the link to the uploaded <code>.plist</code> file using special <code>itms-services://</code> protocol. See blow example: 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/li>
-</span><span class='line'>&lt;/ol>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&url=https://example.com/manifest.plist">Install App&lt;/a></span></code></pre></td></tr></table></div></figure></p>
+{% codeblock %}</li>
+</ol>
+
+
+<p><a href="itms-services://?action=download-manifest&url=https://example.com/manifest.plist">Install App</a>
+{% endcodeblock %}</p>
 
 <p>使用 OTA 方式部署安装，需要自己架设 Web 服务器，目前市面上也有免费提供此安装服务的产品，如 <a href="https://fir.im/">Fir.im</a>，<a href="https://www.pgyer.com/">蒲公英</a>。</p>
 
@@ -383,24 +398,18 @@ const observable = new Observable(subscriber =&gt; {
 
 <p>For the server, add the MIME types to the web service’s MIME types settings:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>application/octet-stream ipa 
-</span><span class='line'>text/xml plist</span></code></pre></td></tr></table></div></figure> 
+<p>{% codeblock %}</p>
+
+<p>application/octet-stream ipa 
+text/xml plist
+{% endcodeblock %} 
 For Microsoft’s Internet Information Server (IIS), use IIS Manager to add the MIME type in the Properties page of the server:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>.ipa application/octet-stream 
-</span><span class='line'>.plist text/xml</span></code></pre></td></tr></table></div></figure> </p>
+<p>{% codeblock %}</p>
+
+<p>.ipa application/octet-stream 
+.plist text/xml
+{% endcodeblock %} </p>
 
 <p>同时，如果设备是连接到一个封闭的内部网络，我们必须保证如下访问：</p>
 

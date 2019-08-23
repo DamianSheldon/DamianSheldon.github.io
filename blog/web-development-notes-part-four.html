@@ -205,6 +205,86 @@
 
 
 <p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
+
+<h3>5.Dynamic modal height based on content in Ionic4?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Modal page template:
+</span><span class='line'>&lt;div class="inner-content"&gt;
+</span><span class='line'>  &lt;!-- Construct your view hierarchy here--&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>// Present method:
+</span><span class='line'>async presentAutoHeightModal() {
+</span><span class='line'>  const modal = await this.modalController.create({
+</span><span class='line'>      component: AutoHeightModalPage,
+</span><span class='line'>      cssClass: 'auto-height'
+</span><span class='line'>    });
+</span><span class='line'>
+</span><span class='line'>    return await modal.present();
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// app.scss
+</span><span class='line'>ion-modal.auto-height {
+</span><span class='line'>    flex-direction: column;
+</span><span class='line'>    justify-content: flex-end;
+</span><span class='line'>    --height: auto;
+</span><span class='line'>    
+</span><span class='line'>    .ion-page {
+</span><span class='line'>        position: relative;
+</span><span class='line'>        display: block;
+</span><span class='line'>        contain: content;
+</span><span class='line'>
+</span><span class='line'>        .inner-content {
+</span><span class='line'>            max-height: 80vh;
+</span><span class='line'>            overflow: auto;
+</span><span class='line'>            padding: 10px;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595">Dynamic modal height based on content in Ionic v4</a></li>
+<li><a href="https://github.com/ionic-team/ionic/issues/16852">resize modal based on content</a></li>
+</ul>
+
 </div>
 
 

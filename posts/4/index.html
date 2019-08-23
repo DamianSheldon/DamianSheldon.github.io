@@ -63,6 +63,162 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-development-notes-part-three.html">
+		
+			Web 开发问题汇总(三)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-04-13T11:07:25+08:00" pubdate data-updated="true">13 Apr 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.How to send email in java?</h3>
+
+<p>A:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.mail.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.mail.internet.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.activation.*</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SendEmail</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="c1">// Recipient&#39;s email ID needs to be mentioned.</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">to</span> <span class="o">=</span> <span class="s">&quot;abcd@gmail.com&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Sender&#39;s email ID needs to be mentioned</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">from</span> <span class="o">=</span> <span class="s">&quot;web@gmail.com&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Assuming you are sending email from localhost</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Get system properties</span>
+</span><span class='line'>      <span class="n">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperties</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Setup mail server</span>
+</span><span class='line'>      <span class="n">properties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&quot;mail.smtp.host&quot;</span><span class="o">,</span> <span class="n">host</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Get the default Session object.</span>
+</span><span class='line'>      <span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="na">getDefaultInstance</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>         <span class="c1">// Create a default MimeMessage object.</span>
+</span><span class='line'>         <span class="n">MimeMessage</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">MimeMessage</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="c1">// Set From: header field of the header.</span>
+</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">new</span> <span class="nf">InternetAddress</span><span class="o">(</span><span class="n">from</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="c1">// Set To: header field of the header.</span>
+</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">addRecipient</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">TO</span><span class="o">,</span> <span class="k">new</span> <span class="nf">InternetAddress</span><span class="o">(</span><span class="n">to</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="c1">// Set Subject: header field</span>
+</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="s">&quot;This is the Subject Line!&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="c1">// Now set the actual message</span>
+</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;This is actual message&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="c1">// Send message</span>
+</span><span class='line'>         <span class="n">Transport</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span><span class='line'>         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Sent message successfully....&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MessagingException</span> <span class="n">mex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>         <span class="n">mex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
+<a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
+
+
+		
+		<a href="/blog/web-development-notes-part-three.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-migrate-contents-on-old-iphone-to-new-iphone.html">
 		
 			记一次换新 iPhone</a>
@@ -171,163 +327,6 @@
 
 		
 		<a href="/blog/concurrency-with-core-data.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-when-use-mac-part-two.html">
-		
-			Mac 使用笔记(二)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-01-23T11:59:31+08:00" pubdate data-updated="true">23 Jan 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>1. iPhone每次连接Mac都会弹出iPhoto</h2>
-
-<p>解决办法：</p>
-
-<ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
-</ol>
-
-
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
-<h2>2. Add environment variable</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// ~/.bash_profile
-</span><span class='line'><span class="nb">export </span><span class="nv">var</span><span class="o">=</span>value
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.SSH ask passpharse every time I use SSH key.</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$echo</span> -e <span class="s2">&quot;AddKeysToAgent yes\nUseKeychain yes&quot;</span> &gt;&gt; ~/.ssh/config
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Enable
-</span><span class='line'><span class="nv">$ </span>sudo spctl --master-disable
-</span><span class='line'>
-</span><span class='line'>// Disable
-</span><span class='line'><span class="nv">$sudo</span> spctl --master-enable
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
-
-<h2>5.Mac 上批量替换文件中的字符串</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>grep -rl discription <span class="nb">source</span>/_posts <span class="p">|</span> xargs sed -i <span class="s1">&#39;&#39;</span>  <span class="s2">&quot;s/discription/description/g&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
-<a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
-
-<h2>6.如何查看占用指定端口的进程？</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>lsof -i :<span class="o">[</span>port<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>结果输出中有进程的 pid, 之后我们可以用这个 pid 来杀掉该进程：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> -9 <span class="o">[</span>pid<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这些进程很可能是系统启动时就启动了，可以通过：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl list <span class="p">|</span> grep <span class="o">[</span>pid<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>来确认。如果找到有，而我们又不想它自启动了，可以在以下目录中找到配置文件：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>~/Library/LaunchAgents         Per-user agents provided by the user.
-</span><span class='line'>/Library/LaunchAgents          Per-user agents provided by the administrator.
-</span><span class='line'>/Library/LaunchDaemons         System wide daemons provided by the administrator.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>找到之后，可以用命令：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl unload -w paths
-</span><span class='line'>// eg:
-</span><span class='line'><span class="nv">$ </span>launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/problems-when-use-mac-part-two.html" class="more-link">继续阅读</a>
 	</div>
 
 

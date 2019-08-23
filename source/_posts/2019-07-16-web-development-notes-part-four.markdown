@@ -87,3 +87,48 @@ A:
 
 Reference:[How to make a div take the remaining height](https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height)  
 
+###5.Dynamic modal height based on content in Ionic4?
+A:
+
+```
+// Modal page template:
+<div class="inner-content">
+	<!-- Construct your view hierarchy here-->
+</div>
+
+// Present method:
+async presentAutoHeightModal() {
+	const modal = await this.modalController.create({
+      component: AutoHeightModalPage,
+      cssClass: 'auto-height'
+    });
+
+    return await modal.present();
+}
+
+// app.scss
+ion-modal.auto-height {
+    flex-direction: column;
+    justify-content: flex-end;
+    --height: auto;
+    
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 10px;
+        }
+    }
+}
+```
+
+Reference:  
+
+* [Dynamic modal height based on content in Ionic v4](https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595)  
+* [resize modal based on content](https://github.com/ionic-team/ionic/issues/16852)  
+
+

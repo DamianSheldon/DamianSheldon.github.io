@@ -1,0 +1,411 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Here's where it all happens for me.  | Hello World</title>
+
+        <meta name="author" content="Sheldon"> 
+        
+        <meta name="description" content="Sheldon's personal technology blog about iOS, Android, Back-end, Web and English."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+
+        <meta name="viewport" content="width=device-width">
+        
+        
+        <link rel="canonical" href="http://DamianSheldon.github.io/posts/10/index.html">
+
+        <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+        
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="/javascripts/libs/jquery.min.js"></script>
+        <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
+    </head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Navigation</a>
+        <ul class="nav" id="nav">
+    <li class="active"><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    
+    <form action="https://www.bing.com/search" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:DamianSheldon.github.io">
+    </form>
+</ul>
+    </div>
+</nav>
+
+<a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/problems-of-android-development-part-2.html">
+		
+			Android开发问题汇总(二)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-10-14T08:59:43+08:00" pubdate data-updated="true">14 Oct 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Error running app: Default Activity not found</h3>
+
+<p>A: 问题的原因是 AndroidManifest.xml 文件配置的有问题。正确的样例如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</span><span class='line'>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+</span><span class='line'>package="edu.self.buildexample"&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;application
+</span><span class='line'>android:allowBackup="true"
+</span><span class='line'>android:icon="@mipmap/ic_launcher"
+</span><span class='line'>android:label="@string/app_name"
+</span><span class='line'>android:supportsRtl="true"
+</span><span class='line'>android:theme="@style/AppTheme"&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;activity android:name=".BuildExampleActivity"&gt;
+</span><span class='line'>&lt;intent-filter&gt;
+</span><span class='line'>&lt;action android:name="android.intent.action.MAIN" /&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+</span><span class='line'>&lt;/intent-filter&gt;
+</span><span class='line'>&lt;/activity&gt;
+</span><span class='line'>&lt;/application&gt;
+</span><span class='line'>&lt;/manifest&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2. How to rename java package in Android Studio?</h3>
+
+<p>A:<a href="http://stackoverflow.com/questions/16804093/android-studio-rename-package">Android Studio Rename Package</a></p>
+
+<h3>3.No service of type Factory available in ProjectScopeServices</h3>
+
+<p>A:Change maven gradle plugin version to 1.4.1 in project build.gradle file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dependencies {
+</span><span class='line'>    classpath 'com.android.tools.build:gradle:2.2.2'
+</span><span class='line'>        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference<a href="http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices">No service of type Factory available in ProjectScopeServices</a></p>
+
+<h3>4.Android Gradle cannot find symbol class Gson</h3>
+
+<p>A:In my case, I just added this line:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>compile 'com.google.code.gson:gson:2.7'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>on my app build.gradle file.</p>
+
+<p>By now 2.7 is last current available version according to: <a href="https://mvnrepository.com/artifact/com.google.code.gson/gson">https://mvnrepository.com/artifact/com.google.code.gson/gson</a></p>
+
+<p>Please check this repository to be sure you are using last available version.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/17913704/android-gradle-cannot-find-symbol-class-gson">Android Gradle cannot find symbol class Gson</a></p>
+
+
+		
+		<a href="/blog/problems-of-android-development-part-2.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-technical-interview-part-4.html">
+		
+			iOS 面试题汇总(四)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-08-30T10:43:36+08:00" pubdate data-updated="true">30 Aug 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+
+<p>A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件等，依赖哪些第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
+
+<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
+
+<p>A: 最常用的版本控制工具是 Git。它的大致原理是工程每次提交时所有更改的文件都会生成快照，快照代表当前版本的文件，这些快照通过树型结构组织起来，树随着工程更改生长，通过这种方式来进行版本管理。</p>
+
+<h3>3.你一般是怎么用 Instruments 的？</h3>
+
+<p>A:根据想要分析的问题，选择对应的 instruments 来分析应用的行为，有疑问的地方参考 Instruments User Guide．</p>
+
+<h3>4.你一般是如何调试 Bug 的？</h3>
+
+<p>A:对于容易复现的 bug，根据复现的步骤来定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，这时可以配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，确定 bug 产生的原因才好解决。</p>
+
+<h3>5.你在你的项目中用到了哪些设计模式？</h3>
+
+<p>A:</p>
+
+<p>创建型：</p>
+
+<ul>
+<li>工厂方法(Factory Method)</li>
+<li>原型(Prototype)</li>
+<li>单例(Singleton)</li>
+</ul>
+
+
+<p>结构型：</p>
+
+<ul>
+<li>适配器(Adapter)</li>
+<li>桥接(Bridge)</li>
+<li>组成(Composite)</li>
+<li>装饰(Decorator)</li>
+<li>外观(Facade)</li>
+<li>享元(Flyweight)</li>
+</ul>
+
+
+<p>行为型：</p>
+
+<ul>
+<li>职责链（Chain Of Responsibility）</li>
+<li>命令(Command)</li>
+<li>解释器(Interpreter)</li>
+<li>迭代器(Iterator)</li>
+<li>中介者(Mediator)</li>
+<li>备忘录(Memento)</li>
+<li>观察者(Observer)</li>
+<li>状态(State)</li>
+<li>策略(Strategy)</li>
+<li>模板方法(Template Method)</li>
+</ul>
+
+
+
+		
+		<a href="/blog/ios-technical-interview-part-4.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-development-problems-part-8.html">
+		
+			iOS App 开发问题汇总（八）</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-06-24T15:54:30+08:00" pubdate data-updated="true">24 Jun 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Detect hash tags #, mention tags @, in iOS like in Twitter App</h3>
+
+<p>A:You can use <a href="https://github.com/Krelborn/KILabel">https://github.com/Krelborn/KILabel</a> this library. It also detect user taps on hashtags Like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>label.hashtagLinkTapHandler = ^(KILabel *label, NSString *string, NSRange range) {
+</span><span class='line'>  NSLog(@"Hashtag tapped %@", string);
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/24359972/detect-hash-tags-mention-tags-in-ios-like-in-twitter-app">Detect hash tags #, mention tags @, in iOS like in Twitter App</a></p>
+
+<h3>2.如何给应用重签名？</h3>
+
+<p>A：利用用途广泛的命令行工具 security快速地显示出你的系统中能用来对代码进行签名的认证的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ security find-identity -v -p codesigning                       
+</span><span class='line'>  1) 01C8E9712E9632E6D84EC533827B4478938A3B15 "iPhone Developer: Thomas Kollbach (7TPNXN7G6K)"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用<a href="https://github.com/fastlane/fastlane/tree/master/sigh">sign</a>给应用重签名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sigh resign ./path/app.ipa --signing_identity "iPhone Distribution: Felix Krause" -p "my.mobileprovision"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://objccn.io/issue-17-2/">代码签名探析</a></p>
+
+
+		
+		<a href="/blog/ios-development-problems-part-8.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+<nav id="pagenavi">
+    
+        <a href="/posts/9" class="prev">Prev</a>
+    
+    
+        <a href="/posts/11" class="next">Next</a>
+    
+    
+</nav>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2019
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</body>
+</html>

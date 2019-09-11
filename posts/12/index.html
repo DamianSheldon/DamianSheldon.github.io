@@ -1,0 +1,352 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Here's where it all happens for me.  | Hello World</title>
+
+        <meta name="author" content="Sheldon"> 
+        
+        <meta name="description" content="Sheldon's personal technology blog about iOS, Android, Back-end, Web and English."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+
+        <meta name="viewport" content="width=device-width">
+        
+        
+        <link rel="canonical" href="http://DamianSheldon.github.io/posts/12/index.html">
+
+        <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+        
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="/javascripts/libs/jquery.min.js"></script>
+        <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
+    </head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Navigation</a>
+        <ul class="nav" id="nav">
+    <li class="active"><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    
+    <form action="https://www.bing.com/search" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:DamianSheldon.github.io">
+    </form>
+</ul>
+    </div>
+</nav>
+
+<a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-technical-interview-part-3.html">
+		
+			iOS 面试题汇总(三)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-25T18:43:44+08:00" pubdate data-updated="true">25 Feb 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Difference between categories and extensions?</h3>
+
+<p>A:There are three difference beween categories and extensions:</p>
+
+<ol>
+<li>The extension has no name;</li>
+<li>The implementation of the extension must be in the main @implementation block of the file;</li>
+<li>The extension can easy declare property that need backend instance variable.</li>
+</ol>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">Difference between Category and Class Extension?</a></p>
+
+<h3>2.What is advantage of category?</h3>
+
+<p>A:</p>
+
+<ul>
+<li>You can add method to existing class even to that class whose source is not available to you.</li>
+<li>You can extend functionality of a class without subclassing.</li>
+<li>You can split implementation in multiple files.</li>
+</ul>
+
+
+<h3>3.What are KVO and KVC?</h3>
+
+<p>A:</p>
+
+<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.</p>
+
+<p>Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
+
+<p>Reference:Cocoa Core Competencies</p>
+
+
+		
+		<a href="/blog/ios-technical-interview-part-3.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-technical-interview-part-2.html">
+		
+			iOS 面试题汇总(二)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-25T16:54:55+08:00" pubdate data-updated="true">25 Feb 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.什么情况使用 weak 关键字，相比 assign 有什么不同？</h3>
+
+<p> A:什么情况使用 weak 关键字？</p>
+
+<ul>
+<li>强引用关系的对象会发生循环引用时用weak关键字；</li>
+<li>已经被强引用的对象，如Interface Builder创建的视图被声明为weak。</li>
+</ul>
+
+
+<p>weak 相比 assign 有什么不同？</p>
+
+<ul>
+<li>weak 必须修饰对象，assign还可以修饰非对象；</li>
+<li>weak 修饰的属性所指向的对象销毁后，该属性会被置为nil，而assign修改的属性所指向的对象销毁后，属性仍然指向对象分配的内存地址成为野指针。</li>
+</ul>
+
+
+<h3>2.怎么用 copy 关键字？(我觉得题目应该改为什么情况使用 copy 关键字，怎么用 copy 关键字这个问法有点奇怪，比如怎么用手机，那问题的答案就是手机的使用说明书，按这样来回答问题，那我们就应该说，声明属性时加上 copy 关键字)</h3>
+
+<p> A:属性想拥有独立的赋值副本，且赋值对象的类遵守 NSCopying 协议，这时我们可以使用 copy 关键字。</p>
+
+<h3>3.这个写法会出什么问题： <code>@property (copy) NSMutableArray *array;</code></h3>
+
+<p> A:</p>
+
+<ul>
+<li>问题一：由于属性声明为 copy, 所以它最终指向的是一个 NSArray，对它调用 NSMutableArray 中定义的方法会导致应用奔溃；</li>
+<li>问题二：如果是开发 iOS 程序，这会影响性能。</li>
+</ul>
+
+
+<p>扩展：</p>
+
+<p>Apple 在 The Objective-C Programming Language 中介绍 atomic 时说：</p>
+
+<blockquote><p>Properties are atomic by default so that synthesized accessors provide robust access to properties in a multithreaded environment—that is, the value returned from the getter or set via the setter is always fully retrieved or set regardless of what other threads are executing concurrently.
+If you specify strong, copy, or retain and do not specify nonatomic, then in a reference-counted environment, a synthesized get accessor for an object property uses a lock and retains and autoreleases the returned value—the implementation will be similar to the following:</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[_internal lock]; // lock using an object-level lock
+</span><span class='line'>
+</span><span class='line'>id result = [[value retain] autorelease];
+</span><span class='line'>
+</span><span class='line'>[_internal unlock];
+</span><span class='line'>
+</span><span class='line'>return result;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从文档的修改记录来看，最后一次修改时间是2011-10-12，维基上查了下 Mid 2011(July) 的 MacBook Air 的低配处理器参数为: 1.6 GHz (i5-2467M) dual-core Intel Core i5 with 3 MB shared L3 cacheOptional 1.8 GHz (i7-2677M) dual-core Intel Core i7 with 4 MB shared L3 cache, 内存为：2 GB (11" base model; Optional 4 GB) or 4 GB of 1333 MHz DDR3 SDRAM (all other models)，目前 Apple 还支持 iPhone 5S，它的处理器：64-bit 1.3 GHz dual-core Apple Cyclone，内存：1 GB LPDDR3 RAM，很遗憾数据好像没有全面超越，不过也比较接近了，当设备淘汰到 iPhone 6S 时，我们有理由在 iOS 开发中直接使用 atomic 关键字了。</p>
+
+
+		
+		<a href="/blog/ios-technical-interview-part-2.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-unit-testing-with-ocmock.html">
+		
+			iOS Unit Testing With OCMock</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-22T14:19:12+08:00" pubdate data-updated="true">22 Jan 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。</p>
+
+<p>既然是单元测试，那么什么是单元呢？我没有去考证，但我是这么理解的：面向对象编程范式里一切皆对象，而对象是由实例变量和方法组成，对象之间通过方法互相作用，我们的应用可以看作是一个对象图，对象图上的对象相互作用来实现我们的需求。这么看来我们的单元应该是对象的方法。</p>
+
+<p>对象的方法在工作的时候可能要依赖其他对象，为了去除依赖对象对测试的影响，我们引入 Mock.</p>
+
+<blockquote><p>Mocks are ‘fake’ objects with pre-defined behavior to stand-in for concrete objects during testing. &ndash; HackaZach</p></blockquote>
+
+<p>引用 Mock 之后，我们在单元测试中如何使用它呢？</p>
+
+<blockquote><p>The general recipe for using mocks in unit-tests is:</p>
+
+<ol>
+<li>Create the mock object</li>
+<li>Specify the expected invocations and return values</li>
+<li>Associate the mock object with the code under test</li>
+<li>Execute the code under test</li>
+<li>Validate that your assertions are correct</li>
+</ol>
+</blockquote>
+
+
+		
+		<a href="/blog/ios-unit-testing-with-ocmock.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+<nav id="pagenavi">
+    
+        <a href="/posts/11" class="prev">Prev</a>
+    
+    
+        <a href="/posts/13" class="next">Next</a>
+    
+    
+</nav>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2019
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</body>
+</html>

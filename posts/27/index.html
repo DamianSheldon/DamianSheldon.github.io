@@ -1,0 +1,490 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Here's where it all happens for me.  | Hello World</title>
+
+        <meta name="author" content="Sheldon"> 
+        
+        <meta name="description" content="Sheldon's personal technology blog about iOS, Android, Back-end, Web and English."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+
+        <meta name="viewport" content="width=device-width">
+        
+        
+        <link rel="canonical" href="http://DamianSheldon.github.io/posts/27/index.html">
+
+        <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+        
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="/javascripts/libs/jquery.min.js"></script>
+        <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
+    </head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Navigation</a>
+        <ul class="nav" id="nav">
+    <li class="active"><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    
+    <form action="https://www.bing.com/search" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:DamianSheldon.github.io">
+    </form>
+</ul>
+    </div>
+</nav>
+
+<a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-concurrency-programming-gcd.html">
+		
+			iOS 并发编程之 GCD</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">21 May 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 并发编程之 Operation 中我们提到了 GCD 出现的背景，这篇文章是我对它的使用总结。</p>
+
+<h2>GCD 是什么？</h2>
+
+<blockquote><p>Grand Central Dispatch (GCD) dispatch queues are a powerful tool for performing tasks. Dispatch queues let you execute arbitrary blocks of code either asynchronously or synchronously with respect to the caller.</p></blockquote>
+
+<p>GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步或同步运行任务代码块。</p>
+
+<h2>为什么使用 GCD?</h2>
+
+<p>我们使用 GCD 的原因很可能是我们想要异步或同步运行执行任务，并且还想获得以下优势:</p>
+
+<ul>
+<li>直接简单的编程接口；</li>
+<li>自动、整体的线程池管理；</li>
+<li>高效的内存管理；</li>
+<li>负载时不干扰内核；</li>
+<li>异步分发任务到分派队列不会造成死锁；</li>
+<li>优雅地处理竞争；</li>
+<li>串行分派队列为锁和其他同步操作提供了更高效选择；</li>
+</ul>
+
+
+<h2>如何使用 GCD？</h2>
+
+<p>在 GCD 是什么部分，我们指出它是执行任务的分发队列。除了核心的分发队列，GCD 还提供了几个其他的使用分发队列的技术来帮助我们管理代码。</p>
+
+<h3>Dispatch groups</h3>
+
+<p>Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。</p>
+
+<h3>Dispatch semaphores</h3>
+
+<p>Dispatch semaphores 类似传统的信号量，但是它通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。</p>
+
+<h3>Dispatch sources</h3>
+
+<p>Dispatch source 产生通知响应指定的系统事件。你可以使用 dispatch sources 来监视像进程通知，信号和描述符等类似事件。当事件发生时，dispatch source 异步地提交你的任务到指定分发队列去处理。</p>
+
+<p>所以要掌握如何使用 GCD，我们需要学习如何使用 Dispatch queue, Dispatch groups, Dispatch semaphores 和 Dispatch sources。</p>
+
+
+		
+		<a href="/blog/ios-concurrency-programming-gcd.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/ios-concurrency-programming-operation.html">
+		
+			iOS 并发编程之 Operation</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-20T09:31:07+08:00" pubdate data-updated="true">20 May 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h2>背景简介</h2>
+
+<p>在计算的早期，计算机单位时间能够执行的最大工作是由 CPU 的时钟频率决定的。但是随着技术的发展和处理器设计得更加小巧，热量和其他物理约束开始限制处理器的最大时钟频率。所以芯片制造商寻找其他办法来提高他们芯片的整体性能。通过增加核数量，单个芯片每秒可以运行更多的指令而不需要增加 CPU 的速度或者改变芯片的尺寸或者热特性。唯一的问题是如何利用额外的核。</p>
+
+<p>应用使用多核的传统方法是创建多个线程。然而，随着核的数量增加，线程方案有很多问题。最大的问题是线程代码不能很好地扩展到任意数量的核。你不能有多少核就创建多少线程然后期望程序能正常运行。你需要知道的是有多少核可以被有效地使用，应用程序依靠自身来计算这是件很有挑战的事情。即使你得到了正确的数量，让如此多的线程高效地运行，相互之间互不影响仍然是一件十分困难的事情。</p>
+
+<p>为了解决这些问题，OS X 和 iOS 采用了 异步设计的方案。其中一种异步开始任务的技术叫做 GCD(Grand Central Dispatch)。该技术接管了你以前需要在应用中编写的线程管理代码，并将它们下移到系统级。所有你需要做的是定义你想做的任务并把它们添加到合适的分发队列。 GCD 负责创建需要的线程并调度你的任务运行到这些线程上。因为现在线程管理是系统的一部分， GCD 为任务管理和运行提供了一个比传统线程更高效的整体方案。</p>
+
+<p>从背景介绍我们可以看出，并发编程的根本还是线程，但是在实际的使用过程中发现在应用层来做线程的管理很困难，编写多线程代码也很难，所以 Apple 从系统级层面对线程做了封装，因此在 OS X 和 iOS 平台我们有了特定的并发编程技术 GCD。</p>
+
+<p>到这里事情并没结束，GCD 是基于 C 接口，Apple 对它用 Objective-C 进行了进一步的包裹和封装，于是有操作队列(Operation Queue)。</p>
+
+<p>操作队列是非常类似分发队列(dispatch queue)的 Objective-C 对象。你定义想要执行的任务并添加到操作队列，它处理这些任务的调度和执行。类似 GCD，操作队列为你处理所有的线程管理，确保任务在系统上高效快速的运行。</p>
+
+<p>因此 iOS 开发中并发编程技术有三种：</p>
+
+<ol>
+<li>NSOperation;</li>
+<li>GCD;</li>
+<li>Thread.</li>
+</ol>
+
+
+<p>上述的顺序也是推荐使用的顺序。</p>
+
+<h2>如何使用 Operation?</h2>
+
+<p>Operation 的核心思想是把应用想要完成的工作封装起来，然后添加到队列中执行或手动执行。苹果在 Foundation 框架中提供了 NSOperation 这个抽象类，它为我们搭好了用户代码与系统代码交互的骨架，最小化了我们需要做的工作，只需要专注于封装我们想要做的工作。苹果很贴心，为了进一步减轻开发者负担，她还提供了两个具体的类:<code>NSInvocationOperation</code> 和 <code>NSBlockOperation</code> 用来完成日常大部分工作。</p>
+
+<p>因此，我们使用 Operation 的方法是用具体的类封装工作或者自定义 Operation 封装工作，具体类可以满足需求时就不用去自定义 Operation 了，这样可以减少我们的工作量，封装好工作之后执行它们，方法有两种：一是加入队列;二是手动执行。</p>
+
+<h2>使用 NSInvocationOperation 封装工作</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>                    <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod</span><span class="p">:)</span> <span class="nl">object</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Perform the task.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/ios-concurrency-programming-operation.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/iosde-hui-tu-xi-tong.html">
+		
+			iOS 的绘图系统</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true">19 May 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 开发过程中，有时我们可能需要自己用代码绘制应用的部分内容，这时候就需要和绘图系统打交道了。 iOS 的绘图系统很强大，我们可以用它来做很多事情；另一方面 Apple 做了很多艰苦卓绝的工作，使得大多数情况下我们可以很轻松完成绘制任务。</p>
+
+<p>大多数人应该都有过绘画的经历，这和 iOS 中的绘画很类似，我相信最开始研究计算机图形学的先驱肯定汲取了很多绘画的精髓，所以我们联系绘画来理解 iOS 中的绘画会很有帮助。</p>
+
+<p>当我们在现实生活中绘画时，我们会思考些什么？有些事情是肯定会要考虑的，比如，要画什么内容？画到哪里？用什么东西画?怎么画？在 iOS 中绘画，我们同样要考虑这些问题，只不过这时要和 Apple 定义的术语联系起来，因为我们在她定义的世界里，所以就要按她的规则来行事。</p>
+
+<p>要画什么内容是由应用的需求决定的，所以不在我们讨论的范围，我们重点关注画到哪里?用什么东西画？怎么画这些问题。iOS 上图形软件技术栈大致是这样的：UIKit graphics > Core Graphics(Quartz 2D), Core Animation > OpenGL ES。</p>
+
+<p>Open GL ES 是移动版本的 OpenGL, 它能实现高性能的 2D 和 3D 图形绘制，它不是 Apple 的成果，却是 iOS 图形技术的基石。Apple 在它之上抽象封装了 Core Graphics, Core Animation 等库。大多数应用开发者主要和 2D 图形打交道，所以我们主要使用 Core Graphics，Core Animation。Core Animation 主要为应用提供动画支持，UIKit graphics 的功能相对简单，所以这里我们聚焦 Core Graphics，也称为 Quartz。</p>
+
+<p>上面也可以用来回答用什么画这个问题，即我们可以用 UIKit graphics, Core Graphics, Core Animation, OpenGL ES 画，如果我们主要是绘制 2D 图形，那么使用 Core Graphics 是比较正确的选择。</p>
+
+<h2>画到哪里</h2>
+
+<p>画到哪里在 iOS 中对应 Graphic Context，我们不妨翻译为图形上下文。在 iOS 应用中有如下可用的图形上下文：bitmap graphics context，PDF graphics context，window graphics context 和 layer context。</p>
+
+<h2>怎么画</h2>
+
+<p>在 iOS 中绘画通常是先拿到一个图形上下文，然后配置它的状态，之后给它添加绘图元素，还可以给绘图元素添加效果，最后绘制或填充绘图元素。使用 layer context 绘制时稍微有点区别，它是先绘制到 layer context,之后可以使用这个整体去绘制，有点类似印章盖印。</p>
+
+<h3>图形上下文</h3>
+
+<h4>window graphics context</h4>
+
+<p>在 iOS 应用中得到 window graphics context 的方法是继承 UIView, 并实现 <code>drawRect:</code> 方法，在该方法里调用 UIGraphicsGetCurrentContext 函数。</p>
+
+<h4>bitmap graphics context</h4>
+
+<p>UIGraphicsBeginImageContextWithOptions 和 CGBitmapContextCreate 都可以创建 bitmap graphics context, 我们应该优先使用 UIGraphicsBeginImageContextWithOptions， 它的抽象程度更高。</p>
+
+<h4>PDF graphics context</h4>
+
+<p>CGPDFContextCreateWithURL 和 CGPDFContextCreate 可以用来创建 PDF graphics context.</p>
+
+<h4>layer context</h4>
+
+<p>layer context 要用已有的 graphics context 调用 CGLayerCreateWithContext 来创建。</p>
+
+<h3>图形上下文状态</h3>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> 参数 </th>
+<th style="text-align:center;"> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"> Current transformation matrix (CTM) </td>
+<td style="text-align:center;"> Transforms </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Clipping area </td>
+<td style="text-align:center;"> Paths </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Line: width, join, cap, dash, miter limit </td>
+<td style="text-align:center;"> Paths </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Accuracy of curve estimation (flatness) </td>
+<td style="text-align:center;"> Paths </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Anti-aliasing setting </td>
+<td style="text-align:center;"> Graphics Contexts </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Color: fill and stroke settings </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Alpha value (transparency) </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Rendering intent </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Color space: fill and stroke settings </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Text: font, font size, character spacing, text drawing mode </td>
+<td style="text-align:center;"> Text </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Blend mode </td>
+<td style="text-align:center;"> Paths and Bitmap Images and Image Masks </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>绘图元素</h3>
+
+<p>点，线，圆弧，曲线，路径，椭圆和矩形是提供的绘图元素，可以用它们组合出我们的目标图形。</p>
+
+<h3>效果</h3>
+
+<p>效果有阴影，渐变，透明图层。</p>
+
+<h4>阴影</h4>
+
+<p>Follow these steps to paint with shadows:</p>
+
+<ol>
+<li>Save the graphics state.</li>
+<li>Call the function CGContextSetShadow, passing the appropriate values.</li>
+<li>Perform all the drawing to which you want to apply shadows.</li>
+<li>Restore the graphics state.</li>
+</ol>
+
+
+<p>Follow these steps to paint with colored shadows:</p>
+
+<ol>
+<li>Save the graphics state.</li>
+<li>Create a CGColorSpace object to ensure that Quartz interprets the shadow color values correctly.</li>
+<li>Create a CGColor object that specifies the shadow color you want to use.</li>
+<li>Call the function CGContextSetShadowWithColor, passing the appropriate values.</li>
+<li>Perform all the drawing to which you want to apply shadows.</li>
+<li>Restore the graphics state.</li>
+</ol>
+
+
+<h4>渐变</h4>
+
+<p>渐变有线性渐变和角度渐变。CGGradient 和 CGShading 都可以用来实现添加渐变，CGGradient 粗放点，但我们可以少写点代码；CGShading 更细腻，可以根据具体情况选择使用。</p>
+
+<h4>透明图层</h4>
+
+<p>Painting to a transparency layer requires three steps:</p>
+
+<ol>
+<li>Call the function CGContextBeginTransparencyLayer.</li>
+<li>Draw the items you want to composite in the transparency layer.</li>
+<li>Call the function CGContextEndTransparencyLayer.</li>
+</ol>
+
+
+<h3>绘制、填充</h3>
+
+<p>Core Graphics 提供了很多绘制和填充函数，它们的名字通常包含 stroke 或 fill，调用它们可以完成绘制和填充。</p>
+
+
+		
+		<a href="/blog/iosde-hui-tu-xi-tong.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+<nav id="pagenavi">
+    
+        <a href="/posts/26" class="prev">Prev</a>
+    
+    
+        <a href="/posts/28" class="next">Next</a>
+    
+    
+</nav>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2019
+
+    Sheldon
+
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</body>
+</html>

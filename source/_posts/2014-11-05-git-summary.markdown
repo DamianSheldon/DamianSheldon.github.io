@@ -587,6 +587,10 @@ $ git commit -m "Resolved merge conflict by keeping README.md file."
 
 Reference:[Resolving a merge conflict using the command line](https://help.github.com/en/articles/resolving-a-merge-conflict-using-the-command-line)   
 
+###11.Where is System-wide configuration file `$(prefix)/etc/gitconfig` on macOS?
+A:`/usr/local/git/etc/gitconfig` is the system-wide configuration on macOS Mojave.
+
+
 ####Reference  
 
 * [Pro Git](http://git-scm.com/book/zh/v1)  

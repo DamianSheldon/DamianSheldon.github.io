@@ -90,7 +90,7 @@ Reference:[How to make a div take the remaining height](https://www.whitebyte.in
 ###5.Dynamic modal height based on content in Ionic4?
 A:
 
-```
+{% codeblock %}
 // Modal page template:
 <div class="inner-content">
 	<!-- Construct your view hierarchy here-->
@@ -124,7 +124,7 @@ ion-modal.auto-height {
         }
     }
 }
-```
+{% endcodeblock %}
 
 Reference:  
 

@@ -60,7 +60,7 @@ exit
 quit  
 
 ###3.Installing Apps with Homebrew Cask
-[Homebrew Cask](http://caskroom.io/) is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.
+[Homebrew Cask](https://brew.sh/) is an extension for Homebrew that allows you to automate the installation of Mac Apps and Fonts.
 
 After you have homebrew installed, you'll want to install Homebrew Cask:
 

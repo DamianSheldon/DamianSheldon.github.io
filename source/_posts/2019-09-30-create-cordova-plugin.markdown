@@ -100,6 +100,16 @@ $ plugman install --platform android --project platforms/android --plugin ../Log
 $ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/
 ```
 
+####发布
+
+```
+// Create a tag
+$git tag <tagname>
+
+// Push to repository
+$git push origin master
+```
+
 ####升级 cordova plugin
 
 现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。

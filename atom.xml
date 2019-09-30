@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-09-23T08:49:04+08:00</updated>
+  <updated>2019-09-30T12:28:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,252 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[创建 Cordova plugin 及其 Ionic Native]]></title>
+    <link href="http://DamianSheldon.github.io/blog/create-cordova-plugin.html"/>
+    <updated>2019-09-30T09:59:14+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/create-cordova-plugin</id>
+    <content type="html"><![CDATA[<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
+
+<ul>
+<li>Cordova Plugin 的工作原理</li>
+<li>如何创建 Cordova Plugin</li>
+<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
+</ul>
+
+
+<h3>Cordova Plugin 的工作原理</h3>
+
+<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
+
+<p>Plugin js 端的入口方法签名形式如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
+</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
+</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>service 就是对就 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
+
+<p>具体是怎么映射的呢？</p>
+
+<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
+</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
+</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个形式就是我们上面见过的形式。</p>
+
+<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
+
+<h3>如何创建 Cordova Plugin</h3>
+
+<h4>安装 plugman</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm install -g plugman</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>创建 cordova plugin</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
+</span><span class='line'>
+</span><span class='line'>eg.
+</span><span class='line'>$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>添加 platform</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$plugman platform add --platform_name android</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>创建 package.json 文件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman createpackagejson &lt;directory&gt;
+</span><span class='line'>
+</span><span class='line'>eg.
+</span><span class='line'>$plugman createpackagejson .</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>安装 cordova plugin</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
+</span><span class='line'>$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
+</span><span class='line'>
+</span><span class='line'>// 方法二：
+</span><span class='line'>$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>卸载 cordova plugin</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 与安装的方法对应有两种卸载方法
+</span><span class='line'>// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
+</span><span class='line'>
+</span><span class='line'>// 方法二：
+</span><span class='line'>$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>升级 cordova plugin</h4>
+
+<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
+
+<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
+
+<h4>Creating Plugin Wrappers</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Navigate to ionic-native root path
+</span><span class='line'>$cd  ionic-native
+</span><span class='line'>
+</span><span class='line'>// Install dependencies first time
+</span><span class='line'>$npm install
+</span><span class='line'>
+</span><span class='line'>// Create plugin wrapper
+</span><span class='line'>$gulp plugin:create -n PluginName</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>安装</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
+</span><span class='line'>$npm run build
+</span><span class='line'>
+</span><span class='line'>//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
+</span><span class='line'>$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>使用</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Import the plugin in a @NgModule and add it to the list of Providers. 
+</span><span class='line'>// app.module.ts
+</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>@NgModule({
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>  providers: [
+</span><span class='line'>    ...
+</span><span class='line'>    APIClient
+</span><span class='line'>    ...
+</span><span class='line'>  ]
+</span><span class='line'>  ...
+</span><span class='line'>})
+</span><span class='line'>export class AppModule { }
+</span><span class='line'>
+</span><span class='line'>// After the plugin has been declared, it can be imported and injected like any other service:
+</span><span class='line'>
+</span><span class='line'>// login.service.ts
+</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
+</span><span class='line'>import { ServiceName } from '@ionic-native/api-client/ngx';
+</span><span class='line'>
+</span><span class='line'>constructor(private apiClient: APIClient) { }
+</span><span class='line'>
+</span><span class='line'>this.apiClient.get(ServiceName.Login, JSON.stringify(user))
+</span><span class='line'>      .then((result: string) =&gt; {
+</span><span class='line'>        console.log('api client login:', result);
+</span><span class='line'>        //TODO: Parse server return json to UserExt object
+</span><span class='line'>        const routePath = this.simulateLogin(username);        
+</span><span class='line'>        resolve(routePath);
+</span><span class='line'>      })
+</span><span class='line'>      .catch((error: string) =&gt; {
+</span><span class='line'>        console.log('api client login error:', error);
+</span><span class='line'>
+</span><span class='line'>        reject(error);
+</span><span class='line'>      });</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Reference:</h1>
+
+<ul>
+<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
+<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(四)]]></title>
@@ -6456,83 +6702,6 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 
 
 <p>Reference:<a href="https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3">Application error. The connection to the server was unsuccessful</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[输出自定义尺寸视频]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video.html"/>
-    <updated>2017-04-10T10:12:09+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-specify-a-resolution-for-output-video</id>
-    <content type="html"><![CDATA[<p>最近要做的一个项目中要拍摄视频，于是就开始来研究视频。看了几遍 AVFoundation Programming Guide 之后也写了个 Demo，把基本功能都过了一遍。这其中有意思的一件事情是我发现微信拍摄短视频的尺寸是 540x944, 这尺寸很奇怪，不是任何一个预设值。不清楚微信为什么用这么一个尺寸，但我想搞清楚怎么输出自定义尺寸的视频。</p>
-
-<p>AVFoundation 捕获数据输出时，各组件的关系如下：</p>
-
-<div style="text-align:center" markdown="1">
-                                                                                           <img name="Capture Detail" src="http://DamianSheldon.github.io/images/captureDetail_2x.png">
-                                                                                        </div>
-
-
-<p>要想输出自定义尺寸的视频，我们可以从输入端和输出端着手。但是从文档来看，并没有提供可以自定捕获尺寸的方法，所以只能从输出端着手。</p>
-
-<!--more-->
-
-
-<p>首先我用 AVCaptureMovieFileOutput 做输出，然后调用 <code>setOutputSettings(_ outputSettings: [AnyHashable : Any]!, for connection: AVCaptureConnection!)</code> 来达到目标。但是很不幸，控制台输出了异常，查看 AVCaptureMovieFileOutput 的头文件，</p>
-
-<blockquote><p>On iOS, you may only specify the AVVideoCodecKey in the outputSettings. If you specify any other key, an NSInvalidArgumentException will be thrown. See the availableVideoCodecTypes property.</p></blockquote>
-
-<p>所以这个方法行不通。</p>
-
-<p>于是我又尝试用 AVAssetWriter 来接收每一帧捕获的数据，然后按配置输出，理论上来讲这是可行的，实际上只有第一帧数据能成功被接收，之后的数据都会接收失败，具体原因不详。</p>
-
-<p>直接处理每一帧数据失败之后，我又反复翻阅文档，发现编辑章节中提到可以修改 renderSize, 于是又一个想法冒出来，也许可以通过修改 renderSize 来输出自定义尺寸。按照文档编写好相关代码，激动地运行测试。结果得到的是：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Optional(Error Domain=AVFoundationErrorDomain Code=-11800 "The operation could not be completed" UserInfo={NSUnderlyingError=0x1700505c0 {Error Domain=NSOSStatusErrorDomain Code=-12108 "(null)"}, NSLocalizedFailureReason=An unknown error occurred (-12108), NSLocalizedDescription=The operation could not be completed})</span></code></pre></td></tr></table></div></figure>
-
-
-<p>说实话，内心是崩溃的。但对这件事情还是耿耿于怀，又浏览了一下官方示例列表，发现了 AVSimpleEditoriOS,</p>
-
-<blockquote><p>AVSimpleEditor is a simple AVFoundation based movie editing application which exercises the APIs of AVVideoComposition, AVAudioMix and demonstrates how they can be used for simple video editing tasks. It also demonstrates how they interact with playback (AVPlayerItem) and export (AVAssetExportSession). The application performs trim, rotate, crop, add music, add watermark and export. This sample is ARC-enabled.</p></blockquote>
-
-<p>嗯，看到里面提到可以裁剪，于是就想它是怎么做？可以剪成我想要的大小吗？阅读相关的代码片断，原来它就是用的 renderSize 来实现裁剪的，跟我第三种方法的代码基本一致，差别是它是 Objc 写的，我用 Swift 写的。既然它能正常工作，那我就用这份代码来输出自定义尺寸吧。把代码移进来，运行测试，居然输出了指定的尺寸，难道代码用 Objc 和 Swift 写还有这种差别，整个人是懵的，这个原因暂时是不清楚的。</p>
-
-<p>虽然输出的尺寸对了，但是画面没有铺满尺寸，而且方向错了。这有点太虐了，既然都走到这一步，就想那我再试试能不手动把它纠正吧。纠正的方法是使用 transform, 但是文档对它的介绍不详细，我先参考了 QuartZ 2D Programming Guide 中 Transforms 来变换，发现不对，整个画面全变成了黑色，又在 AVSimpleEditoriOS 的注释中发现了新的线索，</p>
-
-<blockquote><p>Note: the point of origin for rotation is the upper left corner of the composition, t3 is to compensate for origin</p></blockquote>
-
-<p>这么说它用的坐标和 QuartZ 2D 还不一样啊，这么坑爹，好吧，只能先确定好它们是怎么变换的。于是我先输出一段没变换的视频，之后每次测试一个变换，用这个办法确认了它们的变换是这样的，变换的原点是屏幕的左上角，Translation 向右是 X 轴的正方向，向下是 Y 轴的正方向; Rotation 的度数为正是按顺时针方向旋转，为负则是逆时针方向旋转；Scaling 的值大于1为放大，小于1则是缩小。</p>
-
-<p>这样我就做了这么一个变换：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>t1 = CGAffineTransformScale(asset.preferredTransform, sx, sy);
-</span><span class='line'>
-</span><span class='line'>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));
-</span><span class='line'>
-</span><span class='line'>t1 = CGAffineTransformTranslate(t1, 540, 0);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>控制台报错了，说这个视频不支持编辑，这是个什么鬼？完全没有道理啊！于是我又把这段代码从下往上一行一行注释，看是谁导致的问题，发现是 <code>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));</code> ，这样我又试着调整变换的顺序，改成：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>t1 = CGAffineTransformTranslate(asset.preferredTransform, 540, 0);
-</span><span class='line'>
-</span><span class='line'>t1 = CGAffineTransformScale(t1, sx, sy);
-</span><span class='line'>
-</span><span class='line'>t1 = CGAffineTransformRotate(t1, degreesToRadians(90));</span></code></pre></td></tr></table></div></figure>
-
-
-<p>运行测试，苍天啊，居然可以了。经历这么一出，感觉写代码都成了玄学了, 无力吐槽!</p>
 ]]></content>
   </entry>
   

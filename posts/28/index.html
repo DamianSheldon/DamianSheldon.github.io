@@ -63,6 +63,199 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/iosde-hui-tu-xi-tong.html">
+		
+			iOS 的绘图系统</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-19T16:47:22+08:00" pubdate data-updated="true">19 May 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 开发过程中，有时我们可能需要自己用代码绘制应用的部分内容，这时候就需要和绘图系统打交道了。 iOS 的绘图系统很强大，我们可以用它来做很多事情；另一方面 Apple 做了很多艰苦卓绝的工作，使得大多数情况下我们可以很轻松完成绘制任务。</p>
+
+<p>大多数人应该都有过绘画的经历，这和 iOS 中的绘画很类似，我相信最开始研究计算机图形学的先驱肯定汲取了很多绘画的精髓，所以我们联系绘画来理解 iOS 中的绘画会很有帮助。</p>
+
+<p>当我们在现实生活中绘画时，我们会思考些什么？有些事情是肯定会要考虑的，比如，要画什么内容？画到哪里？用什么东西画?怎么画？在 iOS 中绘画，我们同样要考虑这些问题，只不过这时要和 Apple 定义的术语联系起来，因为我们在她定义的世界里，所以就要按她的规则来行事。</p>
+
+<p>要画什么内容是由应用的需求决定的，所以不在我们讨论的范围，我们重点关注画到哪里?用什么东西画？怎么画这些问题。iOS 上图形软件技术栈大致是这样的：UIKit graphics > Core Graphics(Quartz 2D), Core Animation > OpenGL ES。</p>
+
+<p>Open GL ES 是移动版本的 OpenGL, 它能实现高性能的 2D 和 3D 图形绘制，它不是 Apple 的成果，却是 iOS 图形技术的基石。Apple 在它之上抽象封装了 Core Graphics, Core Animation 等库。大多数应用开发者主要和 2D 图形打交道，所以我们主要使用 Core Graphics，Core Animation。Core Animation 主要为应用提供动画支持，UIKit graphics 的功能相对简单，所以这里我们聚焦 Core Graphics，也称为 Quartz。</p>
+
+<p>上面也可以用来回答用什么画这个问题，即我们可以用 UIKit graphics, Core Graphics, Core Animation, OpenGL ES 画，如果我们主要是绘制 2D 图形，那么使用 Core Graphics 是比较正确的选择。</p>
+
+<h2>画到哪里</h2>
+
+<p>画到哪里在 iOS 中对应 Graphic Context，我们不妨翻译为图形上下文。在 iOS 应用中有如下可用的图形上下文：bitmap graphics context，PDF graphics context，window graphics context 和 layer context。</p>
+
+<h2>怎么画</h2>
+
+<p>在 iOS 中绘画通常是先拿到一个图形上下文，然后配置它的状态，之后给它添加绘图元素，还可以给绘图元素添加效果，最后绘制或填充绘图元素。使用 layer context 绘制时稍微有点区别，它是先绘制到 layer context,之后可以使用这个整体去绘制，有点类似印章盖印。</p>
+
+<h3>图形上下文</h3>
+
+<h4>window graphics context</h4>
+
+<p>在 iOS 应用中得到 window graphics context 的方法是继承 UIView, 并实现 <code>drawRect:</code> 方法，在该方法里调用 UIGraphicsGetCurrentContext 函数。</p>
+
+<h4>bitmap graphics context</h4>
+
+<p>UIGraphicsBeginImageContextWithOptions 和 CGBitmapContextCreate 都可以创建 bitmap graphics context, 我们应该优先使用 UIGraphicsBeginImageContextWithOptions， 它的抽象程度更高。</p>
+
+<h4>PDF graphics context</h4>
+
+<p>CGPDFContextCreateWithURL 和 CGPDFContextCreate 可以用来创建 PDF graphics context.</p>
+
+<h4>layer context</h4>
+
+<p>layer context 要用已有的 graphics context 调用 CGLayerCreateWithContext 来创建。</p>
+
+<h3>图形上下文状态</h3>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> 参数 </th>
+<th style="text-align:center;"> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"> Current transformation matrix (CTM) </td>
+<td style="text-align:center;"> Transforms </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Clipping area </td>
+<td style="text-align:center;"> Paths </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Line: width, join, cap, dash, miter limit </td>
+<td style="text-align:center;"> Paths </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Accuracy of curve estimation (flatness) </td>
+<td style="text-align:center;"> Paths </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Anti-aliasing setting </td>
+<td style="text-align:center;"> Graphics Contexts </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Color: fill and stroke settings </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Alpha value (transparency) </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Rendering intent </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Color space: fill and stroke settings </td>
+<td style="text-align:center;"> Color and Color Spaces </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Text: font, font size, character spacing, text drawing mode </td>
+<td style="text-align:center;"> Text </td>
+</tr>
+<tr>
+<td style="text-align:center;"> Blend mode </td>
+<td style="text-align:center;"> Paths and Bitmap Images and Image Masks </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>绘图元素</h3>
+
+<p>点，线，圆弧，曲线，路径，椭圆和矩形是提供的绘图元素，可以用它们组合出我们的目标图形。</p>
+
+<h3>效果</h3>
+
+<p>效果有阴影，渐变，透明图层。</p>
+
+<h4>阴影</h4>
+
+<p>Follow these steps to paint with shadows:</p>
+
+<ol>
+<li>Save the graphics state.</li>
+<li>Call the function CGContextSetShadow, passing the appropriate values.</li>
+<li>Perform all the drawing to which you want to apply shadows.</li>
+<li>Restore the graphics state.</li>
+</ol>
+
+
+<p>Follow these steps to paint with colored shadows:</p>
+
+<ol>
+<li>Save the graphics state.</li>
+<li>Create a CGColorSpace object to ensure that Quartz interprets the shadow color values correctly.</li>
+<li>Create a CGColor object that specifies the shadow color you want to use.</li>
+<li>Call the function CGContextSetShadowWithColor, passing the appropriate values.</li>
+<li>Perform all the drawing to which you want to apply shadows.</li>
+<li>Restore the graphics state.</li>
+</ol>
+
+
+<h4>渐变</h4>
+
+<p>渐变有线性渐变和角度渐变。CGGradient 和 CGShading 都可以用来实现添加渐变，CGGradient 粗放点，但我们可以少写点代码；CGShading 更细腻，可以根据具体情况选择使用。</p>
+
+<h4>透明图层</h4>
+
+<p>Painting to a transparency layer requires three steps:</p>
+
+<ol>
+<li>Call the function CGContextBeginTransparencyLayer.</li>
+<li>Draw the items you want to composite in the transparency layer.</li>
+<li>Call the function CGContextEndTransparencyLayer.</li>
+</ol>
+
+
+<h3>绘制、填充</h3>
+
+<p>Core Graphics 提供了很多绘制和填充函数，它们的名字通常包含 stroke 或 fill，调用它们可以完成绘制和填充。</p>
+
+
+		
+		<a href="/blog/iosde-hui-tu-xi-tong.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html">
 		
 			iOS UIWebView与JavaScript交互</a>
@@ -207,101 +400,6 @@
 
 		
 		<a href="/blog/property-values.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/tips-and-techniques-for-framework-developers-translation.html">
-		
-			(翻译)Tips and Techniques for Framework Developers</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-05-10T09:23:09+08:00" pubdate data-updated="true">10 May 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>Initialization</h2>
-
-<h3>Class initialization</h3>
-
-<p>initialize 类方法是一个一次性，懒散的执行一些代码的地方，它会在类的其他方法被调用之前调用。最典型的应用是设置类的版本号。
-动态系统给继承链上每一个类发送initialize方法，即使方法没有实现。因此它可能会被调用多次（例如，一个子类没有实现它。）。通常我们只想初始化代码被执行一次。一种实现的方法是使用dispatch_once();</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// the initializing code</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>Note:因为动态系统发送initialize给每一个类，所以它很可能会在子类的上下文中调用—如果子类没有实现initialize，会调用父类的实现。如果在相关类的上下文中有特殊的初始化需求，我们可以进行如下操作而不仅仅是使用dispatch_once();</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSFoo</span> <span class="k">class</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// the initializing code</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/tips-and-techniques-for-framework-developers-translation.html" class="more-link">继续阅读</a>
 	</div>
 
 

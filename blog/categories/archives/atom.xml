@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-09-23T08:49:04+08:00</updated>
+  <updated>2019-09-30T12:28:46+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,175 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[创建 Cordova plugin 及其 Ionic Native]]></title>
+    <link href="http://DamianSheldon.github.io/blog/create-cordova-plugin.html"/>
+    <updated>2019-09-30T09:59:14+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/create-cordova-plugin</id>
+    <content type="html"><![CDATA[<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
+
+<ul>
+<li>Cordova Plugin 的工作原理</li>
+<li>如何创建 Cordova Plugin</li>
+<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
+</ul>
+
+
+<h3>Cordova Plugin 的工作原理</h3>
+
+<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
+
+<p>Plugin js 端的入口方法签名形式如下:</p>
+
+<pre><code>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);
+</code></pre>
+
+<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
+
+<pre><code>&lt;feature name="&lt;service_name&gt;"&gt;
+    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
+&lt;/feature&gt;
+</code></pre>
+
+<p>service 就是对就 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
+
+<p>具体是怎么映射的呢？</p>
+
+<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
+
+<pre><code>&lt;feature name="&lt;service_name&gt;"&gt;
+    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
+&lt;/feature&gt;
+</code></pre>
+
+<p>这个形式就是我们上面见过的形式。</p>
+
+<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
+
+<h3>如何创建 Cordova Plugin</h3>
+
+<h4>安装 plugman</h4>
+
+<pre><code>$ npm install -g plugman
+</code></pre>
+
+<h4>创建 cordova plugin</h4>
+
+<pre><code>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
+
+eg.
+$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1
+</code></pre>
+
+<h4>添加 platform</h4>
+
+<pre><code>$plugman platform add --platform_name android
+</code></pre>
+
+<h4>创建 package.json 文件</h4>
+
+<pre><code>$ plugman createpackagejson &lt;directory&gt;
+
+eg.
+$plugman createpackagejson .
+</code></pre>
+
+<h4>安装 cordova plugin</h4>
+
+<pre><code>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
+$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
+
+// 方法二：
+$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/
+</code></pre>
+
+<h4>卸载 cordova plugin</h4>
+
+<pre><code>// 与安装的方法对应有两种卸载方法
+// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
+
+// 方法二：
+$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/
+</code></pre>
+
+<h4>升级 cordova plugin</h4>
+
+<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
+
+<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
+
+<h4>Creating Plugin Wrappers</h4>
+
+<pre><code>// Navigate to ionic-native root path
+$cd  ionic-native
+
+// Install dependencies first time
+$npm install
+
+// Create plugin wrapper
+$gulp plugin:create -n PluginName
+</code></pre>
+
+<h4>安装</h4>
+
+<pre><code>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
+$npm run build
+
+//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
+$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native
+</code></pre>
+
+<h3>使用</h3>
+
+<pre><code>// Import the plugin in a @NgModule and add it to the list of Providers. 
+// app.module.ts
+import { APIClient } from '@ionic-native/api-client/ngx';
+...
+
+@NgModule({
+  ...
+
+  providers: [
+    ...
+    APIClient
+    ...
+  ]
+  ...
+})
+export class AppModule { }
+
+// After the plugin has been declared, it can be imported and injected like any other service:
+
+// login.service.ts
+import { APIClient } from '@ionic-native/api-client/ngx';
+import { ServiceName } from '@ionic-native/api-client/ngx';
+
+constructor(private apiClient: APIClient) { }
+
+this.apiClient.get(ServiceName.Login, JSON.stringify(user))
+      .then((result: string) =&gt; {
+        console.log('api client login:', result);
+        //TODO: Parse server return json to UserExt object
+        const routePath = this.simulateLogin(username);        
+        resolve(routePath);
+      })
+      .catch((error: string) =&gt; {
+        console.log('api client login error:', error);
+
+        reject(error);
+      });
+</code></pre>
+
+<h1>Reference:</h1>
+
+<ul>
+<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
+<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(四)]]></title>
@@ -512,817 +681,6 @@ For Microsoft’s Internet Information Server (IIS), use IIS Manager to add the 
 <li><p><a href="https://help.apple.com/deployment/ios/#/apda0e3426d7">Distribute in-house apps from a web server</a></p></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 面试题汇总(三)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-technical-interview-part-3.html"/>
-    <updated>2018-09-13T10:20:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-technical-interview-part-3</id>
-    <content type="html"><![CDATA[<h3>1.介绍js的基本数据类型。</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Six data types that are primitives:
-
-<ul>
-<li>Boolean. true and false.</li>
-<li>null. A special keyword denoting a null value. Because JavaScript is case-sensitive, null is not the same as Null, NULL, or any other variant.</li>
-<li>undefined. A top-level property whose value is not defined.</li>
-<li>Number. An integer or floating point number. For example: 42 or 3.14159.</li>
-<li>String. A sequence of characters that represent a text value. For example:  &ldquo;Howdy&rdquo;</li>
-<li>Symbol (new in ECMAScript 2015). A data type whose instances are unique and immutable.</li>
-</ul>
-</li>
-<li>and Object</li>
-</ul>
-
-
-<h3>2.介绍js有哪些内置对象？</h3>
-
-<h3>3.说几条写JavaScript的基本规范？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>总是使用var声明变量</li>
-<li>行末别忘了分号</li>
-<li>使用标准而不是不标准的功能</li>
-<li>使用驼峰命名（如：camelCaseNames）以及大写的常量（如：UPPERCASE），避免使用const关键字，因为IE不支持</li>
-<li>使用命名空间技术</li>
-<li>避免eval()除非反序列化（奇怪的是JSON解析并未提及）</li>
-<li>避免对象上使用with(), 数组使用for in</li>
-<li>使用对象以及数组字面量而不是更冗长的声明</li>
-<li>要知道truthy和falsy规则</li>
-<li>JavaScript资源中不使用IE条件注释</li>
-<li>不修改内置对象的原型——这会让人颜面扫地，因为这是让JavaScript更加强大的功能之一，但你知道这会导致问题</li>
-<li>小心使用闭包以及不要循环引用</li>
-<li>同样，小心使用”this”</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2012/07/google-html-css-javascript-style-guides/">翻译：谷歌HTML、CSS和JavaScript风格规范</a></p>
-
-<h3>4.JavaScript原型，原型链 ? 有什么特点？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>原型：每个对象都有一个原型对象，它充当继承方法和属性来源的模板对象。</li>
-<li>原型链：对象的原型对象也可能有原型，依此类推，便形成原型链。</li>
-<li>特点：强大而灵活。</li>
-</ul>
-
-
-<!--more-->
-
-
-<h3>5.JavaScript有几种类型的值？，你能画一下他们的内存图吗？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>栈类型：Undefined，Null，Boolean，Number、String</li>
-<li>堆类型：对象、数组和函数</li>
-</ul>
-
-
-<h3>6.如何将字符串转化为数字，例如'12.3b'?</h3>
-
-<p>A:<code>parseFloat('12.3b');</code></p>
-
-<h3>7.如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为12,000,000.11?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>方法一：使用正则表达式, <code>String(Number).replace(/(\d)(?=(\d{3})+$)/g, "$1,");</code></li>
-<li>方法二：使用toLocaleString()方法, Number.toLocaleString(&lsquo;en-US&rsquo;);</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2017/09/web-page-comma-number/">请使用千位分隔符(逗号)表示web网页中的大数字</a></p>
-
-<h3>8.如何实现数组的随机排序？</h3>
-
-<p>A:Fisher–Yates Shuffle,</p>
-
-<pre><code>function shuffle(array) {
-  var m = array.length, t, i;
-
-  // While there remain elements to shuffle…
-  while (m) {
-
-    // Pick a remaining element…
-    i = Math.floor(Math.random() * m--);
-
-    // And swap it with the current element.
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-
-  return array;
-}
-</code></pre>
-
-<p>Reference:<a href="https://bost.ocks.org/mike/shuffle/">Fisher–Yates Shuffle</a><br/>
-<a href="https://www.h5jun.com/post/array-shuffle.html">数组的完全随机排列</a></p>
-
-<h3>9.Javascript如何实现继承？</h3>
-
-<p>A:Javascript 使用原型链实现继承。</p>
-
-<h3>10.JavaScript继承的几种实现方式？</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Prototype Chaning</li>
-<li>Constructor Stealing</li>
-<li>Combination Inheritance</li>
-<li>Prototypal Inheritance</li>
-<li>Parasitic Inheritance</li>
-<li>Parasitic Combination Inheritance</li>
-</ol>
-
-
-<pre><code>// 1. Prototype Chaning
-function SuperType() {
-    this.property = true;
-}
-SuperType.prototype.getSuperValue = function () {
-    return this.property;
-};
-function SubType() {
-    this.subproperty = false;
-}
-//inherit from SuperType 
-SubType.prototype = new SuperType();
-SubType.prototype.getSubValue = function () {
-    return this.subproperty;
-};
-var instance = new SubType();
-alert(instance.getSuperValue()); //true
-
-// 2. Constructor Stealing
-function SuperType() {
-    this.colors = ["red", "blue", "green"];
-}
-function SubType() {
-    //inherit from SuperType 
-    SuperType.call(this);
-}
-var instance1 = new SubType();
-instance1.colors.push("black");
-
-alert(instance1.colors); //”red,blue,green,black”
-var instance2 = new SubType();
-alert(instance2.colors); //”red,blue,green”
-
-// 3. Combination Inheritance
-function SuperType(name) {
-    this.name = name;
-    this.colors = ["red", "blue", "green"];
-}
-SuperType.prototype.sayName = function () {
-    alert(this.name);
-};
-
-function SubType(name, age) {
-    //inherit properties 
-    SuperType.call(this, name);
-    this.age = age;
-}
-//inherit methods
-SubType.prototype = new SuperType();
-SubType.prototype.sayAge = function () {
-    alert(this.age);
-};
-var instance1 = new SubType("Nicholas", 29);
-instance1.colors.push("black"); alert(instance1.colors); //”red,blue,green,black” 
-instance1.sayName(); //”Nicholas”; 
-instance1.sayAge(); //29
-
-var instance2 = new SubType("Greg", 27);
-alert(instance2.colors); //”red,blue,green” 
-instance2.sayName(); //”Greg”; 
-instance2.sayAge(); //27
-
-// 4. Prototypal Inheritance
-function object(o) {
-    function F() { }
-    F.prototype = o;
-    return new F();
-}
-
-var person = {
-    name: "Nicholas",
-    friends: ["Shelby", "Court", "Van"]
-};
-var anotherPerson = object(person);
-anotherPerson.name = "Greg";
-anotherPerson.friends.push("Rob");
-
-var yetAnotherPerson = object(person);
-yetAnotherPerson.name = "Linda";
-yetAnotherPerson.friends.push("Barbie");
-alert(person.friends); //”Shelby,Court,Van,Rob,Barbie”
-
-// 5. Parasitic Inheritance
-function createAnother(original) {
-    //create a new object by calling a function
-    var clone = object(original);
-    //augment the object in some way
-    clone.sayHi = function () {
-        alert("Hi");
-    }
-    //return the object
-    return clone;
-}
-
-var person = {
-    name: "Nicholas",
-    friends: ["Shelby", "Court", "Van"]
-};
-var anotherPerson = createAnother(person);
-anotherPerson.sayHi(); //”hi”
-
-// 6. Parasitic Combination Inheritance
-function inheritPrototype(subType, superType) {
-    var prototype = object(superType.prototype); //create object
-    prototype.constructor = subType; //augment object
-    subType.prototype = prototype;//assign object
-}
-
-function SuperType(name) {
-    this.name = name;
-    this.colors = ["red", "blue", "green"];
-}
-SuperType.prototype.sayName = function () {
-    alert(this.name);
-};
-function SubType(name, age) {
-    SuperType.call(this, name);
-    this.age = age;
-}
-
-inheritPrototype(SubType, SuperType);
-
-SubType.prototype.sayAge = function () {
-    alert(this.age);
-};
-</code></pre>
-
-<p>Prototype Chaning:
-The major issue revolves around prototypes that contain reference values.
-A second issue with prototype chaining is that you cannot pass arguments into the supertype constructor when the subtype instance is being created.
-Due to this and the aforementioned issue with reference values on the prototype, prototype chaining is rarely used alone.</p>
-
-<p>Constructor Stealing:
-The downside to using constructor stealing exclusively is that it introduces the same problems as the constructor pattern for custom types: methods must be defined inside the constructor, so there’s no function reuse. Further, methods defined on the supertype’s prototype are not accessible on the subtype, so all types can use only the constructor pattern. Due to these issues, constructor stealing is rarely used on its own.</p>
-
-<p>Combination Inheritance:
-Addressing the downsides of both prototype chaining and constructor stealing, combination inheritance is the most frequently used inheritance pattern in JavaScript. It also preserves the behavior of instanceof and isPrototypeOf() for identifying the composition of objects.</p>
-
-<p>Prototypal Inheritance:
-Prototypal inheritance is useful when there is no need for the overhead of creating separate constructors but you still need an object to behave similarly to another. Keep in mind that properties containing reference values will always share those values, similar to using the prototype pattern.</p>
-
-<p>Parasitic Inheritance:
-Keep in mind that adding functions to objects using parasitic inheritance leads to inefficiencies related to function reuse, similar to the constructor pattern.</p>
-
-<p>Parasitic Combination Inheritance:
-Parasitic combination inheritance is considered the most optimal inheritance paradigm for reference types.</p>
-
-<p>Reference: JavaScript 高级程序设计</p>
-
-<h3>11.javascript创建对象的几种方式？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>declare an object literal</li>
-<li>use a constructor function</li>
-<li>use the Object() constructor </li>
-<li>use the create() method</li>
-</ul>
-
-
-<pre><code class="js">// declare an object literal
-var person = {
-  name: ['Bob', 'Smith'],
-  age: 32,
-  gender: 'male',
-  interests: ['music', 'skiing'],
-  bio: function() {
-    alert(this.name[0] + ' ' + this.name[1] + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
-  },
-  greeting: function() {
-    alert('Hi! I\'m ' + this.name[0] + '.');
-  }
-};
-
-// use a constructor function
-function Person(name) {
-  this.name = name;
-  this.greeting = function() {
-    alert('Hi! I\'m ' + this.name + '.');
-  };
-}
-
-var person1 = new Person('Bob');
-var person2 = new Person('Sarah');
-
-// use the Object() constructor
-var person1 = new Object();
-person1.name = 'Chris';
-person1['age'] = 38;
-person1.greeting = function() {
-  alert('Hi! I\'m ' + this.name + '.');
-};
-
-// use the create() method
-var person2 = Object.create(person1);
-</code></pre>
-
-<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS">Object-oriented JavaScript for beginners</a></p>
-
-<h3>12.Javascript作用链域?</h3>
-
-<p>A:
-When code is executed in a context, a scope chain of variable objects is created. The purpose of the scope chain is to provide ordered access to all variables and functions that an execution context has access to. The front of the scope chain is always the variable object of the context whose code is executing.</p>
-
-<p>If the context is a function, then the activation object is used as the variable object. An activation object starts with a single variable defined called arguments (this doesn’t exist for the global context). The next variable object in the chain is from the containing context, and the next after that is from the next containing context. This pattern continues until the global context is reached; the global context’s variable object is always the last of the scope chain.</p>
-
-<h3>13.谈谈This对象的理解。</h3>
-
-<p>A:In most cases, the value of this is determined by how a function is called. </p>
-
-<ul>
-<li>Global Context (1)</li>
-<li>Function context
-
-<ul>
-<li>Simple call (2.1)</li>
-<li>The bind method (2.2)</li>
-<li>Arrow functions (2.3)</li>
-<li>As an object method (2.4)</li>
-<li>As a constructor Section (2.5)</li>
-<li>As a DOM event handler (2.6)</li>
-<li>In an inline event handler (2.7)</li>
-</ul>
-</li>
-</ul>
-
-
-<p>1) In the global execution context (outside of any function), this refers to the global object whether in strict mode or not.</p>
-
-<p>2.1) If the value of this is not set by the call in non-strict mode, this will default to the global object, which is window in a browser. In strict mode, if this was not defined by the execution context, it remains undefined.</p>
-
-<p>2.2) ECMAScript 5 introduced Function.prototype.bind. Calling f.bind(someObject)creates a new function with the same body and scope as f, but where this occurs in the original function, in the new function it is permanently bound to the first argument of bind, regardless of how the function is being used.</p>
-
-<p>2.3) In arrow functions, this retains the value of the enclosing lexical context's this. In global code, it will be set to the global object.</p>
-
-<p>2.4) When a function is called as a method of an object, its this is set to the object the method is called on.</p>
-
-<p>2.5) When a function is used as a constructor (with the new keyword), its this is bound to the new object being constructed.</p>
-
-<p>2.6) When a function is used as an event handler, its this is set to the element the event fired from (some browsers do not follow this convention for listeners added dynamically with methods other than addEventListener).</p>
-
-<p>2.7) When the code is called from an inline on-event handler, its this is set to the DOM element on which the listener is placed.</p>
-
-<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this">this</a></p>
-
-<h3>14.eval是做什么的？</h3>
-
-<p>A:The eval() function evaluates JavaScript code represented as a string.</p>
-
-<h3>15.什么是window对象? 什么是document对象?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>The Window interface represents a window containing a DOM document;</li>
-<li>The Document interface represents any web page loaded in the browser and serves as an entry point into the web page&rsquo;s content, which is the DOM tree. </li>
-</ul>
-
-
-<h3>16.null，undefined 的区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>The value null represents the intentional absence of any object value.</li>
-<li>The global undefined property represents the primitive value undefined.</li>
-</ul>
-
-
-<h3>17.写一个通用的事件侦听器函数。</h3>
-
-<h3>18.<code>["1", "2", "3"].map(parseInt)</code> 答案是多少？</h3>
-
-<p>A:答案是[1, NaN, NaN]。</p>
-
-<p>原因:<br/>
-先看下 map 和 parseInt 这两个 API:</p>
-
-<pre><code>
-var new_array = arr.map(function callback(currentValue[, index[, array]]) {
-    // Return element for new_array
-}[, thisArg])
-
-parseInt(string, radix);
-string
-The value to parse. If the string argument is not a string, then it is converted to a string (using the ToString abstract operation). Leading whitespace in the string argument is ignored.
-radix
-An integer between 2 and 36 that represents the radix (the base in mathematical numeral systems) of the above mentioned string. 
-</code></pre>
-
-<p>从 API 我们知道，<code>["1", "2", "3"].map(parseInt)</code> 会转化为依次调用 <code>parseInt('1', 0); parseInt('2', 1); parseInt('3', 2);</code>。</p>
-
-<p>上面提到 radix 的范围是[2, 36]，如果 radix 不在这个范围自然是不支持转换，结果就是 NaN。但它对 0 进行了特殊处理，描述如下:</p>
-
-<blockquote><p>If radix is undefined or 0 (or absent), JavaScript assumes the following:</p>
-
-<ul>
-<li>If the input string begins with &ldquo;0x&rdquo; or &ldquo;0X&rdquo;, radix is 16 (hexadecimal) and the remainder of the string is parsed.</li>
-<li>If the input string begins with &ldquo;0&rdquo;, radix is eight (octal) or 10 (decimal).  Exactly which radix is chosen is implementation-dependent.  ECMAScript 5 specifies that 10 (decimal) is used, but not all browsers support this yet.  For this reason always specify a radix when using parseInt.</li>
-<li>If the input string begins with any other value, the radix is 10 (decimal).</li>
-</ul>
-</blockquote>
-
-<p>所以, <code>parseInt('1', 0)</code> 的结果是 1， <code>parseInt('2', 1)</code> 的结果是 NaN。</p>
-
-<p>最后我们来看 <code>parseInt('3', 2)</code>，radix 是 2，也就是将字符串按二进制转换，二进制只有数字 0 和 1，那么 3 肯定是转换不了，结果就是 NaN。</p>
-
-<h3>19.事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？</h3>
-
-<p>A:</p>
-
-<blockquote><p>In computing, an event is an action or occurrence recognized by software, often originating asynchronously from the external environment, that may be handled by the software. &ndash;wikipedia</p></blockquote>
-
-<p>事件是被软件识别的动作或发生的事。</p>
-
-<p>IE与火狐的事件机制有什么区别？<br/>
-IE的事件机制是冒泡，而火狐同时支持冒泡和捕获；冒泡是指事件从最具体的元素接收，然后逐级向上传播，直到不具体的节点（通常指文档节点）；而捕获相反，它是从不具体的节点开始，逐步到最具体的节点；</p>
-
-<p>如何阻止冒泡？
-阻止事件冒泡：<code>e.stopPropagation()</code>，旧IE则是使用 <code>e.cancelBubble = true；</code></p>
-
-<h3>20.什么是闭包（closure），为什么要用它？</h3>
-
-<p>A:</p>
-
-<blockquote><p>Closures are self-contained blocks of functionality that can be passed around and used in your code. &ndash;The Swift Programming Language</p></blockquote>
-
-<p>闭包是自包含的功能块，它可以在你的代码中传递和使用。</p>
-
-<p>为什么要用它？<br/>
-当我们使用高阶函数或实际需要交换状态时，闭包优于其他方法。</p>
-
-<blockquote><p>First of all, there is nothing that is impossible without using closures. You can always replace a closure by an object implementing a specific interface. It&rsquo;s only a matter of brevity and reduced coupling.
-Second, keep in mind that closures are often used inappropriately, where a simple function reference or other construct would be more clear. You shouldn&rsquo;t take every example you see as a best practice.
-Where closures really shine over other constructs is when using higher-order functions, when you actually need to communicate state, and you can make it a one-liner.</p></blockquote>
-
-<p>Reference:<a href="https://softwareengineering.stackexchange.com/questions/285941/why-would-a-program-use-a-closure">Why would a program use a closure?</a></p>
-
-<h3>21.javascript 代码中的<code>"use strict";</code>是什么意思 ? 使用它区别是什么？</h3>
-
-<p>A:javascript 代码中的<code>"use strict";</code>是开启严格模式的意思。</p>
-
-<p>使用它的区别:</p>
-
-<ul>
-<li>将问题直接转化为错误（如语法错误或运行时错误）;</li>
-<li>简化了如何为给定名称的特定变量计算;</li>
-<li>简化了 eval 以及 arguments;</li>
-<li>将写"安全“JavaScript的步骤变得更简单;</li>
-<li>改变了预测未来ECMAScript行为的方式。</li>
-</ul>
-
-
-<p>Reference:<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode">严格模式</a></p>
-
-<h3>22.如何判断一个对象是否属于某个类？</h3>
-
-<p>A:使用 instanceof 操作符。</p>
-
-<h3>23.new操作符具体干了什么呢?</h3>
-
-<p>A:When the code new Foo(&hellip;) is executed, the following things happen:</p>
-
-<ol>
-<li>A new object is created, inheriting from Foo.prototype.</li>
-<li>The constructor function Foo is called with the specified arguments, and with this bound to the newly created object. new Foo is equivalent to newFoo(), i.e. if no argument list is specified, Foo is called without arguments.</li>
-<li>The object returned by the constructor function becomes the result of the whole new expression. If the constructor function doesn&rsquo;t explicitly return an object, the object created in step 1 is used instead. (Normally constructors don&rsquo;t return a value, but they can choose to do so if they want to override the normal object creation process.)</li>
-</ol>
-
-
-<pre><code class="js"> var obj  = {};
- obj.__proto__ = Base.prototype;
- Base.call(obj);
-</code></pre>
-
-<h3>24.用原生JavaScript的实现过什么功能吗？</h3>
-
-<h3>25.Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？</h3>
-
-<p>A:<code>hasOwnProperty()</code>.</p>
-
-<h3>26.JSON 的了解？</h3>
-
-<h3>27.<code>[].forEach.call($$("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1&lt;&lt;24))).toString(16)})</code> 能解释一下这段代码的意思吗？</h3>
-
-<p>A:给所有的元素加上一个一像素颜色随机的边框。</p>
-
-<h3>28.js延迟加载的方式有哪些？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>使用 defer 属性</li>
-<li>使用 async 属性</li>
-<li>动态创建DOM方式，例如，监听 onload 事件，定时之后再向 head 添加 script 标签；或 ajax 下载后再添加 （用得最多）</li>
-<li>js 放在 body 最后</li>
-</ul>
-
-
-<h3>29.Ajax 是什么? 如何创建一个Ajax？</h3>
-
-<p>A: AJAX 是 &ldquo;Asynchronous JavaScript and XML&rdquo; 的简称，指的是一套综合了多项技术的浏览器端网页开发技术。</p>
-
-<p>如何创建一个Ajax？</p>
-
-<pre><code class="js">var xmlHttp;
-if (typeof XMLHttpRequest != "undefined") {
-    xmlHttp = new XMLHttpRequest();
-} else if (window.ActiveXObject) {
-    var aVersions = ["Msxml2.XMLHttp.5.0", "Msxml2.XMLHttp.4.0", "Msxml2.XMLHttp.3.0", "Msxml2.XMLHttp", "Microsoft.XMLHttp"];
-    for (var i = 0; i &lt; aVersions.length; i++) {
-        try {
-            xmlHttp = new ActiveXObject(aVersions[i]);
-            break;
-        } catch (e) {}
-    }
-}
-</code></pre>
-
-<h3>30.Ajax 解决浏览器缓存问题？</h3>
-
-<p>A:</p>
-
-<ol>
-<li>在ajax发送请求前加上 anyAjaxObj.setRequestHeader(&ldquo;If-Modified-Since&rdquo;,&ldquo;0&rdquo;)。</li>
-<li>在ajax发送请求前加上 anyAjaxObj.setRequestHeader(&ldquo;Cache-Control&rdquo;,&ldquo;no-cache&rdquo;)。</li>
-<li>在URL后面加上一个随机数： &ldquo;fresh=&rdquo; + Math.random();。</li>
-<li>在URL后面加上时间戳："nowtime=&ldquo; + new Date().getTime();。</li>
-<li>如果是使用jQuery，直接这样就可以了 $.ajaxSetup({cache:false})。这样页面的所有ajax都会执行这条语句就是不需要保存缓存记录。</li>
-</ol>
-
-
-<h3>31.同步和异步的区别?</h3>
-
-<h3>32.如何解决跨域问题?</h3>
-
-<p>A:跨域通信的方法大致可以分为两类：</p>
-
-<ul>
-<li><p>一类是Hack，比如通过title, navigation等对象传递信息，JSONP可以说是一个最优秀的Hack。</p>
-
-<ul>
-<li>设置 document.domain</li>
-<li>有src的标签</li>
-<li>JSONP</li>
-<li>navigation 对象</li>
-</ul>
-</li>
-<li><p>另一类是HTML5支持，一个是Access-Control-Allow-Origin响应头，一个是window.postMessage。</p>
-
-<ul>
-<li>跨域资源共享（CORS）</li>
-<li>window.postMessage</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Reference:<a href="https://harttle.land/2015/10/10/cross-origin.html">Web开发中跨域的几种解决方案</a></p>
-
-<h3>33.页面编码和被请求的资源编码如果不一致如何处理？</h3>
-
-<p>A:一个未经验证的想法:设置 <code>XMLHttpRequest.responseType = "blob";</code>，这样
-<code>XMLHttpRequest.response</code> 的结果是 Blob,之后利用 <code>instanceOfFileReader.readAsText(blob[, encoding]);</code> 得到想要的结果。</p>
-
-<h3>34.服务器代理转发时，该如何处理cookie？</h3>
-
-<p>A:</p>
-
-<h3>35.模块化开发怎么做?</h3>
-
-<h3>36.AMD（Modules/Asynchronous-Definition）、CMD（Common Module Definition）规范区别？</h3>
-
-<h3>37.requireJS的核心原理是什么？（如何动态加载的？如何避免多次加载的？如何 缓存的？）</h3>
-
-<h3>38.JS模块加载器的轮子怎么造，也就是如何实现一个模块加载器？</h3>
-
-<h3>39.谈一谈你对ECMAScript6的了解？</h3>
-
-<h3>40.ECMAScript6 怎么写class么，为什么会出现class这种东西?</h3>
-
-<h3>41.documen.write和 innerHTML的区别?</h3>
-
-<p>A:document.write只能重绘整个页面，innerHTML可以重绘页面的一部分。</p>
-
-<h3>42.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>添加：<code>appendChild()</code></li>
-<li>移除：<code>removeChild()</code></li>
-<li>移动：<code>appendChild()</code>， If the given child is a reference to an existing node in the document, appendChild() moves it from its current position to the new position </li>
-<li>复制：<code>cloneNode()</code></li>
-<li>创建：<code>createDocumentFragment(), createElement(), createTextNode()</code></li>
-<li>查找：<code>getElementById(), getElementsByClassName(), getElementsByName(), getElementsByTagName(), getElementsByTagNameNS()</code></li>
-</ul>
-
-
-<h3>43.<code>.call()</code> 和 <code>.apply()</code> 的区别？</h3>
-
-<p>A:While the syntax of this function is almost identical to that of apply(), the fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.</p>
-
-<h3>44.数组和对象有哪些原生方法，列举一下？</h3>
-
-<h3>45.JS 怎么实现一个类?怎么实例化这个类?</h3>
-
-<h3>46.JavaScript中的作用域与变量声明提升？</h3>
-
-<h3>47.如何编写高性能的Javascript？</h3>
-
-<h3>48.那些操作会造成内存泄漏？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Accidental global variables</li>
-<li>Forgotten timers or callbacks</li>
-<li>Out of DOM references</li>
-<li>Closures</li>
-</ul>
-
-
-<p>Reference:<a href="https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/">4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them</a></p>
-
-<h3>59.jQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
-
-<p>A:jQuery 主要是利用 js 原型继承的灵活性，将 DOM，Ajax 等操作包裹到函数中来实现的。</p>
-
-<h3>50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？</h3>
-
-<p>A:返回的就是 jQuery 对象。因为 new 表达式之后的constructor返回（return）一个引用对象（数组，对象，函数等），都将覆盖new创建的匿名对象，如果返回（return）一个原始类型（无return时其实为return原始类型undefined），那么就返回new创建的匿名对象。为了屏蔽这种差异，简化代码，支持链式调用等原因，所以显示的返回了 jQuery 对象。</p>
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2013/07/jquery-%E5%8E%9F%E7%90%86-%E6%9C%BA%E5%88%B6/">jQuery诞生记-原理与机制</a></p>
-
-<h3>51.jQuery中如何将数组转化为JSON字符串，然后再转化回来？</h3>
-
-<p>A:可以使用浏览器内建 JSON 对象的 parse，stringify 方法。如果浏览器不支持这些方法，jQuery 1.4.1 到 3.0 版本的 parseJSON 方法可以解析 JSON 字符串；如果要编码的话则可以通过引入其他 js JSON 库来完成。</p>
-
-<h3>52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？</h3>
-
-<p>A:jQuery 的属性拷贝(extend)的实现原理是利用 js 的动态性，遍历源对象的属性并将其添加到目标对象上。利用递归遍历可以实现深拷贝。</p>
-
-<h3>53.jQuery.extend 与 jQuery.fn.extend 的区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>jQuery.extend: Merge the contents of two or more objects together into the first object.</li>
-<li>jQuery.fn.extend: Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.</li>
-</ul>
-
-
-<p>从 jQuery API 文档对它们的介绍，我们可以知道 jQuery.extend 侧重将两个或多个对象合并到第一个对象；而 jQuery.fn.extend 是将对象合并到 jQuery 原型上来提供新的 jQuery 实例方法。</p>
-
-<h3>54.jQuery 的队列是如何实现的？队列可以用在哪些地方？</h3>
-
-<p>A:jQuery 的队列是利用数组实现的。队列可以用在实现动画效果上。</p>
-
-<blockquote><p>Queues are the foundation for all animations in jQuery, they allow a series functions to be executed asynchronously on an element. </p></blockquote>
-
-<h3>55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？</h3>
-
-<p>A:</p>
-
-<p>bind():Attach a handler to a specific element.</p>
-
-<p>live():All <code>.live()</code> event handlers are bound to the document root by default.</p>
-
-<p>delegate():The <code>.delegate()</code> method provides a clear difference between the context of where to attach delegated event handler, and the selector to match when the event bubbles up to the delegated element.</p>
-
-<p>on():The .on() method gives us a semantic approach for creating directly bound events as well as delegated events. It eliminates the need to use the deprecated .bind(), .live(), and .delegate() methods, providing a single API for creating events.</p>
-
-<p>Reference:<a href="https://learn.jquery.com/events/history-of-events/">History of jQuery Events</a></p>
-
-<h3>56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？</h3>
-
-<h3>57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>
-
-<p>A:</p>
-
-<pre><code>// Create the event.
-var event = document.createEvent('Event');
-
-// Define that the event name is 'build'.
-event.initEvent('build', true, true);
-
-// Listen for the event.
-elem.addEventListener('build', function (e) {
-  // e.target matches elem
-}, false);
-
-// target can be any Element or other EventTarget.
-elem.dispatchEvent(event);
-</code></pre>
-
-<p><code>callbacks.fire()</code>:Call all of the callbacks with the given arguments.</p>
-
-<h3>58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？</h3>
-
-<p>A:<code>jQuery.fn.find()</code></p>
-
-<h3>59.针对 jQuery性能的优化方法？</h3>
-
-<h3>60.jQuery与jQuery UI 有啥区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li><p>jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. </p></li>
-<li><p>jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.</p></li>
-</ul>
-
-
-<h3>61.jQuery和Zepto的区别？各自的使用场景？</h3>
-
-<h3>62.针对 jQuery 的优化方法？</h3>
-
-<h3>63.Zepto的点透问题如何解决？</h3>
-
-<h3>64.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？</h3>
-
-<p>A:实际上就是如何去实现 SPA。</p>
-
-<p>Reference:<a href="https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46">How Single-Page Applications Work</a></p>
-
-<h3>65.如何判断当前脚本运行在浏览器还是node环境中？</h3>
-
-<h3>66.移动端最小触控区域是多大？</h3>
-
-<h3>67.jQuery 的 slideUp动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?</h3>
-
-<h3>68.把 Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别？浏览器会如何解析它们？</h3>
-
-<h3>69.移动端的点击事件的有延迟，时间是多久，为什么会有？ 怎么解决这个延时？（click 有 300ms 延迟,为了实现safari的双击事件的设计，浏览器要知道你是不是要双击操作。）</h3>
-
-<h3>70.解释JavaScript中的作用域与变量声明提升？</h3>
-
-<h3>71.Node.js的适用场景？</h3>
-
-<h3>72.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?</h3>
-
-<h3>73.检测浏览器版本有哪些方式？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Navigator.appVersion</li>
-<li>Navigator.userAgent</li>
-</ul>
-
-
-<h3>74.What is a Polyfill?</h3>
-
-<h3>75.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？</h3>
-
-<h3>76.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？</h3>
-
-<p>A:按照W3C的标准，先发生捕获事件，后发生冒泡事件。</p>
-
-<h3>77.使用JS实现获取文件扩展名？</h3>
-
-<h3>78.Webpack热更新实现原理?</h3>
-
-<h3>79.请介绍一下JS之事件节流？</h3>
-
-<p>A:事件节流就是降低事件响应的速率。</p>
-
-<blockquote><p>In software, a throttling process, or a throttling controller as it is sometimes called, is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.</p></blockquote>
-
-<h3>80.什么是JS的函数防抖？</h3>
-
-<p>A:当调用动作过n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则将重新计算执行时间。</p>
 ]]></content>
   </entry>
   

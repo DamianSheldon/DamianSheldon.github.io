@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-09-30T12:28:46+08:00</updated>
+  <updated>2019-09-30T16:16:13+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -47,7 +47,7 @@
 </span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>service 就是对就 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
+<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
 
 <p>具体是怎么映射的呢？</p>
 
@@ -129,6 +129,20 @@
 </span><span class='line'>
 </span><span class='line'>// 方法二：
 </span><span class='line'>$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>发布</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a tag
+</span><span class='line'>$git tag &lt;tagname&gt;
+</span><span class='line'>
+</span><span class='line'>// Push to repository
+</span><span class='line'>$git push origin master</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>升级 cordova plugin</h4>

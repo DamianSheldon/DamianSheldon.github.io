@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-09-30T12:28:46+08:00</updated>
+  <updated>2019-09-30T16:16:13+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -43,7 +43,7 @@
 &lt;/feature&gt;
 </code></pre>
 
-<p>service 就是对就 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
+<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
 
 <p>具体是怎么映射的呢？</p>
 
@@ -102,6 +102,15 @@ $ plugman install --platform android --project platforms/android --plugin ../Log
 
 // 方法二：
 $ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/
+</code></pre>
+
+<h4>发布</h4>
+
+<pre><code>// Create a tag
+$git tag &lt;tagname&gt;
+
+// Push to repository
+$git push origin master
 </code></pre>
 
 <h4>升级 cordova plugin</h4>

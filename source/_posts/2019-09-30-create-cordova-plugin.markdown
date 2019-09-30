@@ -32,7 +32,7 @@ successFunction, failFunction 是成功和失败的回调函数，args 则是传
 </feature>
 ```
 
-service 就是对就 service_name 指定的对象，而 action 则是该对象能处理方法。
+service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。
 
 具体是怎么映射的呢？
 

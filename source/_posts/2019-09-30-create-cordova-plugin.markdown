@@ -136,7 +136,7 @@ $gulp plugin:create -n PluginName
 $npm run build
 
 //Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
-$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native
+$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/
 ```
 
 ###使用

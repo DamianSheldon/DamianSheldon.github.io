@@ -126,6 +126,10 @@ $cd  ionic-native
 $npm install
 
 // Create plugin wrapper
+// When gulp installed locally
+$npx gulp plugin:create -n PluginName
+
+// When gulp installed globally
 $gulp plugin:create -n PluginName
 ```
 

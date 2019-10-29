@@ -99,4 +99,19 @@ A:Add the next line into the config.xml in side the tag.
 
 Reference:[Application error. The connection to the server was unsuccessful](https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3)  
 
+###5.How to get SQLite database from Android real device?
+A:Device File Explorer can archive this goal. We can open it this way:
+
+View -> Tool Windows -> Device File Explorer
+
+Once you have Device File Explorer window open, use your mouse to navigate to the following path:
+
+data -> data -> your.package.name -> databases
+
+Inside the databases folder you should see the database you want to explore, do a right click and Save As... select your desired computer destination folder.
+
+Reference:[Get SQLite database from Android app](https://stackoverflow.com/questions/21062187/get-sqlite-database-from-android-app)  
+
+
+
 

@@ -63,6 +63,109 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-technical-interview-part-4.html">
+		
+			iOS 面试题汇总(四)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-08-30T10:43:36+08:00" pubdate data-updated="true">30 Aug 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.熟悉 CocoaPods 么？能大概讲一下工作原理么？</h3>
+
+<p>A:熟悉，CocoaPods 是一个依赖管理工具，它通过 Podfile 来表达依赖，每个依赖都有一个 podspec 。 podspec 文件存储着该依赖的基本信息：包含哪些文件，静态库，资源文件等，依赖哪些第三方库、系统框架，之后 pod 会创建一个工程，把这个库以 target 的形式包含进来，应用则依赖这个 pod 工程。</p>
+
+<h3>2.最常用的版本控制工具是什么，能大概讲讲原理么？</h3>
+
+<p>A: 最常用的版本控制工具是 Git。它的大致原理是工程每次提交时所有更改的文件都会生成快照，快照代表当前版本的文件，这些快照通过树型结构组织起来，树随着工程更改生长，通过这种方式来进行版本管理。</p>
+
+<h3>3.你一般是怎么用 Instruments 的？</h3>
+
+<p>A:根据想要分析的问题，选择对应的 instruments 来分析应用的行为，有疑问的地方参考 Instruments User Guide．</p>
+
+<h3>4.你一般是如何调试 Bug 的？</h3>
+
+<p>A:对于容易复现的 bug，根据复现的步骤来定位问题，之后解决问题；对于不容易复现的 bug, 调试就比较难了，这时可以配合源码，猜测问题可能出现的原因，一步步验证假设来定位 bug，确定 bug 产生的原因才好解决。</p>
+
+<h3>5.你在你的项目中用到了哪些设计模式？</h3>
+
+<p>A:</p>
+
+<p>创建型：</p>
+
+<ul>
+<li>工厂方法(Factory Method)</li>
+<li>原型(Prototype)</li>
+<li>单例(Singleton)</li>
+</ul>
+
+
+<p>结构型：</p>
+
+<ul>
+<li>适配器(Adapter)</li>
+<li>桥接(Bridge)</li>
+<li>组成(Composite)</li>
+<li>装饰(Decorator)</li>
+<li>外观(Facade)</li>
+<li>享元(Flyweight)</li>
+</ul>
+
+
+<p>行为型：</p>
+
+<ul>
+<li>职责链（Chain Of Responsibility）</li>
+<li>命令(Command)</li>
+<li>解释器(Interpreter)</li>
+<li>迭代器(Iterator)</li>
+<li>中介者(Mediator)</li>
+<li>备忘录(Memento)</li>
+<li>观察者(Observer)</li>
+<li>状态(State)</li>
+<li>策略(Strategy)</li>
+<li>模板方法(Template Method)</li>
+</ul>
+
+
+
+		
+		<a href="/blog/ios-technical-interview-part-4.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problems-part-8.html">
 		
 			iOS App 开发问题汇总（八）</a>
@@ -243,75 +346,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-6.html">
-		
-			iOS App 开发问题汇总（六）</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-03-28T20:14:53+08:00" pubdate data-updated="true">28 Mar 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1. The data couldn’t be read because it isn’t in the correct format.</h3>
-
-<p>A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/33995769/ipatool-fails-to-build-with-bitcode-xcode-7-1-1">ipatool fails to build with bitcode (xcode 7.1.1)</a></p>
-
-<h3>2.setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</h3>
-
-<p>A:</p>
-
-<ul>
-<li>If you manipulated constraints directly, call setNeedsLayout.</li>
-<li>If you changed some conditions (like offsets or smth) which would change constraints in your overridden updateConstraints method (a recommended way to change constraints, btw), call setNeedsUpdateConstraints, and most of the time, setNeedsLayout after that.</li>
-<li>If you need any of the actions above to have immediate effect—e.g. when your need to learn new frame height after a layout pass—append it with a layoutIfNeeded.</li>
-</ul>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/20609206/setneedslayout-vs-setneedsupdateconstraints-and-layoutifneeded-vs-updateconstra">setNeedsLayout vs. setNeedsUpdateConstraints and layoutIfNeeded vs updateConstraintsIfNeeded</a></p>
-
-<h3>3.父类如何关联子类通过nib初始化的属性？</h3>
-
-<p>A: Select xib > Show Utilities > Show The Connection In Inspector > + > Connect to View</p>
-
-
-		
-		<a href="/blog/ios-development-problems-part-6.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/10" class="prev">Prev</a>
@@ -322,7 +356,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2019
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2020
 
     Sheldon
 

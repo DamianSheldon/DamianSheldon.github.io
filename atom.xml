@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2019-10-29T16:35:52+08:00</updated>
+  <updated>2020-01-04T22:01:52+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在 macOS 上用 VirtualBox 安装 CentOS]]></title>
+    <link href="http://DamianSheldon.github.io/blog/install-centos-8-on-macos-with-virtualbox.html"/>
+    <updated>2020-01-04T13:49:46+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/install-centos-8-on-macos-with-virtualbox</id>
+    <content type="html"><![CDATA[<p>最近为了更好的实践 Linux，决定在 mac 上使用 VirtualBox 安装一个 CentOS，主要是参考鸟哥的这篇<a href="http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1">安裝 CentOS7.x</a>。</p>
+
+<p>安装之后打开系统出现闪屏，英语应该是称为 screen flicker，google 之后在 VirtualBox 的论坛找到解决方法:</p>
+
+<ol>
+<li><p>进入单用户维护模式</p>
+
+<pre><code class="`"> a. 重启系统
+ b. 在菜单选择界面键入 e，进入 grub2 的指令编辑模式
+ c. 在指定内核和根文件系统这行最后加上 systemd.unit=rescue.target
+ d. 键入 ctrl + x 进入系统
+</code></pre></li>
+<li><p>强制使用 Xorg</p>
+
+<pre><code class="`">  a. 用 vim 打开 /etc/gdm3/custom.conf
+  b. 删除 WaylandEnable=false 前的 # 注释符号
+  c. 保存文件后，systemctl default 来进入正常模式 
+</code></pre></li>
+</ol>
+
+
+<p>解决了闪屏之后，想通过虚拟机菜单中的调整窗口大小来让系统的屏幕全屏发现无用，想起来应该要安装 VirtualBox Guest Additions，于是插入虚拟机提供的光盘来安装。</p>
+
+<p>首先是提示 kernel headers not found for target kernel 的错误，也提示详细的错误信息位于 /var/log/vboxadd-setup.log，我们可以通过查看该错误日志来找到对应解决方法。于是尝试安装对应的内核头文件，命令为 <code>yum install kernel-headers kernel-devel</code>，之后执行 <code>/sbin/rcvboxadd setup</code>.</p>
+
+<p>仍然提示 kernel headers not found for target kernel，通过 <code>uname -r</code> 和 <code>rpm -q kernel-headers</code> 发现版本不一致，于是重启系统选择最新的内核版本。</p>
+
+<p>再次尝试安装，提示 Error building the module，查看错误日志提示需要安装 <code>libelf-dev, libelf-devel or elfutils-libelf-devel</code> ，CentOS 上只有 elfutils-libelf-devel ，安装之后再次安装 VirtualBox Guest Additions。</p>
+
+<p>提示</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ValueError: File context for /opt/VBoxGuestAdditions-6.0.14/other/mount.vboxsf already defined
+</span><span class='line'>VirtualBox Guest Additions: Running kernel modules will not be replaced until
+</span><span class='line'>the system is restarted</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个问题暂时没找到解决方法，但是可以让 CentOS 全屏了，就暂时先不管这个问题了。</p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1">第三章、安裝 CentOS7.x</a></li>
+<li><a href="https://forums.virtualbox.org/viewtopic.php?f=8&amp;t=85110">Ubuntu 1710 screen flicker</a></li>
+<li><a href="https://forums.virtualbox.org/viewtopic.php?t=91563">Centos7 Guest Additions fails: kernel headers not found</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[创建 Cordova plugin 及其 Ionic Native]]></title>
@@ -6566,178 +6623,6 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 <li><a href="http://nshipster.com/image-resizing/">Image Resizing Techniques</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android 开发问题汇总(四)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-of-android-development-part-4.html"/>
-    <updated>2017-05-14T16:56:19+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-of-android-development-part-4</id>
-    <content type="html"><![CDATA[<h3>1.怎么给 Button 加上圆角?</h3>
-
-<p>A:Create an xml inside Drawable Folder with below code. Name it rounded_red_border.xml</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:shape="rectangle"&gt;
-</span><span class='line'> 
-</span><span class='line'>// The width and color of the border   
-</span><span class='line'> &lt;stroke
-</span><span class='line'>        android:width="4dp"
-</span><span class='line'>        android:color="#de3d3d" /&gt;
-</span><span class='line'> 
-</span><span class='line'>// The desired corner radius. reduce it to keep it less rounded
-</span><span class='line'>    &lt;corners android:radius="360dp" /&gt;
-</span><span class='line'> 
-</span><span class='line'>// Add your desired padding
-</span><span class='line'>    &lt;padding
-</span><span class='line'>        android:left="20dp"
-</span><span class='line'>        android:top="10dp"
-</span><span class='line'>        android:right="20dp"
-</span><span class='line'>        android:bottom="10dp"    &gt;
-</span><span class='line'>    &lt;/padding&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Applying the border to a Layout or View</p>
-
-<p>Set the above drawable as a background to your Layout or View like LinearLayout, FrameLayout, TextView, Button etc.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>android:layout_width="match_parent"
-</span><span class='line'>android:layout_height="match_parent"&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>// Apply as the background of TextView
-</span><span class='line'>&lt;TextView
-</span><span class='line'>    android:layout_width="wrap_content"
-</span><span class='line'>    android:layout_height="wrap_content"
-</span><span class='line'>    android:text="YOUR TEXT"
-</span><span class='line'>    android:textSize="20dp"
-</span><span class='line'>    android:textStyle="bold"
-</span><span class='line'>    android:background="@drawable/rounded_red_border"
-</span><span class='line'>    android:textColor="#000"
-</span><span class='line'>    android:layout_centerInParent="true"/&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>&lt;/RelativeLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<!--more-->
-
-
-<p>Reference:<a href="http://www.gadgetsaint.com/tips/rounded-corners-views-layouts-android/#.WRgR3FOGORt">Add Rounded Corners to Views and Layouts Android</a></p>
-
-<h3>2.Error:All flavors must now belong to a named flavor dimension.</h3>
-
-<p>A:在主app的build.gradle里面的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> defaultConfig {
-</span><span class='line'>     targetSdkVersion：***
-</span><span class='line'>  minSdkVersion ：***
-</span><span class='line'>  versionCode：***
-</span><span class='line'>     versionName ：***
-</span><span class='line'>  // 版本名后面添加一句话，意思就是flavor dimension
-</span><span class='line'>  // 它的维度就是该版本号，这样维度就是都是统一的了
-</span><span class='line'>  flavorDimensions "versionCode"
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://blog.csdn.net/SYIF88/article/details/75009663">解决Error:All flavors must now belong to a named flavor dimension.</a></p>
-
-<h3>3.error: resource android:attr/fontVariationSettings not found.</h3>
-
-<p>A:This is caused by an incompatibility with the android support library that changed to version 28 in the last day or so. Add follow contents to build.gradle:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>configurations.all {
-</span><span class='line'>    resolutionStrategy {
-</span><span class='line'>        force 'com.android.support:support-v4:27.1.0'
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/issues/205#issuecomment-371669478">Problem Isolated - Need Solution</a></p>
-
-<h3>4.Application error. The connection to the server was unsuccessful</h3>
-
-<p>A:Add the next line into the config.xml in side the tag.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;preference name="loadUrlTimeoutValue" value="700000" /&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/application-error-the-connection-to-the-server-was-unsuccessful/67584/3">Application error. The connection to the server was unsuccessful</a></p>
-
-<h3>5.How to get SQLite database from Android real device?</h3>
-
-<p>A:Device File Explorer can archive this goal. We can open it this way:</p>
-
-<p>View -> Tool Windows -> Device File Explorer</p>
-
-<p>Once you have Device File Explorer window open, use your mouse to navigate to the following path:</p>
-
-<p>data -> data -> your.package.name -> databases</p>
-
-<p>Inside the databases folder you should see the database you want to explore, do a right click and Save As&hellip; select your desired computer destination folder.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/21062187/get-sqlite-database-from-android-app">Get SQLite database from Android app</a></p>
 ]]></content>
   </entry>
   

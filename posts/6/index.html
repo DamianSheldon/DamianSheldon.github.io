@@ -63,6 +63,140 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-development-notes-part-two.html">
+		
+			Web 开发问题汇总(二)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-01-04T10:08:36+08:00" pubdate data-updated="true">04 Jan 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
+
+<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
+
+<blockquote><p>jQuery.browser() removed</p>
+
+<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
+
+<p>— jQuery Core 1.9 Upgrade Guide.</p></blockquote>
+
+<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
+
+<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
+
+<p>A:To include http-servlet into your class path, you have two options:</p>
+
+<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
+2. Another option is include the servlet dependency through maven itself. This will also fix the error.
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;2.5&lt;/version&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
+
+<h3>3.Dynamic Web Module 3.1 requires Java 1.7 or newer</h3>
+
+<p>A:</p>
+
+<p>Step1:<br/>
+Make sure your Java Project is configured probably to use Java 1.7.
+Right click your project > Properties > Java Compiler and set “Compiler compliance level” to 1.7</p>
+
+<p>Step2:<br/>
+Java Build Path. Click “Edit“. And change it to “Java 7”</p>
+
+<p>Step3:<br/>
+Next from the menu on the left select Project Facets > Java and set its version to 1.7</p>
+
+<p>Extra Tips:<br/>
+If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.</p>
+
+<p>Reference:<a href="https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/">How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse</a></p>
+
+<h3>4.How to display available goals of maven plugin?</h3>
+
+<p>A:</p>
+
+<blockquote><p>Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn javadoc:help -Ddetail -Dgoal<span class="o">=</span>javadoc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It works of course for Maven core plugins. to list all goals of the archetype plugin :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn archetype:help
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And it works also for third party plugins. For example, to display all goals of the spring-boot plugin :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn spring-boot:help
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals">How to display a list of available goals?</a></p>
+
+<h3>5.Not a java source folder</h3>
+
+<p>A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。</p>
+
+<p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
+
+
+		
+		<a href="/blog/web-development-notes-part-two.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html">
 		
 			How to Setup a L2TP/IPsec VPN on Debian 8</a>
@@ -174,94 +308,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-10.html">
-		
-			iOS 开发问题汇总(十)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-09-11T15:42:24+08:00" pubdate data-updated="true">11 Sep 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.在iOS 中如何使用私钥加密数据？</h3>
-
-<p>A:当你用私钥加密时它被称为 siging, 之后用公钥解密的过程称为 verify signature.</p>
-
-<blockquote><p>Why are you encrypting with the private key? When you encrypt with the private key, that is considered signing not encrypting, becuase it provides no confidentiality. If you want to &ldquo;encrypt&rdquo; with the private key, look into data signing, and that should allow you to &ldquo;encrypt&rdquo; (read &ldquo;sign&rdquo;) with the private key and &ldquo;decrypt&rdquo; (read &ldquo;verify signature&rdquo;) with the public key.</p></blockquote>
-
-<p>Reference:</p>
-
-<p><a href="https://stackoverflow.com/questions/6705928/encrypting-data-with-a-private-key-on-ios">Encrypting data with a private key on iOS</a></p>
-
-<h3>2.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[!] Due to the previous naïve CocoaPods resolver, you were using a pre-release version of `JSONModel`, without explicitly asking for a pre-release version, which now leads to a conflict. Please decide to either use that pre-release version by adding the version requirement to your Podfile (e.g. `pod 'JSONModel', '= 1.2.2P'`) or revert to a stable version by running `pod update JSONModel`.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:今天打开一个旧的的工程，可能由于版本控制的原因，Pods 下的文件都被删除掉了，于是运行 <code>pod install --verbose</code>, 安装报了上面的错误。工程是一个公共库，之前都是好的，它依赖了一个私有版本的 JSONModel,这本来也没什么问题，居然报出这么一错误，挺奇怪的。按提示先显示指定版本，依旧报错，看来并不是这个原因；又运行 <code>pod update JSONModel</code>,有输出安装私有版本的 JSONModel 的日志，问题解决。不过不清楚为什么会出这种很诡异的问题。</p>
-
-<h3>3.What is the use of entitlements.plist file?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Entitlements confer specific capabilities or security permissions to your iOS or macOS app.</p></blockquote>
-
-<ol>
-<li>The entitlements file defines certain capabilities of your app. Usually, the file is automatically generated by Xcode when you enable a capability for your app.</li>
-<li>You only need the file if you enable certain capabilities, e.g. Healthkit integration. If you&rsquo;d like to use these features, you have to add it. Otherwise, Apple will reject your app.</li>
-<li>You can name the file like you want. You can also rename it as long as the build settings point to the correct file name for it.</li>
-</ol>
-
-
-<p>Reference:</p>
-
-<p><a href="https://stackoverflow.com/questions/26594367/what-is-the-use-of-entitlements-plist-file">What is the use of entitlements.plist file?</a></p>
-
-<h3>4.A valid provisioning profile for this executable was not found</h3>
-
-<p>A:Because Xcode compain about provisioning profile, so I decide to check the installed profiles on device, detail instructs are Window > Devices and Simulators > Select your device > right click > Show Provisioning Profiles&hellip;; Yes, no profile is here. It looks like we should mannual install one.</p>
-
-<p>Where is the provisioning profiles Xcode managed? We can locate it by a simple way:Show project navigator > Select your project > General > Signing > Click info button follow Provisioning Profile > Drag the profile icon in popup menu to terminal. One of my profiles is : <code>/Users/dongmeiliang/Library/MobileDevice/Provisioning\ Profiles/1923e84f-743b-4453-8876-9763596ad09b.mobileprovision</code> , My Xcode version is 10.1 (10B61).</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/32729193/refresh-devices-in-team-provisioning-profile-managed-by-xcode-7">Refresh devices in team provisioning profile managed by Xcode 7?</a></p>
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/5" class="prev">Prev</a>
@@ -272,7 +318,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2019
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2020
 
     Sheldon
 

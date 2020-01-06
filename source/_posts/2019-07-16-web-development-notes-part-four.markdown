@@ -126,6 +126,13 @@ ion-modal.auto-height {
 }
 {% endcodeblock %}
 
+###6.Invalid Host Header
+A:通过外网访问本地的 ionic 开发服务时提示 Invalid Host Header，原因是 angular 默认会对 host 进行验证，所以我们可以通过传入 `--disableHostCheck=true` 来关闭验证，由于是 ionic 工程，我们传入的参数需要在 `--` 之后，也就是类似如下命令: `ionic serve --port 8080 -- --disableHostCheck=true`.
+
+> ionic serve uses the Angular CLI. Use ng serve --help to list all Angular CLI options for serving your app. See the ng serve docs[1] for explanations. Options not listed below are considered advanced and can be passed to the Angular CLI using the -- separator after the Ionic CLI arguments.
+
+Reference:[Ionic 4 angular - Invalid Host header error](https://community.c9.io/t/ionic-4-angular-invalid-host-header-error/25526)  
+
 Reference:  
 
 * [Dynamic modal height based on content in Ionic v4](https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595)  

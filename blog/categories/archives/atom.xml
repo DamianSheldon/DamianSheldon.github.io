@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-01-08T08:51:54+08:00</updated>
+  <updated>2020-01-08T08:54:44+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -68,154 +68,273 @@
 </script>
 
 
-<pre><code>
-这样我们就修正文件路径的问题，很不巧，虽然文件的路径是对了，但是 ionic 默认不响应 file schema 的请求，我们需要做些工作，先让 WebViewLocalServer.java 支持响应 file schema，将 createHostingDetails 改成如下实现：
-</code></pre>
+<p>```</p>
 
-<p>private void createHostingDetails() {
-  final String assetPath = this.basePath;</p>
+<p>这样我们就修正文件路径的问题，很不巧，虽然文件的路径是对了，但是 ionic 默认不响应 file schema 的请求，我们需要做些工作，先让 WebViewLocalServer.java 支持响应 file schema，将 createHostingDetails 改成如下实现：</p>
 
-<p>  if (assetPath.indexOf(&lsquo;<em>&rsquo;) != -1) {
-    throw new IllegalArgumentException(&ldquo;assetPath cannot contain the &lsquo;</em>&rsquo; character.&rdquo;);
-  }</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void createHostingDetails() {
+</span><span class='line'>  final String assetPath = this.basePath;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  if (assetPath.indexOf(&lsquo;&lt;em>&rsquo;) != -1) {
+</span><span class='line'>    throw new IllegalArgumentException(&ldquo;assetPath cannot contain the &lsquo;&lt;/em>&rsquo; character.&rdquo;);
+</span><span class='line'>  }&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  PathHandler handler = new PathHandler() {
+</span><span class='line'>    @Override
+</span><span class='line'>    public InputStream handle(Uri url) {
+</span><span class='line'>      InputStream stream = null;
+</span><span class='line'>      String path = url.getPath();
+</span><span class='line'>      try {
+</span><span class='line'>        if (url.getScheme().equals(&ldquo;file&rdquo;)) {
+</span><span class='line'>          stream = protocolHandler.openFile(path);
+</span><span class='line'>        } else if (path.startsWith(contentStart)) {
+</span><span class='line'>          stream = protocolHandler.openContentUrl(url);
+</span><span class='line'>        } else if (path.startsWith(fileStart) || !isAsset) {
+</span><span class='line'>          if (!path.startsWith(fileStart)) {
+</span><span class='line'>            path = basePath + url.getPath();
+</span><span class='line'>          }
+</span><span class='line'>          stream = protocolHandler.openFile(path);
+</span><span class='line'>        } else {
+</span><span class='line'>          stream = protocolHandler.openAsset(assetPath + path);
+</span><span class='line'>        }
+</span><span class='line'>      } catch (IOException e) {
+</span><span class='line'>        Log.e(TAG, &ldquo;Unable to open asset URL: &rdquo; + url);
+</span><span class='line'>        Log.e(TAG, e.getLocalizedMessage());
+</span><span class='line'>        return null;
+</span><span class='line'>      }&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>  return stream;
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  };&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  registerUriForScheme(httpScheme, handler, authority);
+</span><span class='line'>  registerUriForScheme(httpsScheme, handler, authority);
+</span><span class='line'>  if (!customScheme.equals(httpScheme) &amp;&amp; !customScheme.equals(httpsScheme)) {
+</span><span class='line'>    registerUriForScheme(customScheme, handler, authority);
+</span><span class='line'>  }&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  registerUriForScheme(&ldquo;file&rdquo;, handler, &ldquo;&rdquo;);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
-<p>  PathHandler handler = new PathHandler() {
-    @Override
-    public InputStream handle(Uri url) {
-      InputStream stream = null;
-      String path = url.getPath();
-      try {
-        if (url.getScheme().equals(&ldquo;file&rdquo;)) {
-          stream = protocolHandler.openFile(path);
-        } else if (path.startsWith(contentStart)) {
-          stream = protocolHandler.openContentUrl(url);
-        } else if (path.startsWith(fileStart) || !isAsset) {
-          if (!path.startsWith(fileStart)) {
-            path = basePath + url.getPath();
-          }
-          stream = protocolHandler.openFile(path);
-        } else {
-          stream = protocolHandler.openAsset(assetPath + path);
-        }
-      } catch (IOException e) {
-        Log.e(TAG, &ldquo;Unable to open asset URL: &rdquo; + url);
-        Log.e(TAG, e.getLocalizedMessage());
-        return null;
-      }</p>
+<p>然后是 isLocalFile 方法：</p>
 
-<pre><code>  return stream;
-}
-</code></pre>
-
-<p>  };</p>
-
-<p>  registerUriForScheme(httpScheme, handler, authority);
-  registerUriForScheme(httpsScheme, handler, authority);
-  if (!customScheme.equals(httpScheme) &amp;&amp; !customScheme.equals(httpsScheme)) {
-    registerUriForScheme(customScheme, handler, authority);
-  }</p>
-
-<p>  registerUriForScheme(&ldquo;file&rdquo;, handler, &ldquo;&rdquo;);</p>
-
-<p>}</p>
-
-<pre><code>
-然后是 isLocalFile 方法：
-</code></pre>
-
-<p>private boolean isLocalFile(Uri uri) {
-  String path = uri.getPath();
-  if (path.startsWith(contentStart) || path.startsWith(fileStart) || uri.getScheme().equals(&ldquo;file&rdquo;)) {
-    return true;
-  }
-  return false;
-}
-```</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private boolean isLocalFile(Uri uri) {
+</span><span class='line'>  String path = uri.getPath();
+</span><span class='line'>  if (path.startsWith(contentStart) || path.startsWith(fileStart) || uri.getScheme().equals(&ldquo;file&rdquo;)) {
+</span><span class='line'>    return true;
+</span><span class='line'>  }
+</span><span class='line'>  return false;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>做完这些工作后 ionic 就可以响应 file schema 请求了。</p>
 
 <p>继续测试，我发现更新后第二次打开还是显示 App bundle asset 中的 web，这有点奇怪。仔细查看日志，确实有加载外部存储的 web , 但却被 <code>http://localhost/</code> 的请求覆盖了，这是什么原因呢？经过对代码逻辑的一番梳理，我发现是 IonicWebViewEngine 中 onPageStarted 方法的原因：</p>
 
-<pre><code>public void onPageStarted(WebView view, String url, Bitmap favicon) {
-  super.onPageStarted(view, url, favicon);
-  String launchUrl = parser.getLaunchUrl();
-  if (!launchUrl.contains(WebViewLocalServer.httpsScheme) &amp;&amp; !launchUrl.contains(WebViewLocalServer.httpScheme) &amp;&amp; url.equals(launchUrl)) {
-    view.stopLoading();
-    // When using a custom scheme the app won't load if server start url doesn't end in /
-    String startUrl = CDV_LOCAL_SERVER;
-    if (!scheme.equalsIgnoreCase(WebViewLocalServer.httpsScheme) &amp;&amp; !scheme.equalsIgnoreCase(WebViewLocalServer.httpScheme)) {
-      startUrl += "/";
-    }
-    view.loadUrl(startUrl);
-  }
-}
-</code></pre>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public void onPageStarted(WebView view, String url, Bitmap favicon) {
+</span><span class='line'>  super.onPageStarted(view, url, favicon);
+</span><span class='line'>  String launchUrl = parser.getLaunchUrl();
+</span><span class='line'>  if (!launchUrl.contains(WebViewLocalServer.httpsScheme) &amp;&amp; !launchUrl.contains(WebViewLocalServer.httpScheme) &amp;&amp; url.equals(launchUrl)) {
+</span><span class='line'>    view.stopLoading();
+</span><span class='line'>    // When using a custom scheme the app won&rsquo;t load if server start url doesn&rsquo;t end in /
+</span><span class='line'>    String startUrl = CDV_LOCAL_SERVER;
+</span><span class='line'>    if (!scheme.equalsIgnoreCase(WebViewLocalServer.httpsScheme) &amp;&amp; !scheme.equalsIgnoreCase(WebViewLocalServer.httpScheme)) {
+</span><span class='line'>      startUrl += &ldquo;/&rdquo;;
+</span><span class='line'>    }
+</span><span class='line'>    view.loadUrl(startUrl);
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>MainActivity 触发 webview 加载 <code>file:///android_asset/www/index.html</code>，然后 cordova hot code push plugin 启动工作，它会让 webview 加载外部存储的 web，之后 IonicWebViewEngine 的 onPageStarted 收到 <code>file:///android_asset/www/index.html</code> 的请求的回调，它先停止了 webview 的加载工作，即 cordova hot code push plugin 启动加载外部存储的 web 的请求，再开始 <code>http://localhost/</code> 的请求，也就是打印出来日志的记录。正是这个方法时序的问题导致成功更新之后再重启应用仍然加载 app bundle asset 的 web。一种解决办法是我们直接让 MainActivity 直接加载 <code>http://localhost/</code>，就像下面这样:</p>
 
-<pre><code> public void onCreate(Bundle savedInstanceState)
-{
-   super.onCreate(savedInstanceState);
-
-   // enable Cordova apps to be started in the background
-   Bundle extras = getIntent().getExtras();
-   if (extras != null &amp;&amp; extras.getBoolean("cdvStartInBackground", false)) {
-       moveTaskToBack(true);
-   }
-   launchUrl = "http://localhost/";
-   // Set by &lt;content src="index.html" /&gt; in config.xml
-   loadUrl(launchUrl);
-}
-</code></pre>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public void onCreate(Bundle savedInstanceState)
+</span><span class='line'>{
+</span><span class='line'>   super.onCreate(savedInstanceState);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>   // enable Cordova apps to be started in the background
+</span><span class='line'>   Bundle extras = getIntent().getExtras();
+</span><span class='line'>   if (extras != null &amp;&amp; extras.getBoolean(&ldquo;cdvStartInBackground&rdquo;, false)) {
+</span><span class='line'>       moveTaskToBack(true);
+</span><span class='line'>   }
+</span><span class='line'>   launchUrl = &ldquo;&lt;a href="http://localhost/">http://localhost/&lt;/a>&rdquo;;
+</span><span class='line'>   // Set by &lt;content src="index.html" /> in config.xml
+</span><span class='line'>   loadUrl(launchUrl);
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
 <p>这样热更新就可以正常工作了。</p>
 
 <p>我继续做了点测试，又发现一个和 ionic icon 相关的问题，ionic 4 使用了 Fetch API 来请求 ionic icon 的 svg 资源，由于现在是使用 file schema 来指定资源路径，由于 Fetch API 不支持 file schema 所以就报错 <code>Fetch API cannot load file:///xxx/www/svg/md-star.svg. URL scheme "file" is not supported.</code> 我们得想办法来解决这个问题，一个办法替换 fetch 方法的实现，如:</p>
 
-<p>```</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;script>
+</span><span class='line'>   document.write('&lt;base href="' + document.location.href + '" />');
+</span><span class='line'>
+</span><span class='line'>   var originalFetch = window.fetch;
+</span><span class='line'>
+</span><span class='line'>   window.fetch = function() {
+</span><span class='line'>       var args = [];
+</span><span class='line'>       for (var _i = 0; _i &lt; arguments.length; _i++) {
+</span><span class='line'>           args[_i] = arguments[_i];
+</span><span class='line'>       }
+</span><span class='line'>       var url = args[0];
+</span><span class='line'>       if (typeof url === 'string' && url.match(/\.svg/)) {
+</span><span class='line'>           return new Promise(function(resolve, reject) {
+</span><span class='line'>               var req = new XMLHttpRequest();
+</span><span class='line'>               req.open('GET', url, true);
+</span><span class='line'>               req.addEventListener('load', function() {
+</span><span class='line'>                   resolve({
+</span><span class='line'>                       ok: true,
+</span><span class='line'>                       status: 200,
+</span><span class='line'>                       text: function() {
+</span><span class='line'>                           return Promise.resolve(req.responseText);
+</span><span class='line'>                       }
+</span><span class='line'>                   });
+</span><span class='line'>               });
+</span><span class='line'>               req.addEventListener('error', reject);
+</span><span class='line'>               req.send();
+</span><span class='line'>           });
+</span><span class='line'>       } else {
+</span><span class='line'>           return originalFetch.apply(void 0, args);
+</span><span class='line'>       }
+</span><span class='line'>   };
+</span><span class='line'>&lt;/script>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 
-<script>
-   document.write('<base href="' + document.location.href + '" />');
+<p>在这些测试过程中，我还发现 cordova hot code push 更新时只做了版本字符是否相等的判断，这在服务器端的版本低于本地版本时，插件仍然会做更新，这是有问题的，我们需要严格这里的判断，让它只有在服务端的版本高于本地版本时才做更新。相关代码位于 UpdateLoaderWorker 的 run 方法中。</p>
 
-   var originalFetch = window.fetch;
+<p>最后一个要考虑的问题是如何将我们修改的代码和 ionic 的代码很好的整合起来？我现在的想法是创建一个私有的扩展 IonicWebViewEngine 和 WebViewLocalServer，然后借鉴 ionic 通过 config.xml 的 web 偏好设置的方法，像下面的代码:</p>
 
-   window.fetch = function() {
-       var args = [];
-       for (var _i = 0; _i < arguments.length; _i++) {
-           args[_i] = arguments[_i];
-       }
-       var url = args[0];
-       if (typeof url === 'string' && url.match(/\.svg/)) {
-           return new Promise(function(resolve, reject) {
-               var req = new XMLHttpRequest();
-               req.open('GET', url, true);
-               req.addEventListener('load', function() {
-                   resolve({
-                       ok: true,
-                       status: 200,
-                       text: function() {
-                           return Promise.resolve(req.responseText);
-                       }
-                   });
-               });
-               req.addEventListener('error', reject);
-               req.send();
-           });
-       } else {
-           return originalFetch.apply(void 0, args);
-       }
-   };
-</script>
-
-
-<pre><code>
-在这些测试过程中，我还发现 cordova hot code push 更新时只做了版本字符是否相等的判断，这在服务器端的版本低于本地版本时，插件仍然会做更新，这是有问题的，我们需要严格这里的判断，让它只有在服务端的版本高于本地版本时才做更新。相关代码位于 UpdateLoaderWorker 的 run 方法中。  
-
-最后一个要考虑的问题是如何将我们修改的代码和 ionic 的代码很好的整合起来？我现在的想法是创建一个私有的扩展 IonicWebViewEngine 和 WebViewLocalServer，然后借鉴 ionic 通过 config.xml 的 web 偏好设置的方法，像下面的代码: 
+<pre><code>&lt;preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" /&gt;
 </code></pre>
-
-<p><preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
-```</p>
 
 <p>回头测试下这个想法，好了有时间也许可以整理好代码提个 Pull Request。</p>
 
@@ -561,47 +680,84 @@ const observable = new Observable(subscriber =&gt; {
 
 <p>A:</p>
 
-<p>{% codeblock %}
-// Modal page template:</p>
-
-<div class="inner-content">
-    <!-- Construct your view hierarchy here-->
-</div>
-
-
-<p>// Present method:
-async presentAutoHeightModal() {
-    const modal = await this.modalController.create({
-      component: AutoHeightModalPage,
-      cssClass: &lsquo;auto-height&rsquo;
-    });</p>
-
-<pre><code>return await modal.present();
-</code></pre>
-
-<p>}</p>
-
-<p>// app.scss
-ion-modal.auto-height {
-    flex-direction: column;
-    justify-content: flex-end;
-    &ndash;height: auto;</p>
-
-<pre><code>.ion-page {
-    position: relative;
-    display: block;
-    contain: content;
-
-    .inner-content {
-        max-height: 80vh;
-        overflow: auto;
-        padding: 10px;
-    }
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Modal page template:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;div class="inner-content">
+</span><span class='line'>    &lt;!-- Construct your view hierarchy here-->
+</span><span class='line'>&lt;/div>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// Present method:
+</span><span class='line'>async presentAutoHeightModal() {
+</span><span class='line'>    const modal = await this.modalController.create({
+</span><span class='line'>      component: AutoHeightModalPage,
+</span><span class='line'>      cssClass: &lsquo;auto-height&rsquo;
+</span><span class='line'>    });&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>return await modal.present();
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// app.scss
+</span><span class='line'>ion-modal.auto-height {
+</span><span class='line'>    flex-direction: column;
+</span><span class='line'>    justify-content: flex-end;
+</span><span class='line'>    &ndash;height: auto;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>.ion-page {
+</span><span class='line'>    position: relative;
+</span><span class='line'>    display: block;
+</span><span class='line'>    contain: content;
+</span><span class='line'>
+</span><span class='line'>    .inner-content {
+</span><span class='line'>        max-height: 80vh;
+</span><span class='line'>        overflow: auto;
+</span><span class='line'>        padding: 10px;
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>6.Invalid Host Header</h3>
 

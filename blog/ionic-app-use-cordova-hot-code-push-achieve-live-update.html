@@ -3,16 +3,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Here's where it all happens for me.  | Hello World</title>
+        <title>Ionic App 使用 cordova hot code push 实现热更新  | Hello World</title>
 
         <meta name="author" content="Sheldon"> 
         
-        <meta name="description" content="Sheldon's personal technology blog about iOS, Android, Back-end, Web and English."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+        <meta name="description" content="Ionic App use cordova hot code push achieve live update."> <meta name="keywords" content="ionic, cordova hot code push, live update, angular">
 
         <meta name="viewport" content="width=device-width">
         
         
-        <link rel="canonical" href="http://DamianSheldon.github.io/index.html">
+        <link rel="canonical" href="http://DamianSheldon.github.io/blog/ionic-app-use-cordova-hot-code-push-achieve-live-update.html">
 
         <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
         <link href="/favicon.png" rel="icon">
@@ -57,16 +57,8 @@
 <a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ionic-app-use-cordova-hot-code-push-achieve-live-update.html">
-		
-			Ionic App 使用 Cordova Hot Code Push 实现热更新</a>
-	</h2>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Ionic App 使用 Cordova Hot Code Push 实现热更新</h2>
         
     <div class="meta">
 	   <div class="date">
@@ -94,9 +86,8 @@
 
 
     </div>
-        
-	<div class="entry-content">
-		<p>本文主要记录 Ionic App 使用 cordova hot code push 实现热更新时遇到问题的解决方法，另外也简单记录下使用方法，方便日后查阅。</p>
+    
+	<div class="entry-content"><p>本文主要记录 Ionic App 使用 cordova hot code push 实现热更新时遇到问题的解决方法，另外也简单记录下使用方法，方便日后查阅。</p>
 
 <p>Cordova hot code push 插件的原作者已经不维护了，我们可以选择一个可能最好的 fork 来使用。 <a href="http://gitpop2.herokuapp.com/">gitpop2</a> 可以帮助我们选择，我从中选择了当前 star 最多的一个 fork。</p>
 
@@ -407,424 +398,51 @@
 <li><a href="https://github.com/ionic-team/ionicons/issues/572">IONIC v4: Icon won&rsquo;t work in android</a></li>
 </ul>
 
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/install-centos-8-on-macos-with-virtualbox.html">
-		
-			在 macOS 上用 VirtualBox 安装 CentOS</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2020-01-04T13:49:46+08:00" pubdate data-updated="true">04 Jan 2020</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
 </div>
 
 
-    </div>
-        
-	<div class="entry-content">
-		<p>最近为了更好的实践 Linux，决定在 mac 上使用 VirtualBox 安装一个 CentOS，主要是参考鸟哥的这篇<a href="http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1">安裝 CentOS7.x</a>。</p>
-
-<p>安装之后打开系统出现闪屏，英语应该是称为 screen flicker，google 之后在 VirtualBox 的论坛找到解决方法:</p>
-
-<ol>
-<li><p>进入单用户维护模式</p>
-
-<pre><code class="`"> a. 重启系统
- b. 在菜单选择界面键入 e，进入 grub2 的指令编辑模式
- c. 在指定内核和根文件系统这行最后加上 systemd.unit=rescue.target
- d. 键入 ctrl + x 进入系统
-</code></pre></li>
-<li><p>强制使用 Xorg</p>
-
-<pre><code class="`">  a. 用 vim 打开 /etc/gdm3/custom.conf
-  b. 删除 WaylandEnable=false 前的 # 注释符号
-  c. 保存文件后，systemctl default 来进入正常模式 
-</code></pre></li>
-</ol>
-
-
-<p>解决了闪屏之后，想通过虚拟机菜单中的调整窗口大小来让系统的屏幕全屏发现无用，想起来应该要安装 VirtualBox Guest Additions，于是插入虚拟机提供的光盘来安装。</p>
-
-<p>首先是提示 kernel headers not found for target kernel 的错误，也提示详细的错误信息位于 /var/log/vboxadd-setup.log，我们可以通过查看该错误日志来找到对应解决方法。于是尝试安装对应的内核头文件，命令为 <code>yum install kernel-headers kernel-devel</code>，之后执行 <code>/sbin/rcvboxadd setup</code>.</p>
-
-<p>仍然提示 kernel headers not found for target kernel，通过 <code>uname -r</code> 和 <code>rpm -q kernel-headers</code> 发现版本不一致，于是重启系统选择最新的内核版本。</p>
-
-<p>再次尝试安装，提示 Error building the module，查看错误日志提示需要安装 <code>libelf-dev, libelf-devel or elfutils-libelf-devel</code> ，CentOS 上只有 elfutils-libelf-devel ，安装之后再次安装 VirtualBox Guest Additions。</p>
-
-<p>提示</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ValueError: File context for /opt/VBoxGuestAdditions-6.0.14/other/mount.vboxsf already defined
-</span><span class='line'>VirtualBox Guest Additions: Running kernel modules will not be replaced until
-</span><span class='line'>the system is restarted</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个问题暂时没找到解决方法，但是可以让 CentOS 全屏了，就暂时先不管这个问题了。</p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1">第三章、安裝 CentOS7.x</a></li>
-<li><a href="https://forums.virtualbox.org/viewtopic.php?f=8&amp;t=85110">Ubuntu 1710 screen flicker</a></li>
-<li><a href="https://forums.virtualbox.org/viewtopic.php?t=91563">Centos7 Guest Additions fails: kernel headers not found</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
         
 </article>
 
+	<div class="share">
+	<div>
+	
+	
+	
+    
+    
+        <!-- Gitment BEGIN -->
+<div id="comments"></div>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+// Limit label length less than 50 characters.
+var label_for_comment = document.URL;
+if (label_for_comment.length > 50) {
+    label_for_comment = label_for_comment.substring(label_for_comment.length - 50, label_for_comment.length - 1);
+}
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/create-cordova-plugin.html">
-		
-			创建 Cordova Plugin 及其 Ionic Native</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
+const gitment = new Gitment({
+id: label_for_comment,
+owner: 'DamianSheldon',
+repo: 'gitment',
+oauth: {
+client_id: '534142482825f386df90',
+client_secret: '19183fe61a33fcfae35316435bf3f4d516295c38',
+},
+// ...
+// For more available options, check out the documentation below
+})
 
+gitment.render('comments')
+</script>
+<!-- Gitment -->
 
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2019-09-30T09:59:14+08:00" pubdate data-updated="true">30 Sep 2019</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android-development/'>android development</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
+    
+    
+	</div>
 </div>
 
 
-    </div>
-        
-	<div class="entry-content">
-		<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
-
-<ul>
-<li>Cordova Plugin 的工作原理</li>
-<li>如何创建 Cordova Plugin</li>
-<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
-</ul>
-
-
-<h3>Cordova Plugin 的工作原理</h3>
-
-<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
-
-<p>Plugin js 端的入口方法签名形式如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
-</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
-
-<p>具体是怎么映射的呢？</p>
-
-<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
-</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个形式就是我们上面见过的形式。</p>
-
-<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
-
-<h3>如何创建 Cordova Plugin</h3>
-
-<h4>安装 plugman</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm install -g plugman</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>创建 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
-</span><span class='line'>
-</span><span class='line'>eg.
-</span><span class='line'>$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>添加 platform</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$plugman platform add --platform_name android</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>创建 package.json 文件</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman createpackagejson &lt;directory&gt;
-</span><span class='line'>
-</span><span class='line'>eg.
-</span><span class='line'>$plugman createpackagejson .</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>安装 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
-</span><span class='line'>$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
-</span><span class='line'>
-</span><span class='line'>// 方法二：
-</span><span class='line'>$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>卸载 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 与安装的方法对应有两种卸载方法
-</span><span class='line'>// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
-</span><span class='line'>
-</span><span class='line'>// 方法二：
-</span><span class='line'>$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>发布</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a tag
-</span><span class='line'>$git tag &lt;tagname&gt;
-</span><span class='line'>
-</span><span class='line'>// Push to repository
-</span><span class='line'>$git push origin master</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>升级 cordova plugin</h4>
-
-<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
-
-<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
-
-<h4>Creating Plugin Wrappers</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Navigate to ionic-native root path
-</span><span class='line'>$cd  ionic-native
-</span><span class='line'>
-</span><span class='line'>// Install dependencies first time
-</span><span class='line'>$npm install
-</span><span class='line'>
-</span><span class='line'>// Create plugin wrapper
-</span><span class='line'>// When gulp installed locally
-</span><span class='line'>$npx gulp plugin:create -n PluginName
-</span><span class='line'>
-</span><span class='line'>// When gulp installed globally
-</span><span class='line'>$gulp plugin:create -n PluginName</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>安装</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
-</span><span class='line'>$npm run build
-</span><span class='line'>
-</span><span class='line'>//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
-</span><span class='line'>$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>使用</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Import the plugin in a @NgModule and add it to the list of Providers. 
-</span><span class='line'>// app.module.ts
-</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>@NgModule({
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>  providers: [
-</span><span class='line'>    ...
-</span><span class='line'>    APIClient
-</span><span class='line'>    ...
-</span><span class='line'>  ]
-</span><span class='line'>  ...
-</span><span class='line'>})
-</span><span class='line'>export class AppModule { }
-</span><span class='line'>
-</span><span class='line'>// After the plugin has been declared, it can be imported and injected like any other service:
-</span><span class='line'>
-</span><span class='line'>// login.service.ts
-</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
-</span><span class='line'>import { ServiceName } from '@ionic-native/api-client/ngx';
-</span><span class='line'>
-</span><span class='line'>constructor(private apiClient: APIClient) { }
-</span><span class='line'>
-</span><span class='line'>this.apiClient.get(ServiceName.Login, JSON.stringify(user))
-</span><span class='line'>      .then((result: string) =&gt; {
-</span><span class='line'>        console.log('api client login:', result);
-</span><span class='line'>        //TODO: Parse server return json to UserExt object
-</span><span class='line'>        const routePath = this.simulateLogin(username);        
-</span><span class='line'>        resolve(routePath);
-</span><span class='line'>      })
-</span><span class='line'>      .catch((error: string) =&gt; {
-</span><span class='line'>        console.log('api client login error:', error);
-</span><span class='line'>
-</span><span class='line'>        reject(error);
-</span><span class='line'>      });</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Reference:</h1>
-
-<ul>
-<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
-<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
-<nav id="pagenavi">
-    
-    
-        <a href="/posts/2" class="next">Next</a>
-    
-    
-</nav>
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2014 - 2020
 

@@ -69,7 +69,7 @@ Ionic App 使用 cordova hot code push 实现热更新的基本步骤如下：
 
 这样我们就修正文件路径的问题，很不巧，虽然文件的路径是对了，但是 ionic 默认不响应 file schema 的请求，我们需要做些工作，先让 WebViewLocalServer.java 支持响应 file schema，将 createHostingDetails 改成如下实现：
 
-```
+{% codeblock %}
 private void createHostingDetails() {
   final String assetPath = this.basePath;
 
@@ -115,11 +115,11 @@ private void createHostingDetails() {
 
 }
 
-```
+{% endcodeblock %}
 
 然后是 isLocalFile 方法：
 
-```
+{% codeblock %}
 private boolean isLocalFile(Uri uri) {
   String path = uri.getPath();
   if (path.startsWith(contentStart) || path.startsWith(fileStart) || uri.getScheme().equals("file")) {
@@ -127,13 +127,13 @@ private boolean isLocalFile(Uri uri) {
   }
   return false;
 }
-```
+{% endcodeblock %}
 
 做完这些工作后 ionic 就可以响应 file schema 请求了。
 
 继续测试，我发现更新后第二次打开还是显示 App bundle asset 中的 web，这有点奇怪。仔细查看日志，确实有加载外部存储的 web , 但却被 `http://localhost/` 的请求覆盖了，这是什么原因呢？经过对代码逻辑的一番梳理，我发现是 IonicWebViewEngine 中 onPageStarted 方法的原因：
 
-```
+{% codeblock %}
 public void onPageStarted(WebView view, String url, Bitmap favicon) {
   super.onPageStarted(view, url, favicon);
   String launchUrl = parser.getLaunchUrl();
@@ -147,11 +147,11 @@ public void onPageStarted(WebView view, String url, Bitmap favicon) {
     view.loadUrl(startUrl);
   }
 }
-``` 
+{% endcodeblock %}
 
 MainActivity 触发 webview 加载 `file:///android_asset/www/index.html`，然后 cordova hot code push plugin 启动工作，它会让 webview 加载外部存储的 web，之后 IonicWebViewEngine 的 onPageStarted 收到 `file:///android_asset/www/index.html` 的请求的回调，它先停止了 webview 的加载工作，即 cordova hot code push plugin 启动加载外部存储的 web 的请求，再开始 `http://localhost/` 的请求，也就是打印出来日志的记录。正是这个方法时序的问题导致成功更新之后再重启应用仍然加载 app bundle asset 的 web。一种解决办法是我们直接让 MainActivity 直接加载 `http://localhost/`，就像下面这样:
 
-```
+{% codeblock %}
  public void onCreate(Bundle savedInstanceState)
 {
    super.onCreate(savedInstanceState);
@@ -166,13 +166,13 @@ MainActivity 触发 webview 加载 `file:///android_asset/www/index.html`，然�
    loadUrl(launchUrl);
 }
 
-```
+{% endcodeblock %}
 
 这样热更新就可以正常工作了。  
 
-我继续做了点测试，又发现一个和 ionic icon 相关的问题，ionic 4 使用了 Fetch API 来请求 ionic icon 的 svg 资源，由于现在是使用 file schema 来指定资源路径，由于 Fetch API 不支持 file schema 所以就报错 `Fetch API cannot load file:///xxx/www/svg/md-star.svg. URL scheme "file" is not supported. ` 我们得想办法来解决这个问题，一个办法替换 fetch 方法的实现，如:
+我继续做了点测试，又发现一个和 ionic icon 相关的问题，ionic 4 使用了 Fetch API 来请求 ionic icon 的 svg 资源，由于现在是使用 file schema 来指定资源路径，由于 Fetch API 不支持 file schema 所以就报错 `Fetch API cannot load file:///xxx/www/svg/md-star.svg. URL scheme "file" is not supported. ` 我们得想办法来解决这个问题，一个办法替换 fetch 方法的实现，如:  
 
-```
+{% codeblock %}
 <script>
    document.write('<base href="' + document.location.href + '" />');
 
@@ -205,7 +205,7 @@ MainActivity 触发 webview 加载 `file:///android_asset/www/index.html`，然�
        }
    };
 </script>
-```
+{% endcodeblock %}
 
 在这些测试过程中，我还发现 cordova hot code push 更新时只做了版本字符是否相等的判断，这在服务器端的版本低于本地版本时，插件仍然会做更新，这是有问题的，我们需要严格这里的判断，让它只有在服务端的版本高于本地版本时才做更新。相关代码位于 UpdateLoaderWorker 的 run 方法中。  
 

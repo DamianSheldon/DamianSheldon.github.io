@@ -591,6 +591,21 @@ Reference:[Resolving a merge conflict using the command line](https://help.githu
 A:`/usr/local/git/etc/gitconfig` is the system-wide configuration on macOS Mojave.
 
 
+###13.如何将 Git 仓库的代码归档到 SVN 仓库?
+A:手头的 ionic 工程是用 Git 管理，项目的同事也是用 Git 合作，但公司是用 SVN，代码还得上传一份到 SVN，那么用办法最好呢？首先是看 git 是否有自带的工具可以做这事，git svn 似乎可以胜任此事，但仔细调研发现：  
+
+> Don’t rewrite your history and try to push again, and don’t push to a parallel
+> Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate – doing so will make your life easier. 
+
+由于项目同事主要是用 Git 合作，上传 SVN 只是将代码备份一份到公司的代码仓库，为了生活更轻松，选择 git svn 显然不明智。既然重点是备份代码，由于我想干脆用 rsync 将代码 Git 仓库备份到本地 SVN 仓库目录，然后用 SVN 将本地仓库提交到公司仓库，这样就隔离了 Git 和 SVN，操作起来也简单轻松。
+
+```
+// 将 Git 仓库备份到本地目录
+$rsync -av cross-platform-workspace/JTTQYWXProject/SFWGLApp svn-repository/ --exclude='.*' --exclude='www' --exclude='platforms' --exclude='node_modules' --exclude='.zip' --exclude='.tar' --exclude='.gz'
+// 将本地目录提交到 SVN 仓库
+$svn import http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/Hybrid/hn/SFWGLApp
+```
+
 ####Reference  
 
 * [Pro Git](http://git-scm.com/book/zh/v1)  

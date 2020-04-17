@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-02-20T22:13:38+08:00</updated>
+  <updated>2020-04-17T14:09:35+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -5537,6 +5537,32 @@ set it to &ldquo;No Application&rdquo;</p>
 </span><span class='line'>$ telnet localhost 25</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>9.从“时间机器”备份恢复文件</h2>
+
+<p>A: Apple 介绍了如何从 “时间机器”备份恢复文件，你可以用备份创建一个新的用户，它拥有备份时状态。但我的情况是备份之后还在继续使用，产生了新的文件，想恢复那些删除的文件，但不覆盖新的文件，而且由于电脑的硬盘较小，我直接用备份创建一个新的用户的恢复方法空间不够。于是我只能手动从“时间机器”的备份里恢复文件。</p>
+
+<ol>
+<li><p>Enable Full Disk Access for your terminal, I use iTerm;</p>
+
+<ul>
+<li>System Preferences > Security &amp; Privacy > Privacy > Full Disk Access > Add iTerm</li>
+</ul>
+</li>
+<li><p>Use rsync restore;</p>
+
+<ul>
+<li>eg <code>$rsync -avuzb Documents ~/</code></li>
+</ul>
+</li>
+</ol>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://support.apple.com/zh-cn/HT203981">从备份恢复 Mac</a></li>
+<li><a href="https://apple.stackexchange.com/questions/365062/how-can-change-broken-file-permissions-of-time-machine-backups">How can change broken file permissions of Time Machine backups?</a></li>
+</ul>
 
 ]]></content>
   </entry>

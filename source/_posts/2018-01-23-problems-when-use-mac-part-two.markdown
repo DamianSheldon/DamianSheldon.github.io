@@ -155,4 +155,20 @@ $ sudo lsof -i :25
 $ telnet localhost 25
 {% endcodeblock %}
 
+##9.从“时间机器”备份恢复文件
+A: Apple 介绍了如何从 “时间机器”备份恢复文件，你可以用备份创建一个新的用户，它拥有备份时状态。但我的情况是备份之后还在继续使用，产生了新的文件，想恢复那些删除的文件，但不覆盖新的文件，而且由于电脑的硬盘较小，我直接用备份创建一个新的用户的恢复方法空间不够。于是我只能手动从“时间机器”的备份里恢复文件。  
+
+1. Enable Full Disk Access for your terminal, I use iTerm;
+	
+	* System Preferences > Security & Privacy > Privacy > Full Disk Access > Add iTerm
+	
+2. Use rsync restore;
+	
+	* eg `$rsync -avuzb Documents ~/`
+
+Reference:  
+
+* [从备份恢复 Mac](https://support.apple.com/zh-cn/HT203981)  
+* [How can change broken file permissions of Time Machine backups?](https://apple.stackexchange.com/questions/365062/how-can-change-broken-file-permissions-of-time-machine-backups)  
+
 

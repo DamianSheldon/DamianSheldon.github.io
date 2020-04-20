@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-04-17T14:09:35+08:00</updated>
+  <updated>2020-04-20T16:34:55+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -5562,6 +5562,22 @@ set it to &ldquo;No Application&rdquo;</p>
 <ul>
 <li><a href="https://support.apple.com/zh-cn/HT203981">从备份恢复 Mac</a></li>
 <li><a href="https://apple.stackexchange.com/questions/365062/how-can-change-broken-file-permissions-of-time-machine-backups">How can change broken file permissions of Time Machine backups?</a></li>
+</ul>
+
+
+<h2>10.升级到 macOS Catalina 后，根目录下的非标准目录丢失了</h2>
+
+<p>A:</p>
+
+<blockquote><p>While creating the two separate volumes during the upgrade process, files and data that couldn’t be moved to their new location are placed in a Relocated Items folder. The Relocated Items folder is in the Shared folder within the User folder (/Users/Shared/Relocated Items) and available though a shortcut on the Desktop.</p></blockquote>
+
+<p>我之前是将私有 git 仓库目录放在了 <code>/git</code>， 所以现在需要使用 rsync 恢复到新的目录: <code>rsync -avuab /Users/Shared/Relocated\ Items/Security/git/ repo/</code></p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://apple.stackexchange.com/questions/371852/where-does-the-upgrade-to-macos-catalina-move-root-directory-files">Where does the upgrade to macOS Catalina move root “/” directory files?</a></li>
+<li><a href="https://support.apple.com/en-us/HT210650">About the read-only system volume in macOS Catalina</a></li>
 </ul>
 
 ]]></content>

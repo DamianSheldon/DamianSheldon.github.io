@@ -171,4 +171,15 @@ Reference:
 * [从备份恢复 Mac](https://support.apple.com/zh-cn/HT203981)  
 * [How can change broken file permissions of Time Machine backups?](https://apple.stackexchange.com/questions/365062/how-can-change-broken-file-permissions-of-time-machine-backups)  
 
+##10.升级到 macOS Catalina 后，根目录下的非标准目录丢失了
+A:
+
+> While creating the two separate volumes during the upgrade process, files and data that couldn’t be moved to their new location are placed in a Relocated Items folder. The Relocated Items folder is in the Shared folder within the User folder (/Users/Shared/Relocated Items) and available though a shortcut on the Desktop.
+
+我之前是将私有 git 仓库目录放在了 `/git`， 所以现在需要使用 rsync 恢复到新的目录: `rsync -avuab /Users/Shared/Relocated\ Items/Security/git/ repo/`
+
+Reference:  
+
+* [Where does the upgrade to macOS Catalina move root “/” directory files?](https://apple.stackexchange.com/questions/371852/where-does-the-upgrade-to-macos-catalina-move-root-directory-files)  
+* [About the read-only system volume in macOS Catalina](https://support.apple.com/en-us/HT210650)  
 

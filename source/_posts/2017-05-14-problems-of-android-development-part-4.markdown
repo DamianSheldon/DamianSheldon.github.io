@@ -112,6 +112,15 @@ Inside the databases folder you should see the database you want to explore, do 
 
 Reference:[Get SQLite database from Android app](https://stackoverflow.com/questions/21062187/get-sqlite-database-from-android-app)  
 
+###6.AAPT: error: file failed to compile
+A:一个旧的工程编译报错，错误和 nine-patch 图片资源相关，详细的错误为:AAPT: error: file failed to compile，搜索了一圈没找到有效的解决办法。既然错误是和 aapt 相关，于是尝试使用 Android Studio 的命令行工具 aapt 来输出更多错误信息。  
 
+```
+$ /Users/meiliang/Library/Android/sdk/build-tools/28.0.3/aapt2 compile ~/Documents/AndroidProjects/LocationAware/app/src/main/res/drawable-mdpi/button_on.9.png -o /tmp/compiled/ -v
+/Users/meiliang/Documents/AndroidProjects/LocationAware/app/src/main/res/drawable-mdpi/button_on.9.png: note: compiling PNG.
+error: found an invalid color.
+```
+
+得到了无效的颜色的错误信息，但还是不知道如何解决。只能继续啃 Android Studio 用户指南的[Create resizable bitmaps (9-Patch files)](https://developer.android.google.cn/studio/write/draw9patch?hl=en), 及从中引申出来的 [NinePatch drawables](https://developer.android.google.cn/guide/topics/graphics/drawables#nine-patch) ,看完之后对 nine-patch 有了进一步的认识，但是还是不知道如何创建，先尝试用 GIMP 来设置可以拉伸区域，失败了，于是上 Google 搜索相关视频教程，原来是拖动来设置拉伸区域而不是官方文档上面的点击，难怪点击一直没有效果，设置好拉伸区域后就能成功编译了。
 
 

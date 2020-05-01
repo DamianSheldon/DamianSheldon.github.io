@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-05-01T11:19:41+08:00</updated>
+  <updated>2020-05-01T11:21:41+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web API 的设计与开发--读书笔记]]></title>
+    <link href="http://DamianSheldon.github.io/blog/notes-of-web-api-the-good-parts.html"/>
+    <updated>2020-04-29T10:31:16+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/notes-of-web-api-the-good-parts</id>
+    <content type="html"><![CDATA[<p>Web API 的设计与开发是开发者日常工作的重要内容，我们该如何来做好这项工作呢？我觉得一个务实的方法是先参考前辈们的做法，也就是站在巨人的肩上，理解消化后再尝试去突破，这样可能会事半功倍。经过一番搜索，找到了 <code>&lt;&lt;Web API 的设计与开发&gt;&gt;</code>， 我个人觉得这是一本书对 Web API 进行全面、细致和深入的剖析，对 Web API 的设计与开发很有帮助，值得一读。</p>
+
+<p>书的内容是按照整分的逻辑组织，并依先易后难的顺序来讲解相关知识。下面我按自己的理解尝试对书中内容做个简单的总结。</p>
+
+<p>Web API 是用于完成某种需求，由于需求会变化，而且一次就设计出完美 Web API 的想法是不现实的，所以一开始就要给 Web API 的更改留有余地，这是很容易忽视的地方。推荐的做法是在 URI 中嵌入版本信息，典型的形式是 <code>http://api.linkedin.com/v1/people</code>。</p>
+
+<p>虽然一次就完美地设计 Web API 的想法不现实，但我们还是想尽量做好，减少 Web API 版本变更的次数，毕竟版本越多维护成本越高，那么我们该如何设计 Web API 呢？</p>
+
+<p>Web API 通过 HTTP 协议来完成通信，在设计时我们应该最大程序地利用 HTTP 协议规范。基于标准协议设计的 API 至少要比使用私有协议设计的 API 更容易理解，还会减少使用时引入的 bug，使你的 API 得到更广泛的使用，提高利用已有的程序库或代码的可能。</p>
+
+<p>有了整体设计原则后，我们来看下具体的请求和响应设计。API 的功能是为了完成项目的需求，最完备的请求会包含请求端点、请求方法、请求参数和请求数据体(Request Body)，我们依次来审视请求每个部分。</p>
+
+<p>端点是指用于访问 API 的 URI。端点普适又重要的设计原则有：</p>
+
+<ul>
+<li>短小便于输入的 URI</li>
+<li>人可以读懂的 URI</li>
+<li>没有大小写混用的 URI</li>
+<li>不会暴露服务端架构的 URI</li>
+<li>规则统一的 URI</li>
+</ul>
+
+
+<p>端点设计的注意事项：</p>
+
+<ul>
+<li>使用名词的复数形式</li>
+<li>注意所用的单词</li>
+<li>不使用空格及需要编码的字符</li>
+<li>使用连字符来连接多个单词</li>
+</ul>
+
+
+<p>URI 和 HTTP 方法之间的关系可以认为是操作对象和操作方法的关系。如果把 URI 当作 API(HTTP) 的 “操作对象 = 资源”， HTTP 方法则表示 “进行怎样的操作”。通过用不同方法访问同一个 URI 端点，不但可以获取信息，还能修改信息、删除信息等。这样的思想正成为 Web API 设计的主流方式。</p>
+
+<table>
+<thead>
+<tr>
+<th> 方法名 </th>
+<th> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> GET </td>
+<td> 获取资源 </td>
+</tr>
+<tr>
+<td> POST </td>
+<td> 新增资源 </td>
+</tr>
+<tr>
+<td> PUT </td>
+<td> 覆盖已有资源 </td>
+</tr>
+<tr>
+<td> DELETE </td>
+<td> 删除资源 </td>
+</tr>
+<tr>
+<td> PATCH </td>
+<td> 更新部分资源 </td>
+</tr>
+<tr>
+<td> HEAD </td>
+<td> 获取资源的元信息 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>有时请求可能还需要传递参数，在设计 URI 时，必须决定是把特定参数放在查询参数里还是路径里，决策的依据有以下两点：</p>
+
+<ul>
+<li>是否是表示唯一资源所需的信息</li>
+<li>是否可以省略</li>
+</ul>
+
+
+<p>请求数据体，个人认为可以采用面向对象编程的思想来设计，整个处理过程会轻松很多。</p>
+
+<p>说完请求，让我们来看下响应。首先是正确使用状态码，国内由于历史原因遗留下来无论请求是否成功都一律返回 200 的问题，全站切换到 HTTPS 后，我们还是应该最大程度地利用 HTTP 规范，这样我们能受益于通用的 HTTP 程序库，减轻客户端的负担。</p>
+
+<p>其次是数据格式，这里的数据格式是指该用怎样的形式来描述 API 返回的结构化数据，具体而言就是批 JSON、XML 等数据格式。关于这一点，事实上几乎没有可讨论的，因为我们通常就使用 JSON 作为默认的数据格式，若有需求 API 也可以支持 XML 的格式，这是最贴近现实的做法。</p>
+
+<p>再次是数据内部结构，我们重点看下数据应该以数组还是对象返回，作者更推荐使用对象来封装数据的方式，因为该方式有如下几个优点:</p>
+
+<ul>
+<li>更容易理解响应数据表示什么</li>
+<li>响应数据通过对象的封装实现了结构统一</li>
+<li>可以避免安全方面的风险</li>
+</ul>
+
+
+<p>从次是各个数据的格式，各个数据项组成了最终的数据，只有掌握了如何处理单个数据项格式才能设计出合理的响应体数据格式。作者重点介绍了如何描述性别数据、日期格式和大整数，受益匪浅。</p>
+
+<p>最后是出错信息的表示，同样，我们需要选择合适的状态码，出误信息建议以消息体的形式返回，出错信息应该包含详细的错误代码、人们能够读懂的相关信息，以及记载有详细说明的文档页面的 URI，如下所示：</p>
+
+<pre><code>{
+    "error": {
+        "code": 2013,
+        "message": "Bad authentication token",
+        "info": "http://docs.example.com/api/v1/authentication"
+    }
+}
+</code></pre>
+
+<p>如果想支持描述多个错误同时发生，可以返回出错信息数组，</p>
+
+<pre><code>{
+    "errors": [
+        {
+            "code": 2013,
+            "message": "Bad authentication token",
+            "info": "http://docs.example.com/api/v1/authentication"
+        }
+    ]
+}
+</code></pre>
+
+<p>以上是基础内容，作者最后还介绍进阶内容，开发牢固的 Web API，对我们把 Web API 设计和开发提高到新高度有非常大的帮助。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[浅析移动端跨平台开发]]></title>
@@ -765,235 +894,6 @@ NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcur
 <li><a href="https://blog.codecentric.de/en/2014/11/concurrency-coredata/">Concurrency with CoreData</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[圆锥渐变的一种简单实现]]></title>
-    <link href="http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios.html"/>
-    <updated>2017-09-22T15:59:35+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/a-simple-conical-gradient-on-ios</id>
-    <content type="html"><![CDATA[<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：</p>
-
-<p><img src="../images/Conical-1.png" title="&lsquo;Conical-1&rsquo;" ><br/>
-<img src="../images/Conical-2.png" title="&lsquo;Conical-2&rsquo;" ></p>
-
-<p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
-
-<p>想法有了，接下来我们用它来实现上图中 Find My iPhone 图标的雷达效果吧。</p>
-
-<p>首先定义一个 CALayer 的子类 ConicalLayer，</p>
-
-<!--more-->
-
-
-<pre><code>// ConicalLayer.h
-@interface ConicalLayer : CALayer
-
-/// An array of CGColorRef objects defining the color of each gradient stop. 
-@property(copy) NSArray *colors;
-
-@end
-
-// ConicalLayer.m
-- (id)init
-{
-    if (!(self = [super init])) {
-        return nil;
-    }
-
-    _needsDisplayOnBoundsChange = YES;
-
-    return self;
-}
-
-- (void)drawInContext:(CGContextRef)ctx
-{
-    // Draw background
-    CGRect rect = CGContextGetClipBoundingBox(ctx);
-    CGContextSetFillColorWithColor(ctx, self.backgroundColor);
-    CGContextFillRect(ctx, rect);
-
-    if (self.colors.count &lt; 1) {
-        return;
-    }
-    else if (self.colors.count &lt; 2) {
-        // There is only one color so directly draw with it
-        CGColorRef color = (__bridge CGColorRef)(self.colors.firstObject);
-        CGContextSetFillColorWithColor(ctx, color);
-        CGContextFillRect(ctx, rect);
-        return;
-    }
-
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-    size_t width = rect.size.width;
-    size_t height = rect.size.height;
-
-    size_t bitsPerCompoent = 8;
-    size_t bytesPerRow = width * 4;
-
-    size_t bitmapByteCount = bytesPerRow * height;
-
-    uint32_t *bitmapData = calloc( bitmapByteCount / sizeof(uint32_t), sizeof(uint32_t) );
-
-    // Map color to linear array each compoent occupy 1 byte
-    uint8_t *colorCompoents = calloc(self.colors.count * 4, sizeof(uint8_t));
-
-    for (int i = 0; i &lt; self.colors.count; ++i) {
-        CGColorRef c = (__bridge CGColorRef)(self.colors[i]);
-
-        const CGFloat *compoents = CGColorGetComponents(c);
-
-        uint8_t red = compoents[0] * 255;
-        uint8_t green = compoents[1] * 255;
-        uint8_t blue = compoents[2] * 255;
-        uint8_t alpha = compoents[3] * 255;
-
-        int index = i * 4;
-        *(colorCompoents + index) = red;
-        *(colorCompoents + index + 1) = green;
-        *(colorCompoents + index + 2) = blue;
-        *(colorCompoents + index + 3) = alpha;
-    }
-
-    // Creating a Bitmap Graphics Context for conical gradient
-    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Little;
-
-    CGContextRef bitmapGraphicsCtx = CGBitmapContextCreate(bitmapData, width, height, bitsPerCompoent, bytesPerRow, colorSpace, bitmapInfo);
-
-    // Creating conical gradient from a Bitmap Graphics Context
-    CGImageRef conicalGradientImage = CGBitmapContextCreateImage(bitmapGraphicsCtx);
-
-    CGContextRelease(bitmapGraphicsCtx);
-
-    free(colorCompoents);
-
-    free(bitmapData);
-
-    CGColorSpaceRelease(colorSpace);
-
-    // Draws conical gradient image into a graphics context.
-    CGContextDrawImage(ctx, rect, conicalGradientImage);
-
-    CGImageRelease(conicalGradientImage);
-
-    // Draws three concentric
-    CGContextBeginPath(ctx);
-
-    CGFloat halfWidth = 0.5 * CGRectGetWidth(rect);
-    CGFloat maxRadii = 0.8 * halfWidth;
-    CGFloat radii = floor(0.33 * maxRadii);
-
-    for (int i = 1; i &lt; 4; ++i) {
-        CGFloat r = radii * i;
-        CGFloat dx = halfWidth - r;
-        CGRect ellipseRect = CGRectInset(rect, dx, dx);
-
-        CGContextAddEllipseInRect(ctx, ellipseRect);
-    }
-
-    CGContextSetRGBStrokeColor(ctx, 41/255.0, 234/255.0, 35/255.0, 1.0);
-    CGContextStrokePath(ctx);
-}
-
-- (BOOL)needsDisplayOnBoundsChange
-{
-    return _needsDisplayOnBoundsChange;
-}
-
-- (void)setNeedsDisplayOnBoundsChange:(BOOL)needsDisplayOnBoundsChange
-{
-}
-</code></pre>
-
-<p>现在我们把架子搭起来了，但是还没有往位图里面填充颜色，在这之前，对这段代码稍作解释，首先是我覆盖了needsDisplayOnBoundsChange 属性的 getter 和 setter 方法，原因是我设置图层关联的背景颜色时会触发这个属性变 NO，导致 <code>drawInContext</code> 不会被调用，我认为这是 Apple 的一个 bug，已经作了反馈，所以这里我使用了这么一个绕过的方法。</p>
-
-<p>其次，我把 RGB 颜色空间的颜色分量取出来放在了一个一维数组里用来备用；最后是 bitmapInfo 要或上 kCGBitmapByteOrder32Little，不然结果会不正确。</p>
-
-<p>接下来就是要填充位图的颜色，代码如下：</p>
-
-<pre><code>    // Create conical gradient bitmap data
-    CGFloat centerX = width * 0.5;
-    CGFloat centerY = height * 0.5;
-
-    double baseAngle = 2*M_PI / (self.colors.count - 1);
-
-    for (int i = 0; i &lt; height; ++i) {
-        for (int j = 0; j &lt; width; ++j) {
-            CGFloat x = j - centerX;
-            CGFloat y = i - centerY;
-
-            // define atan2 uniquely one uses the principal value in the range (−π, π]. That is, −π &lt; atan2(y, x) ≤ π.
-            double angle = atan2(y, x);
-
-            // Convert atan2 result angle to range [0, 2π]
-            if (angle &lt; 0) {
-                angle += 2 * M_PI;
-            }
-
-            // 0-360 map to linear gradient
-            double angleRatio = angle / baseAngle;
-            int colorIndex = angleRatio; // How many times of base angle?
-
-            angle -= colorIndex * baseAngle;
-            angleRatio = angle / baseAngle;
-
-            colorIndex *= 4;
-
-            uint8_t red0 = colorCompoents[colorIndex];
-            uint8_t red1 = colorCompoents[colorIndex + 4];
-
-            // Green index
-            colorIndex += 1;
-            uint8_t green0 = colorCompoents[colorIndex];
-            uint8_t green1 = colorCompoents[colorIndex + 4];
-
-            // Blue index
-            colorIndex += 1;
-            uint8_t blue0 = colorCompoents[colorIndex];
-            uint8_t blue1 = colorCompoents[colorIndex + 4];
-
-            // Alpha index
-            colorIndex += 1;
-            uint8_t alpha0 = colorCompoents[colorIndex];
-            uint8_t alpha1 = colorCompoents[colorIndex + 4];
-
-//            uint8_t red = red0 + angleRatio * (red1 - red0);
-//            uint8_t green = green0 + angleRatio * (green1 - green0);
-//            uint8_t blue = blue0 + angleRatio * (blue1 - blue0);
-//            uint8_t alpha = alpha0 + angleRatio * (alpha1 - alpha0);
-
-            uint8_t red = lerp(red0, red1, angleRatio);
-            uint8_t green = lerp(green0, green1, angleRatio);
-            uint8_t blue = lerp(blue0, blue1, angleRatio);
-            uint8_t alpha = lerp(alpha0, alpha1, angleRatio);
-
-            // Multiple alpha
-            float a = alpha / 255.0;
-
-            red *= a;
-            green *= a;
-            blue *= a;
-
-            unsigned long index = i * width + j;
-
-            *(bitmapData + index) = (red &lt;&lt; 24) | (green &lt;&lt; 16) | (blue &lt;&lt; 8) | alpha;
-        }
-    }
-</code></pre>
-
-<p>同样也稍微解释下其中的代码，首先是位图的填充要按照先行后列的顺序，行对就宽，列对应高；其次反正切函数的值域是(−π, π]，所以要把它们映射到[0, 2π]；然后我们根据角度对应的区间，选择起始和终点颜色，再由线性插值得到各自的颜色分量，实践中每个颜色分量还乘上了当前的透明度，最后合成该点的颜色。</p>
-
-<p><a href="https://github.com/DamianSheldon/QuartzDemo">完整示例</a></p>
-
-<h2>Reference:</h2>
-
-<p><a href="https://stackoverflow.com/questions/15344163/conical-gradient-in-qt-without-qconicalgradient">Conical gradient in Qt (without QConicalGradient)</a><br/>
-<a href="https://github.com/maxkonovalov/MKGradientView">MKGradientView</a><br/>
-<a href="https://en.wikipedia.org/wiki/Color_gradient">Color gradient</a><br/>
-<a href="https://en.wikipedia.org/wiki/Linear_interpolation">Linear interpolation</a><br/>
-<a href="https://en.wikipedia.org/wiki/Atan2">atan2</a></p>
 ]]></content>
   </entry>
   

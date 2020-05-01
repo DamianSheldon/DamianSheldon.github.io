@@ -5,7 +5,7 @@ date: 2020-04-29 10:31:16 +0800
 comments: true
 categories: [Archives, iOS Development, Android Development, Web Development]
 keywords: API, Web API, HTTP
-description: Notes Of Web API: The Good Parts.
+description: Notes Of Web API The Good Parts.
 ---
 
 Web API 的设计与开发是开发者日常工作的重要内容，我们该如何来做好这项工作呢？我觉得一个务实的方法是先参考前辈们的做法，也就是站在巨人的肩上，理解消化后再尝试去突破，这样可能会事半功倍。经过一番搜索，找到了 `<<Web API 的设计与开发>>`， 我个人觉得这是一本书对 Web API 进行全面、细致和深入的剖析，对 Web API 的设计与开发很有帮助，值得一读。  

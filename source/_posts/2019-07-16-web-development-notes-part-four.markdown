@@ -138,4 +138,15 @@ Reference:
 * [Dynamic modal height based on content in Ionic v4](https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595)  
 * [resize modal based on content](https://github.com/ionic-team/ionic/issues/16852)  
 
+###7.error: illegal character: '\ufeff' in java
+A:You probably have a Byte Order Marker (BOM) at the start of the file. You can use sed to remove it:  
+
+```
+sed '1s/^.//' infile >> outfile
+```
+
+Reference:  
+
+* [error: illegal character: '\ufeff' in java](https://stackoverflow.com/questions/45697794/error-illegal-character-ufeff-in-java/45698146)  
+
 

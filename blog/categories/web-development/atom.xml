@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-05-01T11:30:24+08:00</updated>
+  <updated>2020-05-04T16:12:14+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -847,6 +847,20 @@ const observable = new Observable(subscriber =&gt; {
 <ul>
 <li><a href="https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595">Dynamic modal height based on content in Ionic v4</a></li>
 <li><a href="https://github.com/ionic-team/ionic/issues/16852">resize modal based on content</a></li>
+</ul>
+
+
+<h3>7.error: illegal character: &lsquo;\ufeff&rsquo; in java</h3>
+
+<p>A:You probably have a Byte Order Marker (BOM) at the start of the file. You can use sed to remove it:</p>
+
+<pre><code>sed '1s/^.//' infile &gt;&gt; outfile
+</code></pre>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/45697794/error-illegal-character-ufeff-in-java/45698146">error: illegal character: &lsquo;\ufeff&rsquo; in java</a></li>
 </ul>
 
 ]]></content>

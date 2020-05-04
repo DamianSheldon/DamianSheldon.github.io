@@ -346,6 +346,30 @@
 
 
 <p>Reference:<a href="http://codingpad.maryspad.com/2017/04/29/update-mac-os-x-to-the-current-version-of-ruby/">UPDATE RUBY TO LATEST VERSION ON MAC OS X</a></p>
+
+<h3>11.macOS 升级到 Catalina 博客坏掉了</h3>
+
+<p>A: 不知道从什么时候起，会担心升级系统带来各种问题，所以 Catalina 出了快一年，一直没升级，但终归还是要升级的，于是选在五一假期来升级。升级系统后，果然不出我所料，博客的静态编译功能坏掉了。这可让我有点头痛，虽然用 octopress 有好几年了，但限于时间关系一直没能和 ruby 成为好朋友。没办法还得硬着头皮来修，这点记录下重点，方便以后参考。</p>
+
+<p>问题的主要原因是系统的 ruby 安装普通用户是没有写入权限的，推荐将相关程序安装到用户目录，然后将用户目录加入 PATH 环境变量中。实际上旧系统上我可能是手动关联系统目录下 gem，升级之后这些 gem 的路径都不正确了，只得手动删除了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install rake -v <span class="s1">&#39;12.3.3&#39;</span> --user-install -V
+</span><span class='line'>
+</span><span class='line'><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;${HOME}/.gem/ruby/2.6.0/bin:${PATH}&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>随着系统升级有些旧版本依赖可能安装不上，所以我们可以升级依赖。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$bundle</span> update
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

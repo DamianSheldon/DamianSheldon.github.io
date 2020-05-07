@@ -176,7 +176,7 @@ A:
 
 > While creating the two separate volumes during the upgrade process, files and data that couldn’t be moved to their new location are placed in a Relocated Items folder. The Relocated Items folder is in the Shared folder within the User folder (/Users/Shared/Relocated Items) and available though a shortcut on the Desktop.
 
-我之前是将私有 git 仓库目录放在了 `/git`， 所以现在需要使用 rsync 恢复到新的目录: `rsync -avuab /Users/Shared/Relocated\ Items/Security/git/ repo/`
+我之前是将私有 git 仓库目录放在了 `/git`， 所以现在需要使用 rsync 恢复到新的目录: `rsync -avuzb /Users/Shared/Relocated\ Items/Security/git/ repo/`
 
 Reference:  
 

@@ -200,4 +200,12 @@ navEditor.xml
 
 * Reference: [Ignoring Unversioned Items](http://svnbook.red-bean.com/en/1.8/svn.advanced.props.special.ignore.html)  
 
+###8.`.aidl` 文件的目标位置
+A:当我们使用 AIDL 调用方法时需要包含 `.aidl` 文件，官方文档上是说 `Include the .aidl file in the project src/ directory.` 我实际测试下来发现要包含在 `src/main/` 目录下才会生效。 
+
+```
+$ls app/src/main/
+AndroidManifest.xml        assets/                    ic_launcher-playstore.png  libs/
+aidl/                      com/                       java/                      res/
+```
 

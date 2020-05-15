@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-05-15T10:38:27+08:00</updated>
+  <updated>2020-05-15T10:49:28+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -244,6 +244,15 @@ navEditor.xml
 <li>Reference: <a href="http://svnbook.red-bean.com/en/1.8/svn.advanced.props.special.ignore.html">Ignoring Unversioned Items</a></li>
 </ul>
 
+
+<h3>8.<code>.aidl</code> 文件的目标位置</h3>
+
+<p>A:当我们使用 AIDL 调用方法时需要包含 <code>.aidl</code> 文件，官方文档上是说 <code>Include the .aidl file in the project src/ directory.</code> 我实际测试下来发现要包含在 <code>src/main/</code> 目录下才会生效。</p>
+
+<pre><code>$ls app/src/main/
+AndroidManifest.xml        assets/                    ic_launcher-playstore.png  libs/
+aidl/                      com/                       java/                      res/
+</code></pre>
 ]]></content>
   </entry>
   

@@ -410,6 +410,20 @@
 <li>Reference: <a href="http://svnbook.red-bean.com/en/1.8/svn.advanced.props.special.ignore.html">Ignoring Unversioned Items</a></li>
 </ul>
 
+
+<h3>8.<code>.aidl</code> 文件的目标位置</h3>
+
+<p>A:当我们使用 AIDL 调用方法时需要包含 <code>.aidl</code> 文件，官方文档上是说 <code>Include the .aidl file in the project src/ directory.</code> 我实际测试下来发现要包含在 <code>src/main/</code> 目录下才会生效。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ls app/src/main/
+</span><span class='line'>AndroidManifest.xml        assets/                    ic_launcher-playstore.png  libs/
+</span><span class='line'>aidl/                      com/                       java/                      res/</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

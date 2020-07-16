@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-05-15T10:49:28+08:00</updated>
+  <updated>2020-07-16T08:56:41+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -861,6 +861,20 @@ const observable = new Observable(subscriber =&gt; {
 
 <ul>
 <li><a href="https://stackoverflow.com/questions/45697794/error-illegal-character-ufeff-in-java/45698146">error: illegal character: &lsquo;\ufeff&rsquo; in java</a></li>
+</ul>
+
+
+<h3>8.Why super.clone can downcast to subclass?</h3>
+
+<p>A:</p>
+
+<pre><code>The method clone for class Object performs a specific cloning operation. First, if the class of this object does not implement the interface Cloneable, then a CloneNotSupportedException is thrown. Note that all arrays are considered to implement the interface Cloneable and that the return type of the clone method of an array type T[] is T[] where T is any reference or primitive type. Otherwise, this method creates a new instance of the class of this object and initializes all its fields with exactly the contents of the corresponding fields of this object, as if by assignment; the contents of the fields are not themselves cloned. Thus, this method performs a "shallow copy" of this object, not a "deep copy" operation.
+</code></pre>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/19047248/java-downcast-in-clone">Java - downcast in clone</a></li>
 </ul>
 
 ]]></content>

@@ -149,4 +149,14 @@ Reference:
 
 * [error: illegal character: '\ufeff' in java](https://stackoverflow.com/questions/45697794/error-illegal-character-ufeff-in-java/45698146)  
 
+###8.Why super.clone can downcast to subclass?  
+A:
+
+```
+The method clone for class Object performs a specific cloning operation. First, if the class of this object does not implement the interface Cloneable, then a CloneNotSupportedException is thrown. Note that all arrays are considered to implement the interface Cloneable and that the return type of the clone method of an array type T[] is T[] where T is any reference or primitive type. Otherwise, this method creates a new instance of the class of this object and initializes all its fields with exactly the contents of the corresponding fields of this object, as if by assignment; the contents of the fields are not themselves cloned. Thus, this method performs a "shallow copy" of this object, not a "deep copy" operation.
+```
+
+Reference:  
+
+* [Java - downcast in clone](https://stackoverflow.com/questions/19047248/java-downcast-in-clone)  
 

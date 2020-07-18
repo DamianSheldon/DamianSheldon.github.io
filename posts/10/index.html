@@ -63,6 +63,98 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html">
+		
+			Android 真机抓包</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-03-11T17:04:33+08:00" pubdate data-updated="true">11 Mar 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 Android 开发过程中，可能会遇到和服务端交互有问题的情况，这时候就得拿出证据来和服务端撕逼, 而最有力的证据自然是抓取的网络数据包；又或者是遇到很诡异的网络问题，这时候就可以借助抓包来分析和定位问题。</p>
+
+<p>如果我们和服务端的交互没有通过 VPN, 而且也不是视频流这种网络性能要求苛刻的情况，我们可以通过 tPacketCapture 这种应用来抓包；</p>
+
+<p>其他情况我们可以通过 root 手机，然后安装 tcpdump 来抓包。</p>
+
+<p>下面我们详细介绍下 通过 tcpdump 抓包这种方法：</p>
+
+<ul>
+<li>Root 手机</li>
+</ul>
+
+
+<p>Root 手机的原理是利用系统存在的漏洞来获得 root 权限，<a href="https://forum.xda-developers.com/">XDA Developers</a> 上有不少 root 工具，很多手机都可以用它们 root。</p>
+
+<ul>
+<li>安装 tcpdump</li>
+</ul>
+
+
+<p>可以到网上搜索为 Android 编译好的 tcpdump 二进制包，例如<a href="http://www.strazzere.com/android/tcpdump">这里</a>就有一个。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Copy tcpdump to device
+</span><span class='line'>$ adb -d push /path/to/tcpdump /sdcard/tcpdump
+</span><span class='line'>
+</span><span class='line'>// Device shell
+</span><span class='line'>$ adb -d shell
+</span><span class='line'>
+</span><span class='line'>// Switch to root
+</span><span class='line'>$ su
+</span><span class='line'>
+</span><span class='line'>// Copy tcpdump to /data/local/
+</span><span class='line'># cat /sdcard/tcpdump /data/local/tcpdump</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html">
 		
 			如何搭建一个带 Dovecot 的 Postfix 邮件服务器</a>
@@ -249,132 +341,6 @@
 
 		
 		<a href="/blog/photos-framework-usage.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-development-problems-part-9.html">
-		
-			iOS 开发问题汇总(九)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-11-15T14:49:17+08:00" pubdate data-updated="true">15 Nov 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.Curried functions in Swift</h3>
-
-<p>A:There’s a difference between self.methodname (which you are using), and Classname.methodname.</p>
-
-<p>The former, when called within a class’s method, will give you a function bound with that class instance. So if you call it, it will be called on that instance.</p>
-
-<p>The latter gives you a curried function that takes as an argument any instance of Classname, and returns a new function that is bound to that instance. At this point, that function is like the first case (only you can bind it to any instance you like).</p>
-
-<p>Here’s an example to try and show that a bit better:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class C {
-</span><span class='line'>    private let _msg: String
-</span><span class='line'>        init(msg: String) { _msg = msg }
-</span><span class='line'>
-</span><span class='line'>    func c_print() { print(_msg) }
-</span><span class='line'>
-</span><span class='line'>    func getPrinter() -&gt; ()-&gt;() { return self.c_print }
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>let c = C(msg: "woo-hoo")
-</span><span class='line'>let f = c.getPrinter()
-</span><span class='line'>// f is of type (())-&gt;()
-</span><span class='line'>f() // prints "woo-hoo"
-</span><span class='line'>
-</span><span class='line'>let d = C(msg: "way-hey")
-</span><span class='line'>
-</span><span class='line'>let g = C.c_print
-</span><span class='line'>// g is of type (C) -&gt; (()) -&gt; (),
-</span><span class='line'>// you need to feed it a C:
-</span><span class='line'>g(c)() // prints "woo-hoo"
-</span><span class='line'>g(d)() // prints "way-hey"
-</span><span class='line'>
-</span><span class='line'>// instead of calling immediately,
-</span><span class='line'>// you could store the return of g:
-</span><span class='line'>let h = g(c)
-</span><span class='line'>// at this point, f and h amount to the same thing:
-</span><span class='line'>// h is of type (())-&gt;()
-</span><span class='line'>h() // prints "woo-hoo"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/27644702/curried-functions-in-swift">Curried functions in SWIFT</a></p>
-
-<h3>2.NSLog on devices in iOS 10 / Xcode 8 will truncate.</h3>
-
-<p>A:A temporary solution, just redefine all NSLOG to printf in a global header file.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/39584707/nslog-on-devices-in-ios-10-xcode-8-seems-to-truncate-why">NSLog on devices in iOS 10 / Xcode 8 seems to truncate? Why？</a></p>
-
-
-		
-		<a href="/blog/ios-development-problems-part-9.html" class="more-link">继续阅读</a>
 	</div>
 
 

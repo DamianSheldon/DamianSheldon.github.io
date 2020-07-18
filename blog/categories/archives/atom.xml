@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-07-16T08:56:41+08:00</updated>
+  <updated>2020-07-18T16:01:24+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL 使用笔记(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/using-mysql-note-part-two.html"/>
+    <updated>2020-07-18T15:57:24+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/using-mysql-note-part-two</id>
+    <content type="html"><![CDATA[<h3>1.如何查看数据库中所有的存储过程?</h3>
+
+<p>A: <code>mysql&gt; show procedure status where db = 'db_for_mysql_crash_course'\G;</code>;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web API 的设计与开发--读书笔记]]></title>
@@ -708,227 +719,6 @@ this.apiClient.get(ServiceName.Login, JSON.stringify(user))
 <ul>
 <li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
 <li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(四)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-four.html"/>
-    <updated>2019-07-16T17:24:01+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-four</id>
-    <content type="html"><![CDATA[<h3>1.如何实现如下布局：两个元素A和B，其中A的宽度为包裹其内容，B则占用剩余的宽度？</h3>
-
-<p>A:A 元素利用 float 的包裹性，B 元素则利用 BFC。</p>
-
-<p>```</p>
-
-<div class="container">
-    <div class="right"></div>
-    <div class="left"></div>
-</div>
-
-
-<p>.container {
-    width:600px;
-    height:200px;
-    border:1px solid;
-}
-.left {
-    width:auto;
-    height:200px;
-    background:red;
-    overflow:hidden;
-}
-.right {
-    height:200px;
-    width:200px;
-    background:blue;
-    float:left;
-}
-```</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width">Expand a div to fill the remaining width</a></p>
-
-<h3>2.Meaning of ~ in import of scss files</h3>
-
-<p>A:</p>
-
-<blockquote><p>From documentation on a <code>sass-loader#imports</code> project,</p>
-
-<blockquote><p>webpack provides an advanced mechanism to resolve files. The sass-loader uses node-sass' custom importer feature to pass all queries to the webpack resolving engine. Thus you can import your Sass modules from node_modules. Just prepend them with a ~ to tell webpack that this is not a relative import</p></blockquote>
-
-<p>So if you have a file named foo.css and a module foo then you would use ~ if you want to include the module.</p></blockquote>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/38880187/meaning-of-in-import-of-scss-files">Meaning of ~ in import of scss files</a></p>
-
-<!--more-->
-
-
-<h3>3.为什么创建 Observable 时传入的函数签名不需要包含 this? 示例如下:</h3>
-
-<pre><code>// API Document:
-constructor(subscribe?: (this: Observable&lt;T&gt;, subscriber: Subscriber&lt;T&gt;) =&gt; TeardownLogic)
-
-// Usage code:
-const observable = new Observable(subscriber =&gt; {
-  subscriber.next(1);
-  subscriber.next(2);
-  subscriber.next(3);
-  setTimeout(() =&gt; {
-    subscriber.next(4);
-    subscriber.complete();
-  }, 1000);
-});
-</code></pre>
-
-<p>A:Here this is a special syntax in Typescript. It specifies the type of the &ldquo;this&rdquo; the function expects. So here it just means it should be called by a Observable with the same Type T as the Subscriber.</p>
-
-<p>It comes first in the parameter list. It is a fake parameter, and should invoked without it.</p>
-
-<p>More info can be found <a href="https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#specifying-the-type-of-this-for-functions">Here</a>.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/54886652/confused-by-rxjs-observable-constructor-and-this-argument">Confused by Rxjs Observable constructor and &lsquo;this&rsquo; argument</a></p>
-
-<h3>4.How to make a div take the remaining height?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Flex</li>
-<li>Absolute Positioning</li>
-<li>Table</li>
-<li>CSS3 cacl</li>
-</ol>
-
-
-<p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
-
-<h3>5.Dynamic modal height based on content in Ionic4?</h3>
-
-<p>A:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Modal page template:&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;div class="inner-content">
-</span><span class='line'>    &lt;!-- Construct your view hierarchy here-->
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// Present method:
-</span><span class='line'>async presentAutoHeightModal() {
-</span><span class='line'>    const modal = await this.modalController.create({
-</span><span class='line'>      component: AutoHeightModalPage,
-</span><span class='line'>      cssClass: &lsquo;auto-height&rsquo;
-</span><span class='line'>    });&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>return await modal.present();
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// app.scss
-</span><span class='line'>ion-modal.auto-height {
-</span><span class='line'>    flex-direction: column;
-</span><span class='line'>    justify-content: flex-end;
-</span><span class='line'>    &ndash;height: auto;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>.ion-page {
-</span><span class='line'>    position: relative;
-</span><span class='line'>    display: block;
-</span><span class='line'>    contain: content;
-</span><span class='line'>
-</span><span class='line'>    .inner-content {
-</span><span class='line'>        max-height: 80vh;
-</span><span class='line'>        overflow: auto;
-</span><span class='line'>        padding: 10px;
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></p>
-
-<h3>6.Invalid Host Header</h3>
-
-<p>A:通过外网访问本地的 ionic 开发服务时提示 Invalid Host Header，原因是 angular 默认会对 host 进行验证，所以我们可以通过传入 <code>--disableHostCheck=true</code> 来关闭验证，由于是 ionic 工程，我们传入的参数需要在 <code>--</code> 之后，也就是类似如下命令: <code>ionic serve --port 8080 -- --disableHostCheck=true</code>.</p>
-
-<blockquote><p>ionic serve uses the Angular CLI. Use ng serve &ndash;help to list all Angular CLI options for serving your app. See the ng serve docs[1] for explanations. Options not listed below are considered advanced and can be passed to the Angular CLI using the &ndash; separator after the Ionic CLI arguments.</p></blockquote>
-
-<p>Reference:<a href="https://community.c9.io/t/ionic-4-angular-invalid-host-header-error/25526">Ionic 4 angular - Invalid Host header error</a></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595">Dynamic modal height based on content in Ionic v4</a></li>
-<li><a href="https://github.com/ionic-team/ionic/issues/16852">resize modal based on content</a></li>
-</ul>
-
-
-<h3>7.error: illegal character: &lsquo;\ufeff&rsquo; in java</h3>
-
-<p>A:You probably have a Byte Order Marker (BOM) at the start of the file. You can use sed to remove it:</p>
-
-<pre><code>sed '1s/^.//' infile &gt;&gt; outfile
-</code></pre>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/45697794/error-illegal-character-ufeff-in-java/45698146">error: illegal character: &lsquo;\ufeff&rsquo; in java</a></li>
-</ul>
-
-
-<h3>8.Why super.clone can downcast to subclass?</h3>
-
-<p>A:</p>
-
-<pre><code>The method clone for class Object performs a specific cloning operation. First, if the class of this object does not implement the interface Cloneable, then a CloneNotSupportedException is thrown. Note that all arrays are considered to implement the interface Cloneable and that the return type of the clone method of an array type T[] is T[] where T is any reference or primitive type. Otherwise, this method creates a new instance of the class of this object and initializes all its fields with exactly the contents of the corresponding fields of this object, as if by assignment; the contents of the fields are not themselves cloned. Thus, this method performs a "shallow copy" of this object, not a "deep copy" operation.
-</code></pre>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/19047248/java-downcast-in-clone">Java - downcast in clone</a></li>
 </ul>
 
 ]]></content>

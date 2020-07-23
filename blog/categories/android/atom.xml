@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-07-18T16:01:24+08:00</updated>
+  <updated>2020-07-23T14:12:59+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -253,6 +253,18 @@ navEditor.xml
 AndroidManifest.xml        assets/                    ic_launcher-playstore.png  libs/
 aidl/                      com/                       java/                      res/
 </code></pre>
+
+<h3>9.Activity did not call finish() prior to onResume() completing</h3>
+
+<p>A:It was workaround by using Theme.Translucent instead of Theme.NoDisplay in the manifest.</p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/32169303/activity-did-not-call-finish-api-23">Activity did not call finish? (API 23)</a></li>
+<li><a href="https://web.archive.org/web/20151116170752/https://code.google.com/p/android-developer-preview/issues/detail?id=2353">Activity crash with @android:style/Theme.NoDisplay</a></li>
+</ul>
+
 ]]></content>
   </entry>
   

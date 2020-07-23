@@ -209,3 +209,13 @@ AndroidManifest.xml        assets/                    ic_launcher-playstore.png 
 aidl/                      com/                       java/                      res/
 ```
 
+###9.Activity did not call finish() prior to onResume() completing
+A:It was workaround by using Theme.Translucent instead of Theme.NoDisplay in the manifest.
+
+Reference:  
+
+* [Activity did not call finish? (API 23)](https://stackoverflow.com/questions/32169303/activity-did-not-call-finish-api-23) 
+* [Activity crash with @android:style/Theme.NoDisplay](https://web.archive.org/web/20151116170752/https://code.google.com/p/android-developer-preview/issues/detail?id=2353)  
+
+
+

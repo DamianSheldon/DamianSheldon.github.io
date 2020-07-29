@@ -217,5 +217,8 @@ Reference:
 * [Activity did not call finish? (API 23)](https://stackoverflow.com/questions/32169303/activity-did-not-call-finish-api-23) 
 * [Activity crash with @android:style/Theme.NoDisplay](https://web.archive.org/web/20151116170752/https://code.google.com/p/android-developer-preview/issues/detail?id=2353)  
 
+###10.DownLoadManager failed with ERROR_UNKOWN
+A:First check your url, http schema is disable by default on API level 27 or higher. If this is your case, you can change to https schema or enable http via [network security configuration](https://developer.android.google.cn/training/articles/security-config?hl=en#CleartextTrafficPermitted).  
 
+Second, you can find clue in logcat, remind change it to No Filter, search with DownLoadManager, I find file permission exception from here.
 

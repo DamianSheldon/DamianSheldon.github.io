@@ -440,6 +440,18 @@
 <p>A:First check your url, http schema is disable by default on API level 27 or higher. If this is your case, you can change to https schema or enable http via <a href="https://developer.android.google.cn/training/articles/security-config?hl=en#CleartextTrafficPermitted">network security configuration</a>.</p>
 
 <p>Second, you can find clue in logcat, remind change it to No Filter, search with DownLoadManager, I find file permission exception from here.</p>
+
+<h3>11.Logcat to file</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$adb shell
+</span><span class='line'>$logcat -b main,system,crash -f /mnt/sdcard/logs/logcat.log -r 32 -n 65535 &</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 

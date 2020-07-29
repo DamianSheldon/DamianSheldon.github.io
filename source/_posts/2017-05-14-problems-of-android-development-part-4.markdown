@@ -222,3 +222,11 @@ A:First check your url, http schema is disable by default on API level 27 or hig
 
 Second, you can find clue in logcat, remind change it to No Filter, search with DownLoadManager, I find file permission exception from here.
 
+###11.Logcat to file
+A:
+
+```
+$adb shell
+$logcat -b main,system,crash -f /mnt/sdcard/logs/logcat.log -r 32 -n 65535 &
+```
+

@@ -160,3 +160,17 @@ Reference:
 
 * [Java - downcast in clone](https://stackoverflow.com/questions/19047248/java-downcast-in-clone)  
 
+###9.How to generate MetaModel classes with Spring Data JPA in eclipse?
+A: 
+
+1. add maven denpendency  
+
+```
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-jpamodelgen</artifactId>
+</dependency>
+```
+
+2. Maven > Update project
+

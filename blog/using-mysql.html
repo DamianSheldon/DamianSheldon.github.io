@@ -345,9 +345,9 @@ A:To enable the binary log, start the server with the &ndash;log-bin[=base_name]
 
 <blockquote><p>You may need (or want) to create a specific mysql user to own the MySQL directory and data. You can do this through the Directory Utility, and the mysql user should already exist. For use in single user mode, an entry for _mysql (note the underscore prefix) should already exist within the system /etc/passwd file.</p></blockquote>
 
-<p>~~于是来确认 mysql 账号是否存在，我们用 Directory Utility 来做这件事情。可以按 System Preferences > Users &amp; Groups > Network Account Server join > Open Directory Utility > Directory Editor 来打开账号管理界面，在里面确实没有 mysql 账号，于是尝试创建这个账号，但是创建失败，提示账号已经存在，这就不知道是个什么鬼了。当然我们也可以使用对应的 Directory Utility 命令 dscl， 具体可参考 <a href="http://damiansheldon.github.io/blog/problems-when-use-mac.html">To create a user</a></p>
+<p><del>于是来确认 mysql 账号是否存在，我们用 Directory Utility 来做这件事情。<del>可以按 System Preferences > Users &amp; Groups > Network Account Server join > Open Directory Utility > Directory Editor 来打开账号管理界面，</del>在里面确实没有 mysql 账号，于是尝试创建这个账号，但是创建失败，提示账号已经存在，这就不知道是个什么鬼了。当然我们也可以使用对应的 Directory Utility 命令 dscl， 具体可参考</del> <a href="http://damiansheldon.github.io/blog/problems-when-use-mac.html">To create a user</a></p>
 
-<p>既然 mysql 创建不了，尝试使用其他的账号，于是把一个常用的账号加到 _mysql 组，为 /usr/local/mysql/data 赋予组写入权限，使用命令 <code>/usr/local/mysql/bin/mysqld_safe --user=dongmeiliang &amp;</code> 成功启动。~~</p>
+<p><del>既然 mysql 创建不了，尝试使用其他的账号，<del>于是把一个常用的账号加到 _mysql 组，为 /usr/local/mysql/data 赋予组写入权限，</del>使用命令 <code>/usr/local/mysql/bin/mysqld_safe --user=dongmeiliang &amp;</code> 成功启动。</del></p>
 
 <p>今天把 MySQL 5.7 升级到 8.0 又遇到了启动失败的问题，似乎 mysqld_safe 这个命令在 macOS 上有点问题，我换成 mysqld 就能成功启动。</p>
 

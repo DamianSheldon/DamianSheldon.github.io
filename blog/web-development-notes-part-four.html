@@ -347,6 +347,17 @@
 <li>Maven > Update project</li>
 </ol>
 
+
+<h3>10.Use webroot plugin to obtain certificates</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ certbot-auto certonly --webroot --webroot-path /var/lib/tomcat8/webapps/ROOT -d www.tenneshop.com --webroot-path /var/lib/tomcat8/apiapps/ROOT -d api.tenneshop.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<br/>
+* <a href="https://certbot.eff.org/docs/using.html?highlight=webroot%20path#webroot">User Guide</a></p>
 </div>
 
 

@@ -114,7 +114,7 @@
 
 <p>Via s<a href="ftp:">ftp:</a></p>
 
-<p>1.sftp <a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#103;&#x6d;&#x65;&#x69;&#x6c;&#105;&#x61;&#110;&#x67;&#x40;&#49;&#x39;&#x32;&#x2e;&#x31;&#54;&#x38;&#x2e;&#x31;&#x2e;&#x32;&#x35;&#53;">&#100;&#x6f;&#110;&#103;&#x6d;&#101;&#105;&#108;&#105;&#x61;&#x6e;&#x67;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#x32;&#53;&#x35;</a><br/>
+<p>1.sftp <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#100;&#x6f;&#x6e;&#x67;&#109;&#x65;&#x69;&#108;&#105;&#97;&#x6e;&#x67;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#46;&#50;&#53;&#53;">&#x64;&#x6f;&#110;&#x67;&#109;&#101;&#105;&#x6c;&#105;&#97;&#110;&#x67;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#x2e;&#x32;&#x35;&#x35;</a><br/>
 2.cd path<br/>
   Change remote directory to path.</p>
 
@@ -347,6 +347,147 @@ quit</p>
 
 <p>Reference:<a href="https://www.digitalocean.com/community/questions/how-to-enable-tab-to-complete-for-new-users-in-ubuntu">How to enable tab to complete for new users in ubuntu</a><br/>
 <a href="https://www.tecmint.com/change-a-users-default-shell-in-linux/">3 Ways to Change a Users Default Shell in Linux</a></p>
+
+<h3>15.如何在centos8上安装 Rime 五笔拼音输入法？</h3>
+
+<p>A：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo dnf install -y gcc gcc-c++ boost boost-devel cmake make cmake3
+</span><span class='line'>sudo dnf install http://mirror.centos.org/centos/7/os/x86_64/Packages/marisa-0.2.4-4.el7.x86_64.rpm -y
+</span><span class='line'>sudo dnf install http://mirror.centos.org/centos/7/os/x86_64/Packages/marisa-devel-0.2.4-4.el7.x86_64.rpm -y 
+</span><span class='line'>sudo dnf install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/k/kyotocabinet-libs-1.2.77-1.el7.x86_64.rpm -y
+</span><span class='line'>sudo dnf install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/k/kyotocabinet-1.2.77-1.el7.x86_64.rpm -y
+</span><span class='line'>sudo dnf --enablerepo=PowerTools  install glog glog-devel  yaml-cpp yaml-cpp-devel gtest gtest-devel libnotify zlib zlib-devel gflags gflags-devel leveldb leveldb-devel libnotify-devel ibus-devel  -y
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'># for OpenCC
+</span><span class='line'>sudo dnf --enablerepo=PowerTools install doxygen -y
+</span><span class='line'>sudo curl -L https://github.com/BYVoid/OpenCC/archive/ver.1.0.6.tar.gz | sudo  tar zx
+</span><span class='line'>cd OpenCC-ver.1.0.6/
+</span><span class='line'>sudo make
+</span><span class='line'>sudo make install 
+</span><span class='line'>sudo ln -s /usr/lib/libopencc.so /usr/lib64/libopencc.so
+</span><span class='line'>cd /usr/src
+</span><span class='line'># git download 
+</span><span class='line'>sudo git clone https://github.com/rime/ibus-rime.git 
+</span><span class='line'>cd ibus-rime/
+</span><span class='line'>sudo git submodule update --init
+</span><span class='line'># install again
+</span><span class='line'>sudo dnf install http://mirror.centos.org/centos/7/os/x86_64/Packages/marisa-devel-0.2.4-4.el7.x86_64.rpm -y 
+</span><span class='line'>sudo ./install.sh
+</span><span class='line'>
+</span><span class='line'>#if
+</span><span class='line'># ldd /usr/lib/ibus-rime/ibus-engine-rime
+</span><span class='line'>#  &gt;librime.so.1 =&gt; not found
+</span><span class='line'>#  &gt;libopencc.so.2 =&gt; not found
+</span><span class='line'>#then 
+</span><span class='line'>
+</span><span class='line'># ln -s /usr/lib/librime.so.1.4.0 /usr/lib64/librime.so.1
+</span><span class='line'># ln -s /usr/lib/libopencc.so.1.0.0 /usr/lib64/libopencc.so.2
+</span><span class='line'>
+</span><span class='line'># deploy
+</span><span class='line'>ibus-daemon -drx
+</span><span class='line'>
+</span><span class='line'># add rime input source
+</span><span class='line'>Settings &gt; Region & Languages &gt; Input source &gt; + &gt; Chinese (Rime)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于 Rime 默认没有提供五笔拼音输入方案，所以还需要手动安装，下面我们使用 Rime 的配置管理工具东风破来安装。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/bin
+</span><span class='line'>sudo curl -L https://git.io/rime-install -o rime-install
+</span><span class='line'>sudo chmod a+x rime-install
+</span><span class='line'>
+</span><span class='line'>cd ~/Downloads
+</span><span class='line'>rime-install wubi
+</span><span class='line'>
+</span><span class='line'># 在Rime輸入方案選單中添加五筆
+</span><span class='line'># default.custom.yaml
+</span><span class='line'># save it to: 
+</span><span class='line'>#   ~/.config/ibus/rime  (linux)
+</span><span class='line'>#   ~/Library/Rime       (macos)
+</span><span class='line'>#   %APPDATA%\Rime       (windows)
+</span><span class='line'>
+</span><span class='line'>patch:
+</span><span class='line'>  schema_list:
+</span><span class='line'>    - schema: wubi_pinyin          # 五笔拼音
+</span><span class='line'>    - schema: luna_pinyin          # 朙月拼音
+</span><span class='line'>
+</span><span class='line'># 点击部署按钮重新部署
+</span><span class='line'># 切換到 Rime 輸入法，按 F4 鍵或組合鍵 Ctrl+` 喚出輸入方案選單（` 鍵常見於 1 的左方）。</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://github.com/rime/ibus-rime/issues/95">如何在centos8上安装</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Rime">Rime</a></li>
+<li><a href="https://github.com/rime/home/wiki/Configuration">Configuration</a></li>
+<li><a href="https://github.com/rime/plum">plum</a></li>
+<li><a href="https://github.com/rime/rime-wubi">rime-wubi</a></li>
+<li><a href="https://gist.github.com/lotem/2309739">default.custom.yaml</a></li>
+<li><a href="https://github.com/rime/home/wiki/UserGuide#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%A1%88%E9%81%B8">UserGuide</a></li>
+</ul>
+
 </div>
 
 

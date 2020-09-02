@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-09-02T10:35:37+08:00</updated>
+  <updated>2020-09-02T15:50:02+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux 使用笔记(二)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line-part-3.html"/>
+    <updated>2020-09-02T11:40:17+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line-part-3</id>
+    <content type="html"><![CDATA[<h3>1.系统迁移和备份</h3>
+
+<p>A:为了数据安全，我们需要对系统备份，换新电脑或者更换云服务时我们需要迁移系统。Linux 系统备份和迁移的方法很多，我这里打算使用 tar 。</p>
+
+<h4>系统备份</h4>
+
+<p>首先是根据自己的实际情况列出需要备份的目录，通常有：</p>
+
+<pre><code>* `/etc/` 
+* `/home/`
+* `/var/spool/mail/`
+* `/var/spool/cron/`
+* `/root`
+* `/usr/local/bin`
+</code></pre>
+
+<p>然后使用 tar 命令打包：</p>
+
+<pre><code>tar -jcv -f /backups/backup-system-20200902.tar.bz2 \
+&gt; --exclude=/root/*.bz2 --exclude=/root/*.gz --exclude=/home/loop* \
+&gt; /etc /home /var/spool/mail /var/spool/cron /root /usr/local/bin
+</code></pre>
+
+<h4>系统恢复</h4>
+
+<p>首先可以将备份解压到 <code>/tmp</code> 目录，之后使用 rsync 命令复制到对应目录便可恢复。</p>
+
+<pre><code>tar -jxv -f /backups/backup-system-20200902.tar.bz2 -C /tmp
+rsync -avuzb /tmp/etc/ /etc
+rsync -avuzb /tmp/home/ /home
+rsync -avuzb /tmp/var/spool/mail/ /var/spool/mail
+rsync -avuzb /tmp/var/spool/cron/ /var/spool/cron
+rsync -avuzb /tmp/root/ /root
+rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin
+</code></pre>
+
+<h4>系统迁移</h4>
+
+<p>换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法：</p>
+
+<pre><code># 全系统备份
+tar --create --absolute-names --preserve-permissions --bzip2  --file=/media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 --exclude=/dev --exclude=/media --exclude=/metainfo --exclude=/mnt --exclude=/proc --exclude=/run --exclude=/sys  --exclude=/tmp --exclude=/var --exclude=/@System.solv /
+
+# 如有需要也可检查备份的文件
+tar -tjpPvf /media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 | less
+
+# 将备份包放到 /tmp 下解压
+tar -xjvf virtual-box-centos-8.tar.bz2
+</code></pre>
+
+<h3>2.dnf list plugins command missing</h3>
+
+<p>A:The information is provided for nearly all command with &ldquo;-v&rdquo; option. See:</p>
+
+<p>Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+Updating Subscription Management repositories.</p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1694041">dnf list plugins command missing</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL 使用笔记(二)]]></title>
@@ -537,188 +608,6 @@ the system is restarted
 <li><a href="http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1">第三章、安裝 CentOS7.x</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?f=8&amp;t=85110">Ubuntu 1710 screen flicker</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?t=91563">Centos7 Guest Additions fails: kernel headers not found</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[创建 Cordova plugin 及其 Ionic Native]]></title>
-    <link href="http://DamianSheldon.github.io/blog/create-cordova-plugin.html"/>
-    <updated>2019-09-30T09:59:14+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/create-cordova-plugin</id>
-    <content type="html"><![CDATA[<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
-
-<ul>
-<li>Cordova Plugin 的工作原理</li>
-<li>如何创建 Cordova Plugin</li>
-<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
-</ul>
-
-
-<h3>Cordova Plugin 的工作原理</h3>
-
-<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
-
-<p>Plugin js 端的入口方法签名形式如下:</p>
-
-<pre><code>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);
-</code></pre>
-
-<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
-
-<pre><code>&lt;feature name="&lt;service_name&gt;"&gt;
-    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-&lt;/feature&gt;
-</code></pre>
-
-<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
-
-<p>具体是怎么映射的呢？</p>
-
-<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
-
-<pre><code>&lt;feature name="&lt;service_name&gt;"&gt;
-    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-&lt;/feature&gt;
-</code></pre>
-
-<p>这个形式就是我们上面见过的形式。</p>
-
-<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
-
-<h3>如何创建 Cordova Plugin</h3>
-
-<h4>安装 plugman</h4>
-
-<pre><code>$ npm install -g plugman
-</code></pre>
-
-<h4>创建 cordova plugin</h4>
-
-<pre><code>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
-
-eg.
-$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1
-</code></pre>
-
-<h4>添加 platform</h4>
-
-<pre><code>$plugman platform add --platform_name android
-</code></pre>
-
-<h4>创建 package.json 文件</h4>
-
-<pre><code>$ plugman createpackagejson &lt;directory&gt;
-
-eg.
-$plugman createpackagejson .
-</code></pre>
-
-<h4>安装 cordova plugin</h4>
-
-<pre><code>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
-$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
-
-// 方法二：
-$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/
-</code></pre>
-
-<h4>卸载 cordova plugin</h4>
-
-<pre><code>// 与安装的方法对应有两种卸载方法
-// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
-
-// 方法二：
-$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/
-</code></pre>
-
-<h4>发布</h4>
-
-<pre><code>// Create a tag
-$git tag &lt;tagname&gt;
-
-// Push to repository
-$git push origin master
-</code></pre>
-
-<h4>升级 cordova plugin</h4>
-
-<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
-
-<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
-
-<h4>Creating Plugin Wrappers</h4>
-
-<pre><code>// Navigate to ionic-native root path
-$cd  ionic-native
-
-// Install dependencies first time
-$npm install
-
-// Create plugin wrapper
-// When gulp installed locally
-$npx gulp plugin:create -n PluginName
-
-// When gulp installed globally
-$gulp plugin:create -n PluginName
-</code></pre>
-
-<h4>安装</h4>
-
-<pre><code>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
-$npm run build
-
-//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
-$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/
-</code></pre>
-
-<h3>使用</h3>
-
-<pre><code>// Import the plugin in a @NgModule and add it to the list of Providers. 
-// app.module.ts
-import { APIClient } from '@ionic-native/api-client/ngx';
-...
-
-@NgModule({
-  ...
-
-  providers: [
-    ...
-    APIClient
-    ...
-  ]
-  ...
-})
-export class AppModule { }
-
-// After the plugin has been declared, it can be imported and injected like any other service:
-
-// login.service.ts
-import { APIClient } from '@ionic-native/api-client/ngx';
-import { ServiceName } from '@ionic-native/api-client/ngx';
-
-constructor(private apiClient: APIClient) { }
-
-this.apiClient.get(ServiceName.Login, JSON.stringify(user))
-      .then((result: string) =&gt; {
-        console.log('api client login:', result);
-        //TODO: Parse server return json to UserExt object
-        const routePath = this.simulateLogin(username);        
-        resolve(routePath);
-      })
-      .catch((error: string) =&gt; {
-        console.log('api client login error:', error);
-
-        reject(error);
-      });
-</code></pre>
-
-<h1>Reference:</h1>
-
-<ul>
-<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
-<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
 </ul>
 
 ]]></content>

@@ -53,3 +53,13 @@ sudo tar --create --absolute-names --preserve-permissions --bzip2  --file=/media
 # 将备份包放到 /tmp 下解压
 tar -xjvf virtual-box-centos-8.tar.bz2
 ```
+
+### 2.dnf list plugins command missing
+A:The information is provided for nearly all command with "-v" option. See:
+
+Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+Updating Subscription Management repositories.
+
+Reference:  
+
+* [dnf list plugins command missing](https://bugzilla.redhat.com/show_bug.cgi?id=1694041)  

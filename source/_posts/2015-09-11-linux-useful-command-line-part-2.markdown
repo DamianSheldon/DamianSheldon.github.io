@@ -211,4 +211,82 @@ In the future, prefer the `adduser` command. Despite the similar name, it has di
 Reference:[How to enable tab to complete for new users in ubuntu](https://www.digitalocean.com/community/questions/how-to-enable-tab-to-complete-for-new-users-in-ubuntu)  
 [3 Ways to Change a Users Default Shell in Linux](https://www.tecmint.com/change-a-users-default-shell-in-linux/)  
 
+###15.如何在centos8上安装 Rime 五笔拼音输入法？
+A：
 
+```
+sudo dnf install -y gcc gcc-c++ boost boost-devel cmake make cmake3
+sudo dnf install http://mirror.centos.org/centos/7/os/x86_64/Packages/marisa-0.2.4-4.el7.x86_64.rpm -y
+sudo dnf install http://mirror.centos.org/centos/7/os/x86_64/Packages/marisa-devel-0.2.4-4.el7.x86_64.rpm -y 
+sudo dnf install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/k/kyotocabinet-libs-1.2.77-1.el7.x86_64.rpm -y
+sudo dnf install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/k/kyotocabinet-1.2.77-1.el7.x86_64.rpm -y
+sudo dnf --enablerepo=PowerTools  install glog glog-devel  yaml-cpp yaml-cpp-devel gtest gtest-devel libnotify zlib zlib-devel gflags gflags-devel leveldb leveldb-devel libnotify-devel ibus-devel  -y
+
+
+# for OpenCC
+sudo dnf --enablerepo=PowerTools install doxygen -y
+sudo curl -L https://github.com/BYVoid/OpenCC/archive/ver.1.0.6.tar.gz | sudo  tar zx
+cd OpenCC-ver.1.0.6/
+sudo make
+sudo make install 
+sudo ln -s /usr/lib/libopencc.so /usr/lib64/libopencc.so
+cd /usr/src
+# git download 
+sudo git clone https://github.com/rime/ibus-rime.git 
+cd ibus-rime/
+sudo git submodule update --init
+# install again
+sudo dnf install http://mirror.centos.org/centos/7/os/x86_64/Packages/marisa-devel-0.2.4-4.el7.x86_64.rpm -y 
+sudo ./install.sh
+
+#if
+# ldd /usr/lib/ibus-rime/ibus-engine-rime
+#  >librime.so.1 => not found
+#  >libopencc.so.2 => not found
+#then 
+
+# ln -s /usr/lib/librime.so.1.4.0 /usr/lib64/librime.so.1
+# ln -s /usr/lib/libopencc.so.1.0.0 /usr/lib64/libopencc.so.2
+
+# deploy
+ibus-daemon -drx
+
+# add rime input source
+Settings > Region & Languages > Input source > + > Chinese (Rime)
+```
+
+由于 Rime 默认没有提供五笔拼音输入方案，所以还需要手动安装，下面我们使用 Rime 的配置管理工具东风破来安装。  
+
+```
+cd /usr/local/bin
+sudo curl -L https://git.io/rime-install -o rime-install
+sudo chmod a+x rime-install
+
+cd ~/Downloads
+rime-install wubi
+
+# 在Rime輸入方案選單中添加五筆
+# default.custom.yaml
+# save it to: 
+#   ~/.config/ibus/rime  (linux)
+#   ~/Library/Rime       (macos)
+#   %APPDATA%\Rime       (windows)
+
+patch:
+  schema_list:
+    - schema: wubi_pinyin          # 五笔拼音
+    - schema: luna_pinyin          # 朙月拼音
+
+# 点击部署按钮重新部署
+# 切換到 Rime 輸入法，按 F4 鍵或組合鍵 Ctrl+` 喚出輸入方案選單（` 鍵常見於 1 的左方）。
+```
+
+Reference:  
+
+* [如何在centos8上安装](https://github.com/rime/ibus-rime/issues/95)  
+* [Rime](https://wiki.archlinux.org/index.php/Rime)  
+* [Configuration](https://github.com/rime/home/wiki/Configuration)  
+* [plum](https://github.com/rime/plum)  
+* [rime-wubi](https://github.com/rime/rime-wubi)  
+* [default.custom.yaml](https://gist.github.com/lotem/2309739)  
+* [UserGuide](https://github.com/rime/home/wiki/UserGuide#使用方案選)  

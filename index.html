@@ -65,7 +65,7 @@
 		
 		<a href="/blog/linux-useful-command-line-part-3.html">
 		
-			Linux 使用笔记(二)</a>
+			Linux 使用笔记(三)</a>
 	</h2>
         
     <div class="meta">
@@ -142,44 +142,9 @@
 </span><span class='line'>rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin</span></code></pre></td></tr></table></div></figure>
 
 
-<h4>系统迁移</h4>
-
-<p>换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 全系统备份
-</span><span class='line'>tar --create --absolute-names --preserve-permissions --bzip2  --file=/media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 --exclude=/dev --exclude=/media --exclude=/metainfo --exclude=/mnt --exclude=/proc --exclude=/run --exclude=/sys  --exclude=/tmp --exclude=/var --exclude=/@System.solv /
-</span><span class='line'>
-</span><span class='line'># 如有需要也可检查备份的文件
-</span><span class='line'>tar -tjpPvf /media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 | less
-</span><span class='line'>
-</span><span class='line'># 将备份包放到 /tmp 下解压
-</span><span class='line'>tar -xjvf virtual-box-centos-8.tar.bz2</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.dnf list plugins command missing</h3>
-
-<p>A:The information is provided for nearly all command with &ldquo;-v&rdquo; option. See:</p>
-
-<p>Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
-Updating Subscription Management repositories.</p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1694041">dnf list plugins command missing</a></li>
-</ul>
-
 
 		
-		
+		<a href="/blog/linux-useful-command-line-part-3.html" class="more-link">继续阅读</a>
 	</div>
 
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Linux 使用笔记(二)"
+title: "Linux 使用笔记(三)"
 date: 2020-09-02 11:40:17 +0800
 comments: true
 categories: [Archives]
@@ -42,7 +42,7 @@ rsync -avuzb /tmp/var/spool/cron/ /var/spool/cron
 rsync -avuzb /tmp/root/ /root
 rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin
 ```
-
+<!--more-->
 #### 系统迁移
 换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法：
 

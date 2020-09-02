@@ -14,12 +14,12 @@ A:为了数据安全，我们需要对系统备份，换新电脑或者更换云
 #### 系统备份 
 首先是根据自己的实际情况列出需要备份的目录，通常有：  
 
-    * `/etc/` 
-    * `/home/`
-    * `/var/spool/mail/`
-    * `/var/spool/cron/`
-    * `/root`
-    * `/usr/local/bin`
+* `/etc/` 
+* `/home/`
+* `/var/spool/mail/`
+* `/var/spool/cron/`
+* `/root`
+* `/usr/local/bin`
 
 然后使用 tar 命令打包：
 

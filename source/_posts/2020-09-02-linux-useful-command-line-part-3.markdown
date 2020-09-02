@@ -48,7 +48,10 @@ rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin
 
 ```
 # 全系统备份
-sudo tar --create --absolute-names --preserve-permissions --bzip2  --file=/media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 --exclude=/dev --exclude=/media --exclude=/metainfo --exclude=/mnt --exclude=/proc --exclude=/run  --exclude=/tmp --exclude=/@System.solv --verbose /
+tar --create --absolute-names --preserve-permissions --bzip2  --file=/media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 --exclude=/dev --exclude=/media --exclude=/metainfo --exclude=/mnt --exclude=/proc --exclude=/run --exclude=/sys  --exclude=/tmp --exclude=/var --exclude=/@System.solv /
+
+# 如有需要也可检查备份的文件
+tar -tjpPvf /media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 | less
 
 # 将备份包放到 /tmp 下解压
 tar -xjvf virtual-box-centos-8.tar.bz2

@@ -29,7 +29,7 @@ mysql > SHOW GRANTS FOR 'username'@'localhost';
 
 ```
 mysql > GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';
-mysql > GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER ON `xiao_chun`.* TO `xiaochun`@`localhost`
+mysql > GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER ON `xiao_chun`.* TO `xiaochun`@`localhost`;
 ```
 
 ###4.Default options are read from the following files in the given order:

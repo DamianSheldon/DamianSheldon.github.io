@@ -170,3 +170,18 @@ System Preferences > Network > + > Interface: VPN > VPN Type: Cisco IPSec
 [Mac OS IKEv2 missing payload(s) (ISAKMP_NEXT_v2AUTH)](https://github.com/libreswan/libreswan/issues/47)  
 [IKEv2 Configuration Profile for Apple iOS 8 and newer](https://wiki.strongswan.org/projects/strongswan/wiki/AppleIKEv2Profile)  
 
+
+* https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan
+* https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples
+* https://wiki.strongswan.org/projects/strongswan/wiki/HelpRequests
+* https://wiki.strongswan.org/projects/strongswan/wiki/Fromipsecconf
+* https://wiki.strongswan.org/projects/strongswan/wiki/AppleClients
+* https://wiki.strongswan.org/projects/strongswan/wiki/IpsecCommand
+* https://wiki.strongswan.org/issues/772
+* https://ericfu.me/debian-strongswan-ikev2-vpn/
+* https://wbuntu.com/p/499/
+
+##修改记录  
+
+
+

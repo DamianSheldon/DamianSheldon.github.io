@@ -350,7 +350,9 @@
 <h3>3.为用户添加操作某个数据库的权限</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql &gt; GRANT select, insert, update, delete, index, alter, create ON db2.* TO 'jeffrey'@'localhost';
+</span><span class='line'>mysql &gt; GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER ON `xiao_chun`.* TO `xiaochun`@`localhost`;</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>4.Default options are read from the following files in the given order:</h3>

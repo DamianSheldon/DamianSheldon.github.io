@@ -184,3 +184,117 @@ $ certbot-auto certonly --webroot --webroot-path /var/lib/tomcat8/webapps/ROOT -
 Reference:  
 * [User Guide](https://certbot.eff.org/docs/using.html?highlight=webroot%20path#webroot)  
 
+###11.flex 布局下怎样实现text-overflow: ellipsis 效果?
+A:
+
+```
+<div class="flex-parent">
+
+   <div class="flex-child long-and-truncated">
+       1. This is a long string that is OK to truncate please and thank you
+   </div>
+
+   <div class="flex-child short-and-fixed">
+       <div></div>
+       <div></div>
+       <div></div>
+   </div>
+
+</div>
+
+<div class="flex-parent has-child">
+
+   <div class="flex-child long-and-truncated-with-child">
+       <h2>2. This is a long string that is OK to truncate please and thank you</h2>
+   </div>
+
+   <div class="flex-child short-and-fixed">
+       <div></div>
+       <div></div>
+       <div></div>
+   </div>
+
+</div>
+
+<div class="flex-parent has-child">
+
+   <div class="flex-child long-and-truncated-with-child-corrected">
+       <h2>3. This is a long string that is OK to truncate please and thank you</h2>
+   </div>
+
+   <div class="flex-child short-and-fixed">
+       <div></div>
+       <div></div>
+       <div></div>
+   </div>
+
+</div>
+
+.flex-parent {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 10px;
+  margin: 30px 0;
+}
+   
+h2 {
+  font-size: 1rem;
+  font-weight: normal;
+}
+   
+.long-and-truncated {
+  -webkit-box-flex: 1;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+   
+.short-and-fixed {
+  white-space: nowrap;
+}
+   
+.short-and-fixed>div {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: lightgreen;
+  display: inline-block;
+}
+   
+.long-and-truncated-with-child {
+  -webkit-box-flex: 1;
+  flex: 1;
+}
+   
+.long-and-truncated-with-child h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+   
+.long-and-truncated-with-child-corrected {
+  -webkit-box-flex: 1;
+  flex: 1;
+  min-width: 0;
+  /* or some value */
+}
+   
+.long-and-truncated-with-child-corrected h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+   
+body {
+  padding: 40px;
+}
+```
+
+Reference:  
+
+* [Flexbox and Truncated Text](https://css-tricks.com/flexbox-truncated-text/)  
+
+

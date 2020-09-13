@@ -187,7 +187,7 @@ Reference:
 ###11.flex 布局下怎样实现text-overflow: ellipsis 效果?
 A:
 
-```
+{% codeblock %}
 <div class="flex-parent">
 
    <div class="flex-child long-and-truncated">
@@ -291,7 +291,7 @@ h2 {
 body {
   padding: 40px;
 }
-```
+{% endcodeblock %}
 
 Reference:  
 

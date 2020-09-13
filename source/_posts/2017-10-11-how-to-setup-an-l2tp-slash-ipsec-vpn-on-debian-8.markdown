@@ -18,27 +18,27 @@ CentOS 8 中的 epel 仓库中有预编译的 strongswan 二进制安装包，�
 
 我们先来看看下自签名证书。  
 
-生成根证书:  
+生成根证书:
 
-```
+{% codeblock %}
 cd /etc/strongswan/swanctl
 strongswan pki --gen --outform pem > rsa/ca.pem
 strongswan pki --self --ca --in rsa/ca.pem --type rsa --dn "C=CH, O=strongSwan, CN=strongSwan Root CA" --outform pem > x509ca/ca-cert.pem
 
-```
+{% endcodeblock %}
 
 生成服务器证书:  
 
-```
+{% codeblock %}
 cd /etc/strongswan/swanctl
 strongswan pki --gen --outform pem > rsa/server.pem
 strongswan pki --pub --in rsa/server.pem --type rsa | strongswan pki --issue --cacert cacerts/ca.cert.pem --cakey rsa/ca.pem --dn "C=CH, O=strongSwan, CN=swan.tenneshop.com" --san swan.tenneshop.com --flag serverAuth --flag ikeIntermediate --outform pem > x509/server-cert.pem
 
-```
+{% endcodeblock %}
 <!--more-->
 再来看下使用 Let's Encrypt 签发的证书。先按照官方指南安装并获取证书，然后安装到 StrongSwan：
 
-```
+{% codeblock %}
 # 根证书
 cd /etc/strongswan/swanctl/x509ca
 ln -s /etc/letsencrypt/live/www.example.com/chain.pem lets-encrypt-authority-x3-ca.pem
@@ -50,7 +50,7 @@ ln -s /etc/letsencrypt/live/www.example.com/cert.pem www-example-com.pem
 # 服务器证书私钥
 cd /etc/strongswan/swanctl/private/
 ln -s /etc/letsencrypt/live/www.example.com/privkey.pem www-example-com-privkey.pem
-```
+{% endcodeblock %}
 
 这里值得一提的是我们需要将 Let's Encrypt 这个中间证书安装到 `/etc/strongswan/swanctl/x509ca` 目录下，不然 Windows 10 连接不成功。
 
@@ -58,7 +58,7 @@ ln -s /etc/letsencrypt/live/www.example.com/privkey.pem www-example-com-privkey.
 
 其次是具体配置。新版本的 StrongSwan 推荐使用 swanctl.conf 来配置，而官方文档上 swanctl.conf 和 ipsec.conf 的配置信息杂糅在一起，网络上最大多是 ipsec.conf 的配置，从面向未来的角度考虑，我是完全使用 swanctl.conf ，这也让我有种神清气爽的感觉。我这张配置信息经过脱敏后如下：  
 
-```
+{% codeblock %}
 # Section defining IKE connection configurations.
 connections {
 
@@ -118,45 +118,45 @@ pools {
 
 # Include config snippets
 include conf.d/*.conf
-```
+{% endcodeblock %}
 
 再次是配置转发和防火墙。 
 
 开启 IPv4 转发  
 
-```
+{% codeblock %}
 echo 1 > /proc/sys/net/ipv4/ip_forward
 echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
 echo 0 > /proc/sys/net/ipv4/conf/all/send_redirects
-```
+{% endcodeblock %}
 
 这个是临时性的，如果想永久更改，则修改 `/etc/sysctl.conf ` 
 
-```
+{% codeblock %}
 net.ipv4.ip_forward = 1
 net.ipv4.conf.all.accept_redirects = 0
 net.ipv4.conf.all.send_redirects = 0
-```
+{% endcodeblock %}
 
 允许 IPSec 端口监听  
 
-```
+{% codeblock %}
 iptables -A INPUT -p udp --dport 500 --j ACCEPT
 iptables -A INPUT -p udp --dport 4500 --j ACCEPT
 iptables -A INPUT -p esp -j ACCEPT
-```
+{% endcodeblock %}
 
 允许 VPN 到外网的流量  
 
-```
+{% codeblock %}
 iptables -t nat -A POSTROUTING -s 10.11.1.0/24 -o eth0 -j MASQUERADE 
-```
+{% endcodeblock %}
 
 防火墙配置可以写到系统防火墙配置文件或利用开机启动脚本设置。我是参考鸟哥的做法，使用开机启动脚本设置：  
 
 防火墙设置脚本：  
 
-```
+{% codeblock %}
 # /usr/local/virus/iptables/iptables.rule
 #!/bin/bash
 
@@ -219,10 +219,11 @@ if [ "$INIF" != "" ]; then
 	fi
 
 fi
-```
+{% endcodeblock %}
 
 开机启动脚本： 
-```
+
+{% codeblock %}
 /etc/systemd/system/custom-iptables.service
 [Unit]
 Description=Custom firewall
@@ -233,7 +234,7 @@ ExecStart=/bin/bash /usr/local/virus/iptables/iptables.rule
 
 [Install]
 WantedBy=multi-user.target
-```
+{% endcodeblock %}
 
 开启开机启动：`systemctl enable custom-iptables.service`
 
@@ -245,7 +246,7 @@ macOS 的具体连接为：System Preferences > Network > + > Interface: VPN, VP
 
 安装配置过程中可能会遇到各种各样的问题，这时候我们首先是要开启 StrongSwan 的调试日志，这样会输出更多信息帮助我们解决问题。  
 
-```
+{% codeblock %}
 #/etc/strongswan/strongswan.d/charon-logging.conf
 
 charon {
@@ -336,15 +337,15 @@ charon {
     }
 
 }
-```
+{% endcodeblock %}
 
 其次是 swanctl 命令可以动态加载连接和密钥配置，以及查看加载的证书，是个不错的帮手。  
 
-```
+{% codeblock %}
 swanctl --load-conns
 swanctl --load-creds
 swanctl --list-certs
-```
+{% endcodeblock %}
 
 有时日志也没输出什么有效信息，我们只能用有限的线索求助 Google 了。  
 

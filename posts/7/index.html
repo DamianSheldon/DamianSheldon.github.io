@@ -356,7 +356,7 @@ If you have maven project try updating source and target version of java compile
 		
 		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html">
 		
-			How to Setup a L2TP/IPsec VPN on Debian 8</a>
+			How to Setup a IKEv2 VPN Server on CentOS 8</a>
 	</h2>
         
     <div class="meta">
@@ -387,16 +387,35 @@ If you have maven project try updating source and target version of java compile
     </div>
         
 	<div class="entry-content">
-		<p>一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个<a href="https://github.com/StreisandEffect/streisand">库</a>汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。</p>
+		<p>由于 Debian 8 官方不再支持，经过一番考虑和准备，最近将 VPS 的系统换成了 CentOS 8。Libreswan 的文档没有 VPN 时打不开，这就形成了一个死循环，所以将她换成了 StrongSwan 。StrongSwan 的文档个人觉得对新手不是很友好，我是看了好一会才看明白些，另外在支持 macOS，iOS，Windows 10 的过程中也遇到不少问题，所以这里记录下来，以备日后参考。</p>
 
-<p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
+<p><a href="https://www.strongswan.org/documentation.html">StrongSwan 的文档入口</a>页有<a href="https://wiki.strongswan.org/projects/strongswan/wiki/InstallationDocumentation">安装指南</a>和<a href="https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples">可用的配置示例</a>。我个人建议先看下 <a href="https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan">Introduction to strongSwan</a>，这对安装和配置很有帮助。</p>
 
-<p>我用的是 digitalocean 家的 vps,总体感觉不错，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
+<p>CentOS 8 中的 epel 仓库中有预编译的 strongswan 二进制安装包，我们直接安装就可以了。接下来就是配置，strongswan 有四种认证方式，出于安全和便捷的考虑，我选择了 Extensible Authentication Protocol (EAP)。</p>
 
-<p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
+<p>首先是准备证书。我们可以使用自签名证书或者通用证书颁发机构签发的证书，后者不需要在各个终端上安装自签名根证书，所以部署上更简单。</p>
 
-<p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
-幸好 Libreswan 提供了很多命令，可以使用 <code>ipsec --help</code> 查看完整的命令列表，我们可以用这些命令来帮助我们配置。</p>
+<p>我们先来看看下自签名证书。</p>
+
+<p>生成根证书:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
+</span><span class='line'>strongswan pki --gen --outform pem > rsa/ca.pem
+</span><span class='line'>strongswan pki --self --ca --in rsa/ca.pem --type rsa --dn "C=CH, O=strongSwan, CN=strongSwan Root CA" --outform pem > x509ca/ca-cert.pem</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成服务器证书:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
+</span><span class='line'>strongswan pki --gen --outform pem > rsa/server.pem
+</span><span class='line'>strongswan pki --pub --in rsa/server.pem --type rsa | strongswan pki --issue --cacert cacerts/ca.cert.pem --cakey rsa/ca.pem --dn "C=CH, O=strongSwan, CN=swan.tenneshop.com" --san swan.tenneshop.com --flag serverAuth --flag ikeIntermediate --outform pem > x509/server-cert.pem</span></code></pre></td></tr></table></div></figure>
+
 
 
 		

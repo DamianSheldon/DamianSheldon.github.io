@@ -3,11 +3,11 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>How to setup a L2TP/IPsec VPN on Debian 8  | Hello World</title>
+        <title>How to setup a IKEv2 VPN Server on CentOS 8  | Hello World</title>
 
         <meta name="author" content="Sheldon"> 
         
-        <meta name="description" content="How to setup an L2TP/IPsec VPN on Debian 8"> <meta name="keywords" content="VPN, IPSec, L2TP, Libreswan, iPhone, iOS, macOS">
+        <meta name="description" content="How to setup a IKEv2 VPN Server on CentOS 8"> <meta name="keywords" content="strongswan, eap-mschapv2, VPN, IKEv2, CentOS 8, iPhone, iOS, macOS, windows 10">
 
         <meta name="viewport" content="width=device-width">
         
@@ -58,7 +58,7 @@
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">How to Setup a L2TP/IPsec VPN on Debian 8</h2>
+	<h2 class="title">How to Setup a IKEv2 VPN Server on CentOS 8</h2>
         
     <div class="meta">
 	   <div class="date">
@@ -87,25 +87,70 @@
 
     </div>
     
-	<div class="entry-content"><p>一直以来都想搭个 L2TP/IPSec VPN， 这样我的设备(主要是 iPhone 和 Mac)就可以不用安装第三方应用就能科学上网了。某天在 Github 上看到一个<a href="https://github.com/StreisandEffect/streisand">库</a>汇总了大多数 VPN 方案，于是就从中选择了 Libreswan。</p>
+	<div class="entry-content"><p>由于 Debian 8 官方不再支持，经过一番考虑和准备，最近将 VPS 的系统换成了 CentOS 8。Libreswan 的文档没有 VPN 时打不开，这就形成了一个死循环，所以将她换成了 StrongSwan 。StrongSwan 的文档个人觉得对新手不是很友好，我是看了好一会才看明白些，另外在支持 macOS，iOS，Windows 10 的过程中也遇到不少问题，所以这里记录下来，以备日后参考。</p>
 
-<p>现在回想起来过程还挺曲折，花费了不少时间，所以这里记下来，一来可以供自己日后查看；二来可以给有需要的网友提供参考。Libreswan 的文档不多，也没有很好的入门示例，对像我这样的新手来说确实不能说很友好。</p>
+<p><a href="https://www.strongswan.org/documentation.html">StrongSwan 的文档入口</a>页有<a href="https://wiki.strongswan.org/projects/strongswan/wiki/InstallationDocumentation">安装指南</a>和<a href="https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples">可用的配置示例</a>。我个人建议先看下 <a href="https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan">Introduction to strongSwan</a>，这对安装和配置很有帮助。</p>
 
-<p>我用的是 digitalocean 家的 vps,总体感觉不错，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
+<p>CentOS 8 中的 epel 仓库中有预编译的 strongswan 二进制安装包，我们直接安装就可以了。接下来就是配置，strongswan 有四种认证方式，出于安全和便捷的考虑，我选择了 Extensible Authentication Protocol (EAP)。</p>
 
-<p>首先是安装 Libreswan，我们可以使用 Debian 提供的预编译好的二进制包安装；也可以从源码安装。我当时搜索安装包没搜到，就使用了编译源码安装，今天又尝试搜索了下却搜到了，不清楚当日是什么原因，推荐使用预编译好的二进制包安装，简单省事。</p>
+<p>首先是准备证书。我们可以使用自签名证书或者通用证书颁发机构签发的证书，后者不需要在各个终端上安装自签名根证书，所以部署上更简单。</p>
 
-<p>然后是配置 Libreswan，这是过程中最复杂的部分，Libreswan 支持多种认证方式：PreShared Key with IDs (or IPs as ID)；Raw RSA public keys；X.509 Certificates。它也提供了好几个配置示例，可以在它 <a href="https://libreswan.org/wiki/Main_Page">Main Wiki Page</a> 页面的 User Documentation 部分的 Configuration examples 里面找到，我一开始使用的是 <strong>VPN server for remote clients using IKEv2</strong>，经过一翻折腾，服务器反馈隧道建立成功，但终端死活显示连接失败，之后又尝试通过创建 .mobileconfig 文件来配置 VPN 也失败了。后面我又看到了 <strong>VPN server for remote clients using IKEv1 XAUTH with PSK</strong>，它提到支持 <em>All Apple iphones, ipads</em> 和 <em>macOS</em>，所以我又参照这种方法来尝试，事实证明这种方法是可行的，但是官方文档里面的配置有点点小问题。
-幸好 Libreswan 提供了很多命令，可以使用 <code>ipsec --help</code> 查看完整的命令列表，我们可以用这些命令来帮助我们配置。</p>
+<p>我们先来看看下自签名证书。</p>
+
+<p>生成根证书:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
+</span><span class='line'>strongswan pki --gen --outform pem > rsa/ca.pem
+</span><span class='line'>strongswan pki --self --ca --in rsa/ca.pem --type rsa --dn "C=CH, O=strongSwan, CN=strongSwan Root CA" --outform pem > x509ca/ca-cert.pem</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成服务器证书:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
+</span><span class='line'>strongswan pki --gen --outform pem > rsa/server.pem
+</span><span class='line'>strongswan pki --pub --in rsa/server.pem --type rsa | strongswan pki --issue --cacert cacerts/ca.cert.pem --cakey rsa/ca.pem --dn "C=CH, O=strongSwan, CN=swan.tenneshop.com" --san swan.tenneshop.com --flag serverAuth --flag ikeIntermediate --outform pem > x509/server-cert.pem</span></code></pre></td></tr></table></div></figure>
+
 
 <!--more-->
 
 
-<p>详细的配置过程如下：</p>
+<p>再来看下使用 Let&rsquo;s Encrypt 签发的证书。先按照官方指南安装并获取证书，然后安装到 StrongSwan：</p>
 
-<p>首先我们要确认 Libreswan 的运行状态，这可以通过 <code>ipsec status</code> 命令得到，如果服务没启动，我们可以使用 <code>ipsec start</code> 启动，之后可以使用 <code>ipsec verify</code> 确认系统和配置文件有没有问题，有问题可以根据提示依次解决。没有问题之后我们添加连接配置。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 根证书
+</span><span class='line'>cd /etc/strongswan/swanctl/x509ca
+</span><span class='line'>ln -s /etc/letsencrypt/live/www.example.com/chain.pem lets-encrypt-authority-x3-ca.pem
+</span><span class='line'>
+</span><span class='line'># 服务器证书
+</span><span class='line'>cd /etc/strongswan/swanctl/x509
+</span><span class='line'>ln -s /etc/letsencrypt/live/www.example.com/cert.pem www-example-com.pem
+</span><span class='line'>
+</span><span class='line'># 服务器证书私钥
+</span><span class='line'>cd /etc/strongswan/swanctl/private/
+</span><span class='line'>ln -s /etc/letsencrypt/live/www.example.com/privkey.pem www-example-com-privkey.pem</span></code></pre></td></tr></table></div></figure>
 
-<p>我的主配置文件如下：</p>
+
+<p>这里值得一提的是我们需要将 Let&rsquo;s Encrypt 这个中间证书安装到 <code>/etc/strongswan/swanctl/x509ca</code> 目录下，不然 Windows 10 连接不成功。</p>
+
+<p>两种方式我都折腾成功，因为现在 Let&rsquo;s Encrypt 的免费证书很方便，考虑到便捷，最终我使用了通用证书颁发机构签发的证书。因为暂时没有找到关闭 ipsec 配置的方法，我将 ipsec.d 目录重命令为 ipsec-off.d 来 workaround。</p>
+
+<p>其次是具体配置。新版本的 StrongSwan 推荐使用 swanctl.conf 来配置，而官方文档上 swanctl.conf 和 ipsec.conf 的配置信息杂糅在一起，网络上最大多是 ipsec.conf 的配置，从面向未来的角度考虑，我是完全使用 swanctl.conf ，这也让我有种神清气爽的感觉。我这张配置信息经过脱敏后如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -148,110 +193,126 @@
 <span class='line-number'>39</span>
 <span class='line-number'>40</span>
 <span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># /etc/ipsec.conf - Libreswan IPsec configuration file
-</span><span class='line'>#
-</span><span class='line'># Manual:     ipsec.conf.5
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Section defining IKE connection configurations.
+</span><span class='line'>connections {
 </span><span class='line'>
-</span><span class='line'>config setup
-</span><span class='line'>  # Normally, pluto logs via syslog. If you want to log to a file,
-</span><span class='line'>  # specify below or to disable logging, eg for embedded systems, use
-</span><span class='line'>  # the file name /dev/null
-</span><span class='line'>  # Note: SElinux policies might prevent pluto writing to a log file at
-</span><span class='line'>  #       an unusual location.
-</span><span class='line'>  #logfile=/var/log/pluto.log
-</span><span class='line'>  #
-</span><span class='line'>  # Do not enable debug options to debug configuration issues!
-</span><span class='line'>  #
-</span><span class='line'>  # plutodebug "all", "none" or a combation from below:
-</span><span class='line'>  # "raw crypt parsing emitting control controlmore kernel pfkey
-</span><span class='line'>  #  natt x509 dpd dns oppo oppoinfo private".
-</span><span class='line'>  # Note: "private" is not included with "all", as it can show confidential
-</span><span class='line'>  #       information. It must be specifically specified
-</span><span class='line'>  # examples:
-</span><span class='line'>  # plutodebug="control parsing"
-</span><span class='line'>  # plutodebug="all crypt"
-</span><span class='line'>  # Again: only enable plutodebug when asked by a developer
-</span><span class='line'>  #plutodebug=none
-</span><span class='line'>  #
-</span><span class='line'>  # NAT-TRAVERSAL support
-</span><span class='line'>  # exclude networks used on server side by adding %v4:!a.b.c.0/24
-</span><span class='line'>  # It seems that T-Mobile in the US and Rogers/Fido in Canada are
-</span><span class='line'>  # using 25/8 as "private" address space on their wireless networks.
-</span><span class='line'>  # This range has never been announced via BGP (at least up to 2015)
-</span><span class='line'>  virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:25.0.0.0/8,%v4:100.64.0.0/10,%v6:fd00::/8,%v6:fe80::/10
-</span><span class='line'>  # PSK clients can have the same ID if they send it based on IP address.
-</span><span class='line'>        uniqueids=no
+</span><span class='line'>      ikev2-eap-mschapv2 {
+</span><span class='line'>          version = 2
+</span><span class='line'>          proposals = aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024
+</span><span class='line'>          rekey_time = 0s
+</span><span class='line'>          pools = primary-pool-ipv4, primary-pool-ipv6
+</span><span class='line'>          fragmentation = yes
+</span><span class='line'>          dpd_delay = 30s
+</span><span class='line'>      send_cert = always
+</span><span class='line'>          # dpd_timeout doesn't do anything for IKEv2. The general IKEv2 packet timeouts are used.
+</span><span class='line'>          local-1 {
+</span><span class='line'>                  certs = www-example-com.pem
+</span><span class='line'>                  id = @www.example.com
+</span><span class='line'>          }
+</span><span class='line'>          remote-1 {
+</span><span class='line'>                  auth = eap-mschapv2
+</span><span class='line'>                  # go ask the client for its eap identity.
+</span><span class='line'>                  eap_id = %any
+</span><span class='line'>          }
+</span><span class='line'>          children {
+</span><span class='line'>                  ikev2-eap-mschapv2 {
+</span><span class='line'>                      local_ts = 0.0.0.0/0,::/0
+</span><span class='line'>                      rekey_time = 0s
+</span><span class='line'>                      dpd_action = clear
+</span><span class='line'>              esp_proposals = aes256-sha1,aes256-sha1,3des-sha1
+</span><span class='line'>                  }
+</span><span class='line'>          }
+</span><span class='line'>      }
+</span><span class='line'>}
 </span><span class='line'>
-</span><span class='line'># For example connections, see your distribution's documentation directory,
-</span><span class='line'># or https://libreswan.org/wiki/
-</span><span class='line'>#
-</span><span class='line'># There is also a lot of information in the manual page, "man ipsec.conf"
-</span><span class='line'>#
-</span><span class='line'># It is best to add your IPsec connections as separate files in /etc/ipsec.d/
-</span><span class='line'>include /etc/ipsec.d/*.conf</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>secrets {
+</span><span class='line'>  
+</span><span class='line'>  private-www {
+</span><span class='line'>      file = www-example-com-privkey.pem
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  eap-carol {
+</span><span class='line'>        id = carol
+</span><span class='line'>        secret = "carolspassword" 
+</span><span class='line'>   }
+</span><span class='line'>
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'># Section defining named pools.
+</span><span class='line'>pools {
+</span><span class='line'>    primary-pool-ipv4 {
+</span><span class='line'>        addrs = 10.11.1.0/24
+</span><span class='line'>        dns = 8.8.8.8,8.8.4.4
+</span><span class='line'>    }
+</span><span class='line'>    primary-pool-ipv6 {
+</span><span class='line'>        addrs = fec1::0/16
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'># Include config snippets
+</span><span class='line'>include conf.d/*.conf</span></code></pre></td></tr></table></div></figure>
 
 
-<p> 新建 IKEv1 XAUTH with PSK 连接配置文件 /etc/ipsec.d/xauth-psk.conf 内容如下：</p>
+<p>再次是配置转发和防火墙。</p>
 
-<pre><code class="`"> conn xauth-psk
-    authby=secret
-    pfs=no
-    auto=add
-    rekey=no
-    left=%defaultroute
-    leftsubnet=0.0.0.0/0
-    rightaddresspool=10.231.247.10-10.231.247.254
-    right=%any
-    # make cisco clients happy
-    cisco-unity=yes
-    # address of your internal DNS server
-    #modecfgdns1=10.231.247.1
-    modecfgdns1=8.8.8.8
-    modecfgdns2=193.110.157.123
-    leftxauthserver=yes
-    rightxauthclient=yes
-    leftmodecfgserver=yes
-    rightmodecfgclient=yes
-    modecfgpull=yes
-    #configure pam via /etc/pam.d/pluto
-    #xauthby=pam
-    xauthby=file
-    # xauthby=alwaysok MUST NOT be used with PSK
-    # Can be played with below
-    #dpddelay=30
-    #dpdtimeout=120
-    #dpdaction=clear
-    xauthfail=soft
-    ike-frag=yes
-    ikev2=never
-</code></pre>
-
-<p> 新建 /etc/ipsec.d/xauth-psk.secrets 存储 PSK 内容如下：</p>
-
-<pre><code class="`"> # If this is the only IP and only PSK based configuration, you can configure without hardcoding the IP:
-: PSK "ExampleSecret"
-</code></pre>
-
-<p> 新建 /etc/ipsec.d/passwd 存储用于认证的用户名密码，示例如下：</p>
-
-<pre><code class="`"> john:$1$5h/bAg4p$Q5/c2XjwSzYy3sh/1j8Bp/:xauth-psk
-paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
-</code></pre>
-
-<p>为了能通过 VPN 访问整个互联网，还需要提供一些 NAT 规则:</p>
+<p>开启 IPv4 转发</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Note: you should replace $INTERNET_INTERFACE with your internet facing interface.
-</span><span class='line'># Note: this line handles maquerade for both 10.231.246.0/24 and 10.231.247.0/24
-</span><span class='line'>
-</span><span class='line'>iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o $INTERNET_INTERFACE -m policy --dir out --pol none -j MASQUERADE
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo 1 > /proc/sys/net/ipv4/ip_forward
+</span><span class='line'>echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
+</span><span class='line'>echo 0 > /proc/sys/net/ipv4/conf/all/send_redirects</span></code></pre></td></tr></table></div></figure>
 
 
-<p>我的外网网卡是 eth0，所以我执行命令：</p>
+<p>这个是临时性的，如果想永久更改，则修改 <code>/etc/sysctl.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>net.ipv4.ip_forward = 1
+</span><span class='line'>net.ipv4.conf.all.accept_redirects = 0
+</span><span class='line'>net.ipv4.conf.all.send_redirects = 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>允许 IPSec 端口监听</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iptables -A INPUT -p udp --dport 500 --j ACCEPT
+</span><span class='line'>iptables -A INPUT -p udp --dport 4500 --j ACCEPT
+</span><span class='line'>iptables -A INPUT -p esp -j ACCEPT</span></code></pre></td></tr></table></div></figure>
+
+
+<p>允许 VPN 到外网的流量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iptables -t nat -A POSTROUTING -s 10.11.1.0/24 -o eth0 -j MASQUERADE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>防火墙配置可以写到系统防火墙配置文件或利用开机启动脚本设置。我是参考鸟哥的做法，使用开机启动脚本设置：</p>
+
+<p>防火墙设置脚本：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -260,44 +321,377 @@ paul:$1$YiVSo114$um2oIM6AqucFuMeXl/1ab0:xauth-psk
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#iptables -t nat -A POSTROUTING -s 10.231.246.0/23 -o eth0 -m policy --dir out --pol none -j MASQUERADE
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># /usr/local/virus/iptables/iptables.rule
+</span><span class='line'>#!/bin/bash
 </span><span class='line'>
-</span><span class='line'>// Check it
-</span><span class='line'># iptables -L --table nat
+</span><span class='line'># Network card infos
+</span><span class='line'>EXTIF="eth0"
+</span><span class='line'>INIF="eth0"
+</span><span class='line'>INNET="10.11.1.0/24"
 </span><span class='line'>
-</span><span class='line'>// Save it 
-</span><span class='line'># iptables-save</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>export EXTIF INIF INNET
+</span><span class='line'>
+</span><span class='line'># Reset rules
+</span><span class='line'>PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
+</span><span class='line'>export PATH
+</span><span class='line'>
+</span><span class='line'>iptables -F
+</span><span class='line'>iptables -X
+</span><span class='line'>iptables -Z
+</span><span class='line'>iptables -P INPUT DROP
+</span><span class='line'>iptables -P OUTPUT ACCEPT
+</span><span class='line'>iptables -P FORWARD ACCEPT
+</span><span class='line'>iptables -A INPUT -i lo -j ACCEPT
+</span><span class='line'>iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+</span><span class='line'>
+</span><span class='line'># Allowed services
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 21 --sport 1024:65534 -j ACCEPT #FTP
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 22 --sport 1024:65534 -j ACCEPT #SSH
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 80 --sport 1024:65534 -j ACCEPT #HTTP
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 8080 --sport 1024:65534 -j ACCEPT #HTTP
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 443 --sport 1024:65534 -j ACCEPT #HTTPS
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 8443 --sport 1024:65534 -j ACCEPT #HTTPS
+</span><span class='line'># Frp
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 8008 --sport 1024:65534 -j ACCEPT
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 48557 --sport 1024:65534 -j ACCEPT
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 9090 --sport 1024:65534 -j ACCEPT
+</span><span class='line'>iptables -A INPUT -p tcp -i $EXTIF --dport 48559 --sport 1024:65534 -j ACCEPT
+</span><span class='line'>
+</span><span class='line'># Reset nat rules
+</span><span class='line'>
+</span><span class='line'>iptables -F -t nat
+</span><span class='line'>iptables -X -t nat
+</span><span class='line'>iptables -Z -t nat
+</span><span class='line'>iptables -t nat -P PREROUTING ACCEPT
+</span><span class='line'>iptables -t nat -P POSTROUTING ACCEPT
+</span><span class='line'>iptables -t nat -P OUTPUT ACCEPT
+</span><span class='line'>
+</span><span class='line'># Setup ip share if need
+</span><span class='line'>if [ "$INIF" != "" ]; then
+</span><span class='line'>
+</span><span class='line'>  iptables -A INPUT -i $INIF -j ACCEPT
+</span><span class='line'>
+</span><span class='line'>  echo "1" > /proc/sys/net/ipv4/ip_forward
+</span><span class='line'>  if [ "$INNET" != "" ]; then
+</span><span class='line'>      for innet in $INNET
+</span><span class='line'>      do
+</span><span class='line'>          iptables -t nat -A POSTROUTING -s $innet -o $EXTIF -j MASQUERADE
+</span><span class='line'>          # Redirect 80 to 8080, 443 to 8443 unless it from innet
+</span><span class='line'>          iptables -t nat -A PREROUTING -j REDIRECT -p tcp ! -s $innet --destination-port 80 --to-ports 8080
+</span><span class='line'>          iptables -t nat -A PREROUTING -j REDIRECT -p tcp ! -s $innet --destination-port 443 --to-ports 8443
+</span><span class='line'>      done
+</span><span class='line'>  fi
+</span><span class='line'>
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
 
 
-<p>有时我们可能会遇到连接问题，这时可以在主配置文件 <code>/etc/ipsec.conf</code> 中开启 <code>plutodebug=all</code>，然后就可以使用 <code>ipsec barf | tac | head -n 100</code> 查看服务日志，帮助定位连接问题。解决问题之后再使用 <code>plutodebug=none</code> 关闭调试模式，之后 <code>ipsec restart</code> 重启生效。</p>
+<p>开机启动脚本：</p>
 
-<h2>iPhone 客户端配置</h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/systemd/system/custom-iptables.service
+</span><span class='line'>[Unit]
+</span><span class='line'>Description=Custom firewall
+</span><span class='line'>
+</span><span class='line'>[Service]
+</span><span class='line'>Type=oneshot
+</span><span class='line'>ExecStart=/bin/bash /usr/local/virus/iptables/iptables.rule
+</span><span class='line'>
+</span><span class='line'>[Install]
+</span><span class='line'>WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure>
 
-<p>Settings > General > VPN > add VPN Configuration > IPSec.</p>
 
-<p>Fill in the description, server (name or IP), Account (aka username), Password and Secret (aka PSK). For PSK connection you MUST NOT enter a Group Name.</p>
+<p>开启开机启动：<code>systemctl enable custom-iptables.service</code></p>
 
-<p><img src="../images/200px-IOSXAUTHPSK0.png" alt="iOS XAUTH PSK0" /></p>
+<p>最后就是各终端连接。IKEv2 的连接很容易， macOS，iOS，Windows 10 都内置支持。</p>
 
-<p><img src="../images/200px-IOSXAUTHPSK1.png" alt="iOS XAUTH PSK1" /></p>
+<p>macOS 的具体连接为：System Preferences > Network > + > Interface: VPN, VPN Type: IKEv2, Service Name: your favorite service name ，最后填上服务器域名，Remote ID 和用户的帐号密码就能连接了，Remote ID 通常就是服务器域名。iOS 和 Windows 10 的连接和 macOS 类似。</p>
 
-<p><img src="../images/200px-IOSXAUTHPSK3.png" alt="iOS XAUTH PSK3" /></p>
+<h3>问题解决</h3>
 
-<h2>macOS 客户端配置</h2>
+<p>安装配置过程中可能会遇到各种各样的问题，这时候我们首先是要开启 StrongSwan 的调试日志，这样会输出更多信息帮助我们解决问题。</p>
 
-<p>System Preferences > Network > + > Interface: VPN > VPN Type: Cisco IPSec</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#/etc/strongswan/strongswan.d/charon-logging.conf
+</span><span class='line'>
+</span><span class='line'>charon {
+</span><span class='line'>
+</span><span class='line'>    # Section to define file loggers, see LOGGER CONFIGURATION in
+</span><span class='line'>    # strongswan.conf(5).
+</span><span class='line'>    filelog {
+</span><span class='line'>
+</span><span class='line'>        # &lt;name> may be the full path to the log file if it only contains
+</span><span class='line'>        # characters permitted in section names. Is ignored if path is
+</span><span class='line'>        # specified.
+</span><span class='line'>        # &lt;name> {
+</span><span class='line'>
+</span><span class='line'>            # Loglevel for a specific subsystem.
+</span><span class='line'>            # &lt;subsystem> = &lt;default>
+</span><span class='line'>
+</span><span class='line'>            # If this option is enabled log entries are appended to the existing
+</span><span class='line'>            # file.
+</span><span class='line'>            # append = yes
+</span><span class='line'>
+</span><span class='line'>            # Default loglevel.
+</span><span class='line'>            # default = 1
+</span><span class='line'>
+</span><span class='line'>            # Enabling this option disables block buffering and enables line
+</span><span class='line'>            # buffering.
+</span><span class='line'>            # flush_line = no
+</span><span class='line'>
+</span><span class='line'>            # Prefix each log entry with the connection name and a unique
+</span><span class='line'>            # numerical identifier for each IKE_SA.
+</span><span class='line'>            # ike_name = no
+</span><span class='line'>
+</span><span class='line'>            # Optional path to the log file. Overrides the section name. Must be
+</span><span class='line'>            # used if the path contains characters that aren't allowed in
+</span><span class='line'>            # section names.
+</span><span class='line'>            # path =
+</span><span class='line'>
+</span><span class='line'>            # Adds the milliseconds within the current second after the
+</span><span class='line'>            # timestamp (separated by a dot, so time_format should end with %S
+</span><span class='line'>            # or %T).
+</span><span class='line'>            # time_add_ms = no
+</span><span class='line'>
+</span><span class='line'>            # Prefix each log entry with a timestamp. The option accepts a
+</span><span class='line'>            # format string as passed to strftime(3).
+</span><span class='line'>            # time_format =
+</span><span class='line'>
+</span><span class='line'>        # }
+</span><span class='line'>
+</span><span class='line'>  charon-debug-log {
+</span><span class='line'>                    # this setting is required with 5.7.0 and newer if the path contains dots
+</span><span class='line'>                    path = /var/log/charon_debug.log
+</span><span class='line'>                    time_format = %a, %Y-%m-%d, %H:%M:%S
+</span><span class='line'>                    default = 2
+</span><span class='line'>                    mgr = 0
+</span><span class='line'>                    net = 1
+</span><span class='line'>                    enc = 1
+</span><span class='line'>                    asn = 1
+</span><span class='line'>                    job = 1
+</span><span class='line'>                    ike_name = yes
+</span><span class='line'>                    append = no
+</span><span class='line'>                    flush_line = yes
+</span><span class='line'>            }
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    # Section to define syslog loggers, see LOGGER CONFIGURATION in
+</span><span class='line'>    # strongswan.conf(5).
+</span><span class='line'>    syslog {
+</span><span class='line'>
+</span><span class='line'>        # Identifier for use with openlog(3).
+</span><span class='line'>        # identifier =
+</span><span class='line'>
+</span><span class='line'>        # &lt;facility> is one of the supported syslog facilities, see LOGGER
+</span><span class='line'>        # CONFIGURATION in strongswan.conf(5).
+</span><span class='line'>        # &lt;facility> {
+</span><span class='line'>
+</span><span class='line'>            # Loglevel for a specific subsystem.
+</span><span class='line'>            # &lt;subsystem> = &lt;default>
+</span><span class='line'>
+</span><span class='line'>            # Default loglevel.
+</span><span class='line'>            # default = 1
+</span><span class='line'>
+</span><span class='line'>            # Prefix each log entry with the connection name and a unique
+</span><span class='line'>            # numerical identifier for each IKE_SA.
+</span><span class='line'>            # ike_name = no
+</span><span class='line'>
+</span><span class='line'>        # }
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<p><img src="../images/macos-xauth-psk0.png" alt="macOS XAUTH PSK0" /></p>
 
-<p><img src="../images/macos-xauth-psk1.png" alt="macOS XAUTH PSK1" /></p>
+<p>其次是 swanctl 命令可以动态加载连接和密钥配置，以及查看加载的证书，是个不错的帮手。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>swanctl --load-conns
+</span><span class='line'>swanctl --load-creds
+</span><span class='line'>swanctl --list-certs</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有时日志也没输出什么有效信息，我们只能用有限的线索求助 Google 了。</p>
 
 <h2>Reference:</h2>
 
-<p><a href="https://libreswan.org/wiki/VPN_server_for_remote_clients_using_IKEv1_XAUTH_with_PSK">VPN server for remote clients using IKEv1 XAUTH with PSK</a><br/>
-<a href="https://libreswan.org/wiki/VPN_server_for_remote_clients_using_IKEv2">VPN server for remote clients using IKEv2</a> <br/>
-<a href="https://libreswan.org/man/ipsec.conf.5.html">ipsec.conf.5</a><br/>
-<a href="https://github.com/libreswan/libreswan/issues/47">Mac OS IKEv2 missing payload(s) (ISAKMP_NEXT_v2AUTH)</a><br/>
-<a href="https://wiki.strongswan.org/projects/strongswan/wiki/AppleIKEv2Profile">IKEv2 Configuration Profile for Apple iOS 8 and newer</a></p>
+<ul>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan">Introduction to strongSwan</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples">Usable Examples configurations</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/HelpRequests">Requesting Help and Reporting Bugs</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/Fromipsecconf">Migration from ipsec.conf to swanctl.conf</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/AppleClients">iOS (Apple iPhone, iPad&hellip;) and macOS</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/IpsecCommand">ipsec</a></li>
+<li><a href="https://wiki.strongswan.org/issues/772">Issue #772</a></li>
+<li><a href="https://ericfu.me/debian-strongswan-ikev2-vpn/">Debian + StrongSwan 配置 IKEv2 VPN 科学上网</a></li>
+<li><a href="https://wbuntu.com/p/499/">折腾搬瓦工–09–为iPhone配置证书认证的VPN</a></li>
+<li><a href="https://serverfault.com/questions/956674/strongswan-with-letsencrypt-certificates-ikev2-eap">Strongswan with letsencrypt certificates (IKEv2-EAP)</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/SimpleCA">Setting-up a Simple CA Using the strongSwan PKI Tool</a></li>
+</ul>
+
+
+<h2>修改记录</h2>
+
+<ul>
+<li>2020/09/07: 修改成 CentOS 8 上安装 StrongSwan</li>
+<li>2017/10/11: 第一次完成</li>
+</ul>
+
 </div>
 
 

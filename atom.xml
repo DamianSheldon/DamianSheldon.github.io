@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-09-06T12:00:58+08:00</updated>
+  <updated>2020-09-13T12:06:08+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1183,6 +1183,225 @@ Updating Subscription Management repositories.</p>
 
 <p>Reference:<br/>
 * <a href="https://certbot.eff.org/docs/using.html?highlight=webroot%20path#webroot">User Guide</a></p>
+
+<h3>11.flex 布局下怎样实现text-overflow: ellipsis 效果?</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="flex-parent">
+</span><span class='line'>
+</span><span class='line'>   &lt;div class="flex-child long-and-truncated">
+</span><span class='line'>       1. This is a long string that is OK to truncate please and thank you
+</span><span class='line'>   &lt;/div>
+</span><span class='line'>
+</span><span class='line'>   &lt;div class="flex-child short-and-fixed">
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>   &lt;/div>
+</span><span class='line'>
+</span><span class='line'>&lt;/div>
+</span><span class='line'>
+</span><span class='line'>&lt;div class="flex-parent has-child">
+</span><span class='line'>
+</span><span class='line'>   &lt;div class="flex-child long-and-truncated-with-child">
+</span><span class='line'>       &lt;h2>2. This is a long string that is OK to truncate please and thank you&lt;/h2>
+</span><span class='line'>   &lt;/div>
+</span><span class='line'>
+</span><span class='line'>   &lt;div class="flex-child short-and-fixed">
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>   &lt;/div>
+</span><span class='line'>
+</span><span class='line'>&lt;/div>
+</span><span class='line'>
+</span><span class='line'>&lt;div class="flex-parent has-child">
+</span><span class='line'>
+</span><span class='line'>   &lt;div class="flex-child long-and-truncated-with-child-corrected">
+</span><span class='line'>       &lt;h2>3. This is a long string that is OK to truncate please and thank you&lt;/h2>
+</span><span class='line'>   &lt;/div>
+</span><span class='line'>
+</span><span class='line'>   &lt;div class="flex-child short-and-fixed">
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>       &lt;div>&lt;/div>
+</span><span class='line'>   &lt;/div>
+</span><span class='line'>
+</span><span class='line'>&lt;/div>
+</span><span class='line'>
+</span><span class='line'>.flex-parent {
+</span><span class='line'>  display: -webkit-box;
+</span><span class='line'>  display: flex;
+</span><span class='line'>  -webkit-box-align: center;
+</span><span class='line'>  align-items: center;
+</span><span class='line'>  padding: 10px;
+</span><span class='line'>  margin: 30px 0;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>h2 {
+</span><span class='line'>  font-size: 1rem;
+</span><span class='line'>  font-weight: normal;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.long-and-truncated {
+</span><span class='line'>  -webkit-box-flex: 1;
+</span><span class='line'>  flex: 1;
+</span><span class='line'>  white-space: nowrap;
+</span><span class='line'>  overflow: hidden;
+</span><span class='line'>  text-overflow: ellipsis;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.short-and-fixed {
+</span><span class='line'>  white-space: nowrap;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.short-and-fixed>div {
+</span><span class='line'>  width: 30px;
+</span><span class='line'>  height: 30px;
+</span><span class='line'>  border-radius: 10px;
+</span><span class='line'>  background: lightgreen;
+</span><span class='line'>  display: inline-block;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.long-and-truncated-with-child {
+</span><span class='line'>  -webkit-box-flex: 1;
+</span><span class='line'>  flex: 1;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.long-and-truncated-with-child h2 {
+</span><span class='line'>  white-space: nowrap;
+</span><span class='line'>  overflow: hidden;
+</span><span class='line'>  text-overflow: ellipsis;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.long-and-truncated-with-child-corrected {
+</span><span class='line'>  -webkit-box-flex: 1;
+</span><span class='line'>  flex: 1;
+</span><span class='line'>  min-width: 0;
+</span><span class='line'>  /* or some value */
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>.long-and-truncated-with-child-corrected h2 {
+</span><span class='line'>  white-space: nowrap;
+</span><span class='line'>  overflow: hidden;
+</span><span class='line'>  text-overflow: ellipsis;
+</span><span class='line'>}
+</span><span class='line'>   
+</span><span class='line'>body {
+</span><span class='line'>  padding: 40px;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://css-tricks.com/flexbox-truncated-text/">Flexbox and Truncated Text</a></li>
+</ul>
+
 ]]></content>
   </entry>
   

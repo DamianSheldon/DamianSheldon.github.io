@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-09-13T12:06:08+08:00</updated>
+  <updated>2020-09-24T16:40:02+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,343 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一种构建 JavaScript 库的方法]]></title>
+    <link href="http://DamianSheldon.github.io/blog/an-approach-to-building-javascript-libraries.html"/>
+    <updated>2020-09-23T15:08:06+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/an-approach-to-building-javascript-libraries</id>
+    <content type="html"><![CDATA[<p>最近手头有个项目需要构建 JavaScript 库，核心需求是库既能用于传统的多页面，也能用于 Angular 的单页面。目前网络上暂时好像没有这类详细教程，反而是一些理论阐述的文章较多，经过一番研究后，我得到了一个适合自己的方法。</p>
+
+<p>由于我希望库既能用于多页面，也能用于 Angular 单页面，所以需要支持 UMD 和 ES Harmony。由于 Angular 是使用 TypeScript 开发，最好还能提供用于 TypeScript 的声明文件。最原始的想法自然是手动按要求提供各种文件，但这样工作量比较大，也不容易扩展。那么还有什么容易的办法吗？有的，最核心的想法就是库的源码只写一份，然后用工具生成各种模块系统需要文件。具体的做法可能有差异，但理念是一样的。</p>
+
+<p>从我的需求出发，我最终选择用 TypeScript 来写库的源码，基于脱敏的考虑，这里选择 TypeScript 文档中的示例代码来演示。</p>
+
+<p>首先我们建立好库的源码目录结构并配置好源码管理：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>simple-module-example
+</span><span class='line'>├── src
+</span><span class='line'>│   ├── LettersOnlyValidator.ts
+</span><span class='line'>│   ├── Validation.ts
+</span><span class='line'>│   ├── ZipCodeValidator.ts
+</span><span class='line'>│   └── index.ts</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后使用 <code>npm init</code> 生成 <code>package.json</code> 文件：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "simple-module-example",
+</span><span class='line'>  "version": "1.0.0",
+</span><span class='line'>  "description": "A simple module example.",
+</span><span class='line'>  "main": "index.js",
+</span><span class='line'>  "directories": {
+</span><span class='line'>    "test": "test"
+</span><span class='line'>  },
+</span><span class='line'>  "scripts": {
+</span><span class='line'>    "test": "echo \"Error: no test specified\" && exit 1"
+</span><span class='line'>  },
+</span><span class='line'>  "keywords": [
+</span><span class='line'>    "module",
+</span><span class='line'>    "example"
+</span><span class='line'>  ],
+</span><span class='line'>  "author": "Meiliang Dong",
+</span><span class='line'>  "license": "MIT"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
+
+
+<p>其次是按需求编辑好 <code>package.json</code> 文件。这是关键步骤，<code>package.json</code> 的 main 字段通常用于指向 UMD 版本的库；module 字段则用于指向 ES 版本的库。我们还需要配置构建脚本生成对应版本的库，最终的 <code>package.json</code> 文件内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "name": "simple-module-example",
+</span><span class='line'>    "version": "1.0.0",
+</span><span class='line'>    "description": "A simple module example.",
+</span><span class='line'>    "main": "dist/umd/simple-module-example.js",
+</span><span class='line'>    "module": "dist/esm/index.js",
+</span><span class='line'>    "browser": "dist/umd/simple-module-example.js",
+</span><span class='line'>    "types": "dist/types/index.d.ts",
+</span><span class='line'>    "files": [
+</span><span class='line'>        "dist"
+</span><span class='line'>    ],
+</span><span class='line'>    "directories": {
+</span><span class='line'>        "test": "test"
+</span><span class='line'>    },
+</span><span class='line'>    "scripts": {
+</span><span class='line'>        "clean": "rm -rf ./dist",
+</span><span class='line'>        "build": "npm run clean && npm run build:es2015 && npm run build:esm && npm run build:cjs && npm run build:umd",
+</span><span class='line'>        "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
+</span><span class='line'>        "build:esm": "tsc --module es2015 --outDir dist/esm",
+</span><span class='line'>        "build:umd": "rollup dist/esm/index.js --format umd --name SimpleModuleExample --sourcemap --file dist/umd/simple-module-example.js",
+</span><span class='line'>        "build:umd:min": "cd dist/umd && uglifyjs --compress --mangle --source-map --screw-ie8 --comments --o simple-module-example.min.js -- simple-module-example.js && gzip simple-module-example.min.js -c > simple-module-example.min.js.gz"
+</span><span class='line'>    },
+</span><span class='line'>    "keywords": [
+</span><span class='line'>        "module",
+</span><span class='line'>        "example"
+</span><span class='line'>    ],
+</span><span class='line'>    "author": "Meiliang Dong",
+</span><span class='line'>    "license": "MIT"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后是编写 TypeScript 的配置文件 <code>tsconfig.json</code>， 先使用命令 <code>npm install @tsconfig/recommended --save-dev</code> 安装推荐的配置，之后根据需求定制，最终的内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "extends": "@tsconfig/recommended/tsconfig.json",
+</span><span class='line'>    "compilerOptions": {
+</span><span class='line'>      "outDir": "./dist",
+</span><span class='line'>      "target": "es5",
+</span><span class='line'>      "sourceMap": true,
+</span><span class='line'>      "declaration": true,
+</span><span class='line'>      "declarationDir": "./dist/types"
+</span><span class='line'>    },
+</span><span class='line'>    "include": ["./src/**/*"]
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其次是测试，测试是库开发的重要环节，它能帮我们验证库是否正常工作，后续迭代重构也要依赖它。通常的做法是使用测试框架，像 Angular 是 <a href="https://karma-runner.github.io/">Karma test runner</a>  搭配<a href="https://jasmine.github.io/">Jasmine test framework</a> ， 我们可以参考选择。</p>
+
+<p>我这里还玩了一下用 rollup 打包, 然后在浏览器里运行测试用例。首先在库工程目录外重新创建一个测试工程，然后使用 <code>npm link</code> 命令来安装我们的开发库，具体目录结构和文件内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$mkdir test-simple-module-example
+</span><span class='line'>├── Test.ts
+</span><span class='line'>├── dist
+</span><span class='line'>│   ├── esm
+</span><span class='line'>│   └── test-simple-module-example.js
+</span><span class='line'>├── index.html
+</span><span class='line'>├── package-lock.json
+</span><span class='line'>├── package.json
+</span><span class='line'>├── rollup.config.js
+</span><span class='line'>└── tsconfig.json</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Test.ts</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import { StringValidator, ZipCodeValidator, LettersOnlyValidator } from "simple-module-example";
+</span><span class='line'>
+</span><span class='line'>// Some samples to try
+</span><span class='line'>let strings = ["Hello", "98052", "101"];
+</span><span class='line'>
+</span><span class='line'>// Validators to use
+</span><span class='line'>let validators: { [s: string]: StringValidator } = {};
+</span><span class='line'>validators["ZIP code"] = new ZipCodeValidator();
+</span><span class='line'>validators["Letters only"] = new LettersOnlyValidator();
+</span><span class='line'>
+</span><span class='line'>// Show whether each string passed each validator
+</span><span class='line'>strings.forEach((s) => {
+</span><span class='line'>  for (let name in validators) {
+</span><span class='line'>    console.log(
+</span><span class='line'>      `"${s}" - ${
+</span><span class='line'>        validators[name].isAcceptable(s) ? "matches" : "does not match"
+</span><span class='line'>      } ${name}`
+</span><span class='line'>    );
+</span><span class='line'>  }
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>package.json</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "name": "test-simple-module-example",
+</span><span class='line'>    "version": "1.0.0",
+</span><span class='line'>    "description": "A test application for simple module example.",
+</span><span class='line'>    "main": ".dist/Test.js",
+</span><span class='line'>    "scripts": {
+</span><span class='line'>        "clean": "rm -rf ./dist",
+</span><span class='line'>        "build": "npm run clean && npm run build:esm && npm run build:bundle",
+</span><span class='line'>        "build:esm": "tsc --module es2015 --outDir dist/esm",
+</span><span class='line'>        "build:bundle": "rollup -c",
+</span><span class='line'>        "test": "echo \"Error: no test specified\" && exit 1"
+</span><span class='line'>    },
+</span><span class='line'>    "author": "Meiliang Dong",
+</span><span class='line'>    "license": "MIT",
+</span><span class='line'>    "dependencies": {
+</span><span class='line'>        "@tsconfig/recommended": "^1.0.1"
+</span><span class='line'>    },
+</span><span class='line'>    "devDependencies": {
+</span><span class='line'>        "@rollup/plugin-node-resolve": "^9.0.0"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>rollup.config.js</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import resolve from '@rollup/plugin-node-resolve';
+</span><span class='line'>
+</span><span class='line'>export default {
+</span><span class='line'>    input: 'dist/esm/Test.js',
+</span><span class='line'>    output: {
+</span><span class='line'>        file: 'dist/test-simple-module-example.js',
+</span><span class='line'>        format: 'umd'
+</span><span class='line'>    },
+</span><span class='line'>    plugins: [resolve()]
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>tsconfig.json</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "extends": "@tsconfig/recommended/tsconfig.json",
+</span><span class='line'>  "compilerOptions": {
+</span><span class='line'>    "outDir": "./dist",
+</span><span class='line'>    "target": "es5",
+</span><span class='line'>    "sourceMap": true,
+</span><span class='line'>    "moduleResolution": "Node"
+</span><span class='line'>  },
+</span><span class='line'>  "include": ["./*.ts"]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后是根据需要选择发布方式，例如发布到 npm 公有仓库，具体做法参考官方文档就好了。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li><a href="https://www.freecodecamp.org/news/anatomy-of-js-module-systems-and-building-libraries-fadcd8dbd0e/">Learn the basics of the JavaScript module system and build your own library</a></li>
+<li><a href="https://gist.github.com/jayphelps/51bafb4505558736fdba0aaf8bfe69d3">TypeScript output es2015, esm (ES Modules), CJS, UMD, UMD + Min + Gzip.</a></li>
+<li><a href="http://ifandelse.com/its-not-hard-making-your-library-support-amd-and-commonjs/">It&rsquo;s Not Hard: Making Your Library Support AMD and CommonJS</a></li>
+<li><a href="https://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a></li>
+<li><a href="https://yanhaijing.com/javascript/2018/08/17/2020-js-lib/">如何写一个现代的JavaScript库</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux 使用笔记(三)]]></title>
@@ -6114,361 +6451,6 @@ set it to &ldquo;No Application&rdquo;</p>
 <li><a href="https://support.apple.com/en-us/HT210650">About the read-only system volume in macOS Catalina</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(二)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-two.html"/>
-    <updated>2018-01-04T10:08:36+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-two</id>
-    <content type="html"><![CDATA[<h3>1.Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined</h3>
-
-<p>A:The $.browser method has been removed as of jQuery 1.9.</p>
-
-<blockquote><p>jQuery.browser() removed</p>
-
-<p>The jQuery.browser() method has been deprecated since jQuery 1.3 and is removed in 1.9. If needed, it is available as part of the jQuery Migrate plugin. We recommend using feature detection with a library such as Modernizr.</p>
-
-<p>— jQuery Core 1.9 Upgrade Guide.</p></blockquote>
-
-<p>As stated in the Upgrade Guide you can try using the <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a> to restore this functionality and let jQuery Tools work.</p>
-
-<p>Reference:<a href="http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools">Uncaught TypeError: Cannot read property &lsquo;msie&rsquo; of undefined - jQuery tools</a></p>
-
-<h3>2.The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</h3>
-
-<p>A:To include http-servlet into your class path, you have two options:</p>
-
-<pre><code>1. In this solution, you can add desired server runtime into your application as project facet. As runtime servers have already servlet runtime dependencies, they get included into your project and hence error is gone.
-2. Another option is include the servlet dependency through maven itself. This will also fix the error.
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
-</span><span class='line'>    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
-</span><span class='line'>    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
-</span><span class='line'>    &lt;version&gt;2.5&lt;/version&gt;
-</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://howtodoinjava.com/tools/eclipse/solved-the-superclass-javax-servlet-http-httpservlet-was-not-found-on-the-java-build-path-in-eclipse/">The superclass “javax.servlet.http.HttpServlet” was not found on the Java Build Path in Eclipse</a></p>
-
-<h3>3.Dynamic Web Module 3.1 requires Java 1.7 or newer</h3>
-
-<p>A:</p>
-
-<p>Step1:<br/>
-Make sure your Java Project is configured probably to use Java 1.7.
-Right click your project > Properties > Java Compiler and set “Compiler compliance level” to 1.7</p>
-
-<p>Step2:<br/>
-Java Build Path. Click “Edit“. And change it to “Java 7”</p>
-
-<p>Step3:<br/>
-Next from the menu on the left select Project Facets > Java and set its version to 1.7</p>
-
-<p>Extra Tips:<br/>
-If you have maven project try updating source and target version of java compiler to 1.7 in pom.xml file.</p>
-
-<p>Reference:<a href="https://crunchify.com/how-to-solve-dynamic-web-module-3-1-requires-java-1-7-or-newer-in-eclipse/">How to solve “Dynamic Web Module 3.1 requires Java 1.7 or newer” in Eclipse</a></p>
-
-<h3>4.How to display available goals of maven plugin?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Recent Maven plugins have generally an help goal to have in the command line the description of the plugin, with their parameters and types. For instance, to understand the javadoc goal, you need to call:</p></blockquote>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn javadoc:help -Ddetail -Dgoal<span class="o">=</span>javadoc
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It works of course for Maven core plugins. to list all goals of the archetype plugin :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn archetype:help
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And it works also for third party plugins. For example, to display all goals of the spring-boot plugin :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn spring-boot:help
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/1674524/how-to-display-a-list-of-available-goals">How to display a list of available goals?</a></p>
-
-<h3>5.Not a java source folder</h3>
-
-<p>A:以 maven-archetype-webapp 为原型新建工程，建好的工程没有 java 目录，于是在 src/main 下新建 java 目录，之后新建 Filter 或 Servlet 时提示 Not a java source folder.尝试右击 java 目录 > Build Path > Use as Source Folder 依然未生效，只得将目录删除恢复原状想其他办法。</p>
-
-<p>于是选中工程 > Properties > Java Build Path > Source， 里面提示 src/main/java build path entries are missing, 嗯，有了新的线索，于是将这些丢失的入口都删除了，再重新创建 java source folder, 这样问题得到了解决，感觉这个问题像是 eclipse 的一个 bug.</p>
-
-<!--more-->
-
-
-<h3>6.Thymeleaf 如何支持遍历枚举</h3>
-
-<p>A:</p>
-
-<blockquote><p>The java.util.List class isn’t the onlyvalue that can be used for iteration in Thymeleaf. There is a quite complete set of objects that are considered iterable by a th:each attribute:</p>
-
-<ul>
-<li>Any object implementing java.util.Iterable</li>
-<li>Any object implementing java.util.Enumeration .</li>
-<li>Any object implementing java.util.Iterator , whose values will be used as they are returned by the iterator, without the need to cache all values in memory.</li>
-<li>Any object implementing java.util.Map . When iterating maps, iter variables will be of class java.util.Map.Entry . Any array.</li>
-<li>Any other object will be treated as if it were a single-valued list containing the object itself.</li>
-</ul>
-</blockquote>
-
-<p>上面就是可选方案，一开始我没看仔细，以为 Enumeration 可以直接遍历，之后细看是实现 java.util.Enumeration 的对象，这样综合来看将 Enumeration 转化成 List 是不错的选择。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">th:each=</span><span class="s">&quot;attr: ${java.util.Collections.list(#httpServletRequest.attributeNames)}&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://github.com/thymeleaf/thymeleaf/issues/321">please allow to iterate java.util.Enumeration</a></p>
-
-<h3>7.Call method with iter vaiable as argument in thymeleaf</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;ul</span> <span class="na">th:each=</span><span class="s">&quot;name : ${names}&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;li</span>
-</span><span class='line'>      <span class="na">th:text=</span><span class="s">&quot;|${name} = ${#session.getAttribute(</span>
-</span><span class='line'><span class="s">      name )}|&quot;</span><span class="nt">&gt;</span>uid
-</span><span class='line'>      = 502<span class="nt">&lt;/li&gt;</span>
-</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://forum.thymeleaf.org/invoking-a-method-on-model-with-parameter-td4026846.html">invoking a method on model with parameter</a></p>
-
-<h3>8.Hiding text using text-indent</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">h1</span> <span class="nt">a</span> <span class="p">{</span>
-</span><span class='line'><span class="err">    </span><span class="k">text-decoration</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
-</span><span class='line'><span class="err">    </span><span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span> <span class="c">/* Depending on your placement */</span>
-</span><span class='line'><span class="err">    </span><span class="k">width</span><span class="o">:</span> <span class="m">260px</span><span class="p">;</span>
-</span><span class='line'><span class="err">    </span><span class="k">height</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-</span><span class='line'><span class="err">    </span><span class="k">bottom</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span> <span class="c">/* Depending on your placement */</span>
-</span><span class='line'><span class="err">    </span><span class="k">background</span><span class="o">:</span> <span class="sx">url(images/aext-logo.png)</span> <span class="k">no-repeat</span> <span class="k">left</span> <span class="k">top</span><span class="p">;</span>
-</span><span class='line'><span class="err">    </span><span class="k">text-indent</span><span class="o">:</span> <span class="m">-99999px</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;/style&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;h1&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://aext.net&quot;</span><span class="nt">&gt;</span>AEXT.NET<span class="nt">&lt;/a&gt;&lt;/h1&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在尝试过程中发现要设置 width 和 height 才能生效，可以注意下。</p>
-
-<p>Reference:<a href="http://bloggingexperiment.com/css-text-indent-style-your-html-form">CSS text-indent: An Excellent Trick To Style Your HTML Form</a></p>
-
-<h3>9.SEVERE: Exception starting filter</h3>
-
-<p>A:详细错误信息如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext filterStart
-</span><span class='line'>SEVERE: Exception starting filter [DispatchFilter]
-</span><span class='line'>java.lang.ClassNotFoundException: com.tenneshop.bookmark.web.filter.DispatchFilter
-</span><span class='line'>  at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1291)
-</span><span class='line'>  at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1119)
-</span><span class='line'>  at org.apache.catalina.core.DefaultInstanceManager.loadClass(DefaultInstanceManager.java:544)
-</span><span class='line'>  at org.apache.catalina.core.DefaultInstanceManager.loadClassMaybePrivileged(DefaultInstanceManager.java:525)
-</span><span class='line'>  at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:150)
-</span><span class='line'>  at org.apache.catalina.core.ApplicationFilterConfig.getFilter(ApplicationFilterConfig.java:264)
-</span><span class='line'>  at org.apache.catalina.core.ApplicationFilterConfig.<span class="nt">&lt;init&gt;</span>(ApplicationFilterConfig.java:108)
-</span><span class='line'>  at org.apache.catalina.core.StandardContext.filterStart(StandardContext.java:4590)
-</span><span class='line'>  at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5233)
-</span><span class='line'>  at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
-</span><span class='line'>  at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1419)
-</span><span class='line'>  at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1409)
-</span><span class='line'>  at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-</span><span class='line'>  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
-</span><span class='line'>  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
-</span><span class='line'>  at java.lang.Thread.run(Thread.java:745)
-</span><span class='line'>
-</span><span class='line'>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
-</span><span class='line'>SEVERE: One or more Filters failed to start. Full details will be found in the appropriate container log file
-</span><span class='line'>Apr 08, 2018 10:28:48 AM org.apache.catalina.core.StandardContext startInternal
-</span><span class='line'>SEVERE: Context [/bookmark] startup failed due to previous errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>从错误信息来看问题的原因是类找不到，于是可以到部署的目标路径下确认 <code>com.tenneshop.bookmark.web.filter.DispatchFilter</code>是否存在。从 eclipse 输出的 debug 日志中找到部署的目标路径：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Apr 08, 2018 10:28:38 AM org.apache.catalina.startup.VersionLoggerListener log
-</span><span class='line'>INFO: Command line argument: -Dwtp.deploy=/Users/dongmeiliang/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>发现类确实不存在，重新 <code>$ mvn compile</code> 之后问题解决。回想下发觉问题产生的原因是我在终端 <code>$ mvn clean</code>，然后在 eclipse 中 refresh  project ，最后直接就 debug on server 导致没有包含编译的类。</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/32692321/tomcat-severe-exception-starting-filter-corsfilter-classnotfoundexception">Tomcat SEVERE: Exception starting filter CorsFilter, ClassNotFoundException</a></p>
-
-<h3>10.如何改变 server context path?</h3>
-
-<p>A:用 mvn 新建工程时，artifactId 写成了 package name，之后在访问 web 时就略显尴尬，可以通过 Window > Show View > Servers > Double click specific server > Modules > Edit target web module。</p>
-
-<h3>11.Eclipse error: “The import XXX cannot be resolved”</h3>
-
-<p>A:With me it helped changing the compiler compliance level. For unknown reasons it was set to 1.6 and I changed it to 1.8.
-Once at project level right click on project > Properties > Java Compiler, while in Eclipse click on menu Window > Preferences > Java > Compiler.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/4322893/eclipse-error-the-import-xxx-cannot-be-resolved">Eclipse error: “The import XXX cannot be resolved”</a></p>
-
-<h3>12.Index downloads are disabled, search result may be incomplete.</h3>
-
-<p>A:</p>
-
-<ol>
-<li>In Eclipse, click <strong>on Windows > Preferences</strong>, and then choose <strong>Maven</strong> in the left side.</li>
-<li>Check the box &ldquo;<strong>Download repository index updates on startup</strong>&rdquo;.</li>
-<li>Optionally, check the boxes <strong>Download Artifact Sources</strong> and <strong>Download Artifact JavaDoc</strong>.</li>
-<li>Click <strong>OK</strong>. The warning won&rsquo;t appear anymore.</li>
-<li>Restart Eclipse.</li>
-</ol>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/24252256/how-do-i-enable-index-downloads-in-eclipse-for-maven-dependency-search">How do I enable index downloads in Eclipse for Maven dependency search? </a></p>
-
-<h3>13.How to Iterate Over a Map in Java</h3>
-
-<p>A:There are at least 4 method to iterate over a map, one is Iterating over entries using For-Each loop.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;();</span>
-</span><span class='line'><span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Key = &quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, Value = &quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/">How to Iterate Over a Map in Java</a></p>
-
-<h3>14.How to get the row count of ResultSet?</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Statement</span> <span class="n">s</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
-</span><span class='line'><span class="n">ResultSet</span> <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="s">&quot;SELECT COUNT(*) AS rowcount FROM FieldMaster&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">r</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&quot;rowcount&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">r</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</span><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;MyTable has &quot;</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="s">&quot; row(s).&quot;</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/7886462/how-to-get-row-count-using-resultset-in-java">How to get row count using ResultSet in Java?</a></p>
-
-<h3>15.How to Generate random words in Java?</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">generateRandomWords</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberOfWords</span><span class="o">)</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>    <span class="n">String</span><span class="o">[]</span> <span class="n">randomStrings</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">numberOfWords</span><span class="o">];</span>
-</span><span class='line'>    <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Random</span><span class="o">();</span>
-</span><span class='line'>    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfWords</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
-</span><span class='line'>    <span class="o">{</span>
-</span><span class='line'>        <span class="kt">char</span><span class="o">[]</span> <span class="n">word</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">8</span><span class="o">)+</span><span class="mi">3</span><span class="o">];</span> <span class="c1">// words of length 3 through 10. (1 and 2 letter words are boring.)</span>
-</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">word</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>
-</span><span class='line'>        <span class="o">{</span>
-</span><span class='line'>            <span class="n">word</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="kt">char</span><span class="o">)(</span><span class="sc">&#39;a&#39;</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">26</span><span class="o">));</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>        <span class="n">randomStrings</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">String</span><span class="o">(</span><span class="n">word</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">randomStrings</span><span class="o">;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/4951997/generating-random-words-in-java">Generating random words in Java?</a></p>
 ]]></content>
   </entry>
   

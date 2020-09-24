@@ -63,6 +63,82 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-ui-layout.html">
+		
+			Web 界面布局</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2019-03-06T09:27:15+08:00" pubdate data-updated="true">06 Mar 2019</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。</p>
+
+<p>Web 诞生的背景是更好的共享信息，而这信息起初便是文字、图片。为了展示图文信息，涌现出了很多布局方式，一种称为流的布局方式在竞争中胜出了。</p>
+
+<p>在这种布局方式中，界面元素被大体分为两类：一类是块级元素；另一类是是内联元素。块级元素负责结构布局，内联元素负责内容。在默认情况下，块级元素会像水流一样填满容器的宽度，内联元素则是从左至右，从上往下堆叠。很显然完全使用默认的布局行为是不能完成所有的需求的，于是在此基础上通过破坏流演化出新的布局行为，进而来满足我们的各种布局需求。所以总结下来，Web 的布局方法主要是如下几种：</p>
+
+<ul>
+<li>默认流布局行为</li>
+<li>Float</li>
+<li>Positioning</li>
+<li>Table layout</li>
+<li>Flexbox</li>
+<li>Grid</li>
+</ul>
+
+
+<p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
+
+<p><img class="center" src="/images/css-box-model.png"></p>
+
+<p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
+
+<p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
+
+<p><img class="center" src="/images/html-element-tree.png"></p>
+
+<p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
+
+<p>Positioning 布局方法是通过改变元素的 position 值来改变她的位置，她可能的值为：<code>static | relative | absolute| fixed</code>，static 是默认值，relative 是相对默认位置定位，absolute 是相对父元素中第一个不为 static 的元素定位，fixed 则是相对 viewport，这些属性大大增强了布局定位能力。</p>
+
+
+		
+		<a href="/blog/web-ui-layout.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-app-distribution.html">
 		
 			iOS App Distribution</a>
@@ -250,97 +326,6 @@
 
 		
 		<a href="/blog/web-technical-interview-part-3.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-technical-interview-part-2.html">
-		
-			Web 面试题汇总(二)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-09-05T15:52:44+08:00" pubdate data-updated="true">05 Sep 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.介绍一下标准的CSS的盒子模型？低版本IE的盒子模型有什么不同的？</h3>
-
-<p>A:每个元素被表示为一个矩形的方框，框的内容、内边距、边界和外边距像洋葱的膜那样，一层包着一层构建起来。</p>
-
-<p>低版本IE的盒子模型的宽度包括框的内容、内边距和边界。</p>
-
-<h3>2.CSS选择符有哪些？哪些属性可以继承？</h3>
-
-<p>A:</p>
-
-<ul>
-<li><em>简单选择器</em>（Simple selectors）：通过元素类型、class 或 id 匹配一个或多个元素。</li>
-<li><em>属性选择器</em>（Attribute selectors）：通过 属性 / 属性值 匹配一个或多个元素。</li>
-<li><em>伪类</em>（Pseudo-classes）：匹配处于确定状态的一个或多个元素，比如被鼠标指针悬停的元素，或当前被选中或未选中的复选框，或元素是DOM树中一父节点的第一个子节点。</li>
-<li><em>伪元素</em>（Pseudo-elements）:匹配处于相关的确定位置的一个或多个元素，例如每个段落的第一个字，或者某个元素之前生成的内容。 </li>
-<li><em>组合器</em>（Combinators）：这里不仅仅是选择器本身，还有以有效的方式组合两个或更多的选择器用于非常特定的选择的方法。例如，你可以只选择divs的直系子节点的段落，或者直接跟在headings后面的段落。</li>
-<li><em>多重选择器</em>（Multiple selectors）：这些也不是单独的选择器；这个思路是将以逗号分隔开的多个选择器放在一个CSS规则下面， 以将一组声明应用于由这些选择器选择的所有元素。</li>
-</ul>
-
-
-<p>哪些属性可以继承？</p>
-
-<ul>
-<li>所有元素可继承：visibility和cursor。</li>
-<li>内联元素可继承：letter-spacing、word-spacing、white-space、line-height、color、font、font-family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、direction。</li>
-<li>终端块状元素可继承：text-indent和text-align。</li>
-<li>列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。</li>
-<li>表格元素可继承：border-collapse。</li>
-</ul>
-
-
-<h3>3.CSS优先级算法如何计算？</h3>
-
-<p>A:CSS根据规则的重要性、专用性和源代码次序来计算优先级。</p>
-
-<p>重要性和源代码次序相对简单，专用性是用四种不同的值（或组件）来衡量的，它们可以被认为是千位，百位，十位和个位:</p>
-
-<ol>
-<li>千位：如果声明是在style 属性中该列加1分（这样的声明没有选择器，所以它们的专用性总是1000。）否则为0。</li>
-<li>百位：在整个选择器中每包含一个ID选择器就在该列中加1分。</li>
-<li>十位：在整个选择器中每包含一个类选择器、属性选择器、或者伪类就在该列中加1分。</li>
-<li>个位：在整个选择器中每包含一个元素选择器或伪元素就在该列中加1分。</li>
-</ol>
-
-
-
-		
-		<a href="/blog/web-technical-interview-part-2.html" class="more-link">继续阅读</a>
 	</div>
 
 

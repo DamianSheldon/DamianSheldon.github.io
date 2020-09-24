@@ -63,6 +63,189 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-web-api-the-good-parts.html">
+		
+			Web API 的设计与开发--读书笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2020-04-29T10:31:16+08:00" pubdate data-updated="true">29 Apr 2020</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android-development/'>android development</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>Web API 的设计与开发是开发者日常工作的重要内容，我们该如何来做好这项工作呢？我觉得一个务实的方法是先参考前辈们的做法，也就是站在巨人的肩上，理解消化后再尝试去突破，这样可能会事半功倍。经过一番搜索，找到了 <code>&lt;&lt;Web API 的设计与开发&gt;&gt;</code>， 我个人觉得这是一本对 Web API 进行全面、细致和深入剖析的书，对 Web API 的设计与开发很有帮助，值得一读。</p>
+
+<p>书的内容是按照整分的逻辑组织，并依先易后难的顺序来讲解相关知识。下面我按自己的理解尝试对书中内容做个简单的总结。</p>
+
+<p>Web API 是用于完成某种需求，由于需求会变化，所以一次就设计出完美 Web API 的想法是不现实的，所以一开始应该要给 Web API 的更改留有余地，这是很容易忽视的地方。推荐的做法是在 URI 中嵌入版本信息，典型的形式是 <code>http://api.linkedin.com/v1/people</code>。</p>
+
+<p>虽然一次就完美地设计 Web API 的想法不现实，但我们还是想尽量做好，减少 Web API 版本变更的次数，毕竟版本越多维护成本越高，那么我们该如何设计 Web API 呢？</p>
+
+<p>Web API 通过 HTTP 协议来完成通信，在设计时我们应该最大程度地利用 HTTP 协议规范。基于标准协议设计的 API 至少要比使用私有协议设计的 API 更容易理解，还会减少使用时引入的 bug，使你的 API 得到更广泛的使用，提高利用已有的程序库或代码的可能。</p>
+
+<p>有了整体设计原则后，我们来看下具体的请求和响应设计。API 的功能是为了完成项目的需求，最完备的请求会包含请求端点、请求方法、请求参数和请求数据体(Request Body)，我们依次来审视请求的每个部分。</p>
+
+<p>端点是指用于访问 API 的 URI，普适又重要的设计原则有：</p>
+
+<ul>
+<li>短小便于输入的 URI</li>
+<li>人可以读懂的 URI</li>
+<li>没有大小写混用的 URI</li>
+<li>不会暴露服务端架构的 URI</li>
+<li>规则统一的 URI</li>
+</ul>
+
+
+<p>端点设计的注意事项：</p>
+
+<ul>
+<li>使用名词的复数形式</li>
+<li>注意所用的单词</li>
+<li>不使用空格及需要编码的字符</li>
+<li>使用连字符来连接多个单词</li>
+</ul>
+
+
+<p>URI 和 HTTP 方法之间的关系可以认为是操作对象和操作方法的关系。如果把 URI 当作 API(HTTP) 的 “操作对象 = 资源”， HTTP 方法则表示 “进行怎样的操作”。通过用不同方法访问同一个 URI 端点，不但可以获取信息，还能修改信息、删除信息等，这样的思想正成为 Web API 设计的主流方式。</p>
+
+<table>
+<thead>
+<tr>
+<th> 方法名 </th>
+<th> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> GET </td>
+<td> 获取资源 </td>
+</tr>
+<tr>
+<td> POST </td>
+<td> 新增资源 </td>
+</tr>
+<tr>
+<td> PUT </td>
+<td> 覆盖已有资源 </td>
+</tr>
+<tr>
+<td> DELETE </td>
+<td> 删除资源 </td>
+</tr>
+<tr>
+<td> PATCH </td>
+<td> 更新部分资源 </td>
+</tr>
+<tr>
+<td> HEAD </td>
+<td> 获取资源的元信息 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>有时请求可能还需要传递参数，在设计 URI 时，必须决定是把特定参数放在查询参数里还是路径里，决策的依据有以下两点：</p>
+
+<ul>
+<li>是否是表示唯一资源所需的信息</li>
+<li>是否可以省略</li>
+</ul>
+
+
+<p>请求数据体，个人认为可以采用面向对象编程的思想来设计，整个处理过程会轻松很多。</p>
+
+<p>说完请求，让我们来看下响应。首先是正确使用状态码，国内由于历史原因遗留下来无论请求是否成功都一律返回 200 的问题，全站切换到 HTTPS 后，我们还是应该最大程度地利用 HTTP 规范，这样我们能受益于通用的 HTTP 程序库，减轻客户端的负担。</p>
+
+<p>其次是数据格式，这里的数据格式是指该用怎样的形式来描述 API 返回的结构化数据，具体而言就是指 JSON、XML 等数据格式。关于这一点，事实上几乎没有可讨论的，因为我们通常就是使用 JSON 作为默认的数据格式，若有需求 API 也可以支持 XML 的格式，这是最贴近现实的做法。</p>
+
+<p>再次是数据内部结构，我们重点看下数据应该以数组还是对象返回，作者更推荐使用对象来封装数据的方式，因为该方式有如下几个优点:</p>
+
+<ul>
+<li>更容易理解响应数据表示什么</li>
+<li>响应数据通过对象的封装实现了结构统一</li>
+<li>可以避免安全方面的风险</li>
+</ul>
+
+
+<p>从次是各个数据的格式，各个数据项组成了最终的数据，只有掌握了如何处理单个数据项格式才能设计出合理的响应体数据格式。作者重点介绍了如何描述性别数据、日期格式和大整数，受益匪浅。</p>
+
+<p>最后是出错信息的表示，同样，我们需要选择合适的状态码，出误信息建议以消息体的形式返回，出错信息应该包含详细的错误代码、人们能够读懂的相关信息，以及记载有详细说明的文档页面的 URI，如下所示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "error": {
+</span><span class='line'>      "code": 2013,
+</span><span class='line'>      "message": "Bad authentication token",
+</span><span class='line'>      "info": "http://docs.example.com/api/v1/authentication"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想支持描述多个错误同时发生，可以返回出错信息数组，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "errors": [
+</span><span class='line'>      {
+</span><span class='line'>          "code": 2013,
+</span><span class='line'>          "message": "Bad authentication token",
+</span><span class='line'>          "info": "http://docs.example.com/api/v1/authentication"
+</span><span class='line'>      }
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上是基础内容，作者最后还介绍进阶内容，开发牢固的 Web API，对我们把 Web API 设计和开发提高到新高度有非常大的帮助。</p>
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ionic-app-use-cordova-hot-code-push-achieve-live-update.html">
 		
 			Ionic App 使用 Cordova Hot Code Push 实现热更新</a>
@@ -500,312 +683,6 @@
 <li><a href="http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1">第三章、安裝 CentOS7.x</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?f=8&amp;t=85110">Ubuntu 1710 screen flicker</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?t=91563">Centos7 Guest Additions fails: kernel headers not found</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/create-cordova-plugin.html">
-		
-			创建 Cordova Plugin 及其 Ionic Native</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2019-09-30T09:59:14+08:00" pubdate data-updated="true">30 Sep 2019</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android-development/'>android development</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
-
-<ul>
-<li>Cordova Plugin 的工作原理</li>
-<li>如何创建 Cordova Plugin</li>
-<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
-</ul>
-
-
-<h3>Cordova Plugin 的工作原理</h3>
-
-<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
-
-<p>Plugin js 端的入口方法签名形式如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
-</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
-
-<p>具体是怎么映射的呢？</p>
-
-<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
-</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个形式就是我们上面见过的形式。</p>
-
-<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
-
-<h3>如何创建 Cordova Plugin</h3>
-
-<h4>安装 plugman</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm install -g plugman</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>创建 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
-</span><span class='line'>
-</span><span class='line'>eg.
-</span><span class='line'>$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>添加 platform</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$plugman platform add --platform_name android</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>创建 package.json 文件</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman createpackagejson &lt;directory&gt;
-</span><span class='line'>
-</span><span class='line'>eg.
-</span><span class='line'>$plugman createpackagejson .</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>安装 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
-</span><span class='line'>$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
-</span><span class='line'>
-</span><span class='line'>// 方法二：
-</span><span class='line'>$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>卸载 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 与安装的方法对应有两种卸载方法
-</span><span class='line'>// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
-</span><span class='line'>
-</span><span class='line'>// 方法二：
-</span><span class='line'>$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>发布</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a tag
-</span><span class='line'>$git tag &lt;tagname&gt;
-</span><span class='line'>
-</span><span class='line'>// Push to repository
-</span><span class='line'>$git push origin master</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>升级 cordova plugin</h4>
-
-<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
-
-<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
-
-<h4>Creating Plugin Wrappers</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Navigate to ionic-native root path
-</span><span class='line'>$cd  ionic-native
-</span><span class='line'>
-</span><span class='line'>// Install dependencies first time
-</span><span class='line'>$npm install
-</span><span class='line'>
-</span><span class='line'>// Create plugin wrapper
-</span><span class='line'>// When gulp installed locally
-</span><span class='line'>$npx gulp plugin:create -n PluginName
-</span><span class='line'>
-</span><span class='line'>// When gulp installed globally
-</span><span class='line'>$gulp plugin:create -n PluginName</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>安装</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
-</span><span class='line'>$npm run build
-</span><span class='line'>
-</span><span class='line'>//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
-</span><span class='line'>$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>使用</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Import the plugin in a @NgModule and add it to the list of Providers. 
-</span><span class='line'>// app.module.ts
-</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>@NgModule({
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>  providers: [
-</span><span class='line'>    ...
-</span><span class='line'>    APIClient
-</span><span class='line'>    ...
-</span><span class='line'>  ]
-</span><span class='line'>  ...
-</span><span class='line'>})
-</span><span class='line'>export class AppModule { }
-</span><span class='line'>
-</span><span class='line'>// After the plugin has been declared, it can be imported and injected like any other service:
-</span><span class='line'>
-</span><span class='line'>// login.service.ts
-</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
-</span><span class='line'>import { ServiceName } from '@ionic-native/api-client/ngx';
-</span><span class='line'>
-</span><span class='line'>constructor(private apiClient: APIClient) { }
-</span><span class='line'>
-</span><span class='line'>this.apiClient.get(ServiceName.Login, JSON.stringify(user))
-</span><span class='line'>      .then((result: string) =&gt; {
-</span><span class='line'>        console.log('api client login:', result);
-</span><span class='line'>        //TODO: Parse server return json to UserExt object
-</span><span class='line'>        const routePath = this.simulateLogin(username);        
-</span><span class='line'>        resolve(routePath);
-</span><span class='line'>      })
-</span><span class='line'>      .catch((error: string) =&gt; {
-</span><span class='line'>        console.log('api client login error:', error);
-</span><span class='line'>
-</span><span class='line'>        reject(error);
-</span><span class='line'>      });</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Reference:</h1>
-
-<ul>
-<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
-<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
 </ul>
 
 

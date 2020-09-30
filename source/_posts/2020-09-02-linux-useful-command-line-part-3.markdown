@@ -66,3 +66,11 @@ Updating Subscription Management repositories.
 Reference:  
 
 * [dnf list plugins command missing](https://bugzilla.redhat.com/show_bug.cgi?id=1694041)  
+
+### 3.How to add startup application on CentOS 8?
+A:We can add by gnome tweaks. Of course you should install it with Software.
+
+Reference:  
+
+* [Tweaking GNOME Desktop Environment on CentOS 8](https://linuxhint.com/tweaking_gnome_desktop_centos8/)  
+

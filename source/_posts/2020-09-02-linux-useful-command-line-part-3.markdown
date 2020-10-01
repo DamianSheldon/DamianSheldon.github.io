@@ -74,3 +74,6 @@ Reference:
 
 * [Tweaking GNOME Desktop Environment on CentOS 8](https://linuxhint.com/tweaking_gnome_desktop_centos8/)  
 
+### 4.开启 CentOS 8 上 tomcat 9 的注意事项
+A:首先是安装 `tomcat-native`；其次是注意从日志文件中定位错误。我遇到了证书文件权限导致找不到文件的情况。
+

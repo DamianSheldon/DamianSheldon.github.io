@@ -85,3 +85,72 @@ Reference:
 * [Locale](https://wiki.archlinux.org/index.php/Locale#Make_locale_changes_immediate)  
 * [How to change system locale on RHEL7?](https://access.redhat.com/solutions/974273)  
 
+### 6.在 CentOS 8 上使用 alternatives 设置默认的 java
+A: 在 CentOS 8 上安装 java 包之后不知为什么 alternatives 中的配置居然不对，导致提示 java command not found，于是只好手动配置：  
+
+{% codeblock %}
+# 初始情况如下
+$ sudo alternatives  --list
+libnssckbi.so.x86_64  	auto  	/usr/lib64/pkcs11/p11-kit-trust.so
+python                	manual	/usr/bin/python3
+ifup                  	auto  	/usr/libexec/nm-ifup
+cifs-idmap-plugin     	auto  	/usr/lib64/cifs-utils/cifs_idmap_sss.so
+python3               	auto  	/usr/bin/python3.6
+nmap                  	auto  	/usr/bin/ncat
+java                  	manual	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/bin/java
+jre_openjdk           	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre
+jre_1.8.0             	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre
+jre_1.8.0_openjdk     	auto  	/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64
+links                 	manual	/usr/bin/elinks
+javac                 	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/bin/javac
+java_sdk_openjdk      	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+java_sdk_1.8.0        	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+java_sdk_1.8.0_openjdk	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+
+# 确认下正确设置的相关参数
+$ alternatives --display java_sdk_openjdk
+java_sdk_openjdk - status is auto.
+ link currently points to /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64 - family java-1.8.0-openjdk.x86_64 priority 1800265
+Current `best' version is /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64.
+
+# 设置默认 java 相关功能的路径
+sudo alternatives --install /usr/bin/java java /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre/bin/java 1800265 --family java-1.8.0-openjdk.x86_64
+
+sudo alternatives --install /usr/lib/jvm/jre_openjdk jre_openjdk /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre 1800265 --family java-1.8.0-openjdk.x86_64
+
+sudo alternatives --install /usr/lib/jvm/jre_1.8.0 jre_1.8.0 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre 1800265 --family java-1.8.0-openjdk.x86_64
+
+sudo alternatives --install /usr/lib/jvm/jre_1.8.0_openjdk jre_1.8.0_openjdk /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64 1800265 --family java-1.8.0-openjdk.x86_64 
+
+# 确认设置结果
+$ alternatives --list
+libnssckbi.so.x86_64  	auto  	/usr/lib64/pkcs11/p11-kit-trust.so
+python                	manual	/usr/bin/python3
+ifup                  	auto  	/usr/libexec/nm-ifup
+cifs-idmap-plugin     	auto  	/usr/lib64/cifs-utils/cifs_idmap_sss.so
+python3               	auto  	/usr/bin/python3.6
+nmap                  	auto  	/usr/bin/ncat
+links                 	manual	/usr/bin/elinks
+javac                 	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/bin/javac
+java_sdk_openjdk      	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+java_sdk_1.8.0        	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+java_sdk_1.8.0_openjdk	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+java                  	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre/bin/java
+jre_openjdk           	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
+jre_1.8.0             	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
+jre_1.8.0_openjdk     	auto  	/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+{% endcodeblock %}
+
+另外我们还可以在 `/etc/profile.d` 目录下新建 `java.sh` 文件来设置 `JAVA_HOME` 和 `JRE_HOME`：  
+
+{% codeblock %}
+# /etc/profile.d/java.sh
+JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64"
+JRE_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre"
+{% endcodeblock %}
+
+Reference:  
+
+* [Introduction to the alternatives command in Linux](https://www.redhat.com/sysadmin/alternatives-command)  
+

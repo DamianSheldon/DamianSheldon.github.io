@@ -77,3 +77,11 @@ Reference:
 ### 4.开启 CentOS 8 上 tomcat 9 的注意事项
 A:首先是安装 `tomcat-native`；其次是注意从日志文件中定位错误。我遇到了证书文件权限导致找不到文件的情况。
 
+### 5.man: can't set the locale; make sure `$LC_*` and `$LANG` are correct
+A:问题是由于 ssh 终端的 locale 设置导致系统的 locale 设置出现问题，我关闭了 sshd_config 中 locale 相关的设置，使用系统的 locale 设置。  
+
+Reference:  
+
+* [Locale](https://wiki.archlinux.org/index.php/Locale#Make_locale_changes_immediate)  
+* [How to change system locale on RHEL7?](https://access.redhat.com/solutions/974273)  
+

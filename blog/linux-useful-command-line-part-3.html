@@ -200,6 +200,131 @@ Updating Subscription Management repositories.</p>
 <li><a href="https://access.redhat.com/solutions/974273">How to change system locale on RHEL7?</a></li>
 </ul>
 
+
+<h3>6.在 CentOS 8 上使用 alternatives 设置默认的 java</h3>
+
+<p>A: 在 CentOS 8 上安装 java 包之后不知为什么 alternatives 中的配置居然不对，导致提示 java command not found，于是只好手动配置：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 初始情况如下
+</span><span class='line'>$ sudo alternatives  --list
+</span><span class='line'>libnssckbi.so.x86_64      auto    /usr/lib64/pkcs11/p11-kit-trust.so
+</span><span class='line'>python                    manual  /usr/bin/python3
+</span><span class='line'>ifup                      auto    /usr/libexec/nm-ifup
+</span><span class='line'>cifs-idmap-plugin         auto    /usr/lib64/cifs-utils/cifs_idmap_sss.so
+</span><span class='line'>python3                   auto    /usr/bin/python3.6
+</span><span class='line'>nmap                      auto    /usr/bin/ncat
+</span><span class='line'>java                      manual  /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/bin/java
+</span><span class='line'>jre_openjdk               auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre
+</span><span class='line'>jre_1.8.0                 auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre
+</span><span class='line'>jre_1.8.0_openjdk         auto    /usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64
+</span><span class='line'>links                     manual  /usr/bin/elinks
+</span><span class='line'>javac                     auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/bin/javac
+</span><span class='line'>java_sdk_openjdk          auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>java_sdk_1.8.0            auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>java_sdk_1.8.0_openjdk    auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>
+</span><span class='line'># 确认下正确设置的相关参数
+</span><span class='line'>$ alternatives --display java_sdk_openjdk
+</span><span class='line'>java_sdk_openjdk - status is auto.
+</span><span class='line'> link currently points to /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64 - family java-1.8.0-openjdk.x86_64 priority 1800265
+</span><span class='line'>Current `best' version is /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64.
+</span><span class='line'>
+</span><span class='line'># 设置默认 java 相关功能的路径
+</span><span class='line'>sudo alternatives --install /usr/bin/java java /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre/bin/java 1800265 --family java-1.8.0-openjdk.x86_64
+</span><span class='line'>
+</span><span class='line'>sudo alternatives --install /usr/lib/jvm/jre_openjdk jre_openjdk /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre 1800265 --family java-1.8.0-openjdk.x86_64
+</span><span class='line'>
+</span><span class='line'>sudo alternatives --install /usr/lib/jvm/jre_1.8.0 jre_1.8.0 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre 1800265 --family java-1.8.0-openjdk.x86_64
+</span><span class='line'>
+</span><span class='line'>sudo alternatives --install /usr/lib/jvm/jre_1.8.0_openjdk jre_1.8.0_openjdk /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64 1800265 --family java-1.8.0-openjdk.x86_64 
+</span><span class='line'>
+</span><span class='line'># 确认设置结果
+</span><span class='line'>$ alternatives --list
+</span><span class='line'>libnssckbi.so.x86_64      auto    /usr/lib64/pkcs11/p11-kit-trust.so
+</span><span class='line'>python                    manual  /usr/bin/python3
+</span><span class='line'>ifup                      auto    /usr/libexec/nm-ifup
+</span><span class='line'>cifs-idmap-plugin         auto    /usr/lib64/cifs-utils/cifs_idmap_sss.so
+</span><span class='line'>python3                   auto    /usr/bin/python3.6
+</span><span class='line'>nmap                      auto    /usr/bin/ncat
+</span><span class='line'>links                     manual  /usr/bin/elinks
+</span><span class='line'>javac                     auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/bin/javac
+</span><span class='line'>java_sdk_openjdk          auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>java_sdk_1.8.0            auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>java_sdk_1.8.0_openjdk    auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
+</span><span class='line'>java                      auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre/bin/java
+</span><span class='line'>jre_openjdk               auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
+</span><span class='line'>jre_1.8.0                 auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
+</span><span class='line'>jre_1.8.0_openjdk         auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外我们还可以在 <code>/etc/profile.d</code> 目录下新建 <code>java.sh</code> 文件来设置 <code>JAVA_HOME</code> 和 <code>JRE_HOME</code>：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># /etc/profile.d/java.sh
+</span><span class='line'>JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64"
+</span><span class='line'>JRE_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://www.redhat.com/sysadmin/alternatives-command">Introduction to the alternatives command in Linux</a></li>
+</ul>
+
 </div>
 
 

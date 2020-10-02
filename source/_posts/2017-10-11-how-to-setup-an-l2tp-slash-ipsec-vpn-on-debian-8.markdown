@@ -339,6 +339,26 @@ charon {
 }
 {% endcodeblock %}
 
+既然我们已经将日志输出到专门的文件了我们可能不想让她继续输出到系统日志文件中，这样我可以减轻在系统日志排查其他问题时的干扰信息，具体设置是在 `/etc/strongswan/strongswan.d/charon-systemd.conf` :  
+
+{% codeblock %}
+charon-systemd {
+
+    # Section to configure native systemd journal logger, very similar to the
+    # syslog logger as described in LOGGER CONFIGURATION in strongswan.conf(5).
+    journal {
+
+        # Loglevel for a specific subsystem.
+        # <subsystem> = <default>
+
+        # Default loglevel.
+        default = -1
+
+    }
+
+}
+{% endcodeblock %}
+
 其次是 swanctl 命令可以动态加载连接和密钥配置，以及查看加载的证书，是个不错的帮手。  
 
 {% codeblock %}
@@ -362,9 +382,11 @@ swanctl --list-certs
 * [折腾搬瓦工–09–为iPhone配置证书认证的VPN](https://wbuntu.com/p/499/)  
 * [Strongswan with letsencrypt certificates (IKEv2-EAP)](https://serverfault.com/questions/956674/strongswan-with-letsencrypt-certificates-ikev2-eap)   
 * [Setting-up a Simple CA Using the strongSwan PKI Tool](https://wiki.strongswan.org/projects/strongswan/wiki/SimpleCA)  
+* [charon-systemd](https://wiki.strongswan.org/projects/strongswan/wiki/Charon-systemd)  
 
 ##修改记录  
 
+* 2020/10/02: 记录关闭输出到系统日志文件的配置
 * 2020/09/07: 修改成 CentOS 8 上安装 StrongSwan
 * 2017/10/11: 第一次完成
 

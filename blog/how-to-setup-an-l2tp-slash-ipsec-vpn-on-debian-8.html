@@ -656,6 +656,40 @@
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
+<p>既然我们已经将日志输出到专门的文件了我们可能不想让她继续输出到系统日志文件中，这样我可以减轻在系统日志排查其他问题时的干扰信息，具体设置是在 <code>/etc/strongswan/strongswan.d/charon-systemd.conf</code> :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>charon-systemd {
+</span><span class='line'>
+</span><span class='line'>    # Section to configure native systemd journal logger, very similar to the
+</span><span class='line'>    # syslog logger as described in LOGGER CONFIGURATION in strongswan.conf(5).
+</span><span class='line'>    journal {
+</span><span class='line'>
+</span><span class='line'>        # Loglevel for a specific subsystem.
+</span><span class='line'>        # &lt;subsystem> = &lt;default>
+</span><span class='line'>
+</span><span class='line'>        # Default loglevel.
+</span><span class='line'>        default = -1
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <p>其次是 swanctl 命令可以动态加载连接和密钥配置，以及查看加载的证书，是个不错的帮手。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -682,12 +716,14 @@
 <li><a href="https://wbuntu.com/p/499/">折腾搬瓦工–09–为iPhone配置证书认证的VPN</a></li>
 <li><a href="https://serverfault.com/questions/956674/strongswan-with-letsencrypt-certificates-ikev2-eap">Strongswan with letsencrypt certificates (IKEv2-EAP)</a></li>
 <li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/SimpleCA">Setting-up a Simple CA Using the strongSwan PKI Tool</a></li>
+<li><a href="https://wiki.strongswan.org/projects/strongswan/wiki/Charon-systemd">charon-systemd</a></li>
 </ul>
 
 
 <h2>修改记录</h2>
 
 <ul>
+<li>2020/10/02: 记录关闭输出到系统日志文件的配置</li>
 <li>2020/09/07: 修改成 CentOS 8 上安装 StrongSwan</li>
 <li>2017/10/11: 第一次完成</li>
 </ul>

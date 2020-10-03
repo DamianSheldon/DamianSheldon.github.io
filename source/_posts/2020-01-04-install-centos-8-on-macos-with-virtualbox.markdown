@@ -47,9 +47,44 @@ the system is restarted
 
 这个问题暂时没找到解决方法，但是可以让 CentOS 全屏了，就暂时先不管这个问题了。
 
+###释放虚拟机硬盘空间
+
+在虚拟机使用过程中硬盘的空间会慢慢增加，但是即使虚拟机中删除了文件实际占用空间减少，外部的硬盘文件大小仍然没有减少，这对小硬盘电脑可伤不起，于是想办法释放虚拟机磁盘空间。大前提是虚拟机的硬盘类型是 Dynamically allocated storage，主要分为两大步：  
+
+1. 在虚拟机寄主系统(如 CentOS)中删除文件释放空间并压缩硬盘
+2. 在虚拟机宿主系统(如 macOS)中压缩硬盘文件
+
+下面以 Windows 10 为例：
+
+1. 开始按钮 > 设置 > 系统 > 存储空间 > 根据空间占用选择删除无用的文件释放之间
+2. 在左下方搜索框中搜索 Defragment ，然后打开 Defragment and Optimize Drives，选择想要压缩的硬盘进行压缩；
+3. 从微软下载 [SDelete](https://technet.microsoft.com/en-us/sysinternals/bb897443) 助手
+4. 使用 sdelete 填充释放的硬盘空间，假设 SDelete 下载之后的放在 Downloads 目录下，我们想压缩 c 盘 
+
+{% codeblock %}
+cd "C:\Users\bob\Downloads"
+sdelete.exe c: -z
+{% endcodeblock %}
+
+5. 最后在宿主系统中压缩硬盘文件，例如我是 macOS：  
+
+{% codeblock %}
+$ /Applications/VirtualBox.app/Contents/MacOS/VBoxManage list hdds
+# 找到想要压缩的硬盘文件路径 
+
+$ /Applications/VirtualBox.app/Contents/MacOS/VBoxManage modifymedium disk /Users/meiliang/VirtualBox\ VMs/Windows\ 10/Windows\ 10.vdi --compact
+{% endcodeblock %}
+
+###修改记录  
+
+* 2020/10/02：增加释放虚拟机硬盘空间的方法
+* 2020/01/04：第一次完成
+
 Reference:
 
 * [第三章、安裝 CentOS7.x](http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1)  
 * [Ubuntu 1710 screen flicker](https://forums.virtualbox.org/viewtopic.php?f=8&t=85110)  
 * [Centos7 Guest Additions fails: kernel headers not found](https://forums.virtualbox.org/viewtopic.php?t=91563)  
+* [How to Shrink a VirtualBox Virtual Machine and Free Up Disk Space](https://www.howtogeek.com/312883/how-to-shrink-a-virtualbox-virtual-machine-and-free-up-disk-space/)  
+
 

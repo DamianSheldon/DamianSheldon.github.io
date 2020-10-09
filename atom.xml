@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-10-03T09:40:38+08:00</updated>
+  <updated>2020-10-09T14:40:17+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -591,6 +591,43 @@ Updating Subscription Management repositories.</p>
 
 <ul>
 <li><a href="https://www.redhat.com/sysadmin/alternatives-command">Introduction to the alternatives command in Linux</a></li>
+</ul>
+
+
+<h3>7. chsh command not available on CentOS 8</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dnf provides '*/chsh'
+</span><span class='line'>Last metadata expiration check: 8 days, 1:03:13 ago on Thu 01 Oct 2020 03:47:40 AM UTC.
+</span><span class='line'>util-linux-user-2.32.1-22.el8.x86_64 : libuser based util-linux utilities
+</span><span class='line'>Repo        : BaseOS
+</span><span class='line'>Matched from:
+</span><span class='line'>Filename    : /etc/pam.d/chsh
+</span><span class='line'>Filename    : /usr/bin/chsh
+</span><span class='line'>Filename    : /usr/share/bash-completion/completions/chsh
+</span><span class='line'>
+</span><span class='line'>$ rpm -q util-linux-user-2.32.1-22.el8.x86_64
+</span><span class='line'>package util-linux-user-2.32.1-22.el8.x86_64 is not installed
+</span><span class='line'>
+</span><span class='line'>$ sudo dnf install util-linux-user-2.32.1-22.el8.x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><a href="https://forums.centos.org/viewtopic.php?t=73864">CentOS 8.0.1905 - &lsquo;chsh&rsquo; : command not found</a></li>
 </ul>
 
 ]]></content>

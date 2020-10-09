@@ -154,3 +154,25 @@ Reference:
 
 * [Introduction to the alternatives command in Linux](https://www.redhat.com/sysadmin/alternatives-command)  
 
+### 7. chsh command not available on CentOS 8
+A:
+
+{% codeblock %}
+$ dnf provides '*/chsh'
+Last metadata expiration check: 8 days, 1:03:13 ago on Thu 01 Oct 2020 03:47:40 AM UTC.
+util-linux-user-2.32.1-22.el8.x86_64 : libuser based util-linux utilities
+Repo        : BaseOS
+Matched from:
+Filename    : /etc/pam.d/chsh
+Filename    : /usr/bin/chsh
+Filename    : /usr/share/bash-completion/completions/chsh
+
+$ rpm -q util-linux-user-2.32.1-22.el8.x86_64
+package util-linux-user-2.32.1-22.el8.x86_64 is not installed
+
+$ sudo dnf install util-linux-user-2.32.1-22.el8.x86_64
+{% endcodeblock %}
+
+* [CentOS 8.0.1905 - 'chsh' : command not found](https://forums.centos.org/viewtopic.php?t=73864)  
+
+

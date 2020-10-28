@@ -116,7 +116,7 @@ export GPG_TTY
 
 ####Sufficient Metadata
 
-元数据信息要包换：  
+元数据信息要包括：  
 
 * Correct Coordinates
 * Project Name, Description and URL

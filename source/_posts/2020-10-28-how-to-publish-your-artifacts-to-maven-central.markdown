@@ -395,9 +395,6 @@ mvn versions:set -DnewVersion=1.2.3
 mvn clean deploy -P release
 {% endcodeblock %}
 
-{% codeblock %}
-{% endcodeblock %}
-
 ####Performing a Release Deployment with the Maven Release Plugin
 
 Maven发布插件可以用来自动完成对Maven POM文件的修改、健康检查、所需的SCM操作和实际部署执行。

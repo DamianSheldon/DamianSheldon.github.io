@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-10-21T08:55:27+08:00</updated>
+  <updated>2020-10-28T11:25:56+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,726 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何发布自己的 artifacts 到 maven 中央仓库]]></title>
+    <link href="http://DamianSheldon.github.io/blog/how-to-publish-your-artifacts-to-maven-central.html"/>
+    <updated>2020-10-28T09:16:37+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/how-to-publish-your-artifacts-to-maven-central</id>
+    <content type="html"><![CDATA[<p>当我们越来越熟悉 Java 开发，可能也想发布自己的 artifacts 到 maven 中央仓库，那么该如何做呢？</p>
+
+<blockquote><p>The easiest way to upload another project is to use the <a href="http://central.sonatype.org/pages/ossrh-guide.html">Open Source Software Repository Hosting (OSSRH)</a>, which is an approved repository provided by Sonatype for any OSS Project that want to get their artifacts into the Central Repository.</p></blockquote>
+
+<p>从 maven 的官方文档可知是使用 <a href="http://central.sonatype.org/pages/ossrh-guide.html">Open Source Software Repository Hosting (OSSRH)</a>, 于是我们可以参考她的指南。</p>
+
+<p>这份指南勾勒了发布工作的主要流程，分别是：</p>
+
+<ol>
+<li>Create a ticket with Sonatype</li>
+<li>Review Requirements</li>
+<li>Deployment</li>
+<li>Releasing to Central</li>
+</ol>
+
+
+<h3>创建 Sonatype 工单</h3>
+
+<p>Sonatype 使用 JIRA 管理请求，所以我们要创建 JIRA 帐号, 然后创建一个新工程工单。</p>
+
+<ol>
+<li><a href="https://issues.sonatype.org/secure/Signup!default.jspa">Create your JIRA account</a></li>
+<li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">Create a New Project ticket</a></li>
+</ol>
+
+
+<h3>复核要求</h3>
+
+<p>为了确保中央仓库库中可用组件的最低质量水平，部署组件必须满足一些要求。这使组件的用户能够从中央仓库中提供的元数据中找到有关组件的所有相关细节。</p>
+
+<p>这些要求是：</p>
+
+<ol>
+<li>Supply Javadoc and Sources</li>
+<li>Sign Files with GPG/PGP</li>
+<li>Sufficient Metadata</li>
+</ol>
+
+
+<!--more-->
+
+
+<h4>Supply Javadoc and Sources</h4>
+
+<p>我们可以集成 maven 插件来提供 Javadoc 和源文件。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin>
+</span><span class='line'>  &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>  &lt;artifactId>maven-source-plugin&lt;/artifactId>
+</span><span class='line'>  &lt;version>2.2.1&lt;/version>
+</span><span class='line'>  &lt;executions>
+</span><span class='line'>      &lt;execution>
+</span><span class='line'>          &lt;id>attach-sources&lt;/id>
+</span><span class='line'>          &lt;goals>
+</span><span class='line'>              &lt;goal>jar-no-fork&lt;/goal>
+</span><span class='line'>          &lt;/goals>
+</span><span class='line'>      &lt;/execution>
+</span><span class='line'>  &lt;/executions>
+</span><span class='line'>&lt;/plugin>
+</span><span class='line'>&lt;plugin>
+</span><span class='line'>  &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>  &lt;artifactId>maven-javadoc-plugin&lt;/artifactId>
+</span><span class='line'>  &lt;version>2.9.1&lt;/version>
+</span><span class='line'>  &lt;executions>
+</span><span class='line'>      &lt;execution>
+</span><span class='line'>          &lt;id>attach-javadocs&lt;/id>
+</span><span class='line'>          &lt;goals>
+</span><span class='line'>              &lt;goal>jar&lt;/goal>
+</span><span class='line'>          &lt;/goals>
+</span><span class='line'>      &lt;/execution>
+</span><span class='line'>  &lt;/executions>
+</span><span class='line'>&lt;/plugin></span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Sign Files with GPG/PGP</h4>
+
+<p>我们需要用 GPG/PGP 对文件签名，以 macOS 为例：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#1. Install GPG
+</span><span class='line'>brew install gpg
+</span><span class='line'>
+</span><span class='line'>#2. Generate the key pair
+</span><span class='line'>gpg --full-gen-key
+</span><span class='line'>
+</span><span class='line'>###3.Publish the GPG key pair and distribute your key to GPG servers
+</span><span class='line'>
+</span><span class='line'>gpg --keyserver hkps.pool.sks-keyservers.net  --send-keys your_key_id</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成 GPG 公私钥对并发布到 GPG 服务器后，我们还需要将 GPG 提供给 maven, 这是通过 maven settings。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># ~/.m2/settings.xml
+</span><span class='line'>&lt;settings>
+</span><span class='line'>  &lt;profiles>
+</span><span class='line'>    &lt;profile>
+</span><span class='line'>      &lt;id>ossrh&lt;/id>
+</span><span class='line'>      &lt;activation>
+</span><span class='line'>        &lt;activeByDefault>true&lt;/activeByDefault>
+</span><span class='line'>      &lt;/activation>
+</span><span class='line'>      &lt;properties>
+</span><span class='line'>        &lt;gpg.passphrase>the_pass_phrase&lt;/gpg.passphrase>
+</span><span class='line'>      &lt;/properties>
+</span><span class='line'>    &lt;/profile>
+</span><span class='line'>  &lt;/profiles>
+</span><span class='line'>&lt;/settings></span></code></pre></td></tr></table></div></figure>
+
+
+<p>macOS 上我还遇到了 gpg: signing failed: Inappropriate ioctl for device 这个错误，通过在 <code>~/.bash_profile</code> 中加入如下配置解决了:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GPG_TTY=$(tty)
+</span><span class='line'>export GPG_TTY</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Sufficient Metadata</h4>
+
+<p>元数据信息要包换：</p>
+
+<ul>
+<li>Correct Coordinates</li>
+<li>Project Name, Description and URL</li>
+<li>License Information</li>
+<li>Developer Information</li>
+<li>SCM Information</li>
+</ul>
+
+
+<p>对于 Correct Coordinates， 我这里是使用 github 托管代码，于是我们可以按照 maven 官方文档的建议:</p>
+
+<blockquote><p>My project is hosted at a project hosting service like SourceForge or Github, what should I use as groupId?
+If your project name is foo at SourceForge, you can use net.sf.foo. If your username is bar on Github, you can use com.github.bar. You can also use another reversed domain name you control. The group ID does not have to reflect the project host.</p></blockquote>
+
+<h3>Deployment</h3>
+
+<p>至此，准备工作就完成了，接下来可以进入部署环节了。先还是要做些相关配置，主要是：</p>
+
+<ul>
+<li>Distribution Management and Authentication</li>
+<li>Using a Profile</li>
+</ul>
+
+
+<h4>Distribution Management and Authentication</h4>
+
+<p>为了配置 Maven，使其能够通过 Nexus Staging Maven 插件部署到 OSSRH 的 Nexus Repository Manager上，你必须进行如下配置：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;distributionManagement>
+</span><span class='line'>  &lt;snapshotRepository>
+</span><span class='line'>    &lt;id>ossrh&lt;/id>
+</span><span class='line'>    &lt;url>https://oss.sonatype.org/content/repositories/snapshots&lt;/url>
+</span><span class='line'>  &lt;/snapshotRepository>
+</span><span class='line'>&lt;/distributionManagement>
+</span><span class='line'>&lt;build>
+</span><span class='line'>  &lt;plugins>
+</span><span class='line'>    &lt;plugin>
+</span><span class='line'>      &lt;groupId>org.sonatype.plugins&lt;/groupId>
+</span><span class='line'>      &lt;artifactId>nexus-staging-maven-plugin&lt;/artifactId>
+</span><span class='line'>      &lt;version>1.6.7&lt;/version>
+</span><span class='line'>      &lt;extensions>true&lt;/extensions>
+</span><span class='line'>      &lt;configuration>
+</span><span class='line'>        &lt;serverId>ossrh&lt;/serverId>
+</span><span class='line'>        &lt;nexusUrl>https://oss.sonatype.org/&lt;/nexusUrl>
+</span><span class='line'>        &lt;autoReleaseAfterClose>true&lt;/autoReleaseAfterClose>
+</span><span class='line'>      &lt;/configuration>
+</span><span class='line'>    &lt;/plugin>
+</span><span class='line'>    ...
+</span><span class='line'>  &lt;/plugins>
+</span><span class='line'>&lt;/build></span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外，如果你使用 Maven 部署插件，这是默认行为，你需要添加一个完整的distributionManagement部分。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;distributionManagement>
+</span><span class='line'>  &lt;snapshotRepository>
+</span><span class='line'>    &lt;id>ossrh&lt;/id>
+</span><span class='line'>    &lt;url>https://oss.sonatype.org/content/repositories/snapshots&lt;/url>
+</span><span class='line'>  &lt;/snapshotRepository>
+</span><span class='line'>  &lt;repository>
+</span><span class='line'>    &lt;id>ossrh&lt;/id>
+</span><span class='line'>    &lt;url>https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url>
+</span><span class='line'>  &lt;/repository>
+</span><span class='line'>&lt;/distributionManagement></span></code></pre></td></tr></table></div></figure>
+
+
+<p>上述配置将从你的Maven settings.xml文件中获取用户账户的详细信息来部署到OSSRH。认证的最小设置是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;settings>
+</span><span class='line'>  &lt;servers>
+</span><span class='line'>    &lt;server>
+</span><span class='line'>      &lt;id>ossrh&lt;/id>
+</span><span class='line'>      &lt;username>your-jira-id&lt;/username>
+</span><span class='line'>      &lt;password>&lt;![CDATA[your-jira-pwd]]&gt;&lt;/password>
+</span><span class='line'>    &lt;/server>
+</span><span class='line'>  &lt;/servers>
+</span><span class='line'>&lt;/settings></span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Using a Profile</h4>
+
+<p>由于生成javadoc和源代码jars以及使用GPG签署组件是一个相当耗时的过程，这些执行通常从正常的构建配置中分离出来，并转移到一个配置文件中。然后，当通过激活配置文件进行部署时，该配置文件又会被使用。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;profiles>
+</span><span class='line'>  &lt;profile> 
+</span><span class='line'>    &lt;id>release&lt;/id>
+</span><span class='line'>    &lt;build>
+</span><span class='line'>      ...
+</span><span class='line'>      javadoc, source and gpg plugin from above
+</span><span class='line'>      ...
+</span><span class='line'>    &lt;/build>
+</span><span class='line'>  &lt;/profile>
+</span><span class='line'>&lt;/profiles></span></code></pre></td></tr></table></div></figure>
+
+
+<p>这些配置做完之后，最终得到的 pom.xml 类似如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+</span><span class='line'>  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+</span><span class='line'>  &lt;modelVersion>4.0.0&lt;/modelVersion>
+</span><span class='line'>  &lt;groupId>com.github.damiansheldon&lt;/groupId>
+</span><span class='line'>  &lt;artifactId>treasure&lt;/artifactId>
+</span><span class='line'>  &lt;version>0.0.2&lt;/version>
+</span><span class='line'>  &lt;build>
+</span><span class='line'>      &lt;sourceDirectory>src&lt;/sourceDirectory>
+</span><span class='line'>      &lt;plugins>
+</span><span class='line'>          &lt;plugin>
+</span><span class='line'>              &lt;artifactId>maven-compiler-plugin&lt;/artifactId>
+</span><span class='line'>              &lt;version>3.8.1&lt;/version>
+</span><span class='line'>              &lt;configuration>
+</span><span class='line'>                  &lt;source>1.8&lt;/source>
+</span><span class='line'>                  &lt;target>1.8&lt;/target>
+</span><span class='line'>              &lt;/configuration>
+</span><span class='line'>          &lt;/plugin>
+</span><span class='line'>          &lt;plugin>
+</span><span class='line'>              &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>              &lt;artifactId>maven-deploy-plugin&lt;/artifactId>
+</span><span class='line'>              &lt;version>2.8.2&lt;/version>
+</span><span class='line'>          &lt;/plugin>
+</span><span class='line'>          &lt;plugin>
+</span><span class='line'>              &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>              &lt;artifactId>maven-release-plugin&lt;/artifactId>
+</span><span class='line'>              &lt;version>2.5.3&lt;/version>
+</span><span class='line'>              &lt;configuration>
+</span><span class='line'>                  &lt;arguments>-Dgpg.passphrase=${gpg.passphrase}&lt;/arguments>
+</span><span class='line'>                  &lt;autoVersionSubmodules>true&lt;/autoVersionSubmodules>
+</span><span class='line'>                  &lt;useReleaseProfile>false&lt;/useReleaseProfile>
+</span><span class='line'>                  &lt;releaseProfiles>release&lt;/releaseProfiles>
+</span><span class='line'>                  &lt;goals>deploy&lt;/goals>
+</span><span class='line'>              &lt;/configuration>
+</span><span class='line'>          &lt;/plugin>
+</span><span class='line'>          &lt;plugin>
+</span><span class='line'>              &lt;groupId>org.sonatype.plugins&lt;/groupId>
+</span><span class='line'>              &lt;artifactId>nexus-staging-maven-plugin&lt;/artifactId>
+</span><span class='line'>              &lt;version>1.6.7&lt;/version>
+</span><span class='line'>              &lt;extensions>true&lt;/extensions>
+</span><span class='line'>              &lt;configuration>
+</span><span class='line'>                  &lt;serverId>ossrh&lt;/serverId>
+</span><span class='line'>                  &lt;nexusUrl>https://oss.sonatype.org/&lt;/nexusUrl>
+</span><span class='line'>                  &lt;autoReleaseAfterClose>true&lt;/autoReleaseAfterClose>
+</span><span class='line'>              &lt;/configuration>
+</span><span class='line'>          &lt;/plugin>
+</span><span class='line'>      &lt;/plugins>
+</span><span class='line'>  &lt;/build>
+</span><span class='line'>  &lt;dependencies>
+</span><span class='line'>      &lt;dependency>
+</span><span class='line'>          &lt;groupId>org.springframework&lt;/groupId>
+</span><span class='line'>          &lt;artifactId>spring-jdbc&lt;/artifactId>
+</span><span class='line'>          &lt;version>5.2.8.RELEASE&lt;/version>
+</span><span class='line'>      &lt;/dependency>
+</span><span class='line'>  &lt;/dependencies>
+</span><span class='line'>  &lt;distributionManagement>
+</span><span class='line'>      &lt;repository>
+</span><span class='line'>          &lt;id>ossrh&lt;/id>
+</span><span class='line'>          &lt;name>OSSRH Staging Repository&lt;/name>
+</span><span class='line'>          &lt;url>https://oss.sonatype.org/service/local/staging/deploy/maven2&lt;/url>
+</span><span class='line'>      &lt;/repository>
+</span><span class='line'>      &lt;snapshotRepository>
+</span><span class='line'>          &lt;id>ossrh&lt;/id>
+</span><span class='line'>          &lt;name>OSSRH Snapshots&lt;/name>
+</span><span class='line'>          &lt;url>https://oss.sonatype.org/content/repositories/snapshots&lt;/url>
+</span><span class='line'>      &lt;/snapshotRepository>
+</span><span class='line'>  &lt;/distributionManagement>
+</span><span class='line'>  &lt;scm>
+</span><span class='line'>      &lt;connection>scm:git:https://github.com/DamianSheldon/Treasure.git&lt;/connection>
+</span><span class='line'>      &lt;developerConnection>scm:git:https://github.com/DamianSheldon/Treasure.git&lt;/developerConnection>
+</span><span class='line'>      &lt;tag>HEAD&lt;/tag>
+</span><span class='line'>      &lt;url>https://github.com/DamianSheldon/Treasure&lt;/url>
+</span><span class='line'>  &lt;/scm>
+</span><span class='line'>  &lt;profiles>
+</span><span class='line'>      &lt;profile>
+</span><span class='line'>          &lt;id>release&lt;/id>
+</span><span class='line'>          &lt;build>
+</span><span class='line'>              &lt;plugins>
+</span><span class='line'>                  &lt;plugin>
+</span><span class='line'>                      &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>                      &lt;artifactId>maven-source-plugin&lt;/artifactId>
+</span><span class='line'>                      &lt;version>2.2.1&lt;/version>
+</span><span class='line'>                      &lt;executions>
+</span><span class='line'>                          &lt;execution>
+</span><span class='line'>                              &lt;id>attach-sources&lt;/id>
+</span><span class='line'>                              &lt;goals>
+</span><span class='line'>                                  &lt;goal>jar-no-fork&lt;/goal>
+</span><span class='line'>                              &lt;/goals>
+</span><span class='line'>                          &lt;/execution>
+</span><span class='line'>                      &lt;/executions>
+</span><span class='line'>                  &lt;/plugin>
+</span><span class='line'>                  &lt;plugin>
+</span><span class='line'>                      &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>                      &lt;artifactId>maven-javadoc-plugin&lt;/artifactId>
+</span><span class='line'>                      &lt;version>2.9.1&lt;/version>
+</span><span class='line'>                      &lt;executions>
+</span><span class='line'>                          &lt;execution>
+</span><span class='line'>                              &lt;id>attach-javadocs&lt;/id>
+</span><span class='line'>                              &lt;goals>
+</span><span class='line'>                                  &lt;goal>jar&lt;/goal>
+</span><span class='line'>                              &lt;/goals>
+</span><span class='line'>                          &lt;/execution>
+</span><span class='line'>                      &lt;/executions>
+</span><span class='line'>                  &lt;/plugin>
+</span><span class='line'>                  &lt;plugin>
+</span><span class='line'>                      &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>                      &lt;artifactId>maven-gpg-plugin&lt;/artifactId>
+</span><span class='line'>                      &lt;version>1.5&lt;/version>
+</span><span class='line'>                      &lt;executions>
+</span><span class='line'>                          &lt;execution>
+</span><span class='line'>                              &lt;id>sign-artifacts&lt;/id>
+</span><span class='line'>                              &lt;phase>verify&lt;/phase>
+</span><span class='line'>                              &lt;goals>
+</span><span class='line'>                                  &lt;goal>sign&lt;/goal>
+</span><span class='line'>                              &lt;/goals>
+</span><span class='line'>                          &lt;/execution>
+</span><span class='line'>                      &lt;/executions>
+</span><span class='line'>                  &lt;/plugin>
+</span><span class='line'>              &lt;/plugins>
+</span><span class='line'>          &lt;/build>
+</span><span class='line'>      &lt;/profile>
+</span><span class='line'>  &lt;/profiles>
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- More Project Information -->
+</span><span class='line'>  &lt;name>Treasure&lt;/name>
+</span><span class='line'>  &lt;description>The treasures I have accumulated in my daily java development. It can help other people face the same problem.&lt;/description>
+</span><span class='line'>  &lt;url>https://github.com/DamianSheldon/Treasure&lt;/url>
+</span><span class='line'>  &lt;licenses>
+</span><span class='line'>      &lt;license>
+</span><span class='line'>          &lt;name>MIT License&lt;/name>
+</span><span class='line'>          &lt;url>http://www.opensource.org/licenses/mit-license.php&lt;/url>
+</span><span class='line'>          &lt;distribution>repo&lt;/distribution>
+</span><span class='line'>      &lt;/license>
+</span><span class='line'>  &lt;/licenses>
+</span><span class='line'>  &lt;developers>
+</span><span class='line'>      &lt;developer>
+</span><span class='line'>          &lt;id>meiliang&lt;/id>
+</span><span class='line'>          &lt;name>Meiliang Dong&lt;/name>
+</span><span class='line'>          &lt;email>dongmeilianghy@sina.com&lt;/email>
+</span><span class='line'>          &lt;url>http://damiansheldon.github.io&lt;/url>
+</span><span class='line'>          &lt;roles>
+</span><span class='line'>              &lt;role>architect&lt;/role>
+</span><span class='line'>              &lt;role>developer&lt;/role>
+</span><span class='line'>          &lt;/roles>
+</span><span class='line'>          &lt;timezone>Asia/Shanghai&lt;/timezone>
+</span><span class='line'>      &lt;/developer>
+</span><span class='line'>  &lt;/developers>
+</span><span class='line'>&lt;/project></span></code></pre></td></tr></table></div></figure>
+
+
+<p>做好相关配置之后就可以真正部署了，主要有两种部署方式：</p>
+
+<ul>
+<li>Nexus Staging Maven Plugin for Deployment and Release</li>
+<li>Performing a Release Deployment with the Maven Release Plugin</li>
+</ul>
+
+
+<p>推荐的方式是使用 Nexus Staging Maven Plugin。</p>
+
+<h4>Nexus Staging Maven Plugin for Deployment and Release</h4>
+
+<p>Performing a Snapshot Deployment</p>
+
+<p>当你的版本以<code>-SNAPSHOT</code>结尾时，会进行快照部署。当执行快照部署时，您不需要满足要求，只需在工程上运行 <code>mvn clean deploy</code></p>
+
+<p>SNAPSHOT版本不同步到中央版本库。如果您希望您的用户使用您的 SNAPSHOT 版本，他们需要将快照库添加到他们的 Nexus Repository Manager、settings.xml 或 pom.xml 中。成功部署的SNAPSHOT版本可以在<code>https://oss.sonatype.org/content/repositories/snapshots/</code>找到。</p>
+
+<p>Performing a Release Deployment</p>
+
+<p>为了执行发布部署，你必须在所有的POM文件中编辑你的版本，以使用发布版本。这意味着它们不能以<code>-SNAPSHOT</code>结尾，此外插件和依赖性声明也不能使用快照版本。这保证了你只能依赖其他发布的组件。理想情况下，它们都在中央仓库中可用。这确保了你的用户可以从中央仓库中检索你的组件以及你的过渡性依赖。</p>
+
+<p>在多模块设置中，可以手动或借助Maven版本插件来更改项目的版本和父级引用。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:set -DnewVersion=1.2.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一旦你更新了所有的版本，并确保你的构建没有部署就通过了，你就可以使用发布配置文件进行部署，并使用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn clean deploy -P release</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"></pre></td><td class='code'><pre><code class=''></code></pre></td></tr></table></div></figure>
+
+
+<h4>Performing a Release Deployment with the Maven Release Plugin</h4>
+
+<p>Maven发布插件可以用来自动完成对Maven POM文件的修改、健康检查、所需的SCM操作和实际部署执行。</p>
+
+<p>Maven发布插件的配置应该包括禁用Maven super POM 中的发布配置文件，因为我们使用的是我们自己的配置文件，并在激活发布配置文件的同时指定部署目标。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin>
+</span><span class='line'>  &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+</span><span class='line'>  &lt;artifactId>maven-release-plugin&lt;/artifactId>
+</span><span class='line'>  &lt;version>2.5.3&lt;/version>
+</span><span class='line'>  &lt;configuration>
+</span><span class='line'>    &lt;autoVersionSubmodules>true&lt;/autoVersionSubmodules>
+</span><span class='line'>    &lt;useReleaseProfile>false&lt;/useReleaseProfile>
+</span><span class='line'>    &lt;releaseProfiles>release&lt;/releaseProfiles>
+</span><span class='line'>    &lt;goals>deploy&lt;/goals>
+</span><span class='line'>  &lt;/configuration>
+</span><span class='line'>&lt;/plugin></span></code></pre></td></tr></table></div></figure>
+
+
+<p>在SCM连接配置正确的情况下，您可以通过以下方式向OSSRH进行发布部署。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn release:clean release:prepare</span></code></pre></td></tr></table></div></figure>
+
+
+<p>回答版本和标签的提示，然后是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn release:perform</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于使用了Nexus Staging Maven Plugin，并将autoReleaseAfterClose设置为true，这个执行将一次性部署到OSSRH并发布到中央仓库。</p>
+
+<h3>Releasing to Central</h3>
+
+<p>在前面的介绍中，我们提到使用 Nexus Staging Maven Plugin，并将autoReleaseAfterClose设置为true，部署到OSSRH后会发布到中央仓库。我们也可以手动执行 <code>mvn nexus-staging:release
+</code> 来发布 staging repository。</p>
+
+<h3>Reference</h3>
+
+<ul>
+<li><a href="https://central.sonatype.org/pages/ossrh-guide.html">OSSRH Guide</a></li>
+<li><a href="https://central.sonatype.org/pages/requirements.html">Requirements</a></li>
+<li><a href="https://central.sonatype.org/pages/apache-maven.html#nexus-staging-maven-plugin-for-deployment-and-release">Deploying to OSSRH with Apache Maven</a></li>
+<li><a href="https://dzone.com/articles/publish-your-artifacts-to-maven-central">How to Publish Your Artifacts to Maven Central</a></li>
+<li><a href="https://stackoverflow.com/questions/57591432/gpg-signing-failed-inappropriate-ioctl-for-device-on-macos-with-maven">“gpg: signing failed: Inappropriate ioctl for device” on MacOS with Maven</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一种构建 JavaScript 库的方法]]></title>
@@ -6419,275 +7139,6 @@ uses RxJS 6.0.0 </p>
 <li><a href="https://objccn.io/issue-4-5/">导入大数据集</a></li>
 <li><a href="https://objccn.io/issue-2-2/">常见的后台实践</a></li>
 <li><a href="https://blog.codecentric.de/en/2014/11/concurrency-coredata/">Concurrency with CoreData</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac 使用笔记(二)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/problems-when-use-mac-part-two.html"/>
-    <updated>2018-01-23T11:59:31+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/problems-when-use-mac-part-two</id>
-    <content type="html"><![CDATA[<h2>1. iPhone每次连接Mac都会弹出iPhoto</h2>
-
-<p>解决办法：</p>
-
-<ol>
-<li>Plug in your iPad/iPhone</li>
-<li>Open Image Capture</li>
-<li>Select your device (&ldquo;devMikePad&rdquo;)</li>
-<li>Press the triangle in square symbol in the lower left corner.</li>
-<li>Select &ldquo;No application&rdquo; in the menu.</li>
-</ol>
-
-
-<p>iPhoto:
-Preferences > General > &ldquo;Connecting Camera Opens &hellip;&rdquo;
-set it to &ldquo;No Application&rdquo;</p>
-
-<h2>2. Add environment variable</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// ~/.bash_profile
-</span><span class='line'><span class="nb">export </span><span class="nv">var</span><span class="o">=</span>value
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.SSH ask passpharse every time I use SSH key.</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$echo</span> -e <span class="s2">&quot;AddKeysToAgent yes\nUseKeychain yes&quot;</span> &gt;&gt; ~/.ssh/config
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4.Fix the Enable and Disable install software from anywhere in macOS Sierra</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>// Enable
-</span><span class='line'><span class="nv">$ </span>sudo spctl --master-disable
-</span><span class='line'>
-</span><span class='line'>// Disable
-</span><span class='line'><span class="nv">$sudo</span> spctl --master-enable
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://www.osxio.com/fix-enable-disable-install-software-anywhere-macos-sierra-problem/">Fix the Enable and Disable install software from anywhere in macOS Sierra problem</a></p>
-
-<h2>5.Mac 上批量替换文件中的字符串</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>grep -rl discription <span class="nb">source</span>/_posts <span class="p">|</span> xargs sed -i <span class="s1">&#39;&#39;</span>  <span class="s2">&quot;s/discription/description/g&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://blog.csdn.net/werm520/article/details/49334513">linux 批量替换文件内容及查找某目录下所有包含某字符串的文件（批量修改文件内容）</a><br/>
-<a href="http://xiaorui.cc/2016/01/14/%E8%AE%BAmac%E4%BD%BF%E7%94%A8sed%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">论mac使用sed修改文件的正确姿势</a></p>
-
-<h2>6.如何查看占用指定端口的进程？</h2>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>lsof -i :<span class="o">[</span>port<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>结果输出中有进程的 pid, 之后我们可以用这个 pid 来杀掉该进程：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> -9 <span class="o">[</span>pid<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这些进程很可能是系统启动时就启动了，可以通过：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl list <span class="p">|</span> grep <span class="o">[</span>pid<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>来确认。如果找到有，而我们又不想它自启动了，可以在以下目录中找到配置文件：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>~/Library/LaunchAgents         Per-user agents provided by the user.
-</span><span class='line'>/Library/LaunchAgents          Per-user agents provided by the administrator.
-</span><span class='line'>/Library/LaunchDaemons         System wide daemons provided by the administrator.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>找到之后，可以用命令：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl unload -w paths
-</span><span class='line'>// eg:
-</span><span class='line'><span class="nv">$ </span>launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!--more-->
-
-
-<h2>7.如何使用命令行安装 dmg？</h2>
-
-<p>A:</p>
-
-<p>First, mount the dmg image : <code>sudo hdiutil attach &lt;image&gt;.dmg</code></p>
-
-<p>The image will be mounted to /Volumes/<image>. Then we can install with: <code>sudo installer -package /Volumes/&lt;image&gt;/&lt;image&gt;.pkg -target /</code></p>
-
-<p>Finally unmount the image: <code>sudo hdiutil detach /Volumes/&lt;image&gt;</code>.</p>
-
-<p>这个需求是源于最近一次安装 mysql 时，图形界面安装无响应，之后尝试命令行成功安装，还蛮奇怪。</p>
-
-<p>Reference:<a href="https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg">Is there a command to install a dmg</a></p>
-
-<h2>8.How to start Mac&rsquo;s built-in SMTP server?</h2>
-
-<p>A:Mac include a built-in SMTP server, but its configuration on Mojave seems not property for daemon. Because KeepAlive not set to true, so we have to correct it. However its configuration file locate at <code>/System/Library/LaunchDaemons/org.postfix.master.plist</code>, we can&rsquo;t edit it even as root, SIP only can diable on recovery OS on mojave. Eventually I think a workaround, detail as follow:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo launchctl unload -w /System/Library/LaunchDaemons/org.postfix.master.plist
-</span><span class='line'>$ sudo mv /System/Library/LaunchDaemons/org.postfix.master.plist /Library/LaunchDaemons/org.postfix.master.plist  
-</span><span class='line'>
-</span><span class='line'>// Edit plist
-</span><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
-</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-</span><span class='line'>&lt;plist version="1.0">
-</span><span class='line'>&lt;dict>
-</span><span class='line'>  &lt;key>Label&lt;/key>
-</span><span class='line'>  &lt;string>org.postfix.master&lt;/string>
-</span><span class='line'>  &lt;key>Program&lt;/key>
-</span><span class='line'>  &lt;string>/usr/libexec/postfix/master&lt;/string>
-</span><span class='line'>  &lt;key>ProgramArguments&lt;/key>
-</span><span class='line'>  &lt;array>
-</span><span class='line'>      &lt;string>master&lt;/string>
-</span><span class='line'>      &lt;string>-e&lt;/string>
-</span><span class='line'>      &lt;string>60&lt;/string>
-</span><span class='line'>  &lt;/array>
-</span><span class='line'>  &lt;key>QueueDirectories&lt;/key>
-</span><span class='line'>  &lt;array>
-</span><span class='line'>      &lt;string>/var/spool/postfix/maildrop&lt;/string>
-</span><span class='line'>  &lt;/array>
-</span><span class='line'>  &lt;key>AbandonProcessGroup&lt;/key>
-</span><span class='line'>  &lt;true/>
-</span><span class='line'>    &lt;key>RunAtLoad&lt;/key>
-</span><span class='line'>    &lt;true/>
-</span><span class='line'>    &lt;key>KeepAlive&lt;/key>
-</span><span class='line'>    &lt;true/>
-</span><span class='line'>&lt;/dict>
-</span><span class='line'>&lt;/plist>
-</span><span class='line'>
-</span><span class='line'>// Check plist syntax 
-</span><span class='line'>$ plutil -lint /Library/LaunchDaemons/org.postfix.master.plist
-</span><span class='line'>
-</span><span class='line'>// Load service
-</span><span class='line'>$ sudo launchctl load -w /Library/LaunchDaemons/org.postfix.master.plist
-</span><span class='line'>
-</span><span class='line'>// Check service
-</span><span class='line'>$ sudo lsof -i :25
-</span><span class='line'>
-</span><span class='line'>// Or 
-</span><span class='line'>$ telnet localhost 25</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>9.从“时间机器”备份恢复文件</h2>
-
-<p>A: Apple 介绍了如何从 “时间机器”备份恢复文件，你可以用备份创建一个新的用户，它拥有备份时状态。但我的情况是备份之后还在继续使用，产生了新的文件，想恢复那些删除的文件，但不覆盖新的文件，而且由于电脑的硬盘较小，我直接用备份创建一个新的用户的恢复方法空间不够。于是我只能手动从“时间机器”的备份里恢复文件。</p>
-
-<ol>
-<li><p>Enable Full Disk Access for your terminal, I use iTerm;</p>
-
-<ul>
-<li>System Preferences > Security &amp; Privacy > Privacy > Full Disk Access > Add iTerm</li>
-</ul>
-</li>
-<li><p>Use rsync restore;</p>
-
-<ul>
-<li>eg <code>$rsync -avuzb Documents ~/</code></li>
-</ul>
-</li>
-</ol>
-
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://support.apple.com/zh-cn/HT203981">从备份恢复 Mac</a></li>
-<li><a href="https://apple.stackexchange.com/questions/365062/how-can-change-broken-file-permissions-of-time-machine-backups">How can change broken file permissions of Time Machine backups?</a></li>
-</ul>
-
-
-<h2>10.升级到 macOS Catalina 后，根目录下的非标准目录丢失了</h2>
-
-<p>A:</p>
-
-<blockquote><p>While creating the two separate volumes during the upgrade process, files and data that couldn’t be moved to their new location are placed in a Relocated Items folder. The Relocated Items folder is in the Shared folder within the User folder (/Users/Shared/Relocated Items) and available though a shortcut on the Desktop.</p></blockquote>
-
-<p>我之前是将私有 git 仓库目录放在了 <code>/git</code>， 所以现在需要使用 rsync 恢复到新的目录: <code>rsync -avuzb /Users/Shared/Relocated\ Items/Security/git/ repo/</code></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://apple.stackexchange.com/questions/371852/where-does-the-upgrade-to-macos-catalina-move-root-directory-files">Where does the upgrade to macOS Catalina move root “/” directory files?</a></li>
-<li><a href="https://support.apple.com/en-us/HT210650">About the read-only system volume in macOS Catalina</a></li>
 </ul>
 
 ]]></content>

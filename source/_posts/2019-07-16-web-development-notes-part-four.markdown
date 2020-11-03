@@ -297,4 +297,12 @@ Reference:
 
 * [Flexbox and Truncated Text](https://css-tricks.com/flexbox-truncated-text/)  
 
+###12.Disable Hypertext Application Language (HAL) in JSON?
+A:`spring.data.rest.default-media-type=application/json`
+
+Reference:  
+
+* [Disable Hypertext Application Language (HAL) in JSON?](https://stackoverflow.com/questions/23264044/disable-hypertext-application-language-hal-in-json)  
+* [How to set the default media type for spring-data-rest?](https://stackoverflow.com/questions/35205524/how-to-set-the-default-media-type-for-spring-data-rest)  
+
 

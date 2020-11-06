@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-11-06T22:31:11+08:00</updated>
+  <updated>2020-11-06T22:43:43+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1114,9 +1114,9 @@ rsync -avuz /tmp/usr/local/bin/ /usr/local/bin
 <!--more-->
 
 
-<h4>系统迁移</h4>
+<h4>~~系统迁移</h4>
 
-<p>换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法：</p>
+<p>换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法~~：</p>
 
 <pre><code># 全系统备份
 tar --create --absolute-names --preserve-permissions --bzip2  --file=/media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 --exclude=/dev --exclude=/media --exclude=/metainfo --exclude=/mnt --exclude=/proc --exclude=/run --exclude=/sys  --exclude=/tmp --exclude=/var --exclude=/@System.solv /
@@ -1127,6 +1127,14 @@ tar -tjpPvf /media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 | les
 # 将备份包放到 /tmp 下解压
 tar -xjvf virtual-box-centos-8.tar.bz2
 </code></pre>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://wiki.archlinux.org/index.php/migrate_installation_to_new_hardware">Migrate installation to new hardware</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorial_series/how-to-migrate-to-a-new-linux-server">How To Migrate to a New Linux Server</a></li>
+</ul>
+
 
 <h3>2.dnf list plugins command missing</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-10-28T11:29:33+08:00</updated>
+  <updated>2020-11-06T22:31:11+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1110,12 +1110,12 @@ If your project name is foo at SourceForge, you can use net.sf.foo. If your u
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>tar -jxv -f /backups/backup-system-20200902.tar.bz2 -C /tmp
-</span><span class='line'>rsync -avuzb /tmp/etc/ /etc
-</span><span class='line'>rsync -avuzb /tmp/home/ /home
-</span><span class='line'>rsync -avuzb /tmp/var/spool/mail/ /var/spool/mail
-</span><span class='line'>rsync -avuzb /tmp/var/spool/cron/ /var/spool/cron
-</span><span class='line'>rsync -avuzb /tmp/root/ /root
-</span><span class='line'>rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>rsync -avuz /tmp/etc/ /etc
+</span><span class='line'>rsync -avuz /tmp/home/ /home
+</span><span class='line'>rsync -avuz /tmp/var/spool/mail/ /var/spool/mail
+</span><span class='line'>rsync -avuz /tmp/var/spool/cron/ /var/spool/cron
+</span><span class='line'>rsync -avuz /tmp/root/ /root
+</span><span class='line'>rsync -avuz /tmp/usr/local/bin/ /usr/local/bin</span></code></pre></td></tr></table></div></figure>
 
 
 <!--more-->
@@ -1343,6 +1343,24 @@ Updating Subscription Management repositories.</p>
 
 <ul>
 <li><a href="https://forums.centos.org/viewtopic.php?t=73864">CentOS 8.0.1905 - &lsquo;chsh&rsquo; : command not found</a></li>
+</ul>
+
+
+<h3>8. rsync 同步目录时产生了很多以 <code>~</code> 结尾的文件</h3>
+
+<p>A:原因是加上了 b 选项，会对文件做备份</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rsync -avuzb treasure-workspace/dist/treasure/ treasure-lib-dist</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://unix.stackexchange.com/questions/76189/what-does-the-tilde-mean-at-the-end-of-a-filename">What does the tilde (~) mean at the end of a filename? </a></li>
+<li><a href="https://unix.stackexchange.com/questions/132669/what-is-bitwise-c?noredirect=1&amp;lq=1">What is bitwise.c~? </a></li>
 </ul>
 
 ]]></content>
@@ -2691,6 +2709,18 @@ Updating Subscription Management repositories.</p>
 
 <ul>
 <li><a href="https://css-tricks.com/flexbox-truncated-text/">Flexbox and Truncated Text</a></li>
+</ul>
+
+
+<h3>12.Disable Hypertext Application Language (HAL) in JSON?</h3>
+
+<p>A:<code>spring.data.rest.default-media-type=application/json</code></p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/23264044/disable-hypertext-application-language-hal-in-json">Disable Hypertext Application Language (HAL) in JSON?</a></li>
+<li><a href="https://stackoverflow.com/questions/35205524/how-to-set-the-default-media-type-for-spring-data-rest">How to set the default media type for spring-data-rest?</a></li>
 </ul>
 
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-10-28T11:29:33+08:00</updated>
+  <updated>2020-11-06T22:31:11+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1103,12 +1103,12 @@ If your project name is foo at SourceForge, you can use net.sf.foo. If your u
 <p>首先可以将备份解压到 <code>/tmp</code> 目录，之后使用 rsync 命令复制到对应目录便可恢复。</p>
 
 <pre><code>tar -jxv -f /backups/backup-system-20200902.tar.bz2 -C /tmp
-rsync -avuzb /tmp/etc/ /etc
-rsync -avuzb /tmp/home/ /home
-rsync -avuzb /tmp/var/spool/mail/ /var/spool/mail
-rsync -avuzb /tmp/var/spool/cron/ /var/spool/cron
-rsync -avuzb /tmp/root/ /root
-rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin
+rsync -avuz /tmp/etc/ /etc
+rsync -avuz /tmp/home/ /home
+rsync -avuz /tmp/var/spool/mail/ /var/spool/mail
+rsync -avuz /tmp/var/spool/cron/ /var/spool/cron
+rsync -avuz /tmp/root/ /root
+rsync -avuz /tmp/usr/local/bin/ /usr/local/bin
 </code></pre>
 
 <!--more-->
@@ -1343,6 +1343,21 @@ Updating Subscription Management repositories.</p>
 
 <ul>
 <li><a href="https://forums.centos.org/viewtopic.php?t=73864">CentOS 8.0.1905 - &lsquo;chsh&rsquo; : command not found</a></li>
+</ul>
+
+
+<h3>8. rsync 同步目录时产生了很多以 <code>~</code> 结尾的文件</h3>
+
+<p>A:原因是加上了 b 选项，会对文件做备份</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rsync -avuzb treasure-workspace/dist/treasure/ treasure-lib-dist</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://unix.stackexchange.com/questions/76189/what-does-the-tilde-mean-at-the-end-of-a-filename">What does the tilde (~) mean at the end of a filename? </a></li>
+<li><a href="https://unix.stackexchange.com/questions/132669/what-is-bitwise-c?noredirect=1&amp;lq=1">What is bitwise.c~? </a></li>
 </ul>
 
 ]]></content>

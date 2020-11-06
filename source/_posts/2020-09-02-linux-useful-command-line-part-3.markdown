@@ -43,8 +43,8 @@ rsync -avuz /tmp/root/ /root
 rsync -avuz /tmp/usr/local/bin/ /usr/local/bin
 ```
 <!--more-->
-#### 系统迁移
-换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法：
+#### ~~系统迁移
+换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法~~：
 
 ```
 # 全系统备份
@@ -56,6 +56,11 @@ tar -tjpPvf /media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 | les
 # 将备份包放到 /tmp 下解压
 tar -xjvf virtual-box-centos-8.tar.bz2
 ```
+
+Reference:  
+
+* [Migrate installation to new hardware](https://wiki.archlinux.org/index.php/migrate_installation_to_new_hardware)  
+* [How To Migrate to a New Linux Server](https://www.digitalocean.com/community/tutorial_series/how-to-migrate-to-a-new-linux-server)  
 
 ### 2.dnf list plugins command missing
 A:The information is provided for nearly all command with "-v" option. See:

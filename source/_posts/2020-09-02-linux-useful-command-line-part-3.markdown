@@ -35,12 +35,12 @@ tar -jcv -f /backups/backup-system-20200902.tar.bz2 \
 
 ```
 tar -jxv -f /backups/backup-system-20200902.tar.bz2 -C /tmp
-rsync -avuzb /tmp/etc/ /etc
-rsync -avuzb /tmp/home/ /home
-rsync -avuzb /tmp/var/spool/mail/ /var/spool/mail
-rsync -avuzb /tmp/var/spool/cron/ /var/spool/cron
-rsync -avuzb /tmp/root/ /root
-rsync -avuzb /tmp/usr/local/bin/ /usr/local/bin
+rsync -avuz /tmp/etc/ /etc
+rsync -avuz /tmp/home/ /home
+rsync -avuz /tmp/var/spool/mail/ /var/spool/mail
+rsync -avuz /tmp/var/spool/cron/ /var/spool/cron
+rsync -avuz /tmp/root/ /root
+rsync -avuz /tmp/usr/local/bin/ /usr/local/bin
 ```
 <!--more-->
 #### 系统迁移

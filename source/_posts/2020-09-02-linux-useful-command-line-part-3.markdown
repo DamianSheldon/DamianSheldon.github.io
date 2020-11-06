@@ -175,4 +175,16 @@ $ sudo dnf install util-linux-user-2.32.1-22.el8.x86_64
 
 * [CentOS 8.0.1905 - 'chsh' : command not found](https://forums.centos.org/viewtopic.php?t=73864)  
 
+### 8. rsync 同步目录时产生了很多以 `~` 结尾的文件
+A:原因是加上了 b 选项，会对文件做备份
+
+{% codeblock %}
+rsync -avuzb treasure-workspace/dist/treasure/ treasure-lib-dist
+{% endcodeblock %} 
+
+Reference:  
+
+* [What does the tilde (~) mean at the end of a filename? ](https://unix.stackexchange.com/questions/76189/what-does-the-tilde-mean-at-the-end-of-a-filename)  
+* [What is bitwise.c~? ](https://unix.stackexchange.com/questions/132669/what-is-bitwise-c?noredirect=1&lq=1)  
+
 

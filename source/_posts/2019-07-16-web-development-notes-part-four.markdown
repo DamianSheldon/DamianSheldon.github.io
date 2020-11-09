@@ -305,4 +305,22 @@ Reference:
 * [Disable Hypertext Application Language (HAL) in JSON?](https://stackoverflow.com/questions/23264044/disable-hypertext-application-language-hal-in-json)  
 * [How to set the default media type for spring-data-rest?](https://stackoverflow.com/questions/35205524/how-to-set-the-default-media-type-for-spring-data-rest)  
 
+###13.What is the speed of each preset option for network throttling?
+A:
+
+{% codeblock %}
+Preset,download(kb/s),upload(kb/s),RTT(ms)
+GPRS,50,20,500
+Regular 2G,250,50,300
+Good 2G,450,150,150
+Regular 3G,750,250,100
+Good 3G, 1000,750,40
+Regular 4G, 4000,3000,20
+DSL 2000, 1000,5
+WiFi 30000,150000,2
+{% endcodeblock %}
+
+Reference:  
+
+* [In chrome dev tools, what is the speed of each preset option for network throttling?](https://stackoverflow.com/questions/48367042/in-chrome-dev-tools-what-is-the-speed-of-each-preset-option-for-network-throttl)  
 

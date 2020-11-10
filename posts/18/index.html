@@ -370,7 +370,7 @@ Apply > Run
 <p>在开发过程中，我们可能想查看客户端和服务器的详细交互，这时我们通过指定 Host 和 Port 抓包来得到详细的 HTTP 交互。例如现在是在我的本地开发环境，服务器的端口是8080，可以用以下命令:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$sudo</span> tcpdump -i lo0 -vv <span class="s1">&#39;(src localhost and dst port 8080) or (dst localhost and src port 8080)&#39;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$sudo</span> tcpdump -A -i lo0 <span class="s1">&#39;(src localhost and dst port 8080) or (dst localhost and src port 8080)&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

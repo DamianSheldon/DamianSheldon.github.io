@@ -231,3 +231,18 @@ $adb shell
 $logcat -b main,system,crash -f /mnt/sdcard/logs/logcat.log -r 32 -n 65535 &
 ```
 
+###12.将 ionic 的 android 工程单独提交到 svn 仓库
+A:
+
+{% codeblock %}
+$ mkdir RAWApp
+$ svn import RAWApp http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp 
+$ rm -rf RAWApp
+$ svn checkout http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp
+$ rsync -avuz platforms/android/ RAWApp
+$ cd RAWApp
+$ svn add --force .
+$ svn commit
+{% endcodeblock %}
+
+

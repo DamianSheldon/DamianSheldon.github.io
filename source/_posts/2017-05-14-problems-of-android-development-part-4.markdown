@@ -184,7 +184,8 @@ captures
 # Version control
 vcs.xml
 
-$ svn propedit svn:ignore .idea
+$ svn propedit svn:ignore .  
+idea
 workspace.xml
 tasks.xml
 gradle.xml

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2020-11-10T10:45:47+08:00</updated>
+  <updated>2020-11-25T09:45:24+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -226,7 +226,8 @@ captures
 # Version control
 vcs.xml
 
-$ svn propedit svn:ignore .idea
+$ svn propedit svn:ignore .  
+idea
 workspace.xml
 tasks.xml
 gradle.xml
@@ -279,6 +280,27 @@ aidl/                      com/                       java/                     
 <pre><code>$adb shell
 $logcat -b main,system,crash -f /mnt/sdcard/logs/logcat.log -r 32 -n 65535 &amp;
 </code></pre>
+
+<h3>12.将 ionic 的 android 工程单独提交到 svn 仓库</h3>
+
+<p>A:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir RAWApp
+</span><span class='line'>$ svn import RAWApp &lt;a href="http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp">http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp&lt;/a>
+</span><span class='line'>$ rm -rf RAWApp
+</span><span class='line'>$ svn checkout &lt;a href="http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp">http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp&lt;/a>
+</span><span class='line'>$ rsync -avuz platforms/android/ RAWApp
+</span><span class='line'>$ cd RAWApp
+</span><span class='line'>$ svn add &ndash;force .
+</span><span class='line'>$ svn commit</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   

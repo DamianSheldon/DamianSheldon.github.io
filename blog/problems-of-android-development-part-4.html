@@ -339,6 +339,7 @@
 <span class='line-number'>63</span>
 <span class='line-number'>64</span>
 <span class='line-number'>65</span>
+<span class='line-number'>66</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$svn propedit svn:global-ignores .
 </span><span class='line'># Built application files
 </span><span class='line'>*.apk
@@ -392,7 +393,8 @@
 </span><span class='line'># Version control
 </span><span class='line'>vcs.xml
 </span><span class='line'>
-</span><span class='line'>$ svn propedit svn:ignore .idea
+</span><span class='line'>$ svn propedit svn:ignore .  
+</span><span class='line'>idea
 </span><span class='line'>workspace.xml
 </span><span class='line'>tasks.xml
 </span><span class='line'>gradle.xml
@@ -449,6 +451,28 @@
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$adb shell
 </span><span class='line'>$logcat -b main,system,crash -f /mnt/sdcard/logs/logcat.log -r 32 -n 65535 &</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>12.将 ionic 的 android 工程单独提交到 svn 仓库</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir RAWApp
+</span><span class='line'>$ svn import RAWApp http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp 
+</span><span class='line'>$ rm -rf RAWApp
+</span><span class='line'>$ svn checkout http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/client/cssj/RAWApp
+</span><span class='line'>$ rsync -avuz platforms/android/ RAWApp
+</span><span class='line'>$ cd RAWApp
+</span><span class='line'>$ svn add --force .
+</span><span class='line'>$ svn commit</span></code></pre></td></tr></table></div></figure>
 
 
 

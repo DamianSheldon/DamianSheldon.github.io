@@ -324,3 +324,10 @@ Reference:
 
 * [In chrome dev tools, what is the speed of each preset option for network throttling?](https://stackoverflow.com/questions/48367042/in-chrome-dev-tools-what-is-the-speed-of-each-preset-option-for-network-throttl)  
 
+###14.Allocation failed - JavaScript heap out of memory
+A:`export NODE_OPTIONS=--max_old_space_size=8192`
+
+Reference:  
+
+* [ionic cordova build ios --prod gets an JavaScript heap out of memory](https://stackoverflow.com/questions/53421021/ionic-cordova-build-ios-prod-gets-an-javascript-heap-out-of-memory)  
+

@@ -513,7 +513,7 @@ controlled_envelope_senders 表指定了发件人信封地址和拥有该地址�
 ```
 /etc/postfix/controlled_envelope_senders
 # envelope sender           owners (SASL login names)
-meilaing@tenneshop.com      meiliang
+meiliang@tenneshop.com      meiliang
 ```
 
 配置完记得执行 `sudo postmap hash:/etc/postfix/controlled_envelope_senders`。

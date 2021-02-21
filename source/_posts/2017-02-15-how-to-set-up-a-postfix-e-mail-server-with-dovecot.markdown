@@ -4,75 +4,86 @@ title: "如何搭建一个带 Dovecot 的 Postfix 邮件服务器"
 date: 2017-02-15 16:29:42 +0800
 comments: true
 categories: [Archivies] 
-keywords: Postfix, Dovecot, E-Mail, debian, jessie 
+keywords: Postfix, Dovecot, E-Mail, centos 8 
 description: How to set up a postfix e-mail server with dovecot? 
 ---
-不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。
+
+作为一个软件开发人员，我们可能需要一个自己的 VPS ，在上面可以跑我们的 side project，或者做一些实验。VPS 在运行过程中可能会遇到问题，这时我们可能希望在发生问题时能收到通知。使用邮件通知是个不错的方式。这样我们的服务挂掉了能及时处理。所以学会搭建邮件服务器还是很有价值。另外我一直觉得软件技术人员有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了如何搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件(测试过 sina 和 QQ)。
+
+## 邮件系统是怎么工作
+
+开始之前我觉得有必要了解下邮件系统是怎么工作的，鸟哥在他的博文：[第二十二章、郵件伺服器： Postfix](http://linux.vbird.org/linux_server/0380mail.php)作了很详细的介绍，建议熟读之后再开始。
 
 ## 准备材料 
 
 * VPS
 * 域名
 
-VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用[优惠码](https://m.do.co/c/537dc7bd8a78)购买，这样你可以获赠 10 美元。
+我服务器跑的是 CentOS 8。
 
-我服务器跑的是 Debian 8 Jessie.
+<!--more-->
 
 ## 配置 DNS
 
-### 添加 MX 记录
+### 添加 A、AAAA、MX、PTR 和 SPF 记录
 
-添加从域名到 VPS IP 的 MX 记录，它指定了负责处理这个域名邮件收发的服务器。
+我们首先需要配置 DNS， 主要是添加 A、AAAA、MX、PTR 和 SPF 记录，时间和精力允许的话建议添加 DKIM 和 DMARC 记录，否则部分邮件提供商可能拒收我们的邮件。据说 Gmail 就会验证这些记录，而 Sina 比较宽松，只验证 MX，QQ 会验证 MX 、SPF 和 PTR。
 
-```
-Type    Hostname        Value         TTL
-MX      tenneshop.com   1.2.3.4.      1800
-```
+我域名是挂在 Cloudflare，完整配置如下:
+
+
+类型 | 名称 | 内容 | TTL 
+---- | --- | --- | --- 
+A | www | 104.168.144.39 | 自动 
+A | mail | 104.168.144.39 | 自动 
+A | api | 104.168.144.39 | 自动 
+AAAA | www | 2607:5501:3000:1008::2 | 自动 
+AAAA | mail | 2607:5501:3000:1008::2 | 自动 
+AAAA | api | 2607:5501:3000:1008::2 | 自动 
+MX | tenneshop.com | www.tenneshop.com | 自动
+PTR | 39.144.168.104.in-addr.arpa | www.tenneshop.com | 自动
+PTR | 2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.0.0.1.0.0.0.3.1.0.5.5.7.0.6.2.ip6.arpa | www.tenneshop.com | 自动
+SPF | tenneshop.com | v=spf1 ip4:104.168.144.39 ip6:2607:5501:3000:1008::2 ~all | 自动
+TXT| www | v=spf1 ip4:104.168.144.39 ip6:2607:5501:3000:1008::2 ~all | 自动
 
 ### 验证 DNS
 
-DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上几分钟之后就会生效，你可以用 dig 和 host 来验证。
+DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上应该马上就会生效，你可以用 dig 来验证。
 
 ```
-[root@yourbase] ~# dig MX mydomain.com +short @ns1.digitalocean.com
-50 mail.mydomain.com.
-[root@yourbase] ~# host mail.mydomain.com ns1.digitalocean.com
-Using domain server:
-Name: ns1.digitalocean.com
-Address: 198.199.120.125#53
-Aliases:
+$ dig www.tenneshop.com @buck.ns.cloudflare.com -t A
 
-mail.mydomain.com has address 82.196.9.119
+$ dig www.tenneshop.com @buck.ns.cloudflare.com -t AAAA
+
+$ dig tenneshop.com @buck.ns.cloudflare.com -t MX
+
+$ dig -x 104.168.144.39
+
+$ dig -x 2607:5501:3000:1008::2
+
+$ dig www.tenneshop.com @buck.ns.cloudflare.com -t TXT
 ```
-<!--more-->
-## 邮件系统是怎么工作
-
-开始之前我觉得有必要了解下邮件系统是怎么工作的，Dovecot 上有篇文章介绍的很好，值得看下：[Overview of how everything works together](http://wiki.dovecot.org/MailServerOverview),
-我简单地说一下我的理解，先看发邮件，以使用 Mac 的 Mail 为例，用户用 Mail 写了封邮件，邮件包含收件人地址和信件内容，然后点击发送，Mail 在这里就是 MUA(Mail User Agent), MUA 把邮件发送到 Mail Server, Mail Server 称之为 MTA(Mail Transfer Agent), MTA 根据收件人地址去查询 DNS 记录，然后把邮件发送到目标MTA, 目标MTA则负责把邮件传送给MDA(Mail Delivery Agent), MDA则负责把邮件存储到邮件服务器上。
-
-再看收邮件，用户打开 Mail 之后会触发收件操作，通常是通过 IMAP 或 POP3 协议去获取 MDA 存储在 Mail Server 上的邮件。
-
-我们这里 MTA 用的 Postfix, IMAP/POP3 Server 用的 Dovecot.
 
 ## Postfix
 
 ### 安装
 
-Debian 默认的邮件服务程序是 exim，我们需要卸载它。
+我安装的 CentOS 8 默认的邮件服务程序是 sendmail，我们先停掉它，然后安装 postfix。
 
 ```
-$ sudo aptitude remove exim4 && aptitude install postfix && postfix stop
+$ sudo systemctl disable sendmail.service
+$ sudo systemctl stop sendmail.service
+# 确认是否已安装  postfix
+$ rpm -q postfix
+$ sudo dnf search postfix
+$ sudo dnf install postfix.x86
 ```
 
 ### 配置
 
-Postfix 有两个主要配置文件 /etc/postfix/main.cf 和 /etc/postfix/master.cf, main.cf 指定配置项；master.cf 指定 postfix 要运行哪些服务。
+Postfix 有两个主要配置文件 `/etc/postfix/main.cf` 和 `/etc/postfix/master.cf`, main.cf 指定配置项；master.cf 指定 postfix 要运行哪些服务。
 
-配置的主要工作自然是编辑 main.cf 这个文件里的配置项，安全起见我们可以先把默认的配置文件做个备份:
-
-```
-$ cp /etc/postfix/main.cf /etc/postfix/main.cf.orig
-```
+配置的主要工作是设置 main.cf 这个文件里的配置项。
 
 * 配置发送邮件使用的域名;
 
@@ -87,211 +98,150 @@ myorigin = $mydomain
 ```
 domain-wide mail server
 /etc/postfix/main.cf:
-    mydestination = $myhostname localhost.$mydomain localhost $mydomain
+    mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 
 ```
 
-* 配置哪些终端可以中继邮件
+* 配置信任的终端
 
 ```
 /etc/postfix/main.cf:
-mynetworks_style = host
-mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 
+mynetworks = 127.0.0.0/8, hash:/etc/postfix/access 
 ```
 
-* 配置邮件服务器的基本账号，例如 postmaster, 这是必须要有的账号，这样别人才能反馈邮件投递的问题。
+配置完我们需要执行命令：`sudo postmap hash:/etc/postfix/access`。
+
+* 设置邮件别名，邮件别名对我们有大用处，首先我们可以用它来实现一般帐号接收 root 信件，其次我们还可以用它实现将用户的信件发送一份到对应外域邮箱。
 
 ```
 /etc/aliases:
-mailer-daemon: postmaster
-postmaster: root
-nobody: root
-hostmaster: root
-usenet: root
-news: root
-webmaster: root
-www: root
-ftp: root
-abuse: root
-root: yourname
+
+root: root,meiliang
+yourname: meiliang,dongmeilianghy@sina.com
 ```
 
-更新完了/etc/aliases，还需要运行命令去生效:
+更新完了`/etc/aliases`，还需要运行命令去生效:
 
 ```
 $ newaliases
 ```
 
-* 配置邮件用户账号
-
-Postfix 使用数据库文件来控制权限：
+我们可以使用 `sudo postconf -n` 来看下得到的完整配置:
 
 ```
-/etc/postfix/main.cf:
-    virtual_alias_maps = hash:/etc/postfix/virtual
-
-/etc/postfix/virtual:
-// Map Mail Addresses to Linux Accounts
-contact@example.com sammy
-admin@example.com sammy
+alias_database = hash:/etc/aliases
+alias_maps = hash:/etc/aliases
+command_directory = /usr/sbin
+compatibility_level = 2
+daemon_directory = /usr/libexec/postfix
+data_directory = /var/lib/postfix
+debug_peer_level = 2
+debugger_command = PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin ddd $daemon_directory/$process_name $process_id & sleep 5
+html_directory = no
+inet_interfaces = all
+inet_protocols = all
+mail_owner = postfix
+mailq_path = /usr/bin/mailq.postfix
+manpage_directory = /usr/share/man
+meta_directory = /etc/postfix
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain, hwsrv-773010.hostwindsdns.com
+mydomain = tenneshop.com
+myhostname = www.tenneshop.com
+mynetworks = 127.0.0.0/8, hash:/etc/postfix/access
+myorigin = $mydomain
+newaliases_path = /usr/bin/newaliases.postfix
+queue_directory = /var/spool/postfix
+readme_directory = /usr/share/doc/postfix/README_FILES
+relay_domains = $mydestination
+sample_directory = /usr/share/doc/postfix/samples
+sendmail_path = /usr/sbin/sendmail.postfix
+setgid_group = postdrop
+shlib_directory = /usr/lib64/postfix
+smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
+smtp_tls_CApath = /etc/pki/tls/certs
+smtp_tls_security_level = may
+smtpd_tls_cert_file = /etc/pki/tls/certs/postfix.pem
+smtpd_tls_key_file = /etc/pki/tls/private/postfix.key
+smtpd_tls_security_level = may
+unknown_local_recipient_reject_code = 550
 ```
 
-我们可以通过如下命令来让映射生效:
+* 防火墙设置
+
+因为整个 MTA 主要透过 SMTP (port 25) 进行信件传送的任务，因此，针对 postfix 来说，只要放行 port 25 即可!
 
 ```
-$ sudo postmap /etc/postfix/virtual
+$sudo iptables -A INPUT -p TCP -i eth0 --dport  25  --sport 1024:65534 -j ACCEPT
 ```
 
-* 配置邮件的存储文件格式
-
-> There are two primary storage options of mail in the *NIX world: mbox and Maildir. mbox stores multiple messages - sometimes hundreds or thousands of messages - in a single file. Maildir stores each message a separate file.
-
-Postfix 默认是 mbox 的格式，这里我们决定使用 Maildir 的格式，可以用 postconf 命令来配置:
-
-```
-sudo postconf -e 'home_mailbox= Maildir/'
-```
-
-更新环境变量 MAIL 的值：
-
-```
-echo 'export MAIL=~/Maildir' | sudo tee -a /etc/bash.bashrc | sudo tee -a /etc/profile.d/mail.sh
-```
-
-让变量在当前的会话中生效：
-
-```
-$ source /etc/profile.d/mail.sh
-```
+一切准备就绪之后，我们使用 `sudo systemctl start postfix.service` 来启动 postfix, 可以用 `systemctl status postfix.service` 确认是否启动成功，有问题的话，根据错误信息对应解决。
 
 ### 测试
 
-本地测试之前需要初始化 Maildir 的目录结构，在我们 home 目录中创建 Maildir 目录结构最简单的方法是向我们自己发一封邮件，可以使用 mail 命令:
+我们可以使用 mail 命令来发送邮件做测试:
 
 ```
-// 安装 mail 命令
-$ sudo apt-get install mailutils
-
-// 发送邮件
-$ echo 'init' | mail -s 'init' sammy
-
-// 确认 Maildir 目录结构初始化好了
-$ ls -R ~/Maildir
-
-// 输出的结果： 
-/home/sammy/Maildir/:
-cur  new  tmp
-
-/home/sammy/Maildir/cur:
-
-/home/sammy/Maildir/new:
-1463177269.Vfd01I40e4dM691221.mail.example.com
-
-/home/sammy/Maildir/tmp:
-```
-
-使用 mail 命令发送邮件:
-
-```
-$ mail -s "Hello World" someone@example.com
-Cc: 
-Hi Peter
-How are you
-I am fine
-Good Bye
+$ mail -r foo@tenneshop.com bar foobar@example.com
+Subject: Does postfix works?
+Does postfix works?
 <Ctrl+D>
 ```
 
-使用 mail 命令查看邮件：
+然后我们可以查看 postfix 的日志确认邮件是否能正常投递，有问题的话也可以对应解决:
 
 ```
-$ mail
-Heirloom mailx version 12.5 6/20/10.  Type ? for help.
-"/var/mail/enlightened": 7 messages 3 unread
-O  1 Enlightened        Sat Dec  6 11:33   21/658   This is the subject
-O  2 Enlightened        Sat Dec  6 11:34  773/25549 This is the subject
-O  3 Enlightened        Sat Dec  6 16:43   20/633   This is the subject
-O  4 Enlightened        Sat Dec  6 16:44   20/633   This is the subject
-U  5 Mail Delivery Syst Sat Dec  6 16:50   74/2425  Undelivered Mail Returned to Sender
-U  6 Enlightened        Sat Dec  6 16:51   19/632   This is mutts subject
-U  7 Enlightened        Sat Dec  6 16:52   19/647   This is mutts subject
-?
-```
-我们可以使用 ? 来查看帮助，例如查看下一封邮件是n, 退出是q。
-
-日常生活工作中我们可能不会是通过 mail 来收发邮件，但它在我们配置邮件服务器时很有用，我们可以知道 postfix 是否是正常工作的。
-
-如果postfix并没有按我们预期那样正常工作，我们可以通过查看系统日志和邮件日志来定位问题:
-
-```
-// system log
-$ sudo tail -f /var/log/syslog
-
 // mail log
-$ suod tail -f /var/log/mail.log
+$ sudo tail -f /var/log/maillog
 ```
+
+邮件正常投递出去之后，我们可以使用 mail 命令来查看本地邮箱的邮件，外域邮箱的话则使用对应的客户端查看确认。  
+
+发送邮件功能测试完，接下来就是测试接收邮件，我们用外域邮箱给新搭建邮件服务器上的用户发送一封邮件，然后登录 VPS 确认他的本地邮箱是否收到了发送的信件。  
+
+一切正常的话，我们就有了一个可以工作的邮件服务器了，她能满足我们绝大多数需求了，只是我们现在如果要发送邮件的话得登录 VPS，然后使用 mail 命令行来操作。如果我们发送邮件需求不强烈的话，架设工作可以到此结束了；如果我们还想用 iPhone 和 Mac 的 Mail App 来收发邮件的话，那还需要做些配置。
+
+要想用 iPhone 和 Mac 的 Mail App 来收邮件的话，我们得架设 MRA。哪么使用哪个 MRA 服务器呢？ dovecot 是个不错的选择。
+
+发邮件话则需要开放 SMTP 的身份认证，目前 postfix 支持 cyrus 和 dovecot 两种 SASL 认证，既然收邮件需要用到 dovecot，那发邮件也用它的 SASL 认证好了，这样可以少装些软件。
 
 ## Dovecot
 
+接下来，我们先安装 Dovecot，然后让系统用户可以通过它收邮件，收邮件配置好，我们再配置 postfix 使用 dovecot SASL。
+
 ### 安装
 
-Dovecot 支持 imap 和 pop3，这里我用的 imap,
+Dovecot 支持 imap 和 pop3，由于 pop3 会把服务器上的邮件删除掉，所以这里我使用 imap,
 
 ```
-$ aptitude install dovecot-core dovecot-imapd
+$ dnf search dovecot
+$ sudo dnf install dovecot.x86_64
 ```
 
 ### 配置
 
-Dovecot 的配置文档要比 postfix 好得多，只需要参考它的 Dovecot installation。
+个人觉得 Dovecot 的文档比 postfix 对新手友好，我们可以参考它的 [Dovecot installation](wiki.dovecot.org)，配置也尽量循序渐进，先使用系统用户明文认证，可以工作之后再开启 TLS，TLS 也配好后再考虑加入虚拟用户，这样把问题分解，难度就降低了，配置项也集中在一个逻辑块上，容易配好。
 
-* Checking where mail is delivered to
+* 检查邮件投递位置
 
-我们的邮件地址是 ~/Maildir, 更新到配置文件中:
+CentOS 8 默认的邮件投递位置是 `~/spool/mail`， 更新到配置文件中:
 
 ```
 /etc/dovecot/conf.d/10-mail.conf:
 mail_location = maildir:~/Maildir
 ```
 
-* Configuring Dovecot
+* 配置 Dovecot
 
 ```
-// Find Dovecot configuration file location using:
+// 使用命令找到 Dovecot 配置文件的位置:
 $ doveconf -n | head -n1
 /etc/dovecot/dovecot.conf
 
-// Authentication
-// 由于我们打算使用虚拟用户，所以我们这里创建一个类似密码的文件:
-$ echo "$USER:{PLAIN}password:$UID:$GID::$HOME" > users
-$ sudo mv users /etc/dovecot/
+// 开启 imap
 
-$GID 这个环境变量可能没值，我们可以手动编辑，首先找出gid：
-id $USER
+// 先使用系统用户
 
-然后把gid 加到对应的字段里面:
-$ sudo vim /etc/dovecot/users
-
-// /etc/dovecot/conf.d/10-auth.conf
-// Add '#' to comment out the system user login for now:
-    #!include auth-system.conf.ext
-
-// Remove '#' to use passwd-file:
-!include auth-passwdfile.conf.ext
-
-/etc/dovecot/conf.d/auth-passwdfile.conf.ext
-passdb {
-      driver = passwd-file
-        args = scheme=CRYPT username_format=%u /etc/dovecot/users
-}
-userdb {
-      driver = passwd-file
-        args = username_format=%u /etc/dovecot/users
-}
-
-// Verify with doveconf -n passdb userdb that the output looks like above (and there are no other passdbs or userdbs).
-
-// Plaintext Authentication
+// 明文认证 Plaintext Authentication
 To allow any Authentication without SSL, disable SSL in the conf.d/10-ssl.conf file.
 /etc/dovecot/conf.d/10-ssl.conf:
 ssl = no
@@ -301,26 +251,35 @@ Until SSL is configured, allow plaintext authentication in the conf.d/10-auth.co
 disable_plaintext_auth = no
 ```
 
-* Running Dovecot
+* 启动 Dovecot
 
 ```
 // Start Dovecot
-$ sudo service dovecot start
+$ sudo systemctl start dovecot.service
 
 // Stop Dovecot
-$sudo service dovecot stop
+$sudo systemctl stop dovecot.service
 
 // Restart 
-$sudo service dovecot restart
+$sudo systemctl restart dovecot.service
 
 // Verify
-$ sudo ps auxw|grep "dovecot"
+$ sudo systemctl status dovecot.service
 ```
 
-* Testing that everything works
+* 配置防火墙
 
 ```
-// Check that it's listening
+iptables -A INPUT -p TCP -i eth0 --dport 143  --sport 1024:65534 -j ACCEPT
+```
+
+* 测试一切是否都正常工作
+
+我们可以参考 Dovecot [Testing that everything works](https://wiki.dovecot.org/TestInstallation) 提供的指令来测试 Dovecot 是否正常工作。
+
+### 检查它是否在监听
+
+```
 $ telnet localhost 143
 Trying 127.0.0.1...
 Connected to localhost.
@@ -329,26 +288,39 @@ Escape character is '^]'.
 
 If you got "connection refused", make sure that Dovecot is configured to serve the imap protocol and listening on the expected interfaces/addresses. The simplest way to do that would be using doveconf(1):
 $ sudo doveconf protocols listen
-protocols = imap pop3 lmtp sieve
+protocols = imap
 listen = *, ::
+```
 
-Next check that it also works from remote host:
+### 接下来检查它是否在远程主机上也能工作:
+
+```
 $ telnet imap.example.com 143
 Trying 1.2.3.4...
 Connected to imap.example.com.
 Escape character is '^]'.
 * OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE STARTTLS AUTH=PLAIN] Dovecot ready.
+```
 
-Check that it's allowing logins
+### 检查是否允许登录
+
+```
 % telnet localhost 143
 a login "username" "password"
 a OK Logged in.
+```
 
-Check that it's allowing remote logins
+### 检查是否允许远程登录
+
+```
 $ telnet imap.example.com 143
 a login "username" "password"
 
-Check that it finds INBOX
+```
+
+### 检查是否找到收件箱
+
+```
 b select inbox
 * FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
 * OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
@@ -357,80 +329,70 @@ b select inbox
 * OK [UIDVALIDITY 1106186941] UIDs valid
 * OK [UIDNEXT 2] Predicted next UID
 b OK [READ-WRITE] Select completed.
+```
 
-Make a graceful exit
+在这一步我遇到了一个权限问题，详细的错误日志如下:  
+
+```
+imap(meiliang)<3989594><nOvNDc+7rpIAAAAAAAAAAAAAAAAAAAAB>: Error: fchown(/home/meiliang/spool/mail/.imap/INBOX, group=12(mail)) failed: Operation not permitted (egid=1000(meiliang), group based on /var/spool/mail/meiliang - see http://wiki2.dovecot.org/Errors/ChgrpNoPerm)
+```
+
+Dovecot 的 wiki 详细地解释了这个问题：  
+
+> This means that Dovecot tried to copy /var/mail/user file's group (mail) to the index file directory it was creating (/home/user/mail/.imap/INBOX), but the process didn't belong to the mail group, so it failed. This is important for preserving access permissions with shared mailboxes. Group copying is done only when it actually changes the access permissions; for example with 0600 or 0666 mode the group doesn't matter at all, but with 0660 or 0640 it does.
+
+
+问题的原因是 dovecot 尝试把邮件复制到它创建的索引文件目录时，如果文件的权限是 0660 或 0640，它会尝试保留原来的 group ，但由于 dovecot 不在 mail 这个 group，所以没有权限，操作就失败了。 Dovecot 给出了两种解决方案:  
+
+> To solve this problem you can do only one of two things:
+> 	a.	If the group doesn't actually matter, change the permissions so that the group isn't copied (e.g. chmod 0600 /var/mail/*, see MailLocation/mbox) 
+> 	b.	Give the mail process access to the group (e.g. mail_access_groups=mail setting). However, this is dangerous. It allows users with shell access to read other users' INBOXes. 
+另外 [MailLocation/mbox](https://wiki2.dovecot.org/MailLocation/mbox) 中也说明了这个问题: 
+
+> `/var/mail/*` permissions
+
+> In some systems the /var/mail/$USER files have 0660 mode permissions. This causes Dovecot to try to preserve the file's group, and if it doesn't have permissions to do so, it'll fail with an error:
+
+```
+imap(user): Error: chown(/home/user/mail/.imap/INBOX, -1, 12(mail)) failed: Operation not permitted (egid=1000(user), group based on /var/mail/user)
+```
+
+> There is rarely any real need for the files to have 0660 mode, so the best solution for this problem is to just change the mode to 0600:
+
+```
+chmod 0600 /var/mail/*
+```
+
+综合两处信息，我们可以知道将 `/var/spool/mail/*` 的权限改成 0600 是最佳解决方案。
+
+### 优雅地退出
+
+```
 e logout
 * BYE Logging out
 e OK Logout completed.
 
 ```
 
-* Finishing the test installation
+收邮件配好后，我们就来配置 postfix 的 SASL。
 
-最后我们要开启 ssl, 关闭明文密码验证, [Let's Encrypt](https://letsencrypt.org/)可以提供免费的 SSL 证书:
+## 使能 postfix 的 SASL
 
-```
-// Enable the Jessie backports repo
-For jessie add this line
-deb http://ftp.debian.org/debian jessie-backports main
-to your source.list(/etc/sources.list)
+我们重点参考 postfix [SASL Authentication](http://www.postfix.org/SASL_README.html) 的 Configuring SASL authentication in the Postfix SMTP server。
 
-Run apt-get update
-
-// Temporarily stop apache
-$ sudo service apache2 stop
-
-// sudo certbot certonly --standalone -d example.com
-
-All generated keys and issued certificates can be found in /etc/letsencrypt/live/$domain.
-
-/etc/dovecot/conf.d/10-ssl.conf:
-ssl = yes 
-
-ssl_cert = </etc/letsencrypt/live/mail.tennshop.com/fullchain.pem
-ssl_key = </etc/letsencrypt/live/mail.tenneshop.com/privkey.pem
-
-/etc/dovecot/conf.d/10-auth.conf:
-disable_plaintext_auth = yes 
-
-Test using imaps port (assuming you haven't disabled imaps port):
-$ openssl s_client -connect imap.example.com:993
-* OK Dovecot ready.
-
-Test using imap port and STARTTLS command (works also with imap port):
-$ openssl s_client -connect imap.example.com:143 -starttls imap
-* OK Dovecot ready.
-```
-
-## Mail
-
-现在我们可以在 Mac 上使用 Mail.app 来收信了，但还是不能发信，postfix 默认不支持外域发信，我们需要一种方法获取内域相同的权限。为了解决这个问题， Postfix 支持 SASL.
-
-Configure SASL authentication in the Postfix SMTP server
-
-由于 SASL 的实现和 Postfix 是分开的，所以在 Postfix SMTP 服务器上配置 SASL 授权会有两个不同的内容：
-
-* 配置 SASL 实现来提供一系列合适的机制来进行 SASL 认证，决定好使用哪个 SASL 实现后，配置认证的后端，它通过系统的密码文件或其他数据库来认证远端的 SMTP 终端；
-* 配置 Postfix SMTP 服务器使能 SASL 认证，去授权终端中继邮件或控制终端可以使用哪些邮件发送地址;
-
-Which SASL Implementations are supported?
-
-Currently the Postfix SMTP server supports the Cyrus SASL and Dovecot SASL implementations.
-
-To find out what SASL implementations are compiled into Postfix, use the following commands:
+我们先确认下 postfix SASL 实现的支持情况:
 
 ```
-% postconf -a (SASL support in the SMTP server)
-% postconf -A (SASL support in the SMTP+LMTP client)
+$ postconf -a
+cyrus
+dovecot
 ```
 
-Configuring Dovecot SASL
+* 配置 Dovecot SASL
 
 Dovecot 独立地去认证它的 POP/IMAP 终端，Postfix 使用 Dovecot SASL 时会复用这部分配置。
 
 Postfix 到 Dovecot SASL 的通信有两种途径:UNIX-domain socket or TCP socket。从更好的安全性角度出发，我们选择使用 UNIX-domain socket.
-
-The following fragment for Dovecot version 2 assumes that the Postfix queue is under /var/spool/postfix/.
 
 ```
 /etc/dovecot/conf.d/10-master.conf:
@@ -448,7 +410,7 @@ service auth {
 auth_mechanisms = plain login
 ```
 
-Enabling SASL authentication and authorization in the Postfix SMTP server
+* 在 Postfix SMTP 服务器中启用 SASL 认证和授权
 
 默认 postfix 是使用 Cyrus SASL 实现，我们需要改成 dovecot
 
@@ -464,7 +426,7 @@ smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
 ```
 
-开启 SASL 认证:
+###开启 SASL 认证:
 
 ```
 /etc/postfix/main.cf:
@@ -487,62 +449,53 @@ EHLO client.example.com
 
 配置 Postfix SMTP 服务器的安全原则：
 
-Unencrypted SMTP session
+未加密的 SMTP 会话
 
 ```
 /etc/postfix/main.cf:
 smtpd_sasl_security_options = noanonymous
 ```
 
-Encrypted SMTP session
+加密的 SMTP 会话
 
 ```
 /etc/postfix/main.cf:
 smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
 ```
 
-To offer SASL authentication only after a TLS-encrypted session has been established specify this:
+要在建立了 TLS 加密的会话后才提供 SASL 认证，请指定以下内容:
 
 ```
 /etc/postfix/main.cf:
 smtpd_tls_auth_only = yes
 ```
 
-After the client has authenticated with SASL, the Postfix SMTP server decides what the remote SMTP client will be authorized for. Examples of possible SMTP clients authorizations are:
+在 Postfix SMTP 服务器中启用 SASL 授权
 
-* Send a message to a remote recipient.
-* Use a specific envelope sender in the MAIL FROM command.
+客户端通过SASL认证后，Postfix SMTP 服务器会决定远程 SMTP 客户端的授权内容。可能的 SMTP 客户端授权的例子有:
 
-These permissions are not enabled by default.
+* 向远程收件人发送消息。
+* 在 MAIL FROM 命令中使用特定的信封发件人.
 
-Mail relay authorization
+这些权限默认不启用。
 
-With permit_sasl_authenticated the Postfix SMTP server can allow SASL-authenticated SMTP clients to send mail to remote destinations. Examples:
+* 邮件中继授权
+
+使用 permit_sasl_authenticated，Postfix SMTP 服务器可以允许 SASL 认证的 SMTP 客户发送邮件到远程目的地。例子:
 
 ```
-    # With Postfix 2.10 and later, the mail relay policy is
-    # preferably specified under smtpd_relay_restrictions.
 /etc/postfix/main.cf:
 smtpd_relay_restrictions =
 permit_mynetworks
 permit_sasl_authenticated
 reject_unauth_destination
-    # Older configurations combine relay control and spam control under
-    # smtpd_recipient_restrictions. To use this example with Postfix ≥
-    # 2.10 specify "smtpd_relay_restrictions=".
-/etc/postfix/main.cf:
-smtpd_recipient_restrictions =
-permit_mynetworks
-permit_sasl_authenticated
-reject_unauth_destination
-...other rules...
 ```
 
-Envelope sender address authorization
+* 信封发件人地址授权
 
-By default an SMTP client may specify any envelope sender address in the MAIL FROM command. That is because the Postfix SMTP server only knows the remote SMTP client hostname and IP address, but not the user who controls the remote SMTP client.
+默认情况下，SMTP 客户端可以在 MAIL FROM 命令中指定任何信封发件人地址。这是因为 Postfix SMTP 服务器只知道远程SMTP客户端的主机名和 IP 地址，但不知道控制远程 SMTP 客户端的用户。
 
-This changes the moment an SMTP client uses SASL authentication. Now, the Postfix SMTP server knows who the sender is. Given a table of envelope sender addresses and SASL login names, the Postfix SMTP server can decide if the SASL authenticated client is allowed to use a particular envelope sender address:
+这在 SMTP 客户端使用 SASL 认证的那一刻就发生了变化，现在，Postfix SMTP 服务器知道谁是发件人了。给定一个信封发件人地址和 SASL 登录名的表格，Postfix SMTP 服务器可以决定是否允许 SASL 认证的客户端使用特定的信封发件人地址:
 
 ```
 /etc/postfix/main.cf:
@@ -555,22 +508,21 @@ permit_sasl_authenticated
 ...
 ```
 
-The controlled_envelope_senders table specifies the binding between a sender envelope address and the SASL login names that own that address:
+controlled_envelope_senders 表指定了发件人信封地址和拥有该地址的 SASL 登录名之间的绑定:
 
 ```
 /etc/postfix/controlled_envelope_senders
-    # envelope sender           owners (SASL login names)
-john@example.com            john@example.com
-helpdesk@example.com        john@example.com, mary@example.com
-postmaster                  admin@example.com
-@example.net                barney, fred, john@example.com, mary@example.com
+# envelope sender           owners (SASL login names)
+meilaing@tenneshop.com      meiliang
 ```
 
-With this, the reject_sender_login_mismatch restriction above will reject the sender address in the MAIL FROM command if smtpd_sender_login_maps does not specify the SMTP client's login name as an owner of that address.
+配置完记得执行 `sudo postmap hash:/etc/postfix/controlled_envelope_senders`。
 
-Testing SASL authentication in the Postfix SMTP server
+这样一来，如果 smtpd_sender_login_maps 没有指定 SMTP 客户端的登录名作为该地址的所有者，上面的 reject_sender_login_mismatch 限制将拒绝 MAIL FROM 命令中的发件人地址。
 
-To test the server side, connect (for example, with telnet) to the Postfix SMTP server port and you should be able to have a conversation as shown below. 
+* 在Postfix SMTP服务器中测试SASL认证
+
+要测试服务器端，连接（例如，用telnet）到Postfix的SMTP服务器端口，你应该能够有一个对话，如下所示。
 
 ```
 % telnet server.example.com 25
@@ -587,7 +539,7 @@ AUTH PLAIN AHRlc3QAdGVzdHBhc3M=
 235 Authentication successful
 ```
 
-To test this over a connection that is encrypted with TLS, use openssl s_client instead of telnet:
+要通过 TLS 加密的连接进行测试，请使用 openssl s_client 代替 telnet:
 
 ```
 % openssl s_client -connect server.example.com:25 -starttls smtp
@@ -597,7 +549,16 @@ EHLO client.example.com
 ...see above example for more...
 ```
 
-PLAIN 的授权方式要求用户名和密码一起base64编码提交， LOGIN 的话则是先提交base64编码的用户名，然后是base64编码的密码, base64编码的话可以找个[在线编码工具](https://www.base64encode.org/)：
+不使用 `AHRlc3QAdGVzdHBhc3M=`，而是指定 base64 编码形式的`\0username\0password`(其中/0为空字节)。上面的例子是针对一个名为 "test "的用户，密码为 "testpass"。
+
+这里我们要注意一下 PLAIN 认证方法用户名和密码的提交格式，Dovecot 对它有详细的介绍:
+
+> The PLAIN mechanism's authentication format is:` <authorization ID> NUL <authentication ID> NUL <password>`. Authorization ID is the username who you want to log in as, and authentication ID is the username whose password you're giving. If you're not planning on doing a master user login, you can either set both of these fields to the same username, or leave the authorization ID empty.
+
+因为我们不打算做所谓的 master user login，所以我们可以用 `NUL <authentication ID> NUL <password>` 的格式，也就是 postfix 所说的 `\0username\0password`，postfix 和 dovecot 都给我们提供好几种 base64 编码的方法，我在这里踩坑了，由于我的密码含有数字，使用 `% echo -ne '\000username\000password' | openssl base64
+` 生成的 base64 编码不对，导致认证总是失败。
+
+由于 LOGIN 命令是先提交base64编码的用户名，然后提交base64编码的密码，于是借助它才找出是转义特殊字符失败。
 
 ```
 auth login 
@@ -607,6 +568,16 @@ c2VydmljZUBoZWVwLmNx
 xxxxxxxx
 235 Authentication successful
 ```
+
+所以我推荐 `% printf '\0%s\0%s' 'username' 'password' | openssl base64` 来生成 base64 编码。
+
+一切都正常工作之后，我们就可以在 Mac 和 iPhone 上配置 Mail 账号来收发邮件了，只是我们目前是使用明文且未加密的会话通道，所以并不安全，接下来就是启用 TLS。
+
+## 启用 TLS (TODO)
+
+## 虚拟用户(TODO)
+
+## 附录
 
 SMTP 命令列表如下：
 
@@ -674,38 +645,19 @@ QUIT
 
 终止会话。
 
-我们可以用 SMTP 命令来测试是否能在外域正常发送邮件:
-
-```
->MAIL FROM: sender@example.com
-
->250 sender <sender@example.com> ok
-
->RCPT to: recipient@domain.com
-
->250 recipient <recipient@domain.com> ok
-
->DATA
-
->354 go ahead
-
->Subject: Hi smtp mail
-
->hello mail
-
->.
-
->250 ok:  Message 1763097690 accepted
-```
-
-一切都正常工作之后，我们就可以在 Mac 和 iPhone 上配置 Mail 来收发邮件了，由于我们只让 Dovecot 支持了 IMAP,所以收件服务器我们选择 imap。用户名和密码就是我们为 Dovecot 在 /etc/dovecot/users 中配置的用户名密码。邮件地址则是我们为 Postfix 添加的邮件地址，而且这些邮件邮件地址应该在/etc/postfix/controlled_envelop_senders中和SASL 用户做了关联，这个很好理解，就是登录成功的用户他可以用那几个邮件地址发送邮件。
 
 ##Reference:
-[How To Set Up a Postfix E-Mail Server with Dovecot](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot#postfix)  
-[How To Install and Configure Postfix on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-16-04#conclusion)  
-[Postfix](http://www.postfix.org/)  
-[Dovecot](http://wiki.dovecot.org/)  
-[Linux mail command examples – send mails from command line](http://www.binarytides.com/linux-mail-command-examples/)  
-[SMTP的相关命令](http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html)  
+
+* [How To Set Up a Postfix E-Mail Server with Dovecot](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot#postfix)  
+* [Postfix](http://www.postfix.org/)  
+* [Dovecot](http://wiki.dovecot.org/)  
+* [Linux mail command examples – send mails from command line](http://www.binarytides.com/linux-mail-command-examples/)  
+* [SMTP的相关命令](http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html)  
+* [IMAP 101: Manual IMAP Sessions](https://www.atmail.com/blog/imap-101-manual-imap-sessions/)  
+
+##修改记录
+
+* 2021/02/20 迭代重写，将模糊的地方讲清楚，时间关系暂未启用 TLS 及支持虚拟用户
+* 2017/02/15 第一次完成
 
 

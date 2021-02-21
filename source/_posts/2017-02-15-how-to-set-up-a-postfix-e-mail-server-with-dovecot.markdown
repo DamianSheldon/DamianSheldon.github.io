@@ -345,7 +345,9 @@ Dovecot 的 wiki 详细地解释了这个问题：
 
 > To solve this problem you can do only one of two things:
 > 	a.	If the group doesn't actually matter, change the permissions so that the group isn't copied (e.g. chmod 0600 /var/mail/*, see MailLocation/mbox) 
-> 	b.	Give the mail process access to the group (e.g. mail_access_groups=mail setting). However, this is dangerous. It allows users with shell access to read other users' INBOXes. 
+> 	b.	Give the mail process access to the group (e.g. mail_access_groups=mail setting). However, this is dangerous. It allows users with shell access to read other users' INBOXes.  
+
+
 另外 [MailLocation/mbox](https://wiki2.dovecot.org/MailLocation/mbox) 中也说明了这个问题: 
 
 > `/var/mail/*` permissions

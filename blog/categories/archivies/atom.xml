@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archivies | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archivies/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-02-21T17:29:24+08:00</updated>
+  <updated>2021-02-21T17:31:54+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -430,10 +430,11 @@ b OK [READ-WRITE] Select completed.
 
 <blockquote><p>To solve this problem you can do only one of two things:
   a.  If the group doesn&rsquo;t actually matter, change the permissions so that the group isn&rsquo;t copied (e.g. chmod 0600 /var/mail/*, see MailLocation/mbox) 
-  b.  Give the mail process access to the group (e.g. mail_access_groups=mail setting). However, this is dangerous. It allows users with shell access to read other users' INBOXes. 
-另外 <a href="https://wiki2.dovecot.org/MailLocation/mbox">MailLocation/mbox</a> 中也说明了这个问题:</p>
+  b.  Give the mail process access to the group (e.g. mail_access_groups=mail setting). However, this is dangerous. It allows users with shell access to read other users' INBOXes.</p></blockquote>
 
-<p><code>/var/mail/*</code> permissions</p>
+<p>另外 <a href="https://wiki2.dovecot.org/MailLocation/mbox">MailLocation/mbox</a> 中也说明了这个问题:</p>
+
+<blockquote><p><code>/var/mail/*</code> permissions</p>
 
 <p>In some systems the /var/mail/$USER files have 0660 mode permissions. This causes Dovecot to try to preserve the file&rsquo;s group, and if it doesn&rsquo;t have permissions to do so, it&rsquo;ll fail with an error:</p></blockquote>
 

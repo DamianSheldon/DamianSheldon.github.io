@@ -456,7 +456,7 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>/etc/dovecot/conf.d/10-mail.conf:
-</span><span class='line'>mail_location = maildir:~/Maildir</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>mail_location = mail_location = mbox:~/spool/mail:INBOX=/var/spool/mail/%u</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -479,14 +479,12 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// 使用命令找到 Dovecot 配置文件的位置:
 </span><span class='line'>$ doveconf -n | head -n1
 </span><span class='line'>/etc/dovecot/dovecot.conf
 </span><span class='line'>
 </span><span class='line'>// 开启 imap
-</span><span class='line'>
-</span><span class='line'>// 先使用系统用户
+</span><span class='line'>protocols = imap
 </span><span class='line'>
 </span><span class='line'>// 明文认证 Plaintext Authentication
 </span><span class='line'>To allow any Authentication without SSL, disable SSL in the conf.d/10-ssl.conf file.

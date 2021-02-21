@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archivies | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archivies/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-02-21T17:23:23+08:00</updated>
+  <updated>2021-02-21T17:29:24+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -311,7 +311,7 @@ $ sudo dnf install dovecot.x86_64
 <p>CentOS 8 默认的邮件投递位置是 <code>~/spool/mail</code>， 更新到配置文件中:</p>
 
 <pre><code>/etc/dovecot/conf.d/10-mail.conf:
-mail_location = maildir:~/Maildir
+mail_location = mail_location = mbox:~/spool/mail:INBOX=/var/spool/mail/%u
 </code></pre>
 
 <ul>
@@ -324,8 +324,7 @@ $ doveconf -n | head -n1
 /etc/dovecot/dovecot.conf
 
 // 开启 imap
-
-// 先使用系统用户
+protocols = imap
 
 // 明文认证 Plaintext Authentication
 To allow any Authentication without SSL, disable SSL in the conf.d/10-ssl.conf file.

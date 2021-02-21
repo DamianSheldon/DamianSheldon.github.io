@@ -227,7 +227,7 @@ CentOS 8 默认的邮件投递位置是 `~/spool/mail`， 更新到配置文件�
 
 ```
 /etc/dovecot/conf.d/10-mail.conf:
-mail_location = maildir:~/Maildir
+mail_location = mail_location = mbox:~/spool/mail:INBOX=/var/spool/mail/%u
 ```
 
 * 配置 Dovecot
@@ -238,8 +238,7 @@ $ doveconf -n | head -n1
 /etc/dovecot/dovecot.conf
 
 // 开启 imap
-
-// 先使用系统用户
+protocols = imap
 
 // 明文认证 Plaintext Authentication
 To allow any Authentication without SSL, disable SSL in the conf.d/10-ssl.conf file.

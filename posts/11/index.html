@@ -282,7 +282,11 @@
     </div>
         
 	<div class="entry-content">
-		<p>不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。</p>
+		<p>作为一个软件开发人员，我们可能需要一个自己的 VPS ，在上面可以跑我们的 side project，或者做一些实验。VPS 在运行过程中可能会遇到问题，这时我们可能希望在发生问题时能收到通知。使用邮件通知是个不错的方式。这样我们的服务挂掉了能及时处理。所以学会搭建邮件服务器还是很有价值。另外我一直觉得软件技术人员有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了如何搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件(测试过 sina 和 QQ)。</p>
+
+<h2>邮件系统是怎么工作</h2>
+
+<p>开始之前我觉得有必要了解下邮件系统是怎么工作的，鸟哥在他的博文：<a href="http://linux.vbird.org/linux_server/0380mail.php">第二十二章、郵件伺服器： Postfix</a>作了很详细的介绍，建议熟读之后再开始。</p>
 
 <h2>准备材料</h2>
 
@@ -292,45 +296,7 @@
 </ul>
 
 
-<p>VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
-
-<p>我服务器跑的是 Debian 8 Jessie.</p>
-
-<h2>配置 DNS</h2>
-
-<h3>添加 MX 记录</h3>
-
-<p>添加从域名到 VPS IP 的 MX 记录，它指定了负责处理这个域名邮件收发的服务器。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Type    Hostname        Value         TTL
-</span><span class='line'>MX      tenneshop.com   1.2.3.4.      1800</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>验证 DNS</h3>
-
-<p>DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上几分钟之后就会生效，你可以用 dig 和 host 来验证。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@yourbase] ~# dig MX mydomain.com +short @ns1.digitalocean.com
-</span><span class='line'>50 mail.mydomain.com.
-</span><span class='line'>[root@yourbase] ~# host mail.mydomain.com ns1.digitalocean.com
-</span><span class='line'>Using domain server:
-</span><span class='line'>Name: ns1.digitalocean.com
-</span><span class='line'>Address: 198.199.120.125#53
-</span><span class='line'>Aliases:
-</span><span class='line'>
-</span><span class='line'>mail.mydomain.com has address 82.196.9.119</span></code></pre></td></tr></table></div></figure>
-
+<p>我服务器跑的是 CentOS 8。</p>
 
 
 		
@@ -352,7 +318,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2020
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2021
 
     Sheldon
 

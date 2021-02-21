@@ -7,7 +7,7 @@
 
         <meta name="author" content="Sheldon"> 
         
-        <meta name="description" content="How to set up a postfix e-mail server with dovecot?"> <meta name="keywords" content="Postfix, Dovecot, E-Mail, debian, jessie">
+        <meta name="description" content="How to set up a postfix e-mail server with dovecot?"> <meta name="keywords" content="Postfix, Dovecot, E-Mail, centos 8">
 
         <meta name="viewport" content="width=device-width">
         
@@ -87,7 +87,11 @@
 
     </div>
     
-	<div class="entry-content"><p>不知道从什么时候开始，也不知道是什么原因，我一直觉得有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了我搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件的过程。</p>
+	<div class="entry-content"><p>作为一个软件开发人员，我们可能需要一个自己的 VPS ，在上面可以跑我们的 side project，或者做一些实验。VPS 在运行过程中可能会遇到问题，这时我们可能希望在发生问题时能收到通知。使用邮件通知是个不错的方式。这样我们的服务挂掉了能及时处理。所以学会搭建邮件服务器还是很有价值。另外我一直觉得软件技术人员有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了如何搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件(测试过 sina 和 QQ)。</p>
+
+<h2>邮件系统是怎么工作</h2>
+
+<p>开始之前我觉得有必要了解下邮件系统是怎么工作的，鸟哥在他的博文：<a href="http://linux.vbird.org/linux_server/0380mail.php">第二十二章、郵件伺服器： Postfix</a>作了很详细的介绍，建议熟读之后再开始。</p>
 
 <h2>准备材料</h2>
 
@@ -97,25 +101,102 @@
 </ul>
 
 
-<p>VPS 我用的 DigitalOcean，是个人开发者不错的选择，可以使用<a href="https://m.do.co/c/537dc7bd8a78">优惠码</a>购买，这样你可以获赠 10 美元。</p>
+<p>我服务器跑的是 CentOS 8。</p>
 
-<p>我服务器跑的是 Debian 8 Jessie.</p>
+<!--more-->
+
 
 <h2>配置 DNS</h2>
 
-<h3>添加 MX 记录</h3>
+<h3>添加 A、AAAA、MX、PTR 和 SPF 记录</h3>
 
-<p>添加从域名到 VPS IP 的 MX 记录，它指定了负责处理这个域名邮件收发的服务器。</p>
+<p>我们首先需要配置 DNS， 主要是添加 A、AAAA、MX、PTR 和 SPF 记录，时间和精力允许的话建议添加 DKIM 和 DMARC 记录，否则部分邮件提供商可能拒收我们的邮件。据说 Gmail 就会验证这些记录，而 Sina 比较宽松，只验证 MX，QQ 会验证 MX 、SPF 和 PTR。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Type    Hostname        Value         TTL
-</span><span class='line'>MX      tenneshop.com   1.2.3.4.      1800</span></code></pre></td></tr></table></div></figure>
+<p>我域名是挂在 Cloudflare，完整配置如下:</p>
+
+<table>
+<thead>
+<tr>
+<th>类型 </th>
+<th> 名称 </th>
+<th> 内容 </th>
+<th> TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A </td>
+<td> www </td>
+<td> 104.168.144.39 </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>A </td>
+<td> mail </td>
+<td> 104.168.144.39 </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>A </td>
+<td> api </td>
+<td> 104.168.144.39 </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>AAAA </td>
+<td> www </td>
+<td> 2607:5501:3000:1008::2 </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>AAAA </td>
+<td> mail </td>
+<td> 2607:5501:3000:1008::2 </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>AAAA </td>
+<td> api </td>
+<td> 2607:5501:3000:1008::2 </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>MX </td>
+<td> tenneshop.com </td>
+<td> www.tenneshop.com </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>PTR </td>
+<td> 39.144.168.104.in-addr.arpa </td>
+<td> www.tenneshop.com </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>PTR </td>
+<td> 2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.0.0.1.0.0.0.3.1.0.5.5.7.0.6.2.ip6.arpa </td>
+<td> www.tenneshop.com </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>SPF </td>
+<td> tenneshop.com </td>
+<td> v=spf1 ip4:104.168.144.39 ip6:2607:5501:3000:1008::2 ~all </td>
+<td> 自动</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td> www </td>
+<td> v=spf1 ip4:104.168.144.39 ip6:2607:5501:3000:1008::2 ~all </td>
+<td> 自动</td>
+</tr>
+</tbody>
+</table>
 
 
 <h3>验证 DNS</h3>
 
-<p>DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上几分钟之后就会生效，你可以用 dig 和 host 来验证。</p>
+<p>DNS 需要几个小时才能蔓延到整个互联网，但是在你的 DNS 服务器上应该马上就会生效，你可以用 dig 来验证。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -126,48 +207,46 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@yourbase] ~# dig MX mydomain.com +short @ns1.digitalocean.com
-</span><span class='line'>50 mail.mydomain.com.
-</span><span class='line'>[root@yourbase] ~# host mail.mydomain.com ns1.digitalocean.com
-</span><span class='line'>Using domain server:
-</span><span class='line'>Name: ns1.digitalocean.com
-</span><span class='line'>Address: 198.199.120.125#53
-</span><span class='line'>Aliases:
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dig www.tenneshop.com @buck.ns.cloudflare.com -t A
 </span><span class='line'>
-</span><span class='line'>mail.mydomain.com has address 82.196.9.119</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>$ dig www.tenneshop.com @buck.ns.cloudflare.com -t AAAA
+</span><span class='line'>
+</span><span class='line'>$ dig tenneshop.com @buck.ns.cloudflare.com -t MX
+</span><span class='line'>
+</span><span class='line'>$ dig -x 104.168.144.39
+</span><span class='line'>
+</span><span class='line'>$ dig -x 2607:5501:3000:1008::2
+</span><span class='line'>
+</span><span class='line'>$ dig www.tenneshop.com @buck.ns.cloudflare.com -t TXT</span></code></pre></td></tr></table></div></figure>
 
-
-<!--more-->
-
-
-<h2>邮件系统是怎么工作</h2>
-
-<p>开始之前我觉得有必要了解下邮件系统是怎么工作的，Dovecot 上有篇文章介绍的很好，值得看下：<a href="http://wiki.dovecot.org/MailServerOverview">Overview of how everything works together</a>,
-我简单地说一下我的理解，先看发邮件，以使用 Mac 的 Mail 为例，用户用 Mail 写了封邮件，邮件包含收件人地址和信件内容，然后点击发送，Mail 在这里就是 MUA(Mail User Agent), MUA 把邮件发送到 Mail Server, Mail Server 称之为 MTA(Mail Transfer Agent), MTA 根据收件人地址去查询 DNS 记录，然后把邮件发送到目标MTA, 目标MTA则负责把邮件传送给MDA(Mail Delivery Agent), MDA则负责把邮件存储到邮件服务器上。</p>
-
-<p>再看收邮件，用户打开 Mail 之后会触发收件操作，通常是通过 IMAP 或 POP3 协议去获取 MDA 存储在 Mail Server 上的邮件。</p>
-
-<p>我们这里 MTA 用的 Postfix, IMAP/POP3 Server 用的 Dovecot.</p>
 
 <h2>Postfix</h2>
 
 <h3>安装</h3>
 
-<p>Debian 默认的邮件服务程序是 exim，我们需要卸载它。</p>
+<p>我安装的 CentOS 8 默认的邮件服务程序是 sendmail，我们先停掉它，然后安装 postfix。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo aptitude remove exim4 && aptitude install postfix && postfix stop</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo systemctl disable sendmail.service
+</span><span class='line'>$ sudo systemctl stop sendmail.service
+</span><span class='line'># 确认是否已安装  postfix
+</span><span class='line'>$ rpm -q postfix
+</span><span class='line'>$ sudo dnf search postfix
+</span><span class='line'>$ sudo dnf install postfix.x86</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>配置</h3>
 
-<p>Postfix 有两个主要配置文件 /etc/postfix/main.cf 和 /etc/postfix/master.cf, main.cf 指定配置项；master.cf 指定 postfix 要运行哪些服务。</p>
+<p>Postfix 有两个主要配置文件 <code>/etc/postfix/main.cf</code> 和 <code>/etc/postfix/master.cf</code>, main.cf 指定配置项；master.cf 指定 postfix 要运行哪些服务。</p>
 
-<p>配置的主要工作自然是编辑 main.cf 这个文件里的配置项，安全起见我们可以先把默认的配置文件做个备份:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cp /etc/postfix/main.cf /etc/postfix/main.cf.orig</span></code></pre></td></tr></table></div></figure>
-
+<p>配置的主要工作是设置 main.cf 这个文件里的配置项。</p>
 
 <ul>
 <li>配置发送邮件使用的域名;</li>
@@ -192,25 +271,25 @@
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>domain-wide mail server
 </span><span class='line'>/etc/postfix/main.cf:
-</span><span class='line'>    mydestination = $myhostname localhost.$mydomain localhost $mydomain
+</span><span class='line'>    mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 </span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
-<li>配置哪些终端可以中继邮件</li>
+<li>配置信任的终端</li>
 </ul>
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>/etc/postfix/main.cf:
-</span><span class='line'>mynetworks_style = host
-</span><span class='line'>mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 </span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>mynetworks = 127.0.0.0/8, hash:/etc/postfix/access </span></code></pre></td></tr></table></div></figure>
 
+
+<p>配置完我们需要执行命令：<code>sudo postmap hash:/etc/postfix/access</code>。</p>
 
 <ul>
-<li>配置邮件服务器的基本账号，例如 postmaster, 这是必须要有的账号，这样别人才能反馈邮件投递的问题。</li>
+<li>设置邮件别名，邮件别名对我们有大用处，首先我们可以用它来实现一般帐号接收 root 信件，其次我们还可以用它实现将用户的信件发送一份到对应外域邮箱。</li>
 </ul>
 
 
@@ -218,225 +297,19 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>/etc/aliases:
-</span><span class='line'>mailer-daemon: postmaster
-</span><span class='line'>postmaster: root
-</span><span class='line'>nobody: root
-</span><span class='line'>hostmaster: root
-</span><span class='line'>usenet: root
-</span><span class='line'>news: root
-</span><span class='line'>webmaster: root
-</span><span class='line'>www: root
-</span><span class='line'>ftp: root
-</span><span class='line'>abuse: root
-</span><span class='line'>root: yourname</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>root: root,meiliang
+</span><span class='line'>yourname: meiliang,dongmeilianghy@sina.com</span></code></pre></td></tr></table></div></figure>
 
 
-<p>更新完了/etc/aliases，还需要运行命令去生效:</p>
+<p>更新完了<code>/etc/aliases</code>，还需要运行命令去生效:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ newaliases</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>配置邮件用户账号</li>
-</ul>
-
-
-<p>Postfix 使用数据库文件来控制权限：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/postfix/main.cf:
-</span><span class='line'>    virtual_alias_maps = hash:/etc/postfix/virtual
-</span><span class='line'>
-</span><span class='line'>/etc/postfix/virtual:
-</span><span class='line'>// Map Mail Addresses to Linux Accounts
-</span><span class='line'>contact@example.com sammy
-</span><span class='line'>admin@example.com sammy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们可以通过如下命令来让映射生效:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo postmap /etc/postfix/virtual</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>配置邮件的存储文件格式</li>
-</ul>
-
-
-<blockquote><p>There are two primary storage options of mail in the *NIX world: mbox and Maildir. mbox stores multiple messages - sometimes hundreds or thousands of messages - in a single file. Maildir stores each message a separate file.</p></blockquote>
-
-<p>Postfix 默认是 mbox 的格式，这里我们决定使用 Maildir 的格式，可以用 postconf 命令来配置:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo postconf -e 'home_mailbox= Maildir/'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>更新环境变量 MAIL 的值：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo 'export MAIL=~/Maildir' | sudo tee -a /etc/bash.bashrc | sudo tee -a /etc/profile.d/mail.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>让变量在当前的会话中生效：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ source /etc/profile.d/mail.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>测试</h3>
-
-<p>本地测试之前需要初始化 Maildir 的目录结构，在我们 home 目录中创建 Maildir 目录结构最简单的方法是向我们自己发一封邮件，可以使用 mail 命令:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 安装 mail 命令
-</span><span class='line'>$ sudo apt-get install mailutils
-</span><span class='line'>
-</span><span class='line'>// 发送邮件
-</span><span class='line'>$ echo 'init' | mail -s 'init' sammy
-</span><span class='line'>
-</span><span class='line'>// 确认 Maildir 目录结构初始化好了
-</span><span class='line'>$ ls -R ~/Maildir
-</span><span class='line'>
-</span><span class='line'>// 输出的结果： 
-</span><span class='line'>/home/sammy/Maildir/:
-</span><span class='line'>cur  new  tmp
-</span><span class='line'>
-</span><span class='line'>/home/sammy/Maildir/cur:
-</span><span class='line'>
-</span><span class='line'>/home/sammy/Maildir/new:
-</span><span class='line'>1463177269.Vfd01I40e4dM691221.mail.example.com
-</span><span class='line'>
-</span><span class='line'>/home/sammy/Maildir/tmp:</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用 mail 命令发送邮件:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mail -s "Hello World" someone@example.com
-</span><span class='line'>Cc: 
-</span><span class='line'>Hi Peter
-</span><span class='line'>How are you
-</span><span class='line'>I am fine
-</span><span class='line'>Good Bye
-</span><span class='line'>&lt;Ctrl+D&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用 mail 命令查看邮件：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mail
-</span><span class='line'>Heirloom mailx version 12.5 6/20/10.  Type ? for help.
-</span><span class='line'>"/var/mail/enlightened": 7 messages 3 unread
-</span><span class='line'>O  1 Enlightened        Sat Dec  6 11:33   21/658   This is the subject
-</span><span class='line'>O  2 Enlightened        Sat Dec  6 11:34  773/25549 This is the subject
-</span><span class='line'>O  3 Enlightened        Sat Dec  6 16:43   20/633   This is the subject
-</span><span class='line'>O  4 Enlightened        Sat Dec  6 16:44   20/633   This is the subject
-</span><span class='line'>U  5 Mail Delivery Syst Sat Dec  6 16:50   74/2425  Undelivered Mail Returned to Sender
-</span><span class='line'>U  6 Enlightened        Sat Dec  6 16:51   19/632   This is mutts subject
-</span><span class='line'>U  7 Enlightened        Sat Dec  6 16:52   19/647   This is mutts subject
-</span><span class='line'>?</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们可以使用 ? 来查看帮助，例如查看下一封邮件是n, 退出是q。</p>
-
-<p>日常生活工作中我们可能不会是通过 mail 来收发邮件，但它在我们配置邮件服务器时很有用，我们可以知道 postfix 是否是正常工作的。</p>
-
-<p>如果postfix并没有按我们预期那样正常工作，我们可以通过查看系统日志和邮件日志来定位问题:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// system log
-</span><span class='line'>$ sudo tail -f /var/log/syslog
-</span><span class='line'>
-</span><span class='line'>// mail log
-</span><span class='line'>$ suod tail -f /var/log/mail.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Dovecot</h2>
-
-<h3>安装</h3>
-
-<p>Dovecot 支持 imap 和 pop3，这里我用的 imap,</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ aptitude install dovecot-core dovecot-imapd</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>配置</h3>
-
-<p>Dovecot 的配置文档要比 postfix 好得多，只需要参考它的 Dovecot installation。</p>
-
-<ul>
-<li>Checking where mail is delivered to</li>
-</ul>
-
-
-<p>我们的邮件地址是 ~/Maildir, 更新到配置文件中:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/dovecot/conf.d/10-mail.conf:
-</span><span class='line'>mail_location = maildir:~/Maildir</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Configuring Dovecot</li>
-</ul>
-
+<p>我们可以使用 <code>sudo postconf -n</code> 来看下得到的完整配置:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -473,48 +346,149 @@
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
 <span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Find Dovecot configuration file location using:
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias_database = hash:/etc/aliases
+</span><span class='line'>alias_maps = hash:/etc/aliases
+</span><span class='line'>command_directory = /usr/sbin
+</span><span class='line'>compatibility_level = 2
+</span><span class='line'>daemon_directory = /usr/libexec/postfix
+</span><span class='line'>data_directory = /var/lib/postfix
+</span><span class='line'>debug_peer_level = 2
+</span><span class='line'>debugger_command = PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin ddd $daemon_directory/$process_name $process_id & sleep 5
+</span><span class='line'>html_directory = no
+</span><span class='line'>inet_interfaces = all
+</span><span class='line'>inet_protocols = all
+</span><span class='line'>mail_owner = postfix
+</span><span class='line'>mailq_path = /usr/bin/mailq.postfix
+</span><span class='line'>manpage_directory = /usr/share/man
+</span><span class='line'>meta_directory = /etc/postfix
+</span><span class='line'>mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain, hwsrv-773010.hostwindsdns.com
+</span><span class='line'>mydomain = tenneshop.com
+</span><span class='line'>myhostname = www.tenneshop.com
+</span><span class='line'>mynetworks = 127.0.0.0/8, hash:/etc/postfix/access
+</span><span class='line'>myorigin = $mydomain
+</span><span class='line'>newaliases_path = /usr/bin/newaliases.postfix
+</span><span class='line'>queue_directory = /var/spool/postfix
+</span><span class='line'>readme_directory = /usr/share/doc/postfix/README_FILES
+</span><span class='line'>relay_domains = $mydestination
+</span><span class='line'>sample_directory = /usr/share/doc/postfix/samples
+</span><span class='line'>sendmail_path = /usr/sbin/sendmail.postfix
+</span><span class='line'>setgid_group = postdrop
+</span><span class='line'>shlib_directory = /usr/lib64/postfix
+</span><span class='line'>smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
+</span><span class='line'>smtp_tls_CApath = /etc/pki/tls/certs
+</span><span class='line'>smtp_tls_security_level = may
+</span><span class='line'>smtpd_tls_cert_file = /etc/pki/tls/certs/postfix.pem
+</span><span class='line'>smtpd_tls_key_file = /etc/pki/tls/private/postfix.key
+</span><span class='line'>smtpd_tls_security_level = may
+</span><span class='line'>unknown_local_recipient_reject_code = 550</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>防火墙设置</li>
+</ul>
+
+
+<p>因为整个 MTA 主要透过 SMTP (port 25) 进行信件传送的任务，因此，针对 postfix 来说，只要放行 port 25 即可!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo iptables -A INPUT -p TCP -i eth0 --dport  25  --sport 1024:65534 -j ACCEPT</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一切准备就绪之后，我们使用 <code>sudo systemctl start postfix.service</code> 来启动 postfix, 可以用 <code>systemctl status postfix.service</code> 确认是否启动成功，有问题的话，根据错误信息对应解决。</p>
+
+<h3>测试</h3>
+
+<p>我们可以使用 mail 命令来发送邮件做测试:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mail -r foo@tenneshop.com bar foobar@example.com
+</span><span class='line'>Subject: Does postfix works?
+</span><span class='line'>Does postfix works?
+</span><span class='line'>&lt;Ctrl+D&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后我们可以查看 postfix 的日志确认邮件是否能正常投递，有问题的话也可以对应解决:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// mail log
+</span><span class='line'>$ sudo tail -f /var/log/maillog</span></code></pre></td></tr></table></div></figure>
+
+
+<p>邮件正常投递出去之后，我们可以使用 mail 命令来查看本地邮箱的邮件，外域邮箱的话则使用对应的客户端查看确认。</p>
+
+<p>发送邮件功能测试完，接下来就是测试接收邮件，我们用外域邮箱给新搭建邮件服务器上的用户发送一封邮件，然后登录 VPS 确认他的本地邮箱是否收到了发送的信件。</p>
+
+<p>一切正常的话，我们就有了一个可以工作的邮件服务器了，她能满足我们绝大多数需求了，只是我们现在如果要发送邮件的话得登录 VPS，然后使用 mail 命令行来操作。如果我们发送邮件需求不强烈的话，架设工作可以到此结束了；如果我们还想用 iPhone 和 Mac 的 Mail App 来收发邮件的话，那还需要做些配置。</p>
+
+<p>要想用 iPhone 和 Mac 的 Mail App 来收邮件的话，我们得架设 MRA。哪么使用哪个 MRA 服务器呢？ dovecot 是个不错的选择。</p>
+
+<p>发邮件话则需要开放 SMTP 的身份认证，目前 postfix 支持 cyrus 和 dovecot 两种 SASL 认证，既然收邮件需要用到 dovecot，那发邮件也用它的 SASL 认证好了，这样可以少装些软件。</p>
+
+<h2>Dovecot</h2>
+
+<p>接下来，我们先安装 Dovecot，然后让系统用户可以通过它收邮件，收邮件配置好，我们再配置 postfix 使用 dovecot SASL。</p>
+
+<h3>安装</h3>
+
+<p>Dovecot 支持 imap 和 pop3，由于 pop3 会把服务器上的邮件删除掉，所以这里我使用 imap,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ dnf search dovecot
+</span><span class='line'>$ sudo dnf install dovecot.x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>配置</h3>
+
+<p>个人觉得 Dovecot 的文档比 postfix 对新手友好，我们可以参考它的 <a href="wiki.dovecot.org">Dovecot installation</a>，配置也尽量循序渐进，先使用系统用户明文认证，可以工作之后再开启 TLS，TLS 也配好后再考虑加入虚拟用户，这样把问题分解，难度就降低了，配置项也集中在一个逻辑块上，容易配好。</p>
+
+<ul>
+<li>检查邮件投递位置</li>
+</ul>
+
+
+<p>CentOS 8 默认的邮件投递位置是 <code>~/spool/mail</code>， 更新到配置文件中:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/dovecot/conf.d/10-mail.conf:
+</span><span class='line'>mail_location = maildir:~/Maildir</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置 Dovecot</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 使用命令找到 Dovecot 配置文件的位置:
 </span><span class='line'>$ doveconf -n | head -n1
 </span><span class='line'>/etc/dovecot/dovecot.conf
 </span><span class='line'>
-</span><span class='line'>// Authentication
-</span><span class='line'>// 由于我们打算使用虚拟用户，所以我们这里创建一个类似密码的文件:
-</span><span class='line'>$ echo "$USER:{PLAIN}password:$UID:$GID::$HOME" &gt; users
-</span><span class='line'>$ sudo mv users /etc/dovecot/
+</span><span class='line'>// 开启 imap
 </span><span class='line'>
-</span><span class='line'>$GID 这个环境变量可能没值，我们可以手动编辑，首先找出gid：
-</span><span class='line'>id $USER
+</span><span class='line'>// 先使用系统用户
 </span><span class='line'>
-</span><span class='line'>然后把gid 加到对应的字段里面:
-</span><span class='line'>$ sudo vim /etc/dovecot/users
-</span><span class='line'>
-</span><span class='line'>// /etc/dovecot/conf.d/10-auth.conf
-</span><span class='line'>// Add '#' to comment out the system user login for now:
-</span><span class='line'>    #!include auth-system.conf.ext
-</span><span class='line'>
-</span><span class='line'>// Remove '#' to use passwd-file:
-</span><span class='line'>!include auth-passwdfile.conf.ext
-</span><span class='line'>
-</span><span class='line'>/etc/dovecot/conf.d/auth-passwdfile.conf.ext
-</span><span class='line'>passdb {
-</span><span class='line'>      driver = passwd-file
-</span><span class='line'>        args = scheme=CRYPT username_format=%u /etc/dovecot/users
-</span><span class='line'>}
-</span><span class='line'>userdb {
-</span><span class='line'>      driver = passwd-file
-</span><span class='line'>        args = username_format=%u /etc/dovecot/users
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// Verify with doveconf -n passdb userdb that the output looks like above (and there are no other passdbs or userdbs).
-</span><span class='line'>
-</span><span class='line'>// Plaintext Authentication
+</span><span class='line'>// 明文认证 Plaintext Authentication
 </span><span class='line'>To allow any Authentication without SSL, disable SSL in the conf.d/10-ssl.conf file.
 </span><span class='line'>/etc/dovecot/conf.d/10-ssl.conf:
 </span><span class='line'>ssl = no
@@ -525,7 +499,7 @@
 
 
 <ul>
-<li>Running Dovecot</li>
+<li>启动 Dovecot</li>
 </ul>
 
 
@@ -541,22 +515,35 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// Start Dovecot
-</span><span class='line'>$ sudo service dovecot start
+</span><span class='line'>$ sudo systemctl start dovecot.service
 </span><span class='line'>
 </span><span class='line'>// Stop Dovecot
-</span><span class='line'>$sudo service dovecot stop
+</span><span class='line'>$sudo systemctl stop dovecot.service
 </span><span class='line'>
 </span><span class='line'>// Restart 
-</span><span class='line'>$sudo service dovecot restart
+</span><span class='line'>$sudo systemctl restart dovecot.service
 </span><span class='line'>
 </span><span class='line'>// Verify
-</span><span class='line'>$ sudo ps auxw|grep "dovecot"</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>$ sudo systemctl status dovecot.service</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
-<li>Testing that everything works</li>
+<li>配置防火墙</li>
 </ul>
 
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iptables -A INPUT -p TCP -i eth0 --dport 143  --sport 1024:65534 -j ACCEPT</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>测试一切是否都正常工作</li>
+</ul>
+
+
+<p>我们可以参考 Dovecot <a href="https://wiki.dovecot.org/TestInstallation">Testing that everything works</a> 提供的指令来测试 Dovecot 是否正常工作。</p>
+
+<h3>检查它是否在监听</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -568,40 +555,7 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Check that it's listening
-</span><span class='line'>$ telnet localhost 143
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ telnet localhost 143
 </span><span class='line'>Trying 127.0.0.1...
 </span><span class='line'>Connected to localhost.
 </span><span class='line'>Escape character is '^]'.
@@ -609,48 +563,44 @@
 </span><span class='line'>
 </span><span class='line'>If you got "connection refused", make sure that Dovecot is configured to serve the imap protocol and listening on the expected interfaces/addresses. The simplest way to do that would be using doveconf(1):
 </span><span class='line'>$ sudo doveconf protocols listen
-</span><span class='line'>protocols = imap pop3 lmtp sieve
-</span><span class='line'>listen = *, ::
-</span><span class='line'>
-</span><span class='line'>Next check that it also works from remote host:
-</span><span class='line'>$ telnet imap.example.com 143
+</span><span class='line'>protocols = imap
+</span><span class='line'>listen = *, ::</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>接下来检查它是否在远程主机上也能工作:</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ telnet imap.example.com 143
 </span><span class='line'>Trying 1.2.3.4...
 </span><span class='line'>Connected to imap.example.com.
 </span><span class='line'>Escape character is '^]'.
-</span><span class='line'>* OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE STARTTLS AUTH=PLAIN] Dovecot ready.
-</span><span class='line'>
-</span><span class='line'>Check that it's allowing logins
-</span><span class='line'>% telnet localhost 143
+</span><span class='line'>* OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE STARTTLS AUTH=PLAIN] Dovecot ready.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>检查是否允许登录</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>% telnet localhost 143
 </span><span class='line'>a login "username" "password"
-</span><span class='line'>a OK Logged in.
-</span><span class='line'>
-</span><span class='line'>Check that it's allowing remote logins
-</span><span class='line'>$ telnet imap.example.com 143
+</span><span class='line'>a OK Logged in.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>检查是否允许远程登录</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ telnet imap.example.com 143
 </span><span class='line'>a login "username" "password"
-</span><span class='line'>
-</span><span class='line'>Check that it finds INBOX
-</span><span class='line'>b select inbox
-</span><span class='line'>* FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
-</span><span class='line'>* OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
-</span><span class='line'>* 1 EXISTS
-</span><span class='line'>* 1 RECENT
-</span><span class='line'>* OK [UIDVALIDITY 1106186941] UIDs valid
-</span><span class='line'>* OK [UIDNEXT 2] Predicted next UID
-</span><span class='line'>b OK [READ-WRITE] Select completed.
-</span><span class='line'>
-</span><span class='line'>Make a graceful exit
-</span><span class='line'>e logout
-</span><span class='line'>* BYE Logging out
-</span><span class='line'>e OK Logout completed.
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>Finishing the test installation</li>
-</ul>
-
-
-<p>最后我们要开启 ssl, 关闭明文密码验证, <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a>可以提供免费的 SSL 证书:</p>
+<h3>检查是否找到收件箱</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -660,93 +610,84 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Enable the Jessie backports repo
-</span><span class='line'>For jessie add this line
-</span><span class='line'>deb http://ftp.debian.org/debian jessie-backports main
-</span><span class='line'>to your source.list(/etc/sources.list)
-</span><span class='line'>
-</span><span class='line'>Run apt-get update
-</span><span class='line'>
-</span><span class='line'>// Temporarily stop apache
-</span><span class='line'>$ sudo service apache2 stop
-</span><span class='line'>
-</span><span class='line'>// sudo certbot certonly --standalone -d example.com
-</span><span class='line'>
-</span><span class='line'>All generated keys and issued certificates can be found in /etc/letsencrypt/live/$domain.
-</span><span class='line'>
-</span><span class='line'>/etc/dovecot/conf.d/10-ssl.conf:
-</span><span class='line'>ssl = yes 
-</span><span class='line'>
-</span><span class='line'>ssl_cert = &lt;/etc/letsencrypt/live/mail.tennshop.com/fullchain.pem
-</span><span class='line'>ssl_key = &lt;/etc/letsencrypt/live/mail.tenneshop.com/privkey.pem
-</span><span class='line'>
-</span><span class='line'>/etc/dovecot/conf.d/10-auth.conf:
-</span><span class='line'>disable_plaintext_auth = yes 
-</span><span class='line'>
-</span><span class='line'>Test using imaps port (assuming you haven't disabled imaps port):
-</span><span class='line'>$ openssl s_client -connect imap.example.com:993
-</span><span class='line'>* OK Dovecot ready.
-</span><span class='line'>
-</span><span class='line'>Test using imap port and STARTTLS command (works also with imap port):
-</span><span class='line'>$ openssl s_client -connect imap.example.com:143 -starttls imap
-</span><span class='line'>* OK Dovecot ready.</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>b select inbox
+</span><span class='line'>* FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
+</span><span class='line'>* OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
+</span><span class='line'>* 1 EXISTS
+</span><span class='line'>* 1 RECENT
+</span><span class='line'>* OK [UIDVALIDITY 1106186941] UIDs valid
+</span><span class='line'>* OK [UIDNEXT 2] Predicted next UID
+</span><span class='line'>b OK [READ-WRITE] Select completed.</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Mail</h2>
+<p>在这一步我遇到了一个权限问题，详细的错误日志如下:</p>
 
-<p>现在我们可以在 Mac 上使用 Mail.app 来收信了，但还是不能发信，postfix 默认不支持外域发信，我们需要一种方法获取内域相同的权限。为了解决这个问题， Postfix 支持 SASL.</p>
-
-<p>Configure SASL authentication in the Postfix SMTP server</p>
-
-<p>由于 SASL 的实现和 Postfix 是分开的，所以在 Postfix SMTP 服务器上配置 SASL 授权会有两个不同的内容：</p>
-
-<ul>
-<li>配置 SASL 实现来提供一系列合适的机制来进行 SASL 认证，决定好使用哪个 SASL 实现后，配置认证的后端，它通过系统的密码文件或其他数据库来认证远端的 SMTP 终端；</li>
-<li>配置 Postfix SMTP 服务器使能 SASL 认证，去授权终端中继邮件或控制终端可以使用哪些邮件发送地址;</li>
-</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>imap(meiliang)&lt;3989594&gt;&lt;nOvNDc+7rpIAAAAAAAAAAAAAAAAAAAAB&gt;: Error: fchown(/home/meiliang/spool/mail/.imap/INBOX, group=12(mail)) failed: Operation not permitted (egid=1000(meiliang), group based on /var/spool/mail/meiliang - see http://wiki2.dovecot.org/Errors/ChgrpNoPerm)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Which SASL Implementations are supported?</p>
+<p>Dovecot 的 wiki 详细地解释了这个问题：</p>
 
-<p>Currently the Postfix SMTP server supports the Cyrus SASL and Dovecot SASL implementations.</p>
+<blockquote><p>This means that Dovecot tried to copy /var/mail/user file&rsquo;s group (mail) to the index file directory it was creating (/home/user/mail/.imap/INBOX), but the process didn&rsquo;t belong to the mail group, so it failed. This is important for preserving access permissions with shared mailboxes. Group copying is done only when it actually changes the access permissions; for example with 0600 or 0666 mode the group doesn&rsquo;t matter at all, but with 0660 or 0640 it does.</p></blockquote>
 
-<p>To find out what SASL implementations are compiled into Postfix, use the following commands:</p>
+<p>问题的原因是 dovecot 尝试把邮件复制到它创建的索引文件目录时，如果文件的权限是 0660 或 0640，它会尝试保留原来的 group ，但由于 dovecot 不在 mail 这个 group，所以没有权限，操作就失败了。 Dovecot 给出了两种解决方案:</p>
+
+<blockquote><p>To solve this problem you can do only one of two things:
+  a.  If the group doesn&rsquo;t actually matter, change the permissions so that the group isn&rsquo;t copied (e.g. chmod 0600 /var/mail/*, see MailLocation/mbox) 
+  b.  Give the mail process access to the group (e.g. mail_access_groups=mail setting). However, this is dangerous. It allows users with shell access to read other users' INBOXes. 
+另外 <a href="https://wiki2.dovecot.org/MailLocation/mbox">MailLocation/mbox</a> 中也说明了这个问题:</p>
+
+<p><code>/var/mail/*</code> permissions</p>
+
+<p>In some systems the /var/mail/$USER files have 0660 mode permissions. This causes Dovecot to try to preserve the file&rsquo;s group, and if it doesn&rsquo;t have permissions to do so, it&rsquo;ll fail with an error:</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>imap(user): Error: chown(/home/user/mail/.imap/INBOX, -1, 12(mail)) failed: Operation not permitted (egid=1000(user), group based on /var/mail/user)</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>There is rarely any real need for the files to have 0660 mode, so the best solution for this problem is to just change the mode to 0600:</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 0600 /var/mail/*</span></code></pre></td></tr></table></div></figure>
+
+
+<p>综合两处信息，我们可以知道将 <code>/var/spool/mail/*</code> 的权限改成 0600 是最佳解决方案。</p>
+
+<h3>优雅地退出</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>% postconf -a (SASL support in the SMTP server)
-</span><span class='line'>% postconf -A (SASL support in the SMTP+LMTP client)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>e logout
+</span><span class='line'>* BYE Logging out
+</span><span class='line'>e OK Logout completed.
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Configuring Dovecot SASL</p>
+<p>收邮件配好后，我们就来配置 postfix 的 SASL。</p>
+
+<h2>使能 postfix 的 SASL</h2>
+
+<p>我们重点参考 postfix <a href="http://www.postfix.org/SASL_README.html">SASL Authentication</a> 的 Configuring SASL authentication in the Postfix SMTP server。</p>
+
+<p>我们先确认下 postfix SASL 实现的支持情况:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ postconf -a
+</span><span class='line'>cyrus
+</span><span class='line'>dovecot</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置 Dovecot SASL</li>
+</ul>
+
 
 <p>Dovecot 独立地去认证它的 POP/IMAP 终端，Postfix 使用 Dovecot SASL 时会复用这部分配置。</p>
 
 <p>Postfix 到 Dovecot SASL 的通信有两种途径:UNIX-domain socket or TCP socket。从更好的安全性角度出发，我们选择使用 UNIX-domain socket.</p>
-
-<p>The following fragment for Dovecot version 2 assumes that the Postfix queue is under /var/spool/postfix/.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -776,7 +717,10 @@
 </span><span class='line'>auth_mechanisms = plain login</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Enabling SASL authentication and authorization in the Postfix SMTP server</p>
+<ul>
+<li>在 Postfix SMTP 服务器中启用 SASL 认证和授权</li>
+</ul>
+
 
 <p>默认 postfix 是使用 Cyrus SASL 实现，我们需要改成 dovecot</p>
 
@@ -794,7 +738,7 @@
 </span><span class='line'>smtpd_sasl_path = private/auth</span></code></pre></td></tr></table></div></figure>
 
 
-<p>开启 SASL 认证:</p>
+<h3>开启 SASL 认证:</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -826,7 +770,7 @@
 
 <p>配置 Postfix SMTP 服务器的安全原则：</p>
 
-<p>Unencrypted SMTP session</p>
+<p>未加密的 SMTP 会话</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -834,7 +778,7 @@
 </span><span class='line'>smtpd_sasl_security_options = noanonymous</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Encrypted SMTP session</p>
+<p>加密的 SMTP 会话</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -842,7 +786,7 @@
 </span><span class='line'>smtpd_sasl_tls_security_options = $smtpd_sasl_security_options</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To offer SASL authentication only after a TLS-encrypted session has been established specify this:</p>
+<p>要在建立了 TLS 加密的会话后才提供 SASL 认证，请指定以下内容:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -850,59 +794,45 @@
 </span><span class='line'>smtpd_tls_auth_only = yes</span></code></pre></td></tr></table></div></figure>
 
 
-<p>After the client has authenticated with SASL, the Postfix SMTP server decides what the remote SMTP client will be authorized for. Examples of possible SMTP clients authorizations are:</p>
+<p>在 Postfix SMTP 服务器中启用 SASL 授权</p>
+
+<p>客户端通过SASL认证后，Postfix SMTP 服务器会决定远程 SMTP 客户端的授权内容。可能的 SMTP 客户端授权的例子有:</p>
 
 <ul>
-<li>Send a message to a remote recipient.</li>
-<li>Use a specific envelope sender in the MAIL FROM command.</li>
+<li>向远程收件人发送消息。</li>
+<li>在 MAIL FROM 命令中使用特定的信封发件人.</li>
 </ul>
 
 
-<p>These permissions are not enabled by default.</p>
+<p>这些权限默认不启用。</p>
 
-<p>Mail relay authorization</p>
+<ul>
+<li>邮件中继授权</li>
+</ul>
 
-<p>With permit_sasl_authenticated the Postfix SMTP server can allow SASL-authenticated SMTP clients to send mail to remote destinations. Examples:</p>
+
+<p>使用 permit_sasl_authenticated，Postfix SMTP 服务器可以允许 SASL 认证的 SMTP 客户发送邮件到远程目的地。例子:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># With Postfix 2.10 and later, the mail relay policy is
-</span><span class='line'># preferably specified under smtpd_relay_restrictions.
-</span><span class='line'>/etc/postfix/main.cf:
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/postfix/main.cf:
 </span><span class='line'>smtpd_relay_restrictions =
 </span><span class='line'>permit_mynetworks
 </span><span class='line'>permit_sasl_authenticated
-</span><span class='line'>reject_unauth_destination
-</span><span class='line'># Older configurations combine relay control and spam control under
-</span><span class='line'># smtpd_recipient_restrictions. To use this example with Postfix ≥
-</span><span class='line'># 2.10 specify "smtpd_relay_restrictions=".
-</span><span class='line'>/etc/postfix/main.cf:
-</span><span class='line'>smtpd_recipient_restrictions =
-</span><span class='line'>permit_mynetworks
-</span><span class='line'>permit_sasl_authenticated
-</span><span class='line'>reject_unauth_destination
-</span><span class='line'>...other rules...</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>reject_unauth_destination</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Envelope sender address authorization</p>
+<ul>
+<li>信封发件人地址授权</li>
+</ul>
 
-<p>By default an SMTP client may specify any envelope sender address in the MAIL FROM command. That is because the Postfix SMTP server only knows the remote SMTP client hostname and IP address, but not the user who controls the remote SMTP client.</p>
 
-<p>This changes the moment an SMTP client uses SASL authentication. Now, the Postfix SMTP server knows who the sender is. Given a table of envelope sender addresses and SASL login names, the Postfix SMTP server can decide if the SASL authenticated client is allowed to use a particular envelope sender address:</p>
+<p>默认情况下，SMTP 客户端可以在 MAIL FROM 命令中指定任何信封发件人地址。这是因为 Postfix SMTP 服务器只知道远程SMTP客户端的主机名和 IP 地址，但不知道控制远程 SMTP 客户端的用户。</p>
+
+<p>这在 SMTP 客户端使用 SASL 认证的那一刻就发生了变化，现在，Postfix SMTP 服务器知道谁是发件人了。给定一个信封发件人地址和 SASL 登录名的表格，Postfix SMTP 服务器可以决定是否允许 SASL 认证的客户端使用特定的信封发件人地址:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -922,27 +852,26 @@
 </span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
 
 
-<p>The controlled_envelope_senders table specifies the binding between a sender envelope address and the SASL login names that own that address:</p>
+<p>controlled_envelope_senders 表指定了发件人信封地址和拥有该地址的 SASL 登录名之间的绑定:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>/etc/postfix/controlled_envelope_senders
-</span><span class='line'>    # envelope sender           owners (SASL login names)
-</span><span class='line'>john@example.com            john@example.com
-</span><span class='line'>helpdesk@example.com        john@example.com, mary@example.com
-</span><span class='line'>postmaster                  admin@example.com
-</span><span class='line'>@example.net                barney, fred, john@example.com, mary@example.com</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'># envelope sender           owners (SASL login names)
+</span><span class='line'>meiliang@tenneshop.com      meiliang</span></code></pre></td></tr></table></div></figure>
 
 
-<p>With this, the reject_sender_login_mismatch restriction above will reject the sender address in the MAIL FROM command if smtpd_sender_login_maps does not specify the SMTP client&rsquo;s login name as an owner of that address.</p>
+<p>配置完记得执行 <code>sudo postmap hash:/etc/postfix/controlled_envelope_senders</code>。</p>
 
-<p>Testing SASL authentication in the Postfix SMTP server</p>
+<p>这样一来，如果 smtpd_sender_login_maps 没有指定 SMTP 客户端的登录名作为该地址的所有者，上面的 reject_sender_login_mismatch 限制将拒绝 MAIL FROM 命令中的发件人地址。</p>
 
-<p>To test the server side, connect (for example, with telnet) to the Postfix SMTP server port and you should be able to have a conversation as shown below.</p>
+<ul>
+<li>在Postfix SMTP服务器中测试SASL认证</li>
+</ul>
+
+
+<p>要测试服务器端，连接（例如，用telnet）到Postfix的SMTP服务器端口，你应该能够有一个对话，如下所示。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -970,7 +899,7 @@
 </span><span class='line'>235 Authentication successful</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To test this over a connection that is encrypted with TLS, use openssl s_client instead of telnet:</p>
+<p>要通过 TLS 加密的连接进行测试，请使用 openssl s_client 代替 telnet:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -984,7 +913,16 @@
 </span><span class='line'>...see above example for more...</span></code></pre></td></tr></table></div></figure>
 
 
-<p>PLAIN 的授权方式要求用户名和密码一起base64编码提交， LOGIN 的话则是先提交base64编码的用户名，然后是base64编码的密码, base64编码的话可以找个<a href="https://www.base64encode.org/">在线编码工具</a>：</p>
+<p>不使用 <code>AHRlc3QAdGVzdHBhc3M=</code>，而是指定 base64 编码形式的<code>\0username\0password</code>(其中/0为空字节)。上面的例子是针对一个名为 &ldquo;test "的用户，密码为 "testpass"。</p>
+
+<p>这里我们要注意一下 PLAIN 认证方法用户名和密码的提交格式，Dovecot 对它有详细的介绍:</p>
+
+<blockquote><p>The PLAIN mechanism&rsquo;s authentication format is:<code>&lt;authorization ID&gt; NUL &lt;authentication ID&gt; NUL &lt;password&gt;</code>. Authorization ID is the username who you want to log in as, and authentication ID is the username whose password you&rsquo;re giving. If you&rsquo;re not planning on doing a master user login, you can either set both of these fields to the same username, or leave the authorization ID empty.</p></blockquote>
+
+<p>因为我们不打算做所谓的 master user login，所以我们可以用 <code>NUL &lt;authentication ID&gt; NUL &lt;password&gt;</code> 的格式，也就是 postfix 所说的 <code>\0username\0password</code>，postfix 和 dovecot 都给我们提供好几种 base64 编码的方法，我在这里踩坑了，由于我的密码含有数字，使用 <code>% echo -ne '\000username\000password' | openssl base64
+</code> 生成的 base64 编码不对，导致认证总是失败。</p>
+
+<p>由于 LOGIN 命令是先提交base64编码的用户名，然后提交base64编码的密码，于是借助它才找出是转义特殊字符失败。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -999,6 +937,16 @@
 </span><span class='line'>xxxxxxxx
 </span><span class='line'>235 Authentication successful</span></code></pre></td></tr></table></div></figure>
 
+
+<p>所以我推荐 <code>% printf '\0%s\0%s' 'username' 'password' | openssl base64</code> 来生成 base64 编码。</p>
+
+<p>一切都正常工作之后，我们就可以在 Mac 和 iPhone 上配置 Mail 账号来收发邮件了，只是我们目前是使用明文且未加密的会话通道，所以并不安全，接下来就是启用 TLS。</p>
+
+<h2>启用 TLS (TODO)</h2>
+
+<h2>虚拟用户(TODO)</h2>
+
+<h2>附录</h2>
 
 <p>SMTP 命令列表如下：</p>
 
@@ -1066,58 +1014,25 @@
 
 <p>终止会话。</p>
 
-<p>我们可以用 SMTP 命令来测试是否能在外域正常发送邮件:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;MAIL FROM: sender@example.com
-</span><span class='line'>
-</span><span class='line'>&gt;250 sender &lt;sender@example.com&gt; ok
-</span><span class='line'>
-</span><span class='line'>&gt;RCPT to: recipient@domain.com
-</span><span class='line'>
-</span><span class='line'>&gt;250 recipient &lt;recipient@domain.com&gt; ok
-</span><span class='line'>
-</span><span class='line'>&gt;DATA
-</span><span class='line'>
-</span><span class='line'>&gt;354 go ahead
-</span><span class='line'>
-</span><span class='line'>&gt;Subject: Hi smtp mail
-</span><span class='line'>
-</span><span class='line'>&gt;hello mail
-</span><span class='line'>
-</span><span class='line'>&gt;.
-</span><span class='line'>
-</span><span class='line'>&gt;250 ok:  Message 1763097690 accepted</span></code></pre></td></tr></table></div></figure>
-
-
-<p>一切都正常工作之后，我们就可以在 Mac 和 iPhone 上配置 Mail 来收发邮件了，由于我们只让 Dovecot 支持了 IMAP,所以收件服务器我们选择 imap。用户名和密码就是我们为 Dovecot 在 /etc/dovecot/users 中配置的用户名密码。邮件地址则是我们为 Postfix 添加的邮件地址，而且这些邮件邮件地址应该在/etc/postfix/controlled_envelop_senders中和SASL 用户做了关联，这个很好理解，就是登录成功的用户他可以用那几个邮件地址发送邮件。</p>
-
 <h2>Reference:</h2>
 
-<p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot#postfix">How To Set Up a Postfix E-Mail Server with Dovecot</a><br/>
-<a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-16-04#conclusion">How To Install and Configure Postfix on Ubuntu 16.04</a><br/>
-<a href="http://www.postfix.org/">Postfix</a><br/>
-<a href="http://wiki.dovecot.org/">Dovecot</a><br/>
-<a href="http://www.binarytides.com/linux-mail-command-examples/">Linux mail command examples – send mails from command line</a><br/>
-<a href="http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html">SMTP的相关命令</a></p>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot#postfix">How To Set Up a Postfix E-Mail Server with Dovecot</a></li>
+<li><a href="http://www.postfix.org/">Postfix</a></li>
+<li><a href="http://wiki.dovecot.org/">Dovecot</a></li>
+<li><a href="http://www.binarytides.com/linux-mail-command-examples/">Linux mail command examples – send mails from command line</a></li>
+<li><a href="http://www.cnblogs.com/cocowool/archive/2012/03/14/2395390.html">SMTP的相关命令</a></li>
+<li><a href="https://www.atmail.com/blog/imap-101-manual-imap-sessions/">IMAP 101: Manual IMAP Sessions</a></li>
+</ul>
+
+
+<h2>修改记录</h2>
+
+<ul>
+<li>2021/02/20 迭代重写，将模糊的地方讲清楚，时间关系暂未启用 TLS 及支持虚拟用户</li>
+<li>2017/02/15 第一次完成</li>
+</ul>
+
 </div>
 
 
@@ -1164,7 +1079,7 @@ gitment.render('comments')
 
 
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2020
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2021
 
     Sheldon
 

@@ -117,7 +117,7 @@ mynetworks = 127.0.0.0/8, hash:/etc/postfix/access
 /etc/aliases:
 
 root: root,meiliang
-yourname: meiliang,dongmeilianghy@sina.com
+meiliang: meiliang,dongmeilianghy@sina.com
 ```
 
 更新完了`/etc/aliases`，还需要运行命令去生效:

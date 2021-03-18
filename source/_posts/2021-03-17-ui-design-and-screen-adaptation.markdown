@@ -3,7 +3,7 @@ layout: post
 title: "UI 设计与屏幕适配"
 date: 2021-03-17 15:12:26 +0800
 comments: true
-categories: [Archives, iOS Development, Android Development, Web Development]
+categories: [Archives, iOS Development, Android, Web Development]
 keywords: px, dp, dpi, ppi, in
 description: UI design and screen adaptation
 ---

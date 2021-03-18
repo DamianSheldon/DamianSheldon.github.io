@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/ios-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-03-18T12:21:41+08:00</updated>
+  <updated>2021-03-18T14:18:48+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -275,13 +275,13 @@
 </ul>
 </blockquote>
 
-<p>从上表的数据可知，目前 android 设备的主流尺寸分布是从 normal 这个分类开始，根据 google 对 normal 的解释，它的大小相当于 medium-density HVGA 屏幕上的 <code>320x470 dp</code>，换算成设备像素就是 <code>640x940 px</code>。</p>
+<p>从上表的数据可知，目前 android 设备的主流尺寸分布是从 normal-hdpi 这个分类开始，根据 google 对 normal 的解释，它的大小相当于 medium-density HVGA 屏幕上的 <code>320x470 dp</code>，换算成设备像素就是 <code>480x705 px</code>。</p>
 
 <p>我们知道宽屏比窄屏能显示更多内容，如果我们以宽屏为其准尺寸设计，那么在窄屏上就可能出现控件放不下、文字截断的情况。反过来，如果我们以窄屏为基准设计，那么在宽屏上布局时会容易处理，控件的宽度增加或者间隔增加就可以了。高度和宽度存在同样的问题，所以也应该选高度小的作为基准。设计时扣除固定元素高度之和后分配给可滚动区域，这样方便界面的元素布局能够动态响应，开发更好做屏幕适配。</p>
 
 <p>所以选择基准尺寸和我们想支持的设备紧密相关，这需要基于多方面的因素考虑。 例如，如果我们希望支持尽可能多的设备，就越有可能获取更多用户，但开发的兼容工作量就相应增加，很多新特性就可能不适合作为应用的主要功能，而只适合作为增强功能。通常可以考虑覆盖 90% 以上，团队资金和人员比较充足的话可以考虑覆盖 95%，98% 甚至更多。</p>
 
-<p>以覆盖 90% 以上为例，如果我们同时支持 iOS 和 android，或只支持 android 时，应该选 <code>640x940 px</code>作为基准尺寸，而如果只支持 iOS ， 我们应该选 <code>750 x 1334 px</code> 作为基准尺寸。</p>
+<p>以覆盖 90% 以上为例，如果我们同时支持 iOS 和 android，或只支持 android 时，应该选 <code>480x705 px</code>作为基准尺寸，而如果只支持 iOS ， 我们应该选 <code>750 x 1334 px</code> 作为基准尺寸。</p>
 
 <p>iOS 的设备像素比主要分布在2和3，而 android 这边设备像素比主要分布在 1.5(hdpi), 2(xhdpi)和 3(xxhdpi)，所以 iOS 需要输出<code>@2x</code> 和 <code>@3x</code> 两套切图； android 需要输出 hdpi, xhdpi 和 xxhdpi 三套切图。</p>
 
@@ -293,8 +293,8 @@
 
 <ul>
 <li>仅支持 iOS ， 应该选 <code>750 x 1334 px</code> 作为基准尺寸</li>
-<li>仅支持 android 时，应该选 <code>640x940 px</code> 作为基准尺寸</li>
-<li>支持 iOS 和 android，应该选 <code>640x940 px</code> 作为基准尺寸</li>
+<li>仅支持 android 时，应该选 <code>480x705 px</code> 作为基准尺寸</li>
+<li>支持 iOS 和 android，应该选 <code>480x705 px</code> 作为基准尺寸</li>
 </ul>
 
 

@@ -1,24 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: android development | Hello World]]></title>
-  <link href="http://DamianSheldon.github.io/blog/categories/android-development/atom.xml" rel="self"/>
-  <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-03-18T11:49:45+08:00</updated>
-  <id>http://DamianSheldon.github.io/</id>
-  <author>
-    <name><![CDATA[Sheldon]]></name>
-    <email><![CDATA[dongmeilianghy@sina.com]]></email>
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>UI 设计与屏幕适配  | Hello World</title>
+
+        <meta name="author" content="Sheldon"> 
+        
+        <meta name="description" content="UI design and screen adaptation"> <meta name="keywords" content="px, dp, dpi, ppi, in">
+
+        <meta name="viewport" content="width=device-width">
+        
+        
+        <link rel="canonical" href="http://DamianSheldon.github.io/blog/ui-design-and-screen-adaptation.html">
+
+        <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
+        <link href="/favicon.png" rel="icon">
+        <link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+        
+        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="/javascripts/libs/jquery.min.js"></script>
+        <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
+    </head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Hello World</a></h1>
+<h4>Here's where it all happens for me.</h4>
+
+<!-- Navigation -->
+
+<nav role="navigation">
+    <div class="inner">
+        <a href="#nav" class="nav-collapse" id="nav-collapse">Navigation</a>
+        <ul class="nav" id="nav">
+    <li class="active"><a href="/">Blog</a></li>
+    <li><a href="/archives">Archive</a></li>
+    <li><a href="/ios-development">iOS</a></li>
+    <li><a href="/android">Android</a></li>
+    <li><a href="/web-development">Web</a></li>
+    <li><a href="/english">English</a></li>
+    <li><a href="/about">About</a></li>
+    
+    <form action="https://www.bing.com/search" method="get" accept-charset="utf-8" target="_blank">
+        <input type="text" name="q" maxlength="255" placeholder="Search">
+        <input type="hidden" name="q1" value="site:DamianSheldon.github.io">
+    </form>
+</ul>
+    </div>
+</nav>
+
+<a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">UI 设计与屏幕适配</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
 
   
-  <entry>
-    <title type="html"><![CDATA[UI 设计与屏幕适配]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ui-design-and-screen-adaptation.html"/>
-    <updated>2021-03-17T15:12:26+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ui-design-and-screen-adaptation</id>
-    <content type="html"><![CDATA[<p>目前移动设备的尺寸很多，所以前端 (iOS, Android, Web, 小程序等)开发需要适配多种尺寸屏幕。在适配时我们可能会有困惑，设计稿通常是 px 来表示尺寸，设备的分辨率也是以 px 来表示，它们之间是一样的吗？还是存在什么关系？iOS 开发者用 point 来表示视图的尺寸； Android 开发者用 dp 来表示视图尺寸； Web 开发者用 px 来表示尺寸？它们和设计稿的 px 是什么关系？设计师应该以什么基准尺寸来设计会有利于屏幕适配？应该输出几套切图？除了切图，设计师还可以做些什么来配合开发者做屏幕适配？要搞清楚这些问题，我们需要翻翻历史了。</p>
+
+
+
+<time datetime="2021-03-17T15:12:26+08:00" pubdate data-updated="true">17 Mar 2021</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android-development/'>android development</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+    
+	<div class="entry-content"><p>目前移动设备的尺寸很多，所以前端 (iOS, Android, Web, 小程序等)开发需要适配多种尺寸屏幕。在适配时我们可能会有困惑，设计稿通常是 px 来表示尺寸，设备的分辨率也是以 px 来表示，它们之间是一样的吗？还是存在什么关系？iOS 开发者用 point 来表示视图的尺寸； Android 开发者用 dp 来表示视图尺寸； Web 开发者用 px 来表示尺寸？它们和设计稿的 px 是什么关系？设计师应该以什么基准尺寸来设计会有利于屏幕适配？应该输出几套切图？除了切图，设计师还可以做些什么来配合开发者做屏幕适配？要搞清楚这些问题，我们需要翻翻历史了。</p>
 
 <p>Tim Chien 和 Robert Nyman 的这篇 <a href="https://hacks.mozilla.org/2013/09/css-length-explained/">CSS Length Explained</a> 帮了我的大忙，本文就是基于它而写成。</p>
 
@@ -38,13 +107,15 @@
 
 <p>于是我们可以知道:</p>
 
-<pre><code>width or height of one device pixel = 1 / device's DPI  
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>width or height of one device pixel = 1 / device's DPI  </span></code></pre></td></tr></table></div></figure>
+
 
 <p>例如 MacBook Air(2011) 的 DPI 为 125 ， 所以：</p>
 
-<pre><code>(width or height of one device pixel) = 1/125 inch = 0.008 inch = 0.02032 cm
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(width or height of one device pixel) = 1/125 inch = 0.008 inch = 0.02032 cm</span></code></pre></td></tr></table></div></figure>
+
 
 <!--more-->
 
@@ -322,318 +393,79 @@
 <li><a href="https://www.paintcodeapp.com/news/ultimate-guide-to-iphone-resolutions">The Ultimate Guide To iPhone Resolutions</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web API 的设计与开发--读书笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/notes-of-web-api-the-good-parts.html"/>
-    <updated>2020-04-29T10:31:16+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/notes-of-web-api-the-good-parts</id>
-    <content type="html"><![CDATA[<p>Web API 的设计与开发是开发者日常工作的重要内容，我们该如何来做好这项工作呢？我觉得一个务实的方法是先参考前辈们的做法，也就是站在巨人的肩上，理解消化后再尝试去突破，这样可能会事半功倍。经过一番搜索，找到了 <code>&lt;&lt;Web API 的设计与开发&gt;&gt;</code>， 我个人觉得这是一本对 Web API 进行全面、细致和深入剖析的书，对 Web API 的设计与开发很有帮助，值得一读。</p>
-
-<p>书的内容是按照整分的逻辑组织，并依先易后难的顺序来讲解相关知识。下面我按自己的理解尝试对书中内容做个简单的总结。</p>
-
-<p>Web API 是用于完成某种需求，由于需求会变化，所以一次就设计出完美 Web API 的想法是不现实的，所以一开始应该要给 Web API 的更改留有余地，这是很容易忽视的地方。推荐的做法是在 URI 中嵌入版本信息，典型的形式是 <code>http://api.linkedin.com/v1/people</code>。</p>
-
-<p>虽然一次就完美地设计 Web API 的想法不现实，但我们还是想尽量做好，减少 Web API 版本变更的次数，毕竟版本越多维护成本越高，那么我们该如何设计 Web API 呢？</p>
-
-<p>Web API 通过 HTTP 协议来完成通信，在设计时我们应该最大程度地利用 HTTP 协议规范。基于标准协议设计的 API 至少要比使用私有协议设计的 API 更容易理解，还会减少使用时引入的 bug，使你的 API 得到更广泛的使用，提高利用已有的程序库或代码的可能。</p>
-
-<p>有了整体设计原则后，我们来看下具体的请求和响应设计。API 的功能是为了完成项目的需求，最完备的请求会包含请求端点、请求方法、请求参数和请求数据体(Request Body)，我们依次来审视请求的每个部分。</p>
-
-<p>端点是指用于访问 API 的 URI，普适又重要的设计原则有：</p>
-
-<ul>
-<li>短小便于输入的 URI</li>
-<li>人可以读懂的 URI</li>
-<li>没有大小写混用的 URI</li>
-<li>不会暴露服务端架构的 URI</li>
-<li>规则统一的 URI</li>
-</ul>
+</div>
 
 
-<p>端点设计的注意事项：</p>
+        
+</article>
 
-<ul>
-<li>使用名词的复数形式</li>
-<li>注意所用的单词</li>
-<li>不使用空格及需要编码的字符</li>
-<li>使用连字符来连接多个单词</li>
-</ul>
-
-
-<p>URI 和 HTTP 方法之间的关系可以认为是操作对象和操作方法的关系。如果把 URI 当作 API(HTTP) 的 “操作对象 = 资源”， HTTP 方法则表示 “进行怎样的操作”。通过用不同方法访问同一个 URI 端点，不但可以获取信息，还能修改信息、删除信息等，这样的思想正成为 Web API 设计的主流方式。</p>
-
-<table>
-<thead>
-<tr>
-<th> 方法名 </th>
-<th> 说明 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> GET </td>
-<td> 获取资源 </td>
-</tr>
-<tr>
-<td> POST </td>
-<td> 新增资源 </td>
-</tr>
-<tr>
-<td> PUT </td>
-<td> 覆盖已有资源 </td>
-</tr>
-<tr>
-<td> DELETE </td>
-<td> 删除资源 </td>
-</tr>
-<tr>
-<td> PATCH </td>
-<td> 更新部分资源 </td>
-</tr>
-<tr>
-<td> HEAD </td>
-<td> 获取资源的元信息 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>有时请求可能还需要传递参数，在设计 URI 时，必须决定是把特定参数放在查询参数里还是路径里，决策的依据有以下两点：</p>
-
-<ul>
-<li>是否是表示唯一资源所需的信息</li>
-<li>是否可以省略</li>
-</ul>
-
-
-<p>请求数据体，个人认为可以采用面向对象编程的思想来设计，整个处理过程会轻松很多。</p>
-
-<p>说完请求，让我们来看下响应。首先是正确使用状态码，国内由于历史原因遗留下来无论请求是否成功都一律返回 200 的问题，全站切换到 HTTPS 后，我们还是应该最大程度地利用 HTTP 规范，这样我们能受益于通用的 HTTP 程序库，减轻客户端的负担。</p>
-
-<p>其次是数据格式，这里的数据格式是指该用怎样的形式来描述 API 返回的结构化数据，具体而言就是指 JSON、XML 等数据格式。关于这一点，事实上几乎没有可讨论的，因为我们通常就是使用 JSON 作为默认的数据格式，若有需求 API 也可以支持 XML 的格式，这是最贴近现实的做法。</p>
-
-<p>再次是数据内部结构，我们重点看下数据应该以数组还是对象返回，作者更推荐使用对象来封装数据的方式，因为该方式有如下几个优点:</p>
-
-<ul>
-<li>更容易理解响应数据表示什么</li>
-<li>响应数据通过对象的封装实现了结构统一</li>
-<li>可以避免安全方面的风险</li>
-</ul>
-
-
-<p>从次是各个数据的格式，各个数据项组成了最终的数据，只有掌握了如何处理单个数据项格式才能设计出合理的响应体数据格式。作者重点介绍了如何描述性别数据、日期格式和大整数，受益匪浅。</p>
-
-<p>最后是出错信息的表示，同样，我们需要选择合适的状态码，出误信息建议以消息体的形式返回，出错信息应该包含详细的错误代码、人们能够读懂的相关信息，以及记载有详细说明的文档页面的 URI，如下所示：</p>
-
-<pre><code>{
-    "error": {
-        "code": 2013,
-        "message": "Bad authentication token",
-        "info": "http://docs.example.com/api/v1/authentication"
-    }
+	<div class="share">
+	<div>
+	
+	
+	
+    
+    
+        <!-- Gitment BEGIN -->
+<div id="comments"></div>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+// Limit label length less than 50 characters.
+var label_for_comment = document.URL;
+if (label_for_comment.length > 50) {
+    label_for_comment = label_for_comment.substring(label_for_comment.length - 50, label_for_comment.length - 1);
 }
-</code></pre>
 
-<p>如果想支持描述多个错误同时发生，可以返回出错信息数组，</p>
-
-<pre><code>{
-    "errors": [
-        {
-            "code": 2013,
-            "message": "Bad authentication token",
-            "info": "http://docs.example.com/api/v1/authentication"
-        }
-    ]
-}
-</code></pre>
-
-<p>以上是基础内容，作者最后还介绍进阶内容，开发牢固的 Web API，对我们把 Web API 设计和开发提高到新高度有非常大的帮助。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[创建 Cordova plugin 及其 Ionic Native]]></title>
-    <link href="http://DamianSheldon.github.io/blog/create-cordova-plugin.html"/>
-    <updated>2019-09-30T09:59:14+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/create-cordova-plugin</id>
-    <content type="html"><![CDATA[<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
-
-<ul>
-<li>Cordova Plugin 的工作原理</li>
-<li>如何创建 Cordova Plugin</li>
-<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
-</ul>
-
-
-<h3>Cordova Plugin 的工作原理</h3>
-
-<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
-
-<p>Plugin js 端的入口方法签名形式如下:</p>
-
-<pre><code>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);
-</code></pre>
-
-<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
-
-<pre><code>&lt;feature name="&lt;service_name&gt;"&gt;
-    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-&lt;/feature&gt;
-</code></pre>
-
-<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
-
-<p>具体是怎么映射的呢？</p>
-
-<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
-
-<pre><code>&lt;feature name="&lt;service_name&gt;"&gt;
-    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-&lt;/feature&gt;
-</code></pre>
-
-<p>这个形式就是我们上面见过的形式。</p>
-
-<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
-
-<h3>如何创建 Cordova Plugin</h3>
-
-<h4>安装 plugman</h4>
-
-<pre><code>$ npm install -g plugman
-</code></pre>
-
-<h4>创建 cordova plugin</h4>
-
-<pre><code>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
-
-eg.
-$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1
-</code></pre>
-
-<h4>添加 platform</h4>
-
-<pre><code>$plugman platform add --platform_name android
-</code></pre>
-
-<h4>创建 package.json 文件</h4>
-
-<pre><code>$ plugman createpackagejson &lt;directory&gt;
-
-eg.
-$plugman createpackagejson .
-</code></pre>
-
-<h4>安装 cordova plugin</h4>
-
-<pre><code>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
-$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
-
-// 方法二：
-$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/
-</code></pre>
-
-<h4>卸载 cordova plugin</h4>
-
-<pre><code>// 与安装的方法对应有两种卸载方法
-// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
-
-// 方法二：
-$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/
-</code></pre>
-
-<h4>发布</h4>
-
-<pre><code>// Create a tag
-$git tag &lt;tagname&gt;
-
-// Push to repository
-$git push origin master
-</code></pre>
-
-<h4>升级 cordova plugin</h4>
-
-<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
-
-<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
-
-<h4>Creating Plugin Wrappers</h4>
-
-<pre><code>// Navigate to ionic-native root path
-$cd  ionic-native
-
-// Install dependencies first time
-$npm install
-
-// Create plugin wrapper
-// When gulp installed locally
-$npx gulp plugin:create -n PluginName
-
-// When gulp installed globally
-$gulp plugin:create -n PluginName
-</code></pre>
-
-<h4>安装</h4>
-
-<pre><code>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
-$npm run build
-
-//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
-$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/
-</code></pre>
-
-<h3>使用</h3>
-
-<pre><code>// Import the plugin in a @NgModule and add it to the list of Providers. 
-// app.module.ts
-import { APIClient } from '@ionic-native/api-client/ngx';
-...
-
-@NgModule({
-  ...
-
-  providers: [
-    ...
-    APIClient
-    ...
-  ]
-  ...
+const gitment = new Gitment({
+id: label_for_comment,
+owner: 'DamianSheldon',
+repo: 'gitment',
+oauth: {
+client_id: '534142482825f386df90',
+client_secret: '19183fe61a33fcfae35316435bf3f4d516295c38',
+},
+// ...
+// For more available options, check out the documentation below
 })
-export class AppModule { }
 
-// After the plugin has been declared, it can be imported and injected like any other service:
+gitment.render('comments')
+</script>
+<!-- Gitment -->
 
-// login.service.ts
-import { APIClient } from '@ionic-native/api-client/ngx';
-import { ServiceName } from '@ionic-native/api-client/ngx';
+    
+    
+	</div>
+</div>
 
-constructor(private apiClient: APIClient) { }
 
-this.apiClient.get(ServiceName.Login, JSON.stringify(user))
-      .then((result: string) =&gt; {
-        console.log('api client login:', result);
-        //TODO: Parse server return json to UserExt object
-        const routePath = this.simulateLogin(username);        
-        resolve(routePath);
-      })
-      .catch((error: string) =&gt; {
-        console.log('api client login error:', error);
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2021
 
-        reject(error);
-      });
-</code></pre>
+    Sheldon
 
-<h1>Reference:</h1>
+<br>
+<p>Powered by <a href="http://octopress.org">Octopress</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
 
-<ul>
-<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
-<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
-</ul>
 
-]]></content>
-  </entry>
-  
-</feed>
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52345084-1');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</body>
+</html>

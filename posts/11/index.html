@@ -63,6 +63,79 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/notes-of-using-avfoundation.html">
+		
+			AVFoundation 使用笔记</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-04-06T15:09:30+08:00" pubdate data-updated="true">06 Apr 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>使用一个框架时，我们可能有这么三个问题：</p>
+
+<ol>
+<li>这个框架是做什么的？</li>
+<li>为什么要使用这个框架而不是其他的框架？</li>
+<li>怎么用这个框架？</li>
+</ol>
+
+
+<h3>这个框架是做什么的？</h3>
+
+<p>Apple 在 iOS Technology Overview 中的 Audio Technologies 和 Video Technologies 分别是这么介绍 AVFoundation 的：</p>
+
+<blockquote><p>AV Foundation is an Objective-C interface for managing the recording and playback of audio and video. Use this framework for recording audio and when you need fine-grained control over the audio playback process.</p>
+
+<p>AV Foundation provides advanced video playback and recording capabilities. Use this framework in situations where you need more control over the presentation or recording of video. For example, augmented reality apps could use this framework to layer live video content with other app-provided content.</p></blockquote>
+
+<p>从这两个介绍中我们可以知道 AVFoundation 是用来播放和录制音频和视频的。</p>
+
+<p>在 AVFoundation Programming Guide 中则是这么介绍的：</p>
+
+<blockquote><p>AVFoundation is one of several frameworks that you can use to play and create time-based audiovisual media. It provides an Objective-C interface you use to work on a detailed level with time-based audiovisual data. For example, you can use it to examine, create, edit, or reencode media files. You can also get input streams from devices and manipulate video during realtime capture and playback.</p></blockquote>
+
+<p>从这里我们可以知道它不仅可以播放和创建基于时间的视听媒体，还可以让我们在很细微的层面去操作这些视听数据。例如，你可以使用它检查、创建、编辑或者重编码媒体文件。你还可以用它从设备那里拿到输出流，并且可以在实时的捕获和播放过程中操作视频。</p>
+
+<p>所以结论就是：这个框架是处理音频和视频的，而且处理的粒度可以非常细。</p>
+
+
+		
+		<a href="/blog/notes-of-using-avfoundation.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-of-android-development-part-3.html">
 		
 			Android开发问题汇总(三)</a>
@@ -239,68 +312,6 @@
 
 		
 		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html">
-		
-			如何搭建一个带 Dovecot 的 Postfix 邮件服务器</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-02-15T16:29:42+08:00" pubdate data-updated="true">15 Feb 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archivies/'>archivies</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>作为一个软件开发人员，我们可能需要一个自己的 VPS ，在上面可以跑我们的 side project，或者做一些实验。VPS 在运行过程中可能会遇到问题，这时我们可能希望在发生问题时能收到通知。使用邮件通知是个不错的方式，这样我们的服务挂掉了能及时处理，所以学会搭建邮件服务器还是很有价值。另外我一直觉得软件技术人员有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了如何搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件(测试过 sina 和 QQ)。</p>
-
-<h2>邮件系统是怎么工作</h2>
-
-<p>开始之前我觉得有必要了解下邮件系统是怎么工作的，鸟哥在他的博文：<a href="http://linux.vbird.org/linux_server/0380mail.php">第二十二章、郵件伺服器： Postfix</a>作了很详细的介绍，建议熟读之后再开始。</p>
-
-<h2>准备材料</h2>
-
-<ul>
-<li>VPS</li>
-<li>域名</li>
-</ul>
-
-
-<p>我服务器跑的是 CentOS 8。</p>
-
-
-		
-		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html" class="more-link">继续阅读</a>
 	</div>
 
 

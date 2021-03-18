@@ -63,6 +63,82 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ui-design-and-screen-adaptation.html">
+		
+			UI 设计与屏幕适配</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2021-03-17T15:12:26+08:00" pubdate data-updated="true">17 Mar 2021</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android-development/'>android development</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>目前移动设备的尺寸很多，所以前端 (iOS, Android, Web, 小程序等)开发需要适配多种尺寸屏幕。在适配时我们可能会有困惑，设计稿通常是 px 来表示尺寸，设备的分辨率也是以 px 来表示，它们之间是一样的吗？还是存在什么关系？iOS 开发者用 point 来表示视图的尺寸； Android 开发者用 dp 来表示视图尺寸； Web 开发者用 px 来表示尺寸？它们和设计稿的 px 是什么关系？设计师应该以什么基准尺寸来设计会有利于屏幕适配？应该输出几套切图？除了切图，设计师还可以做些什么来配合开发者做屏幕适配？要搞清楚这些问题，我们需要翻翻历史了。</p>
+
+<p>Tim Chien 和 Robert Nyman 的这篇 <a href="https://hacks.mozilla.org/2013/09/css-length-explained/">CSS Length Explained</a> 帮了我的大忙，本文就是基于它而写成。</p>
+
+<h2>英寸</h2>
+
+<p>我们经常是用英寸为度量单位来表示手机屏幕尺寸，一英寸相当于2.54厘米或0.0254米。</p>
+
+<h2>设备像素(device pixel)</h2>
+
+<p>计算机屏幕显示事物的单位是像素。显示屏上的单个物理 &ldquo;光点"，能够独立于它的邻居显示出完整的颜色，被称为像素（图片元素）。我们把屏幕上的物理像素称为 "设备像素"。</p>
+
+<h2>DPI, PPI</h2>
+
+<p>DPI 是 dots per inch 的英文缩写，即每英寸点数； PPI 是 pixels per inch 的缩写，即每英寸像素。 它们都用来表示显示像素密度 (Display pixel density)。</p>
+
+<p>计算机屏幕是由大量发光二极管整齐排列构成的集成电路，由于屏幕制造商工艺水平差异，每英寸集成电路上排列的二极管的数量会不一样，屏幕出厂时我们可以从厂商那里得知屏幕的 PPI。</p>
+
+<p>于是我们可以知道:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>width or height of one device pixel = 1 / device's DPI  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如 MacBook Air(2011) 的 DPI 为 125 ， 所以：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(width or height of one device pixel) = 1/125 inch = 0.008 inch = 0.02032 cm</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/ui-design-and-screen-adaptation.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/mysql-usage-notes-part-2.html">
 		
 			MySQL 使用笔记(二)</a>
@@ -227,114 +303,6 @@
 
 		
 		<a href="/blog/how-to-publish-your-artifacts-to-maven-central.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/an-approach-to-building-javascript-libraries.html">
-		
-			一种构建 JavaScript 库的方法</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2020-09-23T15:08:06+08:00" pubdate data-updated="true">23 Sep 2020</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>最近手头有个项目需要构建 JavaScript 库，核心需求是库既能用于传统的多页面，也能用于 Angular 的单页面。目前网络上暂时好像没有这类详细教程，反而是一些理论阐述的文章较多，经过一番研究后，我得到了一个适合自己的方法。</p>
-
-<p>由于我希望库既能用于多页面，也能用于 Angular 单页面，所以需要支持 UMD 和 ES Harmony。由于 Angular 是使用 TypeScript 开发，最好还能提供用于 TypeScript 的声明文件。最原始的想法自然是手动按要求提供各种文件，但这样工作量比较大，也不容易扩展。那么还有什么容易的办法吗？有的，最核心的想法就是库的源码只写一份，然后用工具生成各种模块系统需要文件。具体的做法可能有差异，但理念是一样的。</p>
-
-<p>从我的需求出发，我最终选择用 TypeScript 来写库的源码，基于脱敏的考虑，这里选择 TypeScript 文档中的示例代码来演示。</p>
-
-<p>首先我们建立好库的源码目录结构并配置好源码管理：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>simple-module-example
-</span><span class='line'>├── src
-</span><span class='line'>│   ├── LettersOnlyValidator.ts
-</span><span class='line'>│   ├── Validation.ts
-</span><span class='line'>│   ├── ZipCodeValidator.ts
-</span><span class='line'>│   └── index.ts</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后使用 <code>npm init</code> 生成 <code>package.json</code> 文件：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "name": "simple-module-example",
-</span><span class='line'>  "version": "1.0.0",
-</span><span class='line'>  "description": "A simple module example.",
-</span><span class='line'>  "main": "index.js",
-</span><span class='line'>  "directories": {
-</span><span class='line'>    "test": "test"
-</span><span class='line'>  },
-</span><span class='line'>  "scripts": {
-</span><span class='line'>    "test": "echo \"Error: no test specified\" && exit 1"
-</span><span class='line'>  },
-</span><span class='line'>  "keywords": [
-</span><span class='line'>    "module",
-</span><span class='line'>    "example"
-</span><span class='line'>  ],
-</span><span class='line'>  "author": "Meiliang Dong",
-</span><span class='line'>  "license": "MIT"
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/an-approach-to-building-javascript-libraries.html" class="more-link">继续阅读</a>
 	</div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-03-18T14:47:53+08:00</updated>
+  <updated>2021-03-31T11:56:13+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,184 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[记一次 docker 网络问题排查]]></title>
+    <link href="http://DamianSheldon.github.io/blog/remembering-a-docker-network-issue-troubleshooting.html"/>
+    <updated>2021-03-30T14:40:26+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/remembering-a-docker-network-issue-troubleshooting</id>
+    <content type="html"><![CDATA[<p>最近在学 docker，虽然很早之前就简单体验过一次，但限于时间没有深入，最近有点空余时间，于是准备深入学习一下。但没想到一开始就遇到了拦路虎，照着官方文档 Get Started 一步一步往下，在构建一个自己的镜像时就遇到了问题，在多容器之间也无法通信，这可愁坏我了，只能硬着头皮来排查问题。</p>
+
+<p>构建镜像时问题表现是牵涉到连接网络的命令会失败，google 一圈之后，找到使用 <code>--network=host</code> 的偏方，成功绕过问题。而多容器之间无法通信却一时措手无策。现在就只有 <code>--network=host</code> 这一个线索，于是就想加上这个参数后有什么区别呢？</p>
+
+<p>在官方文档上搜寻一圈之后我没查到有用信息，于是我想相关的书可能会讲讲 docker 网络这块，在微信读书上找了杨保华、戴王剑和曹亚仑合著的《Docker 技术入门与实战(第3版)》。因为 docker 技术在快速发展，所以书中的命令与当前版本有些许差异，但问题不大，不妨碍理解。这本书有两节专门介绍 docker 网络，于是我便先看了这两节，从这里得到一条重要线索：docker 和宿主机的通信是依靠防火墙转发。<code>--network=host</code> 也验证了这条线索，加上这参数会直接使用宿主机的网络配置，这样 docker 和宿主机的通信就不需要防火墙转发了。</p>
+
+<p>问题现在定位到了防火墙，那么为什么防火墙不转发 docker 的网络数据包呢？是不是哪条防火墙规则没配对？另外我还怀疑是不是我的实践环境有问题？我的实践环境是这样的:物理主机是 macOS，上面安装 virtulbox，使用 virtulbox 创建了一个 CentOS 8 的虚拟机, 虚拟机的网络模式是 NAT。这种情况无疑增加了问题排查的难度，怎么来排查呢？</p>
+
+<p>我先看了一下 virtulbox 的用户手册中的网络模式介绍，NAT 是可以连接到宿主机，而且现在虚拟机是可以访问网络的。如果想快速定位问题，我想还得从网络请求的数据包入手，想办法来跟踪数据包。</p>
+
+<p>于是就来查怎么调试 iptables。查到可以通过 TRACE 和 LOG 来输出日志，看介绍也没看出这俩有什么区别。凭经验觉得 TRACE 好像比 LOG 后出来，看起来也高大上一点，先试着用 TRACE 。Google 了一圈，找到都是 CentOS 6 或 CentOS 7 相关的配置，也只能先将就着用吧。</p>
+
+<p>我先是参考的 <a href="https://www.programmersought.com/article/68601428960/">CentOS implements iptables log output and debugging through raw table</a></p>
+
+<pre><code>$sudo modprobe ipt_LOG
+$sudo sysctl net.netfilter.nf_log.2
+</code></pre>
+
+<p>输出的结果是 NONE，于是尝试显示设置 <code>sudo sysctl net.netfilter.nf_log.2=ipt_LOG</code></p>
+
+<!--more-->
+
+
+<p>结果给我报一个 <code>sysctl: setting key "net.netfilter.nf_log.2": No such file or directory</code>, 为什么没有这个 key 呢？于是我查询一下:</p>
+
+<pre><code>$ sudo sysctl -a | grep net.netfilter.nf_log
+net.netfilter.nf_log.0 = NONE
+net.netfilter.nf_log.1 = NONE
+net.netfilter.nf_log.10 = NONE
+net.netfilter.nf_log.11 = NONE
+net.netfilter.nf_log.12 = NONE
+net.netfilter.nf_log.2 = NONE
+net.netfilter.nf_log.3 = NONE
+net.netfilter.nf_log.4 = NONE
+net.netfilter.nf_log.5 = NONE
+net.netfilter.nf_log.6 = NONE
+net.netfilter.nf_log.7 = NONE
+net.netfilter.nf_log.8 = NONE
+net.netfilter.nf_log.9 = NONE
+net.netfilter.nf_log_all_netns = 0
+</code></pre>
+
+<p>明明有这个 key 啊, Google 一圈不得要领。继续搜索, 找到这篇 <a href="https://vocon-it.com/2020/03/30/tracing-iptables-on-centos-cheat-sheet/">Tracing iptables on CentOS – Cheat sheet</a>, 它提到的方法如下:</p>
+
+<pre><code>modprobe nf_log_ipv4
+sudo sysctl net.netfilter.nf_log.2=nf_log_ipv4
+</code></pre>
+
+<p>因为我对 linux 模块相关命令还是有点了解，知道 <code>modprobe</code> 是用来加载模块， <code>modinfo</code> 可以查看模块的信息,我发现 <code>nf_log_ipv4</code> 这个模块在我的系统中已经加载，所以我就直接尝试 <code>sudo sysctl net.netfilter.nf_log.2=nf_log_ipv4</code>, 得到的仍然是 <code>sysctl: setting key "net.netfilter.nf_log.2": No such file or directory</code>，不得不说这很迷，为什么会一直报这么一个不相关的错误。</p>
+
+<p>没办法，继续搜索, 找到 <a href="https://forums.centos.org/viewtopic.php?t=54411">IPTables. Setting nf_log kernel parameter</a>,它其中提到：</p>
+
+<blockquote><p>I think they split the xt_LOG code in newer kernel versions and you need to modprobe nf_log_ipv4 now and sysctl net.netfilter.nf_log.2=nf_log_ipv4 (assuming you want to trace ipv4 packets)</p></blockquote>
+
+<p>很奇怪，为什么其他人都可以设置，我这里却不行，而且这三篇文章用的方法都类似，不至于啊，google 到的也就这几篇文章，于是我回过头去再次研读第一篇文章，在想要不要试下作者提供 CentOS 7 系列的配置方法，毕竟版本更接近，而且这三篇文章都提到用 <code>nf_log_ipv4</code>, 这时我发现他的方法里 <code>modprobe nf_log_ipv4</code> 之后并不需要设置， <code>net.netfilter.nf_log.2</code> 的值便设置了,于是我也照做，终于配置成功。我觉得这里可能是 CentOS 8 有 bug，因为明明有 key 却设置不上，现在设置成功，也就不管那么多了，继续解决问题要紧。</p>
+
+<p>我到 <code>/etc/rsyslog.conf</code> 中开启内核日志输出：</p>
+
+<pre><code>kern.*                                                 /var/log/messages
+</code></pre>
+
+<p>重启日志输出服务 <code>sudo systemctl restart rsyslog.service</code>,往防火墙里添加 TRACE 规则:</p>
+
+<pre><code>sudo iptables -t raw -A OUTPUT     -p tcp -j TRACE
+sudo iptables -t raw -A PREROUTING -p tcp -j TRACE
+</code></pre>
+
+<p>监视系统日志 <code>sudo tail -f /var/log/messages</code></p>
+
+<p>重启 docker 服务 <code>sudo systemctl restart docker.service</code>, 运行容器 <code>sudo docker run -it busybox</code>, 然后在 busybox 容器中触发网络请求:</p>
+
+<pre><code>cd /tmp/
+wget http://www.bing.com/
+</code></pre>
+
+<p>系统日志并没有输出， 查看 <code>sudo dmesg</code> 也没有日志输出。真是让挫败啊，没办法，只能退而求其次改用 LOG。</p>
+
+<pre><code># 删除 TRACE 规则
+sudo iptable -t raw -D PREROUTING 1
+sudo iptable -t raw -D OUTPUT 1
+
+## 添加 LOG 规则
+sudo iptables -t raw -A OUTPUT     -p tcp -j LOG --log-level debug
+sudo iptables -t raw -A PREROUTING     -p tcp -j LOG --log-level debug
+</code></pre>
+
+<p>同样重启日志服务 <code>sudo systemctl restart rsyslog.service</code>, 监视系统日志 <code>sudo tail -f /var/log/messages</code>，重启 docker 服务 <code>sudo systemctl restart docker.service</code>, 运行容器 <code>sudo docker run -it busybox</code>, 然后在 busybox 容器中触发网络请求:</p>
+
+<pre><code>cd /tmp/
+wget http://www.bing.com/
+</code></pre>
+
+<p>日志是成功输出了，内心着实高兴了一把，但由于我的规则设置太宽泛，输出的太多了，很难找到有用的信息，脑中闪过一个念头，那把规则设置更严格一点不就可以了，搓搓小手，兴奋地实践起来，于是我把规则调整成容器发出的网络数据包：</p>
+
+<pre><code>sudo iptables -t raw -A OUTPUT     -p tcp -s 172.17.0.0/16 -j LOG --log-level debug
+sudo iptables -t raw -A PREROUTING     -p tcp -s 172.17.0.0/16 -j LOG --log-level debug
+</code></pre>
+
+<p>果然，相关日志输出少多了，只有两条,具体如下:</p>
+
+<pre><code>Mar 29 15:51:46 centos kernel: IN=docker0 OUT= PHYSIN=vethfeab609 MAC=02:42:5d:dd:2d:af:02:42:ac:11:00:02:08:00 SRC=172.17.0.2 DST=222.246.1
+29.80 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=30005 DF PROTO=TCP SPT=60366 DPT=80 WINDOW=29200 RES=0x00 SYN URGP=0 
+Mar 29 15:51:47 centos kernel: IN=docker0 OUT= PHYSIN=vethfeab609 MAC=02:42:5d:dd:2d:af:02:42:ac:11:00:02:08:00 SRC=172.17.0.2 DST=222.246.1
+29.80 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=30006 DF PROTO=TCP SPT=60366 DPT=80 WINDOW=29200 RES=0x00 SYN URGP=0 
+</code></pre>
+
+<p>这对解决问题帮助不大，摔！这几乎要击垮我了，但还是心有不甘。于是只能把希望再次寄托给 TRACE，我在 CentOS 8 上直接 <code>man iptables</code>，发现它和网络上找到的 man page 内容确实有些差异, 它的 target 专门独立到 <code>iptables-extensions</code>:</p>
+
+<blockquote><p>iptables  can  use  extended packet matching and target modules.  A list of these is available in the iptables-extensions(8) man‐page.</p></blockquote>
+
+<p>继续 <code>man 8 iptables-extensions</code>，搜索 TRACE, 相关介绍如下:</p>
+
+<blockquote><p>This  target  marks  packets so that the kernel will log every rule which match the packets as those traverse the tables, chains,rules. It can only be used in the raw table.</p>
+
+<p>With iptables-legacy, a logging backend, such as ip(6)t_LOG or nfnetlink_log, must be loaded for this to be visible.  The packets are  logged  with the string prefix: &ldquo;TRACE: tablename:chainname:type:rulenum &rdquo; where type can be &ldquo;rule&rdquo; for plain rule, &ldquo;return&rdquo; for implicit rule at the end of a user defined chain and &ldquo;policy&rdquo; for the policy of the built in chains.</p>
+
+<p>With iptables-nft, the target is translated into nftables' meta nftrace expression. Hence  the  kernel  sends  trace  events  via netlink to userspace where they may be displayed using xtables-monitor &ndash;trace command. For details, refer to xtables-monitor(8).</p></blockquote>
+
+<p>原来配合 <code>iptables-nft</code> 时, 日志是使用  <code>xtables-monitor --trace</code>, 似乎又看到了一丝曙光,于是赶紧删除 LOG 规则，添加 TRACE 规则:</p>
+
+<pre><code># 删除 LOG 规则
+sudo iptable -t raw -D PREROUTING 1
+sudo iptable -t raw -D OUTPUT 1
+
+# 添加 TRACE 规则
+sudo iptables -t raw -A OUTPUT     -p tcp -j TRACE
+sudo iptables -t raw -A PREROUTING -p tcp -j TRACE
+</code></pre>
+
+<p>准备就绪之后就按前面相关的步骤触发网络请求，果然成功输出日志，而且输出了很多日志，我往屏幕下面翻，最后竟然输出的 &ldquo;Failed to received netlink message: No buffer space available&rdquo;,为什么报错了呢？我尝试 <code>man xtables-monitor</code>,文档上明明说的是： xtables-monitor will run until the user aborts execution, typically by using CTRL-C.我这里为什么报错终止了呢？Google 一圈一无所获，想到之前 LOG 因为规则太宽松输出了很多日志，就想是不是这规则太宽松导致日志太多，缓冲区不够用，赶紧调整 TRACE 规则:</p>
+
+<pre><code># 删除 TRACE 规则
+sudo iptable -t raw -D PREROUTING 1
+sudo iptable -t raw -D OUTPUT 1
+
+# 添加 TRACE 规则
+sudo iptables -t raw -A OUTPUT     -p tcp -s 172.17.0.0/16  -j TRACE
+sudo iptables -t raw -A PREROUTING -p tcp -s 172.17.0.0/16 -j TRACE
+</code></pre>
+
+<p>这下好了，日志正常输出，也没有报错了。于是仔细查看日志，终于找到： <code>firewalld:filter_FORWARD:rule:0x93:DROP</code>,原来是 firewall 将包丢掉了。可是对 firewall 一点也不熟，先找了一遍 firewall 教程看了一下，但是还不知道怎么在 firewall 中添加规则，要学会添加规则也得花点力气，这时脑海中冒出另一个想法：我何不直接停止 firewall，确认下是不是 firewall 导致的问题。</p>
+
+<pre><code>sudo systemctl stop firewalld.service
+sudo systemctl stop docker.service
+sudo systemctl start docker.service
+sudo docker run -it busybox
+</code></pre>
+
+<p>尝试一下,发现可以了，确定确实是 firewall 导致的问题。那么现在是自己研究 firewall 添加规则吗？有点复杂啊，我在想是不是我 docker 版本太低了，检查一下确实比最新的版本要低，新版本可能解决了。在文档也确实找到了对应描述:</p>
+
+<blockquote><p>If you are running Docker version 20.10.0 or higher with firewalld on your system with &ndash;iptables enabled, Docker automatically creates a firewalld zone called docker and inserts all the network interfaces it creates (for example, docker0) into the docker zone to allow seamless networking.</p></blockquote>
+
+<p>于是升级新版本，新版本也确实解决了这个问题，嗯，这下暂时不用研究 firewall 添加规则了。</p>
+
+<p>这次能成功排查 docker 的网络问题还是挺开心的，说实话一开始我是没信心的，毕竟才开始接触 docker，另一方面 linux 网络这块牵涉到的知识非常多，甚至在心里想实在解决不了就算了,直接在 macOS 上来学好了。得到的启发是不管有没有解决问题，首先解决问题的方法要对，方法对了之后还得要坚持；其次是注意自己软件使用的版本，相关的命令参数可能需要查看对应版本的文档去核实；最后是虽然项目的官方文档是入门的不错材料，但很多时候官方文档写得很浅或者对新手不友好，这时候如果觉得项目值得投入时间学习的话，看相关的书籍是一个很好的选择，对系统学习和精进大有禆益。</p>
+
+<h1>Reference</h1>
+
+<ul>
+<li><a href="https://www.programmersought.com/article/68601428960/">CentOS implements iptables log output and debugging through raw table</a></li>
+<li><a href="https://vocon-it.com/2020/03/30/tracing-iptables-on-centos-cheat-sheet/">Tracing iptables on CentOS – Cheat sheet</a></li>
+<li><a href="https://forums.centos.org/viewtopic.php?t=54411">IPTables. Setting nf_log kernel parameter</a></li>
+<li><a href="https://stackoverflow.com/questions/37536687/what-is-the-relation-between-docker0-and-eth0">What is the relation between docker0 and eth0?</a></li>
+<li><a href="https://serverfault.com/questions/78240/debugging-rules-in-iptables">Debugging rules in Iptables</a></li>
+<li><a href="https://unix.stackexchange.com/questions/199966/how-to-configure-centos-7-firewalld-to-allow-docker-containers-free-access-to-th">How to configure Centos 7 firewallD to allow docker containers free access to the host&rsquo;s network ports?</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-8">How To Set Up a Firewall Using firewalld on CentOS 8</a></li>
+<li><a href="https://firewalld.org/documentation/howto/enable-and-disable-firewalld.html">Enable and Disable firewalld</a></li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UI 设计与屏幕适配]]></title>
@@ -1426,309 +1604,6 @@ If your project name is foo at SourceForge, you can use net.sf.foo. If your u
 <li><a href="http://ifandelse.com/its-not-hard-making-your-library-support-amd-and-commonjs/">It&rsquo;s Not Hard: Making Your Library Support AMD and CommonJS</a></li>
 <li><a href="https://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a></li>
 <li><a href="https://yanhaijing.com/javascript/2018/08/17/2020-js-lib/">如何写一个现代的JavaScript库</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux 使用笔记(三)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/linux-useful-command-line-part-3.html"/>
-    <updated>2020-09-02T11:40:17+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/linux-useful-command-line-part-3</id>
-    <content type="html"><![CDATA[<h3>1.系统迁移和备份</h3>
-
-<p>A:为了数据安全，我们需要对系统备份，换新电脑或者更换云服务时我们需要迁移系统。Linux 系统备份和迁移的方法很多，我这里打算使用 tar 。</p>
-
-<h4>系统备份</h4>
-
-<p>首先是根据自己的实际情况列出需要备份的目录，通常有：</p>
-
-<ul>
-<li><code>/etc/</code></li>
-<li><code>/home/</code></li>
-<li><code>/var/spool/mail/</code></li>
-<li><code>/var/spool/cron/</code></li>
-<li><code>/root</code></li>
-<li><code>/usr/local/bin</code></li>
-</ul>
-
-
-<p>然后使用 tar 命令打包：</p>
-
-<pre><code>tar -jcv -f /backups/backup-system-20200902.tar.bz2 \
-&gt; --exclude=/root/*.bz2 --exclude=/root/*.gz --exclude=/home/loop* \
-&gt; /etc /home /var/spool/mail /var/spool/cron /root /usr/local/bin
-</code></pre>
-
-<h4>系统恢复</h4>
-
-<p>首先可以将备份解压到 <code>/tmp</code> 目录，之后使用 rsync 命令复制到对应目录便可恢复。</p>
-
-<pre><code>tar -jxv -f /backups/backup-system-20200902.tar.bz2 -C /tmp
-rsync -avuz /tmp/etc/ /etc
-rsync -avuz /tmp/home/ /home
-rsync -avuz /tmp/var/spool/mail/ /var/spool/mail
-rsync -avuz /tmp/var/spool/cron/ /var/spool/cron
-rsync -avuz /tmp/root/ /root
-rsync -avuz /tmp/usr/local/bin/ /usr/local/bin
-</code></pre>
-
-<!--more-->
-
-
-<h4><del>系统迁移</del></h4>
-
-<p><del>换新电脑或者更换云服务时我们可能不想要上面那么麻烦，而可能想直接迁移系统，至少我是这么想的，这时我们可以使用下面的方法：</del></p>
-
-<pre><code># 全系统备份
-tar --create --absolute-names --preserve-permissions --bzip2  --file=/media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 --exclude=/dev --exclude=/media --exclude=/metainfo --exclude=/mnt --exclude=/proc --exclude=/run --exclude=/sys  --exclude=/tmp --exclude=/var --exclude=/@System.solv /
-
-# 如有需要也可检查备份的文件
-tar -tjpPvf /media/sf_Windows10-shared-folder/virtual-box-centos-8.tar.bz2 | less
-
-# 将备份包放到 /tmp 下解压
-tar -xjvf virtual-box-centos-8.tar.bz2
-</code></pre>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://wiki.archlinux.org/index.php/migrate_installation_to_new_hardware">Migrate installation to new hardware</a></li>
-<li><a href="https://www.digitalocean.com/community/tutorial_series/how-to-migrate-to-a-new-linux-server">How To Migrate to a New Linux Server</a></li>
-</ul>
-
-
-<h3>2.dnf list plugins command missing</h3>
-
-<p>A:The information is provided for nearly all command with &ldquo;-v&rdquo; option. See:</p>
-
-<p>Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
-Updating Subscription Management repositories.</p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1694041">dnf list plugins command missing</a></li>
-</ul>
-
-
-<h3>3.How to add startup application on CentOS 8?</h3>
-
-<p>A:We can add by gnome tweaks. Of course you should install it with Software.</p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://linuxhint.com/tweaking_gnome_desktop_centos8/">Tweaking GNOME Desktop Environment on CentOS 8</a></li>
-</ul>
-
-
-<h3>4.开启 CentOS 8 上 tomcat 9 的注意事项</h3>
-
-<p>A:首先是安装 <code>tomcat-native</code>；其次是注意从日志文件中定位错误。我遇到了证书文件权限导致找不到文件的情况。</p>
-
-<h3>5.man: can&rsquo;t set the locale; make sure <code>$LC_*</code> and <code>$LANG</code> are correct</h3>
-
-<p>A:问题是由于 ssh 终端的 locale 设置导致系统的 locale 设置出现问题，我关闭了 sshd_config 中 locale 相关的设置，使用系统的 locale 设置。</p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://wiki.archlinux.org/index.php/Locale#Make_locale_changes_immediate">Locale</a></li>
-<li><a href="https://access.redhat.com/solutions/974273">How to change system locale on RHEL7?</a></li>
-</ul>
-
-
-<h3>6.在 CentOS 8 上使用 alternatives 设置默认的 java</h3>
-
-<p>A: 在 CentOS 8 上安装 java 包之后不知为什么 alternatives 中的配置居然不对，导致提示 java command not found，于是只好手动配置：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>初始情况如下&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$ sudo alternatives  &ndash;list
-</span><span class='line'>libnssckbi.so.x86_64    auto    /usr/lib64/pkcs11/p11-kit-trust.so
-</span><span class='line'>python                  manual  /usr/bin/python3
-</span><span class='line'>ifup                    auto    /usr/libexec/nm-ifup
-</span><span class='line'>cifs-idmap-plugin       auto    /usr/lib64/cifs-utils/cifs_idmap_sss.so
-</span><span class='line'>python3                 auto    /usr/bin/python3.6
-</span><span class='line'>nmap                    auto    /usr/bin/ncat
-</span><span class='line'>java                    manual  /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/bin/java
-</span><span class='line'>jre_openjdk             auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre
-</span><span class='line'>jre_1.8.0               auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre
-</span><span class='line'>jre_1.8.0_openjdk       auto    /usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64
-</span><span class='line'>links                   manual  /usr/bin/elinks
-</span><span class='line'>javac                   auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/bin/javac
-</span><span class='line'>java_sdk_openjdk        auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
-</span><span class='line'>java_sdk_1.8.0          auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
-</span><span class='line'>java_sdk_1.8.0_openjdk  auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>确认下正确设置的相关参数&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$ alternatives &ndash;display java_sdk_openjdk
-</span><span class='line'>java_sdk_openjdk - status is auto.
-</span><span class='line'> link currently points to /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
-</span><span class='line'>/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64 - family java-1.8.0-openjdk.x86_64 priority 1800265
-</span><span class='line'>Current `best' version is /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64.&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>设置默认 java 相关功能的路径&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>sudo alternatives &ndash;install /usr/bin/java java /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre/bin/java 1800265 &ndash;family java-1.8.0-openjdk.x86_64&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>sudo alternatives &ndash;install /usr/lib/jvm/jre_openjdk jre_openjdk /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre 1800265 &ndash;family java-1.8.0-openjdk.x86_64&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>sudo alternatives &ndash;install /usr/lib/jvm/jre_1.8.0 jre_1.8.0 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre 1800265 &ndash;family java-1.8.0-openjdk.x86_64&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>sudo alternatives &ndash;install /usr/lib/jvm/jre_1.8.0_openjdk jre_1.8.0_openjdk /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64 1800265 &ndash;family java-1.8.0-openjdk.x86_64&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>确认设置结果&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$ alternatives &ndash;list
-</span><span class='line'>libnssckbi.so.x86_64    auto    /usr/lib64/pkcs11/p11-kit-trust.so
-</span><span class='line'>python                  manual  /usr/bin/python3
-</span><span class='line'>ifup                    auto    /usr/libexec/nm-ifup
-</span><span class='line'>cifs-idmap-plugin       auto    /usr/lib64/cifs-utils/cifs_idmap_sss.so
-</span><span class='line'>python3                 auto    /usr/bin/python3.6
-</span><span class='line'>nmap                    auto    /usr/bin/ncat
-</span><span class='line'>links                   manual  /usr/bin/elinks
-</span><span class='line'>javac                   auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/bin/javac
-</span><span class='line'>java_sdk_openjdk        auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
-</span><span class='line'>java_sdk_1.8.0          auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
-</span><span class='line'>java_sdk_1.8.0_openjdk  auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64
-</span><span class='line'>java                    auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre/bin/java
-</span><span class='line'>jre_openjdk             auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
-</span><span class='line'>jre_1.8.0               auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
-</span><span class='line'>jre_1.8.0_openjdk       auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64</span></code></pre></td></tr></table></div></figure></p>
-
-<p>另外我们还可以在 <code>/etc/profile.d</code> 目录下新建 <code>java.sh</code> 文件来设置 <code>JAVA_HOME</code> 和 <code>JRE_HOME</code>：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>/etc/profile.d/java.sh&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>JAVA_HOME=&ldquo;/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64&rdquo;
-</span><span class='line'>JRE_HOME=&ldquo;/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre&rdquo;</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://www.redhat.com/sysadmin/alternatives-command">Introduction to the alternatives command in Linux</a></li>
-</ul>
-
-
-<h3>7. chsh command not available on CentOS 8</h3>
-
-<p>A:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ dnf provides &lsquo;*/chsh&rsquo;
-</span><span class='line'>Last metadata expiration check: 8 days, 1:03:13 ago on Thu 01 Oct 2020 03:47:40 AM UTC.
-</span><span class='line'>util-linux-user-2.32.1-22.el8.x86_64 : libuser based util-linux utilities
-</span><span class='line'>Repo        : BaseOS
-</span><span class='line'>Matched from:
-</span><span class='line'>Filename    : /etc/pam.d/chsh
-</span><span class='line'>Filename    : /usr/bin/chsh
-</span><span class='line'>Filename    : /usr/share/bash-completion/completions/chsh&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$ rpm -q util-linux-user-2.32.1-22.el8.x86_64
-</span><span class='line'>package util-linux-user-2.32.1-22.el8.x86_64 is not installed&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$ sudo dnf install util-linux-user-2.32.1-22.el8.x86_64</span></code></pre></td></tr></table></div></figure></p>
-
-<ul>
-<li><a href="https://forums.centos.org/viewtopic.php?t=73864">CentOS 8.0.1905 - &lsquo;chsh&rsquo; : command not found</a></li>
-</ul>
-
-
-<h3>8. rsync 同步目录时产生了很多以 <code>~</code> 结尾的文件</h3>
-
-<p>A:原因是加上了 b 选项，会对文件做备份</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rsync -avuzb treasure-workspace/dist/treasure/ treasure-lib-dist</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://unix.stackexchange.com/questions/76189/what-does-the-tilde-mean-at-the-end-of-a-filename">What does the tilde (~) mean at the end of a filename? </a></li>
-<li><a href="https://unix.stackexchange.com/questions/132669/what-is-bitwise-c?noredirect=1&amp;lq=1">What is bitwise.c~? </a></li>
 </ul>
 
 ]]></content>

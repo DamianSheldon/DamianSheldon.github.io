@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-03-18T14:47:53+08:00</updated>
+  <updated>2021-03-31T11:56:13+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,242 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[记一次 docker 网络问题排查]]></title>
+    <link href="http://DamianSheldon.github.io/blog/remembering-a-docker-network-issue-troubleshooting.html"/>
+    <updated>2021-03-30T14:40:26+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/remembering-a-docker-network-issue-troubleshooting</id>
+    <content type="html"><![CDATA[<p>最近在学 docker，虽然很早之前就简单体验过一次，但限于时间没有深入，最近有点空余时间，于是准备深入学习一下。但没想到一开始就遇到了拦路虎，照着官方文档 Get Started 一步一步往下，在构建一个自己的镜像时就遇到了问题，在多容器之间也无法通信，这可愁坏我了，只能硬着头皮来排查问题。</p>
+
+<p>构建镜像时问题表现是牵涉到连接网络的命令会失败，google 一圈之后，找到使用 <code>--network=host</code> 的偏方，成功绕过问题。而多容器之间无法通信却一时措手无策。现在就只有 <code>--network=host</code> 这一个线索，于是就想加上这个参数后有什么区别呢？</p>
+
+<p>在官方文档上搜寻一圈之后我没查到有用信息，于是我想相关的书可能会讲讲 docker 网络这块，在微信读书上找了杨保华、戴王剑和曹亚仑合著的《Docker 技术入门与实战(第3版)》。因为 docker 技术在快速发展，所以书中的命令与当前版本有些许差异，但问题不大，不妨碍理解。这本书有两节专门介绍 docker 网络，于是我便先看了这两节，从这里得到一条重要线索：docker 和宿主机的通信是依靠防火墙转发。<code>--network=host</code> 也验证了这条线索，加上这参数会直接使用宿主机的网络配置，这样 docker 和宿主机的通信就不需要防火墙转发了。</p>
+
+<p>问题现在定位到了防火墙，那么为什么防火墙不转发 docker 的网络数据包呢？是不是哪条防火墙规则没配对？另外我还怀疑是不是我的实践环境有问题？我的实践环境是这样的:物理主机是 macOS，上面安装 virtulbox，使用 virtulbox 创建了一个 CentOS 8 的虚拟机, 虚拟机的网络模式是 NAT。这种情况无疑增加了问题排查的难度，怎么来排查呢？</p>
+
+<p>我先看了一下 virtulbox 的用户手册中的网络模式介绍，NAT 是可以连接到宿主机，而且现在虚拟机是可以访问网络的。如果想快速定位问题，我想还得从网络请求的数据包入手，想办法来跟踪数据包。</p>
+
+<p>于是就来查怎么调试 iptables。查到可以通过 TRACE 和 LOG 来输出日志，看介绍也没看出这俩有什么区别。凭经验觉得 TRACE 好像比 LOG 后出来，看起来也高大上一点，先试着用 TRACE 。Google 了一圈，找到都是 CentOS 6 或 CentOS 7 相关的配置，也只能先将就着用吧。</p>
+
+<p>我先是参考的 <a href="https://www.programmersought.com/article/68601428960/">CentOS implements iptables log output and debugging through raw table</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo modprobe ipt_LOG
+</span><span class='line'>$sudo sysctl net.netfilter.nf_log.2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>输出的结果是 NONE，于是尝试显示设置 <code>sudo sysctl net.netfilter.nf_log.2=ipt_LOG</code></p>
+
+<!--more-->
+
+
+<p>结果给我报一个 <code>sysctl: setting key "net.netfilter.nf_log.2": No such file or directory</code>, 为什么没有这个 key 呢？于是我查询一下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo sysctl -a | grep net.netfilter.nf_log
+</span><span class='line'>net.netfilter.nf_log.0 = NONE
+</span><span class='line'>net.netfilter.nf_log.1 = NONE
+</span><span class='line'>net.netfilter.nf_log.10 = NONE
+</span><span class='line'>net.netfilter.nf_log.11 = NONE
+</span><span class='line'>net.netfilter.nf_log.12 = NONE
+</span><span class='line'>net.netfilter.nf_log.2 = NONE
+</span><span class='line'>net.netfilter.nf_log.3 = NONE
+</span><span class='line'>net.netfilter.nf_log.4 = NONE
+</span><span class='line'>net.netfilter.nf_log.5 = NONE
+</span><span class='line'>net.netfilter.nf_log.6 = NONE
+</span><span class='line'>net.netfilter.nf_log.7 = NONE
+</span><span class='line'>net.netfilter.nf_log.8 = NONE
+</span><span class='line'>net.netfilter.nf_log.9 = NONE
+</span><span class='line'>net.netfilter.nf_log_all_netns = 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>明明有这个 key 啊, Google 一圈不得要领。继续搜索, 找到这篇 <a href="https://vocon-it.com/2020/03/30/tracing-iptables-on-centos-cheat-sheet/">Tracing iptables on CentOS – Cheat sheet</a>, 它提到的方法如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>modprobe nf_log_ipv4
+</span><span class='line'>sudo sysctl net.netfilter.nf_log.2=nf_log_ipv4</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为我对 linux 模块相关命令还是有点了解，知道 <code>modprobe</code> 是用来加载模块， <code>modinfo</code> 可以查看模块的信息,我发现 <code>nf_log_ipv4</code> 这个模块在我的系统中已经加载，所以我就直接尝试 <code>sudo sysctl net.netfilter.nf_log.2=nf_log_ipv4</code>, 得到的仍然是 <code>sysctl: setting key "net.netfilter.nf_log.2": No such file or directory</code>，不得不说这很迷，为什么会一直报这么一个不相关的错误。</p>
+
+<p>没办法，继续搜索, 找到 <a href="https://forums.centos.org/viewtopic.php?t=54411">IPTables. Setting nf_log kernel parameter</a>,它其中提到：</p>
+
+<blockquote><p>I think they split the xt_LOG code in newer kernel versions and you need to modprobe nf_log_ipv4 now and sysctl net.netfilter.nf_log.2=nf_log_ipv4 (assuming you want to trace ipv4 packets)</p></blockquote>
+
+<p>很奇怪，为什么其他人都可以设置，我这里却不行，而且这三篇文章用的方法都类似，不至于啊，google 到的也就这几篇文章，于是我回过头去再次研读第一篇文章，在想要不要试下作者提供 CentOS 7 系列的配置方法，毕竟版本更接近，而且这三篇文章都提到用 <code>nf_log_ipv4</code>, 这时我发现他的方法里 <code>modprobe nf_log_ipv4</code> 之后并不需要设置， <code>net.netfilter.nf_log.2</code> 的值便设置了,于是我也照做，终于配置成功。我觉得这里可能是 CentOS 8 有 bug，因为明明有 key 却设置不上，现在设置成功，也就不管那么多了，继续解决问题要紧。</p>
+
+<p>我到 <code>/etc/rsyslog.conf</code> 中开启内核日志输出：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>kern.*                                                 /var/log/messages</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重启日志输出服务 <code>sudo systemctl restart rsyslog.service</code>,往防火墙里添加 TRACE 规则:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo iptables -t raw -A OUTPUT     -p tcp -j TRACE
+</span><span class='line'>sudo iptables -t raw -A PREROUTING -p tcp -j TRACE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>监视系统日志 <code>sudo tail -f /var/log/messages</code></p>
+
+<p>重启 docker 服务 <code>sudo systemctl restart docker.service</code>, 运行容器 <code>sudo docker run -it busybox</code>, 然后在 busybox 容器中触发网络请求:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /tmp/
+</span><span class='line'>wget http://www.bing.com/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>系统日志并没有输出， 查看 <code>sudo dmesg</code> 也没有日志输出。真是让挫败啊，没办法，只能退而求其次改用 LOG。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 删除 TRACE 规则
+</span><span class='line'>sudo iptable -t raw -D PREROUTING 1
+</span><span class='line'>sudo iptable -t raw -D OUTPUT 1
+</span><span class='line'>
+</span><span class='line'>## 添加 LOG 规则
+</span><span class='line'>sudo iptables -t raw -A OUTPUT     -p tcp -j LOG --log-level debug
+</span><span class='line'>sudo iptables -t raw -A PREROUTING     -p tcp -j LOG --log-level debug</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同样重启日志服务 <code>sudo systemctl restart rsyslog.service</code>, 监视系统日志 <code>sudo tail -f /var/log/messages</code>，重启 docker 服务 <code>sudo systemctl restart docker.service</code>, 运行容器 <code>sudo docker run -it busybox</code>, 然后在 busybox 容器中触发网络请求:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /tmp/
+</span><span class='line'>wget http://www.bing.com/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日志是成功输出了，内心着实高兴了一把，但由于我的规则设置太宽泛，输出的太多了，很难找到有用的信息，脑中闪过一个念头，那把规则设置更严格一点不就可以了，搓搓小手，兴奋地实践起来，于是我把规则调整成容器发出的网络数据包：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo iptables -t raw -A OUTPUT     -p tcp -s 172.17.0.0/16 -j LOG --log-level debug
+</span><span class='line'>sudo iptables -t raw -A PREROUTING     -p tcp -s 172.17.0.0/16 -j LOG --log-level debug</span></code></pre></td></tr></table></div></figure>
+
+
+<p>果然，相关日志输出少多了，只有两条,具体如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Mar 29 15:51:46 centos kernel: IN=docker0 OUT= PHYSIN=vethfeab609 MAC=02:42:5d:dd:2d:af:02:42:ac:11:00:02:08:00 SRC=172.17.0.2 DST=222.246.1
+</span><span class='line'>29.80 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=30005 DF PROTO=TCP SPT=60366 DPT=80 WINDOW=29200 RES=0x00 SYN URGP=0 
+</span><span class='line'>Mar 29 15:51:47 centos kernel: IN=docker0 OUT= PHYSIN=vethfeab609 MAC=02:42:5d:dd:2d:af:02:42:ac:11:00:02:08:00 SRC=172.17.0.2 DST=222.246.1
+</span><span class='line'>29.80 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=30006 DF PROTO=TCP SPT=60366 DPT=80 WINDOW=29200 RES=0x00 SYN URGP=0 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>这对解决问题帮助不大，摔！这几乎要击垮我了，但还是心有不甘。于是只能把希望再次寄托给 TRACE，我在 CentOS 8 上直接 <code>man iptables</code>，发现它和网络上找到的 man page 内容确实有些差异, 它的 target 专门独立到 <code>iptables-extensions</code>:</p>
+
+<blockquote><p>iptables  can  use  extended packet matching and target modules.  A list of these is available in the iptables-extensions(8) man‐page.</p></blockquote>
+
+<p>继续 <code>man 8 iptables-extensions</code>，搜索 TRACE, 相关介绍如下:</p>
+
+<blockquote><p>This  target  marks  packets so that the kernel will log every rule which match the packets as those traverse the tables, chains,rules. It can only be used in the raw table.</p>
+
+<p>With iptables-legacy, a logging backend, such as ip(6)t_LOG or nfnetlink_log, must be loaded for this to be visible.  The packets are  logged  with the string prefix: &ldquo;TRACE: tablename:chainname:type:rulenum &rdquo; where type can be &ldquo;rule&rdquo; for plain rule, &ldquo;return&rdquo; for implicit rule at the end of a user defined chain and &ldquo;policy&rdquo; for the policy of the built in chains.</p>
+
+<p>With iptables-nft, the target is translated into nftables' meta nftrace expression. Hence  the  kernel  sends  trace  events  via netlink to userspace where they may be displayed using xtables-monitor &ndash;trace command. For details, refer to xtables-monitor(8).</p></blockquote>
+
+<p>原来配合 <code>iptables-nft</code> 时, 日志是使用  <code>xtables-monitor --trace</code>, 似乎又看到了一丝曙光,于是赶紧删除 LOG 规则，添加 TRACE 规则:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 删除 LOG 规则
+</span><span class='line'>sudo iptable -t raw -D PREROUTING 1
+</span><span class='line'>sudo iptable -t raw -D OUTPUT 1
+</span><span class='line'>
+</span><span class='line'># 添加 TRACE 规则
+</span><span class='line'>sudo iptables -t raw -A OUTPUT     -p tcp -j TRACE
+</span><span class='line'>sudo iptables -t raw -A PREROUTING -p tcp -j TRACE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>准备就绪之后就按前面相关的步骤触发网络请求，果然成功输出日志，而且输出了很多日志，我往屏幕下面翻，最后竟然输出的 &ldquo;Failed to received netlink message: No buffer space available&rdquo;,为什么报错了呢？我尝试 <code>man xtables-monitor</code>,文档上明明说的是： xtables-monitor will run until the user aborts execution, typically by using CTRL-C.我这里为什么报错终止了呢？Google 一圈一无所获，想到之前 LOG 因为规则太宽松输出了很多日志，就想是不是这规则太宽松导致日志太多，缓冲区不够用，赶紧调整 TRACE 规则:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 删除 TRACE 规则
+</span><span class='line'>sudo iptable -t raw -D PREROUTING 1
+</span><span class='line'>sudo iptable -t raw -D OUTPUT 1
+</span><span class='line'>
+</span><span class='line'># 添加 TRACE 规则
+</span><span class='line'>sudo iptables -t raw -A OUTPUT     -p tcp -s 172.17.0.0/16  -j TRACE
+</span><span class='line'>sudo iptables -t raw -A PREROUTING -p tcp -s 172.17.0.0/16 -j TRACE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这下好了，日志正常输出，也没有报错了。于是仔细查看日志，终于找到： <code>firewalld:filter_FORWARD:rule:0x93:DROP</code>,原来是 firewall 将包丢掉了。可是对 firewall 一点也不熟，先找了一遍 firewall 教程看了一下，但是还不知道怎么在 firewall 中添加规则，要学会添加规则也得花点力气，这时脑海中冒出另一个想法：我何不直接停止 firewall，确认下是不是 firewall 导致的问题。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo systemctl stop firewalld.service
+</span><span class='line'>sudo systemctl stop docker.service
+</span><span class='line'>sudo systemctl start docker.service
+</span><span class='line'>sudo docker run -it busybox</span></code></pre></td></tr></table></div></figure>
+
+
+<p>尝试一下,发现可以了，确定确实是 firewall 导致的问题。那么现在是自己研究 firewall 添加规则吗？有点复杂啊，我在想是不是我 docker 版本太低了，检查一下确实比最新的版本要低，新版本可能解决了。在文档也确实找到了对应描述:</p>
+
+<blockquote><p>If you are running Docker version 20.10.0 or higher with firewalld on your system with &ndash;iptables enabled, Docker automatically creates a firewalld zone called docker and inserts all the network interfaces it creates (for example, docker0) into the docker zone to allow seamless networking.</p></blockquote>
+
+<p>于是升级新版本，新版本也确实解决了这个问题，嗯，这下暂时不用研究 firewall 添加规则了。</p>
+
+<p>这次能成功排查 docker 的网络问题还是挺开心的，说实话一开始我是没信心的，毕竟才开始接触 docker，另一方面 linux 网络这块牵涉到的知识非常多，甚至在心里想实在解决不了就算了,直接在 macOS 上来学好了。得到的启发是不管有没有解决问题，首先解决问题的方法要对，方法对了之后还得要坚持；其次是注意自己软件使用的版本，相关的命令参数可能需要查看对应版本的文档去核实；最后是虽然项目的官方文档是入门的不错材料，但很多时候官方文档写得很浅或者对新手不友好，这时候如果觉得项目值得投入时间学习的话，看相关的书籍是一个很好的选择，对系统学习和精进大有禆益。</p>
+
+<h1>Reference</h1>
+
+<ul>
+<li><a href="https://www.programmersought.com/article/68601428960/">CentOS implements iptables log output and debugging through raw table</a></li>
+<li><a href="https://vocon-it.com/2020/03/30/tracing-iptables-on-centos-cheat-sheet/">Tracing iptables on CentOS – Cheat sheet</a></li>
+<li><a href="https://forums.centos.org/viewtopic.php?t=54411">IPTables. Setting nf_log kernel parameter</a></li>
+<li><a href="https://stackoverflow.com/questions/37536687/what-is-the-relation-between-docker0-and-eth0">What is the relation between docker0 and eth0?</a></li>
+<li><a href="https://serverfault.com/questions/78240/debugging-rules-in-iptables">Debugging rules in Iptables</a></li>
+<li><a href="https://unix.stackexchange.com/questions/199966/how-to-configure-centos-7-firewalld-to-allow-docker-containers-free-access-to-th">How to configure Centos 7 firewallD to allow docker containers free access to the host&rsquo;s network ports?</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-8">How To Set Up a Firewall Using firewalld on CentOS 8</a></li>
+<li><a href="https://firewalld.org/documentation/howto/enable-and-disable-firewalld.html">Enable and Disable firewalld</a></li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UI 设计与屏幕适配]]></title>
@@ -6644,737 +6880,6 @@ Where closures really shine over other constructs is when using higher-order fun
 <li><a href="https://techhelplist.com/tech-tutorials/34-openldap/48-user-management-in-openldap">User Management in OpenLDAP</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(三)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-three.html"/>
-    <updated>2018-04-13T11:07:25+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-three</id>
-    <content type="html"><![CDATA[<h3>1.How to send email in java?</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.mail.*</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.mail.internet.*</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.activation.*</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SendEmail</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="c1">// Recipient&#39;s email ID needs to be mentioned.</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">to</span> <span class="o">=</span> <span class="s">&quot;abcd@gmail.com&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Sender&#39;s email ID needs to be mentioned</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">from</span> <span class="o">=</span> <span class="s">&quot;web@gmail.com&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Assuming you are sending email from localhost</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Get system properties</span>
-</span><span class='line'>      <span class="n">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperties</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Setup mail server</span>
-</span><span class='line'>      <span class="n">properties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&quot;mail.smtp.host&quot;</span><span class="o">,</span> <span class="n">host</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Get the default Session object.</span>
-</span><span class='line'>      <span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="na">getDefaultInstance</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>         <span class="c1">// Create a default MimeMessage object.</span>
-</span><span class='line'>         <span class="n">MimeMessage</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">MimeMessage</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Set From: header field of the header.</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">new</span> <span class="nf">InternetAddress</span><span class="o">(</span><span class="n">from</span><span class="o">));</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Set To: header field of the header.</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">addRecipient</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">TO</span><span class="o">,</span> <span class="k">new</span> <span class="nf">InternetAddress</span><span class="o">(</span><span class="n">to</span><span class="o">));</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Set Subject: header field</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="s">&quot;This is the Subject Line!&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Now set the actual message</span>
-</span><span class='line'>         <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;This is actual message&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="c1">// Send message</span>
-</span><span class='line'>         <span class="n">Transport</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
-</span><span class='line'>         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Sent message successfully....&quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MessagingException</span> <span class="n">mex</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>         <span class="n">mex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.tutorialspoint.com/java/java_sending_email.htm">Java - Sending Email</a><br/>
-<a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Send email using java</a></p>
-
-<!--more-->
-
-
-<h3>2.Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</h3>
-
-<p>A:安装了 Eclipse 提示的升级后再重新打开时，出现上面的报错。Google 一圈后显示可能是 eclipse.ini 的锅，正好我安装了 cpp, java 和 jee 三个版本，尝试打开 java 版本的，正常打开，于是对比它们的 eclipse.ini 文件:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">$</span> <span class="n">cp</span> <span class="o">~/</span><span class="n">eclipse</span><span class="o">/</span><span class="n">jee</span><span class="o">-</span><span class="n">oxygen</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">.</span><span class="na">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">/</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>  <span class="o">~/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">jee</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>
-</span><span class='line'><span class="n">cp</span> <span class="o">~/</span><span class="n">eclipse</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="n">oxygen</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">.</span><span class="na">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Eclipse</span><span class="o">/</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span> <span class="o">~/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">$</span> <span class="n">diff</span> <span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">jee</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span> <span class="n">eclipse</span><span class="o">-</span><span class="n">workspace</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="n">eclipse</span><span class="o">.</span><span class="na">ini</span>
-</span><span class='line'><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="n">d2</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">--</span><span class="n">launcher</span><span class="o">.</span><span class="na">library</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">equinox</span><span class="o">.</span><span class="na">launcher</span><span class="o">.</span><span class="na">cocoa</span><span class="o">.</span><span class="na">macosx</span><span class="o">.</span><span class="na">x86_64_1</span><span class="o">.</span><span class="mf">1.551</span><span class="o">.</span><span class="na">v20171108</span><span class="o">-</span><span class="mi">1834</span>
-</span><span class='line'><span class="mi">6</span><span class="n">a5</span><span class="o">,</span><span class="mi">6</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="o">--</span><span class="n">launcher</span><span class="o">.</span><span class="na">library</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">equinox</span><span class="o">.</span><span class="na">launcher</span><span class="o">.</span><span class="na">cocoa</span><span class="o">.</span><span class="na">macosx</span><span class="o">.</span><span class="na">x86_64_1</span><span class="o">.</span><span class="mf">1.551</span><span class="o">.</span><span class="na">v20171108</span><span class="o">-</span><span class="mi">1834</span>
-</span><span class='line'><span class="mi">8</span><span class="n">c8</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">epp</span><span class="o">.</span><span class="na">package</span><span class="o">.</span><span class="na">jee</span><span class="o">.</span><span class="na">product</span>
-</span><span class='line'><span class="o">---</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">epp</span><span class="o">.</span><span class="na">package</span><span class="o">.</span><span class="na">java</span><span class="o">.</span><span class="na">product</span>
-</span><span class='line'><span class="mi">18</span><span class="o">,</span><span class="mi">23</span><span class="n">d17</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">javaagent:</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="na">zeroturnaround</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">optimizer</span><span class="o">.</span><span class="na">plugin_1</span><span class="o">.</span><span class="mf">0.11</span><span class="o">/</span><span class="n">agent</span><span class="o">/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">optimizer</span><span class="o">-</span><span class="n">agent</span><span class="o">.</span><span class="na">jar</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="n">server</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">PermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">MaxPermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="o">+</span><span class="n">UseParallelGC</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">Xverify:</span><span class="n">none</span>
-</span><span class='line'><span class="mi">32</span><span class="n">c26</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="n">Xms512m</span>
-</span><span class='line'><span class="o">---</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="o">-</span><span class="n">Xms256m</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>总共有五处不同，细看之后发现只有两处可能会产生影响，先尝试将 <code>-Xms512m</code> 改成 <code>-Xms256m</code>，问题仍然存在，将文件恢复原样，再尝试将</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">javaagent:</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dongmeiliang</span><span class="o">/.</span><span class="na">p2</span><span class="o">/</span><span class="n">pool</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="na">zeroturnaround</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">optimizer</span><span class="o">.</span><span class="na">plugin_1</span><span class="o">.</span><span class="mf">0.11</span><span class="o">/</span><span class="n">agent</span><span class="o">/</span><span class="n">eclipse</span><span class="o">-</span><span class="n">optimizer</span><span class="o">-</span><span class="n">agent</span><span class="o">.</span><span class="na">jar</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="n">server</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">PermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="n">MaxPermSize</span><span class="o">=</span><span class="mi">256</span><span class="n">m</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">XX:</span><span class="o">+</span><span class="n">UseParallelGC</span>
-</span><span class='line'><span class="o">&lt;</span> <span class="o">-</span><span class="nl">Xverify:</span><span class="n">none</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>删除，问题顺利解决。</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/7302604/eclipse-error-failed-to-create-the-java-virtual-machine">Eclipse error: &lsquo;Failed to create the Java Virtual Machine&rsquo;</a></p>
-
-<h3>3.<code>Warning: mysqli::__construct(): (HY000/2002): No such file or directory in /code/index.php on line 8 Connection failed: No such file or directory</code></h3>
-
-<p>A:问题出现的原因：
-当主机填写为localhost时MySQL会采用 unix domain socket连接，当主机填写为127.0.0.1时MySQL会采用TCP/IP的方式连接。使用Unix socket的连接比TCP/IP的连接更加快速与安全。这是MySQL连接的特性，可以参考官方文档的说明<a href="https://dev.mysql.com/doc/refman/5.6/en/connecting.html#id471316">4.2.2. Connecting to the MySQL Server</a>:</p>
-
-<blockquote><p>On Unix, MySQL programs treat the host name localhost specially, in a way that is
-likely different from what you expect compared to other network-based programs.
-For connections to localhost, MySQL programs attempt to connect to the local server
-by using a Unix socket file. This occurs even if a &ndash;port or -P option is given to
-specify a port number. To ensure that the client makes a TCP/IP connection to the
-local server, use &ndash;host or -h to specify a host name value of 127.0.0.1, or the IP
-address or name of the local server. You can also specify the connection protocol
-explicitly, even for localhost, by using the &ndash;protocol=TCP option.</p></blockquote>
-
-<p>这个问题有以下几种解决方法：</p>
-
-<ol>
-<li>使用TCP/IP代替Unix socket。即在连接的时候将localhost换成127.0.0.1。</li>
-<li>修改MySQL的配置文件my.cnf，指定mysql.socket的位置： /var/lib/mysql/mysql.sock (你的mysql.socket路径)。   </li>
-<li>直接在php建立连接的时候指定my.socket的位置（官方文档：mysqli_connect）。比如： <code>$db = new MySQLi('localhost', 'root', 'root', 'my_db', '3306', '/var/run/mysqld/mysqld.sock')</code></li>
-</ol>
-
-
-<p>Reference:<a href="https://segmentfault.com/q/1010000000328531">mysqli不能使用localhost，请问这是怎么回事？</a></p>
-
-<h3>4.超链接元素的 onclick 方法直接使用表单元素的名字调用其 submit 方法。</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">&quot;bm_form&quot;</span> <span class="na">action=</span><span class="s">&quot;/delete_bms&quot;</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;tr&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://www.google.com&quot;</span><span class="nt">&gt;</span>https://www.google.com<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;del_me&quot;</span> <span class="na">value=</span><span class="s">&quot;https://www.google.com&quot;</span> <span class="nt">/&gt;&lt;/td&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/tr&gt;</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="nt">&lt;tr&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://www.twitter.com&quot;</span><span class="nt">&gt;</span>https://www.twitter.com<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;del_me&quot;</span> <span class="na">value=</span><span class="s">&quot;https://www.twitter.com&quot;</span> <span class="nt">/&gt;&lt;/td&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/tr&gt;</span>
-</span><span class='line'><span class="nt">&lt;/form&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span> <span class="na">onclick=</span><span class="s">&quot;bm_form.submit();&quot;</span><span class="nt">&gt;</span>Delete BM<span class="nt">&lt;/a&gt;</span>
-</span><span class='line'>  
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里展示了可以直接使用表单元素的名字直接来提交的技巧。</p>
-
-<h3>5.Ionic - Cannot find module “.”</h3>
-
-<p>A:Just remove all imports that have /umd at the final.
-In my case, I changed: 
-<code>import { IonicPageModule } from 'ionic-angular/umd';</code>
-To: 
-<code>import { IonicPageModule } from 'ionic-angular';</code></p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/43236971/ionic-2-runtime-error-cannot-find-module">Ionic 2 - Runtime error Cannot find module “.”</a></p>
-
-<h3>6.Google maps report google is not define in ionic app.</h3>
-
-<p>A:</p>
-
-<ol>
-<li>go to your project and do “ionic plugin add cordova-plugin-whitelist”</li>
-<li>add CSP meta</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Live reload unfortunately seems not work, I get this error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Refused to load the script &#39;http://localhost:35729/livereload.js?snipver=1&#39; because it violates the following Content Security Policy directive: &quot;script-src &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After some google, update CSP meta works, new CSP meta as follow:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Security-Policy&quot;</span> <span class="na">content=</span><span class="s">&quot;script-src localhost:35729 &#39;self&#39; https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;&quot;</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/ionic-google-maps-referenceerror-google-is-not-defined/22550">Ionic + Google Maps: ReferenceError: google is not defined</a><br/>
-<a href="https://forum.ionicframework.com/t/solution-for-livereload-problems-with-new-csp-rules/25449">Solution for livereload problems with new CSP rules</a></p>
-
-<h3>7.Error: No provider for Navbar!</h3>
-
-<p>A:Normally navbar don&rsquo;t provide with injector, we should access like follow:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>// Template
-</span><span class='line'><span class="nt">&lt;ion-navbar</span> <span class="err">#</span><span class="na">navbar</span> <span class="na">color=</span><span class="s">&quot;primary&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;ion-title&gt;</span>Whatever<span class="nt">&lt;/ion-title&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;ion-buttons</span> <span class="na">right</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;button</span> <span class="na">icon-only</span> <span class="na">ion-button</span><span class="nt">&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;ion-icon</span> <span class="na">name=</span><span class="s">&#39;pause&#39;</span><span class="nt">&gt;&lt;/ion-icon&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;/button&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/ion-buttons&gt;</span>
-</span><span class='line'><span class="nt">&lt;/ion-navbar&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>// Typescript
-</span><span class='line'>export class Page {
-</span><span class='line'>
-</span><span class='line'>@ViewChild(&#39;navbar&#39;) navBar: Navbar;
-</span><span class='line'>
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/error-in-homepage-class-homepage-caused-by-no-provider-for-navbar/82530">Error in ./HomePage class HomePage - caused by: No provider for Navbar!</a></p>
-
-<h3>8.How to custom back button of ionic app?</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;ion-header&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ion-navbar</span> <span class="na">color=</span><span class="s">&#39;danger&#39;</span> <span class="na">hideBackButton</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;ion-title&gt;</span>product page<span class="nt">&lt;/ion-title&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;ion-buttons</span> <span class="na">left</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;button</span> <span class="na">ion-button</span> <span class="na">navPop</span> <span class="na">icon-only</span><span class="nt">&gt;</span>
-</span><span class='line'>              <span class="nt">&lt;ion-icon</span> <span class="na">ios=</span><span class="s">&quot;ios-arrow-forward&quot;</span> <span class="na">md=</span><span class="s">&quot;md-arrow-forward&quot;</span><span class="nt">&gt;&lt;/ion-icon&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;/button&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/ion-buttons&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/ion-navbar&gt;</span>
-</span><span class='line'><span class="nt">&lt;/ion-header&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://forum.ionicframework.com/t/change-default-ion-navbar-back-button-ios/47342">Change default ion-navbar “back” button ios</a></p>
-
-<h3>9.How to make a div take the remaining height?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Absolute Positioning</li>
-<li>Tables</li>
-<li>CSS3 calc</li>
-</ol>
-
-
-<p>Absolute Positioning</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>// html
-</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_fixed&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    I have a fixed height
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span><span class='line'> 
-</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_remaining&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    I take up the remaining height
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
-</span><span class='line'>      height: 100%;
-</span><span class='line'>      width: 100%;
-</span><span class='line'>      margin: 0;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #inner_fixed {
-</span><span class='line'>      height: 100px;
-</span><span class='line'>      background-color: grey;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #inner_remaining {
-</span><span class='line'>      background-color: #DDDDDD;    
-</span><span class='line'>   
-</span><span class='line'>      position: absolute;
-</span><span class='line'>      top: 100px;
-</span><span class='line'>      bottom: 0;
-</span><span class='line'>      width: 100%; 
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>pros</p>
-
-<ul>
-<li>easy to implement</li>
-<li>intuitive</li>
-</ul>
-
-
-<p>cons</p>
-
-<ul>
-<li>tedious to maintain (hard-coded positions)</li>
-</ul>
-
-
-<p>Tables</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>// html
-</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;outer&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_fixed&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>        I have a fixed height
-</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
-</span><span class='line'> 
-</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_remaining&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>        I take up the remaining height
-</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>html, body, #outer {
-</span><span class='line'>      height: 100%;
-</span><span class='line'>      width: 100%;
-</span><span class='line'>      margin: 0;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #outer {
-</span><span class='line'>      display: table;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #inner_fixed {
-</span><span class='line'>      height: 100px;
-</span><span class='line'>      background-color: grey;
-</span><span class='line'>   
-</span><span class='line'>      display: table-row;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #inner_remaining {
-</span><span class='line'>      background-color: #DDDDDD;
-</span><span class='line'>   
-</span><span class='line'>      display: table-row;    
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>pros</p>
-
-<ul>
-<li>rather “clean” solution</li>
-<li>no hard-coded values, other elements can change their height</li>
-</ul>
-
-
-<p>cons</p>
-
-<ul>
-<li>might cause some side-effects with the layout</li>
-</ul>
-
-
-<p>CSS3 calc</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>// html
-</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_fixed&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    I have a fixed height
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span><span class='line'> 
-</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inner_remaining&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    I take up the remaining height
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>css </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>html, body {
-</span><span class='line'>      height: 100%;
-</span><span class='line'>      width: 100%;
-</span><span class='line'>      margin: 0;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #inner_fixed {
-</span><span class='line'>      height: 100px;
-</span><span class='line'>      background-color: grey;
-</span><span class='line'>  }
-</span><span class='line'>   
-</span><span class='line'>  #inner_remaining {
-</span><span class='line'>      background-color: #DDDDDD;
-</span><span class='line'>   
-</span><span class='line'>      height: calc(100% - 100px);    
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>pros</p>
-
-<ul>
-<li>easy to implement</li>
-<li>less code than the other solutions</li>
-</ul>
-
-
-<p>cons</p>
-
-<ul>
-<li>the calc function is rather new (no support for older browsers)</li>
-<li>tedious to maintain (hard-coded height)</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
-
-<h3>10.Property &lsquo;of&rsquo; does not exist on type &lsquo;typeof Observable</h3>
-
-<p>A:
-for Angular >= 6.0.0
-uses RxJS 6.0.0 </p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import { of } from &#39;rxjs&#39;;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And its usage has been changed, you no longer call it off of Observable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>of(&#39;token&#39;);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>for Angular &lt;= 5.x.xx</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import &#39;rxjs/add/observable/of&#39;;
-</span><span class='line'>
-</span><span class='line'>Observable.of(&#39;token&#39;);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/38067580/property-of-does-not-exist-on-type-typeof-observable">Property &lsquo;of&rsquo; does not exist on type &lsquo;typeof Observable</a></p>
-
-<h3>11.class path resource [keystore.jks ] cannot be resolved to URL because it does not exist</h3>
-
-<p>A:Reason is that a space appended to end. Remove end space in application.properties works. I confirm keystore.jks is in target classes, but runtime complain can&rsquo;t find it. why? After some google, still not found right solution, suddenly I notice there a space at end, may be that is the reason. Fact show my doubt is right.</p>
-
-<h3>12.How to pass program argument start with two hyphen(dash) to java in eclipse?</h3>
-
-<p>A:Run > Debug Configurations&hellip; > Arguments > Right click in the text field, deselect &ldquo;Substitutions&rdquo; > &ldquo;Smart Dashes&rdquo;</p>
-
-<p>Reference:<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=519109">Double dash in &ldquo;Program argument&rdquo; of &ldquo;Run configurations&rdquo; becomes &ldquo;\u2014&rdquo;</a></p>
-
-<h3>13.How to find out what auto-configuration is currently being applied by Spring Boot?</h3>
-
-<p>A:If you need to find out what auto-configuration is currently being applied, and why, start your application with the &ndash;debug switch. For example:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -jar myproject-0.0.1-SNAPSHOT.jar --debug</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I also find we can enable debug property archive this goal.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#application.properites
-</span><span class='line'>debug=true</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>14.How to search files inside source jars in eclipse?</h3>
-
-<p>A:Recently discovered the following plugin has beta support for searching into linked source jars: <a href="https://github.com/ajermakovics/eclipse-instasearch">eclipse-instasearch</a></p>
-
-<p>You have to enable searching source jars in the preferences as it is turned off by default.To enable searching in jars, go to Window > Preferences > General > Search > InstaSearch and select the option that says &ldquo;Index JAR source attachments (beta)&rdquo; .</p>
-
-<p>Depending on how much source you have, the indexing process is very slow, but then search is very fast.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/5295889/how-to-make-eclipse-file-search-to-also-search-inside-source-jars-containing-s">How to make eclipse “File Search” to also search inside source jars containing some text?</a></p>
-
-<h3>15.How to get Pseudo-Element properties with JavaScript?</h3>
-
-<p>A:Assume your CSS looks like:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.element:before {
-</span><span class='line'>  content: 'NEW';
-</span><span class='line'>  color: rgb(255, 0, 0);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To retrieve the color property of the <code>.element:before</code>, you could use the following JavaScript:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var color = window.getComputedStyle(
-</span><span class='line'>  document.querySelector('.element'), ':before'
-</span><span class='line'>).getPropertyValue('color')
-</span><span class='line'>
-</span><span class='line'>// Access with chrome provide variable $0
-</span><span class='line'>var beforePesudoElem = $0;
-</span><span class='line'>var display = window.getComputedStyle(beforePesudoElem).getPropertyValue('display');</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://davidwalsh.name/pseudo-element">Get Pseudo-Element Properties with JavaScript</a></p>
 ]]></content>
   </entry>
   

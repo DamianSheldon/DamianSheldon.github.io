@@ -388,6 +388,83 @@ Updating Subscription Management repositories.</p>
 <li><a href="https://unix.stackexchange.com/questions/132669/what-is-bitwise-c?noredirect=1&amp;lq=1">What is bitwise.c~? </a></li>
 </ul>
 
+
+<h3>9. systemd 服务停止后邮件通知管理员</h3>
+
+<p>A: 我们可以利用 ExecStopPost 设置，以 mysql 为例，先准备好邮件发送程序，这里我们可以参考 <a href="https://wiki.archlinux.org/index.php/Systemd/Timers#MAILTO">Arch linux 的做法</a>：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/bin/systemd-email
+</span><span class='line'>#!/bin/sh
+</span><span class='line'>
+</span><span class='line'>/usr/bin/sendmail -t &lt;&lt;ERRMAIL
+</span><span class='line'>To: $1
+</span><span class='line'>From: systemd &lt;root@$HOSTNAME&gt;
+</span><span class='line'>Subject: $2
+</span><span class='line'>Content-Transfer-Encoding: 8bit
+</span><span class='line'>Content-Type: text/plain; charset=UTF-8
+</span><span class='line'>
+</span><span class='line'>$(systemctl status --full "$2")
+</span><span class='line'>ERRMAIL
+</span><span class='line'>
+</span><span class='line'>/etc/systemd/system/status_email_user@.service
+</span><span class='line'>[Unit]
+</span><span class='line'>Description=status email for %i to user
+</span><span class='line'>
+</span><span class='line'>[Service]
+</span><span class='line'>Type=oneshot
+</span><span class='line'>ExecStart=/usr/local/bin/systemd-email address %i
+</span><span class='line'>User=nobody
+</span><span class='line'>Group=systemd-journal
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还要配置一下 mysql，还要给 mysql 加上合适执行权限</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/systemd/system/mysqld.service.d/override.conf
+</span><span class='line'>[Service]
+</span><span class='line'>ExecStopPost=/usr/bin/sudo systemctl start status_email_user@mysqld.service
+</span><span class='line'>
+</span><span class='line'>/etc/sudoers
+</span><span class='line'>mysql           ALL = (ALL) NOPASSWD: ALL</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里应该对 msql 的权限作更小的限制，但是设置单个命令的 sudo 规则没有生效，限于时间关系先暂时这样配置。</p>
+
+<p>Referece:</p>
+
+<ul>
+<li><a href="https://superuser.com/questions/1360346/how-to-send-an-email-alert-when-a-linux-service-has-stopped">How to send an email alert when a linux service has stopped?</a></li>
+<li><a href="https://serverfault.com/questions/876233/how-to-send-an-email-if-a-systemd-service-is-restarted">How to send an email if a systemd service is restarted?</a></li>
+</ul>
+
 </div>
 
 

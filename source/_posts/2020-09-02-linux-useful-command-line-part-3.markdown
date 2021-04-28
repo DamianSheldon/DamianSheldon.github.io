@@ -192,4 +192,51 @@ Reference:
 * [What does the tilde (~) mean at the end of a filename? ](https://unix.stackexchange.com/questions/76189/what-does-the-tilde-mean-at-the-end-of-a-filename)  
 * [What is bitwise.c~? ](https://unix.stackexchange.com/questions/132669/what-is-bitwise-c?noredirect=1&lq=1)  
 
+### 9. systemd 服务停止后邮件通知管理员
+A: 我们可以利用 ExecStopPost 设置，以 mysql 为例，先准备好邮件发送程序，这里我们可以参考 [Arch linux 的做法](https://wiki.archlinux.org/index.php/Systemd/Timers#MAILTO)：  
+
+```
+/usr/local/bin/systemd-email
+#!/bin/sh
+
+/usr/bin/sendmail -t <<ERRMAIL
+To: $1
+From: systemd <root@$HOSTNAME>
+Subject: $2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+
+$(systemctl status --full "$2")
+ERRMAIL
+
+/etc/systemd/system/status_email_user@.service
+[Unit]
+Description=status email for %i to user
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/systemd-email address %i
+User=nobody
+Group=systemd-journal
+
+```
+
+还要配置一下 mysql，还要给 mysql 加上合适执行权限
+
+```
+/etc/systemd/system/mysqld.service.d/override.conf
+[Service]
+ExecStopPost=/usr/bin/sudo systemctl start status_email_user@mysqld.service
+
+/etc/sudoers
+mysql           ALL = (ALL) NOPASSWD: ALL
+```
+
+这里应该对 msql 的权限作更小的限制，但是设置单个命令的 sudo 规则没有生效，限于时间关系先暂时这样配置。  
+
+Referece:  
+
+* [How to send an email alert when a linux service has stopped?](https://superuser.com/questions/1360346/how-to-send-an-email-alert-when-a-linux-service-has-stopped)  
+* [How to send an email if a systemd service is restarted?](https://serverfault.com/questions/876233/how-to-send-an-email-if-a-systemd-service-is-restarted)  
+
 

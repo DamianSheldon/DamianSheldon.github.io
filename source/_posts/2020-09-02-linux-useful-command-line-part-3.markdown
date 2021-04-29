@@ -239,4 +239,22 @@ Referece:
 * [How to send an email alert when a linux service has stopped?](https://superuser.com/questions/1360346/how-to-send-an-email-alert-when-a-linux-service-has-stopped)  
 * [How to send an email if a systemd service is restarted?](https://serverfault.com/questions/876233/how-to-send-an-email-if-a-systemd-service-is-restarted)  
 
+### 10. error running non-shared postrotate script for
+`/var/log/mysql/mysqld.log of '/var/log/mysql/mysqld.log '`
+
+A:In case the root user has a password, then you
+have to create a `/root/.my.cnf` configuration file
+with the following content:
+
+```
+[mysqladmin]
+password = <secret>
+user= root
+```
+where `"<secret>"` is the password.
+
+ATTENTION: The `/root/.my.cnf` file should be readable `_ONLY_` by root !
+
+Reference:[CentOS 8.2: Error Running Non-shared Postrotate Script For /var/log/mysql/mysqld.log](https://centosfaq.org/centos/centos-82-error-running-non-shared-postrotate-script-for-varlogmysqlmysqldlog/)  
+
 

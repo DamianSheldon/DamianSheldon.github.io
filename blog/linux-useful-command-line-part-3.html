@@ -465,6 +465,28 @@ Updating Subscription Management repositories.</p>
 <li><a href="https://serverfault.com/questions/876233/how-to-send-an-email-if-a-systemd-service-is-restarted">How to send an email if a systemd service is restarted?</a></li>
 </ul>
 
+
+<h3>10. error running non-shared postrotate script for</h3>
+
+<p><code>/var/log/mysql/mysqld.log of '/var/log/mysql/mysqld.log '</code></p>
+
+<p>A:In case the root user has a password, then you
+have to create a <code>/root/.my.cnf</code> configuration file
+with the following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[mysqladmin]
+</span><span class='line'>password = &lt;secret&gt;
+</span><span class='line'>user= root</span></code></pre></td></tr></table></div></figure>
+
+
+<p>where <code>"&lt;secret&gt;"</code> is the password.</p>
+
+<p>ATTENTION: The <code>/root/.my.cnf</code> file should be readable <code>_ONLY_</code> by root !</p>
+
+<p>Reference:<a href="https://centosfaq.org/centos/centos-82-error-running-non-shared-postrotate-script-for-varlogmysqlmysqldlog/">CentOS 8.2: Error Running Non-shared Postrotate Script For /var/log/mysql/mysqld.log</a></p>
 </div>
 
 

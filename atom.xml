@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-04-29T14:44:33+08:00</updated>
+  <updated>2021-05-08T17:18:26+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2072,7 +2072,36 @@ with the following content:</p>
 
 <p>ATTENTION: The <code>/root/.my.cnf</code> file should be readable <code>_ONLY_</code> by root !</p>
 
-<p>Reference:<a href="https://centosfaq.org/centos/centos-82-error-running-non-shared-postrotate-script-for-varlogmysqlmysqldlog/">CentOS 8.2: Error Running Non-shared Postrotate Script For /var/log/mysql/mysqld.log</a></p>
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://centosfaq.org/centos/centos-82-error-running-non-shared-postrotate-script-for-varlogmysqlmysqldlog/">CentOS 8.2: Error Running Non-shared Postrotate Script For /var/log/mysql/mysqld.log</a></li>
+</ul>
+
+
+<h3>11. 设置服务器上用户能打开的最大文件描述符数量</h3>
+
+<p>A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// /etc/security/limits.d/100-limits.conf
+</span><span class='line'># hard limit for max opened files for user
+</span><span class='line'>*      hard    nofile          65536
+</span><span class='line'># soft limit for max opened files for user
+</span><span class='line'>*       soft    nofile         20480
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://www.linuxtechi.com/set-ulimit-file-descriptors-limit-linux-servers/">How to set ulimit and file descriptors limit on Linux Servers</a></li>
+</ul>
+
 ]]></content>
   </entry>
   

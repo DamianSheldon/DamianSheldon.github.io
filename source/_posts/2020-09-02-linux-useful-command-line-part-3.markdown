@@ -255,6 +255,23 @@ where `"<secret>"` is the password.
 
 ATTENTION: The `/root/.my.cnf` file should be readable `_ONLY_` by root !
 
-Reference:[CentOS 8.2: Error Running Non-shared Postrotate Script For /var/log/mysql/mysqld.log](https://centosfaq.org/centos/centos-82-error-running-non-shared-postrotate-script-for-varlogmysqlmysqldlog/)  
+Reference:  
 
+* [CentOS 8.2: Error Running Non-shared Postrotate Script For /var/log/mysql/mysqld.log](https://centosfaq.org/centos/centos-82-error-running-non-shared-postrotate-script-for-varlogmysqlmysqldlog/)  
+
+### 11. 设置服务器上用户能打开的最大文件描述符数量
+A:  
+
+```
+// /etc/security/limits.d/100-limits.conf
+# hard limit for max opened files for user
+*      hard    nofile          65536
+# soft limit for max opened files for user
+*       soft    nofile         20480
+
+```
+
+Reference:  
+
+* [How to set ulimit and file descriptors limit on Linux Servers](https://www.linuxtechi.com/set-ulimit-file-descriptors-limit-linux-servers/)
 

@@ -38,7 +38,7 @@ description: Cluster VirtualBox CentOS 7
 
 #修改记录
 	
-	* 2021/10/21：第一次完成
+* 2021/10/21：第一次完成
 
 #Reference  
 

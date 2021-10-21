@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-05-08T17:26:27+08:00</updated>
+  <updated>2021-10-21T17:02:50+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[VirtualBox 搭建 CentOS 7 集群]]></title>
+    <link href="http://DamianSheldon.github.io/blog/cluster-virtualbox-centos-7.html"/>
+    <updated>2021-10-21T15:57:18+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/cluster-virtualbox-centos-7</id>
+    <content type="html"><![CDATA[<p>软件开发时我们可能需要集群环境，特别是现在微服务很流行的情况下。如果我们手里的电脑配置不错就可以用 来搭建集群，用于学习或开发还是很不错，性价比很高。</p>
+
+<p>我这里是用 VirtualBox 搭建 CentOS 7 集群，宿主机是内存 16 GB 加 SSD 1 TB 的 MacBook Pro。集群的核心是选择网络模式，VirtualBox 的网络模式概况如下:</p>
+
+<table>
+<thead>
+<tr>
+<th> Mode </th>
+<th> VM -> Host </th>
+<th> VM &lt;- Host </th>
+<th> VM1 <-> VM2 </th>
+<th> VM -> Net/LAN </th>
+<th> VM &lt;- Net/LAN </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Host-only </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> - </td>
+<td> - </td>
+</tr>
+<tr>
+<td> Internal </td>
+<td> - </td>
+<td> - </td>
+<td> + </td>
+<td> - </td>
+<td> - </td>
+</tr>
+<tr>
+<td> Bridged </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+</tr>
+<tr>
+<td> NAT </td>
+<td> + </td>
+<td> Port forward </td>
+<td> - </td>
+<td> + </td>
+<td> Port forward </td>
+</tr>
+<tr>
+<td> NAT service </td>
+<td> + </td>
+<td> Port forward </td>
+<td> + </td>
+<td> + </td>
+<td> Port forward </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>我希望集群的机器可以互相访问并能访问网络，从上面的列表可知，我们可以选择 Bridged，或者 NAT service 搭配 Port forward。在搭建之初，我搜索了相关的资料，但是并没找到特别理想的，这篇 <a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a> 勉强还凑合，于是我主要参考它来搭建，网络模式也同样是选择的 Bridged，它还使用了双网卡，虚拟机之间通信使用的 Internal Networking， 感觉上性能可能会好点，没实测。双网卡并不是必须的，VirtualBox 对 Internal Networking 的说明是其在安全方面更有优势:</p>
+
+<blockquote><p>Even though technically, everything that can be done using internal networking can also be done using bridged networking, there are security advantages with internal networking. In bridged networking mode, all traffic goes through a physical interface of the host system. It is therefore possible to attach a packet sniffer such as Wireshark to the host interface and log all traffic that goes over it. If, for any reason, you prefer two or more VMs on the same machine to communicate privately, hiding their data from both the host system and the user, bridged networking therefore is not an option.</p></blockquote>
+
+<p>由于 CentOS 主要是运行服务，我们可以使用 Minimal 安装，这样可以减少资源开销，安装好后，默认是没有启用网络的， 网络相关的配置是在 <code>/etc/sysconfig/network-scripts</code> 目录下，配置文件的命令惯例是 <code>ifcfg-enp0sX</code> ， <code>X</code> 是整数，我这里是 <code>ifcfg-enp0s3</code> 和 <code>ifcfg-enp0s8</code>，将 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code> 和 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s8</code> 中的 <code>ONBOOT</code> 改成 <code>yes</code>。</p>
+
+<p>构建 Internal Network 时，手动去指定 ip 会很麻烦，VirtualBox 给了我们另一个选择:</p>
+
+<blockquote><p>Unless you configure the virtual network cards in the guest operating systems that are partici- pating in the internal network to use static IP addresses, you may want to use the DHCP server that is built into Oracle VM VirtualBox to manage IP addresses for the internal network.</p></blockquote>
+
+<p>我们可以 <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> 和 <code>192.168.0.0/16</code> 选择一个合适的私有 ip 地址范围来构建 Internal Network，我这里选择 <code>172.16.0.0/12</code>。</p>
+
+<p>在宿主机下运行命令 <code>/Applications/VirtualBox.app/Contents/MacOS/VBoxManage dhcpserver add --netname=intnet --server-ip=172.16.0.1 --netmask=255.240.0.0 --lower-ip=172.16.0.2 --upper-ip=172.16.255.255 --enable</code> 创建好 DHCP server。</p>
+
+<p>之后我们可以利用 VirtualBox 的克隆功能来扩展我们的集群节点。</p>
+
+<h1>修改记录</h1>
+
+<pre><code>* 2021/10/21：第一次完成
+</code></pre>
+
+<h1>Reference</h1>
+
+<ul>
+<li><a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a></li>
+<li><a href="https://54m4ri74n.medium.com/building-an-internal-network-in-virtualbox-d0a4974882d0">Building an Internal Network in VirtualBox</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[记一次 docker 网络问题排查]]></title>
@@ -6483,529 +6579,6 @@ Where closures really shine over other constructs is when using higher-order fun
 
 <ul>
 <li>Objective-C 高级编程</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OpenLDAP 学习笔记]]></title>
-    <link href="http://DamianSheldon.github.io/blog/openldap-notes.html"/>
-    <updated>2018-07-10T21:58:07+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/openldap-notes</id>
-    <content type="html"><![CDATA[<p>最近业余时间在自学 Java，接触到 JNDI，继而牵扯出 LDAP。在倒腾过程中感觉是个复杂的主题，决定做个简要的笔记，梳理下思路，也方便日后忘记时容易拾起。</p>
-
-<p>OpenLDAP 是 LDAP 协议的一个开源实现。LDAP 服务器本质上是一个为只读访问而优化的非关系型数据库。它主要用做地址簿查询（如 email 客户端）或对各种服务访问做后台认证以及用户数据权限管控。（例如，访问 Samba 时，LDAP 可以起到域控制器的作用；或者 Linux 系统认证 时代替 /etc/passwd 的作用。）</p>
-
-<p>以 slap 开头的命令如: slapacl, slapadd 等是服务端工具；以 ldap 开头的命令如: ldapadd, ldapcompare 等是客户端命令工具。</p>
-
-<h2>安装</h2>
-
-<p>Mac 内置了 OpenLDAP 软件包，所以可以直接使用。</p>
-
-<h2>配置</h2>
-
-<h3>服务端</h3>
-
-<p>服务端支持两种配置方法:动态运行时配置引擎和老式的 slapd.conf 文件。这里介绍通过老式的 slapd.conf 文件转换成动态运行时配置引擎来配置服务器的方法。</p>
-
-<p>服务器的配置文件位于 <code>/etc/openldap/slapd.conf</code>。在 Mac 上第一次配置时该文件还不存在，但有一个 slapd.conf.default 文件，从文件名可知，这应该是一个默认配置文件，所以我们可以在它基础上来配置。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo cp /etc/openldap/slapd.conf.default /etc/openldap/slapd.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<p>需要编辑后缀和 rootdn。典型的后缀通常是你所用的域名，但这并非强制要求，而是依赖于你如何使用你的目录。下例中以 tenneshop 做为域名，tld 为 com，rootdn 则是 LDAP 管理员的名字（这里用 Manager）。</p>
-
-<!--more-->
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>suffix     "dc=tenneshop,dc=com"
-</span><span class='line'>rootdn     "cn=Manager,dc=example,dc=com"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在删除默认 root 口令并创建一个强口令：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$slappasswd -s yourfavoritepassword
-</span><span class='line'>
-</span><span class='line'>// /etc/openldap/slapd.conf
-</span><span class='line'>rootpw  {SSHA}Q0vdi3/5Hw+EhDrFAbvEEszq1Xf4YSyy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在 slapd.conf 头部添加一些 schemas:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> include     /private/etc/openldap/schema/core.schema
-</span><span class='line'> include         /etc/openldap/schema/cosine.schema
-</span><span class='line'> include         /etc/openldap/schema/inetorgperson.schema
-</span><span class='line'> include         /etc/openldap/schema/nis.schema
-</span><span class='line'> #include         /etc/openldap/schema/samba.schema
-</span><span class='line'> include     /private/etc/openldap/schema/java.schema</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可能需要在 slapd.conf 底部加入一些常用的 indexes:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>index   uid             pres,eq
-</span><span class='line'>index   mail            pres,sub,eq
-</span><span class='line'>index   cn              pres,sub,eq
-</span><span class='line'>index   sn              pres,sub,eq
-</span><span class='line'>index   dc              eq</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在准备数据目录，需要重命名配置文件：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo mkdir -p /private/var/db/openldap/openldap-data
-</span><span class='line'>$sudo cp /etc/openldap/DB_CONFIG.example /private/var/db/openldap/openldap-data/DB_CONFIG</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将 slapd.conf 中的改动应用到 <code>/etc/openldap/slapd.d/</code>(第一次配置时可能需要创建该目录)，<em>需要先删除老配置</em>：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo rm -rf /etc/openldap/slapd.d/*
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>用下面命令生成配置文件:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>每次修改 slapd.conf 后，都需要执行上面命令。检查有没有问题，可以忽略 &ldquo;bdb_monitor_db_open: monitoring disabled; configure monitor database to enable&rdquo;. 如果提示数据库不存在，可以先使用命令来检查配置文件:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d/ -u </span></code></pre></td></tr></table></div></figure>
-
-
-<p>确认配置文件没有语法错误之后，可以通过启动 slap 来创建数据库:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo /usr/libexec/slapd -F /etc/openldap/slapd.d</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最终完整的配置文件如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#
-</span><span class='line'># See slapd.conf(5) for details on configuration options.
-</span><span class='line'># This file should NOT be world readable.
-</span><span class='line'>#
-</span><span class='line'>include       /private/etc/openldap/schema/core.schema
-</span><span class='line'>include         /etc/openldap/schema/cosine.schema
-</span><span class='line'>include         /etc/openldap/schema/inetorgperson.schema
-</span><span class='line'>include         /etc/openldap/schema/nis.schema
-</span><span class='line'>#include         /etc/openldap/schema/samba.schema
-</span><span class='line'>include       /private/etc/openldap/schema/java.schema
-</span><span class='line'>
-</span><span class='line'># Define global ACLs to disable default read access.
-</span><span class='line'>
-</span><span class='line'># Do not enable referrals until AFTER you have a working directory
-</span><span class='line'># service AND an understanding of referrals.
-</span><span class='line'>#referral ldap://root.openldap.org
-</span><span class='line'>
-</span><span class='line'>pidfile       /private/var/db/openldap/run/slapd.pid
-</span><span class='line'>argsfile  /private/var/db/openldap/run/slapd.args
-</span><span class='line'>
-</span><span class='line'># Load dynamic backend modules:
-</span><span class='line'># modulepath  /usr/libexec/openldap
-</span><span class='line'># moduleload  back_bdb.la
-</span><span class='line'># moduleload  back_hdb.la
-</span><span class='line'># moduleload  back_ldap.la
-</span><span class='line'>
-</span><span class='line'># Sample security restrictions
-</span><span class='line'># Require integrity protection (prevent hijacking)
-</span><span class='line'># Require 112-bit (3DES or better) encryption for updates
-</span><span class='line'># Require 63-bit encryption for simple bind
-</span><span class='line'># security ssf=1 update_ssf=112 simple_bind=64
-</span><span class='line'>
-</span><span class='line'># Sample access control policy:
-</span><span class='line'># Root DSE: allow anyone to read it
-</span><span class='line'># Subschema (sub)entry DSE: allow anyone to read it
-</span><span class='line'># Other DSEs:
-</span><span class='line'>#     Allow self write access
-</span><span class='line'>#     Allow authenticated users read access
-</span><span class='line'>#     Allow anonymous users to authenticate
-</span><span class='line'># Directives needed to implement policy:
-</span><span class='line'># access to dn.base="" by * read
-</span><span class='line'># access to dn.base="cn=Subschema" by * read
-</span><span class='line'># access to *
-</span><span class='line'># by self write
-</span><span class='line'># by users read
-</span><span class='line'># by anonymous auth
-</span><span class='line'>#
-</span><span class='line'># if no access controls are present, the default policy
-</span><span class='line'># allows anyone and everyone to read anything but restricts
-</span><span class='line'># updates to rootdn.  (e.g., "access to * by * read")
-</span><span class='line'>#
-</span><span class='line'># rootdn can always read and write EVERYTHING!
-</span><span class='line'>
-</span><span class='line'>#######################################################################
-</span><span class='line'># BDB database definitions
-</span><span class='line'>#######################################################################
-</span><span class='line'>
-</span><span class='line'>database  bdb
-</span><span class='line'>suffix        "dc=tenneshop,dc=com"
-</span><span class='line'>rootdn        "cn=Manager,dc=tenneshop,dc=com"
-</span><span class='line'># Cleartext passwords, especially for the rootdn, should
-</span><span class='line'># be avoid.  See slappasswd(8) and slapd.conf(5) for details.
-</span><span class='line'># Use of strong authentication encouraged.
-</span><span class='line'>#rootpw       secret
-</span><span class='line'>#The hash was generated from password secret using the command slappasswd -s secret
-</span><span class='line'>rootpw    {SSHA}Q0vdi3/5Hw+EhDrFAbvEEszq1Xf4YSyy
-</span><span class='line'># The database directory MUST exist prior to running slapd AND
-</span><span class='line'># should only be accessible by the slapd and slap tools.
-</span><span class='line'># Mode 700 recommended.
-</span><span class='line'>directory /private/var/db/openldap/openldap-data
-</span><span class='line'># Indices to maintain
-</span><span class='line'>index objectClass eq
-</span><span class='line'>
-</span><span class='line'># Some common indexes
-</span><span class='line'>index   uid             pres,eq
-</span><span class='line'>index   mail            pres,sub,eq
-</span><span class='line'>index   cn              pres,sub,eq
-</span><span class='line'>index   sn              pres,sub,eq
-</span><span class='line'>index   dc              eq</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>客户端</h3>
-
-<p>客户的配置文件位于 /etc/openldap/ldap.conf.</p>
-
-<p>这个配置很简单，只需要将BASE 设置为服务器的前缀，将 URI 设置为服务器的地址:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>BASE            dc=tenneshop,dc=com
-</span><span class='line'>URI             ldap://localhost</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最终完整的配置文件如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#
-</span><span class='line'># LDAP Defaults
-</span><span class='line'>#
-</span><span class='line'>
-</span><span class='line'># See ldap.conf(5) for details
-</span><span class='line'># This file should be world readable but not world writable.
-</span><span class='line'>
-</span><span class='line'>#BASE dc=example,dc=com
-</span><span class='line'>#URI  ldap://ldap.example.com ldap://ldap-master.example.com:666
-</span><span class='line'>BASE  dc=tenneshop,dc=com
-</span><span class='line'>URI   ldap://localhost
-</span><span class='line'>
-</span><span class='line'>#SIZELIMIT    12
-</span><span class='line'>#TIMELIMIT    15
-</span><span class='line'>#DEREF        never
-</span><span class='line'>#TLS_REQCERT  demand
-</span><span class='line'>TLS_REQCERT allow</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建初始项</h3>
-
-<p>配置好客户端后，创建根项和 root 角色项：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>dn: dc=tenneshop,dc=com
-</span><span class='line'>objectClass: dcObject
-</span><span class='line'>objectClass: organization
-</span><span class='line'>dc: tenneshop
-</span><span class='line'>o: Tenneshop
-</span><span class='line'>description: Tenneshop directory
-</span><span class='line'>
-</span><span class='line'>dn: cn=Manager,dc=tenneshop,dc=com
-</span><span class='line'>objectClass: organizationalRole
-</span><span class='line'>cn: Manager
-</span><span class='line'>description: Directory Manager</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将上述内容保存在文件 <code>/etc/openldap/root.ldif</code> 中，然后使用命令:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ldapadd -x -D 'cn=Manager,dc=tenneshop,dc=com' -W -f /etc/openldap/root.ldif</span></code></pre></td></tr></table></div></figure>
-
-
-<p>添加到目录服务中。</p>
-
-<h3>测试安装好的系统</h3>
-
-<p>运行下面命令:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldapsearch -x '(objectclass=*)'
-</span><span class='line'># extended LDIF
-</span><span class='line'>#
-</span><span class='line'># LDAPv3
-</span><span class='line'># base &lt;dc=tenneshop,dc=com&gt; (default) with scope subtree
-</span><span class='line'># filter: (objectclass=*)
-</span><span class='line'># requesting: ALL
-</span><span class='line'>#
-</span><span class='line'>
-</span><span class='line'># tenneshop.com
-</span><span class='line'>dn: dc=tenneshop,dc=com
-</span><span class='line'>objectClass: dcObject
-</span><span class='line'>objectClass: organization
-</span><span class='line'>dc: tenneshop
-</span><span class='line'>o: Tenneshop
-</span><span class='line'>description: Tenneshop directory
-</span><span class='line'>
-</span><span class='line'># Manager, tenneshop.com
-</span><span class='line'>dn: cn=Manager,dc=tenneshop,dc=com
-</span><span class='line'>objectClass: organizationalRole
-</span><span class='line'>cn: Manager
-</span><span class='line'>description: Directory Manager
-</span><span class='line'>
-</span><span class='line'># search result
-</span><span class='line'>search: 2
-</span><span class='line'>result: 0 Success
-</span><span class='line'>
-</span><span class='line'># numResponses: 3
-</span><span class='line'># numEntries: 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或认证为 rootdn (将 -x 替换为 -D <user> -W), 用上面配置的例子的话：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldapsearch -D "cn=Manager,dc=tenneshop,dc=com" -W '(objectclass=*)'
-</span><span class='line'>Enter LDAP Password:
-</span><span class='line'># extended LDIF
-</span><span class='line'>#
-</span><span class='line'># LDAPv3
-</span><span class='line'># base &lt;dc=tenneshop,dc=com&gt; (default) with scope subtree
-</span><span class='line'># filter: (objectclass=*)
-</span><span class='line'># requesting: ALL
-</span><span class='line'>#
-</span><span class='line'>
-</span><span class='line'># tenneshop.com
-</span><span class='line'>dn: dc=tenneshop,dc=com
-</span><span class='line'>objectClass: dcObject
-</span><span class='line'>objectClass: organization
-</span><span class='line'>dc: tenneshop
-</span><span class='line'>o: Tenneshop
-</span><span class='line'>description: Tenneshop directory
-</span><span class='line'>
-</span><span class='line'># Manager, tenneshop.com
-</span><span class='line'>dn: cn=Manager,dc=tenneshop,dc=com
-</span><span class='line'>objectClass: organizationalRole
-</span><span class='line'>cn: Manager
-</span><span class='line'>description: Directory Manager
-</span><span class='line'>
-</span><span class='line'># search result
-</span><span class='line'>search: 2
-</span><span class='line'>result: 0 Success
-</span><span class='line'>
-</span><span class='line'># numResponses: 3
-</span><span class='line'># numEntries: 2</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>遇到的问题</h3>
-
-<h4>1.additional info: objectClass: value #0 invalid per syntax</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldapadd -x -D 'cn=Manager,dc=tenneshop,dc=com' -W -f /etc/openldap/root.ldif
-</span><span class='line'>Enter LDAP Password:
-</span><span class='line'>ldapadd: attributeDescription "dn": (possible missing newline after line 8, entry "dc=tenneshop,dc=com"?)
-</span><span class='line'>adding new entry "dc=tenneshop,dc=com"
-</span><span class='line'>ldap_add: Invalid syntax (21)
-</span><span class='line'>  additional info: objectClass: value #0 invalid per syntax</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:导入的数据每行结尾含有空格所致，去掉数据每行结尾的空格。</p>
-
-<p>Reference:<a href="http://www.what21.com/sys/ldap_3_1483460096406.html">OpenLDAP报错: additional info: objectClass: value #0 invalid per syntax</a></p>
-
-<h2>Reference</h2>
-
-<ul>
-<li>OpenLDAP Software 2.4 Administrator&rsquo;s Guide</li>
-<li><a href="https://wiki.archlinux.org/index.php/OpenLDAP_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87">openLDAP</a>#.E5.88.9B.E5.BB.BA.E5.88.9D.E5.A7.8B.E9.A1.B9)</li>
-<li><a href="https://wiki.gentoo.org/wiki/Centralized_authentication_using_OpenLDAP/zh#Configuring_the_OpenLDAP_client_tools">使用OpenLDAP实现集中式认证</a></li>
-<li><a href="https://techhelplist.com/tech-tutorials/34-openldap/48-user-management-in-openldap">User Management in OpenLDAP</a></li>
 </ul>
 
 ]]></content>

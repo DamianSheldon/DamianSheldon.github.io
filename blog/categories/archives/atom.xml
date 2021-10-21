@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2021-05-08T17:26:27+08:00</updated>
+  <updated>2021-10-21T17:02:50+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[VirtualBox 搭建 CentOS 7 集群]]></title>
+    <link href="http://DamianSheldon.github.io/blog/cluster-virtualbox-centos-7.html"/>
+    <updated>2021-10-21T15:57:18+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/cluster-virtualbox-centos-7</id>
+    <content type="html"><![CDATA[<p>软件开发时我们可能需要集群环境，特别是现在微服务很流行的情况下。如果我们手里的电脑配置不错就可以用 来搭建集群，用于学习或开发还是很不错，性价比很高。</p>
+
+<p>我这里是用 VirtualBox 搭建 CentOS 7 集群，宿主机是内存 16 GB 加 SSD 1 TB 的 MacBook Pro。集群的核心是选择网络模式，VirtualBox 的网络模式概况如下:</p>
+
+<table>
+<thead>
+<tr>
+<th> Mode </th>
+<th> VM -> Host </th>
+<th> VM &lt;- Host </th>
+<th> VM1 <-> VM2 </th>
+<th> VM -> Net/LAN </th>
+<th> VM &lt;- Net/LAN </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Host-only </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> - </td>
+<td> - </td>
+</tr>
+<tr>
+<td> Internal </td>
+<td> - </td>
+<td> - </td>
+<td> + </td>
+<td> - </td>
+<td> - </td>
+</tr>
+<tr>
+<td> Bridged </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+</tr>
+<tr>
+<td> NAT </td>
+<td> + </td>
+<td> Port forward </td>
+<td> - </td>
+<td> + </td>
+<td> Port forward </td>
+</tr>
+<tr>
+<td> NAT service </td>
+<td> + </td>
+<td> Port forward </td>
+<td> + </td>
+<td> + </td>
+<td> Port forward </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>我希望集群的机器可以互相访问并能访问网络，从上面的列表可知，我们可以选择 Bridged，或者 NAT service 搭配 Port forward。在搭建之初，我搜索了相关的资料，但是并没找到特别理想的，这篇 <a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a> 勉强还凑合，于是我主要参考它来搭建，网络模式也同样是选择的 Bridged，它还使用了双网卡，虚拟机之间通信使用的 Internal Networking， 感觉上性能可能会好点，没实测。双网卡并不是必须的，VirtualBox 对 Internal Networking 的说明是其在安全方面更有优势:</p>
+
+<blockquote><p>Even though technically, everything that can be done using internal networking can also be done using bridged networking, there are security advantages with internal networking. In bridged networking mode, all traffic goes through a physical interface of the host system. It is therefore possible to attach a packet sniffer such as Wireshark to the host interface and log all traffic that goes over it. If, for any reason, you prefer two or more VMs on the same machine to communicate privately, hiding their data from both the host system and the user, bridged networking therefore is not an option.</p></blockquote>
+
+<p>由于 CentOS 主要是运行服务，我们可以使用 Minimal 安装，这样可以减少资源开销，安装好后，默认是没有启用网络的， 网络相关的配置是在 <code>/etc/sysconfig/network-scripts</code> 目录下，配置文件的命令惯例是 <code>ifcfg-enp0sX</code> ， <code>X</code> 是整数，我这里是 <code>ifcfg-enp0s3</code> 和 <code>ifcfg-enp0s8</code>，将 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code> 和 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s8</code> 中的 <code>ONBOOT</code> 改成 <code>yes</code>。</p>
+
+<p>构建 Internal Network 时，手动去指定 ip 会很麻烦，VirtualBox 给了我们另一个选择:</p>
+
+<blockquote><p>Unless you configure the virtual network cards in the guest operating systems that are partici- pating in the internal network to use static IP addresses, you may want to use the DHCP server that is built into Oracle VM VirtualBox to manage IP addresses for the internal network.</p></blockquote>
+
+<p>我们可以 <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> 和 <code>192.168.0.0/16</code> 选择一个合适的私有 ip 地址范围来构建 Internal Network，我这里选择 <code>172.16.0.0/12</code>。</p>
+
+<p>在宿主机下运行命令 <code>/Applications/VirtualBox.app/Contents/MacOS/VBoxManage dhcpserver add --netname=intnet --server-ip=172.16.0.1 --netmask=255.240.0.0 --lower-ip=172.16.0.2 --upper-ip=172.16.255.255 --enable</code> 创建好 DHCP server。</p>
+
+<p>之后我们可以利用 VirtualBox 的克隆功能来扩展我们的集群节点。</p>
+
+<h1>修改记录</h1>
+
+<pre><code>* 2021/10/21：第一次完成
+</code></pre>
+
+<h1>Reference</h1>
+
+<ul>
+<li><a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a></li>
+<li><a href="https://54m4ri74n.medium.com/building-an-internal-network-in-virtualbox-d0a4974882d0">Building an Internal Network in VirtualBox</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[记一次 docker 网络问题排查]]></title>
@@ -1272,338 +1368,6 @@ If your project name is foo at SourceForge, you can use net.sf.foo. If your u
 <li><a href="https://central.sonatype.org/pages/apache-maven.html#nexus-staging-maven-plugin-for-deployment-and-release">Deploying to OSSRH with Apache Maven</a></li>
 <li><a href="https://dzone.com/articles/publish-your-artifacts-to-maven-central">How to Publish Your Artifacts to Maven Central</a></li>
 <li><a href="https://stackoverflow.com/questions/57591432/gpg-signing-failed-inappropriate-ioctl-for-device-on-macos-with-maven">“gpg: signing failed: Inappropriate ioctl for device” on MacOS with Maven</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一种构建 JavaScript 库的方法]]></title>
-    <link href="http://DamianSheldon.github.io/blog/an-approach-to-building-javascript-libraries.html"/>
-    <updated>2020-09-23T15:08:06+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/an-approach-to-building-javascript-libraries</id>
-    <content type="html"><![CDATA[<p>最近手头有个项目需要构建 JavaScript 库，核心需求是库既能用于传统的多页面，也能用于 Angular 的单页面。目前网络上暂时好像没有这类详细教程，反而是一些理论阐述的文章较多，经过一番研究后，我得到了一个适合自己的方法。</p>
-
-<p>由于我希望库既能用于多页面，也能用于 Angular 单页面，所以需要支持 UMD 和 ES Harmony。由于 Angular 是使用 TypeScript 开发，最好还能提供用于 TypeScript 的声明文件。最原始的想法自然是手动按要求提供各种文件，但这样工作量比较大，也不容易扩展。那么还有什么容易的办法吗？有的，最核心的想法就是库的源码只写一份，然后用工具生成各种模块系统需要文件。具体的做法可能有差异，但理念是一样的。</p>
-
-<p>从我的需求出发，我最终选择用 TypeScript 来写库的源码，基于脱敏的考虑，这里选择 TypeScript 文档中的示例代码来演示。</p>
-
-<p>首先我们建立好库的源码目录结构并配置好源码管理：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>simple-module-example
-</span><span class='line'>├── src
-</span><span class='line'>│   ├── LettersOnlyValidator.ts
-</span><span class='line'>│   ├── Validation.ts
-</span><span class='line'>│   ├── ZipCodeValidator.ts
-</span><span class='line'>│   └── index.ts</span></code></pre></td></tr></table></div></figure></p>
-
-<p>然后使用 <code>npm init</code> 生成 <code>package.json</code> 文件：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  &ldquo;name&rdquo;: &ldquo;simple-module-example&rdquo;,
-</span><span class='line'>  &ldquo;version&rdquo;: &ldquo;1.0.0&rdquo;,
-</span><span class='line'>  &ldquo;description&rdquo;: &ldquo;A simple module example.&rdquo;,
-</span><span class='line'>  &ldquo;main&rdquo;: &ldquo;index.js&rdquo;,
-</span><span class='line'>  &ldquo;directories&rdquo;: {
-</span><span class='line'>    &ldquo;test&rdquo;: &ldquo;test&rdquo;
-</span><span class='line'>  },
-</span><span class='line'>  &ldquo;scripts&rdquo;: {
-</span><span class='line'>    &ldquo;test&rdquo;: &ldquo;echo \"Error: no test specified\&rdquo; &amp;&amp; exit 1"
-</span><span class='line'>  },
-</span><span class='line'>  &ldquo;keywords&rdquo;: [
-</span><span class='line'>    &ldquo;module&rdquo;,
-</span><span class='line'>    &ldquo;example&rdquo;
-</span><span class='line'>  ],
-</span><span class='line'>  &ldquo;author&rdquo;: &ldquo;Meiliang Dong&rdquo;,
-</span><span class='line'>  &ldquo;license&rdquo;: &ldquo;MIT&rdquo;
-</span><span class='line'>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<!--more-->
-
-
-<p>其次是按需求编辑好 <code>package.json</code> 文件。这是关键步骤，<code>package.json</code> 的 main 字段通常用于指向 UMD 版本的库；module 字段则用于指向 ES 版本的库。我们还需要配置构建脚本生成对应版本的库，最终的 <code>package.json</code> 文件内容如下：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>    &ldquo;name&rdquo;: &ldquo;simple-module-example&rdquo;,
-</span><span class='line'>    &ldquo;version&rdquo;: &ldquo;1.0.0&rdquo;,
-</span><span class='line'>    &ldquo;description&rdquo;: &ldquo;A simple module example.&rdquo;,
-</span><span class='line'>    &ldquo;main&rdquo;: &ldquo;dist/umd/simple-module-example.js&rdquo;,
-</span><span class='line'>    &ldquo;module&rdquo;: &ldquo;dist/esm/index.js&rdquo;,
-</span><span class='line'>    &ldquo;browser&rdquo;: &ldquo;dist/umd/simple-module-example.js&rdquo;,
-</span><span class='line'>    &ldquo;types&rdquo;: &ldquo;dist/types/index.d.ts&rdquo;,
-</span><span class='line'>    &ldquo;files&rdquo;: [
-</span><span class='line'>        &ldquo;dist&rdquo;
-</span><span class='line'>    ],
-</span><span class='line'>    &ldquo;directories&rdquo;: {
-</span><span class='line'>        &ldquo;test&rdquo;: &ldquo;test&rdquo;
-</span><span class='line'>    },
-</span><span class='line'>    &ldquo;scripts&rdquo;: {
-</span><span class='line'>        &ldquo;clean&rdquo;: &ldquo;rm -rf ./dist&rdquo;,
-</span><span class='line'>        &ldquo;build&rdquo;: &ldquo;npm run clean &amp;&amp; npm run build:es2015 &amp;&amp; npm run build:esm &amp;&amp; npm run build:cjs &amp;&amp; npm run build:umd&rdquo;,
-</span><span class='line'>        &ldquo;build:es2015&rdquo;: &ldquo;tsc &ndash;module es2015 &ndash;target es2015 &ndash;outDir dist/es2015&rdquo;,
-</span><span class='line'>        &ldquo;build:esm&rdquo;: &ldquo;tsc &ndash;module es2015 &ndash;outDir dist/esm&rdquo;,
-</span><span class='line'>        &ldquo;build:umd&rdquo;: &ldquo;rollup dist/esm/index.js &ndash;format umd &ndash;name SimpleModuleExample &ndash;sourcemap &ndash;file dist/umd/simple-module-example.js&rdquo;,
-</span><span class='line'>        &ldquo;build:umd:min&rdquo;: &ldquo;cd dist/umd &amp;&amp; uglifyjs &ndash;compress &ndash;mangle &ndash;source-map &ndash;screw-ie8 &ndash;comments &ndash;o simple-module-example.min.js &ndash; simple-module-example.js &amp;&amp; gzip simple-module-example.min.js -c > simple-module-example.min.js.gz&rdquo;
-</span><span class='line'>    },
-</span><span class='line'>    &ldquo;keywords&rdquo;: [
-</span><span class='line'>        &ldquo;module&rdquo;,
-</span><span class='line'>        &ldquo;example&rdquo;
-</span><span class='line'>    ],
-</span><span class='line'>    &ldquo;author&rdquo;: &ldquo;Meiliang Dong&rdquo;,
-</span><span class='line'>    &ldquo;license&rdquo;: &ldquo;MIT&rdquo;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
-
-<p>然后是编写 TypeScript 的配置文件 <code>tsconfig.json</code>， 先使用命令 <code>npm install @tsconfig/recommended --save-dev</code> 安装推荐的配置，之后根据需求定制，最终的内容如下：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>    &ldquo;extends&rdquo;: &ldquo;@tsconfig/recommended/tsconfig.json&rdquo;,
-</span><span class='line'>    &ldquo;compilerOptions&rdquo;: {
-</span><span class='line'>      &ldquo;outDir&rdquo;: &ldquo;./dist&rdquo;,
-</span><span class='line'>      &ldquo;target&rdquo;: &ldquo;es5&rdquo;,
-</span><span class='line'>      &ldquo;sourceMap&rdquo;: true,
-</span><span class='line'>      &ldquo;declaration&rdquo;: true,
-</span><span class='line'>      &ldquo;declarationDir&rdquo;: &ldquo;./dist/types&rdquo;
-</span><span class='line'>    },
-</span><span class='line'>    &ldquo;include&rdquo;: [&ldquo;./src/&lt;em>*/&lt;/em>&rdquo;]
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure></p>
-
-<p>其次是测试，测试是库开发的重要环节，它能帮我们验证库是否正常工作，后续迭代重构也要依赖它。通常的做法是使用测试框架，像 Angular 是 <a href="https://karma-runner.github.io/">Karma test runner</a>  搭配<a href="https://jasmine.github.io/">Jasmine test framework</a> ， 我们可以参考选择。</p>
-
-<p>我这里还玩了一下用 rollup 打包, 然后在浏览器里运行测试用例。首先在库工程目录外重新创建一个测试工程，然后使用 <code>npm link</code> 命令来安装我们的开发库，具体目录结构和文件内容如下：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$mkdir test-simple-module-example
-</span><span class='line'>├── Test.ts
-</span><span class='line'>├── dist
-</span><span class='line'>│   ├── esm
-</span><span class='line'>│   └── test-simple-module-example.js
-</span><span class='line'>├── index.html
-</span><span class='line'>├── package-lock.json
-</span><span class='line'>├── package.json
-</span><span class='line'>├── rollup.config.js
-</span><span class='line'>└── tsconfig.json</span></code></pre></td></tr></table></div></figure></p>
-
-<p><code>Test.ts</code></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import { StringValidator, ZipCodeValidator, LettersOnlyValidator } from &ldquo;simple-module-example&rdquo;;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// Some samples to try
-</span><span class='line'>let strings = [&ldquo;Hello&rdquo;, &ldquo;98052&rdquo;, &ldquo;101&rdquo;];&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// Validators to use
-</span><span class='line'>let validators: { [s: string]: StringValidator } = {};
-</span><span class='line'>validators[&ldquo;ZIP code&rdquo;] = new ZipCodeValidator();
-</span><span class='line'>validators[&ldquo;Letters only&rdquo;] = new LettersOnlyValidator();&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// Show whether each string passed each validator
-</span><span class='line'>strings.forEach((s) => {
-</span><span class='line'>  for (let name in validators) {
-</span><span class='line'>    console.log(
-</span><span class='line'>      &lt;code>"${s}" - ${
-</span><span class='line'>        validators[name].isAcceptable(s) ? "matches" : "does not match"
-</span><span class='line'>      } ${name}&lt;/code>
-</span><span class='line'>    );
-</span><span class='line'>  }
-</span><span class='line'>});</span></code></pre></td></tr></table></div></figure></p>
-
-<p><code>package.json</code></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>    &ldquo;name&rdquo;: &ldquo;test-simple-module-example&rdquo;,
-</span><span class='line'>    &ldquo;version&rdquo;: &ldquo;1.0.0&rdquo;,
-</span><span class='line'>    &ldquo;description&rdquo;: &ldquo;A test application for simple module example.&rdquo;,
-</span><span class='line'>    &ldquo;main&rdquo;: &ldquo;.dist/Test.js&rdquo;,
-</span><span class='line'>    &ldquo;scripts&rdquo;: {
-</span><span class='line'>        &ldquo;clean&rdquo;: &ldquo;rm -rf ./dist&rdquo;,
-</span><span class='line'>        &ldquo;build&rdquo;: &ldquo;npm run clean &amp;&amp; npm run build:esm &amp;&amp; npm run build:bundle&rdquo;,
-</span><span class='line'>        &ldquo;build:esm&rdquo;: &ldquo;tsc &ndash;module es2015 &ndash;outDir dist/esm&rdquo;,
-</span><span class='line'>        &ldquo;build:bundle&rdquo;: &ldquo;rollup -c&rdquo;,
-</span><span class='line'>        &ldquo;test&rdquo;: &ldquo;echo \"Error: no test specified\&rdquo; &amp;&amp; exit 1"
-</span><span class='line'>    },
-</span><span class='line'>    &ldquo;author&rdquo;: &ldquo;Meiliang Dong&rdquo;,
-</span><span class='line'>    &ldquo;license&rdquo;: &ldquo;MIT&rdquo;,
-</span><span class='line'>    &ldquo;dependencies&rdquo;: {
-</span><span class='line'>        &ldquo;@tsconfig/recommended&rdquo;: &ldquo;^1.0.1&rdquo;
-</span><span class='line'>    },
-</span><span class='line'>    &ldquo;devDependencies&rdquo;: {
-</span><span class='line'>        &ldquo;@rollup/plugin-node-resolve&rdquo;: &ldquo;^9.0.0&rdquo;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
-
-<p><code>rollup.config.js</code></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import resolve from &lsquo;@rollup/plugin-node-resolve&rsquo;;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>export default {
-</span><span class='line'>    input: &lsquo;dist/esm/Test.js&rsquo;,
-</span><span class='line'>    output: {
-</span><span class='line'>        file: &lsquo;dist/test-simple-module-example.js&rsquo;,
-</span><span class='line'>        format: &lsquo;umd&rsquo;
-</span><span class='line'>    },
-</span><span class='line'>    plugins: [resolve()]
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure></p>
-
-<p><code>tsconfig.json</code></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  &ldquo;extends&rdquo;: &ldquo;@tsconfig/recommended/tsconfig.json&rdquo;,
-</span><span class='line'>  &ldquo;compilerOptions&rdquo;: {
-</span><span class='line'>    &ldquo;outDir&rdquo;: &ldquo;./dist&rdquo;,
-</span><span class='line'>    &ldquo;target&rdquo;: &ldquo;es5&rdquo;,
-</span><span class='line'>    &ldquo;sourceMap&rdquo;: true,
-</span><span class='line'>    &ldquo;moduleResolution&rdquo;: &ldquo;Node&rdquo;
-</span><span class='line'>  },
-</span><span class='line'>  &ldquo;include&rdquo;: [&ldquo;./*.ts&rdquo;]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
-
-<p>最后是根据需要选择发布方式，例如发布到 npm 公有仓库，具体做法参考官方文档就好了。</p>
-
-<h3>Reference</h3>
-
-<ul>
-<li><a href="https://www.freecodecamp.org/news/anatomy-of-js-module-systems-and-building-libraries-fadcd8dbd0e/">Learn the basics of the JavaScript module system and build your own library</a></li>
-<li><a href="https://gist.github.com/jayphelps/51bafb4505558736fdba0aaf8bfe69d3">TypeScript output es2015, esm (ES Modules), CJS, UMD, UMD + Min + Gzip.</a></li>
-<li><a href="http://ifandelse.com/its-not-hard-making-your-library-support-amd-and-commonjs/">It&rsquo;s Not Hard: Making Your Library Support AMD and CommonJS</a></li>
-<li><a href="https://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a></li>
-<li><a href="https://yanhaijing.com/javascript/2018/08/17/2020-js-lib/">如何写一个现代的JavaScript库</a></li>
 </ul>
 
 ]]></content>

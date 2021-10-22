@@ -216,7 +216,7 @@
 </span><span class='line'>
 </span><span class='line'>      ikev2-eap-mschapv2 {
 </span><span class='line'>          version = 2
-</span><span class='line'>          proposals = aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024
+</span><span class='line'>          proposals = aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024,,aes256-sha1-modp2048
 </span><span class='line'>          rekey_time = 0s
 </span><span class='line'>          pools = primary-pool-ipv4, primary-pool-ipv6
 </span><span class='line'>          fragmentation = yes
@@ -723,6 +723,7 @@
 <h2>修改记录</h2>
 
 <ul>
+<li>2021/10/22: 增加 <code>aes256-sha1-modp2048</code> , 以便支持 Android 通过 StrongSwan 客户端连接</li>
 <li>2020/10/02: 记录关闭输出到系统日志文件的配置</li>
 <li>2020/09/07: 修改成 CentOS 8 上安装 StrongSwan</li>
 <li>2017/10/11: 第一次完成</li>

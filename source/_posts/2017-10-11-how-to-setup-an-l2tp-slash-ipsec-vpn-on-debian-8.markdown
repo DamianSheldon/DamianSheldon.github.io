@@ -64,7 +64,7 @@ connections {
 
     	ikev2-eap-mschapv2 {
         	version = 2
-        	proposals = aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024
+        	proposals = aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024,,aes256-sha1-modp2048
         	rekey_time = 0s
         	pools = primary-pool-ipv4, primary-pool-ipv6
         	fragmentation = yes
@@ -385,7 +385,7 @@ swanctl --list-certs
 * [charon-systemd](https://wiki.strongswan.org/projects/strongswan/wiki/Charon-systemd)  
 
 ##修改记录  
-
+* 2021/10/22: 增加 `aes256-sha1-modp2048` , 以便支持 Android 通过 StrongSwan 客户端连接  
 * 2020/10/02: 记录关闭输出到系统日志文件的配置
 * 2020/09/07: 修改成 CentOS 8 上安装 StrongSwan
 * 2017/10/11: 第一次完成

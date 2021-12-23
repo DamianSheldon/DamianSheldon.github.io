@@ -1114,6 +1114,19 @@ Git repository to collaborate with fellow Git developers at the same time. Subve
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>14.网络不稳定时如何克隆大工程代码仓库？</h3>
+
+<p>A:</p>
+
+<blockquote><p>Two solutions (or rather workarounds) that come to mind are:</p>
+
+<ul>
+<li>Use shallow clone i.e. git clone &ndash;depth=1, then deepen this clone using git fetch &ndash;depth=N, with increasing N. You can use git fetch &ndash;unshallow (since 1.8.0.3) to download all remaining revisions. </li>
+<li>Ask somebody to bundle up to some tagged release (see git-bundle(1) manpage). The bundle itself is an ordinary file, which you can download any way, via HTTP/FTP with resume support, via BitTorrent, via rsync, etc. The you can create clone from bundle, fix configuration, and do further fetches from official LibreOffice repository. 
+Reference:<a href="https://stackoverflow.com/questions/3954852/how-to-complete-a-git-clone-for-a-big-project-on-an-unstable-connection">How to complete a git clone for a big project on an unstable connection?</a></li>
+</ul>
+</blockquote>
+
 <h4>Reference</h4>
 
 <ul>

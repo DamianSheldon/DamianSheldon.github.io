@@ -606,6 +606,15 @@ $rsync -av cross-platform-workspace/JTTQYWXProject/SFWGLApp svn-repository/ --ex
 $svn import http://url/svn/jwt_v3/ydjwv3/trunk/working/projects/Hybrid/hn/SFWGLApp
 ```
 
+###14.网络不稳定时如何克隆大工程代码仓库？
+A:  
+
+> Two solutions (or rather workarounds) that come to mind are:
+> 
+> 	* Use shallow clone i.e. git clone --depth=1, then deepen this clone using git fetch --depth=N, with increasing N. You can use git fetch --unshallow (since 1.8.0.3) to download all remaining revisions. 
+> 	* Ask somebody to bundle up to some tagged release (see git-bundle(1) manpage). The bundle itself is an ordinary file, which you can download any way, via HTTP/FTP with resume support, via BitTorrent, via rsync, etc. The you can create clone from bundle, fix configuration, and do further fetches from official LibreOffice repository. 
+Reference:[How to complete a git clone for a big project on an unstable connection?](https://stackoverflow.com/questions/3954852/how-to-complete-a-git-clone-for-a-big-project-on-an-unstable-connection)  
+
 ####Reference  
 
 * [Pro Git](http://git-scm.com/book/zh/v1)  

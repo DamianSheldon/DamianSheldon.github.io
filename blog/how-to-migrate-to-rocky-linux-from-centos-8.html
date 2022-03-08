@@ -3,16 +3,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>MySQL 使用笔记(二)  | Hello World</title>
+        <title>CentOS 8 迁移到 Rocky Linux 时遇到的问题  | Hello World</title>
 
         <meta name="author" content="Sheldon"> 
         
-        <meta name="description" content="MySQL notes"> <meta name="keywords" content="MySQL, procedure, notes">
+        <meta name="description" content="How to Migrate to Rocky Linux from CentOS 8"> <meta name="keywords" content="Migrate, Rocky Linux, CentOS 8">
 
         <meta name="viewport" content="width=device-width">
         
         
-        <link rel="canonical" href="http://DamianSheldon.github.io/blog/using-mysql-note-part-two.html">
+        <link rel="canonical" href="http://DamianSheldon.github.io/blog/how-to-migrate-to-rocky-linux-from-centos-8.html">
 
         <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
         <link href="/favicon.png" rel="icon">
@@ -58,7 +58,7 @@
 </header>
 
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">MySQL 使用笔记(二)</h2>
+	<h2 class="title">CentOS 8 迁移到 Rocky Linux 时遇到的问题</h2>
         
     <div class="meta">
 	   <div class="date">
@@ -75,21 +75,46 @@
 
 
 
-<time datetime="2020-07-18T15:57:24+08:00" pubdate data-updated="true">18 Jul 2020</time></div>
+<time datetime="2022-03-08T11:25:32+08:00" pubdate data-updated="true">08 Mar 2022</time></div>
 	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
 
 
     </div>
     
-	<div class="entry-content"><h3>1.如何查看数据库中所有的存储过程?</h3>
+	<div class="entry-content"><p>虽然 Rocky Linux 专门写了一篇文档介绍如何从 CentOS 8 迁移过来，但实际迁移还是遇到了问题，这里简单记一下。</p>
 
-<p>A: <code>mysql&gt; show procedure status where db = 'db_for_mysql_crash_course'\G;</code>;</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Error: 
+</span><span class='line'> Problem 1: cannot install both ibus-libs-1.5.19-14.el8_5.x86_64 and ibus-libs-1.5.19-12.el8.x86_64
+</span><span class='line'>  - package ibus-devel-1.5.19-12.el8.x86_64 requires ibus-libs(x86-64) = 1.5.19-12.el8, but none of the providers can be installed
+</span><span class='line'>  - cannot install the best update candidate for package ibus-libs-1.5.19-12.el8.x86_64
+</span><span class='line'>  - problem with installed package ibus-devel-1.5.19-12.el8.x86_64
+</span><span class='line'> Problem 2: cannot install both marisa-0.2.4-36.el8.x86_64 and marisa-0.2.4-4.el7.x86_64
+</span><span class='line'>  - package marisa-devel-0.2.4-4.el7.x86_64 requires marisa(x86-64) = 0.2.4-4.el7, but none of the providers can be installed
+</span><span class='line'>  - cannot install the best update candidate for package marisa-0.2.4-4.el7.x86_64
+</span><span class='line'>  - problem with installed package marisa-devel-0.2.4-4.el7.x86_64
+</span><span class='line'>(try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个问题是升级 <code>ibus-devel</code> 失败，这是因为 <code>ibus-devel</code> 在 PowerTools 的仓库中，默认可能没有使能这个仓库，我们可以手动使能安装或升级：<code>sudo dnf --enablerepo=powertools install ibus-devel</code>。</p>
+
+<p>第二个问题是 CentOS 8 上有最新的 <code>marisa-0.2.4-36.el8.x86_64</code>，但是只有<code>marisa-devel-0.2.4-4.el7.x86_64</code>, 这个有点奇怪，不知道为什么两个版本没有同步升级，<code>marisa-devel</code> 一般是用于开发，我们可能暂时用不到，可以先尝试卸载它完成升级：<code>sudo dnf remove marisa-devel</code>。</p>
+
+<h2>Reference:</h2>
+
+<ul>
+<li><a href="https://docs.rockylinux.org/guides/migrate2rocky/">How to Migrate to Rocky Linux from CentOS Stream, CentOS, Alma Linux, RHEL, or Oracle Linux</a></li>
+</ul>
+
 </div>
 
 

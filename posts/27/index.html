@@ -63,6 +63,89 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-design-patterns.html">
+		
+			(翻译)iOS 设计模式</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-11-10T08:35:43+08:00" pubdate data-updated="true">10 Nov 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p><em>iOS 设计模式</em>&ndash;你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花太多注意力放到设计模式上。</p>
+
+<p>在软件设计中设计模式是常见问题的可复用的解决方法。他们被设计成模板帮助你写出容易理解和复用的代码。他们也帮助你写出低藕合的代码以便你不需要太多争论就能改变或替换你代码的组件。</p>
+
+<p>如果你刚刚接触设计模式，告诉你些好消息！首先，你已经使用过很多设计模式，这得感谢Cocoa 建立的方式以及你被鼓励使用的最佳实践。其次，这篇教程将让你掌握 iOS 的主要（次要）设计模式，它们在 Cocoa 中很常用。</p>
+
+<p>教程分成多个部分，每部分包含一种设计模式。在每部分，你会看到如下顺序的解释：</p>
+
+<ul>
+<li>该设计模式是什么；</li>
+<li>你为什么应该使用它；</li>
+<li>如何使用它，以及什么场景合适，使用时需要留意的常见陷阱；</li>
+</ul>
+
+
+<p>这篇教程中，你将创建一个 Music Library 应用，它会显示你的专辑和它们相关的信息。</p>
+
+<p>在开发应用的过程中，你会慢慢熟悉多数常见的 Cocoa 设计模式：</p>
+
+<ul>
+<li>构造类：单例(Singleton)和 抽象工厂(Abstract Factory);</li>
+<li>架构类：模型-视图-控制器(MVC), 修饰(Decorator), 适配器(Adapter), 门面(Facade)和合成（Composite);</li>
+<li>行为类：观察者(Observer), 记忆(Memento), 响应链(Chain of Responsibility)和命令（Command）。</li>
+</ul>
+
+
+<p>别被误导认为这是篇纯理论的文章；你会在你音乐应用中使用这些应用模式中的大多数。你的应用最终看起来像这样：</p>
+
+<div style="text-align:center" markdown="1">
+
+<img name="finalapp-180x320" src="/images/finalapp-180x320.png" width="180" height="320">  
+
+</div>
+
+
+
+
+
+		
+		<a href="/blog/ios-design-patterns.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/setup-iterm2-to-behave-like-guake.html">
 		
 			为MacBook Pro配置一个像guake的终端</a>
@@ -393,70 +476,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/variable-sized-items-in-uicollectionview.html">
-		
-			(翻译)Variable-Sized Items in UICollectionView</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-11-04T11:27:12+08:00" pubdate data-updated="true">04 Nov 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>基本训练</h3>
-
-<p>我们以 “Single View Application” 为模板新建一个工程。在 ViewController.xib 上添加一个UICollectionView 让它覆盖整个 view。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView01" src="/images/Variable-Sized_Items_in_UICollectionView01.png" width="1110" height="783"></p>
-
-<p>Collection View 和它的祖父类似，有 delegate 和 dataSource 两个 outlet,我们把它们连接到 “File’s Owner”,这里的 “File’s Owner” 是 ViewController 类。这样 Collection View 的内容和交互就受 ViewController 控制。我们也需要一个 outlet 来引用 Collection View,所以用 Assistant editor 增加一个。刚在 ViewController.h 中添加的 outlet property 可以是weak，因为作为 ViewController 的视图的子视图，它也会被充分的保留。</p>
-
-<h3>单元格</h3>
-
-<p>我们需要设计一个 Cell 原型来显示内容。如果你的 Collection View 是在 View controller’s XIB ,你必须在先在代码中注册 Cell 才能使用。如果你是在 Storyboard 中新建的 CollectionView，并在 CollectionView 的区域内创建的原型 Cell,那么你就不需要注册 Cell identifier 了。因为我们并没有从 Storyboard 中开始，所以需要手动来创建。</p>
-
-<p>我们在 Interface Builder 中创建一个原型 Cell，设置它的背影为白色，添加一个 UILabel，添加 Label 到父视图边缘的约束，分别是 5 points 的距离。因为我们想让 Label 的文字来决定它的尺寸，所以选中 Label ,然后从 Editor menu 中选择 “Size to Fit Content”。后面我们会看到它是否会按照我们想像的那样工作。</p>
-
-<p><img name="Variable-Sized_Items_in_UICollectionView02" src="/images/Variable-Sized_Items_in_UICollectionView02.png" width="964" height="400"></p>
-
-<p>我们设置 Identifier 为 “TagCell” 以便我们能在设计中引用。</p>
-
-
-		
-		<a href="/blog/variable-sized-items-in-uicollectionview.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/26" class="prev">Prev</a>
@@ -467,7 +486,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2021
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
 
     Sheldon
 

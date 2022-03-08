@@ -109,6 +109,64 @@
 
 <p>第二个问题是 CentOS 8 上有最新的 <code>marisa-0.2.4-36.el8.x86_64</code>，但是只有<code>marisa-devel-0.2.4-4.el7.x86_64</code>, 这个有点奇怪，不知道为什么两个版本没有同步升级，<code>marisa-devel</code> 一般是用于开发，我们可能暂时用不到，可以先尝试卸载它完成升级：<code>sudo dnf remove marisa-devel</code>。</p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Syncing packages
+</span><span class='line'>
+</span><span class='line'>Last metadata expiration check: 0:00:13 ago on Tue Mar  8 12:23:04 2022.
+</span><span class='line'>
+</span><span class='line'>Error: 
+</span><span class='line'> Problem: package kyotocabinet-1.2.77-1.el7.x86_64 requires kyotocabinet-libs(x86-64) = 1.2.77-1.el7, but none of the providers can be installed
+</span><span class='line'>  - kyotocabinet-libs-1.2.77-1.el7.x86_64 does not belong to a distupgrade repository
+</span><span class='line'>  - problem with installed package kyotocabinet-1.2.77-1.el7.x86_64
+</span><span class='line'>(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
+</span><span class='line'>
+</span><span class='line'>Error during distro-sync.
+</span><span class='line'>
+</span><span class='line'>An error occurred while we were attempting to convert your system to Rocky Linux. Your system may be unstable. Script will now exit to prevent possible damage.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第三个问题是 kyotocabinet 的版本问题导致 <code>distro-sync</code> 失败。我查询了一下系统中安装的 kyotocabinet 版本又确实是 <code>1.2.77-1.el7</code>，也可以查询到迁移成功了：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ hostnamectl 
+</span><span class='line'>   Static hostname: centos.tenneshop.com
+</span><span class='line'>         Icon name: computer-vm
+</span><span class='line'>           Chassis: vm
+</span><span class='line'>        Machine ID: 2af6da6bd3624e0988bd30e22574b645
+</span><span class='line'>           Boot ID: 6edac64aba294e1e9f3b7cfdb7b6970c
+</span><span class='line'>    Virtualization: oracle
+</span><span class='line'>  Operating System: Rocky Linux 8.5 (Green Obsidian)
+</span><span class='line'>       CPE OS Name: cpe:/o:rocky:rocky:8:GA
+</span><span class='line'>            Kernel: Linux 4.18.0-240.15.1.el8_3.x86_64
+</span><span class='line'>      Architecture: x86-64</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过 <code>Syncing packages</code> 搜索 migrate2rocky 脚本，这已经是最后三步了，于是尝试手动完成剩下的工作。  先 <code>dnf --allowerasing distro-sync</code>，然后查看会删除哪些软件，我这里是会删除 kyotocabinet，根据情况确认是否接受删除软件同步。</p>
+
+<p>最后的 Disable Stream repos 和移除 <code>subscription-manage</code>，因为是 CentOS 8, 所以并不需要。</p>
+
 <h2>Reference:</h2>
 
 <ul>

@@ -167,10 +167,41 @@
 
 <p>最后的 Disable Stream repos 和移除 <code>subscription-manage</code>，因为是 CentOS 8, 所以并不需要。</p>
 
+<p>重启之后又遇到新的问题：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vboxclient the virtualbox kernel service is not running. exiting</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看 <code>/var/log/vboxadd-setup.log</code>，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/tmp/vbox.0/r0drv/linux/alloc-r0drv-linux.c:204:14: error: implicit declaration of function ‘map_vm_area’; did you mean ‘get_vm_area’? [-Werror=implicit-function-declaration]
+</span><span class='line'>         if (!map_vm_area(pVmArea, PAGE_KERNEL_EXEC,
+</span><span class='line'>              ^~~~~~~~~~~
+</span><span class='line'>              get_vm_area
+</span><span class='line'>cc1: some warnings being treated as errors
+</span><span class='line'>make[2]: *** [scripts/Makefile.build:316: /tmp/vbox.0/combined-os-specific.o] Error 1
+</span><span class='line'>make[1]: *** [Makefile:1571: _module_/tmp/vbox.0] Error 2
+</span><span class='line'>make: *** [/tmp/vbox.0/Makefile-footer.gmk:117: vboxguest] Error 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>经过一番搜索，我意识到可能是 <code>VBoxGuestAdditions.iso</code> 的版本不对，因为之前确实有提示类似 <code>unable to insert the virtual optical disk /usr/share/virtualbox/vboxguestadditions.iso</code> 的错误，原因是我没有把之前版本的 <code>VBoxGuestAdditions.iso</code> 从虚拟光驱中弹出，于是先弹出再插入新版本，果然新版本成功安装。</p>
+
 <h2>Reference:</h2>
 
 <ul>
 <li><a href="https://docs.rockylinux.org/guides/migrate2rocky/">How to Migrate to Rocky Linux from CentOS Stream, CentOS, Alma Linux, RHEL, or Oracle Linux</a></li>
+<li><a href="https://access.redhat.com/discussions/4452161">vboxclient the virtualbox kernel service is not running. exiting</a></li>
+<li><a href="https://forums.virtualbox.org/viewtopic.php?t=103528">CentOS 8 Stream - vboxdrv wont build</a></li>
+<li><a href="https://forums.virtualbox.org/viewtopic.php?t=82201">Cannot install Guest Addtions</a></li>
 </ul>
 
 </div>

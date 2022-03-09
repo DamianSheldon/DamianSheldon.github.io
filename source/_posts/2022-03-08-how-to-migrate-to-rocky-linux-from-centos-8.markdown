@@ -63,8 +63,32 @@ $ hostnamectl
 
 最后的 Disable Stream repos 和移除 `subscription-manage`，因为是 CentOS 8, 所以并不需要。  
 
+重启之后又遇到新的问题：  
+
+```
+vboxclient the virtualbox kernel service is not running. exiting
+```
+
+查看 `/var/log/vboxadd-setup.log`，  
+
+```
+/tmp/vbox.0/r0drv/linux/alloc-r0drv-linux.c:204:14: error: implicit declaration of function ‘map_vm_area’; did you mean ‘get_vm_area’? [-Werror=implicit-function-declaration]
+         if (!map_vm_area(pVmArea, PAGE_KERNEL_EXEC,
+              ^~~~~~~~~~~
+              get_vm_area
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:316: /tmp/vbox.0/combined-os-specific.o] Error 1
+make[1]: *** [Makefile:1571: _module_/tmp/vbox.0] Error 2
+make: *** [/tmp/vbox.0/Makefile-footer.gmk:117: vboxguest] Error 2
+```
+
+经过一番搜索，我意识到可能是 `VBoxGuestAdditions.iso` 的版本不对，因为之前确实有提示类似 `unable to insert the virtual optical disk /usr/share/virtualbox/vboxguestadditions.iso` 的错误，原因是我没有把之前版本的 `VBoxGuestAdditions.iso` 从虚拟光驱中弹出，于是先弹出再插入新版本，果然新版本成功安装。  
+
 
 ##Reference:  
 
 * [How to Migrate to Rocky Linux from CentOS Stream, CentOS, Alma Linux, RHEL, or Oracle Linux](https://docs.rockylinux.org/guides/migrate2rocky/)  
+* [vboxclient the virtualbox kernel service is not running. exiting](https://access.redhat.com/discussions/4452161)  
+* [CentOS 8 Stream - vboxdrv wont build](https://forums.virtualbox.org/viewtopic.php?t=103528)  
+* [Cannot install Guest Addtions](https://forums.virtualbox.org/viewtopic.php?t=82201)  
 

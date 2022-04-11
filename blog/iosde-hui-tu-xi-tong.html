@@ -20,10 +20,8 @@
         <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
         
         <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <script src="/javascripts/libs/jquery.min.js"></script>
         <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-
+        
     </head>
 
 
@@ -448,31 +446,7 @@ o <a href="http://objccn.io/issue-3-1/">绘制像素到屏幕上</a></p>
 	
     
     
-        <!-- Gitment BEGIN -->
-<div id="comments"></div>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-// Limit label length less than 50 characters.
-var label_for_comment = document.URL;
-if (label_for_comment.length > 50) {
-    label_for_comment = label_for_comment.substring(label_for_comment.length - 50, label_for_comment.length - 1);
-}
-
-const gitment = new Gitment({
-id: label_for_comment,
-owner: 'DamianSheldon',
-repo: 'gitment',
-oauth: {
-client_id: '534142482825f386df90',
-client_secret: '19183fe61a33fcfae35316435bf3f4d516295c38',
-},
-// ...
-// For more available options, check out the documentation below
-})
-
-gitment.render('comments')
-</script>
-<!-- Gitment -->
+        
 
     
     
@@ -488,8 +462,7 @@ gitment.render('comments')
 <br>
 <p>Powered by <a href="http://octopress.org">Octopress</p>
 </footer>
-	<script src="/javascripts/slash.js"></script>
-
+	
 
 
 

@@ -20,10 +20,8 @@
         <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
         
         <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <script src="/javascripts/libs/jquery.min.js"></script>
         <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-
+        
     </head>
 
 
@@ -58,6 +56,193 @@
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/set-up-php-development-environment.html">
+		
+			Set Up PHP Development Environment</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-19T22:25:19+08:00" pubdate data-updated="true">19 Sep 2015</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>Notes of Set up PHP development environment</h3>
+
+<ol>
+<li>Install <a href="https://eclipse.org/pdt/#download">Eclipse PDT</a>;</li>
+<li><a href="http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/">Install PEAR and PECL on Mac OS X</a>, php.ini locate in /etc on Yosemite;</li>
+<li><p><a href="http://www.xdebug.org/docs/install">Install Xdebug through PEAR/PECL</a>;<br/>
+ Addition configure for Yosemite</p>
+
+<ul>
+<li><code>sudo cp /etc/php.ini.default /etc/php.ini</code></li>
+<li>add &ldquo;zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so&rdquo; to php.ini</li>
+</ul>
+</li>
+<li><p>Debugging Local PHP Files (PHP CLI Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Set a breakpoint in PHP file;</li>
+<li>Save file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</li>
+<li>Run > Debug Configurations > Select PHP CLI Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Debugging PHP Web Applications (PHP Web Application)</p>
+
+<ul>
+<li>Create a PHP project;</li>
+<li>Create a PHP file;</li>
+<li>Create a new debug configuration;
+
+<ul>
+<li>Run > Debug Configurations > Select PHP Web Application > New</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Test with PHPUnit</p>
+
+<ul>
+<li>Run > External Tools > External Tools Configurations&hellip; > Program > New
+[Main]
+Location:/usr/local/bin/phpunit
+Working Directory:${workspace_loc:/Backend/tests}
+Apply > Run
+<a href="http://stackoverflow.com/questions/966673/eclipse-pdt-phpunit">Reference</a></li>
+</ul>
+</li>
+<li><p>Integrate MakeGood (failure)</p>
+
+<ul>
+<li>Installing Prerequisite Software
+
+<ul>
+<li>PHP 5.5.27 (cli)</li>
+<li>xdebug-2.3.2</li>
+<li>eclipse mars(4.5.0)</li>
+<li>PDT(3.5.0)</li>
+<li>PHPUnit (4.8.6)</li>
+</ul>
+</li>
+<li><p>Installing MakeGood
+  Help -> Install New Software&hellip; -> Add&hellip; -> <a href="http://eclipse.piece-framework.com/">http://eclipse.piece-framework.com/</a></p></li>
+<li><p>Selecting a Testing Framework</p></li>
+<li><p>Resolving the Dependencies to the Testing Framework</p>
+
+<pre><code>  * Defining User Libraries
+      Eclipse -&gt; Preferences... &gt; PHP -&gt; PHP Libraries &gt; New... &gt; OK
+      Add External folder... &gt; [Verifying the include path](http://pear.php.net/manual/en/installation.checking.php)
+  * Adding User Libraries to the Project
+</code></pre>
+
+<p>   fail with PHPUnit_Framework_TestCase class is not available. Fix&hellip;, I doubt that MakeGood doesn&rsquo;t support eclipse mars.</p></li>
+</ul>
+
+
+<p> *Testing Framework Specific Configuration<br/>
+     PHPUnit</p>
+
+<pre><code> * Open the properties for the project.
+ * Select MakeGood.
+ * Select PHPUnit.
+ * Specify the XML Configuration File. [eg](http://beagile.biz/a-simple-phpunit-xml-configuration-example/)
+</code></pre>
+
+<p> <a href="http://piece-framework.com/projects/makegood/wiki/MakeGood_User_Guide_1_7_0">Reference</a></p></li>
+</ol>
+
+
+<h3>Throw java.lang.NullPointerException when create a new debug configuration</h3>
+
+<p>Solution: Add a PHP Executable, Eclipse > Preference&hellip; > PHP Executables > Add (Executable path: <code>which php</code>)</p>
+
+<h3>Wait for XDebug session</h3>
+
+<p>Solution:Debugging PHP Web Applications时卡在这里，原因是XDebug remote debug没配置好，参考了<a href="http://www.xdebug.org/docs/remote">Remote Debugging</a>和<a href="https://wiki.eclipse.org/Debugging_using_XDebug">Debugging using XDebug</a>，发现phpinfo()输出的内容并没有XDebug。于是来开始配置php.ini,参考的<a href="http://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite">How to set default php.ini to be used, OSX Yosemite</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo cp /etc/php.ini.default /etc/php.ini
+</span><span class='line'>
+</span><span class='line'>// Add follow content to php.ini
+</span><span class='line'>[XDebug]
+</span><span class='line'>zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so
+</span><span class='line'>xdebug.remote_enable=On
+</span><span class='line'>xdebug.remote_handler=dbgp
+</span><span class='line'>xdebug.remote_host=helloworld.local
+</span><span class='line'>xdebug.remote_port=9000
+</span><span class='line'>;xdebug.remote_connect_back=1
+</span><span class='line'>xdebug.remote_mode="req"
+</span><span class='line'>xdebug.remote_log="/var/log/xdebug.log"
+</span><span class='line'>
+</span><span class='line'>sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>/private/tmp/pear/install/xdebug/xdebug.c:25:10: fatal error: &lsquo;php.h&rsquo; file not found</h3>
+
+<p>Solution:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcode-select --install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks">http://stackoverflow.com/questions/19531262/cant-phpize-or-configure-an-extension-in-os-x-10-9-mavericks</a></p>
+
+		
+		
+	</div>
+
+
+        
+</article>
 
 
     <article class="post">
@@ -273,165 +458,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/vim.html">
-		
-			Vim 使用笔记</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-09-10T21:09:05+08:00" pubdate data-updated="true">10 Sep 2015</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.查看帮助</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:help</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.查看quickref</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:help quickref</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3.语法高亮</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:syn-on      :syntax on              start using syntax highlighting
-</span><span class='line'>:syn-off      :syntax off             stop using syntax highlighting</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.Move cursor to its last position</h3>
-
-<p>The quickest way is to hit either:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>''
-</span><span class='line'>(two apostrophes) or:
-</span><span class='line'>
-</span><span class='line'>``
-</span><span class='line'>(two backticks).</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>5.Show line number</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set number</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>6.Auto indent</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set autoindent</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>7.Set background</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set background=dark
-</span><span class='line'>:set background=light</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>8.Common move command</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0, ^ line head
-</span><span class='line'>$, g_ line foot
-</span><span class='line'>ctl + f forword page
-</span><span class='line'>ctl + b back page</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>9.用vim编辑一个文件，改动了很多内容；最终要保存时却发现没有权限</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:w !sudo tee % &gt; /dev/null</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="http://www.caiyiting.com/blog/2014/vim-sudo.html">http://www.caiyiting.com/blog/2014/vim-sudo.html</a></p>
-
-<h3>10.替换文字时有特殊字符怎么办？</h3>
-
-<p>A:用 \ 转义。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%s/\/Users\/dongmeiliang\/Sites/\/home\/meiliang\/public_html/g</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>11.How to reload current file when it has been changed outside of Vim?</h3>
-
-<p>A:<code>:e</code> , more info at <code>:help :e</code></p>
-
-<h3>12.How to delete all lines of file in Vim?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Type <code>gg</code> to move the cursor to the first line of the file, if it is not already there.</li>
-<li>Type <code>dG</code> to delete all the lines.</li>
-</ol>
-
-
-<p>Reference:<a href="https://codeyarns.com/2011/04/18/how-to-delete-all-lines-of-file-in-vim/">How to delete all lines of file in Vim</a></p>
-
-<h3>13.How to select all lines of file in Vim?</h3>
-
-<p>A: <code>ggVG</code></p>
-
-<p>Reference:<a href="https://superuser.com/questions/227385/how-do-i-select-all-text-in-vi-vim">How do i select all text in Vi/Vim?</a></p>
-
-<h2>扩展阅读</h2>
-
-<ul>
-<li><a href="https://coolshell.cn/articles/11312.html">无插件VIM编程技巧</a></li>
-<li><a href="https://coolshell.cn/articles/5426.html">简明 VIM 练级攻略</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/19" class="prev">Prev</a>
@@ -449,8 +475,7 @@
 <br>
 <p>Powered by <a href="http://octopress.org">Octopress</p>
 </footer>
-	<script src="/javascripts/slash.js"></script>
-
+	
 
 
 

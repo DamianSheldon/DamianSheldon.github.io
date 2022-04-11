@@ -20,10 +20,8 @@
         <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
         
         <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <script src="/javascripts/libs/jquery.min.js"></script>
         <script src="/javascripts/navigation-toggle.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-
+        
     </head>
 
 
@@ -58,6 +56,78 @@
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/nsthread-thechnology-notes.html">
+		
+			iOS 并发编程之 Thread</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-03-16T16:27:17+08:00" pubdate data-updated="true">16 Mar 2015</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 并发编程之 Operation 中，我们说过 GCD 是将线程管理的代码从应用层移到了系统层，它是基于线程技术的。虽然在 iOS 和 OS X 平台不鼓励直接使用线程实现并发，但它还是有它的应用场景。那么什么时候应该使用线程呢？</p>
+
+<p>当我们的代码需要实时运行时用线程实现是一个好方法。虽然分发队列会尽可能快的执行你的任务，但是它们不能解决实时约束。如果你想让运行在后台的代码给你更可预期的行为，线程是一个更好的选择。</p>
+
+<p>既然线程仍然有它的应用场景，我们还是有必要掌握它。</p>
+
+<h2>Thread是什么</h2>
+
+<p>线程是一种在应用中实现多条运行路径相对轻量的方法。在系统层，程序并排运行，系统根据程序的需要为每个程序分配执行时间。但是在每个程序内部存在一个或多个线程运行，它们可以被用来以同时或接近同时的方式执行不同的任务。系统本身实际上管理这些线程的运行，调度它们运行在可用的核上，根据需要中断它们以允许其他线程运行。</p>
+
+<p>从技术角度看, 线程是管理代码执行所需的内核级和应用程序级数据结构的组合。内核级结构将事件分派到线程, 并在一个可用内核上协调线程的抢先调度。应用程序级结构包括用于存储函数调用的调用堆栈和需要管理、操作线程的属性和状态的应用程序结构。</p>
+
+<p>在非并发应用中只有一个运行线程。它随应用的主程序开始和结束，一个一个地调用不同的方法或函数实现应用的行为。与此相反，支持并发的应用以一个线程开始，根据需要添加创建附加执行路径。每个新路径有它自定义的开始程序，它和应用的主程序是独立运行的。拥有多线程的应用提供两个重要的潜在优势：</p>
+
+<ul>
+<li>多线程可以改善应用的响应性</li>
+<li>多线程在多核系统上可以改善应用的实时性</li>
+</ul>
+
+
+<p>如果你的应用只有一个线程，那么它需要做所有的事情。它必须响应事件，更新你应用的窗口和执行实现你应用行为需要的所有计算。单线程的问题在于它一次只能做一件事。当你的某个计算需要花费很长时间完成会发生什么呢？当你的代码忙于计算它需要的值，你的应用停止响应用户的事件和更新窗口。如果这种行为持续足够长的时间，用户也许认为你的应用已经挂起，于是尝试强制退出。但是，如果将自定义计算移到单独的线程上，则应用程序的主线程可以自由地响应用户交互。</p>
+
+<p>在多核计算机如此普遍的今天，线程为某些类型的应用提供了一种提高性能的方法。线程可以在处理器不同的核上同时执行不同的任务，让应用在指定时间增加它工作数量成为了一种可能。</p>
+
+<p>当然，线程并不是解决应用性能问题的万用药。提供好处的同时它也带来各种潜在问题。在应用内拥有多个可执行路径会增加你代码的复杂度。每个线程需要协调它和其他线程的行为以防止损坏应用的状态信息。因为单个应用的线程共享相同的内存空间，它们访问所有相同的数据结构。如果两个线程同时尝试操作相同的数据，一个线程可能覆盖另一个线程的修改，最终导致数据被损坏。即使在这里有了正确防护，你还是要当心编译器优化会在你的代码中引入隐蔽的问题。</p>
+
+
+		
+		<a href="/blog/nsthread-thechnology-notes.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
 
 
     <article class="post">
@@ -224,105 +294,6 @@ Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-play.html">
-		
-			(翻译)How to Play, Record, and Edit Videos in iOS</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-01-22T16:48:25+08:00" pubdate data-updated="true">22 Jan 2015</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archive/'>archive</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>录制视频(并用代码播放它们)是你可以用手机来做的最酷的事情之一，但不是所有的应用都利用了它们。它需要 AVFoundation 框架，AVFoundation 从 Lion(10.7)开始是 OS X 的一部分，Apple 在 2010 年将它加入到 iOS 4.</p>
-
-<p>从那之后 AVFoundation 也有了相当多的成长，现在拥有 100 多个类。本教程覆盖媒体播放和一些轻量级编辑来让你开始使用 AVFoundation.</p>
-
-<h4>AVAsset</h4>
-
-<p>它是表示基于时间的视听媒体的抽象类例如视频和音频。每个assert包含用于展示或处理的记录集合，可以是任意一种通用媒体类型，包括但不仅限于音频，视频，文本，closed captions 和 subtitles。</p>
-
-<p>一个AVAsset对象定义了定义记录的属性集合，它构成asset。一个记录用一个AVAssetTrack实例表示。</p>
-
-<p>在典型的简单情况下，一个记录代表一个音频组件，另一个代表视频组件；在复杂的合成器中，可能会有多个重叠的音频和视频记录。你将会把合成的视频和音频文件表示成AVAsset对象。</p>
-
-<h4>AVComposition</h4>
-
-<p>An AVCompositionobject combines media data from multiple file-based sources in a custom temporal arrangement in order to present or process it together. All file-based audiovisual assets are eligible to be combined, regardless of container type.</p>
-
-<p>一个AVComposition对象用自定义的时间顺序排列混合来自多个基于文件源的媒体使得可以一起显示或处理。所有基于文件的视听asset都可以混合，而不用管容器类型。</p>
-
-<p>At its top level, an AVComposition is a collection of tracks, each presenting media of a specific type such as audio or video, according to a timeline. Each track is represented by an instance of AVCompositionTrack.</p>
-
-<p>在它的上一级，AVComposition是记录的集合，每个依据时间线展示像音频或视频的媒体类型。每个记录由一个AVCompositionTrack实例代表。</p>
-
-<p>AVMutableComposition and AVMutableCompositionTrack</p>
-
-<p>A higher-level interface for constructing compositions is also presented by AVMutableComposition and AVMutableCompositionTrack. These objects offer insertion, removal, and scaling operations without direct manipulation of the trackSegment arrays of composition tracks.</p>
-
-<p>AVMutableComposition and AVMutableCompositionTrack make use of higher-level constructs such as AVAsset and AVAssetTrack. This means the client can make use of the same references to candidate sources that it would have created in order to inspect or preview them prior to inclusion in a composition.</p>
-
-<p>In short, you have an AVMutableComposition and you can add multiple AVMutableCompositionTrack instances to it. Each AVMutableCompositionTrack will have a separate media asset.</p>
-
-<p>And the Rest</p>
-
-<p>In order to apply a CGAffineTransform to a track, you will make use of AVVideoCompositionInstruction and AVVideoComposition. An AVVideoCompositionInstruction object represents an operation to be performed by a compositor. The object contains multiple AVMutableVideoCompositionLayerInstruction objects.</p>
-
-<p>You use an AVVideoCompositionLayerInstruction object to modify the transform and opacity ramps to apply to a given track in an AV composition.</p>
-
-<p>AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction.</p>
-
-<p>An AVVideoComposition object maintains an array of instructions to perform its composition, and an AVMutableVideoComposition object represents a mutable video composition.</p>
-
-<p>Conclusion</p>
-
-<p>To sum it all up:</p>
-
-<p>You have a main AVMutableComposition object that contains multiple AVMutableCompositionTrack instances. Each track represents an asset.</p>
-
-<p>You have AVMutableVideoComposition objects that contain multiple AVMutableVideoCompositionInstructions.</p>
-
-<p>Each AVMutableVideoCompositionInstruction contains multiple AVMutableVideoCompositionLayerInstruction instances.</p>
-
-<p>Each layer instruction is used to apply a certain transform to a given track.</p>
-
-<h3><a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">原文</a></h3>
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/22" class="prev">Prev</a>
@@ -340,8 +311,7 @@ Open iTunes > File > Add To Library&hellip; > select Ad Hoc provisioning profile
 <br>
 <p>Powered by <a href="http://octopress.org">Octopress</p>
 </footer>
-	<script src="/javascripts/slash.js"></script>
-
+	
 
 
 

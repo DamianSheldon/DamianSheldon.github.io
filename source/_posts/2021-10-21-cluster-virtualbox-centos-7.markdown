@@ -3,7 +3,7 @@ layout: post
 title: "VirtualBox 搭建 CentOS 7 集群"
 date: 2021-10-21 15:57:18 +0800
 comments: true
-categories: [archives]
+categories: [Archives]
 keywords: Cluster, VirtualBox, CentOS7, Bridged networking, Internal networking 
 description: Cluster VirtualBox CentOS 7
 ---

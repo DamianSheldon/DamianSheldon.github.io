@@ -3,7 +3,7 @@ layout: post
 title: "CentOS 8 迁移到 Rocky Linux 时遇到的问题"
 date: 2022-03-08 11:25:32 +0800
 comments: true
-categories: 
+categories: [Archives]
 keywords: Migrate, Rocky Linux, CentOS 8
 description: How to Migrate to Rocky Linux from CentOS 8
 ---

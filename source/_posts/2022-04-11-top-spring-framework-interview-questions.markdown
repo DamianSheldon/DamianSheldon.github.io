@@ -281,4 +281,8 @@ Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数
 
 我们希望这篇文章能对即将到来的Spring面试有所帮助。祝您好运!  
 
+# 7. 原文
+
+* [Top Spring Framework Interview Questions](https://www.baeldung.com/spring-interview-questions)  
+
 

@@ -179,3 +179,38 @@ Spring Boot 是一个提供了一套预配置框架以减少模板配置的项�
 原型作用域意味着每次我们需要 Bean 的一个实例时，Spring都会创建一个新的实例并返回它。这与默认的单例作用域不同，在单例作用域中，每个 Spring IoC 容器只实例化一个对象实例。
 
 
+# 3. Spring Web MVC
+
+## Q19. 如何在 Spring Bean 中获取 ServletContext 和 ServletConfig 对象？
+我们可以通过实现 Spring-aware 的接口来做到这一点。[这里](http://www.buggybread.com/2015/03/spring-framework-list-of-aware.html)有完整的列表。
+
+我们也可以在这些 Bean 上使用 @Autowired 注解:  
+
+```
+@Autowired
+ServletContext servletContext;
+
+@Autowired
+ServletConfig servletConfig;
+```
+
+## Q20. 什么是 Spring MVC 中的控制器？
+简单地说，所有由 DispatcherServlet 处理的请求都会被引导到带有 `@Controller` 注解的类。每个控制器类都将映射一个或多个请求到方法中，这些方法处理和执行携带输入的请求。
+
+退一步讲，我们建议看一下[典型的Spring MVC架构中的前端控制器](https://www.baeldung.com/spring-controllers)的概念。  
+
+译者点评：个人觉得原文这题给的答案不是很好，题目是问什么是 Spring MVC 中的控制器，答案应该重点解释是什么，而且说所有由 DispatcherServlet 处理的请求都会被引导到带有 `@Controller` 注释的类太绝对了，例如 BeanNameUrlHandlerMapping 就支持将 URL 映射到对应名字的 bean。
+
+Spring MVC 中的控制器是处理请求的组件，充当模型-视图-控制器模式中的控制器角色，通常是由 `@Controller` 的类。
+
+## Q21. `@RequestMapping` 注解是如何工作的？
+`@RequestMapping` 注解用于将 Web 请求映射到Spring 控制器方法。除了简单的用例之外，我们还可以用它来映射 HTTP 头，用 `@PathVariable` 来绑定URI的部分内容，以及用 URI 参数和 `@RequestParam` 注解来工作。
+
+关于 `@RequestMapping` 的更多细节可以在[这里](https://www.baeldung.com/spring-requestmapping)找到。
+
+更多关于 Spring MVC 的问题，请查看我们关于 [Spring MVC 面试问题](https://www.baeldung.com/spring-mvc-interview-questions)的文章。
+
+译者点评：个人觉得这个题出得不怎么好，给的答案也有点答非所问。单纯说 `@RequestMapping` 注解是如何工作的？那答案应该重点说`@RequestMapping` 注解会将映射请求所需的匹配信息保留到 Java 运行时，出题者更多想考察的应该是 Spring MVC 是如何将请求映射到 `@RequestMapping` 注解的方法。
+
+
+

@@ -61,6 +61,95 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/mysql-usage-notes-part-2.html">
+		
+			MySQL 使用笔记(三)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2020-12-18T08:46:08+08:00" pubdate data-updated="true">18 Dec 2020</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.How do I see all foreign keys to a table or column?</h3>
+
+<p>A:For a Table:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT 
+</span><span class='line'>  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
+</span><span class='line'>FROM
+</span><span class='line'>  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+</span><span class='line'>WHERE
+</span><span class='line'>  REFERENCED_TABLE_SCHEMA = '&lt;database>' AND
+</span><span class='line'>  REFERENCED_TABLE_NAME = '&lt;table>';</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For a Column:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT 
+</span><span class='line'>  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
+</span><span class='line'>FROM
+</span><span class='line'>  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+</span><span class='line'>WHERE
+</span><span class='line'>  REFERENCED_TABLE_SCHEMA = '&lt;database>' AND
+</span><span class='line'>  REFERENCED_TABLE_NAME = '&lt;table>' AND
+</span><span class='line'>  REFERENCED_COLUMN_NAME = '&lt;column>';</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<p><a href="https://stackoverflow.com/questions/201621/how-do-i-see-all-foreign-keys-to-a-table-or-column">How do I see all foreign keys to a table or column?</a></p>
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-publish-your-artifacts-to-maven-central.html">
 		
 			如何发布自己的 Artifacts 到 Maven 中央仓库</a>
@@ -244,100 +333,6 @@
 
 		
 		<a href="/blog/an-approach-to-building-javascript-libraries.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/linux-useful-command-line-part-3.html">
-		
-			Linux 使用笔记(三)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2020-09-02T11:40:17+08:00" pubdate data-updated="true">02 Sep 2020</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.系统迁移和备份</h3>
-
-<p>A:为了数据安全，我们需要对系统备份，换新电脑或者更换云服务时我们需要迁移系统。Linux 系统备份和迁移的方法很多，我这里打算使用 tar 。</p>
-
-<h4>系统备份</h4>
-
-<p>首先是根据自己的实际情况列出需要备份的目录，通常有：</p>
-
-<ul>
-<li><code>/etc/</code></li>
-<li><code>/home/</code></li>
-<li><code>/var/spool/mail/</code></li>
-<li><code>/var/spool/cron/</code></li>
-<li><code>/root</code></li>
-<li><code>/usr/local/bin</code></li>
-</ul>
-
-
-<p>然后使用 tar 命令打包：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tar -jcv -f /backups/backup-system-20200902.tar.bz2 \
-</span><span class='line'>&gt; --exclude=/root/*.bz2 --exclude=/root/*.gz --exclude=/home/loop* \
-</span><span class='line'>&gt; /etc /home /var/spool/mail /var/spool/cron /root /usr/local/bin</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>系统恢复</h4>
-
-<p>首先可以将备份解压到 <code>/tmp</code> 目录，之后使用 rsync 命令复制到对应目录便可恢复。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tar -jxv -f /backups/backup-system-20200902.tar.bz2 -C /tmp
-</span><span class='line'>rsync -avuz /tmp/etc/ /etc
-</span><span class='line'>rsync -avuz /tmp/home/ /home
-</span><span class='line'>rsync -avuz /tmp/var/spool/mail/ /var/spool/mail
-</span><span class='line'>rsync -avuz /tmp/var/spool/cron/ /var/spool/cron
-</span><span class='line'>rsync -avuz /tmp/root/ /root
-</span><span class='line'>rsync -avuz /tmp/usr/local/bin/ /usr/local/bin</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/linux-useful-command-line-part-3.html" class="more-link">继续阅读</a>
 	</div>
 
 

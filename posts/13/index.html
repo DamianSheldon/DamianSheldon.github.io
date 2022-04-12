@@ -61,6 +61,100 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/problems-of-android-development-part-3.html">
+		
+			Android开发问题汇总(三)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-04-05T08:48:36+08:00" pubdate data-updated="true">05 Apr 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1. How to define custom attributes?</h3>
+
+<p>A:Currently the best documentation is the source. You can take a look at it <a href="https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/attrs.xml">here(arrts.xml)</a>.</p>
+
+<p>You can define attributes in the top <code>&lt;resources&gt;</code> element or inside of a <code>&lt;declare-styleable&gt;</code> element. If I&rsquo;m going to use an attr in more than on place I put it in the root element. Note , all attributes share the same global namespace. That means that even if you create a new attribute inside of a <code>&lt;declare-styleable&gt;</code> element it can be used outside of it and you cannot create another attribute with the same name of a different type.</p>
+
+<p>An <code>&lt;attr&gt;</code> element has two xml attributes <code>name</code> and <code>format</code>. <code>name</code> lets you call it something and this how you end up refering to it in code, e.g., R.attr.my_attribute. The <code>format</code> attribute can have different values depending on the type of attribute you want.</p>
+
+<ul>
+<li>reference - if it references another resource id(e.g, &ldquo;@color/my_color&rdquo;, &ldquo;@layout/my_layout&rdquo;)</li>
+<li>color</li>
+<li>boolean</li>
+<li>dimension</li>
+<li>float</li>
+<li>integer</li>
+<li>string</li>
+<li>fraction</li>
+<li>enum - normally implicitly defined</li>
+<li>flag - normally implicitly defined</li>
+</ul>
+
+
+<p>You can set the format to multiple types by using |, e.g., <code>format="reference|color"</code>.</p>
+
+<p>enum attributes can be defined as follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;attr name="my_enum_attr"&gt; 
+</span><span class='line'>    &lt;enmu name="value1" value="1" /&gt;
+</span><span class='line'>    &lt;enmu name="value2" value="2" /&gt;
+</span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>flag attributes are similar except the values need to defined so they can be bit ored together:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;attr name="my_flag_attr"&gt;
+</span><span class='line'>    &lt;flag name="fuzzy" value="0x01" /&gt;
+</span><span class='line'>    &lt;flag name="cold" value="0x02" /&gt;
+</span><span class='line'>&lt;/attr&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/problems-of-android-development-part-3.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/capturing-android-physic-device-traffic-on-tcpdump.html">
 		
 			Android 真机抓包</a>
@@ -205,106 +299,6 @@
 
 		
 		<a href="/blog/how-to-set-up-a-postfix-e-mail-server-with-dovecot.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/photos-framework-usage.html">
-		
-			Photos 框架的基本使用</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-12-23T14:23:33+08:00" pubdate data-updated="true">23 Dec 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。</p>
-
-<blockquote><p>The Assets Library framework is deprecated as of iOS 9.0. Instead, use the Photos framework instead, which in iOS 8.0 and later provides more features and better performance for working with a user’s photo library.</p></blockquote>
-
-<p>不幸的是 Apple 并没有发布相关的使用指导文档，只有一个相关 Demo。使用的时候固然可以回头参考这个 Demo，但这样的效率不是很高，很多概念也容易忘记，所以这里做个简单的总结。</p>
-
-<p>Photos 中有不少类，其中几个犹为关键。PHPhotoLibary 是我们操作 Photo Library 里面资源的入口对象，所有的操作都通过它完成。PHCollectionList 表示相册中的专题列表；PHAssetCollection 表示专题；PHAsset 表示资源，如 images, videos, and Live Photos.</p>
-
-<p>我们基本的需求就是 CRUD, 这些操作是需要用户授权的，记得先获取权限再操作， 下面我们展示相关的代码片段。</p>
-
-<h3>Create</h3>
-
-<ol>
-<li>创建一个资源</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
-</span><span class='line'>            PHAssetChangeRequest.creationRequestForAsset(from: image)
-</span><span class='line'>        }, completionHandler: {success, error in
-</span><span class='line'>            if !success { print("error creating asset: \(error)") }
-</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>创建一个资源到指定的专题</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PHPhotoLibrary.shared().performChanges({
-</span><span class='line'>            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-</span><span class='line'>            if let assetCollection = self.assetCollection {
-</span><span class='line'>            let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection)
-</span><span class='line'>            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-</span><span class='line'>            }
-</span><span class='line'>        }, completionHandler: {success, error in
-</span><span class='line'>            if !success { print("error creating asset: \(error)") }
-</span><span class='line'>        })</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/photos-framework-usage.html" class="more-link">继续阅读</a>
 	</div>
 
 

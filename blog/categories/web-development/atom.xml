@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-04-12T11:40:32+08:00</updated>
+  <updated>2022-04-12T16:24:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,271 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring MVC Interview Questions]]></title>
+    <link href="http://DamianSheldon.github.io/blog/spring-mvc-interview-questions.html"/>
+    <updated>2022-04-12T11:42:30+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/spring-mvc-interview-questions</id>
+    <content type="html"><![CDATA[<h1>1. 简介</h1>
+
+<p>Spring MVC是Spring公司在Servlet API基础上建立的原创Web框架。它提供了模型-视图-控制器架构，可用于开发灵活的Web应用。</p>
+
+<p>在本教程中，我们将重点讨论与之相关的问题，因为它经常是Spring开发者求职面试的一个话题。</p>
+
+<p>关于Spring框架的更多问题，你可以查看我们<a href="https://www.baeldung.com/tag/interview/">面试问题系列</a>中另一篇与<a href="https://www.baeldung.com/spring-interview-questions">Spring有关的文章</a>。</p>
+
+<h1>2.基础 Spring MVC 题</h1>
+
+<h2>Q1. 为什么我们要使用Spring MVC？</h2>
+
+<p>Spring MVC实现了清晰的关注点分离，使我们能够轻松开发和单元测试我们的应用程序。</p>
+
+<p>像如下概念：</p>
+
+<ul>
+<li>Dispatcher Servlet</li>
+<li>Controllers</li>
+<li>View Resolvers</li>
+<li>Views, Models</li>
+<li>ModelAndView</li>
+<li>Model and Session Attributes</li>
+</ul>
+
+
+<p>是完全相互独立的，它们只负责一件事。</p>
+
+<p>因此，MVC给了我们相当大的灵活性。它是基于接口的（有提供的实现类），我们可以通过使用自定义接口来配置框架的每一部分。</p>
+
+<p>另一件重要的事情是，我们并没有被束缚在一个特定的视图技术上（例如JSP），而是可以选择我们最喜欢的技术。</p>
+
+<p>另外，我们不只在Web应用开发中使用Spring MVC，在创建RESTful Web服务时也是如此。</p>
+
+<!--more-->
+
+
+<h2>Q2. <code>@Autowired</code>注解的作用是什么？</h2>
+
+<p><code>@Autowired</code>注解可以与字段或方法一起使用，用于按类型注入Bean。这个注解允许Spring解析并将协作Bean注入你的Bean中。</p>
+
+<p>更多细节，请参考关于<a href="https://www.baeldung.com/spring-autowire"><code>@Autowired</code> in Spring</a>的教程。</p>
+
+<h2>Q3. 解释一下模型属性</h2>
+
+<p><code>@ModelAttribute</code>注解是Spring MVC中最重要的注解之一。它将一个方法参数或方法返回值绑定到一个命名的模型属性上，然后将其暴露给Web视图。</p>
+
+<p>如果我们在方法层面使用它，它表明该方法的目的是添加一个或多个模型属性。</p>
+
+<p>另一方面，当作为方法参数使用时，它表示该参数应该从模型中获取。当不存在时，我们应该首先将其实例化，然后将其添加到模型中。一旦出现在模型中，我们应该从所有具有匹配名称的请求参数中填充参数字段。</p>
+
+<p>关于这个注解的更多信息可以在我们与<a href="https://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation"><code>@ModelAttribute</code>注解有关的文章</a>中找到。</p>
+
+<h2>Q4. 解释一下@Controller和@RestController之间的区别？</h2>
+
+<p><code>@Controller</code>和<code>@RestController</code>注释的主要区别在于，<code>@RestController</code>注释会自动包含<code>@ResponseBody</code>。这意味着我们不需要用<code>@ResponseBody</code>来注释我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在<code>@Controller</code>类中需要这样做。</p>
+
+<h2>Q5. 描述一下PathVariable</h2>
+
+<p>我们可以使用<code>@PathVariable</code>注解作为处理方法参数，来提取URI模板变量的值。</p>
+
+<p>例如，如果我们想从<code>www.mysite.com/user/123</code>，通过id获取一个用户，我们应该把控制器中的方法映射为<code>/user/{id}</code>:</p>
+
+<pre><code>@RequestMapping("/user/{id}")
+public String handleRequest(@PathVariable("id") String userId, Model map) {}
+</code></pre>
+
+<p>@PathVariable只有一个名为value的元素。它是可选的，我们用它来定义URI模板变量的名称。如果我们省略value元素，那么URI模板变量的名称必须与方法参数名称相匹配。</p>
+
+<p>也允许有多个@PathVariable注解，可以通过一个接一个地声明它们:</p>
+
+<pre><code>@RequestMapping("/user/{userId}/name/{userName}")
+public String handleRequest(@PathVariable String userId,
+  @PathVariable String userName, Model map) {}
+</code></pre>
+
+<p>或将它们全部放在一个<code>Map&lt;String, String&gt;</code>或<code>MultiValueMap&lt;String, String&gt;</code>中:</p>
+
+<pre><code>@RequestMapping("/user/{userId}/name/{userName}")
+public String handleRequest(@PathVariable Map&lt;String, String&gt; varsMap, Model map) {}
+</code></pre>
+
+<h2>Q6. 使用Spring MVC进行验证</h2>
+
+<p>Spring MVC默认支持JSR-303规范。我们需要在我们的Spring MVC应用中添加JSR-303及其实现的依赖性。例如，Hibernate Validator就是我们可以使用的JSR-303的实现之一。</p>
+
+<p>JSR-303是用于bean验证的Java API规范，是Jakarta EE和JavaSE的一部分，它使用<code>@NotNull</code>、<code>@Min</code>和<code>@Max</code>等注解，确保bean的属性满足特定的标准。关于验证的更多信息，请参见<a href="https://www.baeldung.com/javax-validation">Java Bean验证基础知识</a>一文。</p>
+
+<p>Spring提供了<code>@Validator</code>注解和BindingResult类。当我们有无效的数据时，Validator实现将在控制器的请求处理方法中触发错误。然后我们可以使用BindingResult类来获取这些错误。</p>
+
+<p>除了使用现有的实现，我们还可以制作自己的实现。要做到这一点，我们首先创建一个符合JSR-303规范的注解。然后，我们实现Validator类。另一种方法是实现Spring的Validator接口，并通过控制器类中的<code>@InitBinder</code>注解将其设置为验证器。</p>
+
+<p>要查看如何实现和使用你自己的验证器，请看关于<a href="https://www.baeldung.com/spring-mvc-custom-validator">Spring MVC中自定义验证</a>的教程。</p>
+
+<h2>Q7. 什么是<code>@RequestBody</code>和<code>@ResponseBody</code>注解？</h2>
+
+<p><code>@RequestBody</code>注解，作为处理方法参数使用，将HTTP请求主体与传输或域对象绑定。Spring使用Http消息转换器自动将传入的HTTP请求反序列化为Java对象。</p>
+
+<p>当我们在Spring MVC控制器中的处理方法上使用<code>@ResponseBody</code>注解时，它表明我们将把该方法的返回类型直接写入HTTP响应体中。我们不会把它放在Model中，Spring也不会把它解释为视图名称。</p>
+
+<p>请查看关于<a href="https://www.baeldung.com/spring-request-response-body"><code>@RequestBody</code>和<code>@ResponseBody</code></a>的文章，了解关于这些注解的更多细节。</p>
+
+<h2>Q8. 解释一下Model、ModelMap和ModelAndView？</h2>
+
+<p>Model接口定义了一个模型属性的持有人。ModelMap也有类似的目的，它能够传递一个值的集合。然后，它把这些值当作是在一个Map内。我们应该注意，在模型（ModelMap）中我们只能存储数据。我们把数据放进去并返回一个视图名称。</p>
+
+<p>另一方面，在ModelAndView中，我们返回对象本身。我们把所有需要的信息，比如数据和视图名称，都设置在我们要返回的对象中。</p>
+
+<p>你可以在关于<a href="https://www.baeldung.com/spring-mvc-model-model-map-model-view">Model、ModelMap和ModelView</a>的文章中找到更多细节。</p>
+
+<h2>Q9. 解释SessionAttributes和SessionAttribute</h2>
+
+<p><code>@SessionAttributes</code>注解是用来在用户会话中存储模型属性的。我们在控制器类中使用它，如我们关于Spring MVC中的会话属性的文章中所示:</p>
+
+<pre><code>@Controller
+@RequestMapping("/sessionattributes")
+@SessionAttributes("todos")
+public class TodoControllerWithSessionAttributes {
+
+    @GetMapping("/form")
+    public String showForm(Model model,
+      @ModelAttribute("todos") TodoList todos) {
+        // method body
+        return "sessionattributesform";
+    }
+
+    // other methods
+}
+</code></pre>
+
+<p>在前面的例子中，如果<code>@ModelAttribute</code>和<code>@SessionAttributes</code>有相同的名称属性，模型属性 &ldquo;todos "将被添加到会话中。</p>
+
+<p>如果我们想从一个全局管理的会话中获取现有的属性，我们将使用<code>@SessionAttribute</code>注解作为方法参数：</p>
+
+<pre><code>@GetMapping
+public String getTodos(@SessionAttribute("todos") TodoList todos) {
+    // method body
+    return "todoView";
+}
+</code></pre>
+
+<h2>Q10. <code>@EnableWebMVC</code>的目的是什么？</h2>
+
+<p><code>@EnableWebMvc</code>注解的目的是通过Java配置启用Spring MVC。它等同于XML配置中的<code>&lt;mvc: annotation-driven&gt;</code>。这个注解从WebMvcConfigurationSupport导入Spring MVC配置。它能够支持<code>@Controller</code>注解的类，这些类使用<code>@RequestMapping</code>将传入的请求映射到处理方法。</p>
+
+<p>你可以在我们的<a href="https://www.baeldung.com/spring-enable-annotations">Spring <code>@Enable</code>注解指南</a>中了解更多关于这个和类似注解的信息。</p>
+
+<h2>Q11. 什么是Spring中的ViewResolver？</h2>
+
+<p>ViewResolver通过将视图名称映射到实际视图，使应用程序能够在浏览器中渲染模型，这样无需将实现与特定的视图技术联系起来。</p>
+
+<p>关于ViewResolver的更多细节，请看我们的<a href="https://www.baeldung.com/spring-mvc-view-resolver-tutorial">Spring MVC中的ViewResolver指南</a>。</p>
+
+<h2>Q12. 什么是BindingResult？</h2>
+
+<p>BindingResult是<code>org.springframework.validation</code>包中的一个接口，表示绑定结果。我们可以用它来检测和报告提交表单中的错误。它很容易被调用&ndash;我们只需要确保把它作为一个参数放在我们要验证的表单对象之后。可选的Model参数应该在BindingResult之后，这在<a href="https://www.baeldung.com/spring-mvc-custom-validator">自定义验证器教程</a>中可以看到:</p>
+
+<pre><code>@PostMapping("/user")
+public String submitForm(@Valid NewUserForm newUserForm, 
+  BindingResult result, Model model) {
+    if (result.hasErrors()) {
+        return "userHome";
+    }
+    model.addAttribute("message", "Valid form");
+    return "userHome";
+}
+</code></pre>
+
+<p>当Spring看到<code>@Valid</code>注解时，它首先会尝试为被验证的对象找到验证器。然后，它将拾起验证注解并调用验证器。最后，它将把发现的错误放在BindingResult中，并把后者添加到视图模型中。</p>
+
+<h2>Q13. 什么是表单后备对象？</h2>
+
+<p>表单后备对象或命令对象只是一个POJO，它从我们要提交的表单中收集数据。</p>
+
+<p>我们应该记住，它不包含任何逻辑，只包含数据。</p>
+
+<p>要了解如何在Spring MVC中使用表单支持对象，请看我们关于<a href="https://www.baeldung.com/spring-mvc-form-tutorial">Spring MVC中表单</a>的文章。</p>
+
+<h2>Q14.<code>@Qualifier</code>注解的作用是什么？</h2>
+
+<p>它与<code>@Autowired</code>注解同时使用，以避免一个bean类型的多个实例出现时的混淆。</p>
+
+<p>让我们看一个例子。我们在XML配置中声明了两个类似的Bean:</p>
+
+<pre><code>&lt;bean id="person1" class="com.baeldung.Person" &gt;
+    &lt;property name="name" value="Joe" /&gt;
+&lt;/bean&gt;
+&lt;bean id="person2" class="com.baeldung.Person" &gt;
+    &lt;property name="name" value="Doe" /&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>当我们试图连接Bean时，我们会得到一个<code>org.springframework.beans.factory.NoSuchBeanDefinitionException</code>。为了解决这个问题，我们需要使用<code>@Qualifier</code>来告诉Spring关于哪个Bean应该被连接:</p>
+
+<pre><code>@Autowired
+@Qualifier("person1")
+private Person person;
+</code></pre>
+
+<h2>Q15. <code>@Required</code>注解的作用是什么？</h2>
+
+<p><code>@Required</code>注解用于setter方法，它表示在配置时必须填充具有该注解的bean属性。否则，Spring容器将抛出一个BeanInitializationException异常。</p>
+
+<p>另外，<code>@Required</code>与<code>@Autowired</code>不同&ndash;因为它只限于 setter ，而<code>@Autowired</code>则不是。<code>@Autowired</code>也可以用来与构造函数和字段进行连接，而<code>@Required</code>只检查该属性是否被设置。</p>
+
+<p>让我们看一个例子:</p>
+
+<pre><code>public class Person {
+    private String name;
+
+    @Required
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+
+<p>现在，Person Bean的名字需要像这样在XML配置中设置:</p>
+
+<pre><code>&lt;bean id="person" class="com.baeldung.Person"&gt;
+    &lt;property name="name" value="Joe" /&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>请注意，<code>@Required</code>默认情况下不能与基于Java的<code>@Configuration</code>类一起工作。如果你需要确保所有的属性都被设置，你可以在<code>@Bean</code>注解的方法中创建Bean时这样做。</p>
+
+<p>译者点评：<code>@Required</code> 是如何实现的？</p>
+
+<h2>Q16. 描述一下前台控制器模式</h2>
+
+<p>在前端控制器模式中，所有的请求将首先进入前端控制器，而不是Servlet。它将确保响应已经准备好，并将它们送回给浏览器。这样，我们就有一个地方可以控制来自外部世界的一切。</p>
+
+<p>前端控制器将识别应该首先处理请求的Servlet。然后，当它从servlet那里得到数据后，它将决定渲染哪个视图，最后，它将把渲染好的视图作为一个响应发送回去：</p>
+
+<p><img src="https://www.baeldung.com/wp-content/uploads/2018/12/front_end_controller.png" alt="Front end controller" /></p>
+
+<p>要查看实现细节，请查看我们的<a href="https://www.baeldung.com/java-front-controller-pattern">Java中的前端控制器模式指南</a>。</p>
+
+<h2>Q17. 什么是 Model1和Model2的架构？</h2>
+
+<p> Model1和Model2代表了在设计Java Web应用时经常使用的两种设计模式。</p>
+
+<p>在Model1中，一个请求被送到一个servlet或JSP那里进行处理。Servlet或JSP处理请求，处理业务逻辑，检索和验证数据，并生成响应:</p>
+
+<p><img src="https://www.baeldung.com/wp-content/uploads/2018/12/Model_1-1.png" alt="Model 1" /></p>
+
+<p>由于这种架构很容易实现，我们通常在小型和简单的应用程序中使用它。</p>
+
+<p>另一方面，它对于大规模的网络应用并不方便。这些功能通常在JSP中重复使用，其中业务和表现逻辑是耦合的。</p>
+
+<p>Model2是基于模型-视图-控制器设计模式的，它将视图与操作内容的逻辑分开。</p>
+
+<p>此外，我们可以区分MVC模式中的三个模块：模型、视图和控制器。模型代表一个应用程序的动态数据结构。它负责数据和业务逻辑的操作。视图负责显示数据，而控制器作为前两者之间的接口。</p>
+
+<p>在Model2中，一个请求被传递给控制器，控制器处理所需的逻辑，以便获得应该显示的正确内容。然后，控制器将内容放回请求中，通常是作为一个JavaBean或POJO。它还决定哪个视图应该渲染内容，最后将请求传递给它。然后，视图就会渲染数据:</p>
+
+<p><img src="https://www.baeldung.com/wp-content/uploads/2018/12/Model_2.png" alt="Model 2" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[常见 Spring 框架面试题(翻译)]]></title>
@@ -891,729 +1156,6 @@ sudo docker run -it busybox
 <p>Reference:</p>
 
 <p><a href="https://stackoverflow.com/questions/201621/how-do-i-see-all-foreign-keys-to-a-table-or-column">How do I see all foreign keys to a table or column?</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何发布自己的 artifacts 到 maven 中央仓库]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-publish-your-artifacts-to-maven-central.html"/>
-    <updated>2020-10-28T09:16:37+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-publish-your-artifacts-to-maven-central</id>
-    <content type="html"><![CDATA[<p>当我们越来越熟悉 Java 开发，可能也想发布自己的 artifacts 到 maven 中央仓库，那么该如何做呢？</p>
-
-<blockquote><p>The easiest way to upload another project is to use the <a href="http://central.sonatype.org/pages/ossrh-guide.html">Open Source Software Repository Hosting (OSSRH)</a>, which is an approved repository provided by Sonatype for any OSS Project that want to get their artifacts into the Central Repository.</p></blockquote>
-
-<p>从 maven 的官方文档可知是使用 <a href="http://central.sonatype.org/pages/ossrh-guide.html">Open Source Software Repository Hosting (OSSRH)</a>, 于是我们可以参考她的指南。</p>
-
-<p>这份指南勾勒了发布工作的主要流程，分别是：</p>
-
-<ol>
-<li>Create a ticket with Sonatype</li>
-<li>Review Requirements</li>
-<li>Deployment</li>
-<li>Releasing to Central</li>
-</ol>
-
-
-<h3>创建 Sonatype 工单</h3>
-
-<p>Sonatype 使用 JIRA 管理请求，所以我们要创建 JIRA 帐号, 然后创建一个新工程工单。</p>
-
-<ol>
-<li><a href="https://issues.sonatype.org/secure/Signup!default.jspa">Create your JIRA account</a></li>
-<li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">Create a New Project ticket</a></li>
-</ol>
-
-
-<h3>复核要求</h3>
-
-<p>为了确保中央仓库库中可用组件的最低质量水平，部署组件必须满足一些要求。这使组件的用户能够从中央仓库中提供的元数据中找到有关组件的所有相关细节。</p>
-
-<p>这些要求是：</p>
-
-<ol>
-<li>Supply Javadoc and Sources</li>
-<li>Sign Files with GPG/PGP</li>
-<li>Sufficient Metadata</li>
-</ol>
-
-
-<!--more-->
-
-
-<h4>Supply Javadoc and Sources</h4>
-
-<p>我们可以集成 maven 插件来提供 Javadoc 和源文件。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin>
-</span><span class='line'>    &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>    &lt;artifactId>maven-source-plugin&lt;/artifactId>
-</span><span class='line'>    &lt;version>2.2.1&lt;/version>
-</span><span class='line'>    &lt;executions>
-</span><span class='line'>        &lt;execution>
-</span><span class='line'>            &lt;id>attach-sources&lt;/id>
-</span><span class='line'>            &lt;goals>
-</span><span class='line'>                &lt;goal>jar-no-fork&lt;/goal>
-</span><span class='line'>            &lt;/goals>
-</span><span class='line'>        &lt;/execution>
-</span><span class='line'>    &lt;/executions>
-</span><span class='line'>&lt;/plugin>
-</span><span class='line'>&lt;plugin>
-</span><span class='line'>    &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>    &lt;artifactId>maven-javadoc-plugin&lt;/artifactId>
-</span><span class='line'>    &lt;version>2.9.1&lt;/version>
-</span><span class='line'>    &lt;executions>
-</span><span class='line'>        &lt;execution>
-</span><span class='line'>            &lt;id>attach-javadocs&lt;/id>
-</span><span class='line'>            &lt;goals>
-</span><span class='line'>                &lt;goal>jar&lt;/goal>
-</span><span class='line'>            &lt;/goals>
-</span><span class='line'>        &lt;/execution>
-</span><span class='line'>    &lt;/executions>
-</span><span class='line'>&lt;/plugin></span></code></pre></td></tr></table></div></figure></p>
-
-<h4>Sign Files with GPG/PGP</h4>
-
-<p>我们需要用 GPG/PGP 对文件签名，以 macOS 为例：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>1. Install GPG&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>brew install gpg&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>2. Generate the key pair&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>gpg &ndash;full-gen-key&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h3>3.Publish the GPG key pair and distribute your key to GPG servers&lt;/h3>
-</span><span class='line'>
-</span><span class='line'>&lt;p>gpg &ndash;keyserver hkps.pool.sks-keyservers.net  &ndash;send-keys your_key_id&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<p>生成 GPG 公私钥对并发布到 GPG 服务器后，我们还需要将 GPG 提供给 maven, 这是通过 maven settings。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>~/.m2/settings.xml&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;settings>
-</span><span class='line'>  &lt;profiles>
-</span><span class='line'>    &lt;profile>
-</span><span class='line'>      &lt;id>ossrh&lt;/id>
-</span><span class='line'>      &lt;activation>
-</span><span class='line'>        &lt;activeByDefault>true&lt;/activeByDefault>
-</span><span class='line'>      &lt;/activation>
-</span><span class='line'>      &lt;properties>
-</span><span class='line'>        &lt;gpg.passphrase>the_pass_phrase&lt;/gpg.passphrase>
-</span><span class='line'>      &lt;/properties>
-</span><span class='line'>    &lt;/profile>
-</span><span class='line'>  &lt;/profiles>
-</span><span class='line'>&lt;/settings></span></code></pre></td></tr></table></div></figure></p>
-
-<p>macOS 上我还遇到了 gpg: signing failed: Inappropriate ioctl for device 这个错误，通过在 <code>~/.bash_profile</code> 中加入如下配置解决了:</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GPG_TTY=$(tty)
-</span><span class='line'>export GPG_TTY</span></code></pre></td></tr></table></div></figure></p>
-
-<h4>Sufficient Metadata</h4>
-
-<p>元数据信息要包括：</p>
-
-<ul>
-<li>Correct Coordinates</li>
-<li>Project Name, Description and URL</li>
-<li>License Information</li>
-<li>Developer Information</li>
-<li>SCM Information</li>
-</ul>
-
-
-<p>对于 Correct Coordinates， 我这里是使用 github 托管代码，于是我们可以按照 maven 官方文档的建议:</p>
-
-<blockquote><p>My project is hosted at a project hosting service like SourceForge or Github, what should I use as groupId?
-If your project name is foo at SourceForge, you can use net.sf.foo. If your username is bar on Github, you can use com.github.bar. You can also use another reversed domain name you control. The group ID does not have to reflect the project host.</p></blockquote>
-
-<h3>Deployment</h3>
-
-<p>至此，准备工作就完成了，接下来可以进入部署环节了。先还是要做些相关配置，主要是：</p>
-
-<ul>
-<li>Distribution Management and Authentication</li>
-<li>Using a Profile</li>
-</ul>
-
-
-<h4>Distribution Management and Authentication</h4>
-
-<p>为了配置 Maven，使其能够通过 Nexus Staging Maven 插件部署到 OSSRH 的 Nexus Repository Manager上，你必须进行如下配置：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;distributionManagement>
-</span><span class='line'>  &lt;snapshotRepository>
-</span><span class='line'>    &lt;id>ossrh&lt;/id>
-</span><span class='line'>    &lt;url>&lt;a href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots&lt;/a>&lt;/url>
-</span><span class='line'>  &lt;/snapshotRepository>
-</span><span class='line'>&lt;/distributionManagement>
-</span><span class='line'>&lt;build>
-</span><span class='line'>  &lt;plugins>
-</span><span class='line'>    &lt;plugin>
-</span><span class='line'>      &lt;groupId>org.sonatype.plugins&lt;/groupId>
-</span><span class='line'>      &lt;artifactId>nexus-staging-maven-plugin&lt;/artifactId>
-</span><span class='line'>      &lt;version>1.6.7&lt;/version>
-</span><span class='line'>      &lt;extensions>true&lt;/extensions>
-</span><span class='line'>      &lt;configuration>
-</span><span class='line'>        &lt;serverId>ossrh&lt;/serverId>
-</span><span class='line'>        &lt;nexusUrl>&lt;a href="https://oss.sonatype.org/">https://oss.sonatype.org/&lt;/a>&lt;/nexusUrl>
-</span><span class='line'>        &lt;autoReleaseAfterClose>true&lt;/autoReleaseAfterClose>
-</span><span class='line'>      &lt;/configuration>
-</span><span class='line'>    &lt;/plugin>
-</span><span class='line'>    &hellip;
-</span><span class='line'>  &lt;/plugins>
-</span><span class='line'>&lt;/build></span></code></pre></td></tr></table></div></figure></p>
-
-<p>另外，如果你使用 Maven 部署插件，这是默认行为，你需要添加一个完整的distributionManagement部分。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;distributionManagement>
-</span><span class='line'>  &lt;snapshotRepository>
-</span><span class='line'>    &lt;id>ossrh&lt;/id>
-</span><span class='line'>    &lt;url>&lt;a href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots&lt;/a>&lt;/url>
-</span><span class='line'>  &lt;/snapshotRepository>
-</span><span class='line'>  &lt;repository>
-</span><span class='line'>    &lt;id>ossrh&lt;/id>
-</span><span class='line'>    &lt;url>&lt;a href="https://oss.sonatype.org/service/local/staging/deploy/maven2/">https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/a>&lt;/url>
-</span><span class='line'>  &lt;/repository>
-</span><span class='line'>&lt;/distributionManagement></span></code></pre></td></tr></table></div></figure></p>
-
-<p>上述配置将从你的Maven settings.xml文件中获取用户账户的详细信息来部署到OSSRH。认证的最小设置是：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;settings>
-</span><span class='line'>  &lt;servers>
-</span><span class='line'>    &lt;server>
-</span><span class='line'>      &lt;id>ossrh&lt;/id>
-</span><span class='line'>      &lt;username>your-jira-id&lt;/username>
-</span><span class='line'>      &lt;password>&lt;![CDATA[your-jira-pwd]]&gt;&lt;/password>
-</span><span class='line'>    &lt;/server>
-</span><span class='line'>  &lt;/servers>
-</span><span class='line'>&lt;/settings></span></code></pre></td></tr></table></div></figure></p>
-
-<h4>Using a Profile</h4>
-
-<p>由于生成javadoc和源代码jars以及使用GPG签署组件是一个相当耗时的过程，这些执行通常从正常的构建配置中分离出来，并转移到一个配置文件中。然后，当通过激活配置文件进行部署时，该配置文件又会被使用。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;profiles>
-</span><span class='line'>  &lt;profile>
-</span><span class='line'>    &lt;id>release&lt;/id>
-</span><span class='line'>    &lt;build>
-</span><span class='line'>      &hellip;
-</span><span class='line'>      javadoc, source and gpg plugin from above
-</span><span class='line'>      &hellip;
-</span><span class='line'>    &lt;/build>
-</span><span class='line'>  &lt;/profile>
-</span><span class='line'>&lt;/profiles></span></code></pre></td></tr></table></div></figure></p>
-
-<p>这些配置做完之后，最终得到的 pom.xml 类似如下：</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
-</span><span class='line'>    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-</span><span class='line'>    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-</span><span class='line'>    &lt;modelVersion>4.0.0&lt;/modelVersion>
-</span><span class='line'>    &lt;groupId>com.github.damiansheldon&lt;/groupId>
-</span><span class='line'>    &lt;artifactId>treasure&lt;/artifactId>
-</span><span class='line'>    &lt;version>0.0.2&lt;/version>
-</span><span class='line'>    &lt;build>
-</span><span class='line'>        &lt;sourceDirectory>src&lt;/sourceDirectory>
-</span><span class='line'>        &lt;plugins>
-</span><span class='line'>            &lt;plugin>
-</span><span class='line'>                &lt;artifactId>maven-compiler-plugin&lt;/artifactId>
-</span><span class='line'>                &lt;version>3.8.1&lt;/version>
-</span><span class='line'>                &lt;configuration>
-</span><span class='line'>                    &lt;source>1.8&lt;/source>
-</span><span class='line'>                    &lt;target>1.8&lt;/target>
-</span><span class='line'>                &lt;/configuration>
-</span><span class='line'>            &lt;/plugin>
-</span><span class='line'>            &lt;plugin>
-</span><span class='line'>                &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>                &lt;artifactId>maven-deploy-plugin&lt;/artifactId>
-</span><span class='line'>                &lt;version>2.8.2&lt;/version>
-</span><span class='line'>            &lt;/plugin>
-</span><span class='line'>            &lt;plugin>
-</span><span class='line'>                &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>                &lt;artifactId>maven-release-plugin&lt;/artifactId>
-</span><span class='line'>                &lt;version>2.5.3&lt;/version>
-</span><span class='line'>                &lt;configuration>
-</span><span class='line'>                    &lt;arguments>-Dgpg.passphrase=${gpg.passphrase}&lt;/arguments>
-</span><span class='line'>                    &lt;autoVersionSubmodules>true&lt;/autoVersionSubmodules>
-</span><span class='line'>                    &lt;useReleaseProfile>false&lt;/useReleaseProfile>
-</span><span class='line'>                    &lt;releaseProfiles>release&lt;/releaseProfiles>
-</span><span class='line'>                    &lt;goals>deploy&lt;/goals>
-</span><span class='line'>                &lt;/configuration>
-</span><span class='line'>            &lt;/plugin>
-</span><span class='line'>            &lt;plugin>
-</span><span class='line'>                &lt;groupId>org.sonatype.plugins&lt;/groupId>
-</span><span class='line'>                &lt;artifactId>nexus-staging-maven-plugin&lt;/artifactId>
-</span><span class='line'>                &lt;version>1.6.7&lt;/version>
-</span><span class='line'>                &lt;extensions>true&lt;/extensions>
-</span><span class='line'>                &lt;configuration>
-</span><span class='line'>                    &lt;serverId>ossrh&lt;/serverId>
-</span><span class='line'>                    &lt;nexusUrl>&lt;a href="https://oss.sonatype.org/">https://oss.sonatype.org/&lt;/a>&lt;/nexusUrl>
-</span><span class='line'>                    &lt;autoReleaseAfterClose>true&lt;/autoReleaseAfterClose>
-</span><span class='line'>                &lt;/configuration>
-</span><span class='line'>            &lt;/plugin>
-</span><span class='line'>        &lt;/plugins>
-</span><span class='line'>    &lt;/build>
-</span><span class='line'>    &lt;dependencies>
-</span><span class='line'>        &lt;dependency>
-</span><span class='line'>            &lt;groupId>org.springframework&lt;/groupId>
-</span><span class='line'>            &lt;artifactId>spring-jdbc&lt;/artifactId>
-</span><span class='line'>            &lt;version>5.2.8.RELEASE&lt;/version>
-</span><span class='line'>        &lt;/dependency>
-</span><span class='line'>    &lt;/dependencies>
-</span><span class='line'>    &lt;distributionManagement>
-</span><span class='line'>        &lt;repository>
-</span><span class='line'>            &lt;id>ossrh&lt;/id>
-</span><span class='line'>            &lt;name>OSSRH Staging Repository&lt;/name>
-</span><span class='line'>            &lt;url>&lt;a href="https://oss.sonatype.org/service/local/staging/deploy/maven2">https://oss.sonatype.org/service/local/staging/deploy/maven2&lt;/a>&lt;/url>
-</span><span class='line'>        &lt;/repository>
-</span><span class='line'>        &lt;snapshotRepository>
-</span><span class='line'>            &lt;id>ossrh&lt;/id>
-</span><span class='line'>            &lt;name>OSSRH Snapshots&lt;/name>
-</span><span class='line'>            &lt;url>&lt;a href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots&lt;/a>&lt;/url>
-</span><span class='line'>        &lt;/snapshotRepository>
-</span><span class='line'>    &lt;/distributionManagement>
-</span><span class='line'>    &lt;scm>
-</span><span class='line'>        &lt;connection>scm:git:&lt;a href="https://github.com/DamianSheldon/Treasure.git">https://github.com/DamianSheldon/Treasure.git&lt;/a>&lt;/connection>
-</span><span class='line'>        &lt;developerConnection>scm:git:&lt;a href="https://github.com/DamianSheldon/Treasure.git">https://github.com/DamianSheldon/Treasure.git&lt;/a>&lt;/developerConnection>
-</span><span class='line'>        &lt;tag>HEAD&lt;/tag>
-</span><span class='line'>        &lt;url>&lt;a href="https://github.com/DamianSheldon/Treasure">https://github.com/DamianSheldon/Treasure&lt;/a>&lt;/url>
-</span><span class='line'>    &lt;/scm>
-</span><span class='line'>    &lt;profiles>
-</span><span class='line'>        &lt;profile>
-</span><span class='line'>            &lt;id>release&lt;/id>
-</span><span class='line'>            &lt;build>
-</span><span class='line'>                &lt;plugins>
-</span><span class='line'>                    &lt;plugin>
-</span><span class='line'>                        &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>                        &lt;artifactId>maven-source-plugin&lt;/artifactId>
-</span><span class='line'>                        &lt;version>2.2.1&lt;/version>
-</span><span class='line'>                        &lt;executions>
-</span><span class='line'>                            &lt;execution>
-</span><span class='line'>                                &lt;id>attach-sources&lt;/id>
-</span><span class='line'>                                &lt;goals>
-</span><span class='line'>                                    &lt;goal>jar-no-fork&lt;/goal>
-</span><span class='line'>                                &lt;/goals>
-</span><span class='line'>                            &lt;/execution>
-</span><span class='line'>                        &lt;/executions>
-</span><span class='line'>                    &lt;/plugin>
-</span><span class='line'>                    &lt;plugin>
-</span><span class='line'>                        &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>                        &lt;artifactId>maven-javadoc-plugin&lt;/artifactId>
-</span><span class='line'>                        &lt;version>2.9.1&lt;/version>
-</span><span class='line'>                        &lt;executions>
-</span><span class='line'>                            &lt;execution>
-</span><span class='line'>                                &lt;id>attach-javadocs&lt;/id>
-</span><span class='line'>                                &lt;goals>
-</span><span class='line'>                                    &lt;goal>jar&lt;/goal>
-</span><span class='line'>                                &lt;/goals>
-</span><span class='line'>                            &lt;/execution>
-</span><span class='line'>                        &lt;/executions>
-</span><span class='line'>                    &lt;/plugin>
-</span><span class='line'>                    &lt;plugin>
-</span><span class='line'>                        &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>                        &lt;artifactId>maven-gpg-plugin&lt;/artifactId>
-</span><span class='line'>                        &lt;version>1.5&lt;/version>
-</span><span class='line'>                        &lt;executions>
-</span><span class='line'>                            &lt;execution>
-</span><span class='line'>                                &lt;id>sign-artifacts&lt;/id>
-</span><span class='line'>                                &lt;phase>verify&lt;/phase>
-</span><span class='line'>                                &lt;goals>
-</span><span class='line'>                                    &lt;goal>sign&lt;/goal>
-</span><span class='line'>                                &lt;/goals>
-</span><span class='line'>                            &lt;/execution>
-</span><span class='line'>                        &lt;/executions>
-</span><span class='line'>                    &lt;/plugin>
-</span><span class='line'>                &lt;/plugins>
-</span><span class='line'>            &lt;/build>
-</span><span class='line'>        &lt;/profile>
-</span><span class='line'>    &lt;/profiles>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>&lt;!-- More Project Information --&gt;
-</span><span class='line'>&lt;name&gt;Treasure&lt;/name&gt;
-</span><span class='line'>&lt;description&gt;The treasures I have accumulated in my daily java development. It can help other people face the same problem.&lt;/description&gt;
-</span><span class='line'>&lt;url&gt;https://github.com/DamianSheldon/Treasure&lt;/url&gt;
-</span><span class='line'>&lt;licenses&gt;
-</span><span class='line'>    &lt;license&gt;
-</span><span class='line'>        &lt;name&gt;MIT License&lt;/name&gt;
-</span><span class='line'>        &lt;url&gt;http://www.opensource.org/licenses/mit-license.php&lt;/url&gt;
-</span><span class='line'>        &lt;distribution&gt;repo&lt;/distribution&gt;
-</span><span class='line'>    &lt;/license&gt;
-</span><span class='line'>&lt;/licenses&gt;
-</span><span class='line'>&lt;developers&gt;
-</span><span class='line'>    &lt;developer&gt;
-</span><span class='line'>        &lt;id&gt;meiliang&lt;/id&gt;
-</span><span class='line'>        &lt;name&gt;Meiliang Dong&lt;/name&gt;
-</span><span class='line'>        &lt;email&gt;dongmeilianghy@sina.com&lt;/email&gt;
-</span><span class='line'>        &lt;url&gt;http://damiansheldon.github.io&lt;/url&gt;
-</span><span class='line'>        &lt;roles&gt;
-</span><span class='line'>            &lt;role&gt;architect&lt;/role&gt;
-</span><span class='line'>            &lt;role&gt;developer&lt;/role&gt;
-</span><span class='line'>        &lt;/roles&gt;
-</span><span class='line'>        &lt;timezone&gt;Asia/Shanghai&lt;/timezone&gt;
-</span><span class='line'>    &lt;/developer&gt;
-</span><span class='line'>&lt;/developers&gt;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;/project></span></code></pre></td></tr></table></div></figure></p>
-
-<p>做好相关配置之后就可以真正部署了，主要有两种部署方式：</p>
-
-<ul>
-<li>Nexus Staging Maven Plugin for Deployment and Release</li>
-<li>Performing a Release Deployment with the Maven Release Plugin</li>
-</ul>
-
-
-<p>推荐的方式是使用 Nexus Staging Maven Plugin。</p>
-
-<h4>Nexus Staging Maven Plugin for Deployment and Release</h4>
-
-<p>Performing a Snapshot Deployment</p>
-
-<p>当你的版本以<code>-SNAPSHOT</code>结尾时，会进行快照部署。当执行快照部署时，您不需要满足要求，只需在工程上运行 <code>mvn clean deploy</code></p>
-
-<p>SNAPSHOT版本不同步到中央版本库。如果您希望您的用户使用您的 SNAPSHOT 版本，他们需要将快照库添加到他们的 Nexus Repository Manager、settings.xml 或 pom.xml 中。成功部署的SNAPSHOT版本可以在<code>https://oss.sonatype.org/content/repositories/snapshots/</code>找到。</p>
-
-<p>Performing a Release Deployment</p>
-
-<p>为了执行发布部署，你必须在所有的POM文件中编辑你的版本，以使用发布版本。这意味着它们不能以<code>-SNAPSHOT</code>结尾，此外插件和依赖性声明也不能使用快照版本。这保证了你只能依赖其他发布的组件。理想情况下，它们都在中央仓库中可用。这确保了你的用户可以从中央仓库中检索你的组件以及你的过渡性依赖。</p>
-
-<p>在多模块设置中，可以手动或借助Maven版本插件来更改项目的版本和父级引用。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn versions:set -DnewVersion=1.2.3</span></code></pre></td></tr></table></div></figure></p>
-
-<p>一旦你更新了所有的版本，并确保你的构建没有部署就通过了，你就可以使用发布配置文件进行部署，并使用</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn clean deploy -P release</span></code></pre></td></tr></table></div></figure></p>
-
-<h4>Performing a Release Deployment with the Maven Release Plugin</h4>
-
-<p>Maven发布插件可以用来自动完成对Maven POM文件的修改、健康检查、所需的SCM操作和实际部署执行。</p>
-
-<p>Maven发布插件的配置应该包括禁用Maven super POM 中的发布配置文件，因为我们使用的是我们自己的配置文件，并在激活发布配置文件的同时指定部署目标。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin>
-</span><span class='line'>  &lt;groupId>org.apache.maven.plugins&lt;/groupId>
-</span><span class='line'>  &lt;artifactId>maven-release-plugin&lt;/artifactId>
-</span><span class='line'>  &lt;version>2.5.3&lt;/version>
-</span><span class='line'>  &lt;configuration>
-</span><span class='line'>    &lt;autoVersionSubmodules>true&lt;/autoVersionSubmodules>
-</span><span class='line'>    &lt;useReleaseProfile>false&lt;/useReleaseProfile>
-</span><span class='line'>    &lt;releaseProfiles>release&lt;/releaseProfiles>
-</span><span class='line'>    &lt;goals>deploy&lt;/goals>
-</span><span class='line'>  &lt;/configuration>
-</span><span class='line'>&lt;/plugin></span></code></pre></td></tr></table></div></figure></p>
-
-<p>在SCM连接配置正确的情况下，您可以通过以下方式向OSSRH进行发布部署。</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn release:clean release:prepare</span></code></pre></td></tr></table></div></figure></p>
-
-<p>回答版本和标签的提示，然后是</p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn release:perform</span></code></pre></td></tr></table></div></figure></p>
-
-<p>由于使用了Nexus Staging Maven Plugin，并将autoReleaseAfterClose设置为true，这个执行将一次性部署到OSSRH并发布到中央仓库。</p>
-
-<h3>Releasing to Central</h3>
-
-<p>在前面的介绍中，我们提到使用 Nexus Staging Maven Plugin，并将autoReleaseAfterClose设置为true，部署到OSSRH后会发布到中央仓库。我们也可以手动执行 <code>mvn nexus-staging:release
-</code> 来发布 staging repository。</p>
-
-<h3>Reference</h3>
-
-<ul>
-<li><a href="https://central.sonatype.org/pages/ossrh-guide.html">OSSRH Guide</a></li>
-<li><a href="https://central.sonatype.org/pages/requirements.html">Requirements</a></li>
-<li><a href="https://central.sonatype.org/pages/apache-maven.html#nexus-staging-maven-plugin-for-deployment-and-release">Deploying to OSSRH with Apache Maven</a></li>
-<li><a href="https://dzone.com/articles/publish-your-artifacts-to-maven-central">How to Publish Your Artifacts to Maven Central</a></li>
-<li><a href="https://stackoverflow.com/questions/57591432/gpg-signing-failed-inappropriate-ioctl-for-device-on-macos-with-maven">“gpg: signing failed: Inappropriate ioctl for device” on MacOS with Maven</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

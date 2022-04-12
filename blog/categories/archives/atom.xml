@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-04-12T11:40:32+08:00</updated>
+  <updated>2022-04-12T16:24:23+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,271 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring MVC Interview Questions]]></title>
+    <link href="http://DamianSheldon.github.io/blog/spring-mvc-interview-questions.html"/>
+    <updated>2022-04-12T11:42:30+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/spring-mvc-interview-questions</id>
+    <content type="html"><![CDATA[<h1>1. 简介</h1>
+
+<p>Spring MVC是Spring公司在Servlet API基础上建立的原创Web框架。它提供了模型-视图-控制器架构，可用于开发灵活的Web应用。</p>
+
+<p>在本教程中，我们将重点讨论与之相关的问题，因为它经常是Spring开发者求职面试的一个话题。</p>
+
+<p>关于Spring框架的更多问题，你可以查看我们<a href="https://www.baeldung.com/tag/interview/">面试问题系列</a>中另一篇与<a href="https://www.baeldung.com/spring-interview-questions">Spring有关的文章</a>。</p>
+
+<h1>2.基础 Spring MVC 题</h1>
+
+<h2>Q1. 为什么我们要使用Spring MVC？</h2>
+
+<p>Spring MVC实现了清晰的关注点分离，使我们能够轻松开发和单元测试我们的应用程序。</p>
+
+<p>像如下概念：</p>
+
+<ul>
+<li>Dispatcher Servlet</li>
+<li>Controllers</li>
+<li>View Resolvers</li>
+<li>Views, Models</li>
+<li>ModelAndView</li>
+<li>Model and Session Attributes</li>
+</ul>
+
+
+<p>是完全相互独立的，它们只负责一件事。</p>
+
+<p>因此，MVC给了我们相当大的灵活性。它是基于接口的（有提供的实现类），我们可以通过使用自定义接口来配置框架的每一部分。</p>
+
+<p>另一件重要的事情是，我们并没有被束缚在一个特定的视图技术上（例如JSP），而是可以选择我们最喜欢的技术。</p>
+
+<p>另外，我们不只在Web应用开发中使用Spring MVC，在创建RESTful Web服务时也是如此。</p>
+
+<!--more-->
+
+
+<h2>Q2. <code>@Autowired</code>注解的作用是什么？</h2>
+
+<p><code>@Autowired</code>注解可以与字段或方法一起使用，用于按类型注入Bean。这个注解允许Spring解析并将协作Bean注入你的Bean中。</p>
+
+<p>更多细节，请参考关于<a href="https://www.baeldung.com/spring-autowire"><code>@Autowired</code> in Spring</a>的教程。</p>
+
+<h2>Q3. 解释一下模型属性</h2>
+
+<p><code>@ModelAttribute</code>注解是Spring MVC中最重要的注解之一。它将一个方法参数或方法返回值绑定到一个命名的模型属性上，然后将其暴露给Web视图。</p>
+
+<p>如果我们在方法层面使用它，它表明该方法的目的是添加一个或多个模型属性。</p>
+
+<p>另一方面，当作为方法参数使用时，它表示该参数应该从模型中获取。当不存在时，我们应该首先将其实例化，然后将其添加到模型中。一旦出现在模型中，我们应该从所有具有匹配名称的请求参数中填充参数字段。</p>
+
+<p>关于这个注解的更多信息可以在我们与<a href="https://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation"><code>@ModelAttribute</code>注解有关的文章</a>中找到。</p>
+
+<h2>Q4. 解释一下@Controller和@RestController之间的区别？</h2>
+
+<p><code>@Controller</code>和<code>@RestController</code>注释的主要区别在于，<code>@RestController</code>注释会自动包含<code>@ResponseBody</code>。这意味着我们不需要用<code>@ResponseBody</code>来注释我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在<code>@Controller</code>类中需要这样做。</p>
+
+<h2>Q5. 描述一下PathVariable</h2>
+
+<p>我们可以使用<code>@PathVariable</code>注解作为处理方法参数，来提取URI模板变量的值。</p>
+
+<p>例如，如果我们想从<code>www.mysite.com/user/123</code>，通过id获取一个用户，我们应该把控制器中的方法映射为<code>/user/{id}</code>:</p>
+
+<pre><code>@RequestMapping("/user/{id}")
+public String handleRequest(@PathVariable("id") String userId, Model map) {}
+</code></pre>
+
+<p>@PathVariable只有一个名为value的元素。它是可选的，我们用它来定义URI模板变量的名称。如果我们省略value元素，那么URI模板变量的名称必须与方法参数名称相匹配。</p>
+
+<p>也允许有多个@PathVariable注解，可以通过一个接一个地声明它们:</p>
+
+<pre><code>@RequestMapping("/user/{userId}/name/{userName}")
+public String handleRequest(@PathVariable String userId,
+  @PathVariable String userName, Model map) {}
+</code></pre>
+
+<p>或将它们全部放在一个<code>Map&lt;String, String&gt;</code>或<code>MultiValueMap&lt;String, String&gt;</code>中:</p>
+
+<pre><code>@RequestMapping("/user/{userId}/name/{userName}")
+public String handleRequest(@PathVariable Map&lt;String, String&gt; varsMap, Model map) {}
+</code></pre>
+
+<h2>Q6. 使用Spring MVC进行验证</h2>
+
+<p>Spring MVC默认支持JSR-303规范。我们需要在我们的Spring MVC应用中添加JSR-303及其实现的依赖性。例如，Hibernate Validator就是我们可以使用的JSR-303的实现之一。</p>
+
+<p>JSR-303是用于bean验证的Java API规范，是Jakarta EE和JavaSE的一部分，它使用<code>@NotNull</code>、<code>@Min</code>和<code>@Max</code>等注解，确保bean的属性满足特定的标准。关于验证的更多信息，请参见<a href="https://www.baeldung.com/javax-validation">Java Bean验证基础知识</a>一文。</p>
+
+<p>Spring提供了<code>@Validator</code>注解和BindingResult类。当我们有无效的数据时，Validator实现将在控制器的请求处理方法中触发错误。然后我们可以使用BindingResult类来获取这些错误。</p>
+
+<p>除了使用现有的实现，我们还可以制作自己的实现。要做到这一点，我们首先创建一个符合JSR-303规范的注解。然后，我们实现Validator类。另一种方法是实现Spring的Validator接口，并通过控制器类中的<code>@InitBinder</code>注解将其设置为验证器。</p>
+
+<p>要查看如何实现和使用你自己的验证器，请看关于<a href="https://www.baeldung.com/spring-mvc-custom-validator">Spring MVC中自定义验证</a>的教程。</p>
+
+<h2>Q7. 什么是<code>@RequestBody</code>和<code>@ResponseBody</code>注解？</h2>
+
+<p><code>@RequestBody</code>注解，作为处理方法参数使用，将HTTP请求主体与传输或域对象绑定。Spring使用Http消息转换器自动将传入的HTTP请求反序列化为Java对象。</p>
+
+<p>当我们在Spring MVC控制器中的处理方法上使用<code>@ResponseBody</code>注解时，它表明我们将把该方法的返回类型直接写入HTTP响应体中。我们不会把它放在Model中，Spring也不会把它解释为视图名称。</p>
+
+<p>请查看关于<a href="https://www.baeldung.com/spring-request-response-body"><code>@RequestBody</code>和<code>@ResponseBody</code></a>的文章，了解关于这些注解的更多细节。</p>
+
+<h2>Q8. 解释一下Model、ModelMap和ModelAndView？</h2>
+
+<p>Model接口定义了一个模型属性的持有人。ModelMap也有类似的目的，它能够传递一个值的集合。然后，它把这些值当作是在一个Map内。我们应该注意，在模型（ModelMap）中我们只能存储数据。我们把数据放进去并返回一个视图名称。</p>
+
+<p>另一方面，在ModelAndView中，我们返回对象本身。我们把所有需要的信息，比如数据和视图名称，都设置在我们要返回的对象中。</p>
+
+<p>你可以在关于<a href="https://www.baeldung.com/spring-mvc-model-model-map-model-view">Model、ModelMap和ModelView</a>的文章中找到更多细节。</p>
+
+<h2>Q9. 解释SessionAttributes和SessionAttribute</h2>
+
+<p><code>@SessionAttributes</code>注解是用来在用户会话中存储模型属性的。我们在控制器类中使用它，如我们关于Spring MVC中的会话属性的文章中所示:</p>
+
+<pre><code>@Controller
+@RequestMapping("/sessionattributes")
+@SessionAttributes("todos")
+public class TodoControllerWithSessionAttributes {
+
+    @GetMapping("/form")
+    public String showForm(Model model,
+      @ModelAttribute("todos") TodoList todos) {
+        // method body
+        return "sessionattributesform";
+    }
+
+    // other methods
+}
+</code></pre>
+
+<p>在前面的例子中，如果<code>@ModelAttribute</code>和<code>@SessionAttributes</code>有相同的名称属性，模型属性 &ldquo;todos "将被添加到会话中。</p>
+
+<p>如果我们想从一个全局管理的会话中获取现有的属性，我们将使用<code>@SessionAttribute</code>注解作为方法参数：</p>
+
+<pre><code>@GetMapping
+public String getTodos(@SessionAttribute("todos") TodoList todos) {
+    // method body
+    return "todoView";
+}
+</code></pre>
+
+<h2>Q10. <code>@EnableWebMVC</code>的目的是什么？</h2>
+
+<p><code>@EnableWebMvc</code>注解的目的是通过Java配置启用Spring MVC。它等同于XML配置中的<code>&lt;mvc: annotation-driven&gt;</code>。这个注解从WebMvcConfigurationSupport导入Spring MVC配置。它能够支持<code>@Controller</code>注解的类，这些类使用<code>@RequestMapping</code>将传入的请求映射到处理方法。</p>
+
+<p>你可以在我们的<a href="https://www.baeldung.com/spring-enable-annotations">Spring <code>@Enable</code>注解指南</a>中了解更多关于这个和类似注解的信息。</p>
+
+<h2>Q11. 什么是Spring中的ViewResolver？</h2>
+
+<p>ViewResolver通过将视图名称映射到实际视图，使应用程序能够在浏览器中渲染模型，这样无需将实现与特定的视图技术联系起来。</p>
+
+<p>关于ViewResolver的更多细节，请看我们的<a href="https://www.baeldung.com/spring-mvc-view-resolver-tutorial">Spring MVC中的ViewResolver指南</a>。</p>
+
+<h2>Q12. 什么是BindingResult？</h2>
+
+<p>BindingResult是<code>org.springframework.validation</code>包中的一个接口，表示绑定结果。我们可以用它来检测和报告提交表单中的错误。它很容易被调用&ndash;我们只需要确保把它作为一个参数放在我们要验证的表单对象之后。可选的Model参数应该在BindingResult之后，这在<a href="https://www.baeldung.com/spring-mvc-custom-validator">自定义验证器教程</a>中可以看到:</p>
+
+<pre><code>@PostMapping("/user")
+public String submitForm(@Valid NewUserForm newUserForm, 
+  BindingResult result, Model model) {
+    if (result.hasErrors()) {
+        return "userHome";
+    }
+    model.addAttribute("message", "Valid form");
+    return "userHome";
+}
+</code></pre>
+
+<p>当Spring看到<code>@Valid</code>注解时，它首先会尝试为被验证的对象找到验证器。然后，它将拾起验证注解并调用验证器。最后，它将把发现的错误放在BindingResult中，并把后者添加到视图模型中。</p>
+
+<h2>Q13. 什么是表单后备对象？</h2>
+
+<p>表单后备对象或命令对象只是一个POJO，它从我们要提交的表单中收集数据。</p>
+
+<p>我们应该记住，它不包含任何逻辑，只包含数据。</p>
+
+<p>要了解如何在Spring MVC中使用表单支持对象，请看我们关于<a href="https://www.baeldung.com/spring-mvc-form-tutorial">Spring MVC中表单</a>的文章。</p>
+
+<h2>Q14.<code>@Qualifier</code>注解的作用是什么？</h2>
+
+<p>它与<code>@Autowired</code>注解同时使用，以避免一个bean类型的多个实例出现时的混淆。</p>
+
+<p>让我们看一个例子。我们在XML配置中声明了两个类似的Bean:</p>
+
+<pre><code>&lt;bean id="person1" class="com.baeldung.Person" &gt;
+    &lt;property name="name" value="Joe" /&gt;
+&lt;/bean&gt;
+&lt;bean id="person2" class="com.baeldung.Person" &gt;
+    &lt;property name="name" value="Doe" /&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>当我们试图连接Bean时，我们会得到一个<code>org.springframework.beans.factory.NoSuchBeanDefinitionException</code>。为了解决这个问题，我们需要使用<code>@Qualifier</code>来告诉Spring关于哪个Bean应该被连接:</p>
+
+<pre><code>@Autowired
+@Qualifier("person1")
+private Person person;
+</code></pre>
+
+<h2>Q15. <code>@Required</code>注解的作用是什么？</h2>
+
+<p><code>@Required</code>注解用于setter方法，它表示在配置时必须填充具有该注解的bean属性。否则，Spring容器将抛出一个BeanInitializationException异常。</p>
+
+<p>另外，<code>@Required</code>与<code>@Autowired</code>不同&ndash;因为它只限于 setter ，而<code>@Autowired</code>则不是。<code>@Autowired</code>也可以用来与构造函数和字段进行连接，而<code>@Required</code>只检查该属性是否被设置。</p>
+
+<p>让我们看一个例子:</p>
+
+<pre><code>public class Person {
+    private String name;
+
+    @Required
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+
+<p>现在，Person Bean的名字需要像这样在XML配置中设置:</p>
+
+<pre><code>&lt;bean id="person" class="com.baeldung.Person"&gt;
+    &lt;property name="name" value="Joe" /&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>请注意，<code>@Required</code>默认情况下不能与基于Java的<code>@Configuration</code>类一起工作。如果你需要确保所有的属性都被设置，你可以在<code>@Bean</code>注解的方法中创建Bean时这样做。</p>
+
+<p>译者点评：<code>@Required</code> 是如何实现的？</p>
+
+<h2>Q16. 描述一下前台控制器模式</h2>
+
+<p>在前端控制器模式中，所有的请求将首先进入前端控制器，而不是Servlet。它将确保响应已经准备好，并将它们送回给浏览器。这样，我们就有一个地方可以控制来自外部世界的一切。</p>
+
+<p>前端控制器将识别应该首先处理请求的Servlet。然后，当它从servlet那里得到数据后，它将决定渲染哪个视图，最后，它将把渲染好的视图作为一个响应发送回去：</p>
+
+<p><img src="https://www.baeldung.com/wp-content/uploads/2018/12/front_end_controller.png" alt="Front end controller" /></p>
+
+<p>要查看实现细节，请查看我们的<a href="https://www.baeldung.com/java-front-controller-pattern">Java中的前端控制器模式指南</a>。</p>
+
+<h2>Q17. 什么是 Model1和Model2的架构？</h2>
+
+<p> Model1和Model2代表了在设计Java Web应用时经常使用的两种设计模式。</p>
+
+<p>在Model1中，一个请求被送到一个servlet或JSP那里进行处理。Servlet或JSP处理请求，处理业务逻辑，检索和验证数据，并生成响应:</p>
+
+<p><img src="https://www.baeldung.com/wp-content/uploads/2018/12/Model_1-1.png" alt="Model 1" /></p>
+
+<p>由于这种架构很容易实现，我们通常在小型和简单的应用程序中使用它。</p>
+
+<p>另一方面，它对于大规模的网络应用并不方便。这些功能通常在JSP中重复使用，其中业务和表现逻辑是耦合的。</p>
+
+<p>Model2是基于模型-视图-控制器设计模式的，它将视图与操作内容的逻辑分开。</p>
+
+<p>此外，我们可以区分MVC模式中的三个模块：模型、视图和控制器。模型代表一个应用程序的动态数据结构。它负责数据和业务逻辑的操作。视图负责显示数据，而控制器作为前两者之间的接口。</p>
+
+<p>在Model2中，一个请求被传递给控制器，控制器处理所需的逻辑，以便获得应该显示的正确内容。然后，控制器将内容放回请求中，通常是作为一个JavaBean或POJO。它还决定哪个视图应该渲染内容，最后将请求传递给它。然后，视图就会渲染数据:</p>
+
+<p><img src="https://www.baeldung.com/wp-content/uploads/2018/12/Model_2.png" alt="Model 2" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[常见 Spring 框架面试题(翻译)]]></title>
@@ -712,320 +977,6 @@ sudo docker run -it busybox
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-8">How To Set Up a Firewall Using firewalld on CentOS 8</a></li>
 <li><a href="https://firewalld.org/documentation/howto/enable-and-disable-firewalld.html">Enable and Disable firewalld</a></li>
 <li></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UI 设计与屏幕适配]]></title>
-    <link href="http://DamianSheldon.github.io/blog/ui-design-and-screen-adaptation.html"/>
-    <updated>2021-03-17T15:12:26+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/ui-design-and-screen-adaptation</id>
-    <content type="html"><![CDATA[<p>目前移动设备的尺寸很多，所以前端 (iOS, Android, Web, 小程序等)开发需要适配多种尺寸屏幕。在适配时我们可能会有困惑，设计稿通常是 px 来表示尺寸，设备的分辨率也是以 px 来表示，它们之间是一样的吗？还是存在什么关系？iOS 开发者用 point 来表示视图的尺寸； Android 开发者用 dp 来表示视图尺寸； Web 开发者用 px 来表示尺寸？它们和设计稿的 px 是什么关系？设计师应该以什么基准尺寸来设计会有利于屏幕适配？应该输出几套切图？除了切图，设计师还可以做些什么来配合开发者做屏幕适配？要搞清楚这些问题，我们需要翻翻历史了。</p>
-
-<p>Tim Chien 和 Robert Nyman 的这篇 <a href="https://hacks.mozilla.org/2013/09/css-length-explained/">CSS Length Explained</a> 帮了我的大忙，本文就是基于它而写成。</p>
-
-<h2>英寸</h2>
-
-<p>我们经常是用英寸为度量单位来表示手机屏幕尺寸，一英寸相当于2.54厘米或0.0254米。</p>
-
-<h2>设备像素(device pixel)</h2>
-
-<p>计算机屏幕显示事物的单位是像素。显示屏上的单个物理 &ldquo;光点"，能够独立于它的邻居显示出完整的颜色，被称为像素（图片元素）。我们把屏幕上的物理像素称为 "设备像素"。</p>
-
-<h2>DPI, PPI</h2>
-
-<p>DPI 是 dots per inch 的英文缩写，即每英寸点数； PPI 是 pixels per inch 的缩写，即每英寸像素。 它们都用来表示显示像素密度 (Display pixel density)。</p>
-
-<p>计算机屏幕是由大量发光二极管整齐排列构成的集成电路，由于屏幕制造商工艺水平差异，每英寸集成电路上排列的二极管的数量会不一样，屏幕出厂时我们可以从厂商那里得知屏幕的 PPI。</p>
-
-<p>于是我们可以知道:</p>
-
-<pre><code>width or height of one device pixel = 1 / device's DPI  
-</code></pre>
-
-<p>例如 MacBook Air(2011) 的 DPI 为 125 ， 所以：</p>
-
-<pre><code>(width or height of one device pixel) = 1/125 inch = 0.008 inch = 0.02032 cm
-</code></pre>
-
-<!--more-->
-
-
-<h2>The CSS pixel (px)</h2>
-
-<p>CSS像素的尺寸大致可以看成是人的肉眼能够舒适地看到的尺寸，不要太小，这样你就得眯着眼睛，也不要大到让你看到像素化。"看得很舒服 &ldquo; 的定义比较笼统，<a href="http://www.w3.org/TR/CSS2/syndata.html%23length-units">W3C CSS规范</a>中给我们一个推荐的参考。</p>
-
-<blockquote><p>The reference pixel is the visual angle of one pixel on a device with a pixel density of 96 DPI and a distance from the reader of an arm’s length.</p></blockquote>
-
-<h2>The viewing distance</h2>
-
-<p>如前所述，观看距离因人而异，因设备而异，这就是为什么我们必须将设备按外形因素分类的原因。推荐的参考观看距离(&ldquo;一臂之长&rdquo;)和参考像素密度(&ldquo;96 DPI&rdquo;)其实是历史数据。</p>
-
-<p>对于21世纪的日常设备，我们有不同的参考建议:</p>
-
-<table>
-<thead>
-<tr>
-<th> Device </th>
-<th> Baseline pixel density </th>
-<th> Width/height of one CSS pixel </th>
-<th> Viewing distance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> A 20th century PC with CRT display </td>
-<td> 96 DPI </td>
-<td> ~0.2646 mm (1/96in) </td>
-<td> 28 in (71.12cm) </td>
-</tr>
-<tr>
-<td> Modern laptop with LCD </td>
-<td> 125 DPI </td>
-<td> 0.2032 mm (1/125in) </td>
-<td> 21.5 in (54.61cm)</td>
-</tr>
-<tr>
-<td> Smartphones/Tablets </td>
-<td> 160 DPI </td>
-<td> ~0.159mm (1/160 in) </td>
-<td> 16.8in (42.672cm) </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>因此，我们在 CSS 的世界里建立了一个基本的事实：一个 CSS 像素会以不同的物理尺寸显示，但它总是以正确的尺寸显示，让浏览者感到舒适。</p>
-
-<h2>Device pixel ratio (DPPX)</h2>
-
-<p>随着我们步入未来，现在很多智能手机在出厂时都采用了高密度的显示屏。为了保证 CSS 像素在每一个访问网络的设备(即一切有屏幕和网络连接的设备)上的尺寸一致，设备制造商不得不将多个设备像素映射到一个 CSS 像素上，以弥补它相对更大的物理尺寸。CSS 像素相对于设备像素的尺寸比就是设备像素比(DPPX)。</p>
-
-<p>我们以 iPhone 4 为最著名的例子。它配备了一块 326 DPI 的显示屏。根据我们上面的表格，作为一款智能手机，它的典型观看距离是 16.8 英寸，它的基准像素密度是 160DPI。为了创建一个 CSS 像素，苹果选择将设备像素比设置为 2，这就等于让 iOS Safari 显示网页的方式和 163 DPI 手机上一样。</p>
-
-<p>在我们继续之前，先回头看看上面的数字。其实我们可以做得更好，不把设备像素比设置为2，而是设置为<code>326/160=2.0375</code>，让一个 CSS 像素与参考尺寸相比完全一样。不幸的是，这样的比例会导致一个意想不到的结果：由于每个 CSS 像素并不是由整个设备像素来显示的，所以浏览器不得不对所有的位图图像、边框等进行反锯齿，因为它们几乎总是被当作整个 CSS 像素来显示。浏览器很难利用2.0375个设备像素来绘制你的1个CSS像素宽的边框：如果比例是简单的2，那就容易多了。</p>
-
-<p>顺带一提，163 DPI恰好是上一代 iPhone 的像素密度，所以网页的工作方式也是一样的，不需要开发者对自己的网站进行任何特殊的"升级"。</p>
-
-<p>设备制造商通常选择1.5，或2，或其他整数作为 DPPX 值。偶尔，有些设备决定不这么玩了，发货时使用1.325 DPPX这样的值；作为开发者，我们也许应该忽略这些设备。</p>
-
-<p>现在我们就比较清楚 CSS pixel 和 device pixel 的关系了。接下来我们看下 iOS 的 point 和 device pixel 的关系。</p>
-
-<h2>point</h2>
-
-<blockquote><p>The coordinate system iOS uses to place content onscreen is based on measurements in points, which map to pixels in the display. A standard-resolution display has a <code>1:1</code> pixel density (or <code>@1x</code>), where one pixel is equal to one point. High-resolution displays have a higher pixel density, offering a scale factor of 2.0 or 3.0 (referred to as <code>@2x</code> and <code>@3x</code>). As a result, high-resolution displays demand images with more pixels.</p></blockquote>
-
-<p>从 Apple 这段描述可知， scale factor (<code>@1x</code>, <code>@2x</code> 和 <code>@3x</code>) 就是我们上面据说的设备像素比（DPPX)。point 和 css pixel 是对应的。</p>
-
-<h2>dp</h2>
-
-<p>那 dp 和 device pixel 又是什么关系呢？</p>
-
-<blockquote><p>To preserve the visible size of your UI on screens with different densities, you must design your UI using density-independent pixels (dp) as your unit of measurement. One dp is a virtual pixel unit that&rsquo;s roughly equal to one pixel on a medium-density screen (160dpi; the &ldquo;baseline&rdquo; density). Android translates this value to the appropriate number of real pixels for each other density.</p></blockquote>
-
-<p>Google 这段描述更加直接，dp 是一个虚拟的像素单位，大致相当于中密度屏幕上的一个像素(160dpi;&ldquo;基线"密度)，所以 dp 和 css pixel 也是对应的。而 xhdpi, xxhdpi 和 xxxhdpi 是表示设备像素比(DPPX)2、3 和 4。</p>
-
-<p>现在我们还剩下设计稿的 px。我们回忆一下在前端开发时，如果我们不指定图片尺寸而直接去显示设计师的切图，这时图片是有一个固有尺寸的，在设备像素比为1的设备上，这个固有尺寸就是图片的尺寸，而在设备像素比为2上尺寸是图片的尺寸除以2，所以设计稿的 px是对应设备像素(device pixel)的，这也是为什么我们需要提供多套图片来做适配。假设我们不提供多套图片，现在我们有一个 <code>100 x 100 css pixel</code>的图片， 在设备像素比为3的设备上也会去加载 <code>100 x 100 device pixel</code> 尺寸的资源图，按上面的分析，实际它应该加载 <code>300 x 300 device pixel</code> 尺寸的资源图，那么相当于资源图上一个像素点会对应显示三个设备像素点，这样可能会出现模糊或锯齿的情况。</p>
-
-<p>理清了各平台尺寸单位的关系以及它们与设备像素的关系后，我们来看下设备尺寸。</p>
-
-<h2>设备尺寸</h2>
-
-<p>我们先看下 iOS 设备尺寸分布:</p>
-
-<table>
-<thead>
-<tr>
-<th> 型号 </th>
-<th> points </th>
-<th> 物理像素 </th>
-<th style="text-align:center;"> 设备像素比(DPPX) </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> 2G,3G,3GS </td>
-<td> 320 x 480 </td>
-<td> 320 x 480</td>
-<td style="text-align:center;"> 1 </td>
-</tr>
-<tr>
-<td> 4,4S </td>
-<td> 320 x 480 </td>
-<td> 640 x 960 </td>
-<td style="text-align:center;"> 2 </td>
-</tr>
-<tr>
-<td> 5,5C,5S,SE </td>
-<td> 320 x 568 </td>
-<td> 640 x 1136 </td>
-<td style="text-align:center;"> 2 </td>
-</tr>
-<tr>
-<td> 6,6S,7,8,SE2</td>
-<td> 375 x 667 </td>
-<td> 750 x 1334 </td>
-<td style="text-align:center;"> 2 </td>
-</tr>
-<tr>
-<td> 6+,6S+,7+,8+ </td>
-<td> 414 x 736 </td>
-<td> 1080 x 1920 </td>
-<td style="text-align:center;"> 3 </td>
-</tr>
-<tr>
-<td> 11Pro,X,Xs </td>
-<td> 375 x 812 </td>
-<td> 1125 x 2436 </td>
-<td style="text-align:center;"> 3 </td>
-</tr>
-<tr>
-<td> 11, Xr </td>
-<td> 414 x 896 </td>
-<td> 828 x 1792 </td>
-<td style="text-align:center;"> 2 </td>
-</tr>
-<tr>
-<td> 11Pro Max,Xs Max </td>
-<td> 414 x 896 </td>
-<td> 1242 x 2688 </td>
-<td style="text-align:center;"> 3 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>对于 iOS 来说，现在的主流设备应该是从 <code>6,6S,7,8,SE2</code> 开始，对应的设备像素是<code>750 x 1334 px</code>。</p>
-
-<p>再来看下 android 这边， Google 有一个 <a href="https://developer.android.com/about/dashboards/index.html#Screens">Screen sizes and densities</a> 统计表，本文写作时查询的结果如下:</p>
-
-<table>
-<thead>
-<tr>
-<th> </th>
-<th> ldpi </th>
-<th> mdpi </th>
-<th> tvdpi </th>
-<th> hdpi </th>
-<th> xhdpi </th>
-<th> xxhdpi </th>
-<th> Total </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> Small </td>
-<td> 0.1% </td>
-<td>  </td>
-<td>  </td>
-<td> </td>
-<td> 0.1% </td>
-<td>  </td>
-<td> 0.2% </td>
-</tr>
-<tr>
-<td> Normal </td>
-<td>  </td>
-<td> 0.3% </td>
-<td> 0.3% </td>
-<td> 14.8% </td>
-<td> 41.3% </td>
-<td> 26.1% </td>
-<td> 82.8% </td>
-</tr>
-<tr>
-<td> Large </td>
-<td>  </td>
-<td> 1.7% </td>
-<td> 2.2% </td>
-<td> 0.8% </td>
-<td> 3.2% </td>
-<td> 2.0% </td>
-<td> 9.9%  </td>
-</tr>
-<tr>
-<td> Xlarge </td>
-<td>  </td>
-<td> 4.2% </td>
-<td> 0.2% </td>
-<td> 2.3% </td>
-<td> 0.4% </td>
-<td>  </td>
-<td> 7.1% </td>
-</tr>
-<tr>
-<td> Total </td>
-<td> 0.1% </td>
-<td> 6.2% </td>
-<td> 2.7% </td>
-<td>  17.9% </td>
-<td> 45.0% </td>
-<td> 28.1% </td>
-<td>  </td>
-</tr>
-</tbody>
-</table>
-
-
-<p><a href="https://developer.android.google.cn/guide/topics/resources/providing-resources#ScreenSizeQualifier">Small,Normal,Large 和 Xlarge</a> 是屏幕的尺寸分类，具体含义如下:</p>
-
-<blockquote><ul>
-<li><p>small: Screens that are of similar size to a low-density QVGA screen. The minimum layout size for a small screen is approximately 320x426 dp units. Examples are QVGA low-density and VGA high density.</p></li>
-<li><p>normal: Screens that are of similar size to a medium-density HVGA screen. The minimum layout size for a normal screen is approximately 320x470 dp units. Examples of such screens a WQVGA low-density, HVGA medium-density, WVGA high-density.</p></li>
-<li><p>large: Screens that are of similar size to a medium-density VGA screen. The minimum layout size for a large screen is approximately 480x640 dp units. Examples are VGA and WVGA medium-density screens.</p></li>
-<li><p>xlarge: Screens that are considerably larger than the traditional medium-density HVGA screen. The minimum layout size for an xlarge screen is approximately 720x960 dp units. In most cases, devices with extra-large screens would be too large to carry in a pocket and would most likely be tablet-style devices. Added in API level 9.</p></li>
-</ul>
-</blockquote>
-
-<p>从上表的数据可知，目前 android 设备的主流尺寸分布是从 normal-hdpi 这个分类开始，根据 google 对 normal 的解释，它的大小相当于 medium-density HVGA 屏幕上的 <code>320x470 dp</code>，换算成设备像素就是 <code>480x705 px</code>，注意如果我们以这个尺寸去设计的话，那么得到的切图就是对应 hdpi(1.5)，要输出xhdpi(2) 的切图则要放大 1.3333 倍，这就有点不方便了，很容易得到奇数的像素尺寸，所以我们将 <code>480x705 px</code> 换算到 xhdpi(2) 的设备像素，得到 <code>640x940 px</code>。</p>
-
-<p>我们知道宽屏比窄屏能显示更多内容，如果我们以宽屏为其准尺寸设计，那么在窄屏上就可能出现控件放不下、文字截断的情况。反过来，如果我们以窄屏为基准设计，那么在宽屏上布局时会容易处理，控件的宽度增加或者间隔增加就可以了。高度和宽度存在同样的问题，所以也应该选高度小的作为基准。设计时扣除固定元素高度之和后分配给可滚动区域，这样方便界面的元素布局能够动态响应，开发更好做屏幕适配。</p>
-
-<p>所以选择基准尺寸和我们想支持的设备紧密相关，这需要基于多方面的因素考虑。 例如，如果我们希望支持尽可能多的设备，就越有可能获取更多用户，但开发的兼容工作量就相应增加，很多新特性就可能不适合作为应用的主要功能，而只适合作为增强功能。通常可以考虑覆盖 90% 以上，团队资金和人员比较充足的话可以考虑覆盖 95%，98% 甚至更多。</p>
-
-<p>以覆盖 90% 以上为例，如果我们同时支持 iOS 和 android，或只支持 android 时，应该选 <code>640x940 px</code>作为基准尺寸，而如果只支持 iOS ， 我们应该选 <code>750 x 1334 px</code> 作为基准尺寸。</p>
-
-<p>iOS 的设备像素比主要分布在2和3，而 android 这边设备像素比主要分布在 1.5(hdpi), 2(xhdpi)和 3(xxhdpi)，所以 iOS 需要输出<code>@2x</code> 和 <code>@3x</code> 两套切图； android 需要输出 hdpi, xhdpi 和 xxhdpi 三套切图。</p>
-
-<h2>总结</h2>
-
-<p>现在我们知道，设计基准尺寸的选择以及切图的输出是和我们想支持的设备紧密相关，写作本文时：</p>
-
-<h3>基准尺寸</h3>
-
-<ul>
-<li>仅支持 iOS ， 应该选 <code>750 x 1334 px</code> 作为基准尺寸，对应的设备像素比是2</li>
-<li>仅支持 android 时，应该选 <code>640x940 px</code> 作为基准尺寸，对应的设备像素比是2</li>
-<li>支持 iOS 和 android，应该选 <code>640x940 px</code> 作为基准尺寸，对应的设备像素比是2</li>
-</ul>
-
-
-<h3>切图</h3>
-
-<ul>
-<li>支持 iOS 需要输出<code>@2x</code> 和 <code>@3x</code> 两套切图</li>
-<li>支持 android 需要输出 hdpi, xhdpi 和 xxhdpi 三套切图</li>
-</ul>
-
-
-<p>基准尺寸对应的切图是 <code>@2x</code> 和 xhdpi，输出 hdpi(1.5) 则是切图缩小 0.75, <code>@3x</code> 和 xxhdpi(3) 则是切图放大 1.5 。</p>
-
-<p>我们需要需要注意，随着设备的更新换代，我们的基准尺寸和切图会发生变化，就像以前我们可能需要为 android 提供 mdpi 的切图。</p>
-
-<p>另外想说一下，设计师在设计之初就要把屏幕适配这事放在心上，将界面的元素看成水流一样，尽量让它们能自由流动，这样开发者就能更好地也更容易地做屏幕适配。Apple 在屏幕适配这块提出了 auto layout 的解决方案，这是一个设计师视角的解决方案，也是我们日常的生活中的视角，用界面元素的之间的约束来表达布局，推荐设计师用约束这种方式去做设计并最终输出。可以看到 google 实际上也很认可 auto layout 用约束来布局的想法，在新版本的 android 开发中默认的根布局容器就是 ConstraintLayout，它就是用约束来表达布局。最后我们再看 web 开发布局这边，css 布局的核心就是流，为支持屏幕适配，目前的主流方案是响应式布局，而这种布局的核心我认为仍然是约束。可以看到在屏幕适配这块，各平台最终的想法其实是一样的。</p>
-
-<h1>Reference</h1>
-
-<ul>
-<li><a href="https://hacks.mozilla.org/2013/09/css-length-explained/">CSS Length Explained</a></li>
-<li><a href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/">Image Size and Resolution</a></li>
-<li><a href="https://developer.android.google.cn/training/multiscreen/screendensities">Support different pixel densities</a></li>
-<li><a href="https://developer.android.google.cn/guide/topics/resources/providing-resources#ScreenSizeQualifier">ScreenSizeQualifier</a></li>
-<li><a href="https://developer.android.google.cn/training/multiscreen/screensizes">Support different screen sizes</a></li>
-<li><a href="https://developer.android.com/about/dashboards/index.html#Screens">Screen sizes and densities</a></li>
-<li><a href="https://www.paintcodeapp.com/news/ultimate-guide-to-iphone-resolutions">The Ultimate Guide To iPhone Resolutions</a></li>
 </ul>
 
 ]]></content>

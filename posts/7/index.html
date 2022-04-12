@@ -61,6 +61,101 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-app-distribution.html">
+		
+			iOS App Distribution</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-12-04T14:33:49+08:00" pubdate data-updated="true">04 Dec 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>iOS App 有不少分发方法，她们散落在 Apple 的文档中，并未归总到一处，所以本文对她们进行了总结，方便查阅。</p>
+
+<p>首先我们简单梳理下这些分发方法，然后重点说明下 ipa 文件的安装方法。 Apple 制作的这张表格将分发方法归纳得很全：</p>
+
+<table>
+<thead>
+<tr>
+<th> Method </th>
+<th style="text-align:left;"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> App Store </td>
+<td style="text-align:left;"> Distributes your app through the App Store, signed with an Apple Developer Program distribution provisioning profile. </td>
+</tr>
+<tr>
+<td> Ad Hoc </td>
+<td style="text-align:left;"> Distributes your app to testers with registered devices, signed with an ad hoc provisioning profile.<br>The devices need to be registered in your developer account and are limited to 100 devices per product family per year. If you don’t want to use a portion of these development devices for testing, distribute your app using TestFlight instead.<br>If you are a member of the Apple Developer Enterprise Program, choose this option to test your app. Only members of the Apple Developer Program have access to App Store Connect and TestFlight. </td>
+</tr>
+<tr>
+<td> Development </td>
+<td style="text-align:left;"> Distributes your app to testers with registered devices, signed with a development provisioning profile. </td>
+</tr>
+<tr>
+<td> Enterprise </td>
+<td style="text-align:left;"> Distributes your app to users in your organization, signed with an Apple Developer Enterprise Program distribution provisioning profile. </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>虽然分发方法有很多，但可以分为两类：一类是通过 App Store 分发；另一类则是在 App Store 外分发。通过 App Store 分发时的流程很统一，都是上传应用到 iTunes Connection，等待审核发布，所以没有什么好说的。但是在 App Store 外发布时选择就多样了，我们既可以走像 App Store 分发那样流程的 TestFlight，也可以导出 ipa 文件然后安装。</p>
+
+<p>下面我们介绍在 iPhone 上安装 ipa 的方法：</p>
+
+<h2>Install using iTunes</h2>
+
+<blockquote><p>iTunes 12.7 for Mac was released on Tuesday with a major change in the app. Apple has redesign iTunes so that it focuses on sales of music, movies, TV shows, audiobooks, and podcasts. It no longer has an App Store for buying apps for your iPhone or iPad. Therefore, you can no long install your iOS App (.ipa file) through iTunes any longer.</p></blockquote>
+
+<ol>
+<li>Download the .ipa file after the build completes.</li>
+<li>Open iTunes, go to App library.</li>
+<li>Drag and drop the downloaded .ipa file into the App library.</li>
+<li>Connect your device to iTunes and go to your device apps.</li>
+<li>Click Install button of the app and click Sync button. </li>
+</ol>
+
+
+
+		
+		<a href="/blog/ios-app-distribution.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-technical-interview-part-3.html">
 		
 			Web 面试题汇总(三)</a>
@@ -244,102 +339,6 @@
 
 		
 		<a href="/blog/web-technical-interview-part-2.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-technical-interview-part-1.html">
-		
-			Web 面试题汇总(一)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-09-03T17:26:10+08:00" pubdate data-updated="true">03 Sep 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.Doctype作用？标准模式与兼容模式各有什么区别?</h3>
-
-<p>A: 告知浏览器的解析器用什么文档标准解析这个文档。DOCTYPE不存在或格式不正确会导致文档以兼容模式呈现。</p>
-
-<h3>2.HTML5 为什么只需要写 &lt;!DOCTYPE HTML>？</h3>
-
-<p>A: HTML5 不基于 SGML，因此不需要对DTD进行引用，但是需要doctype来规范浏览器的行为（让浏览器按照它们应该的方式来运行；而HTML4.01基于SGML,所以需要对DTD进行引用，才能告知浏览器文档所使用的文档类型。</p>
-
-<h3>3.行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>行内元素有：a b span img input select strong（强调的语气）</li>
-<li>块级元素有：div ul ol li dl dt dd h1 h2 h3 h4…p</li>
-<li>常见的空元素：br hr img input link meta</li>
-<li>鲜为人知的空元素：area base col command embed keygen param source track wbr</li>
-</ul>
-
-
-<h3>4.页面导入样式时，使用link和@import有什么区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>link属于XHTML标签，除了加载CSS外，还能用于定义RSS, 定义rel连接属性等作用；而@import是CSS提供的，只能用于加载CSS;</li>
-<li>页面被加载的时，link会同时被加载，而@import引用的CSS会等到页面被加载完再加载;</li>
-<li>import是CSS2.1 提出的，只在IE5以上才能被识别，而link是XHTML标签，无兼容问题;</li>
-<li>link支持使用js控制DOM去改变样式，而@import不支持;</li>
-</ul>
-
-
-<h3>5.介绍一下你对浏览器内核的理解？</h3>
-
-<h3>6.简述一下你对HTML语义化的理解？</h3>
-
-<p>A:用正确的标签做正确的事情。</p>
-
-<ul>
-<li>html语义化让页面的内容结构化，结构更清晰，便于对浏览器、搜索引擎解析;</li>
-<li>即使在没有样式CSS情况下也以一种文档格式显示，并且是容易阅读的;搜索引擎的爬虫也依赖于HTML标记</li>
-<li>确定上下文和各个关键字的权重，利于SEO;</li>
-<li>使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。</li>
-</ul>
-
-
-<h3>7.HTML5的离线储存怎么使用，工作原理能不能解释一下？</h3>
-
-<h3>8.浏览器是怎么对HTML5的离线储存资源进行管理和加载的呢？</h3>
-
-
-		
-		<a href="/blog/web-technical-interview-part-1.html" class="more-link">继续阅读</a>
 	</div>
 
 

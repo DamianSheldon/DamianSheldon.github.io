@@ -61,6 +61,79 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/english-sentence.html">
+		
+			英语句子结构</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-11-27T20:19:06+08:00" pubdate data-updated="true">27 Nov 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/english/'>english</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：</p>
+
+<ol>
+<li>SV (S:subject,V: verbal phrase)主语+谓语</li>
+<li>SVP (P:predicative)主语+谓语+表语</li>
+<li>SVO (O:object)主语+谓语+宾语</li>
+<li>SVOiOd 主语+谓语+直接宾语+间接宾语</li>
+<li>SVOC(C:complement) 主语+谓语+宾语+补语</li>
+<li>There＋系动词＋主语</li>
+</ol>
+
+
+<h3>SV (S:subject,V: verbal phrase)主语+谓语</h3>
+
+<p>John sleeps.<br/>
+Jill is eating.<br/>
+Jack will arrive next week.<br/>
+The tlephone rang.<br/>
+His father might have died.<br/>
+Sandy walks in the playground evening.<br/>
+He never gives up easily.<br/>
+The children listened carefully.<br/>
+Our Manager has arrived in pairs.<br/>
+The water in the jar has ran out.<br/>
+My brother will talk on the phone.<br/>
+Mummy won&rsquo;t agree.</p>
+
+
+		
+		<a href="/blog/english-sentence.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/english-basic.html">
 		
 			英语笔记开篇</a>
@@ -192,115 +265,6 @@
 
 		
 		<a href="/blog/xcode-debug-tips.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-data-persistence.html">
-		
-			iOS App 数据持久化</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-11-13T15:06:25+08:00" pubdate data-updated="true">13 Nov 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。</p>
-
-<p>本地持久化其实就是将数据保存到闪存，那么我们应该用什么方法保存，又应该保存在哪呢？</p>
-
-<h2>文件系统基础</h2>
-
-<p>在OS X和iOS中，文件系统处理数据文件，应用程序和操作系统本身相关文件的持久存储。下面简要介绍下 iOS 文件系统的基础知识，以便我们更好的使用她。</p>
-
-<p>iOS应用和文件系统的交互基本上仅限于它沙盒内目录。新应用安装过程中，安装程序为应用创建了数个容器。每个容器有个特定的角色。The bundle container holds the app’s bundle, whereas the data container holds data for both the application and the user. The data container is further divided into a number of directories that the app can use to sort and organize its data. The app may also request access to additional containers—for example, the iCloud container—at runtime.</p>
-
-<p>这些容器构成了应用文件系统的基本面。下图是应用沙盒的示意图。</p>
-
-<p><img src="../images/ios_app_layout_2x.png" width="383" height="417" title="&#34;App Sandbox&#34;" alt="&#34;App Sandbox&#34;"></p>
-
-<p>iOS应用常用的目录列表：</p>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> Directory </th>
-<th style="text-align:left;"> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> AppName.app </td>
-<td style="text-align:left;"> This is the app’s bundle</td>
-</tr>
-<tr>
-<td style="text-align:left;"> Documents/ </td>
-<td style="text-align:left;"> Use this directory to store user-generated content.</td>
-</tr>
-<tr>
-<td style="text-align:left;"> Documents/Inbox </td>
-<td style="text-align:left;"> Use this directory to access files that your app was asked to open by outside entities.</td>
-</tr>
-<tr>
-<td style="text-align:left;"> Library/ </td>
-<td style="text-align:left;"> This is the top-level directory for any files that are not user data files.</td>
-</tr>
-<tr>
-<td style="text-align:left;"> tmp/ </td>
-<td style="text-align:left;"> Use this directory to write temporary files that do not need to persist between launches of your app.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h3>数据的建议存储位置</h3>
-
-<p>限于篇幅，关于应用的数据应该放到哪，可以查阅<strong>File System Programming Guide</strong> > <strong>File System Basics</strong> > <strong>About the iOS File System</strong> > <strong>Where You Should Put Your App’s Files</strong>。</p>
-
-<h3>数据持久化的方法</h3>
-
-<ol>
-<li>NSUserDefaults;</li>
-<li>Property Lists;</li>
-<li>Archive;</li>
-<li>数据库;</li>
-<li>Core Data。</li>
-</ol>
-
-
-
-		
-		<a href="/blog/ios-app-data-persistence.html" class="more-link">继续阅读</a>
 	</div>
 
 

@@ -61,6 +61,142 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/cluster-virtualbox-centos-7.html">
+		
+			VirtualBox 搭建 CentOS 7 集群</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2021-10-21T15:57:18+08:00" pubdate data-updated="true">21 Oct 2021</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>软件开发时我们可能需要集群环境，特别是现在微服务很流行的情况下。如果我们手里的电脑配置不错就可以用 来搭建集群，用于学习或开发还是很不错，性价比很高。</p>
+
+<p>我这里是用 VirtualBox 搭建 CentOS 7 集群，宿主机是内存 16 GB 加 SSD 1 TB 的 MacBook Pro。集群的核心是选择网络模式，VirtualBox 的网络模式概况如下:</p>
+
+<table>
+<thead>
+<tr>
+<th> Mode </th>
+<th> VM -> Host </th>
+<th> VM &lt;- Host </th>
+<th> VM1 <-> VM2 </th>
+<th> VM -> Net/LAN </th>
+<th> VM &lt;- Net/LAN </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Host-only </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> - </td>
+<td> - </td>
+</tr>
+<tr>
+<td> Internal </td>
+<td> - </td>
+<td> - </td>
+<td> + </td>
+<td> - </td>
+<td> - </td>
+</tr>
+<tr>
+<td> Bridged </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+<td> + </td>
+</tr>
+<tr>
+<td> NAT </td>
+<td> + </td>
+<td> Port forward </td>
+<td> - </td>
+<td> + </td>
+<td> Port forward </td>
+</tr>
+<tr>
+<td> NAT service </td>
+<td> + </td>
+<td> Port forward </td>
+<td> + </td>
+<td> + </td>
+<td> Port forward </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>我希望集群的机器可以互相访问并能访问网络，从上面的列表可知，我们可以选择 Bridged，或者 NAT service 搭配 Port forward。在搭建之初，我搜索了相关的资料，但是并没找到特别理想的，这篇 <a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a> 勉强还凑合，于是我主要参考它来搭建，网络模式也同样是选择的 Bridged，它还使用了双网卡，虚拟机之间通信使用的 Internal Networking， 感觉上性能可能会好点，没实测。双网卡并不是必须的，VirtualBox 对 Internal Networking 的说明是其在安全方面更有优势:</p>
+
+<blockquote><p>Even though technically, everything that can be done using internal networking can also be done using bridged networking, there are security advantages with internal networking. In bridged networking mode, all traffic goes through a physical interface of the host system. It is therefore possible to attach a packet sniffer such as Wireshark to the host interface and log all traffic that goes over it. If, for any reason, you prefer two or more VMs on the same machine to communicate privately, hiding their data from both the host system and the user, bridged networking therefore is not an option.</p></blockquote>
+
+<p>由于 CentOS 主要是运行服务，我们可以使用 Minimal 安装，这样可以减少资源开销，安装好后，默认是没有启用网络的， 网络相关的配置是在 <code>/etc/sysconfig/network-scripts</code> 目录下，配置文件的命令惯例是 <code>ifcfg-enp0sX</code> ， <code>X</code> 是整数，我这里是 <code>ifcfg-enp0s3</code> 和 <code>ifcfg-enp0s8</code>，将 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code> 和 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s8</code> 中的 <code>ONBOOT</code> 改成 <code>yes</code>。</p>
+
+<p>构建 Internal Network 时，手动去指定 ip 会很麻烦，VirtualBox 给了我们另一个选择:</p>
+
+<blockquote><p>Unless you configure the virtual network cards in the guest operating systems that are partici- pating in the internal network to use static IP addresses, you may want to use the DHCP server that is built into Oracle VM VirtualBox to manage IP addresses for the internal network.</p></blockquote>
+
+<p>我们可以 <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> 和 <code>192.168.0.0/16</code> 选择一个合适的私有 ip 地址范围来构建 Internal Network，我这里选择 <code>172.16.0.0/12</code>。</p>
+
+<p>在宿主机下运行命令 <code>/Applications/VirtualBox.app/Contents/MacOS/VBoxManage dhcpserver add --netname=intnet --server-ip=172.16.0.1 --netmask=255.240.0.0 --lower-ip=172.16.0.2 --upper-ip=172.16.255.255 --enable</code> 创建好 DHCP server。</p>
+
+<p>之后我们可以利用 VirtualBox 的克隆功能来扩展我们的集群节点。</p>
+
+<h1>修改记录</h1>
+
+<ul>
+<li>2021/10/21：第一次完成</li>
+</ul>
+
+
+<h1>Reference</h1>
+
+<ul>
+<li><a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a></li>
+<li><a href="https://54m4ri74n.medium.com/building-an-internal-network-in-virtualbox-d0a4974882d0">Building an Internal Network in VirtualBox</a></li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/remembering-a-docker-network-issue-troubleshooting.html">
 		
 			记一次 Docker 网络问题排查</a>
@@ -196,95 +332,6 @@
 
 		
 		<a href="/blog/ui-design-and-screen-adaptation.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/mysql-usage-notes-part-2.html">
-		
-			MySQL 使用笔记(三)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2020-12-18T08:46:08+08:00" pubdate data-updated="true">18 Dec 2020</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.How do I see all foreign keys to a table or column?</h3>
-
-<p>A:For a Table:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT 
-</span><span class='line'>  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
-</span><span class='line'>FROM
-</span><span class='line'>  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-</span><span class='line'>WHERE
-</span><span class='line'>  REFERENCED_TABLE_SCHEMA = '&lt;database>' AND
-</span><span class='line'>  REFERENCED_TABLE_NAME = '&lt;table>';</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For a Column:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT 
-</span><span class='line'>  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
-</span><span class='line'>FROM
-</span><span class='line'>  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-</span><span class='line'>WHERE
-</span><span class='line'>  REFERENCED_TABLE_SCHEMA = '&lt;database>' AND
-</span><span class='line'>  REFERENCED_TABLE_NAME = '&lt;table>' AND
-</span><span class='line'>  REFERENCED_COLUMN_NAME = '&lt;column>';</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:</p>
-
-<p><a href="https://stackoverflow.com/questions/201621/how-do-i-see-all-foreign-keys-to-a-table-or-column">How do I see all foreign keys to a table or column?</a></p>
-
-		
-		
 	</div>
 
 

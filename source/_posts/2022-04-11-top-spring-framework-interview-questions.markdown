@@ -258,5 +258,27 @@ Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数
 
 有一个[完整的系列](https://www.baeldung.com/persistence-with-spring-series/)讨论了 Spring 的持久性，提供了一个更深入的解释。  
 
+## 5. Spring Aspect-Oriented Programming
+
+## Q25. 什么是面向切面的编程（AOP）？
+切面使跨领域的关注点模块化，如事务管理，它跨越多种类型和对象，在不修改受影响的类的情况下为已有的代码增加额外的行为。
+
+下面是[基于切面的执行时间记录](https://www.baeldung.com/spring-aop-annotation)的例子。
+
+## Q26. 什么是AOP中的Aspect、Advice、Pointcut和JoinPoint？
+
+* Aspect -- 一个实现交叉关注的类，如事务管理
+* Advice --当应用程序运行到与 Pointcut 相匹配的特定 JoinPoint 时被执行的方法
+* Pointcut -- 一组与 JoinPoint 匹配的正则表达式，以确定是否需要执行 Advice
+* JoinPoint -- 程序执行过程中的一个点，例如一个方法的执行或一个异常的处理
+
+## Q27. 什么是编织？
+根据[官方文档](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/aop.html)，编织是一个将各个切面与其他应用程序类型或对象联系起来以创建一个增强对象的过程。这可以在编译时、加载时或运行时完成。Spring AOP 和其他纯 Java AOP 框架一样，在运行时执行织入。  
+
+#6. 总结
+
+在这篇长文中，我们已经探讨了一些关于 Spring 技术面试最重要的问题。
+
+我们希望这篇文章能对即将到来的Spring面试有所帮助。祝您好运!  
 
 

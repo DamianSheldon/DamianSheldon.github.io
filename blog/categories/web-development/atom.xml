@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web development | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-04-12T10:41:59+08:00</updated>
+  <updated>2022-04-12T11:35:07+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -262,6 +262,87 @@ ServletConfig servletConfig;
 <p>更多关于 Spring MVC 的问题，请查看我们关于 <a href="https://www.baeldung.com/spring-mvc-interview-questions">Spring MVC 面试问题</a>的文章。</p>
 
 <p>译者点评：个人觉得这个题出得不怎么好，给的答案也有点答非所问。单纯说 <code>@RequestMapping</code> 注解是如何工作的？那答案应该重点说<code>@RequestMapping</code> 注解会将映射请求所需的匹配信息保留到 Java 运行时，出题者更多想考察的应该是 Spring MVC 是如何将请求映射到 <code>@RequestMapping</code> 注解的方法。</p>
+
+<h1>4. Spring Data Access</h1>
+
+<h2>Q22. 什么是 Spring JdbcTemplate 类以及如何使用它？</h2>
+
+<p>Spring JDBC 模板是数据库操作主要的API，我们可以通过它访问我们感兴趣的数据：</p>
+
+<ul>
+<li>创建和关闭连接</li>
+<li>执行语句和存储过程调用</li>
+<li>遍历结果集并返回结果</li>
+</ul>
+
+
+<p>为了使用它，我们需要定义 DataSource 的简单配置：</p>
+
+<pre><code>@Configuration
+@ComponentScan("org.baeldung.jdbc")
+public class SpringJdbcConfig {
+    @Bean
+    public DataSource mysqlDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
+        dataSource.setUsername("guest_user");
+        dataSource.setPassword("guest_password");
+
+        return dataSource;
+    }
+}
+</code></pre>
+
+<p>如需进一步解释，请查看<a href="https://www.baeldung.com/spring-jdbc-jdbctemplate">这篇快速文章</a>。</p>
+
+<h2>Q23. 如何在 Spring 中启用事务，其好处是什么？</h2>
+
+<p>有两种不同的方式来配置事务&ndash;使用注解或使用面向切面的编程（AOP）&ndash;每种方式都有其优势。</p>
+
+<p>根据官方文档，以下是使用 Spring Transactions 的好处。</p>
+
+<ul>
+<li>在不同的事务API中提供一致的编程模型，如 JTA、JDBC、Hibernate、JPA 和 JDO</li>
+<li>支持声明式事务管理</li>
+<li>与 JTA 等一些复杂的事务 API 相比，为编程式事务管理提供了更简单的 API</li>
+<li>与 Spring 的各种数据访问抽象结合得非常好</li>
+</ul>
+
+
+<h2>Q24. 什么是 Spring DAO？</h2>
+
+<p>Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数据访问技术提供的支持，其工作方式一致且简单。</p>
+
+<p>有一个<a href="https://www.baeldung.com/persistence-with-spring-series/">完整的系列</a>讨论了 Spring 的持久性，提供了一个更深入的解释。</p>
+
+<h2>5. Spring Aspect-Oriented Programming</h2>
+
+<h2>Q25. 什么是面向切面的编程（AOP）？</h2>
+
+<p>切面使跨领域的关注点模块化，如事务管理，它跨越多种类型和对象，在不修改受影响的类的情况下为已有的代码增加额外的行为。</p>
+
+<p>下面是<a href="https://www.baeldung.com/spring-aop-annotation">基于切面的执行时间记录</a>的例子。</p>
+
+<h2>Q26. 什么是AOP中的Aspect、Advice、Pointcut和JoinPoint？</h2>
+
+<ul>
+<li>Aspect &ndash; 一个实现交叉关注的类，如事务管理</li>
+<li>Advice &ndash;当应用程序运行到与 Pointcut 相匹配的特定 JoinPoint 时被执行的方法</li>
+<li>Pointcut &ndash; 一组与 JoinPoint 匹配的正则表达式，以确定是否需要执行 Advice</li>
+<li>JoinPoint &ndash; 程序执行过程中的一个点，例如一个方法的执行或一个异常的处理</li>
+</ul>
+
+
+<h2>Q27. 什么是编织？</h2>
+
+<p>根据<a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/aop.html">官方文档</a>，编织是一个将各个切面与其他应用程序类型或对象联系起来以创建一个增强对象的过程。这可以在编译时、加载时或运行时完成。Spring AOP 和其他纯 Java AOP 框架一样，在运行时执行织入。</p>
+
+<h1>6. 总结</h1>
+
+<p>在这篇长文中，我们已经探讨了一些关于 Spring 技术面试最重要的问题。</p>
+
+<p>我们希望这篇文章能对即将到来的Spring面试有所帮助。祝您好运!</p>
 ]]></content>
   </entry>
   

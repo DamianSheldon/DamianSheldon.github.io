@@ -212,5 +212,51 @@ Spring MVC 中的控制器是处理请求的组件，充当模型-视图-控制�
 
 译者点评：个人觉得这个题出得不怎么好，给的答案也有点答非所问。单纯说 `@RequestMapping` 注解是如何工作的？那答案应该重点说`@RequestMapping` 注解会将映射请求所需的匹配信息保留到 Java 运行时，出题者更多想考察的应该是 Spring MVC 是如何将请求映射到 `@RequestMapping` 注解的方法。
 
+# 4. Spring Data Access
+
+## Q22. 什么是 Spring JdbcTemplate 类以及如何使用它？
+Spring JDBC 模板是数据库操作主要的API，我们可以通过它访问我们感兴趣的数据：
+
+* 创建和关闭连接
+* 执行语句和存储过程调用
+* 遍历结果集并返回结果
+
+
+为了使用它，我们需要定义 DataSource 的简单配置：
+
+```
+@Configuration
+@ComponentScan("org.baeldung.jdbc")
+public class SpringJdbcConfig {
+    @Bean
+    public DataSource mysqlDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
+        dataSource.setUsername("guest_user");
+        dataSource.setPassword("guest_password");
+ 
+        return dataSource;
+    }
+}
+```
+
+如需进一步解释，请查看[这篇快速文章](https://www.baeldung.com/spring-jdbc-jdbctemplate)。  
+
+## Q23. 如何在 Spring 中启用事务，其好处是什么？
+有两种不同的方式来配置事务--使用注解或使用面向切面的编程（AOP）--每种方式都有其优势。
+
+根据官方文档，以下是使用 Spring Transactions 的好处。
+
+* 在不同的事务API中提供一致的编程模型，如 JTA、JDBC、Hibernate、JPA 和 JDO
+* 支持声明式事务管理
+* 与 JTA 等一些复杂的事务 API 相比，为编程式事务管理提供了更简单的 API
+* 与 Spring 的各种数据访问抽象结合得非常好
+
+## Q24. 什么是 Spring DAO？
+Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数据访问技术提供的支持，其工作方式一致且简单。
+
+有一个[完整的系列](https://www.baeldung.com/persistence-with-spring-series/)讨论了 Spring 的持久性，提供了一个更深入的解释。  
+
 
 

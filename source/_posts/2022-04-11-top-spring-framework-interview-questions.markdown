@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "常见 Spring 框架面试题(翻译)"
+title: "(翻译)常见 Spring 框架面试题"
 date: 2022-04-11 10:07:29 +0800
 comments: true
 categories: [Archives, Web Development]

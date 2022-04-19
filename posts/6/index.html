@@ -61,6 +61,312 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/create-cordova-plugin.html">
+		
+			创建 Cordova Plugin 及其 Ionic Native</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2019-09-30T09:59:14+08:00" pubdate data-updated="true">30 Sep 2019</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/android-development/'>android development</a>, <a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
+
+<ul>
+<li>Cordova Plugin 的工作原理</li>
+<li>如何创建 Cordova Plugin</li>
+<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
+</ul>
+
+
+<h3>Cordova Plugin 的工作原理</h3>
+
+<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
+
+<p>Plugin js 端的入口方法签名形式如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
+</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
+</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
+
+<p>具体是怎么映射的呢？</p>
+
+<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
+</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
+</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个形式就是我们上面见过的形式。</p>
+
+<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
+
+<h3>如何创建 Cordova Plugin</h3>
+
+<h4>安装 plugman</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm install -g plugman</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>创建 cordova plugin</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
+</span><span class='line'>
+</span><span class='line'>eg.
+</span><span class='line'>$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>添加 platform</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$plugman platform add --platform_name android</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>创建 package.json 文件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman createpackagejson &lt;directory&gt;
+</span><span class='line'>
+</span><span class='line'>eg.
+</span><span class='line'>$plugman createpackagejson .</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>安装 cordova plugin</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
+</span><span class='line'>$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
+</span><span class='line'>
+</span><span class='line'>// 方法二：
+</span><span class='line'>$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>卸载 cordova plugin</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 与安装的方法对应有两种卸载方法
+</span><span class='line'>// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
+</span><span class='line'>
+</span><span class='line'>// 方法二：
+</span><span class='line'>$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>发布</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a tag
+</span><span class='line'>$git tag &lt;tagname&gt;
+</span><span class='line'>
+</span><span class='line'>// Push to repository
+</span><span class='line'>$git push origin master</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>升级 cordova plugin</h4>
+
+<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
+
+<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
+
+<h4>Creating Plugin Wrappers</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Navigate to ionic-native root path
+</span><span class='line'>$cd  ionic-native
+</span><span class='line'>
+</span><span class='line'>// Install dependencies first time
+</span><span class='line'>$npm install
+</span><span class='line'>
+</span><span class='line'>// Create plugin wrapper
+</span><span class='line'>// When gulp installed locally
+</span><span class='line'>$npx gulp plugin:create -n PluginName
+</span><span class='line'>
+</span><span class='line'>// When gulp installed globally
+</span><span class='line'>$gulp plugin:create -n PluginName</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>安装</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
+</span><span class='line'>$npm run build
+</span><span class='line'>
+</span><span class='line'>//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
+</span><span class='line'>$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>使用</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Import the plugin in a @NgModule and add it to the list of Providers. 
+</span><span class='line'>// app.module.ts
+</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>@NgModule({
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>  providers: [
+</span><span class='line'>    ...
+</span><span class='line'>    APIClient
+</span><span class='line'>    ...
+</span><span class='line'>  ]
+</span><span class='line'>  ...
+</span><span class='line'>})
+</span><span class='line'>export class AppModule { }
+</span><span class='line'>
+</span><span class='line'>// After the plugin has been declared, it can be imported and injected like any other service:
+</span><span class='line'>
+</span><span class='line'>// login.service.ts
+</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
+</span><span class='line'>import { ServiceName } from '@ionic-native/api-client/ngx';
+</span><span class='line'>
+</span><span class='line'>constructor(private apiClient: APIClient) { }
+</span><span class='line'>
+</span><span class='line'>this.apiClient.get(ServiceName.Login, JSON.stringify(user))
+</span><span class='line'>      .then((result: string) =&gt; {
+</span><span class='line'>        console.log('api client login:', result);
+</span><span class='line'>        //TODO: Parse server return json to UserExt object
+</span><span class='line'>        const routePath = this.simulateLogin(username);        
+</span><span class='line'>        resolve(routePath);
+</span><span class='line'>      })
+</span><span class='line'>      .catch((error: string) =&gt; {
+</span><span class='line'>        console.log('api client login error:', error);
+</span><span class='line'>
+</span><span class='line'>        reject(error);
+</span><span class='line'>      });</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Reference:</h1>
+
+<ul>
+<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
+<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-development-notes-part-four.html">
 		
 			Web 开发问题汇总(四)</a>
@@ -219,82 +525,6 @@
 
 		
 		<a href="/blog/an-introduction-to-mobile-cross-platform-development.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-ui-layout.html">
-		
-			Web 界面布局</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2019-03-06T09:27:15+08:00" pubdate data-updated="true">06 Mar 2019</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。</p>
-
-<p>Web 诞生的背景是更好的共享信息，而这信息起初便是文字、图片。为了展示图文信息，涌现出了很多布局方式，一种称为流的布局方式在竞争中胜出了。</p>
-
-<p>在这种布局方式中，界面元素被大体分为两类：一类是块级元素；另一类是是内联元素。块级元素负责结构布局，内联元素负责内容。在默认情况下，块级元素会像水流一样填满容器的宽度，内联元素则是从左至右，从上往下堆叠。很显然完全使用默认的布局行为是不能完成所有的需求的，于是在此基础上通过破坏流演化出新的布局行为，进而来满足我们的各种布局需求。所以总结下来，Web 的布局方法主要是如下几种：</p>
-
-<ul>
-<li>默认流布局行为</li>
-<li>Float</li>
-<li>Positioning</li>
-<li>Table layout</li>
-<li>Flexbox</li>
-<li>Grid</li>
-</ul>
-
-
-<p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
-
-<p><img class="center" src="/images/css-box-model.png"></p>
-
-<p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
-
-<p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
-
-<p><img class="center" src="/images/html-element-tree.png"></p>
-
-<p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
-
-<p>Positioning 布局方法是通过改变元素的 position 值来改变她的位置，她可能的值为：<code>static | relative | absolute| fixed</code>，static 是默认值，relative 是相对默认位置定位，absolute 是相对父元素中第一个不为 static 的元素定位，fixed 则是相对 viewport，这些属性大大增强了布局定位能力。</p>
-
-
-		
-		<a href="/blog/web-ui-layout.html" class="more-link">继续阅读</a>
 	</div>
 
 

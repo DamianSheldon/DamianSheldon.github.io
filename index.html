@@ -61,6 +61,93 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/spring-boot-interview-questions.html">
+		
+			(翻译)Spring Boot 面试题</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-04-19T10:03:03+08:00" pubdate data-updated="true">19 Apr 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h1>1. 概述</h1>
+
+<p>自推出以来，Spring Boot一直是Spring生态系统中的一个重要角色。这个项目凭借其自动配置能力使我们的生活变得更加轻松。</p>
+
+<p>在本教程中，我们将介绍一些在求职面试中可能出现的与Spring Boot有关的最常见问题。</p>
+
+<h1>2. 题目</h1>
+
+<h2>Q1. 什么是Spring Boot，其主要特点是什么？</h2>
+
+<p>Spring Boot本质上是一个建立在Spring框架之上的快速应用开发框架。凭借其自动配置和嵌入式应用服务器支持，再加上其享有的大量文档和社区支持，Spring Boot是迄今为止Java生态系统中最受欢迎的技术之一。</p>
+
+<p>这里有几个突出的特点。</p>
+
+<ul>
+<li><strong>启动器</strong> &ndash; 一组依赖性描述符，可以一次性包括相关的依赖性</li>
+<li><strong>自动配置</strong> &ndash; 一种基于classpath上的依赖关系自动配置应用程序的方法</li>
+<li><strong>执行器</strong> &ndash; 获得生产就绪的功能，如监控</li>
+<li><strong>安全性</strong></li>
+<li><strong>记录</strong></li>
+</ul>
+
+
+<h2>Q2. Spring和Spring Boot之间的区别是什么？</h2>
+
+<p>Spring框架提供了多种功能，使Web应用的开发更加容易。这些功能包括依赖性注入、数据绑定、面向方面的编程、数据访问等等。</p>
+
+<p>多年来，Spring越来越复杂，这种应用所需的配置量可能令人生畏。这就是Spring Boot的用武之地&ndash;它使配置一个Spring应用程序变得轻而易举。</p>
+
+<p>从本质上讲，Spring是没有主见的，而Spring Boot对平台和库有主见，让我们快速上手。</p>
+
+<p>下面是Spring Boot带来的两个最重要的好处。</p>
+
+<ul>
+<li>根据它在classpath上找到的库自动配置应用程序</li>
+<li>提供生产中的应用程序常见的非功能特性，如安全或健康检查</li>
+</ul>
+
+
+<p>请查看我们的其他教程，了解<a href="https://www.baeldung.com/spring-vs-spring-boot">普通Spring和Spring Boot的详细比较</a>。</p>
+
+
+		
+		<a href="/blog/spring-boot-interview-questions.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/spring-mvc-interview-questions.html">
 		
 			(翻译)Spring MVC 面试题</a>
@@ -216,175 +303,6 @@
 
 		
 		<a href="/blog/top-spring-framework-interview-questions.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-migrate-to-rocky-linux-from-centos-8.html">
-		
-			CentOS 8 迁移到 Rocky Linux 时遇到的问题</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-03-08T11:25:32+08:00" pubdate data-updated="true">08 Mar 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>虽然 Rocky Linux 专门写了一篇文档介绍如何从 CentOS 8 迁移过来，但实际迁移还是遇到了问题，这里简单记一下。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Error: 
-</span><span class='line'> Problem 1: cannot install both ibus-libs-1.5.19-14.el8_5.x86_64 and ibus-libs-1.5.19-12.el8.x86_64
-</span><span class='line'>  - package ibus-devel-1.5.19-12.el8.x86_64 requires ibus-libs(x86-64) = 1.5.19-12.el8, but none of the providers can be installed
-</span><span class='line'>  - cannot install the best update candidate for package ibus-libs-1.5.19-12.el8.x86_64
-</span><span class='line'>  - problem with installed package ibus-devel-1.5.19-12.el8.x86_64
-</span><span class='line'> Problem 2: cannot install both marisa-0.2.4-36.el8.x86_64 and marisa-0.2.4-4.el7.x86_64
-</span><span class='line'>  - package marisa-devel-0.2.4-4.el7.x86_64 requires marisa(x86-64) = 0.2.4-4.el7, but none of the providers can be installed
-</span><span class='line'>  - cannot install the best update candidate for package marisa-0.2.4-4.el7.x86_64
-</span><span class='line'>  - problem with installed package marisa-devel-0.2.4-4.el7.x86_64
-</span><span class='line'>(try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第一个问题是升级 <code>ibus-devel</code> 失败，这是因为 <code>ibus-devel</code> 在 PowerTools 的仓库中，默认可能没有使能这个仓库，我们可以手动使能安装或升级：<code>sudo dnf --enablerepo=powertools install ibus-devel</code>。</p>
-
-<p>第二个问题是 CentOS 8 上有最新的 <code>marisa-0.2.4-36.el8.x86_64</code>，但是只有<code>marisa-devel-0.2.4-4.el7.x86_64</code>, 这个有点奇怪，不知道为什么两个版本没有同步升级，<code>marisa-devel</code> 一般是用于开发，我们可能暂时用不到，可以先尝试卸载它完成升级：<code>sudo dnf remove marisa-devel</code>。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Syncing packages
-</span><span class='line'>
-</span><span class='line'>Last metadata expiration check: 0:00:13 ago on Tue Mar  8 12:23:04 2022.
-</span><span class='line'>
-</span><span class='line'>Error: 
-</span><span class='line'> Problem: package kyotocabinet-1.2.77-1.el7.x86_64 requires kyotocabinet-libs(x86-64) = 1.2.77-1.el7, but none of the providers can be installed
-</span><span class='line'>  - kyotocabinet-libs-1.2.77-1.el7.x86_64 does not belong to a distupgrade repository
-</span><span class='line'>  - problem with installed package kyotocabinet-1.2.77-1.el7.x86_64
-</span><span class='line'>(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
-</span><span class='line'>
-</span><span class='line'>Error during distro-sync.
-</span><span class='line'>
-</span><span class='line'>An error occurred while we were attempting to convert your system to Rocky Linux. Your system may be unstable. Script will now exit to prevent possible damage.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第三个问题是 kyotocabinet 的版本问题导致 <code>distro-sync</code> 失败。我查询了一下系统中安装的 kyotocabinet 版本又确实是 <code>1.2.77-1.el7</code>，也可以查询到迁移成功了：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ hostnamectl 
-</span><span class='line'>   Static hostname: centos.tenneshop.com
-</span><span class='line'>         Icon name: computer-vm
-</span><span class='line'>           Chassis: vm
-</span><span class='line'>        Machine ID: 2af6da6bd3624e0988bd30e22574b645
-</span><span class='line'>           Boot ID: 6edac64aba294e1e9f3b7cfdb7b6970c
-</span><span class='line'>    Virtualization: oracle
-</span><span class='line'>  Operating System: Rocky Linux 8.5 (Green Obsidian)
-</span><span class='line'>       CPE OS Name: cpe:/o:rocky:rocky:8:GA
-</span><span class='line'>            Kernel: Linux 4.18.0-240.15.1.el8_3.x86_64
-</span><span class='line'>      Architecture: x86-64</span></code></pre></td></tr></table></div></figure>
-
-
-<p>通过 <code>Syncing packages</code> 搜索 migrate2rocky 脚本，这已经是最后三步了，于是尝试手动完成剩下的工作。  先 <code>dnf --allowerasing distro-sync</code>，然后查看会删除哪些软件，我这里是会删除 kyotocabinet，根据情况确认是否接受删除软件同步。</p>
-
-<p>最后的 Disable Stream repos 和移除 <code>subscription-manage</code>，因为是 CentOS 8, 所以并不需要。</p>
-
-<p>重启之后又遇到新的问题：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vboxclient the virtualbox kernel service is not running. exiting</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看 <code>/var/log/vboxadd-setup.log</code>，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/tmp/vbox.0/r0drv/linux/alloc-r0drv-linux.c:204:14: error: implicit declaration of function ‘map_vm_area’; did you mean ‘get_vm_area’? [-Werror=implicit-function-declaration]
-</span><span class='line'>         if (!map_vm_area(pVmArea, PAGE_KERNEL_EXEC,
-</span><span class='line'>              ^~~~~~~~~~~
-</span><span class='line'>              get_vm_area
-</span><span class='line'>cc1: some warnings being treated as errors
-</span><span class='line'>make[2]: *** [scripts/Makefile.build:316: /tmp/vbox.0/combined-os-specific.o] Error 1
-</span><span class='line'>make[1]: *** [Makefile:1571: _module_/tmp/vbox.0] Error 2
-</span><span class='line'>make: *** [/tmp/vbox.0/Makefile-footer.gmk:117: vboxguest] Error 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>经过一番搜索，我意识到可能是 <code>VBoxGuestAdditions.iso</code> 的版本不对，因为之前确实有提示类似 <code>unable to insert the virtual optical disk /usr/share/virtualbox/vboxguestadditions.iso</code> 的错误，原因是我没有把之前版本的 <code>VBoxGuestAdditions.iso</code> 从虚拟光驱中弹出，于是先弹出再插入新版本，果然新版本成功安装。</p>
-
-<h2>Reference:</h2>
-
-<ul>
-<li><a href="https://docs.rockylinux.org/guides/migrate2rocky/">How to Migrate to Rocky Linux from CentOS Stream, CentOS, Alma Linux, RHEL, or Oracle Linux</a></li>
-<li><a href="https://access.redhat.com/discussions/4452161">vboxclient the virtualbox kernel service is not running. exiting</a></li>
-<li><a href="https://forums.virtualbox.org/viewtopic.php?t=103528">CentOS 8 Stream - vboxdrv wont build</a></li>
-<li><a href="https://forums.virtualbox.org/viewtopic.php?t=82201">Cannot install Guest Addtions</a></li>
-</ul>
-
-
-		
-		
 	</div>
 
 

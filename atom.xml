@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-04-13T15:50:27+08:00</updated>
+  <updated>2022-04-19T16:01:37+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,454 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[(翻译)Spring Boot 面试题]]></title>
+    <link href="http://DamianSheldon.github.io/blog/spring-boot-interview-questions.html"/>
+    <updated>2022-04-19T10:03:03+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/spring-boot-interview-questions</id>
+    <content type="html"><![CDATA[<h1>1. 概述</h1>
+
+<p>自推出以来，Spring Boot一直是Spring生态系统中的一个重要角色。这个项目凭借其自动配置能力使我们的生活变得更加轻松。</p>
+
+<p>在本教程中，我们将介绍一些在求职面试中可能出现的与Spring Boot有关的最常见问题。</p>
+
+<h1>2. 题目</h1>
+
+<h2>Q1. 什么是Spring Boot，其主要特点是什么？</h2>
+
+<p>Spring Boot本质上是一个建立在Spring框架之上的快速应用开发框架。凭借其自动配置和嵌入式应用服务器支持，再加上其享有的大量文档和社区支持，Spring Boot是迄今为止Java生态系统中最受欢迎的技术之一。</p>
+
+<p>这里有几个突出的特点。</p>
+
+<ul>
+<li><strong>启动器</strong> &ndash; 一组依赖性描述符，可以一次性包括相关的依赖性</li>
+<li><strong>自动配置</strong> &ndash; 一种基于classpath上的依赖关系自动配置应用程序的方法</li>
+<li><strong>执行器</strong> &ndash; 获得生产就绪的功能，如监控</li>
+<li><strong>安全性</strong></li>
+<li><strong>记录</strong></li>
+</ul>
+
+
+<h2>Q2. Spring和Spring Boot之间的区别是什么？</h2>
+
+<p>Spring框架提供了多种功能，使Web应用的开发更加容易。这些功能包括依赖性注入、数据绑定、面向方面的编程、数据访问等等。</p>
+
+<p>多年来，Spring越来越复杂，这种应用所需的配置量可能令人生畏。这就是Spring Boot的用武之地&ndash;它使配置一个Spring应用程序变得轻而易举。</p>
+
+<p>从本质上讲，Spring是没有主见的，而Spring Boot对平台和库有主见，让我们快速上手。</p>
+
+<p>下面是Spring Boot带来的两个最重要的好处。</p>
+
+<ul>
+<li>根据它在classpath上找到的库自动配置应用程序</li>
+<li>提供生产中的应用程序常见的非功能特性，如安全或健康检查</li>
+</ul>
+
+
+<p>请查看我们的其他教程，了解<a href="https://www.baeldung.com/spring-vs-spring-boot">普通Spring和Spring Boot的详细比较</a>。</p>
+
+<!--more-->
+
+
+<h2>Q3. 我们如何用Maven设置Spring Boot应用程序？</h2>
+
+<p>我们可以像对待其他库一样，将Spring Boot纳入Maven项目中。不过，最好的方法是从spring-boot-starter-parent项目中继承，并声明对Spring Boot starters的依赖关系。这样做可以让我们的项目重用Spring Boot的默认设置。</p>
+
+<p>继承spring-boot-starter-parent项目很简单，我们只需要在pom.xml中指定一个父元素:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;parent&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+</span><span class='line'>    &lt;version&gt;2.4.0.RELEASE&lt;/version&gt;
+</span><span class='line'>&lt;/parent&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以在Maven中心找到最新版本的spring-boot-starter-parent。</p>
+
+<p>使用启动器父项目很方便，但并不总是可行的。例如，如果我们公司要求所有项目都继承自标准POM，那么我们仍然可以通过使用<a href="https://www.baeldung.com/spring-boot-dependency-management-custom-parent">自定义父项目</a>来受益于Spring Boot的依赖性管理。</p>
+
+<h2>Q4. 什么是Spring Initializr？</h2>
+
+<p>Spring Initializr是一种创建Spring Boot项目的便捷方式。</p>
+
+<p>我们可以去<a href="https://start.spring.io/">Spring Initializr</a>网站，选择一个依赖管理工具（Maven或Gradle）、一种语言（Java、Kotlin或Groovy）、一种打包方案（Jar或War）、版本和依赖性，然后下载项目。</p>
+
+<p>这为我们创建了一个骨架项目，节省了设置时间，这样我们就可以集中精力添加业务逻辑。</p>
+
+<p>即使我们使用IDE的（如STS或带有STS插件的Eclipse）新项目向导来创建Spring Boot项目，它也会在底下使用Spring Initializr。</p>
+
+<h2>Q5. 外面有哪些Spring Boot启动器？</h2>
+
+<p>每个启动器都扮演着一站式服务的角色，提供我们需要的所有 Spring 技术。其他所需的依赖项也会被拉进来，并以一致的方式进行管理。</p>
+
+<p>所有启动器都在org.springframework.boot组下，其名称以spring-boot-starter-开头。这种命名模式使我们很容易找到启动器，特别是在使用支持按名称搜索依赖关系的IDE时。</p>
+
+<p>在写这篇文章的时候，有超过50个启动器供我们使用。这里，我们将列出最常见的：</p>
+
+<ul>
+<li><strong>spring-boot-starter</strong>：核心启动器，包括自动配置支持、日志和YAML</li>
+<li><strong>spring-boot-starter-aop</strong>: 使用Spring AOP和AspectJ进行面向方面的编程</li>
+<li><strong>spring-boot-starter-data-jpa</strong>：用于在Hibernate中使用Spring Data JPA。</li>
+<li><strong>spring-boot-starter-security</strong>: 用于使用Spring Security。</li>
+<li><strong>spring-boot-starter-test</strong>: 用于测试Spring Boot应用程序</li>
+<li><strong>spring-boot-starter-web</strong>: 用于使用Spring MVC构建Web（包括RESTful）应用程序。</li>
+</ul>
+
+
+<p>有关启动程序的完整列表，请参见该<a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters">资源库</a>。</p>
+
+<p>要找到关于Spring Boot启动程序的更多信息，请看<a href="https://www.baeldung.com/spring-boot-starters">Spring Boot启动程序介绍</a>。</p>
+
+<h2>Q6. 如何禁用一个特定的自动配置？</h2>
+
+<p>如果我们想禁用一个特定的自动配置，我们可以使用@EnableAutoConfiguration注解的exclude属性来设置它。</p>
+
+<p>例如，这个代码片断禁用了DataSourceAutoConfiguration:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// other annotations
+</span><span class='line'>@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+</span><span class='line'>public class MyConfiguration { }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们用@SpringBootApplication注解启用了自动配置&ndash;该注解将@EnableAutoConfiguration作为元注解&ndash;我们可以用同名的属性禁用自动配置:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// other annotations
+</span><span class='line'>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+</span><span class='line'>public class MyConfiguration { }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以用spring.autoconfigure.exclude环境属性禁用自动配置。在application.properties文件中的配置与之前做的设置是做相同的事情:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Q7. 如何注册一个自定义的自动配置？</h2>
+
+<p>要注册一个自动配置类，我们必须在META-INF/spring.factories文件的EnableAutoConfiguration键下列出其完全限定名称:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.baeldung.autoconfigure.CustomAutoConfiguration</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们用Maven构建项目，该文件应放在resources/META-INF目录下，在打包阶段最终会出现在上述位置。</p>
+
+<h2>Q8. 如何告诉自动配置在Bean存在时退缩？</h2>
+
+<p>为了指示自动配置类在Bean已经存在时退缩，我们可以使用 @ConditionalOnMissingBean 注解。</p>
+
+<p>这个注解最值得注意的属性是:</p>
+
+<ul>
+<li>value &ndash; 要检查的Bean的类型</li>
+<li>name &ndash; 要检查的bean的名字</li>
+</ul>
+
+
+<p>当放在一个用@Bean装饰的方法上时，目标类型默认为该方法的返回类型:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Configuration
+</span><span class='line'>public class CustomConfiguration {
+</span><span class='line'>    @Bean
+</span><span class='line'>    @ConditionalOnMissingBean
+</span><span class='line'>    public CustomService service() { ... }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Q9. 如何将Spring Boot Web应用部署为Jar和War文件？</h2>
+
+<p>传统上，我们将Web应用打包成WAR文件，然后将其部署到外部服务器上。这样做可以让我们在同一台服务器上安排多个应用程序。在CPU和内存稀缺的时候，这是一个节省资源的好方法。</p>
+
+<p>但事情已经发生了变化。现在计算机硬件相当便宜，人们的注意力已经转向服务器配置。在部署过程中，配置服务器的一个小错误可能会导致灾难性的后果。</p>
+
+<p>Spring通过提供一个插件，即spring-boot-maven-plugin，将网络应用打包成可执行的JAR，来解决这个问题。</p>
+
+<p>要包含这个插件，只需在pom.xml中添加一个插件元素:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;plugin&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+</span><span class='line'>&lt;/plugin&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有了这个插件，我们在执行打包阶段后会得到一个扁平的JAR。这个JAR包含所有必要的依赖，包括一个嵌入式服务器。因此，我们不再需要担心配置外部服务器的问题。</p>
+
+<p>然后我们可以像运行普通的可执行JAR一样运行该应用程序。</p>
+
+<p>注意，pom.xml文件中的打包元素必须设置为jar来构建JAR文件:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;packaging&gt;jar&lt;/packaging&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们不包括这个元素，它也默认为jar。</p>
+
+<p>要构建一个WAR文件，我们把包装元素改为war:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;packaging&gt;war&lt;/packaging&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>并将容器的依赖关系从打包的文件中删除:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+</span><span class='line'>    &lt;scope&gt;provided&lt;/scope&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在执行Maven打包阶段后，我们会有一个可部署的WAR文件。</p>
+
+<h2>Q10. 如何在命令行应用程序中使用Spring Boot？</h2>
+
+<p>就像其他Java程序一样，Spring Boot命令行应用程序必须有一个main方法。</p>
+
+<p>这个方法作为一个入口点，它调用<code>SpringApplication#run</code>方法来启动应用程序:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@SpringBootApplication
+</span><span class='line'>public class MyApplication {
+</span><span class='line'>    public static void main(String[] args) {
+</span><span class='line'>        SpringApplication.run(MyApplication.class);
+</span><span class='line'>        // other statements
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后SpringApplication类启动Spring容器并自动配置Bean。</p>
+
+<p>注意我们必须向run方法传递一个配置类，作为主要的配置源。按照惯例，这个参数就是入口类本身。</p>
+
+<p>在调用运行方法后，我们可以像普通程序一样执行其他语句。</p>
+
+<h2>Q11. 外部配置的可能来源是什么？</h2>
+
+<p>Spring Boot提供了对外部配置的支持，使我们能够在不同的环境中运行同一个应用程序。我们可以使用属性文件、YAML文件、环境变量、系统属性和命令行选项参数来指定配置属性。</p>
+
+<p>然后，我们可以使用@Value注解、通过<a href="https://www.baeldung.com/configuration-properties-in-spring-boot">@ConfigurationProperties注解</a>的绑定对象或环境抽象来访问这些属性。</p>
+
+<h2>Q12. Spring Boot支持宽松的绑定是什么意思？</h2>
+
+<p>Spring Boot中的宽松绑定适用于<a href="https://www.baeldung.com/configuration-properties-in-spring-boot">配置属性的类型安全绑定</a>。</p>
+
+<p>通过宽松的绑定，属性的键不需要与属性名完全匹配。这样的环境属性可以用camelCase、kebab-case、snake_case，或者用大写字母，用下划线隔开单词。</p>
+
+<p>例如，如果一个带有 @ConfigurationProperties 注解的 bean 类中的一个属性被命名为 myProp，它可以被绑定到这些环境属性中的任何一个：myProp、my-prop、my_prop 或 MY_PROP。</p>
+
+<h2>Q13. Spring Boot DevTools的用途是什么？</h2>
+
+<p>Spring Boot开发者工具，或称DevTools，是一套使开发过程更容易的工具。</p>
+
+<p>为了包括这些开发时的功能，我们只需要在pom.xml文件中添加一个依赖项:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果应用程序在生产中运行，spring-boot-devtools模块会自动禁用。重新打包的归档文件也默认排除了这个模块。所以，它不会给我们的最终产品带来任何开销。</p>
+
+<p>默认情况下，DevTools应用适合于开发环境的属性。这些属性禁用了模板缓存，启用了网络组的调试日志，诸如此类。因此，我们有了这种合理的开发时配置，而无需设置任何属性。</p>
+
+<p>只要classpath上的文件发生变化，使用DevTools的应用程序就会重新启动。这在开发中是一个非常有帮助的功能，因为它可以快速反馈修改情况。</p>
+
+<p>默认情况下，静态资源，包括视图模板，不会引发重启。相反，资源变化会触发浏览器刷新。请注意，只有在浏览器中安装了LiveReload扩展，以便与DevTools包含的嵌入式LiveReload服务器进行交互时，这才会发生。</p>
+
+<p>关于这一主题的进一步信息，请参见<a href="https://www.baeldung.com/spring-boot-devtools">Spring Boot DevTools概述</a>。</p>
+
+<h2>Q14. 如何编写集成测试？</h2>
+
+<p>在为Spring应用程序运行集成测试时，我们必须有一个ApplicationContext。</p>
+
+<p>为了让我们的生活更轻松，Spring Boot为测试提供了一个特殊的注解&ndash;@SpringBootTest。该注解从其classes属性所指示的配置类中创建一个ApplicationContext。</p>
+
+<p>如果classes属性没有设置，Spring Boot会搜索主要的配置类。搜索从包含测试的包开始，直到找到一个用@SpringBootApplication或@SpringBootConfiguration注解的类。</p>
+
+<p>有关详细说明，请查看我们的<a href="https://www.baeldung.com/spring-boot-testing">Spring Boot测试教程</a>。</p>
+
+<h2>Q15. Spring Boot Actuator的用途是什么？</h2>
+
+<p>从本质上讲，Actuator通过启用生产就绪的功能，使Spring Boot应用程序活起来。这些功能使我们能够在应用程序在生产中运行时监控和管理它们。</p>
+
+<p>将Spring Boot Actuator集成到一个项目中非常简单。我们所要做的就是在pom.xml文件中包括spring-boot-starter-actuator启动器:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Spring Boot Actuator可以使用HTTP或JMX端点来暴露操作信息。但大多数应用程序都会选择HTTP，其中端点的身份和/actuator前缀构成了一个URL路径。</p>
+
+<p>下面是Actuator提供的一些最常见的内置端点。</p>
+
+<ul>
+<li><strong>env</strong> 暴露环境属性</li>
+<li><strong>health</strong> 显示应用程序的健康信息</li>
+<li><strong>httptrace</strong> 显示HTTP跟踪信息</li>
+<li><strong>info</strong> 显示任意的应用程序信息</li>
+<li><strong>metrics</strong> 显示度量信息</li>
+<li><strong>loggers</strong> 显示并修改应用程序中的记录器配置</li>
+<li><strong>mappings</strong> 显示所有@RequestMapping路径的列表</li>
+</ul>
+
+
+<p>请参考我们的<a href="https://www.baeldung.com/spring-boot-actuators">Spring Boot Actuator教程</a>，了解详细情况。</p>
+
+<h2>Q16. 配置Spring Boot项目时，属性和YAML哪个更好？</h2>
+
+<p>与属性文件相比，YAML有很多优点。</p>
+
+<ul>
+<li>更加清晰，可读性更好</li>
+<li>非常适合分层的配置数据，也可以用更好、更易读的格式来表示</li>
+<li>支持地图、列表和标量类型</li>
+<li>可以在同一个文件中包含多个<a href="https://www.baeldung.com/spring-profiles">配置文件</a>（从Spring Boot 2.4.0开始，属性文件也可以这样做了）</li>
+</ul>
+
+
+<p>但是，由于它的缩进规则，编写它可能有点困难，而且容易出错。</p>
+
+<p>有关细节和工作样本，请参考我们的<a href="https://www.baeldung.com/spring-yaml-vs-properties">Spring YAML与属性</a>教程。</p>
+
+<h2>Q17. Spring Boot提供了哪些基本注解？</h2>
+
+<p>Spring Boot提供的主要注释位于org.springframework.boot.autoconfigure及其子包中。</p>
+
+<p>以下是一些基本的注释：</p>
+
+<ul>
+<li><strong>@EnableAutoConfiguration</strong> &ndash; 使Spring Boot在其classpath上寻找自动配置豆并自动应用它们。</li>
+<li><strong>@SpringBootApplication</strong> &ndash; 表示Boot Application的主类。该注解将@Configuration、@EnableAutoConfiguration和@ComponentScan注解与它们的默认属性结合起来。</li>
+</ul>
+
+
+<p><a href="https://www.baeldung.com/spring-boot-annotations">Spring Boot注解</a>提供了对这一主题的更多见解。</p>
+
+<h2>Q18. 如何改变Spring Boot中的默认端口？</h2>
+
+<p>我们可以通过以下方式改变嵌入Spring Boot中的服务器的默认端口。</p>
+
+<ul>
+<li>使用属性文件 &ndash; 我们可以在application.properties（或application.yml）文件中使用属性server.port来定义。</li>
+<li>通过编程 &ndash; 在我们的主@SpringBootApplication类中，我们可以在SpringApplication实例上设置server.port。</li>
+<li>使用命令行 &ndash; 当以jar文件的形式运行应用程序时，我们可以将server.port设置为java命令参数:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java -jar -Dserver.port=8081 myspringproject.jar</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Q19. Spring Boot支持哪些嵌入式服务器，以及如何改变默认值？</h2>
+
+<p>截至目前，Spring MVC支持Tomcat、Jetty和Undertow。Tomcat是Spring Boot的Web Starter支持的默认应用服务器。</p>
+
+<p>Spring WebFlux支持Reactor Netty、Tomcat、Jetty和Undertow，其中Reactor Netty为默认。</p>
+
+<p>在Spring MVC中，如果要改变默认，比方说改变为Jetty，我们需要排除Tomcat，在依赖关系中包括Jetty:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+</span><span class='line'>    &lt;exclusions&gt;
+</span><span class='line'>        &lt;exclusion&gt;
+</span><span class='line'>            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+</span><span class='line'>        &lt;/exclusion&gt;
+</span><span class='line'>    &lt;/exclusions&gt;
+</span><span class='line'>&lt;/dependency&gt;
+</span><span class='line'>&lt;dependency&gt;
+</span><span class='line'>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+</span><span class='line'>    &lt;artifactId&gt;spring-boot-starter-jetty&lt;/artifactId&gt;
+</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同样，要把WebFlux的默认值改为UnderTow，我们需要排除Reactor Netty，并把UnderTow纳入依赖关系。</p>
+
+<p><a href="https://www.baeldung.com/spring-boot-servlet-containers">比较Spring Boot中的嵌入式Servlet容器</a>有更多关于我们可以在Spring MVC中使用的不同嵌入式服务器的细节。</p>
+
+<h2>Q20. 为什么我们需要Spring Profiles？</h2>
+
+<p>在为企业开发应用程序时，我们通常要处理多种环境，如开发、QA和生产。这些环境的配置属性是不同的。</p>
+
+<p>例如，我们可能在开发中使用嵌入式H2数据库，但开发中可能有专有的Oracle或DB2。即使DBMS在不同的环境中是相同的，URLs也肯定是不同的。</p>
+
+<p>为了使这个问题简单明了，Spring提供了配置文件，以帮助分离每个环境的配置。因此，可以将这些属性保存在不同的文件中，如application-dev.properties和application-prod.properties，而不是通过编程来维护这些属性。默认的application.properties使用spring.profiles.active指向当前活动的配置文件，这样就可以获得正确的配置。</p>
+
+<p><a href="https://www.baeldung.com/spring-profiles">Spring Profiles</a>给出了关于这个主题的全面观点。</p>
+
+<h1>3. 总结</h1>
+
+<p>本文介绍了技术面试中可能出现的关于Spring Boot的一些最关键问题。</p>
+
+<p>我们希望这些问题能够帮助你找到理想的工作。</p>
+
+<h1>4. 原文</h1>
+
+<ul>
+<li><a href="https://www.baeldung.com/spring-boot-interview-questions">Spring Boot Interview Questions</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[(翻译)Spring MVC 面试题]]></title>
@@ -4873,1036 +5321,6 @@ For Microsoft’s Internet Information Server (IIS), use IIS Manager to add the 
 <li><p><a href="https://help.apple.com/deployment/ios/#/apda0e3426d7">Distribute in-house apps from a web server</a></p></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 面试题汇总(三)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-technical-interview-part-3.html"/>
-    <updated>2018-09-13T10:20:22+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-technical-interview-part-3</id>
-    <content type="html"><![CDATA[<h3>1.介绍js的基本数据类型。</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Six data types that are primitives:
-
-<ul>
-<li>Boolean. true and false.</li>
-<li>null. A special keyword denoting a null value. Because JavaScript is case-sensitive, null is not the same as Null, NULL, or any other variant.</li>
-<li>undefined. A top-level property whose value is not defined.</li>
-<li>Number. An integer or floating point number. For example: 42 or 3.14159.</li>
-<li>String. A sequence of characters that represent a text value. For example:  &ldquo;Howdy&rdquo;</li>
-<li>Symbol (new in ECMAScript 2015). A data type whose instances are unique and immutable.</li>
-</ul>
-</li>
-<li>and Object</li>
-</ul>
-
-
-<h3>2.介绍js有哪些内置对象？</h3>
-
-<h3>3.说几条写JavaScript的基本规范？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>总是使用var声明变量</li>
-<li>行末别忘了分号</li>
-<li>使用标准而不是不标准的功能</li>
-<li>使用驼峰命名（如：camelCaseNames）以及大写的常量（如：UPPERCASE），避免使用const关键字，因为IE不支持</li>
-<li>使用命名空间技术</li>
-<li>避免eval()除非反序列化（奇怪的是JSON解析并未提及）</li>
-<li>避免对象上使用with(), 数组使用for in</li>
-<li>使用对象以及数组字面量而不是更冗长的声明</li>
-<li>要知道truthy和falsy规则</li>
-<li>JavaScript资源中不使用IE条件注释</li>
-<li>不修改内置对象的原型——这会让人颜面扫地，因为这是让JavaScript更加强大的功能之一，但你知道这会导致问题</li>
-<li>小心使用闭包以及不要循环引用</li>
-<li>同样，小心使用”this”</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2012/07/google-html-css-javascript-style-guides/">翻译：谷歌HTML、CSS和JavaScript风格规范</a></p>
-
-<h3>4.JavaScript原型，原型链 ? 有什么特点？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>原型：每个对象都有一个原型对象，它充当继承方法和属性来源的模板对象。</li>
-<li>原型链：对象的原型对象也可能有原型，依此类推，便形成原型链。</li>
-<li>特点：强大而灵活。</li>
-</ul>
-
-
-<!--more-->
-
-
-<h3>5.JavaScript有几种类型的值？，你能画一下他们的内存图吗？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>栈类型：Undefined，Null，Boolean，Number、String</li>
-<li>堆类型：对象、数组和函数</li>
-</ul>
-
-
-<h3>6.如何将字符串转化为数字，例如'12.3b'?</h3>
-
-<p>A:<code>parseFloat('12.3b');</code></p>
-
-<h3>7.如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为12,000,000.11?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>方法一：使用正则表达式, <code>String(Number).replace(/(\d)(?=(\d{3})+$)/g, "$1,");</code></li>
-<li>方法二：使用toLocaleString()方法, Number.toLocaleString(&lsquo;en-US&rsquo;);</li>
-</ul>
-
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2017/09/web-page-comma-number/">请使用千位分隔符(逗号)表示web网页中的大数字</a></p>
-
-<h3>8.如何实现数组的随机排序？</h3>
-
-<p>A:Fisher–Yates Shuffle,</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function shuffle(array) {
-</span><span class='line'>  var m = array.length, t, i;
-</span><span class='line'>
-</span><span class='line'>  // While there remain elements to shuffle…
-</span><span class='line'>  while (m) {
-</span><span class='line'>
-</span><span class='line'>    // Pick a remaining element…
-</span><span class='line'>    i = Math.floor(Math.random() * m--);
-</span><span class='line'>
-</span><span class='line'>    // And swap it with the current element.
-</span><span class='line'>    t = array[m];
-</span><span class='line'>    array[m] = array[i];
-</span><span class='line'>    array[i] = t;
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  return array;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://bost.ocks.org/mike/shuffle/">Fisher–Yates Shuffle</a><br/>
-<a href="https://www.h5jun.com/post/array-shuffle.html">数组的完全随机排列</a></p>
-
-<h3>9.Javascript如何实现继承？</h3>
-
-<p>A:Javascript 使用原型链实现继承。</p>
-
-<h3>10.JavaScript继承的几种实现方式？</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Prototype Chaning</li>
-<li>Constructor Stealing</li>
-<li>Combination Inheritance</li>
-<li>Prototypal Inheritance</li>
-<li>Parasitic Inheritance</li>
-<li>Parasitic Combination Inheritance</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 1. Prototype Chaning
-</span><span class='line'>function SuperType() {
-</span><span class='line'>    this.property = true;
-</span><span class='line'>}
-</span><span class='line'>SuperType.prototype.getSuperValue = function () {
-</span><span class='line'>    return this.property;
-</span><span class='line'>};
-</span><span class='line'>function SubType() {
-</span><span class='line'>    this.subproperty = false;
-</span><span class='line'>}
-</span><span class='line'>//inherit from SuperType 
-</span><span class='line'>SubType.prototype = new SuperType();
-</span><span class='line'>SubType.prototype.getSubValue = function () {
-</span><span class='line'>    return this.subproperty;
-</span><span class='line'>};
-</span><span class='line'>var instance = new SubType();
-</span><span class='line'>alert(instance.getSuperValue()); //true
-</span><span class='line'>
-</span><span class='line'>// 2. Constructor Stealing
-</span><span class='line'>function SuperType() {
-</span><span class='line'>    this.colors = ["red", "blue", "green"];
-</span><span class='line'>}
-</span><span class='line'>function SubType() {
-</span><span class='line'>    //inherit from SuperType 
-</span><span class='line'>    SuperType.call(this);
-</span><span class='line'>}
-</span><span class='line'>var instance1 = new SubType();
-</span><span class='line'>instance1.colors.push("black");
-</span><span class='line'>
-</span><span class='line'>alert(instance1.colors); //”red,blue,green,black”
-</span><span class='line'>var instance2 = new SubType();
-</span><span class='line'>alert(instance2.colors); //”red,blue,green”
-</span><span class='line'>
-</span><span class='line'>// 3. Combination Inheritance
-</span><span class='line'>function SuperType(name) {
-</span><span class='line'>    this.name = name;
-</span><span class='line'>    this.colors = ["red", "blue", "green"];
-</span><span class='line'>}
-</span><span class='line'>SuperType.prototype.sayName = function () {
-</span><span class='line'>    alert(this.name);
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>function SubType(name, age) {
-</span><span class='line'>    //inherit properties 
-</span><span class='line'>    SuperType.call(this, name);
-</span><span class='line'>    this.age = age;
-</span><span class='line'>}
-</span><span class='line'>//inherit methods
-</span><span class='line'>SubType.prototype = new SuperType();
-</span><span class='line'>SubType.prototype.sayAge = function () {
-</span><span class='line'>    alert(this.age);
-</span><span class='line'>};
-</span><span class='line'>var instance1 = new SubType("Nicholas", 29);
-</span><span class='line'>instance1.colors.push("black"); alert(instance1.colors); //”red,blue,green,black” 
-</span><span class='line'>instance1.sayName(); //”Nicholas”; 
-</span><span class='line'>instance1.sayAge(); //29
-</span><span class='line'>
-</span><span class='line'>var instance2 = new SubType("Greg", 27);
-</span><span class='line'>alert(instance2.colors); //”red,blue,green” 
-</span><span class='line'>instance2.sayName(); //”Greg”; 
-</span><span class='line'>instance2.sayAge(); //27
-</span><span class='line'>
-</span><span class='line'>// 4. Prototypal Inheritance
-</span><span class='line'>function object(o) {
-</span><span class='line'>    function F() { }
-</span><span class='line'>    F.prototype = o;
-</span><span class='line'>    return new F();
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>var person = {
-</span><span class='line'>    name: "Nicholas",
-</span><span class='line'>    friends: ["Shelby", "Court", "Van"]
-</span><span class='line'>};
-</span><span class='line'>var anotherPerson = object(person);
-</span><span class='line'>anotherPerson.name = "Greg";
-</span><span class='line'>anotherPerson.friends.push("Rob");
-</span><span class='line'>
-</span><span class='line'>var yetAnotherPerson = object(person);
-</span><span class='line'>yetAnotherPerson.name = "Linda";
-</span><span class='line'>yetAnotherPerson.friends.push("Barbie");
-</span><span class='line'>alert(person.friends); //”Shelby,Court,Van,Rob,Barbie”
-</span><span class='line'>
-</span><span class='line'>// 5. Parasitic Inheritance
-</span><span class='line'>function createAnother(original) {
-</span><span class='line'>    //create a new object by calling a function
-</span><span class='line'>    var clone = object(original);
-</span><span class='line'>    //augment the object in some way
-</span><span class='line'>    clone.sayHi = function () {
-</span><span class='line'>        alert("Hi");
-</span><span class='line'>    }
-</span><span class='line'>    //return the object
-</span><span class='line'>    return clone;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>var person = {
-</span><span class='line'>    name: "Nicholas",
-</span><span class='line'>    friends: ["Shelby", "Court", "Van"]
-</span><span class='line'>};
-</span><span class='line'>var anotherPerson = createAnother(person);
-</span><span class='line'>anotherPerson.sayHi(); //”hi”
-</span><span class='line'>
-</span><span class='line'>// 6. Parasitic Combination Inheritance
-</span><span class='line'>function inheritPrototype(subType, superType) {
-</span><span class='line'>    var prototype = object(superType.prototype); //create object
-</span><span class='line'>    prototype.constructor = subType; //augment object
-</span><span class='line'>    subType.prototype = prototype;//assign object
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>function SuperType(name) {
-</span><span class='line'>    this.name = name;
-</span><span class='line'>    this.colors = ["red", "blue", "green"];
-</span><span class='line'>}
-</span><span class='line'>SuperType.prototype.sayName = function () {
-</span><span class='line'>    alert(this.name);
-</span><span class='line'>};
-</span><span class='line'>function SubType(name, age) {
-</span><span class='line'>    SuperType.call(this, name);
-</span><span class='line'>    this.age = age;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>inheritPrototype(SubType, SuperType);
-</span><span class='line'>
-</span><span class='line'>SubType.prototype.sayAge = function () {
-</span><span class='line'>    alert(this.age);
-</span><span class='line'>};
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Prototype Chaning:
-The major issue revolves around prototypes that contain reference values.
-A second issue with prototype chaining is that you cannot pass arguments into the supertype constructor when the subtype instance is being created.
-Due to this and the aforementioned issue with reference values on the prototype, prototype chaining is rarely used alone.</p>
-
-<p>Constructor Stealing:
-The downside to using constructor stealing exclusively is that it introduces the same problems as the constructor pattern for custom types: methods must be defined inside the constructor, so there’s no function reuse. Further, methods defined on the supertype’s prototype are not accessible on the subtype, so all types can use only the constructor pattern. Due to these issues, constructor stealing is rarely used on its own.</p>
-
-<p>Combination Inheritance:
-Addressing the downsides of both prototype chaining and constructor stealing, combination inheritance is the most frequently used inheritance pattern in JavaScript. It also preserves the behavior of instanceof and isPrototypeOf() for identifying the composition of objects.</p>
-
-<p>Prototypal Inheritance:
-Prototypal inheritance is useful when there is no need for the overhead of creating separate constructors but you still need an object to behave similarly to another. Keep in mind that properties containing reference values will always share those values, similar to using the prototype pattern.</p>
-
-<p>Parasitic Inheritance:
-Keep in mind that adding functions to objects using parasitic inheritance leads to inefficiencies related to function reuse, similar to the constructor pattern.</p>
-
-<p>Parasitic Combination Inheritance:
-Parasitic combination inheritance is considered the most optimal inheritance paradigm for reference types.</p>
-
-<p>Reference: JavaScript 高级程序设计</p>
-
-<h3>11.javascript创建对象的几种方式？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>declare an object literal</li>
-<li>use a constructor function</li>
-<li>use the Object() constructor </li>
-<li>use the create() method</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// declare an object literal</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">],</span>
-</span><span class='line'>  <span class="nx">age</span><span class="o">:</span> <span class="mi">32</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">gender</span><span class="o">:</span> <span class="s1">&#39;male&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">interests</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;music&#39;</span><span class="p">,</span> <span class="s1">&#39;skiing&#39;</span><span class="p">],</span>
-</span><span class='line'>  <span class="nx">bio</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">+</span> <span class="s1">&#39; years old. He likes &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">interests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; and &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">interests</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'>  <span class="nx">greeting</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi! I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// use a constructor function</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi! I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">};</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">person2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Sarah&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// use the Object() constructor</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
-</span><span class='line'><span class="nx">person1</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Chris&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="nx">person1</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">38</span><span class="p">;</span>
-</span><span class='line'><span class="nx">person1</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi! I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// use the create() method</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">person2</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">person1</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS">Object-oriented JavaScript for beginners</a></p>
-
-<h3>12.Javascript作用链域?</h3>
-
-<p>A:
-When code is executed in a context, a scope chain of variable objects is created. The purpose of the scope chain is to provide ordered access to all variables and functions that an execution context has access to. The front of the scope chain is always the variable object of the context whose code is executing.</p>
-
-<p>If the context is a function, then the activation object is used as the variable object. An activation object starts with a single variable defined called arguments (this doesn’t exist for the global context). The next variable object in the chain is from the containing context, and the next after that is from the next containing context. This pattern continues until the global context is reached; the global context’s variable object is always the last of the scope chain.</p>
-
-<h3>13.谈谈This对象的理解。</h3>
-
-<p>A:In most cases, the value of this is determined by how a function is called. </p>
-
-<ul>
-<li>Global Context (1)</li>
-<li>Function context
-
-<ul>
-<li>Simple call (2.1)</li>
-<li>The bind method (2.2)</li>
-<li>Arrow functions (2.3)</li>
-<li>As an object method (2.4)</li>
-<li>As a constructor Section (2.5)</li>
-<li>As a DOM event handler (2.6)</li>
-<li>In an inline event handler (2.7)</li>
-</ul>
-</li>
-</ul>
-
-
-<p>1) In the global execution context (outside of any function), this refers to the global object whether in strict mode or not.</p>
-
-<p>2.1) If the value of this is not set by the call in non-strict mode, this will default to the global object, which is window in a browser. In strict mode, if this was not defined by the execution context, it remains undefined.</p>
-
-<p>2.2) ECMAScript 5 introduced Function.prototype.bind. Calling f.bind(someObject)creates a new function with the same body and scope as f, but where this occurs in the original function, in the new function it is permanently bound to the first argument of bind, regardless of how the function is being used.</p>
-
-<p>2.3) In arrow functions, this retains the value of the enclosing lexical context's this. In global code, it will be set to the global object.</p>
-
-<p>2.4) When a function is called as a method of an object, its this is set to the object the method is called on.</p>
-
-<p>2.5) When a function is used as a constructor (with the new keyword), its this is bound to the new object being constructed.</p>
-
-<p>2.6) When a function is used as an event handler, its this is set to the element the event fired from (some browsers do not follow this convention for listeners added dynamically with methods other than addEventListener).</p>
-
-<p>2.7) When the code is called from an inline on-event handler, its this is set to the DOM element on which the listener is placed.</p>
-
-<p>Reference:<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this">this</a></p>
-
-<h3>14.eval是做什么的？</h3>
-
-<p>A:The eval() function evaluates JavaScript code represented as a string.</p>
-
-<h3>15.什么是window对象? 什么是document对象?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>The Window interface represents a window containing a DOM document;</li>
-<li>The Document interface represents any web page loaded in the browser and serves as an entry point into the web page&rsquo;s content, which is the DOM tree. </li>
-</ul>
-
-
-<h3>16.null，undefined 的区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>The value null represents the intentional absence of any object value.</li>
-<li>The global undefined property represents the primitive value undefined.</li>
-</ul>
-
-
-<h3>17.写一个通用的事件侦听器函数。</h3>
-
-<h3>18.<code>["1", "2", "3"].map(parseInt)</code> 答案是多少？</h3>
-
-<p>A:答案是[1, NaN, NaN]。</p>
-
-<p>原因:<br/>
-先看下 map 和 parseInt 这两个 API:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">new_array</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">currentValue</span><span class="p">[,</span> <span class="nx">index</span><span class="p">[,</span> <span class="nx">array</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// Return element for new_array</span>
-</span><span class='line'><span class="p">}[,</span> <span class="nx">thisArg</span><span class="p">])</span>
-</span><span class='line'>  
-</span><span class='line'><span class="nb">parseInt</span><span class="p">(</span><span class="nx">string</span><span class="p">,</span> <span class="nx">radix</span><span class="p">);</span>
-</span><span class='line'><span class="nx">string</span>
-</span><span class='line'><span class="nx">The</span> <span class="nx">value</span> <span class="nx">to</span> <span class="nx">parse</span><span class="p">.</span> <span class="nx">If</span> <span class="nx">the</span><span class="err"> </span><span class="nx">string</span><span class="err"> </span><span class="nx">argument</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">a</span> <span class="nx">string</span><span class="p">,</span> <span class="nx">then</span> <span class="nx">it</span> <span class="nx">is</span> <span class="nx">converted</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">string</span> <span class="p">(</span><span class="nx">using</span> <span class="nx">the</span><span class="err"> </span><span class="nx">ToString</span><span class="err"> </span><span class="kr">abstract</span> <span class="nx">operation</span><span class="p">).</span> <span class="nx">Leading</span> <span class="nx">whitespace</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">string</span> <span class="nx">argument</span> <span class="nx">is</span> <span class="nx">ignored</span><span class="p">.</span>
-</span><span class='line'><span class="nx">radix</span>
-</span><span class='line'><span class="nx">An</span> <span class="nx">integer</span> <span class="nx">between</span> <span class="mi">2</span> <span class="nx">and</span> <span class="mi">36</span> <span class="nx">that</span> <span class="nx">represents</span> <span class="nx">the</span><span class="err"> </span><span class="nx">radix</span><span class="err"> </span><span class="p">(</span><span class="nx">the</span> <span class="nx">base</span> <span class="k">in</span> <span class="nx">mathematical</span> <span class="nx">numeral</span> <span class="nx">systems</span><span class="p">)</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">above</span> <span class="nx">mentioned</span> <span class="nx">string</span><span class="p">.</span><span class="err"> </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>从 API 我们知道，<code>["1", "2", "3"].map(parseInt)</code> 会转化为依次调用 <code>parseInt('1', 0); parseInt('2', 1); parseInt('3', 2);</code>。</p>
-
-<p>上面提到 radix 的范围是[2, 36]，如果 radix 不在这个范围自然是不支持转换，结果就是 NaN。但它对 0 进行了特殊处理，描述如下:</p>
-
-<blockquote><p>If radix is undefined or 0 (or absent), JavaScript assumes the following:</p>
-
-<ul>
-<li>If the input string begins with &ldquo;0x&rdquo; or &ldquo;0X&rdquo;, radix is 16 (hexadecimal) and the remainder of the string is parsed.</li>
-<li>If the input string begins with &ldquo;0&rdquo;, radix is eight (octal) or 10 (decimal).  Exactly which radix is chosen is implementation-dependent.  ECMAScript 5 specifies that 10 (decimal) is used, but not all browsers support this yet.  For this reason always specify a radix when using parseInt.</li>
-<li>If the input string begins with any other value, the radix is 10 (decimal).</li>
-</ul>
-</blockquote>
-
-<p>所以, <code>parseInt('1', 0)</code> 的结果是 1， <code>parseInt('2', 1)</code> 的结果是 NaN。</p>
-
-<p>最后我们来看 <code>parseInt('3', 2)</code>，radix 是 2，也就是将字符串按二进制转换，二进制只有数字 0 和 1，那么 3 肯定是转换不了，结果就是 NaN。</p>
-
-<h3>19.事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？</h3>
-
-<p>A:</p>
-
-<blockquote><p>In computing, an event is an action or occurrence recognized by software, often originating asynchronously from the external environment, that may be handled by the software. &ndash;wikipedia</p></blockquote>
-
-<p>事件是被软件识别的动作或发生的事。</p>
-
-<p>IE与火狐的事件机制有什么区别？<br/>
-IE的事件机制是冒泡，而火狐同时支持冒泡和捕获；冒泡是指事件从最具体的元素接收，然后逐级向上传播，直到不具体的节点（通常指文档节点）；而捕获相反，它是从不具体的节点开始，逐步到最具体的节点；</p>
-
-<p>如何阻止冒泡？
-阻止事件冒泡：<code>e.stopPropagation()</code>，旧IE则是使用 <code>e.cancelBubble = true；</code></p>
-
-<h3>20.什么是闭包（closure），为什么要用它？</h3>
-
-<p>A:</p>
-
-<blockquote><p>Closures are self-contained blocks of functionality that can be passed around and used in your code. &ndash;The Swift Programming Language</p></blockquote>
-
-<p>闭包是自包含的功能块，它可以在你的代码中传递和使用。</p>
-
-<p>为什么要用它？<br/>
-当我们使用高阶函数或实际需要交换状态时，闭包优于其他方法。</p>
-
-<blockquote><p>First of all, there is nothing that is impossible without using closures. You can always replace a closure by an object implementing a specific interface. It&rsquo;s only a matter of brevity and reduced coupling.
-Second, keep in mind that closures are often used inappropriately, where a simple function reference or other construct would be more clear. You shouldn&rsquo;t take every example you see as a best practice.
-Where closures really shine over other constructs is when using higher-order functions, when you actually need to communicate state, and you can make it a one-liner.</p></blockquote>
-
-<p>Reference:<a href="https://softwareengineering.stackexchange.com/questions/285941/why-would-a-program-use-a-closure">Why would a program use a closure?</a></p>
-
-<h3>21.javascript 代码中的<code>"use strict";</code>是什么意思 ? 使用它区别是什么？</h3>
-
-<p>A:javascript 代码中的<code>"use strict";</code>是开启严格模式的意思。</p>
-
-<p>使用它的区别:</p>
-
-<ul>
-<li>将问题直接转化为错误（如语法错误或运行时错误）;</li>
-<li>简化了如何为给定名称的特定变量计算;</li>
-<li>简化了 eval 以及 arguments;</li>
-<li>将写"安全“JavaScript的步骤变得更简单;</li>
-<li>改变了预测未来ECMAScript行为的方式。</li>
-</ul>
-
-
-<p>Reference:<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode">严格模式</a></p>
-
-<h3>22.如何判断一个对象是否属于某个类？</h3>
-
-<p>A:使用 instanceof 操作符。</p>
-
-<h3>23.new操作符具体干了什么呢?</h3>
-
-<p>A:When the code new Foo(&hellip;) is executed, the following things happen:</p>
-
-<ol>
-<li>A new object is created, inheriting from Foo.prototype.</li>
-<li>The constructor function Foo is called with the specified arguments, and with this bound to the newly created object. new Foo is equivalent to newFoo(), i.e. if no argument list is specified, Foo is called without arguments.</li>
-<li>The object returned by the constructor function becomes the result of the whole new expression. If the constructor function doesn&rsquo;t explicitly return an object, the object created in step 1 is used instead. (Normally constructors don&rsquo;t return a value, but they can choose to do so if they want to override the normal object creation process.)</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'> <span class="kd">var</span> <span class="nx">obj</span>  <span class="o">=</span> <span class="p">{};</span>
-</span><span class='line'> <span class="nx">obj</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">=</span> <span class="nx">Base</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
-</span><span class='line'> <span class="nx">Base</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>24.用原生JavaScript的实现过什么功能吗？</h3>
-
-<h3>25.Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？</h3>
-
-<p>A:<code>hasOwnProperty()</code>.</p>
-
-<h3>26.JSON 的了解？</h3>
-
-<h3>27.<code>[].forEach.call($$("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1&lt;&lt;24))).toString(16)})</code> 能解释一下这段代码的意思吗？</h3>
-
-<p>A:给所有的元素加上一个一像素颜色随机的边框。</p>
-
-<h3>28.js延迟加载的方式有哪些？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>使用 defer 属性</li>
-<li>使用 async 属性</li>
-<li>动态创建DOM方式，例如，监听 onload 事件，定时之后再向 head 添加 script 标签；或 ajax 下载后再添加 （用得最多）</li>
-<li>js 放在 body 最后</li>
-</ul>
-
-
-<h3>29.Ajax 是什么? 如何创建一个Ajax？</h3>
-
-<p>A: AJAX 是 &ldquo;Asynchronous JavaScript and XML&rdquo; 的简称，指的是一套综合了多项技术的浏览器端网页开发技术。</p>
-
-<p>如何创建一个Ajax？</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">xmlHttp</span><span class="p">;</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">XMLHttpRequest</span> <span class="o">!=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">xmlHttp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">ActiveXObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">aVersions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Msxml2.XMLHttp.5.0&quot;</span><span class="p">,</span> <span class="s2">&quot;Msxml2.XMLHttp.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;Msxml2.XMLHttp.3.0&quot;</span><span class="p">,</span> <span class="s2">&quot;Msxml2.XMLHttp&quot;</span><span class="p">,</span> <span class="s2">&quot;Microsoft.XMLHttp&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">aVersions</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">try</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">xmlHttp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ActiveXObject</span><span class="p">(</span><span class="nx">aVersions</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'>            <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>30.Ajax 解决浏览器缓存问题？</h3>
-
-<p>A:</p>
-
-<ol>
-<li>在ajax发送请求前加上 anyAjaxObj.setRequestHeader(&ldquo;If-Modified-Since&rdquo;,&ldquo;0&rdquo;)。</li>
-<li>在ajax发送请求前加上 anyAjaxObj.setRequestHeader(&ldquo;Cache-Control&rdquo;,&ldquo;no-cache&rdquo;)。</li>
-<li>在URL后面加上一个随机数： &ldquo;fresh=&rdquo; + Math.random();。</li>
-<li>在URL后面加上时间戳："nowtime=&ldquo; + new Date().getTime();。</li>
-<li>如果是使用jQuery，直接这样就可以了 $.ajaxSetup({cache:false})。这样页面的所有ajax都会执行这条语句就是不需要保存缓存记录。</li>
-</ol>
-
-
-<h3>31.同步和异步的区别?</h3>
-
-<h3>32.如何解决跨域问题?</h3>
-
-<p>A:跨域通信的方法大致可以分为两类：</p>
-
-<ul>
-<li><p>一类是Hack，比如通过title, navigation等对象传递信息，JSONP可以说是一个最优秀的Hack。</p>
-
-<ul>
-<li>设置 document.domain</li>
-<li>有src的标签</li>
-<li>JSONP</li>
-<li>navigation 对象</li>
-</ul>
-</li>
-<li><p>另一类是HTML5支持，一个是Access-Control-Allow-Origin响应头，一个是window.postMessage。</p>
-
-<ul>
-<li>跨域资源共享（CORS）</li>
-<li>window.postMessage</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Reference:<a href="https://harttle.land/2015/10/10/cross-origin.html">Web开发中跨域的几种解决方案</a></p>
-
-<h3>33.页面编码和被请求的资源编码如果不一致如何处理？</h3>
-
-<p>A:一个未经验证的想法:设置 <code>XMLHttpRequest.responseType = "blob";</code>，这样
-<code>XMLHttpRequest.response</code> 的结果是 Blob,之后利用 <code>instanceOfFileReader.readAsText(blob[, encoding]);</code> 得到想要的结果。</p>
-
-<h3>34.服务器代理转发时，该如何处理cookie？</h3>
-
-<p>A:</p>
-
-<h3>35.模块化开发怎么做?</h3>
-
-<h3>36.AMD（Modules/Asynchronous-Definition）、CMD（Common Module Definition）规范区别？</h3>
-
-<h3>37.requireJS的核心原理是什么？（如何动态加载的？如何避免多次加载的？如何 缓存的？）</h3>
-
-<h3>38.JS模块加载器的轮子怎么造，也就是如何实现一个模块加载器？</h3>
-
-<h3>39.谈一谈你对ECMAScript6的了解？</h3>
-
-<h3>40.ECMAScript6 怎么写class么，为什么会出现class这种东西?</h3>
-
-<h3>41.documen.write和 innerHTML的区别?</h3>
-
-<p>A:document.write只能重绘整个页面，innerHTML可以重绘页面的一部分。</p>
-
-<h3>42.DOM操作——怎样添加、移除、移动、复制、创建和查找节点?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>添加：<code>appendChild()</code></li>
-<li>移除：<code>removeChild()</code></li>
-<li>移动：<code>appendChild()</code>， If the given child is a reference to an existing node in the document, appendChild() moves it from its current position to the new position </li>
-<li>复制：<code>cloneNode()</code></li>
-<li>创建：<code>createDocumentFragment(), createElement(), createTextNode()</code></li>
-<li>查找：<code>getElementById(), getElementsByClassName(), getElementsByName(), getElementsByTagName(), getElementsByTagNameNS()</code></li>
-</ul>
-
-
-<h3>43.<code>.call()</code> 和 <code>.apply()</code> 的区别？</h3>
-
-<p>A:While the syntax of this function is almost identical to that of apply(), the fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.</p>
-
-<h3>44.数组和对象有哪些原生方法，列举一下？</h3>
-
-<h3>45.JS 怎么实现一个类?怎么实例化这个类?</h3>
-
-<h3>46.JavaScript中的作用域与变量声明提升？</h3>
-
-<h3>47.如何编写高性能的Javascript？</h3>
-
-<h3>48.那些操作会造成内存泄漏？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Accidental global variables</li>
-<li>Forgotten timers or callbacks</li>
-<li>Out of DOM references</li>
-<li>Closures</li>
-</ul>
-
-
-<p>Reference:<a href="https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/">4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them</a></p>
-
-<h3>59.jQuery的源码看过吗？能不能简单概况一下它的实现原理？</h3>
-
-<p>A:jQuery 主要是利用 js 原型继承的灵活性，将 DOM，Ajax 等操作包裹到函数中来实现的。</p>
-
-<h3>50.jQuery.fn的init方法返回的this指的是什么对象？为什么要返回this？</h3>
-
-<p>A:返回的就是 jQuery 对象。因为 new 表达式之后的constructor返回（return）一个引用对象（数组，对象，函数等），都将覆盖new创建的匿名对象，如果返回（return）一个原始类型（无return时其实为return原始类型undefined），那么就返回new创建的匿名对象。为了屏蔽这种差异，简化代码，支持链式调用等原因，所以显示的返回了 jQuery 对象。</p>
-
-<p>Reference:<a href="https://www.zhangxinxu.com/wordpress/2013/07/jquery-%E5%8E%9F%E7%90%86-%E6%9C%BA%E5%88%B6/">jQuery诞生记-原理与机制</a></p>
-
-<h3>51.jQuery中如何将数组转化为JSON字符串，然后再转化回来？</h3>
-
-<p>A:可以使用浏览器内建 JSON 对象的 parse，stringify 方法。如果浏览器不支持这些方法，jQuery 1.4.1 到 3.0 版本的 parseJSON 方法可以解析 JSON 字符串；如果要编码的话则可以通过引入其他 js JSON 库来完成。</p>
-
-<h3>52.jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝？</h3>
-
-<p>A:jQuery 的属性拷贝(extend)的实现原理是利用 js 的动态性，遍历源对象的属性并将其添加到目标对象上。利用递归遍历可以实现深拷贝。</p>
-
-<h3>53.jQuery.extend 与 jQuery.fn.extend 的区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>jQuery.extend: Merge the contents of two or more objects together into the first object.</li>
-<li>jQuery.fn.extend: Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.</li>
-</ul>
-
-
-<p>从 jQuery API 文档对它们的介绍，我们可以知道 jQuery.extend 侧重将两个或多个对象合并到第一个对象；而 jQuery.fn.extend 是将对象合并到 jQuery 原型上来提供新的 jQuery 实例方法。</p>
-
-<h3>54.jQuery 的队列是如何实现的？队列可以用在哪些地方？</h3>
-
-<p>A:jQuery 的队列是利用数组实现的。队列可以用在实现动画效果上。</p>
-
-<blockquote><p>Queues are the foundation for all animations in jQuery, they allow a series functions to be executed asynchronously on an element. </p></blockquote>
-
-<h3>55.谈一下jQuery中的bind(),live(),delegate(),on()的区别？</h3>
-
-<p>A:</p>
-
-<p>bind():Attach a handler to a specific element.</p>
-
-<p>live():All <code>.live()</code> event handlers are bound to the document root by default.</p>
-
-<p>delegate():The <code>.delegate()</code> method provides a clear difference between the context of where to attach delegated event handler, and the selector to match when the event bubbles up to the delegated element.</p>
-
-<p>on():The .on() method gives us a semantic approach for creating directly bound events as well as delegated events. It eliminates the need to use the deprecated .bind(), .live(), and .delegate() methods, providing a single API for creating events.</p>
-
-<p>Reference:<a href="https://learn.jquery.com/events/history-of-events/">History of jQuery Events</a></p>
-
-<h3>56.jQuery一个对象可以同时绑定多个事件，这是如何实现的？</h3>
-
-<h3>57.是否知道自定义事件。jQuery里的fire函数是什么意思，什么时候用？</h3>
-
-<p>A:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Create the event.</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">event</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s1">&#39;Event&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Define that the event name is &#39;build&#39;.</span>
-</span><span class='line'><span class="nx">event</span><span class="p">.</span><span class="nx">initEvent</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Listen for the event.</span>
-</span><span class='line'><span class="nx">elem</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// e.target matches elem</span>
-</span><span class='line'><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// target can be any Element or other EventTarget.</span>
-</span><span class='line'><span class="nx">elem</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>callbacks.fire()</code>:Call all of the callbacks with the given arguments.</p>
-
-<h3>58.jQuery 是通过哪个方法和 Sizzle 选择器结合的？</h3>
-
-<p>A:<code>jQuery.fn.find()</code></p>
-
-<h3>59.针对 jQuery性能的优化方法？</h3>
-
-<h3>60.jQuery与jQuery UI 有啥区别？</h3>
-
-<p>A:</p>
-
-<ul>
-<li><p>jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. </p></li>
-<li><p>jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.</p></li>
-</ul>
-
-
-<h3>61.jQuery和Zepto的区别？各自的使用场景？</h3>
-
-<h3>62.针对 jQuery 的优化方法？</h3>
-
-<h3>63.Zepto的点透问题如何解决？</h3>
-
-<h3>64.需求：实现一个页面操作不会整页刷新的网站，并且能在浏览器前进、后退时正确响应。给出你的技术实现方案？</h3>
-
-<p>A:实际上就是如何去实现 SPA。</p>
-
-<p>Reference:<a href="https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46">How Single-Page Applications Work</a></p>
-
-<h3>65.如何判断当前脚本运行在浏览器还是node环境中？</h3>
-
-<h3>66.移动端最小触控区域是多大？</h3>
-
-<h3>67.jQuery 的 slideUp动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?</h3>
-
-<h3>68.把 Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别？浏览器会如何解析它们？</h3>
-
-<h3>69.移动端的点击事件的有延迟，时间是多久，为什么会有？ 怎么解决这个延时？（click 有 300ms 延迟,为了实现safari的双击事件的设计，浏览器要知道你是不是要双击操作。）</h3>
-
-<h3>70.解释JavaScript中的作用域与变量声明提升？</h3>
-
-<h3>71.Node.js的适用场景？</h3>
-
-<h3>72.什么是“前端路由”?什么时候适合使用“前端路由”? “前端路由”有哪些优点和缺点?</h3>
-
-<h3>73.检测浏览器版本有哪些方式？</h3>
-
-<p>A:</p>
-
-<ul>
-<li>Navigator.appVersion</li>
-<li>Navigator.userAgent</li>
-</ul>
-
-
-<h3>74.What is a Polyfill?</h3>
-
-<h3>75.做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？</h3>
-
-<h3>76.我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？</h3>
-
-<p>A:按照W3C的标准，先发生捕获事件，后发生冒泡事件。</p>
-
-<h3>77.使用JS实现获取文件扩展名？</h3>
-
-<h3>78.Webpack热更新实现原理?</h3>
-
-<h3>79.请介绍一下JS之事件节流？</h3>
-
-<p>A:事件节流就是降低事件响应的速率。</p>
-
-<blockquote><p>In software, a throttling process, or a throttling controller as it is sometimes called, is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.</p></blockquote>
-
-<h3>80.什么是JS的函数防抖？</h3>
-
-<p>A:当调用动作过n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则将重新计算执行时间。</p>
 ]]></content>
   </entry>
   

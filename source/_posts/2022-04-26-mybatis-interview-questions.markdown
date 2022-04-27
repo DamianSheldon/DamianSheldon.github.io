@@ -244,6 +244,10 @@ select * from foo where bar like "%"#{value}"%"
 * 手动设置参数，映射结果比较烦琐。MyBatis 支持自动映射，也可以通过配置 resultMap 映射。
 * 手动有条件的拼接 SQL 很痛苦。MyBatis 支持动态 SQL。  
 
+##28.请说说MyBatis的工作原理
+
+MyBatis 的工作原理是利用 JDK 代理技术为 Mapper 接口生成代理对象，调用 Mapper 方法操作数据库时，用方法名作为 id，到 Mapper XML 文件中找到对应的 SQL 语句，然后绑定参数，执行语句，映射结果。
+
 
 # 原文
 

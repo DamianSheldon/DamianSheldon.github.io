@@ -61,6 +61,114 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-concurrency-programming-operation.html">
+		
+			iOS 并发编程之 Operation</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-20T09:31:07+08:00" pubdate data-updated="true">20 May 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h2>背景简介</h2>
+
+<p>在计算的早期，计算机单位时间能够执行的最大工作是由 CPU 的时钟频率决定的。但是随着技术的发展和处理器设计得更加小巧，热量和其他物理约束开始限制处理器的最大时钟频率。所以芯片制造商寻找其他办法来提高他们芯片的整体性能。通过增加核数量，单个芯片每秒可以运行更多的指令而不需要增加 CPU 的速度或者改变芯片的尺寸或者热特性。唯一的问题是如何利用额外的核。</p>
+
+<p>应用使用多核的传统方法是创建多个线程。然而，随着核的数量增加，线程方案有很多问题。最大的问题是线程代码不能很好地扩展到任意数量的核。你不能有多少核就创建多少线程然后期望程序能正常运行。你需要知道的是有多少核可以被有效地使用，应用程序依靠自身来计算这是件很有挑战的事情。即使你得到了正确的数量，让如此多的线程高效地运行，相互之间互不影响仍然是一件十分困难的事情。</p>
+
+<p>为了解决这些问题，OS X 和 iOS 采用了 异步设计的方案。其中一种异步开始任务的技术叫做 GCD(Grand Central Dispatch)。该技术接管了你以前需要在应用中编写的线程管理代码，并将它们下移到系统级。所有你需要做的是定义你想做的任务并把它们添加到合适的分发队列。 GCD 负责创建需要的线程并调度你的任务运行到这些线程上。因为现在线程管理是系统的一部分， GCD 为任务管理和运行提供了一个比传统线程更高效的整体方案。</p>
+
+<p>从背景介绍我们可以看出，并发编程的根本还是线程，但是在实际的使用过程中发现在应用层来做线程的管理很困难，编写多线程代码也很难，所以 Apple 从系统级层面对线程做了封装，因此在 OS X 和 iOS 平台我们有了特定的并发编程技术 GCD。</p>
+
+<p>到这里事情并没结束，GCD 是基于 C 接口，Apple 对它用 Objective-C 进行了进一步的包裹和封装，于是有操作队列(Operation Queue)。</p>
+
+<p>操作队列是非常类似分发队列(dispatch queue)的 Objective-C 对象。你定义想要执行的任务并添加到操作队列，它处理这些任务的调度和执行。类似 GCD，操作队列为你处理所有的线程管理，确保任务在系统上高效快速的运行。</p>
+
+<p>因此 iOS 开发中并发编程技术有三种：</p>
+
+<ol>
+<li>NSOperation;</li>
+<li>GCD;</li>
+<li>Thread.</li>
+</ol>
+
+
+<p>上述的顺序也是推荐使用的顺序。</p>
+
+<h2>如何使用 Operation?</h2>
+
+<p>Operation 的核心思想是把应用想要完成的工作封装起来，然后添加到队列中执行或手动执行。苹果在 Foundation 框架中提供了 NSOperation 这个抽象类，它为我们搭好了用户代码与系统代码交互的骨架，最小化了我们需要做的工作，只需要专注于封装我们想要做的工作。苹果很贴心，为了进一步减轻开发者负担，她还提供了两个具体的类:<code>NSInvocationOperation</code> 和 <code>NSBlockOperation</code> 用来完成日常大部分工作。</p>
+
+<p>因此，我们使用 Operation 的方法是用具体的类封装工作或者自定义 Operation 封装工作，具体类可以满足需求时就不用去自定义 Operation 了，这样可以减少我们的工作量，封装好工作之后执行它们，方法有两种：一是加入队列;二是手动执行。</p>
+
+<h2>使用 NSInvocationOperation 封装工作</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">MyCustomClass</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nf">taskWithData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSInvocationOperation</span><span class="o">*</span> <span class="n">theOp</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>                    <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">myTaskMethod</span><span class="p">:)</span> <span class="nl">object</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">return</span> <span class="n">theOp</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// This is the method that does the actual work of the task.</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">myTaskMethod:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Perform the task.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/ios-concurrency-programming-operation.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/iosde-hui-tu-xi-tong.html">
 		
 			iOS 的绘图系统</a>
@@ -327,77 +435,6 @@
 
 		
 		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/property-values.html">
-		
-			(翻译)Property Values</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-05-10T14:41:40+08:00" pubdate data-updated="true">10 May 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>  现场教学的一部分乐趣是应付问题和独立思考。在我展示了一些在类中广泛使用的 @property 代码，其中一个学生问到"@property 后面繁琐的字段都是什么？我已经使用了 retain, assign 和 nonatomic，但我真的不知道它们真正是干什么用的。"（如果你仅仅只是想要一份快速参考，文章最后有所有的 @property 属性。）</p>
-
-<p>  对于许多 Objective-C 程序员来说，@property 就像一个神奇的护身符。添加一些像这样的代码给你的狗对象一个名字：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@property (copy, nonatomic) NSString *puppyName;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>把它放到 Xcode 的代码片断库中，当需要它时粘贴进来然后编辑它。</p>
-
-<p>@property 是一个属性声明，它有两个目的：声明一个或两个方法，当你使用这些方法时简洁地描述它们的运行时语义。</p>
-
-<h2>我声明</h2>
-
-<p>@property 声明是声明访问器方法的简写。这些方法让你从对象获取值（嘿 puppy，你叫什么名字？）或者改变值（puppy 欢迎回家，现在你的名字是 Rumperlstiltskin）。下面就是类声明中的 property 声明:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@interface Puppy: NSObject
-</span><span class='line'>@property NSString *puppyName;
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/property-values.html" class="more-link">继续阅读</a>
 	</div>
 
 

@@ -61,6 +61,91 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/top-spring-framework-interview-questions.html">
+		
+			(翻译)常见 Spring 框架面试题</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-04-11T10:07:29+08:00" pubdate data-updated="true">11 Apr 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h1>1.概述</h1>
+
+<p>在本教程中，我们将看看在求职面试中可能出现的一些最常见的与 Spring 有关的问题。</p>
+
+<h1>2. Spring Core</h1>
+
+<h2>Q1. 什么是 Spring 框架？</h2>
+
+<p>Spring是开发 Java 企业版应用程序最广泛使用的框架。此外，Spring 的核心功能可用于开发任何 Java 应用程序。</p>
+
+<p>我们使用它的扩展功能在 Jakarta EE 平台之上构建各种网络应用。我们也可以在简单的独立应用程序中使用它的依赖注入条款。</p>
+
+<h2>Q2. 使用 Spring 的好处是什么？</h2>
+
+<p>Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它的好处:</p>
+
+<ul>
+<li><strong>轻量级</strong>&ndash;在开发中使用该框架的开销很小</li>
+<li><strong>反转控制（IoC）</strong>&ndash;Spring 容器负责连接各种对象的依赖关系，而不是创建或寻找依赖对象</li>
+<li><strong>面向方面的编程（AOP）</strong>&ndash;Spring支持AOP，将业务逻辑与系统服务分开</li>
+<li><strong>IoC容器</strong>&ndash;管理 Spring Bean 的生命周期和项目特定的配置</li>
+<li><strong>MVC框架</strong>&ndash;用于创建 Web 应用程序或 RESTful Web服务，能够返回XML/JSON响应</li>
+<li><strong>事务管理</strong> &ndash; 通过使用 Java 注解或 Spring Bean 的 XML 配置文件，减少JDBC操作、文件上传等方面的模板代码量</li>
+<li><strong>异常处理</strong>&ndash;Spring 提供了一个方便的 API，用于将特定技术的异常转化为未检查的异常</li>
+</ul>
+
+
+<h2>Q3. 您知道哪些 Spring 子项目？简要描述一下吧。</h2>
+
+<ul>
+<li><strong>核心</strong>&ndash;提供框架基础部分的关键模块，如 IoC 或 DI</li>
+<li><strong>JDBC</strong>&ndash;实现了一个 JDBC 抽象层，不需要为特定的供应商数据库进行 JDBC 编码</li>
+<li><strong>ORM 集成</strong> &ndash; 为流行的对象关系映射 API 提供集成层，如 JPA、JDO 和 Hibernate</li>
+<li><strong>Web</strong>&ndash;一个面向网络的集成模块，提供多部分文件上传、Servlet监听器和面向网络的应用程序上下文功能</li>
+<li><strong>MVC 框架</strong>&ndash;一个实现模型-视图-控制器设计模式的 Web 模块</li>
+<li><strong>AOP 模块</strong>&ndash;面向切面的编程实现，允许定义干净的方法拦截器和切点</li>
+</ul>
+
+
+
+		
+		<a href="/blog/top-spring-framework-interview-questions.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-migrate-to-rocky-linux-from-centos-8.html">
 		
 			CentOS 8 迁移到 Rocky Linux 时遇到的问题</a>
@@ -356,75 +441,6 @@
 
 		
 		
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/remembering-a-docker-network-issue-troubleshooting.html">
-		
-			记一次 Docker 网络问题排查</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2021-03-30T14:40:26+08:00" pubdate data-updated="true">30 Mar 2021</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>最近在学 docker，虽然很早之前就简单体验过一次，但限于时间没有深入，最近有点空余时间，于是准备深入学习一下。但没想到一开始就遇到了拦路虎，照着官方文档 Get Started 一步一步往下，在构建一个自己的镜像时就遇到了问题，在多容器之间也无法通信，这可愁坏我了，只能硬着头皮来排查问题。</p>
-
-<p>构建镜像时问题表现是牵涉到连接网络的命令会失败，google 一圈之后，找到使用 <code>--network=host</code> 的偏方，成功绕过问题。而多容器之间无法通信却一时措手无策。现在就只有 <code>--network=host</code> 这一个线索，于是就想加上这个参数后有什么区别呢？</p>
-
-<p>在官方文档上搜寻一圈之后我没查到有用信息，于是我想相关的书可能会讲讲 docker 网络这块，在微信读书上找了杨保华、戴王剑和曹亚仑合著的《Docker 技术入门与实战(第3版)》。因为 docker 技术在快速发展，所以书中的命令与当前版本有些许差异，但问题不大，不妨碍理解。这本书有两节专门介绍 docker 网络，于是我便先看了这两节，从这里得到一条重要线索：docker 和宿主机的通信是依靠防火墙转发。<code>--network=host</code> 也验证了这条线索，加上这参数会直接使用宿主机的网络配置，这样 docker 和宿主机的通信就不需要防火墙转发了。</p>
-
-<p>问题现在定位到了防火墙，那么为什么防火墙不转发 docker 的网络数据包呢？是不是哪条防火墙规则没配对？另外我还怀疑是不是我的实践环境有问题？我的实践环境是这样的:物理主机是 macOS，上面安装 virtulbox，使用 virtulbox 创建了一个 CentOS 8 的虚拟机, 虚拟机的网络模式是 NAT。这种情况无疑增加了问题排查的难度，怎么来排查呢？</p>
-
-<p>我先看了一下 virtulbox 的用户手册中的网络模式介绍，NAT 是可以连接到宿主机，而且现在虚拟机是可以访问网络的。如果想快速定位问题，我想还得从网络请求的数据包入手，想办法来跟踪数据包。</p>
-
-<p>于是就来查怎么调试 iptables。查到可以通过 TRACE 和 LOG 来输出日志，看介绍也没看出这俩有什么区别。凭经验觉得 TRACE 好像比 LOG 后出来，看起来也高大上一点，先试着用 TRACE 。Google 了一圈，找到都是 CentOS 6 或 CentOS 7 相关的配置，也只能先将就着用吧。</p>
-
-<p>我先是参考的 <a href="https://www.programmersought.com/article/68601428960/">CentOS implements iptables log output and debugging through raw table</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo modprobe ipt_LOG
-</span><span class='line'>$sudo sysctl net.netfilter.nf_log.2
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出的结果是 NONE，于是尝试显示设置 <code>sudo sysctl net.netfilter.nf_log.2=ipt_LOG</code></p>
-
-
-		
-		<a href="/blog/remembering-a-docker-network-issue-troubleshooting.html" class="more-link">继续阅读</a>
 	</div>
 
 

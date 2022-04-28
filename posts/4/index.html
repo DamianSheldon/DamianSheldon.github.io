@@ -61,6 +61,91 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-publish-your-artifacts-to-maven-central.html">
+		
+			如何发布自己的 Artifacts 到 Maven 中央仓库</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2020-10-28T09:16:37+08:00" pubdate data-updated="true">28 Oct 2020</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>当我们越来越熟悉 Java 开发，可能也想发布自己的 artifacts 到 maven 中央仓库，那么该如何做呢？</p>
+
+<blockquote><p>The easiest way to upload another project is to use the <a href="http://central.sonatype.org/pages/ossrh-guide.html">Open Source Software Repository Hosting (OSSRH)</a>, which is an approved repository provided by Sonatype for any OSS Project that want to get their artifacts into the Central Repository.</p></blockquote>
+
+<p>从 maven 的官方文档可知是使用 <a href="http://central.sonatype.org/pages/ossrh-guide.html">Open Source Software Repository Hosting (OSSRH)</a>, 于是我们可以参考她的指南。</p>
+
+<p>这份指南勾勒了发布工作的主要流程，分别是：</p>
+
+<ol>
+<li>Create a ticket with Sonatype</li>
+<li>Review Requirements</li>
+<li>Deployment</li>
+<li>Releasing to Central</li>
+</ol>
+
+
+<h3>创建 Sonatype 工单</h3>
+
+<p>Sonatype 使用 JIRA 管理请求，所以我们要创建 JIRA 帐号, 然后创建一个新工程工单。</p>
+
+<ol>
+<li><a href="https://issues.sonatype.org/secure/Signup!default.jspa">Create your JIRA account</a></li>
+<li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">Create a New Project ticket</a></li>
+</ol>
+
+
+<h3>复核要求</h3>
+
+<p>为了确保中央仓库库中可用组件的最低质量水平，部署组件必须满足一些要求。这使组件的用户能够从中央仓库中提供的元数据中找到有关组件的所有相关细节。</p>
+
+<p>这些要求是：</p>
+
+<ol>
+<li>Supply Javadoc and Sources</li>
+<li>Sign Files with GPG/PGP</li>
+<li>Sufficient Metadata</li>
+</ol>
+
+
+
+		
+		<a href="/blog/how-to-publish-your-artifacts-to-maven-central.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/an-approach-to-building-javascript-libraries.html">
 		
 			一种构建 JavaScript 库的方法</a>
@@ -253,55 +338,6 @@
 
 		
 		<a href="/blog/linux-useful-command-line-part-3.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/using-mysql-note-part-two.html">
-		
-			MySQL 使用笔记(二)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2020-07-18T15:57:24+08:00" pubdate data-updated="true">18 Jul 2020</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.如何查看数据库中所有的存储过程?</h3>
-
-<p>A: <code>mysql&gt; show procedure status where db = 'db_for_mysql_crash_course'\G;</code>;</p>
-
-		
-		
 	</div>
 
 

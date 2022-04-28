@@ -61,5 +61,23 @@ Redis最多可以处理`2^32`个键，经实践测试，每个实例至少可以
 
 正因为如此，对于有很多过期键的用户来说，在复制节点中看到较少的键是很常见的。然而，从逻辑上讲，主节点和复制节点将有相同的内容。
 
+##11.Redis 哨兵和集群的区别是什么？
 
+>Redis Sentinel provides high availability for Redis when not using Redis Cluster.
+>Redis scales horizontally with a deployment topology called Redis Cluster.
+
+##12.Memcache 与 Redis 的区别都有哪些？
+
+* Command-Line
+* Disk I/O Dumping
+* Data Structures
+* Replication
+* Transactions
+* Publish and Subscribe Messaging
+* Geospatial Support
+* Architecture
+* LUA Scripting
+* Memory Usage
+
+* [Memcached vs Redis](https://www.baeldung.com/memcached-vs-redis)  
 

@@ -61,6 +61,86 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/spring-mvc-interview-questions.html">
+		
+			(翻译)Spring MVC 面试题</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-04-12T11:42:30+08:00" pubdate data-updated="true">12 Apr 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h1>1. 简介</h1>
+
+<p>Spring MVC是Spring公司在Servlet API基础上建立的原创Web框架。它提供了模型-视图-控制器架构，可用于开发灵活的Web应用。</p>
+
+<p>在本教程中，我们将重点讨论与之相关的问题，因为它经常是Spring开发者求职面试的一个话题。</p>
+
+<p>关于Spring框架的更多问题，你可以查看我们<a href="https://www.baeldung.com/tag/interview/">面试问题系列</a>中另一篇与<a href="https://www.baeldung.com/spring-interview-questions">Spring有关的文章</a>。</p>
+
+<h1>2.基础 Spring MVC 题</h1>
+
+<h2>Q1. 为什么我们要使用Spring MVC？</h2>
+
+<p>Spring MVC实现了清晰的关注点分离，使我们能够轻松开发和单元测试我们的应用程序。</p>
+
+<p>像如下概念：</p>
+
+<ul>
+<li>Dispatcher Servlet</li>
+<li>Controllers</li>
+<li>View Resolvers</li>
+<li>Views, Models</li>
+<li>ModelAndView</li>
+<li>Model and Session Attributes</li>
+</ul>
+
+
+<p>是完全相互独立的，它们只负责一件事。</p>
+
+<p>因此，MVC给了我们相当大的灵活性。它是基于接口的（有提供的实现类），我们可以通过使用自定义接口来配置框架的每一部分。</p>
+
+<p>另一件重要的事情是，我们并没有被束缚在一个特定的视图技术上（例如JSP），而是可以选择我们最喜欢的技术。</p>
+
+<p>另外，我们不只在Web应用开发中使用Spring MVC，在创建RESTful Web服务时也是如此。</p>
+
+
+		
+		<a href="/blog/spring-mvc-interview-questions.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/top-spring-framework-interview-questions.html">
 		
 			(翻译)常见 Spring 框架面试题</a>
@@ -300,142 +380,6 @@
 <li><a href="https://access.redhat.com/discussions/4452161">vboxclient the virtualbox kernel service is not running. exiting</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?t=103528">CentOS 8 Stream - vboxdrv wont build</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?t=82201">Cannot install Guest Addtions</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/cluster-virtualbox-centos-7.html">
-		
-			VirtualBox 搭建 CentOS 7 集群</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2021-10-21T15:57:18+08:00" pubdate data-updated="true">21 Oct 2021</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>软件开发时我们可能需要集群环境，特别是现在微服务很流行的情况下。如果我们手里的电脑配置不错就可以用 来搭建集群，用于学习或开发还是很不错，性价比很高。</p>
-
-<p>我这里是用 VirtualBox 搭建 CentOS 7 集群，宿主机是内存 16 GB 加 SSD 1 TB 的 MacBook Pro。集群的核心是选择网络模式，VirtualBox 的网络模式概况如下:</p>
-
-<table>
-<thead>
-<tr>
-<th> Mode </th>
-<th> VM -> Host </th>
-<th> VM &lt;- Host </th>
-<th> VM1 <-> VM2 </th>
-<th> VM -> Net/LAN </th>
-<th> VM &lt;- Net/LAN </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> Host-only </td>
-<td> + </td>
-<td> + </td>
-<td> + </td>
-<td> - </td>
-<td> - </td>
-</tr>
-<tr>
-<td> Internal </td>
-<td> - </td>
-<td> - </td>
-<td> + </td>
-<td> - </td>
-<td> - </td>
-</tr>
-<tr>
-<td> Bridged </td>
-<td> + </td>
-<td> + </td>
-<td> + </td>
-<td> + </td>
-<td> + </td>
-</tr>
-<tr>
-<td> NAT </td>
-<td> + </td>
-<td> Port forward </td>
-<td> - </td>
-<td> + </td>
-<td> Port forward </td>
-</tr>
-<tr>
-<td> NAT service </td>
-<td> + </td>
-<td> Port forward </td>
-<td> + </td>
-<td> + </td>
-<td> Port forward </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>我希望集群的机器可以互相访问并能访问网络，从上面的列表可知，我们可以选择 Bridged，或者 NAT service 搭配 Port forward。在搭建之初，我搜索了相关的资料，但是并没找到特别理想的，这篇 <a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a> 勉强还凑合，于是我主要参考它来搭建，网络模式也同样是选择的 Bridged，它还使用了双网卡，虚拟机之间通信使用的 Internal Networking， 感觉上性能可能会好点，没实测。双网卡并不是必须的，VirtualBox 对 Internal Networking 的说明是其在安全方面更有优势:</p>
-
-<blockquote><p>Even though technically, everything that can be done using internal networking can also be done using bridged networking, there are security advantages with internal networking. In bridged networking mode, all traffic goes through a physical interface of the host system. It is therefore possible to attach a packet sniffer such as Wireshark to the host interface and log all traffic that goes over it. If, for any reason, you prefer two or more VMs on the same machine to communicate privately, hiding their data from both the host system and the user, bridged networking therefore is not an option.</p></blockquote>
-
-<p>由于 CentOS 主要是运行服务，我们可以使用 Minimal 安装，这样可以减少资源开销，安装好后，默认是没有启用网络的， 网络相关的配置是在 <code>/etc/sysconfig/network-scripts</code> 目录下，配置文件的命令惯例是 <code>ifcfg-enp0sX</code> ， <code>X</code> 是整数，我这里是 <code>ifcfg-enp0s3</code> 和 <code>ifcfg-enp0s8</code>，将 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code> 和 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s8</code> 中的 <code>ONBOOT</code> 改成 <code>yes</code>。</p>
-
-<p>构建 Internal Network 时，手动去指定 ip 会很麻烦，VirtualBox 给了我们另一个选择:</p>
-
-<blockquote><p>Unless you configure the virtual network cards in the guest operating systems that are partici- pating in the internal network to use static IP addresses, you may want to use the DHCP server that is built into Oracle VM VirtualBox to manage IP addresses for the internal network.</p></blockquote>
-
-<p>我们可以 <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> 和 <code>192.168.0.0/16</code> 选择一个合适的私有 ip 地址范围来构建 Internal Network，我这里选择 <code>172.16.0.0/12</code>。</p>
-
-<p>在宿主机下运行命令 <code>/Applications/VirtualBox.app/Contents/MacOS/VBoxManage dhcpserver add --netname=intnet --server-ip=172.16.0.1 --netmask=255.240.0.0 --lower-ip=172.16.0.2 --upper-ip=172.16.255.255 --enable</code> 创建好 DHCP server。</p>
-
-<p>之后我们可以利用 VirtualBox 的克隆功能来扩展我们的集群节点。</p>
-
-<h1>修改记录</h1>
-
-<ul>
-<li>2021/10/21：第一次完成</li>
-</ul>
-
-
-<h1>Reference</h1>
-
-<ul>
-<li><a href="https://subscription.packtpub.com/book/web-development/9781785288685/1/ch01lvl1sec09/setting-up-centos-7-nodes">Setting up CentOS 7 nodes</a></li>
-<li><a href="https://54m4ri74n.medium.com/building-an-internal-network-in-virtualbox-d0a4974882d0">Building an Internal Network in VirtualBox</a></li>
 </ul>
 
 

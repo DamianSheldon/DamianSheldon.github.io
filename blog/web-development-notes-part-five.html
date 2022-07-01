@@ -3,16 +3,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Here's where it all happens for me.  | Hello World</title>
+        <title>Web 开发问题汇总(五)  | Hello World</title>
 
         <meta name="author" content="Sheldon"> 
         
-        <meta name="description" content="Sheldon's personal technology blog about iOS, Android, Back-end, Web and English."> <meta name="keywords" content="iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, PHP, English">
+        <meta name="description" content="Noting problems encounter during web development, every fifteen problem produce a blog, this is the fifth."> <meta name="keywords" content="jvm, java">
 
         <meta name="viewport" content="width=device-width">
         
         
-        <link rel="canonical" href="http://DamianSheldon.github.io/index.html">
+        <link rel="canonical" href="http://DamianSheldon.github.io/blog/web-development-notes-part-five.html">
 
         <link href="/atom.xml" rel="alternate" title="Hello World" type="application/atom+xml">
         <link href="/favicon.png" rel="icon">
@@ -55,16 +55,8 @@
 <a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a>
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-development-notes-part-five.html">
-		
-			Web 开发问题汇总(五)</a>
-	</h2>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Web 开发问题汇总(五)</h2>
         
     <div class="meta">
 	   <div class="date">
@@ -92,9 +84,8 @@
 
 
     </div>
-        
-	<div class="entry-content">
-		<h3>1.</h3>
+    
+	<div class="entry-content"><h3>1.</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -176,191 +167,53 @@
 
 <p>google 了一番之后，问题可能是 <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">macOS 上的 java 8 部分小版本有问题</a>，于是我打算用虚拟机里面的 RockyLinux 来试下，结果是确定可以。</p>
 
-
-		
-		<a href="/blog/web-development-notes-part-five.html" class="more-link">继续阅读</a>
-	</div>
+<!--more-->
 
 
-        
-</article>
+<p>这中间还一个小插曲，也很有意思，这里记一下。虚拟机里面的 RockyLinux 之前并没有安装 java 开发环境，于是我就下载安装 eclipse，2022-06 版本的 eclipse 默认要求 <code>java 11+</code> 的运行环境，它默认选择安装的是 java 17，这也确定是一个好选择，一是 ZGC 是从 java 15 开始 Production Ready；二是 java 17 是一个长期支持版本。</p>
+
+<blockquote><p>ZGC was initially introduced as an experimental feature in JDK 11, and was declared Production Ready in JDK 15.</p></blockquote>
+
+<p>RockyLinux 自带的是 java 8，于是我们安装 jdk 8 和 jdk 17，然后使用自带的 alternatives 来切换 java 版本，但是它好像只管理 jre bin 下的命令，并有把 jdk 里面的命令都管理起来。我是使用 jinfo 提示报错发现的:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Type "GenericGrowableArray", referenced in VMStructs::localHotSpotVMStructs in the remote VM, was not present in the remote VMStructs::localHotSpotVMTypes table (should have been caught in the debug build of that VM). Can not continue.</span></code></pre></td></tr></table></div></figure>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/redis-interview-questions.html">
-		
-			Redis 面试题</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
+<p>可以使用 <code>alternatives --display java</code> 去确定一下，从这里也可以看出工具的版本最好对应，所以我们也可以将它们纳入 alternatives 系统来管理。以 jhsdb 为例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo alternatives --add-slave java /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/java /usr/bin/jhsdb jhsdb /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/jhsdb</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Reference:</p>
 
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-04-27T14:36:10+08:00" pubdate data-updated="true">27 Apr 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+<ul>
+<li><a href="https://blog.csdn.net/Dongguabai/article/details/88736589">Mac 使用 jinfo 出现：Can&rsquo;t attach to the process. Could be caused by an incorrect pid or lack of privileg</a></li>
+<li><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">JDK-8160376 : DebuggerException: Can&rsquo;t attach symbolicator to the process</a></li>
+</ul>
 
 </div>
 
 
-    </div>
-        
-	<div class="entry-content">
-		<h2>1.什么是 Redis?</h2>
-
-<blockquote><p>Redis is an open source (BSD licensed), in-memory data structure store used as a database, cache, message broker, and streaming engine.</p></blockquote>
-
-<p>Redis是一个开源的内存数据结构存储，被用作数据库、缓存、消息代理和流媒体引擎。</p>
-
-<h2>2.Redis的内存占用量是多少？</h2>
-
-<p>我们看几个例子（都是使用64位实例得到的。</p>
-
-<ul>
-<li>一个空的实例使用~3MB的内存。</li>
-<li>100万个小键->字符串值对使用~85MB的内存。</li>
-<li>100万个键->哈希值，代表一个有5个字段的对象，使用~160 MB的内存。</li>
-</ul>
-
-
-<h2>3.为什么Redis将其整个数据集保存在内存中？</h2>
-
-<p>在过去，Redis的开发者尝试了虚拟内存和其他系统来允许大于RAM的数据集，但最终我们很高兴能做好一件事：数据从内存中提供，磁盘用于存储。所以现在还没有计划为Redis创建一个磁盘上的后端。Redis是当前设计的结果。</p>
-
-<h2>4.你能将Redis与基于磁盘的数据库一起使用吗？</h2>
-
-<p>可以，一个常见的设计模式是在Redis中保存频繁写的小数据（以及你需要Redis数据结构以有效方式为你的问题建模的数据），而大块的数据保存到 SQL或最终一致的磁盘数据库。同样，有时Redis被用来在内存中获取存储在磁盘数据库中的相同数据子集的另一个副本。这看起来类似于缓存，但实际上是一个更高级的模型，因为通常Redis数据集与磁盘数据库数据集一起更新，而不是在缓存错过时刷新。</p>
-
-<h2>5.如何减少Redis的整体内存用量？</h2>
-
-<p>如果可以的话，使用Redis的32位实例。同时善用小的哈希值、列表、排序集和整数集，因为Redis能够在少数元素的特殊情况下以更紧凑的方式表示这些数据类型。</p>
-
-<h2>6.如果Redis的内存用完了会怎样？</h2>
-
-<p>Redis有内置的保护措施，允许用户设置内存使用的最大限制，使用配置文件中的maxmemory选项，对Redis可以使用的内存进行限制。如果达到这个限制，Redis将开始对写命令回复错误（但会继续接受只读命令）。</p>
-
-<p>你也可以配置Redis在达到最大内存限制时驱逐键值。</p>
-
-
-		
-		<a href="/blog/redis-interview-questions.html" class="more-link">继续阅读</a>
-	</div>
-
-
         
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/spring-boot-interview-questions.html">
-		
-			(翻译)Spring Boot 面试题</a>
-	</h2>
+	<div class="share">
+	<div>
+	
+	
+	
+    
+    
         
-    <div class="meta">
-	   <div class="date">
 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-04-19T10:03:03+08:00" pubdate data-updated="true">19 Apr 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
+    
+    
+	</div>
 </div>
 
 
-    </div>
-        
-	<div class="entry-content">
-		<h1>1. 概述</h1>
-
-<p>自推出以来，Spring Boot一直是Spring生态系统中的一个重要角色。这个项目凭借其自动配置能力使我们的生活变得更加轻松。</p>
-
-<p>在本教程中，我们将介绍一些在求职面试中可能出现的与Spring Boot有关的最常见问题。</p>
-
-<h1>2. 题目</h1>
-
-<h2>Q1. 什么是Spring Boot，其主要特点是什么？</h2>
-
-<p>Spring Boot本质上是一个建立在Spring框架之上的快速应用开发框架。凭借其自动配置和嵌入式应用服务器支持，再加上其享有的大量文档和社区支持，Spring Boot是迄今为止Java生态系统中最受欢迎的技术之一。</p>
-
-<p>这里有几个突出的特点。</p>
-
-<ul>
-<li><strong>启动器</strong> &ndash; 一组依赖性描述符，可以一次性包括相关的依赖性</li>
-<li><strong>自动配置</strong> &ndash; 一种基于classpath上的依赖关系自动配置应用程序的方法</li>
-<li><strong>执行器</strong> &ndash; 获得生产就绪的功能，如监控</li>
-<li><strong>安全性</strong></li>
-<li><strong>记录</strong></li>
-</ul>
-
-
-<h2>Q2. Spring和Spring Boot之间的区别是什么？</h2>
-
-<p>Spring框架提供了多种功能，使Web应用的开发更加容易。这些功能包括依赖性注入、数据绑定、面向方面的编程、数据访问等等。</p>
-
-<p>多年来，Spring越来越复杂，这种应用所需的配置量可能令人生畏。这就是Spring Boot的用武之地&ndash;它使配置一个Spring应用程序变得轻而易举。</p>
-
-<p>从本质上讲，Spring是没有主见的，而Spring Boot对平台和库有主见，让我们快速上手。</p>
-
-<p>下面是Spring Boot带来的两个最重要的好处。</p>
-
-<ul>
-<li>根据它在classpath上找到的库自动配置应用程序</li>
-<li>提供生产中的应用程序常见的非功能特性，如安全或健康检查</li>
-</ul>
-
-
-<p>请查看我们的其他教程，了解<a href="https://www.baeldung.com/spring-vs-spring-boot">普通Spring和Spring Boot的详细比较</a>。</p>
-
-
-		
-		<a href="/blog/spring-boot-interview-questions.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-<nav id="pagenavi">
-    
-    
-        <a href="/posts/2" class="next">Next</a>
-    
-    
-</nav>
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
 

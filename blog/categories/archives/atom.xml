@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-04-28T16:30:54+08:00</updated>
+  <updated>2022-07-01T11:24:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(五)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-five.html"/>
+    <updated>2022-07-01T09:32:39+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-five</id>
+    <content type="html"><![CDATA[<h3>1.</h3>
+
+<pre><code>$ jmap -heap 29104
+Attaching to process ID 29104, please wait...
+ERROR: attach: task_for_pid(29104) failed: '(os/kern) failure' (5)
+Error attaching to process: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+sun.jvm.hotspot.debugger.DebuggerException: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+    at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.execute(BsdDebuggerLocal.java:169)
+    at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach(BsdDebuggerLocal.java:287)
+    at sun.jvm.hotspot.HotSpotAgent.attachDebugger(HotSpotAgent.java:671)
+    at sun.jvm.hotspot.HotSpotAgent.setupDebuggerDarwin(HotSpotAgent.java:659)
+    at sun.jvm.hotspot.HotSpotAgent.setupDebugger(HotSpotAgent.java:341)
+    at sun.jvm.hotspot.HotSpotAgent.go(HotSpotAgent.java:304)
+    at sun.jvm.hotspot.HotSpotAgent.attach(HotSpotAgent.java:140)
+    at sun.jvm.hotspot.tools.Tool.start(Tool.java:185)
+    at sun.jvm.hotspot.tools.Tool.execute(Tool.java:118)
+    at sun.jvm.hotspot.tools.HeapSummary.main(HeapSummary.java:49)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:498)
+    at sun.tools.jmap.JMap.runTool(JMap.java:201)
+    at sun.tools.jmap.JMap.main(JMap.java:130)
+Caused by: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+    at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach0(Native Method)
+    at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.access$100(BsdDebuggerLocal.java:65)
+    at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$1AttachTask.doit(BsdDebuggerLocal.java:278)
+    at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.run(BsdDebuggerLocal.java:144)
+</code></pre>
+
+<p>A: macOS 上的 java 虚拟机基础工具不能附加到 java 进程上，操作系统环境为:</p>
+
+<pre><code>$ sw_vers
+ProductName:    Mac OS X
+ProductVersion: 10.15.7
+BuildVersion:   19H1922
+</code></pre>
+
+<p>java 版本:</p>
+
+<pre><code>$ java -version
+java version "1.8.0_121"
+Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
+</code></pre>
+
+<p>google 了一番之后，问题可能是 <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">macOS 上的 java 8 部分小版本有问题</a>，于是我打算用虚拟机里面的 RockyLinux 来试下，结果是确定可以。</p>
+
+<!--more-->
+
+
+<p>这中间还一个小插曲，也很有意思，这里记一下。虚拟机里面的 RockyLinux 之前并没有安装 java 开发环境，于是我就下载安装 eclipse，2022-06 版本的 eclipse 默认要求 <code>java 11+</code> 的运行环境，它默认选择安装的是 java 17，这也确定是一个好选择，一是 ZGC 是从 java 15 开始 Production Ready；二是 java 17 是一个长期支持版本。</p>
+
+<blockquote><p>ZGC was initially introduced as an experimental feature in JDK 11, and was declared Production Ready in JDK 15.</p></blockquote>
+
+<p>RockyLinux 自带的是 java 8，于是我们安装 jdk 8 和 jdk 17，然后使用自带的 alternatives 来切换 java 版本，但是它好像只管理 jre bin 下的命令，并有把 jdk 里面的命令都管理起来。我是使用 jinfo 提示报错发现的:</p>
+
+<pre><code>Type "GenericGrowableArray", referenced in VMStructs::localHotSpotVMStructs in the remote VM, was not present in the remote VMStructs::localHotSpotVMTypes table (should have been caught in the debug build of that VM). Can not continue.
+</code></pre>
+
+<p>可以使用 <code>alternatives --display java</code> 去确定一下，从这里也可以看出工具的版本最好对应，所以我们也可以将它们纳入 alternatives 系统来管理。以 jhsdb 为例:</p>
+
+<pre><code>sudo alternatives --add-slave java /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/java /usr/bin/jhsdb jhsdb /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/jhsdb
+</code></pre>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://blog.csdn.net/Dongguabai/article/details/88736589">Mac 使用 jinfo 出现：Can&rsquo;t attach to the process. Could be caused by an incorrect pid or lack of privileg</a></li>
+<li><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">JDK-8160376 : DebuggerException: Can&rsquo;t attach symbolicator to the process</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Redis 面试题]]></title>
@@ -1234,94 +1314,6 @@ public class SpringJdbcConfig {
 
 <ul>
 <li><a href="https://www.baeldung.com/spring-interview-questions">Top Spring Framework Interview Questions</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CentOS 8 迁移到 Rocky Linux 时遇到的问题]]></title>
-    <link href="http://DamianSheldon.github.io/blog/how-to-migrate-to-rocky-linux-from-centos-8.html"/>
-    <updated>2022-03-08T11:25:32+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/how-to-migrate-to-rocky-linux-from-centos-8</id>
-    <content type="html"><![CDATA[<p>虽然 Rocky Linux 专门写了一篇文档介绍如何从 CentOS 8 迁移过来，但实际迁移还是遇到了问题，这里简单记一下。</p>
-
-<pre><code>Error: 
- Problem 1: cannot install both ibus-libs-1.5.19-14.el8_5.x86_64 and ibus-libs-1.5.19-12.el8.x86_64
-  - package ibus-devel-1.5.19-12.el8.x86_64 requires ibus-libs(x86-64) = 1.5.19-12.el8, but none of the providers can be installed
-  - cannot install the best update candidate for package ibus-libs-1.5.19-12.el8.x86_64
-  - problem with installed package ibus-devel-1.5.19-12.el8.x86_64
- Problem 2: cannot install both marisa-0.2.4-36.el8.x86_64 and marisa-0.2.4-4.el7.x86_64
-  - package marisa-devel-0.2.4-4.el7.x86_64 requires marisa(x86-64) = 0.2.4-4.el7, but none of the providers can be installed
-  - cannot install the best update candidate for package marisa-0.2.4-4.el7.x86_64
-  - problem with installed package marisa-devel-0.2.4-4.el7.x86_64
-(try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
-</code></pre>
-
-<p>第一个问题是升级 <code>ibus-devel</code> 失败，这是因为 <code>ibus-devel</code> 在 PowerTools 的仓库中，默认可能没有使能这个仓库，我们可以手动使能安装或升级：<code>sudo dnf --enablerepo=powertools install ibus-devel</code>。</p>
-
-<p>第二个问题是 CentOS 8 上有最新的 <code>marisa-0.2.4-36.el8.x86_64</code>，但是只有<code>marisa-devel-0.2.4-4.el7.x86_64</code>, 这个有点奇怪，不知道为什么两个版本没有同步升级，<code>marisa-devel</code> 一般是用于开发，我们可能暂时用不到，可以先尝试卸载它完成升级：<code>sudo dnf remove marisa-devel</code>。</p>
-
-<pre><code>Syncing packages
-
-Last metadata expiration check: 0:00:13 ago on Tue Mar  8 12:23:04 2022.
-
-Error: 
- Problem: package kyotocabinet-1.2.77-1.el7.x86_64 requires kyotocabinet-libs(x86-64) = 1.2.77-1.el7, but none of the providers can be installed
-  - kyotocabinet-libs-1.2.77-1.el7.x86_64 does not belong to a distupgrade repository
-  - problem with installed package kyotocabinet-1.2.77-1.el7.x86_64
-(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
-
-Error during distro-sync.
-
-An error occurred while we were attempting to convert your system to Rocky Linux. Your system may be unstable. Script will now exit to prevent possible damage.
-</code></pre>
-
-<p>第三个问题是 kyotocabinet 的版本问题导致 <code>distro-sync</code> 失败。我查询了一下系统中安装的 kyotocabinet 版本又确实是 <code>1.2.77-1.el7</code>，也可以查询到迁移成功了：</p>
-
-<pre><code>$ hostnamectl 
-   Static hostname: centos.tenneshop.com
-         Icon name: computer-vm
-           Chassis: vm
-        Machine ID: 2af6da6bd3624e0988bd30e22574b645
-           Boot ID: 6edac64aba294e1e9f3b7cfdb7b6970c
-    Virtualization: oracle
-  Operating System: Rocky Linux 8.5 (Green Obsidian)
-       CPE OS Name: cpe:/o:rocky:rocky:8:GA
-            Kernel: Linux 4.18.0-240.15.1.el8_3.x86_64
-      Architecture: x86-64
-</code></pre>
-
-<p>通过 <code>Syncing packages</code> 搜索 migrate2rocky 脚本，这已经是最后三步了，于是尝试手动完成剩下的工作。  先 <code>dnf --allowerasing distro-sync</code>，然后查看会删除哪些软件，我这里是会删除 kyotocabinet，根据情况确认是否接受删除软件同步。</p>
-
-<p>最后的 Disable Stream repos 和移除 <code>subscription-manage</code>，因为是 CentOS 8, 所以并不需要。</p>
-
-<p>重启之后又遇到新的问题：</p>
-
-<pre><code>vboxclient the virtualbox kernel service is not running. exiting
-</code></pre>
-
-<p>查看 <code>/var/log/vboxadd-setup.log</code>，</p>
-
-<pre><code>/tmp/vbox.0/r0drv/linux/alloc-r0drv-linux.c:204:14: error: implicit declaration of function ‘map_vm_area’; did you mean ‘get_vm_area’? [-Werror=implicit-function-declaration]
-         if (!map_vm_area(pVmArea, PAGE_KERNEL_EXEC,
-              ^~~~~~~~~~~
-              get_vm_area
-cc1: some warnings being treated as errors
-make[2]: *** [scripts/Makefile.build:316: /tmp/vbox.0/combined-os-specific.o] Error 1
-make[1]: *** [Makefile:1571: _module_/tmp/vbox.0] Error 2
-make: *** [/tmp/vbox.0/Makefile-footer.gmk:117: vboxguest] Error 2
-</code></pre>
-
-<p>经过一番搜索，我意识到可能是 <code>VBoxGuestAdditions.iso</code> 的版本不对，因为之前确实有提示类似 <code>unable to insert the virtual optical disk /usr/share/virtualbox/vboxguestadditions.iso</code> 的错误，原因是我没有把之前版本的 <code>VBoxGuestAdditions.iso</code> 从虚拟光驱中弹出，于是先弹出再插入新版本，果然新版本成功安装。</p>
-
-<h2>Reference:</h2>
-
-<ul>
-<li><a href="https://docs.rockylinux.org/guides/migrate2rocky/">How to Migrate to Rocky Linux from CentOS Stream, CentOS, Alma Linux, RHEL, or Oracle Linux</a></li>
-<li><a href="https://access.redhat.com/discussions/4452161">vboxclient the virtualbox kernel service is not running. exiting</a></li>
-<li><a href="https://forums.virtualbox.org/viewtopic.php?t=103528">CentOS 8 Stream - vboxdrv wont build</a></li>
-<li><a href="https://forums.virtualbox.org/viewtopic.php?t=82201">Cannot install Guest Addtions</a></li>
 </ul>
 
 ]]></content>

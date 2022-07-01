@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-04-28T16:30:54+08:00</updated>
+  <updated>2022-07-01T11:24:47+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Web 开发问题汇总(五)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-five.html"/>
+    <updated>2022-07-01T09:32:39+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-five</id>
+    <content type="html"><![CDATA[<h3>1.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ jmap -heap 29104
+</span><span class='line'>Attaching to process ID 29104, please wait...
+</span><span class='line'>ERROR: attach: task_for_pid(29104) failed: '(os/kern) failure' (5)
+</span><span class='line'>Error attaching to process: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+</span><span class='line'>sun.jvm.hotspot.debugger.DebuggerException: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.execute(BsdDebuggerLocal.java:169)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach(BsdDebuggerLocal.java:287)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.attachDebugger(HotSpotAgent.java:671)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.setupDebuggerDarwin(HotSpotAgent.java:659)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.setupDebugger(HotSpotAgent.java:341)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.go(HotSpotAgent.java:304)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.attach(HotSpotAgent.java:140)
+</span><span class='line'>  at sun.jvm.hotspot.tools.Tool.start(Tool.java:185)
+</span><span class='line'>  at sun.jvm.hotspot.tools.Tool.execute(Tool.java:118)
+</span><span class='line'>  at sun.jvm.hotspot.tools.HeapSummary.main(HeapSummary.java:49)
+</span><span class='line'>  at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+</span><span class='line'>  at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+</span><span class='line'>  at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</span><span class='line'>  at java.lang.reflect.Method.invoke(Method.java:498)
+</span><span class='line'>  at sun.tools.jmap.JMap.runTool(JMap.java:201)
+</span><span class='line'>  at sun.tools.jmap.JMap.main(JMap.java:130)
+</span><span class='line'>Caused by: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach0(Native Method)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.access$100(BsdDebuggerLocal.java:65)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$1AttachTask.doit(BsdDebuggerLocal.java:278)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.run(BsdDebuggerLocal.java:144)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: macOS 上的 java 虚拟机基础工具不能附加到 java 进程上，操作系统环境为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sw_vers
+</span><span class='line'>ProductName:  Mac OS X
+</span><span class='line'>ProductVersion:   10.15.7
+</span><span class='line'>BuildVersion: 19H1922</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java 版本:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -version
+</span><span class='line'>java version "1.8.0_121"
+</span><span class='line'>Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
+</span><span class='line'>Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>google 了一番之后，问题可能是 <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">macOS 上的 java 8 部分小版本有问题</a>，于是我打算用虚拟机里面的 RockyLinux 来试下，结果是确定可以。</p>
+
+<!--more-->
+
+
+<p>这中间还一个小插曲，也很有意思，这里记一下。虚拟机里面的 RockyLinux 之前并没有安装 java 开发环境，于是我就下载安装 eclipse，2022-06 版本的 eclipse 默认要求 <code>java 11+</code> 的运行环境，它默认选择安装的是 java 17，这也确定是一个好选择，一是 ZGC 是从 java 15 开始 Production Ready；二是 java 17 是一个长期支持版本。</p>
+
+<blockquote><p>ZGC was initially introduced as an experimental feature in JDK 11, and was declared Production Ready in JDK 15.</p></blockquote>
+
+<p>RockyLinux 自带的是 java 8，于是我们安装 jdk 8 和 jdk 17，然后使用自带的 alternatives 来切换 java 版本，但是它好像只管理 jre bin 下的命令，并有把 jdk 里面的命令都管理起来。我是使用 jinfo 提示报错发现的:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Type "GenericGrowableArray", referenced in VMStructs::localHotSpotVMStructs in the remote VM, was not present in the remote VMStructs::localHotSpotVMTypes table (should have been caught in the debug build of that VM). Can not continue.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用 <code>alternatives --display java</code> 去确定一下，从这里也可以看出工具的版本最好对应，所以我们也可以将它们纳入 alternatives 系统来管理。以 jhsdb 为例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo alternatives --add-slave java /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/java /usr/bin/jhsdb jhsdb /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/jhsdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://blog.csdn.net/Dongguabai/article/details/88736589">Mac 使用 jinfo 出现：Can&rsquo;t attach to the process. Could be caused by an incorrect pid or lack of privileg</a></li>
+<li><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">JDK-8160376 : DebuggerException: Can&rsquo;t attach symbolicator to the process</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Redis 面试题]]></title>
@@ -5116,6 +5232,17 @@ with the following content:</p>
 <li><a href="https://stackoverflow.com/questions/53421021/ionic-cordova-build-ios-prod-gets-an-javascript-heap-out-of-memory">ionic cordova build ios &ndash;prod gets an JavaScript heap out of memory</a></li>
 </ul>
 
+
+<h3>15.How to Find JAVA_HOME</h3>
+
+<p>A: <code>java -XshowSettings:properties -version</code></p>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://www.baeldung.com/find-java-home">How to Find JAVA_HOME</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -5142,70 +5269,6 @@ with the following content:</p>
 <p>除了 Cordova 和 React Native，Google 最近还推出 Flutter，由于技术栈差异很大，以及个人精力有限，暂时不打算研究。我决定在 Cordova 和 React Native 中选择。React Native 虽然性能不错，但各平台需要自己的代码，这和一份代码的初衷不符；另外它动态部署事件的能力也稍逊一筹，框架本身的发展和原生藕合很紧密。基于这些原因，我偏向选择 Cordova。</p>
 
 <p>Cordova 让 Web 访问设备的能力比较方便，屏蔽了很多差异，但是它没有提供 UI 支持，如果我们想做出漂亮的界面，需要自己做，或者更好的办法是找一个好用的 UI 库。而且最好是搭配一个 SPA 框架，因为我们的应用通常不会只有一个界面，SPA 可以帮助我们在单个 WebView 里实现应用的功能。至此我们的脉络应该是比较清晰了，综合这些信息，我觉得 ionic 是个不错的选择。对于原生开发者，我们一开始可能对 Web 技术不是很熟悉，ionic 将相关技术整合在一起，这降低了学习的门槛。说到这里，我想起在前期，在搜索过程中，很多国产的跨平台技术映入眼帘，如 APICloud, DCloud,但我觉得技术群众基础也很重要，这样我们学的技术在其他公司能有用武之地，也容易招到合适的人才，综合考虑便没有选择这些技术。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 界面布局]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-ui-layout.html"/>
-    <updated>2019-03-06T09:27:15+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-ui-layout</id>
-    <content type="html"><![CDATA[<p>Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。</p>
-
-<p>Web 诞生的背景是更好的共享信息，而这信息起初便是文字、图片。为了展示图文信息，涌现出了很多布局方式，一种称为流的布局方式在竞争中胜出了。</p>
-
-<p>在这种布局方式中，界面元素被大体分为两类：一类是块级元素；另一类是是内联元素。块级元素负责结构布局，内联元素负责内容。在默认情况下，块级元素会像水流一样填满容器的宽度，内联元素则是从左至右，从上往下堆叠。很显然完全使用默认的布局行为是不能完成所有的需求的，于是在此基础上通过破坏流演化出新的布局行为，进而来满足我们的各种布局需求。所以总结下来，Web 的布局方法主要是如下几种：</p>
-
-<ul>
-<li>默认流布局行为</li>
-<li>Float</li>
-<li>Positioning</li>
-<li>Table layout</li>
-<li>Flexbox</li>
-<li>Grid</li>
-</ul>
-
-
-<p>界面布局的核心任务是控制界面元素的位置和大小。前面我们说过块级元素负责结构布局，所以位置主要是由她来控制。元素的布局信息是通过盒模型来表达的，下面是她的示意图：</p>
-
-<p><img class="center" src="http://DamianSheldon.github.io/images/css-box-model.png"></p>
-
-<p>margin 控制块元素间的间隙，padding 控制内容与块元素边框的间隙，所以可以用来控制位置。虽然 margin 是用来控制元素间的间隙，但我们通常可能希望将这种影响局部化，不然由于浏览器窗口大小变化，页面布局会受到很大影响，是与我们流布局的理念相挬的。因此她们主要是用在功能块内部。</p>
-
-<p>在页面布局时，通常会将各功能用块元素包裹起来，这样可以简化布局工作。于是页面就由一棵元素树组成，类似下图:</p>
-
-<p><img class="center" src="http://DamianSheldon.github.io/images/html-element-tree.png"></p>
-
-<p>在默认的流布局行为下，块元素的位置很有限，要么从布局容器的左上角开始，要么放在前一个块元素下面，这样恐怕不能完成多样的布局需求。只有拥有能布局到任意位置的能力，才能担此重任。于是需要借助 Positioning 和 Float 布局方法。</p>
-
-<p>Positioning 布局方法是通过改变元素的 position 值来改变她的位置，她可能的值为：<code>static | relative | absolute| fixed</code>，static 是默认值，relative 是相对默认位置定位，absolute 是相对父元素中第一个不为 static 的元素定位，fixed 则是相对 viewport，这些属性大大增强了布局定位能力。</p>
-
-<!--more-->
-
-
-<p>除了 Positioning 可以改变破坏流，Float 也可以。她本身是用来实现文字环绕图片的效果，但这种特性也可以用来实现布局。这些布局方法在处理某些界面布局时非常困难，甚至不可能，于是 Flexbox, Grid 等的新布局方法出现了。所以总结一下就是，默认流布局行为、Float 和 Positioning 可以控制块元素在容器中的位置，而 Table layout、 Flexbox 和 Grid 主要是控制布局容器内部的布局行为。</p>
-
-<p>梳理完控制位置的方法，我们来看下元素的大小。先看内联非替换元素，它的大小与 font-size 和包含的内容相关。而内联替换元素的大小计算规则要复杂些，基本规则是依次取如下尺寸:</p>
-
-<ul>
-<li>CSS 尺寸；</li>
-<li>HTML 尺寸；</li>
-<li>固有尺寸；</li>
-</ul>
-
-
-<p>祼露的 <code>&lt;img&gt;</code> 元素是个例外，需要留意下，但不影响内在的梳理脉胳。</p>
-
-<p>块级替换元素使用内联替换元素相同的计算规则。所以，我们重点来看下块级非替换元素的尺寸计算。首先，我们肯定可以使用 width 和 height 直接设置她的尺寸，但如果是应用在页面的主体结构布局上是和流布局的理念想违背，我们希望她的宽度是自动填满布局容器，高度是基于她的内容，也就是内联元素。</p>
-
-<p>块元素内部每行内联元素由行框盒子包含，有多少行就有多少个行框盒子，而 <code>line-height</code> 以决定行框盒子的高度，所以块级非替换元素主要由 <code>line-height</code> 决定高度。但是她也受 <code>vertical-align</code> 的影响，这时候由于内联元素和幽灵空白节点的默认基线对齐影响，会造成高度会有些许变化，这是我们需要注意的。</p>
-
-<h2>Reference</h2>
-
-<ul>
-<li>CSS 世界</li>
-</ul>
-
 ]]></content>
   </entry>
   

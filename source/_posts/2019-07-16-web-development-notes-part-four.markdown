@@ -331,3 +331,10 @@ Reference:
 
 * [ionic cordova build ios --prod gets an JavaScript heap out of memory](https://stackoverflow.com/questions/53421021/ionic-cordova-build-ios-prod-gets-an-javascript-heap-out-of-memory)  
 
+###15.How to Find JAVA_HOME
+A: `java -XshowSettings:properties -version`
+
+Reference:  
+
+* [How to Find JAVA_HOME](https://www.baeldung.com/find-java-home)  
+

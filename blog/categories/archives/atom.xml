@@ -4,7 +4,7 @@
   <title><![CDATA[Category: archives | Hello World]]></title>
   <link href="http://DamianSheldon.github.io/blog/categories/archives/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-07-01T11:24:47+08:00</updated>
+  <updated>2022-07-04T14:43:54+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -82,6 +82,8 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
 
 <pre><code>sudo alternatives --add-slave java /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/java /usr/bin/jhsdb jhsdb /usr/lib/jvm/java-17-openjdk-17.0.3.0.7-2.el8_6.x86_64/bin/jhsdb
 </code></pre>
+
+<p>虚拟机里面做开发还是有点卡，最后还是决定在 mac 上安装多个版本的 java，macOS 上并没有自带 centOS 上 alternatives 类似的命令，需要安装第三方软件来管理，之前在 Spring 的源码里看到它是用 SDkMan 来管理多个版本的 java，所以也决定用 SDKMan 来管理。但是 SDKMan 和 alternatives 的实现方式有很大差别，它默认是将软件安装在用户目录下的隐藏目录下，这对 eclipse 之类 IDE 来配置相关的类库会稍微有点不方便，需要开启 Finder 的隐藏文件显示，快捷命令是 <code>cmd+shift+.</code>，<code>defaults write com.apple.Finder AppleShowAllFiles true</code> 命令暂时没生效。</p>
 
 <p>Reference:</p>
 

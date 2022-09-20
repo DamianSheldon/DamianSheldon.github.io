@@ -59,9 +59,9 @@ Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它�
 推荐的方法是对强制性的依赖使用构造函数参数，对选择性的依赖使用设置器。这是因为构造函数注入允许向不可变的字段注入值，使测试更容易。
 
 ## Q7. BeanFactory 和 ApplicationContext 之间的区别是什么？
-BeanFactory 代表一个提供和管理 Bean 实例的容器接口。默认的实现是在调用 `getBean()`时懒惰地将 Bean 实例化。
+BeanFactory 表示一个提供和管理 Bean 实例的容器接口。默认的实现是在调用 `getBean()`时懒惰地将 Bean 实例化。
 
-相比之下，ApplicationContext 代表一个容纳了应用程序中元数据和 bean 等所有信息、元数据和bean 的容器接口。它也扩展了 BeanFactory 接口，但默认实现是在应用程序启动时迫切地实例化 Bean。然而，这种行为可以为单个 Bean 重写。
+相比之下，ApplicationContext 表示一个容纳了应用程序中元数据和 bean 等所有信息的容器接口。它也扩展了 BeanFactory 接口，但默认实现是在应用程序启动时迫切地实例化 Bean。然而，这种行为可以为单个 Bean 重写。
 
 关于所有的区别，请参考[文档](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html)。  
 

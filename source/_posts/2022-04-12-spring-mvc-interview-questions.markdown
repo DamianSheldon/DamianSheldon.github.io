@@ -55,7 +55,7 @@ Spring MVC实现了清晰的关注点分离，使我们能够轻松开发和单�
 `@Controller`和`@RestController`注释的主要区别在于，`@RestController`注释会自动包含`@ResponseBody`。这意味着我们不需要用`@ResponseBody`来注释我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在`@Controller`类中需要这样做。  
 
 ##Q5. 描述一下PathVariable
-我们可以使用`@PathVariable`注解作为处理方法参数，来提取URI模板变量的值。
+我们可以使用`@PathVariable`注解处理方法的参数，来提取URI模板变量的值。
 
 例如，如果我们想从`www.mysite.com/user/123`，通过id获取一个用户，我们应该把控制器中的方法映射为`/user/{id}`:  
 

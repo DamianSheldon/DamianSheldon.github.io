@@ -24,7 +24,7 @@ Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它�
 
 * **轻量级**--在开发中使用该框架的开销很小
 * **反转控制（IoC）**--Spring 容器负责连接各种对象的依赖关系，而不是创建或寻找依赖对象
-* **面向切面的编程（AOP）**--Spring支持AOP，将业务逻辑与系统服务分开
+* **面向切面编程（AOP）**--Spring支持AOP，将业务逻辑与系统服务分开
 * **IoC容器**--管理 Spring Bean 的生命周期和项目特定的配置
 * **MVC框架**--用于创建 Web 应用程序或 RESTful Web服务，能够返回XML/JSON响应
 * **事务管理** -- 通过使用 Java 注解或 Spring Bean 的 XML 配置文件，减少JDBC操作、文件上传等方面的模板代码量
@@ -37,7 +37,7 @@ Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它�
 * **ORM 集成** -- 为流行的对象关系映射 API 提供集成层，如 JPA、JDO 和 Hibernate
 * **Web**--一个面向网络的集成模块，提供多部分文件上传、Servlet监听器和面向网络的应用程序上下文功能
 * **MVC 框架**--一个实现模型-视图-控制器设计模式的 Web 模块
-* **AOP 模块**--面向切面的编程实现，允许定义干净的方法拦截器和切点
+* **AOP 模块**--面向切面编程实现，允许定义干净的方法拦截器和切点
 <!--more-->
 ## Q4. 什么是依赖性注入？
 依赖注入是控制反转（IoC）的一个方面，它是一个一般的概念，即我们不手动创建我们的对象，而是描述它们应该如何被创建。然后IoC容器将在需要时实例化所需的类。
@@ -146,7 +146,7 @@ Spring Boot 是一个提供了一套预配置框架以减少模板配置的项�
 * **工厂模式**-- Bean 工厂类
 * **原型模式**（Prototype Pattern）--原型作用域的 Bean。
 * **适配器模式**--Spring Web和Spring MVC
-* **代理模式**--支持Spring面向切面的编程
+* **代理模式**--支持Spring面向切面编程
 * **模板方法模式**--JdbcTemplate、HibernateTemplate等。
 * **前端控制器**--Spring MVC DispatcherServlet
 * **数据访问对象**--支持Spring DAO
@@ -244,7 +244,7 @@ public class SpringJdbcConfig {
 如需进一步解释，请查看[这篇快速文章](https://www.baeldung.com/spring-jdbc-jdbctemplate)。  
 
 ## Q23. 如何在 Spring 中启用事务，其好处是什么？
-有两种不同的方式来配置事务--使用注解或使用面向切面的编程（AOP）--每种方式都有其优势。
+有两种不同的方式来配置事务--使用注解或使用面向切面编程（AOP）--每种方式都有其优势。
 
 根据官方文档，以下是使用 Spring Transactions 的好处。
 
@@ -260,7 +260,7 @@ Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数
 
 ## 5. Spring Aspect-Oriented Programming
 
-## Q25. 什么是面向切面的编程（AOP）？
+## Q25. 什么是面向切面编程（AOP）？
 切面使跨领域的关注点模块化，如事务管理，它跨越多种类型和对象，在不修改受影响的类的情况下为已有的代码增加额外的行为。
 
 下面是[基于切面的执行时间记录](https://www.baeldung.com/spring-aop-annotation)的例子。

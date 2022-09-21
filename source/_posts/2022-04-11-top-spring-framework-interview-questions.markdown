@@ -101,6 +101,32 @@ Spring Bean 是由 Spring IoC 容器初始化的 Java 对象。
 
 ![Spring Bean Life Cycle](https://www.baeldung.com/wp-content/uploads/2017/06/Spring-Bean-Life-Cycle.jpg)  
 
+译者点评：作者的回答在实际面试时可能会略显单薄，这里我尝试补充一下：  
+
+首先应用上下文会读取配置元数据，然后解析元数据用 BeanDefinition 来表达 Bean 定义；之后先实例化实现了 BeanFactoryPostProcessor 接口的 Bean，排序后调用它们依次处理 Bean 定义信息；
+
+如果 Bean 定义中存在实现了 InstantiationAwareBeanPostProcessor 接口的 Bean，则调用它的 `postProcessBeforeInstantiation` 方法；然后实例化 Bean，之后又调用 InstantiationAwareBeanPostProcessor 的 `postProcessAfterInstantiation` 和 `postProcessPropertyValues` 方法；
+
+如果 Bean 实现了 BeanNameAware 接口则调用它的 `setBeanName` 方法；
+如果 Bean 实现了 BeanFactoryAware 接口则调用它的 `setBeanFactory` 方法；
+如果 Bean 实现了 ApplicationAware 接口则调用它 `setApplicationContext` 方法；
+
+调用 BeanPostProcessor 的 `postProcessBeforeInitialization` 方法；
+
+如果 Bean 实现 InitializingBean 的 `afterPropertiesSet` 方法；
+
+调用 `init-method` 属性 或 `@postConstruct` 注解设置的初始化方法；
+
+调用 BeanPostProcessor 的 `postProcessAfterInitialization` 方法；
+
+如果 Bean 的作用域是原型则直接将准备就绪 Bean 对象返回给调用者；
+
+如果 Bean 的作用域是单例则要先把它保存到容器的 Bean 对象缓存池中，然后将准备就绪的对象返回给调用者；
+
+之后容器销毁时，如果 Bean 实现了 DisposableBean 的 `destroy` 接口；
+
+调用 `destroy-method` 属性或 `@preDestroy` 注解设置的销毁方法；
+
 ## Q13. 什么是基于 Java 的 Spring 配置？
 它是一种以类型安全的方式配置基于 Spring 的应用程序的方法。它是基于 XML 的配置的替代品。
 

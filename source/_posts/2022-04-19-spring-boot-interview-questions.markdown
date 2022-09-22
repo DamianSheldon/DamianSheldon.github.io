@@ -26,6 +26,30 @@ Spring Boot本质上是一个建立在Spring框架之上的快速应用开发框
 * **安全性**
 * **日志**
 
+译者点评：  
+
+官方文档总结的特点：  
+
+> * 	Create stand-alone Spring applications 
+> *	Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files) 
+> *	Provide opinionated 'starter' dependencies to simplify your build configuration 
+> *	Automatically configure Spring and 3rd party libraries whenever possible 
+> *	Provide production-ready features such as metrics, health checks, and externalized configuration 
+> *	Absolutely no code generation and no requirement for XML configuration 
+
+> * 创建独立的Spring应用程序
+
+> * 直接嵌入Tomcat、Jetty或Undertow（不需要部署WAR文件）
+
+> * 提供有主见的 "启动器 "依赖，以简化你的构建配置
+
+> * 尽可能地自动配置Spring和第三方库
+
+> * 提供生产就绪的功能，如度量、健康检查和外部化配置
+
+> * 完全没有代码生成，也不需要XML配置
+
+
 ##Q2. Spring和Spring Boot之间的区别是什么？
 Spring框架提供了多种功能，使Web应用的开发更加容易。这些功能包括依赖性注入、数据绑定、面向切面编程、数据访问等等。
 

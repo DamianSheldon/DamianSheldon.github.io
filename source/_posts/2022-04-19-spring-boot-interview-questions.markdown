@@ -293,7 +293,7 @@ Spring Boot提供的主要注释位于org.springframework.boot.autoconfigure及�
 
 以下是一些基本的注释：
 
-* **@EnableAutoConfiguration** -- 使Spring Boot在其classpath上寻找自动配置豆并自动应用它们。
+* **@EnableAutoConfiguration** -- 使Spring Boot在其classpath上寻找自动配置 Bean 并自动应用它们。
 * **@SpringBootApplication** -- 表示Boot Application的主类。该注解将@Configuration、@EnableAutoConfiguration和@ComponentScan注解与它们的默认属性结合起来。
 
 [Spring Boot注解](https://www.baeldung.com/spring-boot-annotations)提供了对这一主题的更多见解。

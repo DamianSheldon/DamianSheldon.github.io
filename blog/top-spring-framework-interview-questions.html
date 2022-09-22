@@ -203,6 +203,32 @@
 
 <p><img src="https://www.baeldung.com/wp-content/uploads/2017/06/Spring-Bean-Life-Cycle.jpg" alt="Spring Bean Life Cycle" /></p>
 
+<p>译者点评：作者的回答在实际面试时可能会略显单薄，这里我尝试补充一下：</p>
+
+<p>首先应用上下文会读取配置元数据，然后解析元数据用 BeanDefinition 来表达 Bean 定义；之后先实例化实现了 BeanFactoryPostProcessor 接口的 Bean，排序后调用它们依次处理 Bean 定义信息；</p>
+
+<p>如果 Bean 定义中存在实现了 InstantiationAwareBeanPostProcessor 接口的 Bean，则调用它的 <code>postProcessBeforeInstantiation</code> 方法；然后实例化 Bean，之后又调用 InstantiationAwareBeanPostProcessor 的 <code>postProcessAfterInstantiation</code> 和 <code>postProcessPropertyValues</code> 方法；</p>
+
+<p>如果 Bean 实现了 BeanNameAware 接口则调用它的 <code>setBeanName</code> 方法；
+如果 Bean 实现了 BeanFactoryAware 接口则调用它的 <code>setBeanFactory</code> 方法；
+如果 Bean 实现了 ApplicationAware 接口则调用它 <code>setApplicationContext</code> 方法；</p>
+
+<p>调用 BeanPostProcessor 的 <code>postProcessBeforeInitialization</code> 方法；</p>
+
+<p>如果 Bean 实现 InitializingBean 的 <code>afterPropertiesSet</code> 方法；</p>
+
+<p>调用 <code>init-method</code> 属性 或 <code>@postConstruct</code> 注解设置的初始化方法；</p>
+
+<p>调用 BeanPostProcessor 的 <code>postProcessAfterInitialization</code> 方法；</p>
+
+<p>如果 Bean 的作用域是原型则直接将准备就绪 Bean 对象返回给调用者；</p>
+
+<p>如果 Bean 的作用域是单例则要先把它保存到容器的 Bean 对象缓存池中，然后将准备就绪的对象返回给调用者；</p>
+
+<p>之后容器销毁时，如果 Bean 实现了 DisposableBean 的 <code>destroy</code> 接口；</p>
+
+<p>调用 <code>destroy-method</code> 属性或 <code>@preDestroy</code> 注解设置的销毁方法；</p>
+
 <h2>Q13. 什么是基于 Java 的 Spring 配置？</h2>
 
 <p>它是一种以类型安全的方式配置基于 Spring 的应用程序的方法。它是基于 XML 的配置的替代品。</p>

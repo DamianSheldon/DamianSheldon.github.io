@@ -61,6 +61,70 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/concurrency-with-core-data.html">
+		
+			多线程的 Core Data</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-02-23T16:00:35+08:00" pubdate data-updated="true">23 Feb 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>平常在项目中没有使用过 Core Data, 因为我觉得它的学习曲线还挺陡峭，整个框架给人的感觉很复杂和笨重，因此一直没有使用它。但是看到喵神这份<a href="https://onevcat.com/2013/04/ios-interview/">上级向的十个 iOS 开发面试题</a>中和这份<a href="http://studentdeng.github.io/blog/2014/02/11/baidu-interview/">百度面试</a>题中都有涉及到 Core Data 的内容，我想还是有必要好好研究一下它，毕竟它是 Apple 官方的持久化方案，我们可以取其精华，弃其糟粕，另一方面未来我们也可能因为各种原因接手或参与使用 Core Data 的项目。</p>
+
+<p>这篇文章主要想探讨上面提到的面试题中的两个关于 Core Data 的问题:</p>
+
+<ol>
+<li>你实现过多线程的Core Data么？NSPersistentStoreCoordinator，NSManagedObjectContext和NSManagedObject中的哪些需要在线程中创建或者传递？你是用什么样的策略来实现的？</li>
+<li>Core Data：中多线程中处理大量数据同步时的操作。</li>
+</ol>
+
+
+<p>在回答这两个问题之前，我们先看 Apple 是怎么告诉我们使用多线程的 Core Data 的，在最新的(2017-03-27) Core Data Programming Guide 中有一节 Concurrency with Core Data，它没有直接说如何使用多线程，只是说了 managed object context 在多线程中的两种使用模式:</p>
+
+<blockquote><p>In Core Data, the managed object context can be used with two concurrency patterns, defined by NSMainQueueConcurrencyType and NSPrivateQueueConcurrencyType.</p>
+
+<p>NSMainQueueConcurrencyType is specifically for use with your application interface and can only be used on the main queue of an application.</p>
+
+<p>The NSPrivateQueueConcurrencyType configuration creates its own queue upon initialization and can be used only on that queue. Because the queue is private and internal to the NSManagedObjectContext instance, it can only be accessed through the performBlock: and the performBlockAndWait: methods.</p></blockquote>
+
+
+		
+		<a href="/blog/concurrency-with-core-data.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/problems-when-use-mac-part-two.html">
 		
 			Mac 使用笔记(二)</a>
@@ -351,82 +415,6 @@ If you have maven project try updating source and target version of java compile
 
 		
 		<a href="/blog/web-development-notes-part-two.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html">
-		
-			How to Setup an IKEv2 VPN Server on CentOS 8</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-10-11T08:32:44+08:00" pubdate data-updated="true">11 Oct 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>由于 Debian 8 官方不再支持，经过一番考虑和准备，最近将 VPS 的系统换成了 CentOS 8。Libreswan 的文档没有 VPN 时打不开，这就形成了一个死循环，所以将她换成了 StrongSwan 。StrongSwan 的文档个人觉得对新手不是很友好，我是看了好一会才看明白些，另外在支持 macOS，iOS，Windows 10 的过程中也遇到不少问题，所以这里记录下来，以备日后参考。</p>
-
-<p><a href="https://www.strongswan.org/documentation.html">StrongSwan 的文档入口</a>页有<a href="https://wiki.strongswan.org/projects/strongswan/wiki/InstallationDocumentation">安装指南</a>和<a href="https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples">可用的配置示例</a>。我个人建议先看下 <a href="https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan">Introduction to strongSwan</a>，这对安装和配置很有帮助。</p>
-
-<p>CentOS 8 中的 epel 仓库中有预编译的 strongswan 二进制安装包，我们直接安装就可以了。接下来就是配置，strongswan 有四种认证方式，出于安全和便捷的考虑，我选择了 Extensible Authentication Protocol (EAP)。</p>
-
-<p>首先是准备证书。我们可以使用自签名证书或者通用证书颁发机构签发的证书，后者不需要在各个终端上安装自签名根证书，所以部署上更简单。</p>
-
-<p>我们先来看看下自签名证书。</p>
-
-<p>生成根证书:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
-</span><span class='line'>strongswan pki --gen --outform pem > rsa/ca.pem
-</span><span class='line'>strongswan pki --self --ca --in rsa/ca.pem --type rsa --dn "C=CH, O=strongSwan, CN=strongSwan Root CA" --outform pem > x509ca/ca-cert.pem</span></code></pre></td></tr></table></div></figure>
-
-
-<p>生成服务器证书:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
-</span><span class='line'>strongswan pki --gen --outform pem > rsa/server.pem
-</span><span class='line'>strongswan pki --pub --in rsa/server.pem --type rsa | strongswan pki --issue --cacert cacerts/ca.cert.pem --cakey rsa/ca.pem --dn "C=CH, O=strongSwan, CN=swan.tenneshop.com" --san swan.tenneshop.com --flag serverAuth --flag ikeIntermediate --outform pem > x509/server-cert.pem</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html" class="more-link">继续阅读</a>
 	</div>
 
 

@@ -61,6 +61,82 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html">
+		
+			How to Setup an IKEv2 VPN Server on CentOS 8</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-10-11T08:32:44+08:00" pubdate data-updated="true">11 Oct 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>由于 Debian 8 官方不再支持，经过一番考虑和准备，最近将 VPS 的系统换成了 CentOS 8。Libreswan 的文档没有 VPN 时打不开，这就形成了一个死循环，所以将她换成了 StrongSwan 。StrongSwan 的文档个人觉得对新手不是很友好，我是看了好一会才看明白些，另外在支持 macOS，iOS，Windows 10 的过程中也遇到不少问题，所以这里记录下来，以备日后参考。</p>
+
+<p><a href="https://www.strongswan.org/documentation.html">StrongSwan 的文档入口</a>页有<a href="https://wiki.strongswan.org/projects/strongswan/wiki/InstallationDocumentation">安装指南</a>和<a href="https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples">可用的配置示例</a>。我个人建议先看下 <a href="https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan">Introduction to strongSwan</a>，这对安装和配置很有帮助。</p>
+
+<p>CentOS 8 中的 epel 仓库中有预编译的 strongswan 二进制安装包，我们直接安装就可以了。接下来就是配置，strongswan 有四种认证方式，出于安全和便捷的考虑，我选择了 Extensible Authentication Protocol (EAP)。</p>
+
+<p>首先是准备证书。我们可以使用自签名证书或者通用证书颁发机构签发的证书，后者不需要在各个终端上安装自签名根证书，所以部署上更简单。</p>
+
+<p>我们先来看看下自签名证书。</p>
+
+<p>生成根证书:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
+</span><span class='line'>strongswan pki --gen --outform pem > rsa/ca.pem
+</span><span class='line'>strongswan pki --self --ca --in rsa/ca.pem --type rsa --dn "C=CH, O=strongSwan, CN=strongSwan Root CA" --outform pem > x509ca/ca-cert.pem</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成服务器证书:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/strongswan/swanctl
+</span><span class='line'>strongswan pki --gen --outform pem > rsa/server.pem
+</span><span class='line'>strongswan pki --pub --in rsa/server.pem --type rsa | strongswan pki --issue --cacert cacerts/ca.cert.pem --cakey rsa/ca.pem --dn "C=CH, O=strongSwan, CN=swan.tenneshop.com" --san swan.tenneshop.com --flag serverAuth --flag ikeIntermediate --outform pem > x509/server-cert.pem</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/how-to-setup-an-l2tp-slash-ipsec-vpn-on-debian-8.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/a-simple-conical-gradient-on-ios.html">
 		
 			圆锥渐变的一种简单实现</a>
@@ -196,84 +272,6 @@
 
 		
 		
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/simple-image-processing-in-ios.html">
-		
-			iOS 中简单的图片处理</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-07-14T09:49:40+08:00" pubdate data-updated="true">14 Jul 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。</p>
-
-<h3>图片格式</h3>
-
-<p>图片主要有两种格式：一种叫做位图；另一种称之为矢量图。所谓位图，就是把图片看成是由许多像素点组成；而矢量图则是用绘图指令来描述图片。举个例子，圆可以用圆点，半径，线条的粗细和颜色来描述它。从这个例子也可以看出用矢量图来描述风景，人物这样复杂的事物会比较复杂，所以它们通常会用位图来描述。</p>
-
-<p>位图和矢量图也分为很多格式，具体可能查看<a href="https://en.wikipedia.org/wiki/Image_file_formats">Image file formats</a></p>
-
-<p>下面我们讨论的是位图，在 iOS 中我们经常打交道的位图格式是 JPG 和 PNG，用来处理位图数据的类有：UIImage (UIKit)，CGImage (Core Graphics) 和 CIImage (Core Image)。Image I/O 本来是属于 Core Graphics，为了更加方便使用，Apple 将它分离出来成为单独的库。</p>
-
-<h3>旋转</h3>
-
-<p>既然位图是用一个一个的像素点来模拟图片，当我们想要旋转图片时，首先想到的方法自然是改变这些像素点的位置，这当然可以达到目标。要调整这么多像素点的位置自然要耗费不少时间，所有在数码相机刚出来那会，人们不是去改变像素点的位置，而是用一段数据来描述图片的方向等信息，这段数据称为 Exif. 所以对于 JPG 这种拥有 Exif 信息的位图，我们旋转图片的最佳做法自然是改变 Exif 里的方向信息。而 PNG 是没有 Exif 信息的，所以只能改变像素点的位置。</p>
-
-<p>UIImage 自带了几个可以旋转的方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-</span><span class='line'>
-</span><span class='line'>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-</span><span class='line'>
-</span><span class='line'>- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
-</span><span class='line'>
-</span><span class='line'>- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/simple-image-processing-in-ios.html" class="more-link">继续阅读</a>
 	</div>
 
 

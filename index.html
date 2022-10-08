@@ -61,6 +61,122 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/exception-handling-in-spring-mvc.html">
+		
+			Spring MVC 中的异常处理</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-09-30T10:06:54+08:00" pubdate data-updated="true">30 Sep 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>使用 Spring 来开发 web 应用时很有必要建立一个统一的异常处理体系。想要建立这个体系，我们先要搞清楚 Spring MVC 中的异常处理机制。 Spring MVC 是基于 Servlet，所以它遵循 Servlet 规范。</p>
+
+<p>Servlet 规范中有详细的错误处理说明，简单来说就是 Servlet 在处理请求时可能会抛出异常或者调用 <code>sendError</code> ，这时 Servlet-Container 就要产生相应的错误界面，错误界面是允许自定义的。Spring MVC 的核心之一是 DispatchServlet，它是一个前端控制器，所有的请求处理都由它来驱动，从名字可以看出，它也是一个 Servlet，所以它的错误处理机制自然要遵循 Servlet 规范。从完整性的角度来看，还一种错误处理方法，Servlet 可以自己设置 HTTP 的 status code 和 body，也就是不和 Servlet-Container 联动来处理错误，而是完全自主地处理。</p>
+
+<p>我们先来看 DispatcherServlet 的异常处理机制，Spring 团队将异常处理功能集中到 HandlerExceptionResolver 接口的实现类中，DispatcherServlet 在初始化过程会把 IoC 容器中所有的 HandlerExceptionResolver 的实现类排好序后组装起来用于异常处理。</p>
+
+<p>现在我们使用 Spring 来开发 web 应用时应该都会选择 Spring Boot 来配置 Spring，和异常相关的自动配置类为 ErrorMvcAutoConfiguration 和 WebMvcAutoConfiguration， 它们默认配置两个 HandlerExceptionResolver: DefaultErrorAttributes 和 HandleExceptionResolverComposite。</p>
+
+<p>HandleExceptionResolverComposite 默认包含以下三个 HandlerExceptionResolver:</p>
+
+<blockquote><ul>
+<li>ExceptionHandlerExceptionResolver matches uncaught exceptions against suitable @ExceptionHandler methods on both the handler (controller) and on any controller-advices.</li>
+<li>ResponseStatusExceptionResolver looks for uncaught exceptions annotated by @ResponseStatus (as described in Section 1)</li>
+<li>DefaultHandlerExceptionResolver converts standard Spring exceptions and converts them to HTTP Status Codes (I have not mentioned this above as it is internal to Spring MVC).</li>
+</ul>
+</blockquote>
+
+<p>Spring 官方博客帮我们总结了 Spring Boot 默认配置的异常处理流程：</p>
+
+<blockquote><ol>
+<li>In the event of any unhanded error, Spring Boot forwards internally to /error.</li>
+<li>Boot sets up a BasicErrorController to handle any request to /error. The controller adds error information to the internal Model and returns error as the logical view name.</li>
+<li>If any view-resolver(s) are configured, they will try to use a corresponding error-view.</li>
+<li>Otherwise, a default error page is provided using a dedicated View object (making it independent of any view-resolution system you may be using).</li>
+<li>Spring Boot sets up a BeanNameViewResolver so that /error can be mapped to a View of the same name.</li>
+<li>If you look in Boot’s ErrorMvcAutoConfiguration class you will see that the defaultErrorView is returned as a bean called error. This is the View bean found by the BeanNameViewResolver.</li>
+</ol>
+</blockquote>
+
+<p>对于 Servlet-Container 层面的错误处理，Spring 官方博客的介绍如下：</p>
+
+<blockquote><p>Container-Wide Exception Handling</p>
+
+<p>Exceptions thrown outside the Spring Framework, such as from a servlet Filter, are also reported by Spring Boot’s fallback error page.
+To do this Spring Boot has to register a default error page for the container. In Servlet 2, there is an <code>&lt;error-page&gt;</code> directive that you can add to your web.xml to do this. Sadly Servlet 3 does not offer a Java API equivalent. Instead Spring Boot does the following:</p>
+
+<ul>
+<li>For a Jar application, with an embedded container, it registers a default error page using Container specific API.</li>
+<li>For a Spring Boot application deployed as a traditional WAR file, a Servlet Filter is used to catch exceptions raised further down the line and handle it.</li>
+</ul>
+</blockquote>
+
+<p>我们可以按照上述线索在 Spring Boot 的自动配置代码中找到相关的代码。</p>
+
+<p>当开发 REST API 项目时，我希望业务抛出的异常能契合 Spring Boot 默认配置的异常处理机制，让整个异常体系尽量统一，接口返回给终端统一格式的错误信息，这样终端也能统一处理接口错误。那么我们应该如何做？</p>
+
+<p>我们这里需要的是一个全局的异常处理机制，Spring MVC 提供给我们两种配置全局异常处理的方法：</p>
+
+<ul>
+<li>配置 HandlerExceptionResolver</li>
+<li>使用 <code>@ControllerAdvice</code> 注解的类</li>
+</ul>
+
+
+<p>相比之下，个人觉得使用 <code>@ControllerAdvice</code> 注解的类会方便一些，能达到感知框架的存在。我们可以定义一个异常处理基类，发布成一个库，然后在需要用到的项目中引入这个库，在项目中继承该基类定义一个 <code>@ControllerAdvice</code> 注解的异常处理类。</p>
+
+<p>选好全局异常处理机制后，那么我们应该如何来设计项目的业务异常类呢?</p>
+
+<p>Spring 官方博客给出了如下建议:</p>
+
+<blockquote><p>As usual, Spring likes to offer you choice, so what should you do? Here are some rules of thumb. However if you have a preference for XML configuration or Annotations, that’s fine too.</p>
+
+<ul>
+<li>For exceptions you write, consider adding @ResponseStatus to them.</li>
+<li>For all other exceptions implement an @ExceptionHandler method on a @ControllerAdvice class or use an instance of SimpleMappingExceptionResolver. You may well have SimpleMappingExceptionResolver configured for your application already, in which case it may be easier to add new exception classes to it than implement a @ControllerAdvice.</li>
+<li>For Controller specific exception handling add @ExceptionHandler methods to your controller.</li>
+<li>Warning: Be careful mixing too many of these options in the same application. If the same exception can be handed in more than one way, you may not get the behavior you wanted. @ExceptionHandler methods on the Controller are always selected before those on any @ControllerAdvice instance. It is undefined what order controller-advices are processed.</li>
+</ul>
+</blockquote>
+
+
+		
+		<a href="/blog/exception-handling-in-spring-mvc.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-development-notes-part-five.html">
 		
 			Web 开发问题汇总(五)</a>
@@ -260,113 +376,6 @@
 
 		
 		<a href="/blog/redis-interview-questions.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/spring-boot-interview-questions.html">
-		
-			(翻译)Spring Boot 面试题</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-04-19T10:03:03+08:00" pubdate data-updated="true">19 Apr 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h1>1. 概述</h1>
-
-<p>自推出以来，Spring Boot一直是Spring生态系统中的一个重要角色。这个项目凭借其自动配置能力使我们的生活变得更加轻松。</p>
-
-<p>在本教程中，我们将介绍一些在求职面试中可能出现的与Spring Boot有关的最常见问题。</p>
-
-<h1>2. 题目</h1>
-
-<h2>Q1. 什么是Spring Boot，其主要特点是什么？</h2>
-
-<p>Spring Boot本质上是一个建立在Spring框架之上的快速应用开发框架。凭借其自动配置和嵌入式应用服务器支持，再加上其享有的大量文档和社区支持，Spring Boot是迄今为止Java生态系统中最受欢迎的技术之一。</p>
-
-<p>这里有几个突出的特点。</p>
-
-<ul>
-<li><strong>启动器</strong> &ndash; 一组依赖性描述符，可以一次性包括相关的依赖性</li>
-<li><strong>自动配置</strong> &ndash; 一种基于classpath上的依赖关系自动配置应用程序的方法</li>
-<li><strong>执行器</strong> &ndash; 获得生产就绪的功能，如监控</li>
-<li><strong>安全性</strong></li>
-<li><strong>日志</strong></li>
-</ul>
-
-
-<p>译者点评：</p>
-
-<p>官方文档总结的特点：</p>
-
-<blockquote><ul>
-<li>  Create stand-alone Spring applications </li>
-<li>Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files) </li>
-<li>Provide opinionated &lsquo;starter&rsquo; dependencies to simplify your build configuration </li>
-<li>Automatically configure Spring and 3rd party libraries whenever possible </li>
-<li>Provide production-ready features such as metrics, health checks, and externalized configuration </li>
-<li><p>Absolutely no code generation and no requirement for XML configuration </p></li>
-<li><p>创建独立的Spring应用程序</p></li>
-<li><p>直接嵌入Tomcat、Jetty或Undertow（不需要部署WAR文件）</p></li>
-<li><p>提供有主见的 &ldquo;启动器 "依赖，以简化你的构建配置</p></li>
-<li><p>尽可能地自动配置Spring和第三方库</p></li>
-<li><p>提供生产就绪的功能，如度量、健康检查和外部化配置</p></li>
-<li><p>完全没有代码生成，也不需要XML配置</p></li>
-</ul>
-</blockquote>
-
-<h2>Q2. Spring和Spring Boot之间的区别是什么？</h2>
-
-<p>Spring框架提供了多种功能，使Web应用的开发更加容易。这些功能包括依赖性注入、数据绑定、面向切面编程、数据访问等等。</p>
-
-<p>多年来，Spring越来越复杂，这种应用所需的配置量可能令人生畏。这就是Spring Boot的用武之地&ndash;它使配置一个Spring应用程序变得轻而易举。</p>
-
-<p>从本质上讲，Spring是没有主见的，而Spring Boot对平台和库有主见，让我们快速上手。</p>
-
-<p>下面是Spring Boot带来的两个最重要的好处。</p>
-
-<ul>
-<li>根据它在classpath上找到的库自动配置应用程序</li>
-<li>提供生产中的应用程序常见的非功能特性，如安全或健康检查</li>
-</ul>
-
-
-<p>请查看我们的其他教程，了解<a href="https://www.baeldung.com/spring-vs-spring-boot">普通Spring和Spring Boot的详细比较</a>。</p>
-
-
-		
-		<a href="/blog/spring-boot-interview-questions.html" class="more-link">继续阅读</a>
 	</div>
 
 

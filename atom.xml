@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-09-22T17:00:35+08:00</updated>
+  <updated>2022-10-08T15:27:18+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,371 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring MVC 中的异常处理]]></title>
+    <link href="http://DamianSheldon.github.io/blog/exception-handling-in-spring-mvc.html"/>
+    <updated>2022-09-30T10:06:54+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/exception-handling-in-spring-mvc</id>
+    <content type="html"><![CDATA[<p>使用 Spring 来开发 web 应用时很有必要建立一个统一的异常处理体系。想要建立这个体系，我们先要搞清楚 Spring MVC 中的异常处理机制。 Spring MVC 是基于 Servlet，所以它遵循 Servlet 规范。</p>
+
+<p>Servlet 规范中有详细的错误处理说明，简单来说就是 Servlet 在处理请求时可能会抛出异常或者调用 <code>sendError</code> ，这时 Servlet-Container 就要产生相应的错误界面，错误界面是允许自定义的。Spring MVC 的核心之一是 DispatchServlet，它是一个前端控制器，所有的请求处理都由它来驱动，从名字可以看出，它也是一个 Servlet，所以它的错误处理机制自然要遵循 Servlet 规范。从完整性的角度来看，还一种错误处理方法，Servlet 可以自己设置 HTTP 的 status code 和 body，也就是不和 Servlet-Container 联动来处理错误，而是完全自主地处理。</p>
+
+<p>我们先来看 DispatcherServlet 的异常处理机制，Spring 团队将异常处理功能集中到 HandlerExceptionResolver 接口的实现类中，DispatcherServlet 在初始化过程会把 IoC 容器中所有的 HandlerExceptionResolver 的实现类排好序后组装起来用于异常处理。</p>
+
+<p>现在我们使用 Spring 来开发 web 应用时应该都会选择 Spring Boot 来配置 Spring，和异常相关的自动配置类为 ErrorMvcAutoConfiguration 和 WebMvcAutoConfiguration， 它们默认配置两个 HandlerExceptionResolver: DefaultErrorAttributes 和 HandleExceptionResolverComposite。</p>
+
+<p>HandleExceptionResolverComposite 默认包含以下三个 HandlerExceptionResolver:</p>
+
+<blockquote><ul>
+<li>ExceptionHandlerExceptionResolver matches uncaught exceptions against suitable @ExceptionHandler methods on both the handler (controller) and on any controller-advices.</li>
+<li>ResponseStatusExceptionResolver looks for uncaught exceptions annotated by @ResponseStatus (as described in Section 1)</li>
+<li>DefaultHandlerExceptionResolver converts standard Spring exceptions and converts them to HTTP Status Codes (I have not mentioned this above as it is internal to Spring MVC).</li>
+</ul>
+</blockquote>
+
+<p>Spring 官方博客帮我们总结了 Spring Boot 默认配置的异常处理流程：</p>
+
+<blockquote><ol>
+<li>In the event of any unhanded error, Spring Boot forwards internally to /error.</li>
+<li>Boot sets up a BasicErrorController to handle any request to /error. The controller adds error information to the internal Model and returns error as the logical view name.</li>
+<li>If any view-resolver(s) are configured, they will try to use a corresponding error-view.</li>
+<li>Otherwise, a default error page is provided using a dedicated View object (making it independent of any view-resolution system you may be using).</li>
+<li>Spring Boot sets up a BeanNameViewResolver so that /error can be mapped to a View of the same name.</li>
+<li>If you look in Boot’s ErrorMvcAutoConfiguration class you will see that the defaultErrorView is returned as a bean called error. This is the View bean found by the BeanNameViewResolver.</li>
+</ol>
+</blockquote>
+
+<p>对于 Servlet-Container 层面的错误处理，Spring 官方博客的介绍如下：</p>
+
+<blockquote><p>Container-Wide Exception Handling</p>
+
+<p>Exceptions thrown outside the Spring Framework, such as from a servlet Filter, are also reported by Spring Boot’s fallback error page.
+To do this Spring Boot has to register a default error page for the container. In Servlet 2, there is an <code>&lt;error-page&gt;</code> directive that you can add to your web.xml to do this. Sadly Servlet 3 does not offer a Java API equivalent. Instead Spring Boot does the following:</p>
+
+<ul>
+<li>For a Jar application, with an embedded container, it registers a default error page using Container specific API.</li>
+<li>For a Spring Boot application deployed as a traditional WAR file, a Servlet Filter is used to catch exceptions raised further down the line and handle it.</li>
+</ul>
+</blockquote>
+
+<p>我们可以按照上述线索在 Spring Boot 的自动配置代码中找到相关的代码。</p>
+
+<p>当开发 REST API 项目时，我希望业务抛出的异常能契合 Spring Boot 默认配置的异常处理机制，让整个异常体系尽量统一，接口返回给终端统一格式的错误信息，这样终端也能统一处理接口错误。那么我们应该如何做？</p>
+
+<p>我们这里需要的是一个全局的异常处理机制，Spring MVC 提供给我们两种配置全局异常处理的方法：</p>
+
+<ul>
+<li>配置 HandlerExceptionResolver</li>
+<li>使用 <code>@ControllerAdvice</code> 注解的类</li>
+</ul>
+
+
+<p>相比之下，个人觉得使用 <code>@ControllerAdvice</code> 注解的类会方便一些，能达到感知框架的存在。我们可以定义一个异常处理基类，发布成一个库，然后在需要用到的项目中引入这个库，在项目中继承该基类定义一个 <code>@ControllerAdvice</code> 注解的异常处理类。</p>
+
+<p>选好全局异常处理机制后，那么我们应该如何来设计项目的业务异常类呢?</p>
+
+<p>Spring 官方博客给出了如下建议:</p>
+
+<blockquote><p>As usual, Spring likes to offer you choice, so what should you do? Here are some rules of thumb. However if you have a preference for XML configuration or Annotations, that’s fine too.</p>
+
+<ul>
+<li>For exceptions you write, consider adding @ResponseStatus to them.</li>
+<li>For all other exceptions implement an @ExceptionHandler method on a @ControllerAdvice class or use an instance of SimpleMappingExceptionResolver. You may well have SimpleMappingExceptionResolver configured for your application already, in which case it may be easier to add new exception classes to it than implement a @ControllerAdvice.</li>
+<li>For Controller specific exception handling add @ExceptionHandler methods to your controller.</li>
+<li>Warning: Be careful mixing too many of these options in the same application. If the same exception can be handed in more than one way, you may not get the behavior you wanted. @ExceptionHandler methods on the Controller are always selected before those on any @ControllerAdvice instance. It is undefined what order controller-advices are processed.</li>
+</ul>
+</blockquote>
+
+<!--more-->
+
+
+<p>这里我们重点来看第一条建议，他建议我们自己写的异常类可以考虑加上 <code>@ResponseStatus</code> 注解，这样 service 就可以往上层传递 HTTP 的 status 信息，然后可以根据异常的类型填充 body 信息。这样做当然可以，只是这样一来异常类数量容易膨胀，定义异常类也是很乏味。我觉得可以定义一个能表达 HTTP status, headers 和 body 信息的类，然后抛出它的实例，他的建议作为补充。</p>
+
+<p>设计好异常类层级后，接口出错时应该返回些什么信息给终端？</p>
+
+<p>《Web API 的设计与开发》作者建议的单个和多个错误信息如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 单个
+</span><span class='line'>{
+</span><span class='line'>  "error": {
+</span><span class='line'>      "code": 2013,
+</span><span class='line'>      "message": "Bad authentication token",
+</span><span class='line'>      "info": "http://docs.example.com/api/v1/authentication"
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>// 多个
+</span><span class='line'>{
+</span><span class='line'>  "errors": [
+</span><span class='line'>      {
+</span><span class='line'>          "code": 2013,
+</span><span class='line'>          "message": "Bad authentication token",
+</span><span class='line'>          "info": "http://docs.example.com/api/v1/authentication"
+</span><span class='line'>      }
+</span><span class='line'>  ]
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同样，我还是希望业务异常产生的错误信息能够兼容 Spring Boot 默认产生的错误信息，这样终端可以统一处理错误信息。Spring Boot 默认产生的错误信息包含如下字段：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>timestamp - The time that the errors were extracted
+</span><span class='line'>status - The status code
+</span><span class='line'>error - The error reason
+</span><span class='line'>exception - The class name of the root exception (if configured)
+</span><span class='line'>message - The exception message (if configured)
+</span><span class='line'>errors - Any ObjectErrors from a BindingResult exception (if configured)
+</span><span class='line'>trace - The exception stack trace (if configured)
+</span><span class='line'>path - The URL path when the exception was raised</span></code></pre></td></tr></table></div></figure>
+
+
+<p>综上所述，我们可以定义 REST API 的错误信息为 RestErrorInfo:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class RestErrorInfo {
+</span><span class='line'>    private Integer code;
+</span><span class='line'>
+</span><span class='line'>    private String message;
+</span><span class='line'>
+</span><span class='line'>    private String info;
+</span><span class='line'>    
+</span><span class='line'>    // 省略的 Constructor, Getter and Setter
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>异常类 ServiceException 为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.github.damiansheldon.exception;
+</span><span class='line'>
+</span><span class='line'>import org.springframework.core.NestedRuntimeException;
+</span><span class='line'>import org.springframework.http.HttpHeaders;
+</span><span class='line'>import org.springframework.http.HttpStatus;
+</span><span class='line'>
+</span><span class='line'>public class ServiceException extends NestedRuntimeException {
+</span><span class='line'>
+</span><span class='line'>    private HttpStatus status;
+</span><span class='line'>
+</span><span class='line'>    private HttpHeaders headers;
+</span><span class='line'>
+</span><span class='line'>    private RestErrorInfo errorInfo;
+</span><span class='line'>
+</span><span class='line'>    private ServiceException(Builder builder) {
+</span><span class='line'>        super(builder.errorInfo.getMessage(), builder.cause);
+</span><span class='line'>        this.errorInfo = builder.errorInfo;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public HttpStatus getStatus() {
+</span><span class='line'>        return status;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public HttpHeaders getHeaders() {
+</span><span class='line'>        return headers;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public RestErrorInfo getErrorInfo() {
+</span><span class='line'>        return errorInfo;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public static class Builder {
+</span><span class='line'>        private HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+</span><span class='line'>        private HttpHeaders headers;
+</span><span class='line'>        private RestErrorInfo errorInfo;
+</span><span class='line'>        private Throwable cause;
+</span><span class='line'>
+</span><span class='line'>        public Builder(RestErrorInfo errorInfo) {
+</span><span class='line'>            this.errorInfo = errorInfo;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public Builder status(HttpStatus status) {
+</span><span class='line'>            this.status = status;
+</span><span class='line'>            return this;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public Builder headers(HttpHeaders headers) {
+</span><span class='line'>            this.headers = headers;
+</span><span class='line'>            return this;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public Builder cause(Throwable cause) {
+</span><span class='line'>            this.cause = cause;
+</span><span class='line'>            return this;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public ServiceException build() {
+</span><span class='line'>            return new ServiceException(this);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>异常处理类为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package com.github.damiansheldon.exception;
+</span><span class='line'>
+</span><span class='line'>import org.springframework.http.HttpHeaders;
+</span><span class='line'>import org.springframework.http.HttpStatus;
+</span><span class='line'>import org.springframework.http.ResponseEntity;
+</span><span class='line'>import org.springframework.lang.Nullable;
+</span><span class='line'>import org.springframework.web.bind.annotation.ExceptionHandler;
+</span><span class='line'>import org.springframework.web.context.request.WebRequest;
+</span><span class='line'>import org.springframework.web.util.WebUtils;
+</span><span class='line'>
+</span><span class='line'>public class ServiceExceptionHandler {
+</span><span class='line'>
+</span><span class='line'>    @ExceptionHandler({ServiceException.class})
+</span><span class='line'>    public final ResponseEntity&lt;Object&gt; handleServiceException(ServiceException ex, WebRequest request) {
+</span><span class='line'>        return handleExceptionInternal(ex, ex.getErrorInfo(), ex.getHeaders(), ex.getStatus(), request);
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    protected ResponseEntity&lt;Object&gt; handleExceptionInternal(
+</span><span class='line'>            Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+</span><span class='line'>
+</span><span class='line'>        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+</span><span class='line'>            request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
+</span><span class='line'>        }
+</span><span class='line'>        return new ResponseEntity&lt;&gt;(body, headers, status);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完整代码在<a href="https://github.com/DamianSheldon/Treasure">这里</a>。</p>
+
+<h1>Reference</h1>
+
+<ul>
+<li><a href="https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc">Exception Handling in Spring MVC</a></li>
+<li><a href="https://javaee.github.io/servlet-spec/downloads/servlet-3.1/Final/servlet-3_1-final.pdf">Java™ Servlet Specification</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Web 开发问题汇总(五)]]></title>
@@ -5291,32 +5656,6 @@ with the following content:</p>
 <li><a href="https://www.baeldung.com/find-java-home">How to Find JAVA_HOME</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[浅析移动端跨平台开发]]></title>
-    <link href="http://DamianSheldon.github.io/blog/an-introduction-to-mobile-cross-platform-development.html"/>
-    <updated>2019-04-15T17:04:39+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/an-introduction-to-mobile-cross-platform-development</id>
-    <content type="html"><![CDATA[<p>最近几年随着移动端开发日益成熟以及 Web 技术的快速发展，跨平台开发技术如雨后春笋一般冒出来，这是所有从业者不能忽视的现象。这种现象导致很多公司主动或被动去研究相关的技术。我也不例外，对它的研究应该是夹杂着被动和主动。作为原生开发者，本来对日常的开发工作驾轻就熟，恐怕内心本身不会有太多意愿去迁移到新的技术，至少我一开始是这种心态；另一方面，跨平台开发在行业内日益受到关注，倒逼开发者去了解它、研究它。对于变化，我们可能本能的抗拒，但内心理性的声音告诉我们：变化是永恒的不变，我们应该拥抱变化。</p>
-
-<p>在经过一段时间的学习和研究，自己觉得对它的认识更加清晰和深刻，于是决定将它们记下来，以便日后记忆模糊了帮助回忆，也可以验证对于它发展的看法。我这里主要谈谈自己对它的看法，技术选择，以及这种技术的基本使用流程。</p>
-
-<p>跨平台开发不是什么新概念，我觉得这是一种很自然的想法。因为我们总是想减轻自己的工作负担，公司则会想减少成本，提高效率，于是就会想能不能一套代码跑到多个平台，两套代码合并成一套，应该可以删除掉不少重复代码，开发和维护的代码量就少了，可能也不需要那么多开发人员了，应该来说还是很有吸引力的。</p>
-
-<p>不过我觉得问题不像看起来那么简单。上面提到了很多跨平台开发的优点，但它也有自己的缺点。而且看到很多二变为一，很容易认为是在减少，加上业界大厂分享的成功经验，更是验证这种想法。但我想强调具体情况具体分析，这里有一个很重要的点，我们所在的公司开发人员水平和大厂肯定是不一样的，所以它能取得成功，我们不一定能玩得转。所以当两套代码合并成一套，在大厂可能确实减少了开发和维护工作，但我们自己的情况可能就不一定了，因为这对开发人员的技术水平要求要高不少，这是需要考虑的一个问题。当我们在一些项目上使用跨平台技术开发时，如果能本着实事求是的态度，相信会更容易成功。有了这些认识，接下来，我们具体来看看跨平台开发技术。</p>
-
-<p>当我们想跨平台时，我们就会寻找平台的共同之处，应该来讲目光很容易聚焦到 Web 技术上。移动端都可以使用 Web 技术，而且它在桌面端已经实现，可以说是一个不错的选择，于是就可以尝试从这里突破。本质上其实就是 Web 应用，我们要做是将设备的能力提供给 Web，Cordova 则是这方面的一个代表。</p>
-
-<p>我认为移动端 Web 应用的主要问题还是性能，虽然现在硬件性能很强悍，但是很多 Web 应用和原生的体验还是有不小差别，所以这时就要权衡了。那能不能有个完美的解决方案呢？既然性能有问题，我们是不可以想办法优化性能，让它和原生体验一样？我认为 React Native 是顺着这种思路出现的，它使用 javascript 编码，最终设备上运行的是原生代码，即然是运行原生代码，性能自然可以做到和原生一致。虽然性能问题是解决了，但它需要用 javascript 编写多套代码，而且开发人员也要懂原生开发，或者有原生开发支持，不然遇到问题恐怕不好解决。</p>
-
-<!--more-->
-
-
-<p>除了 Cordova 和 React Native，Google 最近还推出 Flutter，由于技术栈差异很大，以及个人精力有限，暂时不打算研究。我决定在 Cordova 和 React Native 中选择。React Native 虽然性能不错，但各平台需要自己的代码，这和一份代码的初衷不符；另外它动态部署事件的能力也稍逊一筹，框架本身的发展和原生藕合很紧密。基于这些原因，我偏向选择 Cordova。</p>
-
-<p>Cordova 让 Web 访问设备的能力比较方便，屏蔽了很多差异，但是它没有提供 UI 支持，如果我们想做出漂亮的界面，需要自己做，或者更好的办法是找一个好用的 UI 库。而且最好是搭配一个 SPA 框架，因为我们的应用通常不会只有一个界面，SPA 可以帮助我们在单个 WebView 里实现应用的功能。至此我们的脉络应该是比较清晰了，综合这些信息，我觉得 ionic 是个不错的选择。对于原生开发者，我们一开始可能对 Web 技术不是很熟悉，ionic 将相关技术整合在一起，这降低了学习的门槛。说到这里，我想起在前期，在搜索过程中，很多国产的跨平台技术映入眼帘，如 APICloud, DCloud,但我觉得技术群众基础也很重要，这样我们学的技术在其他公司能有用武之地，也容易招到合适的人才，综合考虑便没有选择这些技术。</p>
 ]]></content>
   </entry>
   

@@ -61,6 +61,97 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-technical-interview-part-2.html">
+		
+			Web 面试题汇总(二)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-09-05T15:52:44+08:00" pubdate data-updated="true">05 Sep 2018</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.介绍一下标准的CSS的盒子模型？低版本IE的盒子模型有什么不同的？</h3>
+
+<p>A:每个元素被表示为一个矩形的方框，框的内容、内边距、边界和外边距像洋葱的膜那样，一层包着一层构建起来。</p>
+
+<p>低版本IE的盒子模型的宽度包括框的内容、内边距和边界。</p>
+
+<h3>2.CSS选择符有哪些？哪些属性可以继承？</h3>
+
+<p>A:</p>
+
+<ul>
+<li><em>简单选择器</em>（Simple selectors）：通过元素类型、class 或 id 匹配一个或多个元素。</li>
+<li><em>属性选择器</em>（Attribute selectors）：通过 属性 / 属性值 匹配一个或多个元素。</li>
+<li><em>伪类</em>（Pseudo-classes）：匹配处于确定状态的一个或多个元素，比如被鼠标指针悬停的元素，或当前被选中或未选中的复选框，或元素是DOM树中一父节点的第一个子节点。</li>
+<li><em>伪元素</em>（Pseudo-elements）:匹配处于相关的确定位置的一个或多个元素，例如每个段落的第一个字，或者某个元素之前生成的内容。 </li>
+<li><em>组合器</em>（Combinators）：这里不仅仅是选择器本身，还有以有效的方式组合两个或更多的选择器用于非常特定的选择的方法。例如，你可以只选择divs的直系子节点的段落，或者直接跟在headings后面的段落。</li>
+<li><em>多重选择器</em>（Multiple selectors）：这些也不是单独的选择器；这个思路是将以逗号分隔开的多个选择器放在一个CSS规则下面， 以将一组声明应用于由这些选择器选择的所有元素。</li>
+</ul>
+
+
+<p>哪些属性可以继承？</p>
+
+<ul>
+<li>所有元素可继承：visibility和cursor。</li>
+<li>内联元素可继承：letter-spacing、word-spacing、white-space、line-height、color、font、font-family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、direction。</li>
+<li>终端块状元素可继承：text-indent和text-align。</li>
+<li>列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。</li>
+<li>表格元素可继承：border-collapse。</li>
+</ul>
+
+
+<h3>3.CSS优先级算法如何计算？</h3>
+
+<p>A:CSS根据规则的重要性、专用性和源代码次序来计算优先级。</p>
+
+<p>重要性和源代码次序相对简单，专用性是用四种不同的值（或组件）来衡量的，它们可以被认为是千位，百位，十位和个位:</p>
+
+<ol>
+<li>千位：如果声明是在style 属性中该列加1分（这样的声明没有选择器，所以它们的专用性总是1000。）否则为0。</li>
+<li>百位：在整个选择器中每包含一个ID选择器就在该列中加1分。</li>
+<li>十位：在整个选择器中每包含一个类选择器、属性选择器、或者伪类就在该列中加1分。</li>
+<li>个位：在整个选择器中每包含一个元素选择器或伪元素就在该列中加1分。</li>
+</ol>
+
+
+
+		
+		<a href="/blog/web-technical-interview-part-2.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/web-technical-interview-part-1.html">
 		
 			Web 面试题汇总(一)</a>
@@ -312,76 +403,6 @@
 
 		
 		<a href="/blog/the-implementation-of-blocks.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/openldap-notes.html">
-		
-			OpenLDAP 学习笔记</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-07-10T21:58:07+08:00" pubdate data-updated="true">10 Jul 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>最近业余时间在自学 Java，接触到 JNDI，继而牵扯出 LDAP。在倒腾过程中感觉是个复杂的主题，决定做个简要的笔记，梳理下思路，也方便日后忘记时容易拾起。</p>
-
-<p>OpenLDAP 是 LDAP 协议的一个开源实现。LDAP 服务器本质上是一个为只读访问而优化的非关系型数据库。它主要用做地址簿查询（如 email 客户端）或对各种服务访问做后台认证以及用户数据权限管控。（例如，访问 Samba 时，LDAP 可以起到域控制器的作用；或者 Linux 系统认证 时代替 /etc/passwd 的作用。）</p>
-
-<p>以 slap 开头的命令如: slapacl, slapadd 等是服务端工具；以 ldap 开头的命令如: ldapadd, ldapcompare 等是客户端命令工具。</p>
-
-<h2>安装</h2>
-
-<p>Mac 内置了 OpenLDAP 软件包，所以可以直接使用。</p>
-
-<h2>配置</h2>
-
-<h3>服务端</h3>
-
-<p>服务端支持两种配置方法:动态运行时配置引擎和老式的 slapd.conf 文件。这里介绍通过老式的 slapd.conf 文件转换成动态运行时配置引擎来配置服务器的方法。</p>
-
-<p>服务器的配置文件位于 <code>/etc/openldap/slapd.conf</code>。在 Mac 上第一次配置时该文件还不存在，但有一个 slapd.conf.default 文件，从文件名可知，这应该是一个默认配置文件，所以我们可以在它基础上来配置。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo cp /etc/openldap/slapd.conf.default /etc/openldap/slapd.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<p>需要编辑后缀和 rootdn。典型的后缀通常是你所用的域名，但这并非强制要求，而是依赖于你如何使用你的目录。下例中以 tenneshop 做为域名，tld 为 com，rootdn 则是 LDAP 管理员的名字（这里用 Manager）。</p>
-
-
-		
-		<a href="/blog/openldap-notes.html" class="more-link">继续阅读</a>
 	</div>
 
 

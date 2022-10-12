@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-10-08T15:27:18+08:00</updated>
+  <updated>2022-10-12T12:46:09+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,1176 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MyBatis 的工作流程(一)]]></title>
+    <link href="http://DamianSheldon.github.io/blog/mybatis-workflow.html"/>
+    <updated>2022-10-11T16:06:03+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/mybatis-workflow</id>
+    <content type="html"><![CDATA[<p>MyBatis 的工作流程主要是以下几步：</p>
+
+<ul>
+<li>加载配置并初始化</li>
+<li>接收调用请求</li>
+<li>处理操作请求</li>
+<li>返回处理结果</li>
+</ul>
+
+
+<p>本文我们先具体来看看它与 Spring Boot 集成时的初始化。</p>
+
+<p>MyBatis 官方团队有开发一个 Spring Boot Starter，我们通过它的代码来看下配置加载和初始化。配置的入口是 MybatisAutoConfiguration，它会按需创建 sqlSessionFactory 和 sqlSessionTemplate 这两个 bean 对象，同时它还包含一个内部配置类 MapperScannerRegistrarNotFoundConfiguration:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@org.springframework.context.annotation.Configuration
+</span><span class='line'>@Import(AutoConfiguredMapperScannerRegistrar.class)
+</span><span class='line'>@ConditionalOnMissingBean({ MapperFactoryBean.class, MapperScannerConfigurer.class })
+</span><span class='line'>public static class MapperScannerRegistrarNotFoundConfiguration implements InitializingBean {
+</span><span class='line'>
+</span><span class='line'>  @Override
+</span><span class='line'>  public void afterPropertiesSet() {
+</span><span class='line'>    logger.debug(
+</span><span class='line'>        "Not found configuration for registering mapper bean using @MapperScan, MapperFactoryBean and MapperScannerConfigurer.");
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MapperScannerRegistrarNotFoundConfiguration 导入了 AutoConfiguredMapperScannerRegistrar，它会向 IoC 容器注册 MapperScannerConfigurer。</p>
+
+<!--more-->
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * This will just scan the same base package as Spring Boot does. If you want more power, you can explicitly use
+</span><span class='line'> * {@link org.mybatis.spring.annotation.MapperScan} but this will get typed mappers working correctly, out-of-the-box,
+</span><span class='line'> * similar to using Spring Data JPA repositories.
+</span><span class='line'> */
+</span><span class='line'>public static class AutoConfiguredMapperScannerRegistrar implements BeanFactoryAware, ImportBeanDefinitionRegistrar {
+</span><span class='line'>
+</span><span class='line'>  private BeanFactory beanFactory;
+</span><span class='line'>
+</span><span class='line'>  @Override
+</span><span class='line'>  public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+</span><span class='line'>
+</span><span class='line'>    if (!AutoConfigurationPackages.has(this.beanFactory)) {
+</span><span class='line'>      logger.debug("Could not determine auto-configuration package, automatic mapper scanning disabled.");
+</span><span class='line'>      return;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    logger.debug("Searching for mappers annotated with @Mapper");
+</span><span class='line'>
+</span><span class='line'>    List&lt;String&gt; packages = AutoConfigurationPackages.get(this.beanFactory);
+</span><span class='line'>    if (logger.isDebugEnabled()) {
+</span><span class='line'>      packages.forEach(pkg -&gt; logger.debug("Using auto-configuration base package '{}'", pkg));
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
+</span><span class='line'>    builder.addPropertyValue("processPropertyPlaceHolders", true);
+</span><span class='line'>    builder.addPropertyValue("annotationClass", Mapper.class);
+</span><span class='line'>    builder.addPropertyValue("basePackage", StringUtils.collectionToCommaDelimitedString(packages));
+</span><span class='line'>    BeanWrapper beanWrapper = new BeanWrapperImpl(MapperScannerConfigurer.class);
+</span><span class='line'>    Set&lt;String&gt; propertyNames = Stream.of(beanWrapper.getPropertyDescriptors()).map(PropertyDescriptor::getName)
+</span><span class='line'>        .collect(Collectors.toSet());
+</span><span class='line'>    if (propertyNames.contains("lazyInitialization")) {
+</span><span class='line'>      // Need to mybatis-spring 2.0.2+
+</span><span class='line'>      builder.addPropertyValue("lazyInitialization", "${mybatis.lazy-initialization:false}");
+</span><span class='line'>    }
+</span><span class='line'>    if (propertyNames.contains("defaultScope")) {
+</span><span class='line'>      // Need to mybatis-spring 2.0.6+
+</span><span class='line'>      builder.addPropertyValue("defaultScope", "${mybatis.mapper-default-scope:}");
+</span><span class='line'>    }
+</span><span class='line'>    registry.registerBeanDefinition(MapperScannerConfigurer.class.getName(), builder.getBeanDefinition());
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  @Override
+</span><span class='line'>  public void setBeanFactory(BeanFactory beanFactory) {
+</span><span class='line'>    this.beanFactory = beanFactory;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MapperScannerConfigurer 是一个 BeanDefinitionRegistryPostProcessor，IoC 会调用它的 postProcessBeanDefinitionRegistry 方法来处理 bean 定义:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * {@inheritDoc}
+</span><span class='line'> *
+</span><span class='line'> * @since 1.0.2
+</span><span class='line'> */
+</span><span class='line'>@Override
+</span><span class='line'>public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
+</span><span class='line'>  if (this.processPropertyPlaceHolders) {
+</span><span class='line'>    processPropertyPlaceHolders();
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
+</span><span class='line'>  scanner.setAddToConfig(this.addToConfig);
+</span><span class='line'>  scanner.setAnnotationClass(this.annotationClass);
+</span><span class='line'>  scanner.setMarkerInterface(this.markerInterface);
+</span><span class='line'>  scanner.setSqlSessionFactory(this.sqlSessionFactory);
+</span><span class='line'>  scanner.setSqlSessionTemplate(this.sqlSessionTemplate);
+</span><span class='line'>  scanner.setSqlSessionFactoryBeanName(this.sqlSessionFactoryBeanName);
+</span><span class='line'>  scanner.setSqlSessionTemplateBeanName(this.sqlSessionTemplateBeanName);
+</span><span class='line'>  scanner.setResourceLoader(this.applicationContext);
+</span><span class='line'>  scanner.setBeanNameGenerator(this.nameGenerator);
+</span><span class='line'>  scanner.setMapperFactoryBeanClass(this.mapperFactoryBeanClass);
+</span><span class='line'>  if (StringUtils.hasText(lazyInitialization)) {
+</span><span class='line'>    scanner.setLazyInitialization(Boolean.valueOf(lazyInitialization));
+</span><span class='line'>  }
+</span><span class='line'>  if (StringUtils.hasText(defaultScope)) {
+</span><span class='line'>    scanner.setDefaultScope(defaultScope);
+</span><span class='line'>  }
+</span><span class='line'>  scanner.registerFilters();
+</span><span class='line'>  scanner.scan(
+</span><span class='line'>      StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从方法中我们可以知道，它使用 ClassPathMapperScanner 来扫描注册 Mapper，ClassPathMapperScanner 覆盖了父类 ClassPathBeanDefinitionScanner 的 doScan 方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * Calls the parent search that will search and register all the candidates. Then the registered objects are post
+</span><span class='line'> * processed to set them as MapperFactoryBeans
+</span><span class='line'> */
+</span><span class='line'>@Override
+</span><span class='line'>public Set&lt;BeanDefinitionHolder&gt; doScan(String... basePackages) {
+</span><span class='line'>  Set&lt;BeanDefinitionHolder&gt; beanDefinitions = super.doScan(basePackages);
+</span><span class='line'>
+</span><span class='line'>  if (beanDefinitions.isEmpty()) {
+</span><span class='line'>    LOGGER.warn(() -&gt; "No MyBatis mapper was found in '" + Arrays.toString(basePackages)
+</span><span class='line'>        + "' package. Please check your configuration.");
+</span><span class='line'>  } else {
+</span><span class='line'>    processBeanDefinitions(beanDefinitions);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return beanDefinitions;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它在 processBeanDefinitions 方法中对 bean 定义进行了进一步的处理，把 bean 的 bean class 换成了 MapperFactoryBean，由它来生成创建对应的 Mapper。另外就是设置按类型自动连线 <code>definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE)</code>，我在跟代码的过程中一开始很奇怪 ClassPathMapperScanner 注册 MapperFactoryBean 的 bean 定义时 sqlSessionTemplate 为 null，那么是在什么时候设置的 sqlSessionTemplate 呢？经过一番代码追踪，发现是 beanDefinition 设置了 AutowireMode，AbstractAutowireCapableBeanFactory 会帮助自动关联。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void processBeanDefinitions(Set&lt;BeanDefinitionHolder&gt; beanDefinitions) {
+</span><span class='line'>  AbstractBeanDefinition definition;
+</span><span class='line'>  BeanDefinitionRegistry registry = getRegistry();
+</span><span class='line'>  for (BeanDefinitionHolder holder : beanDefinitions) {
+</span><span class='line'>    definition = (AbstractBeanDefinition) holder.getBeanDefinition();
+</span><span class='line'>    boolean scopedProxy = false;
+</span><span class='line'>    if (ScopedProxyFactoryBean.class.getName().equals(definition.getBeanClassName())) {
+</span><span class='line'>      definition = (AbstractBeanDefinition) Optional
+</span><span class='line'>          .ofNullable(((RootBeanDefinition) definition).getDecoratedDefinition())
+</span><span class='line'>          .map(BeanDefinitionHolder::getBeanDefinition).orElseThrow(() -&gt; new IllegalStateException(
+</span><span class='line'>              "The target bean definition of scoped proxy bean not found. Root bean definition[" + holder + "]"));
+</span><span class='line'>      scopedProxy = true;
+</span><span class='line'>    }
+</span><span class='line'>    String beanClassName = definition.getBeanClassName();
+</span><span class='line'>    LOGGER.debug(() -&gt; "Creating MapperFactoryBean with name '" + holder.getBeanName() + "' and '" + beanClassName
+</span><span class='line'>        + "' mapperInterface");
+</span><span class='line'>
+</span><span class='line'>    // the mapper interface is the original class of the bean
+</span><span class='line'>    // but, the actual class of the bean is MapperFactoryBean
+</span><span class='line'>    definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName); // issue #59
+</span><span class='line'>    definition.setBeanClass(this.mapperFactoryBeanClass);
+</span><span class='line'>
+</span><span class='line'>    definition.getPropertyValues().add("addToConfig", this.addToConfig);
+</span><span class='line'>
+</span><span class='line'>    // Attribute for MockitoPostProcessor
+</span><span class='line'>    // https://github.com/mybatis/spring-boot-starter/issues/475
+</span><span class='line'>    definition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, beanClassName);
+</span><span class='line'>
+</span><span class='line'>    boolean explicitFactoryUsed = false;
+</span><span class='line'>    if (StringUtils.hasText(this.sqlSessionFactoryBeanName)) {
+</span><span class='line'>      definition.getPropertyValues().add("sqlSessionFactory",
+</span><span class='line'>          new RuntimeBeanReference(this.sqlSessionFactoryBeanName));
+</span><span class='line'>      explicitFactoryUsed = true;
+</span><span class='line'>    } else if (this.sqlSessionFactory != null) {
+</span><span class='line'>      definition.getPropertyValues().add("sqlSessionFactory", this.sqlSessionFactory);
+</span><span class='line'>      explicitFactoryUsed = true;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    if (StringUtils.hasText(this.sqlSessionTemplateBeanName)) {
+</span><span class='line'>      if (explicitFactoryUsed) {
+</span><span class='line'>        LOGGER.warn(
+</span><span class='line'>            () -&gt; "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
+</span><span class='line'>      }
+</span><span class='line'>      definition.getPropertyValues().add("sqlSessionTemplate",
+</span><span class='line'>          new RuntimeBeanReference(this.sqlSessionTemplateBeanName));
+</span><span class='line'>      explicitFactoryUsed = true;
+</span><span class='line'>    } else if (this.sqlSessionTemplate != null) {
+</span><span class='line'>      if (explicitFactoryUsed) {
+</span><span class='line'>        LOGGER.warn(
+</span><span class='line'>            () -&gt; "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
+</span><span class='line'>      }
+</span><span class='line'>      definition.getPropertyValues().add("sqlSessionTemplate", this.sqlSessionTemplate);
+</span><span class='line'>      explicitFactoryUsed = true;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    if (!explicitFactoryUsed) {
+</span><span class='line'>      LOGGER.debug(() -&gt; "Enabling autowire by type for MapperFactoryBean with name '" + holder.getBeanName() + "'.");
+</span><span class='line'>      definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    definition.setLazyInit(lazyInitialization);
+</span><span class='line'>
+</span><span class='line'>    if (scopedProxy) {
+</span><span class='line'>      continue;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    if (ConfigurableBeanFactory.SCOPE_SINGLETON.equals(definition.getScope()) && defaultScope != null) {
+</span><span class='line'>      definition.setScope(defaultScope);
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    if (!definition.isSingleton()) {
+</span><span class='line'>      BeanDefinitionHolder proxyHolder = ScopedProxyUtils.createScopedProxy(holder, registry, true);
+</span><span class='line'>      if (registry.containsBeanDefinition(proxyHolder.getBeanName())) {
+</span><span class='line'>        registry.removeBeanDefinition(proxyHolder.getBeanName());
+</span><span class='line'>      }
+</span><span class='line'>      registry.registerBeanDefinition(proxyHolder.getBeanName(), proxyHolder.getBeanDefinition());
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MapperFactoryBean 的 getObject 方法如下，它使用上文所述，容器中的 sqlSession bean 来创建 mapper，通常也就是 MybatisAutoConfiguration 定义的 sqlSession bean。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public T getObject() throws Exception {
+</span><span class='line'>  return getSqlSession().getMapper(this.mapperInterface);
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MybatisAutoConfiguration 是定义 sqlSession bean 的代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Bean
+</span><span class='line'>@ConditionalOnMissingBean
+</span><span class='line'>public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+</span><span class='line'>  ExecutorType executorType = this.properties.getExecutorType();
+</span><span class='line'>  if (executorType != null) {
+</span><span class='line'>    return new SqlSessionTemplate(sqlSessionFactory, executorType);
+</span><span class='line'>  } else {
+</span><span class='line'>    return new SqlSessionTemplate(sqlSessionFactory);
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它依赖的 SqlSessionFactory MybatisAutoConfiguration 也有定义:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Bean
+</span><span class='line'>@ConditionalOnMissingBean
+</span><span class='line'>public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+</span><span class='line'>  SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
+</span><span class='line'>  factory.setDataSource(dataSource);
+</span><span class='line'>  factory.setVfs(SpringBootVFS.class);
+</span><span class='line'>  if (StringUtils.hasText(this.properties.getConfigLocation())) {
+</span><span class='line'>    factory.setConfigLocation(this.resourceLoader.getResource(this.properties.getConfigLocation()));
+</span><span class='line'>  }
+</span><span class='line'>  applyConfiguration(factory);
+</span><span class='line'>  if (this.properties.getConfigurationProperties() != null) {
+</span><span class='line'>    factory.setConfigurationProperties(this.properties.getConfigurationProperties());
+</span><span class='line'>  }
+</span><span class='line'>  if (!ObjectUtils.isEmpty(this.interceptors)) {
+</span><span class='line'>    factory.setPlugins(this.interceptors);
+</span><span class='line'>  }
+</span><span class='line'>  if (this.databaseIdProvider != null) {
+</span><span class='line'>    factory.setDatabaseIdProvider(this.databaseIdProvider);
+</span><span class='line'>  }
+</span><span class='line'>  if (StringUtils.hasLength(this.properties.getTypeAliasesPackage())) {
+</span><span class='line'>    factory.setTypeAliasesPackage(this.properties.getTypeAliasesPackage());
+</span><span class='line'>  }
+</span><span class='line'>  if (this.properties.getTypeAliasesSuperType() != null) {
+</span><span class='line'>    factory.setTypeAliasesSuperType(this.properties.getTypeAliasesSuperType());
+</span><span class='line'>  }
+</span><span class='line'>  if (StringUtils.hasLength(this.properties.getTypeHandlersPackage())) {
+</span><span class='line'>    factory.setTypeHandlersPackage(this.properties.getTypeHandlersPackage());
+</span><span class='line'>  }
+</span><span class='line'>  if (!ObjectUtils.isEmpty(this.typeHandlers)) {
+</span><span class='line'>    factory.setTypeHandlers(this.typeHandlers);
+</span><span class='line'>  }
+</span><span class='line'>  if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
+</span><span class='line'>    factory.setMapperLocations(this.properties.resolveMapperLocations());
+</span><span class='line'>  }
+</span><span class='line'>  Set&lt;String&gt; factoryPropertyNames = Stream
+</span><span class='line'>      .of(new BeanWrapperImpl(SqlSessionFactoryBean.class).getPropertyDescriptors()).map(PropertyDescriptor::getName)
+</span><span class='line'>      .collect(Collectors.toSet());
+</span><span class='line'>  Class&lt;? extends LanguageDriver&gt; defaultLanguageDriver = this.properties.getDefaultScriptingLanguageDriver();
+</span><span class='line'>  if (factoryPropertyNames.contains("scriptingLanguageDrivers") && !ObjectUtils.isEmpty(this.languageDrivers)) {
+</span><span class='line'>    // Need to mybatis-spring 2.0.2+
+</span><span class='line'>    factory.setScriptingLanguageDrivers(this.languageDrivers);
+</span><span class='line'>    if (defaultLanguageDriver == null && this.languageDrivers.length == 1) {
+</span><span class='line'>      defaultLanguageDriver = this.languageDrivers[0].getClass();
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>  if (factoryPropertyNames.contains("defaultScriptingLanguageDriver")) {
+</span><span class='line'>    // Need to mybatis-spring 2.0.2+
+</span><span class='line'>    factory.setDefaultScriptingLanguageDriver(defaultLanguageDriver);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return factory.getObject();
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void applyConfiguration(SqlSessionFactoryBean factory) {
+</span><span class='line'>  Configuration configuration = this.properties.getConfiguration();
+</span><span class='line'>  if (configuration == null && !StringUtils.hasText(this.properties.getConfigLocation())) {
+</span><span class='line'>    configuration = new Configuration();
+</span><span class='line'>  }
+</span><span class='line'>  if (configuration != null && !CollectionUtils.isEmpty(this.configurationCustomizers)) {
+</span><span class='line'>    for (ConfigurationCustomizer customizer : this.configurationCustomizers) {
+</span><span class='line'>      customizer.customize(configuration);
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>  factory.setConfiguration(configuration);
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SqlSessionTemplate 是一个代理对象，它的功能依赖 SqlSessionFactory，它的 getMapper 方法如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public &lt;T&gt; T getMapper(Class&lt;T&gt; type) {
+</span><span class='line'>  return getConfiguration().getMapper(type, this);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>实现依赖 getConfiguration, 它的内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public Configuration getConfiguration() {
+</span><span class='line'>  return this.sqlSessionFactory.getConfiguration();
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Configuration 就是使用的 sqlSessionFactory 的配置对象。</p>
+
+<p>现在我们聚焦到 SqlSessionFactory 的 Configuration 对象是怎么来的。 SqlSessionFactory 是由 SqlSessionFactoryBean，MybatisAutoConfiguration 有为它设置一个 Configuration :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void applyConfiguration(SqlSessionFactoryBean factory) {
+</span><span class='line'>  Configuration configuration = this.properties.getConfiguration();
+</span><span class='line'>  if (configuration == null && !StringUtils.hasText(this.properties.getConfigLocation())) {
+</span><span class='line'>    configuration = new Configuration();
+</span><span class='line'>  }
+</span><span class='line'>  if (configuration != null && !CollectionUtils.isEmpty(this.configurationCustomizers)) {
+</span><span class='line'>    for (ConfigurationCustomizer customizer : this.configurationCustomizers) {
+</span><span class='line'>      customizer.customize(configuration);
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>  factory.setConfiguration(configuration);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么最终的 Configuration 就是这个外部设置的对象吗？我们继续看它的 getObject 方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public SqlSessionFactory getObject() throws Exception {
+</span><span class='line'>  if (this.sqlSessionFactory == null) {
+</span><span class='line'>    afterPropertiesSet();
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return this.sqlSessionFactory;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再看下它的 afterPropertiesSet 方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public void afterPropertiesSet() throws Exception {
+</span><span class='line'>  notNull(dataSource, "Property 'dataSource' is required");
+</span><span class='line'>  notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
+</span><span class='line'>  state((configuration == null && configLocation == null) || !(configuration != null && configLocation != null),
+</span><span class='line'>      "Property 'configuration' and 'configLocation' can not specified with together");
+</span><span class='line'>
+</span><span class='line'>  this.sqlSessionFactory = buildSqlSessionFactory();
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是在 buildSqlSessionFactory 方法中创建的 sqlSessionFactory:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>/**
+</span><span class='line'> * Build a {@code SqlSessionFactory} instance.
+</span><span class='line'> *
+</span><span class='line'> * The default implementation uses the standard MyBatis {@code XMLConfigBuilder} API to build a
+</span><span class='line'> * {@code SqlSessionFactory} instance based on a Reader. Since 1.3.0, it can be specified a {@link Configuration}
+</span><span class='line'> * instance directly(without config file).
+</span><span class='line'> *
+</span><span class='line'> * @return SqlSessionFactory
+</span><span class='line'> * @throws Exception
+</span><span class='line'> *           if configuration is failed
+</span><span class='line'> */
+</span><span class='line'>protected SqlSessionFactory buildSqlSessionFactory() throws Exception {
+</span><span class='line'>
+</span><span class='line'>  final Configuration targetConfiguration;
+</span><span class='line'>
+</span><span class='line'>  XMLConfigBuilder xmlConfigBuilder = null;
+</span><span class='line'>  if (this.configuration != null) {
+</span><span class='line'>    targetConfiguration = this.configuration;
+</span><span class='line'>    if (targetConfiguration.getVariables() == null) {
+</span><span class='line'>      targetConfiguration.setVariables(this.configurationProperties);
+</span><span class='line'>    } else if (this.configurationProperties != null) {
+</span><span class='line'>      targetConfiguration.getVariables().putAll(this.configurationProperties);
+</span><span class='line'>    }
+</span><span class='line'>  } else if (this.configLocation != null) {
+</span><span class='line'>    xmlConfigBuilder = new XMLConfigBuilder(this.configLocation.getInputStream(), null, this.configurationProperties);
+</span><span class='line'>    targetConfiguration = xmlConfigBuilder.getConfiguration();
+</span><span class='line'>  } else {
+</span><span class='line'>    LOGGER.debug(
+</span><span class='line'>        () -&gt; "Property 'configuration' or 'configLocation' not specified, using default MyBatis Configuration");
+</span><span class='line'>    targetConfiguration = new Configuration();
+</span><span class='line'>    Optional.ofNullable(this.configurationProperties).ifPresent(targetConfiguration::setVariables);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  Optional.ofNullable(this.objectFactory).ifPresent(targetConfiguration::setObjectFactory);
+</span><span class='line'>  Optional.ofNullable(this.objectWrapperFactory).ifPresent(targetConfiguration::setObjectWrapperFactory);
+</span><span class='line'>  Optional.ofNullable(this.vfs).ifPresent(targetConfiguration::setVfsImpl);
+</span><span class='line'>
+</span><span class='line'>  if (hasLength(this.typeAliasesPackage)) {
+</span><span class='line'>    scanClasses(this.typeAliasesPackage, this.typeAliasesSuperType).stream()
+</span><span class='line'>        .filter(clazz -&gt; !clazz.isAnonymousClass()).filter(clazz -&gt; !clazz.isInterface())
+</span><span class='line'>        .filter(clazz -&gt; !clazz.isMemberClass()).forEach(targetConfiguration.getTypeAliasRegistry()::registerAlias);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (!isEmpty(this.typeAliases)) {
+</span><span class='line'>    Stream.of(this.typeAliases).forEach(typeAlias -&gt; {
+</span><span class='line'>      targetConfiguration.getTypeAliasRegistry().registerAlias(typeAlias);
+</span><span class='line'>      LOGGER.debug(() -&gt; "Registered type alias: '" + typeAlias + "'");
+</span><span class='line'>    });
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (!isEmpty(this.plugins)) {
+</span><span class='line'>    Stream.of(this.plugins).forEach(plugin -&gt; {
+</span><span class='line'>      targetConfiguration.addInterceptor(plugin);
+</span><span class='line'>      LOGGER.debug(() -&gt; "Registered plugin: '" + plugin + "'");
+</span><span class='line'>    });
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (hasLength(this.typeHandlersPackage)) {
+</span><span class='line'>    scanClasses(this.typeHandlersPackage, TypeHandler.class).stream().filter(clazz -&gt; !clazz.isAnonymousClass())
+</span><span class='line'>        .filter(clazz -&gt; !clazz.isInterface()).filter(clazz -&gt; !Modifier.isAbstract(clazz.getModifiers()))
+</span><span class='line'>        .forEach(targetConfiguration.getTypeHandlerRegistry()::register);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (!isEmpty(this.typeHandlers)) {
+</span><span class='line'>    Stream.of(this.typeHandlers).forEach(typeHandler -&gt; {
+</span><span class='line'>      targetConfiguration.getTypeHandlerRegistry().register(typeHandler);
+</span><span class='line'>      LOGGER.debug(() -&gt; "Registered type handler: '" + typeHandler + "'");
+</span><span class='line'>    });
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  targetConfiguration.setDefaultEnumTypeHandler(defaultEnumTypeHandler);
+</span><span class='line'>
+</span><span class='line'>  if (!isEmpty(this.scriptingLanguageDrivers)) {
+</span><span class='line'>    Stream.of(this.scriptingLanguageDrivers).forEach(languageDriver -&gt; {
+</span><span class='line'>      targetConfiguration.getLanguageRegistry().register(languageDriver);
+</span><span class='line'>      LOGGER.debug(() -&gt; "Registered scripting language driver: '" + languageDriver + "'");
+</span><span class='line'>    });
+</span><span class='line'>  }
+</span><span class='line'>  Optional.ofNullable(this.defaultScriptingLanguageDriver)
+</span><span class='line'>      .ifPresent(targetConfiguration::setDefaultScriptingLanguage);
+</span><span class='line'>
+</span><span class='line'>  if (this.databaseIdProvider != null) {// fix #64 set databaseId before parse mapper xmls
+</span><span class='line'>    try {
+</span><span class='line'>      targetConfiguration.setDatabaseId(this.databaseIdProvider.getDatabaseId(this.dataSource));
+</span><span class='line'>    } catch (SQLException e) {
+</span><span class='line'>      throw new NestedIOException("Failed getting a databaseId", e);
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  Optional.ofNullable(this.cache).ifPresent(targetConfiguration::addCache);
+</span><span class='line'>
+</span><span class='line'>  if (xmlConfigBuilder != null) {
+</span><span class='line'>    try {
+</span><span class='line'>      xmlConfigBuilder.parse();
+</span><span class='line'>      LOGGER.debug(() -&gt; "Parsed configuration file: '" + this.configLocation + "'");
+</span><span class='line'>    } catch (Exception ex) {
+</span><span class='line'>      throw new NestedIOException("Failed to parse config resource: " + this.configLocation, ex);
+</span><span class='line'>    } finally {
+</span><span class='line'>      ErrorContext.instance().reset();
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  targetConfiguration.setEnvironment(new Environment(this.environment,
+</span><span class='line'>      this.transactionFactory == null ? new SpringManagedTransactionFactory() : this.transactionFactory,
+</span><span class='line'>      this.dataSource));
+</span><span class='line'>
+</span><span class='line'>  if (this.mapperLocations != null) {
+</span><span class='line'>    if (this.mapperLocations.length == 0) {
+</span><span class='line'>      LOGGER.warn(() -&gt; "Property 'mapperLocations' was specified but matching resources are not found.");
+</span><span class='line'>    } else {
+</span><span class='line'>      for (Resource mapperLocation : this.mapperLocations) {
+</span><span class='line'>        if (mapperLocation == null) {
+</span><span class='line'>          continue;
+</span><span class='line'>        }
+</span><span class='line'>        try {
+</span><span class='line'>          XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(mapperLocation.getInputStream(),
+</span><span class='line'>              targetConfiguration, mapperLocation.toString(), targetConfiguration.getSqlFragments());
+</span><span class='line'>          xmlMapperBuilder.parse();
+</span><span class='line'>        } catch (Exception e) {
+</span><span class='line'>          throw new NestedIOException("Failed to parse mapping resource: '" + mapperLocation + "'", e);
+</span><span class='line'>        } finally {
+</span><span class='line'>          ErrorContext.instance().reset();
+</span><span class='line'>        }
+</span><span class='line'>        LOGGER.debug(() -&gt; "Parsed mapper file: '" + mapperLocation + "'");
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  } else {
+</span><span class='line'>    LOGGER.debug(() -&gt; "Property 'mapperLocations' was not specified.");
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return this.sqlSessionFactoryBuilder.build(targetConfiguration);
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从这段代码可知，由于 MybatisAutoConfiguration 有设置一个 Configuration ，所以 SqlSessionFactoryBean 使用的就是设置的这个 Configuration。</p>
+
+<p>sqlSessionFactoryBuilder 默认是 SqlSessionFactoryBuilder，它的赋值代码为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它的 build 方法实现为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public SqlSessionFactory build(Configuration config) {
+</span><span class='line'>  return new DefaultSqlSessionFactory(config);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因此创建的是 DefaultSqlSessionFactory 对象。</p>
+
+<p>现在 SqlSessionFactory, SqlSession, Configuration 的实现来源都清楚了，我们继续来看创建 mapper 的代码，看 mapper 的实现是什么？</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public &lt;T&gt; T getMapper(Class&lt;T&gt; type, SqlSession sqlSession) {
+</span><span class='line'>  return mapperRegistry.getMapper(type, sqlSession);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>mapperRegistry 的实现是 MapperRegistry，它的 getMapper 方法如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public &lt;T&gt; T getMapper(Class&lt;T&gt; type, SqlSession sqlSession) {
+</span><span class='line'>  final MapperProxyFactory&lt;T&gt; mapperProxyFactory = (MapperProxyFactory&lt;T&gt;) knownMappers.get(type);
+</span><span class='line'>  if (mapperProxyFactory == null) {
+</span><span class='line'>    throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
+</span><span class='line'>  }
+</span><span class='line'>  try {
+</span><span class='line'>    return mapperProxyFactory.newInstance(sqlSession);
+</span><span class='line'>  } catch (Exception e) {
+</span><span class='line'>    throw new BindingException("Error getting mapper instance. Cause: " + e, e);
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它是从 knownMappers 取出类型对应的 MapperProxyFactory，那么它是何时如何注册的呢？</p>
+
+<p>前面我们说过， Mapper 对应向 IoC 注册的的 bean 定义是 MapperFactoryBean 对象，MapperFactory 继承自 SqlSessionDaoSupport，而 SqlSessionDaoSupport 继承自 DaoSupport，DaoSupport 实现 InitializingBean 接口，所以在实例化 mapper 时会实例化出 MapperFactory，并先调用它的 afterPropertiesSet 方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public final void afterPropertiesSet() throws IllegalArgumentException, BeanInitializationException {
+</span><span class='line'>  // Let abstract subclasses check their configuration.
+</span><span class='line'>  checkDaoConfig();
+</span><span class='line'>
+</span><span class='line'>  // Let concrete implementations initialize themselves.
+</span><span class='line'>  try {
+</span><span class='line'>      initDao();
+</span><span class='line'>  }
+</span><span class='line'>  catch (Exception ex) {
+</span><span class='line'>      throw new BeanInitializationException("Initialization of DAO failed", ex);
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MapperFactory 覆盖了 checkDaoConfig 方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protected void checkDaoConfig() {
+</span><span class='line'>  super.checkDaoConfig();
+</span><span class='line'>
+</span><span class='line'>  notNull(this.mapperInterface, "Property 'mapperInterface' is required");
+</span><span class='line'>
+</span><span class='line'>  Configuration configuration = getSqlSession().getConfiguration();
+</span><span class='line'>  if (this.addToConfig && !configuration.hasMapper(this.mapperInterface)) {
+</span><span class='line'>    try {
+</span><span class='line'>      configuration.addMapper(this.mapperInterface);
+</span><span class='line'>    } catch (Exception e) {
+</span><span class='line'>      logger.error("Error while adding the mapper '" + this.mapperInterface + "' to configuration.", e);
+</span><span class='line'>      throw new IllegalArgumentException(e);
+</span><span class='line'>    } finally {
+</span><span class='line'>      ErrorContext.instance().reset();
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也就是在这个方法中向 Configuration 添加了 mapper 对应的 MapperProxyFactory 类型:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public &lt;T&gt; void addMapper(Class&lt;T&gt; type) {
+</span><span class='line'>  mapperRegistry.addMapper(type);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>public &lt;T&gt; void addMapper(Class&lt;T&gt; type) {
+</span><span class='line'>  if (type.isInterface()) {
+</span><span class='line'>    if (hasMapper(type)) {
+</span><span class='line'>      throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
+</span><span class='line'>    }
+</span><span class='line'>    boolean loadCompleted = false;
+</span><span class='line'>    try {
+</span><span class='line'>      knownMappers.put(type, new MapperProxyFactory&lt;&gt;(type));
+</span><span class='line'>      // It's important that the type is added before the parser is run
+</span><span class='line'>      // otherwise the binding may automatically be attempted by the
+</span><span class='line'>      // mapper parser. If the type is already known, it won't try.
+</span><span class='line'>      MapperAnnotationBuilder parser = new MapperAnnotationBuilder(config, type);
+</span><span class='line'>      parser.parse();
+</span><span class='line'>      loadCompleted = true;
+</span><span class='line'>    } finally {
+</span><span class='line'>      if (!loadCompleted) {
+</span><span class='line'>        knownMappers.remove(type);
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从上述代码可以看出 mapper 对应的 MapperProxyFactory 类型是用定义的 mapper 接口类型参数化的 MapperProxyFactory，它的 <code>newInstance(SqlSession sqlSession)</code> 方法如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public T newInstance(SqlSession sqlSession) {
+</span><span class='line'>  final MapperProxy&lt;T&gt; mapperProxy = new MapperProxy&lt;&gt;(sqlSession, mapperInterface, methodCache);
+</span><span class='line'>  return newInstance(mapperProxy);
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后为 mapper 接口创建向 mapperProxy 实例转发调用的代理对象。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protected T newInstance(MapperProxy&lt;T&gt; mapperProxy) {
+</span><span class='line'>  return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[] { mapperInterface }, mapperProxy);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也就是说，mapper 接口类型对象等效于一个 MapperProxy 对象。至此，MyBatis 的初始化过程就梳理清楚了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring MVC 中的异常处理]]></title>
@@ -5091,569 +6261,6 @@ with the following content:</p>
 <ul>
 <li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
 <li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Web 开发问题汇总(四)]]></title>
-    <link href="http://DamianSheldon.github.io/blog/web-development-notes-part-four.html"/>
-    <updated>2019-07-16T17:24:01+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/web-development-notes-part-four</id>
-    <content type="html"><![CDATA[<h3>1.如何实现如下布局：两个元素A和B，其中A的宽度为包裹其内容，B则占用剩余的宽度？</h3>
-
-<p>A:A 元素利用 float 的包裹性，B 元素则利用 BFC。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="container"&gt;
-</span><span class='line'>    &lt;div class="right"&gt;&lt;/div&gt;
-</span><span class='line'>    &lt;div class="left"&gt;&lt;/div&gt;
-</span><span class='line'>&lt;/div&gt;
-</span><span class='line'>
-</span><span class='line'>.container {
-</span><span class='line'>    width:600px;
-</span><span class='line'>    height:200px;
-</span><span class='line'>    border:1px solid;
-</span><span class='line'>}
-</span><span class='line'>.left {
-</span><span class='line'>    width:auto;
-</span><span class='line'>    height:200px;
-</span><span class='line'>    background:red;
-</span><span class='line'>    overflow:hidden;
-</span><span class='line'>}
-</span><span class='line'>.right {
-</span><span class='line'>    height:200px;
-</span><span class='line'>    width:200px;
-</span><span class='line'>    background:blue;
-</span><span class='line'>    float:left;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width">Expand a div to fill the remaining width</a></p>
-
-<h3>2.Meaning of ~ in import of scss files</h3>
-
-<p>A:</p>
-
-<blockquote><p>From documentation on a <code>sass-loader#imports</code> project,</p>
-
-<blockquote><p>webpack provides an advanced mechanism to resolve files. The sass-loader uses node-sass' custom importer feature to pass all queries to the webpack resolving engine. Thus you can import your Sass modules from node_modules. Just prepend them with a ~ to tell webpack that this is not a relative import</p></blockquote>
-
-<p>So if you have a file named foo.css and a module foo then you would use ~ if you want to include the module.</p></blockquote>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/38880187/meaning-of-in-import-of-scss-files">Meaning of ~ in import of scss files</a></p>
-
-<!--more-->
-
-
-<h3>3.为什么创建 Observable 时传入的函数签名不需要包含 this? 示例如下:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// API Document:
-</span><span class='line'>constructor(subscribe?: (this: Observable&lt;T&gt;, subscriber: Subscriber&lt;T&gt;) =&gt; TeardownLogic)
-</span><span class='line'>
-</span><span class='line'>// Usage code:
-</span><span class='line'>const observable = new Observable(subscriber =&gt; {
-</span><span class='line'>  subscriber.next(1);
-</span><span class='line'>  subscriber.next(2);
-</span><span class='line'>  subscriber.next(3);
-</span><span class='line'>  setTimeout(() =&gt; {
-</span><span class='line'>    subscriber.next(4);
-</span><span class='line'>    subscriber.complete();
-</span><span class='line'>  }, 1000);
-</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A:Here this is a special syntax in Typescript. It specifies the type of the &ldquo;this&rdquo; the function expects. So here it just means it should be called by a Observable with the same Type T as the Subscriber.</p>
-
-<p>It comes first in the parameter list. It is a fake parameter, and should invoked without it.</p>
-
-<p>More info can be found <a href="https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#specifying-the-type-of-this-for-functions">Here</a>.</p>
-
-<p>Reference:<a href="https://stackoverflow.com/questions/54886652/confused-by-rxjs-observable-constructor-and-this-argument">Confused by Rxjs Observable constructor and &lsquo;this&rsquo; argument</a></p>
-
-<h3>4.How to make a div take the remaining height?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>Flex</li>
-<li>Absolute Positioning</li>
-<li>Table</li>
-<li>CSS3 cacl</li>
-</ol>
-
-
-<p>Reference:<a href="https://www.whitebyte.info/programming/css/how-to-make-a-div-take-the-remaining-height">How to make a div take the remaining height</a></p>
-
-<h3>5.Dynamic modal height based on content in Ionic4?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Modal page template:
-</span><span class='line'>&lt;div class="inner-content">
-</span><span class='line'>  &lt;!-- Construct your view hierarchy here-->
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>// Present method:
-</span><span class='line'>async presentAutoHeightModal() {
-</span><span class='line'>  const modal = await this.modalController.create({
-</span><span class='line'>      component: AutoHeightModalPage,
-</span><span class='line'>      cssClass: 'auto-height'
-</span><span class='line'>    });
-</span><span class='line'>
-</span><span class='line'>    return await modal.present();
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// app.scss
-</span><span class='line'>ion-modal.auto-height {
-</span><span class='line'>    flex-direction: column;
-</span><span class='line'>    justify-content: flex-end;
-</span><span class='line'>    --height: auto;
-</span><span class='line'>    
-</span><span class='line'>    .ion-page {
-</span><span class='line'>        position: relative;
-</span><span class='line'>        display: block;
-</span><span class='line'>        contain: content;
-</span><span class='line'>
-</span><span class='line'>        .inner-content {
-</span><span class='line'>            max-height: 80vh;
-</span><span class='line'>            overflow: auto;
-</span><span class='line'>            padding: 10px;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>6.Invalid Host Header</h3>
-
-<p>A:通过外网访问本地的 ionic 开发服务时提示 Invalid Host Header，原因是 angular 默认会对 host 进行验证，所以我们可以通过传入 <code>--disableHostCheck=true</code> 来关闭验证，由于是 ionic 工程，我们传入的参数需要在 <code>--</code> 之后，也就是类似如下命令: <code>ionic serve --port 8080 -- --disableHostCheck=true</code>.</p>
-
-<blockquote><p>ionic serve uses the Angular CLI. Use ng serve &ndash;help to list all Angular CLI options for serving your app. See the ng serve docs[1] for explanations. Options not listed below are considered advanced and can be passed to the Angular CLI using the &ndash; separator after the Ionic CLI arguments.</p></blockquote>
-
-<p>Reference:<a href="https://community.c9.io/t/ionic-4-angular-invalid-host-header-error/25526">Ionic 4 angular - Invalid Host header error</a></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://forum.ionicframework.com/t/dynamic-modal-height-based-on-content-in-ionic-v4/139595">Dynamic modal height based on content in Ionic v4</a></li>
-<li><a href="https://github.com/ionic-team/ionic/issues/16852">resize modal based on content</a></li>
-</ul>
-
-
-<h3>7.error: illegal character: &lsquo;\ufeff&rsquo; in java</h3>
-
-<p>A:You probably have a Byte Order Marker (BOM) at the start of the file. You can use sed to remove it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sed '1s/^.//' infile &gt;&gt; outfile</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/45697794/error-illegal-character-ufeff-in-java/45698146">error: illegal character: &lsquo;\ufeff&rsquo; in java</a></li>
-</ul>
-
-
-<h3>8.Why super.clone can downcast to subclass?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>The method clone for class Object performs a specific cloning operation. First, if the class of this object does not implement the interface Cloneable, then a CloneNotSupportedException is thrown. Note that all arrays are considered to implement the interface Cloneable and that the return type of the clone method of an array type T[] is T[] where T is any reference or primitive type. Otherwise, this method creates a new instance of the class of this object and initializes all its fields with exactly the contents of the corresponding fields of this object, as if by assignment; the contents of the fields are not themselves cloned. Thus, this method performs a "shallow copy" of this object, not a "deep copy" operation.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/19047248/java-downcast-in-clone">Java - downcast in clone</a></li>
-</ul>
-
-
-<h3>9.How to generate MetaModel classes with Spring Data JPA in eclipse?</h3>
-
-<p>A:</p>
-
-<ol>
-<li>add maven denpendency</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;dependency&gt;
-</span><span class='line'>  &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
-</span><span class='line'>  &lt;artifactId&gt;hibernate-jpamodelgen&lt;/artifactId&gt;
-</span><span class='line'>&lt;/dependency&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Maven > Update project</li>
-</ol>
-
-
-<h3>10.Use webroot plugin to obtain certificates</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ certbot-auto certonly --webroot --webroot-path /var/lib/tomcat8/webapps/ROOT -d www.tenneshop.com --webroot-path /var/lib/tomcat8/apiapps/ROOT -d api.tenneshop.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<br/>
-* <a href="https://certbot.eff.org/docs/using.html?highlight=webroot%20path#webroot">User Guide</a></p>
-
-<h3>11.flex 布局下怎样实现text-overflow: ellipsis 效果?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="flex-parent">
-</span><span class='line'>
-</span><span class='line'>   &lt;div class="flex-child long-and-truncated">
-</span><span class='line'>       1. This is a long string that is OK to truncate please and thank you
-</span><span class='line'>   &lt;/div>
-</span><span class='line'>
-</span><span class='line'>   &lt;div class="flex-child short-and-fixed">
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>   &lt;/div>
-</span><span class='line'>
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>&lt;div class="flex-parent has-child">
-</span><span class='line'>
-</span><span class='line'>   &lt;div class="flex-child long-and-truncated-with-child">
-</span><span class='line'>       &lt;h2>2. This is a long string that is OK to truncate please and thank you&lt;/h2>
-</span><span class='line'>   &lt;/div>
-</span><span class='line'>
-</span><span class='line'>   &lt;div class="flex-child short-and-fixed">
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>   &lt;/div>
-</span><span class='line'>
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>&lt;div class="flex-parent has-child">
-</span><span class='line'>
-</span><span class='line'>   &lt;div class="flex-child long-and-truncated-with-child-corrected">
-</span><span class='line'>       &lt;h2>3. This is a long string that is OK to truncate please and thank you&lt;/h2>
-</span><span class='line'>   &lt;/div>
-</span><span class='line'>
-</span><span class='line'>   &lt;div class="flex-child short-and-fixed">
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>       &lt;div>&lt;/div>
-</span><span class='line'>   &lt;/div>
-</span><span class='line'>
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>.flex-parent {
-</span><span class='line'>  display: -webkit-box;
-</span><span class='line'>  display: flex;
-</span><span class='line'>  -webkit-box-align: center;
-</span><span class='line'>  align-items: center;
-</span><span class='line'>  padding: 10px;
-</span><span class='line'>  margin: 30px 0;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>h2 {
-</span><span class='line'>  font-size: 1rem;
-</span><span class='line'>  font-weight: normal;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.long-and-truncated {
-</span><span class='line'>  -webkit-box-flex: 1;
-</span><span class='line'>  flex: 1;
-</span><span class='line'>  white-space: nowrap;
-</span><span class='line'>  overflow: hidden;
-</span><span class='line'>  text-overflow: ellipsis;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.short-and-fixed {
-</span><span class='line'>  white-space: nowrap;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.short-and-fixed>div {
-</span><span class='line'>  width: 30px;
-</span><span class='line'>  height: 30px;
-</span><span class='line'>  border-radius: 10px;
-</span><span class='line'>  background: lightgreen;
-</span><span class='line'>  display: inline-block;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.long-and-truncated-with-child {
-</span><span class='line'>  -webkit-box-flex: 1;
-</span><span class='line'>  flex: 1;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.long-and-truncated-with-child h2 {
-</span><span class='line'>  white-space: nowrap;
-</span><span class='line'>  overflow: hidden;
-</span><span class='line'>  text-overflow: ellipsis;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.long-and-truncated-with-child-corrected {
-</span><span class='line'>  -webkit-box-flex: 1;
-</span><span class='line'>  flex: 1;
-</span><span class='line'>  min-width: 0;
-</span><span class='line'>  /* or some value */
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>.long-and-truncated-with-child-corrected h2 {
-</span><span class='line'>  white-space: nowrap;
-</span><span class='line'>  overflow: hidden;
-</span><span class='line'>  text-overflow: ellipsis;
-</span><span class='line'>}
-</span><span class='line'>   
-</span><span class='line'>body {
-</span><span class='line'>  padding: 40px;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://css-tricks.com/flexbox-truncated-text/">Flexbox and Truncated Text</a></li>
-</ul>
-
-
-<h3>12.Disable Hypertext Application Language (HAL) in JSON?</h3>
-
-<p>A:<code>spring.data.rest.default-media-type=application/json</code></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/23264044/disable-hypertext-application-language-hal-in-json">Disable Hypertext Application Language (HAL) in JSON?</a></li>
-<li><a href="https://stackoverflow.com/questions/35205524/how-to-set-the-default-media-type-for-spring-data-rest">How to set the default media type for spring-data-rest?</a></li>
-</ul>
-
-
-<h3>13.What is the speed of each preset option for network throttling?</h3>
-
-<p>A:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Preset,download(kb/s),upload(kb/s),RTT(ms)
-</span><span class='line'>GPRS,50,20,500
-</span><span class='line'>Regular 2G,250,50,300
-</span><span class='line'>Good 2G,450,150,150
-</span><span class='line'>Regular 3G,750,250,100
-</span><span class='line'>Good 3G, 1000,750,40
-</span><span class='line'>Regular 4G, 4000,3000,20
-</span><span class='line'>DSL 2000, 1000,5
-</span><span class='line'>WiFi 30000,150000,2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/48367042/in-chrome-dev-tools-what-is-the-speed-of-each-preset-option-for-network-throttl">In chrome dev tools, what is the speed of each preset option for network throttling?</a></li>
-</ul>
-
-
-<h3>14.Allocation failed - JavaScript heap out of memory</h3>
-
-<p>A:<code>export NODE_OPTIONS=--max_old_space_size=8192</code></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://stackoverflow.com/questions/53421021/ionic-cordova-build-ios-prod-gets-an-javascript-heap-out-of-memory">ionic cordova build ios &ndash;prod gets an JavaScript heap out of memory</a></li>
-</ul>
-
-
-<h3>15.How to Find JAVA_HOME</h3>
-
-<p>A: <code>java -XshowSettings:properties -version</code></p>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="https://www.baeldung.com/find-java-home">How to Find JAVA_HOME</a></li>
 </ul>
 
 ]]></content>

@@ -61,6 +61,94 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/mybatis-workflow.html">
+		
+			MyBatis 的工作流程(一)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-10-11T16:06:03+08:00" pubdate data-updated="true">11 Oct 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>MyBatis 的工作流程主要是以下几步：</p>
+
+<ul>
+<li>加载配置并初始化</li>
+<li>接收调用请求</li>
+<li>处理操作请求</li>
+<li>返回处理结果</li>
+</ul>
+
+
+<p>本文我们先具体来看看它与 Spring Boot 集成时的初始化。</p>
+
+<p>MyBatis 官方团队有开发一个 Spring Boot Starter，我们通过它的代码来看下配置加载和初始化。配置的入口是 MybatisAutoConfiguration，它会按需创建 sqlSessionFactory 和 sqlSessionTemplate 这两个 bean 对象，同时它还包含一个内部配置类 MapperScannerRegistrarNotFoundConfiguration:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@org.springframework.context.annotation.Configuration
+</span><span class='line'>@Import(AutoConfiguredMapperScannerRegistrar.class)
+</span><span class='line'>@ConditionalOnMissingBean({ MapperFactoryBean.class, MapperScannerConfigurer.class })
+</span><span class='line'>public static class MapperScannerRegistrarNotFoundConfiguration implements InitializingBean {
+</span><span class='line'>
+</span><span class='line'>  @Override
+</span><span class='line'>  public void afterPropertiesSet() {
+</span><span class='line'>    logger.debug(
+</span><span class='line'>        "Not found configuration for registering mapper bean using @MapperScan, MapperFactoryBean and MapperScannerConfigurer.");
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MapperScannerRegistrarNotFoundConfiguration 导入了 AutoConfiguredMapperScannerRegistrar，它会向 IoC 容器注册 MapperScannerConfigurer。</p>
+
+
+		
+		<a href="/blog/mybatis-workflow.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/exception-handling-in-spring-mvc.html">
 		
 			Spring MVC 中的异常处理</a>
@@ -295,87 +383,6 @@ To do this Spring Boot has to register a default error page for the container. I
 
 		
 		<a href="/blog/web-development-notes-part-five.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/redis-interview-questions.html">
-		
-			Redis 面试题</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-04-27T14:36:10+08:00" pubdate data-updated="true">27 Apr 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>1.什么是 Redis?</h2>
-
-<blockquote><p>Redis is an open source (BSD licensed), in-memory data structure store used as a database, cache, message broker, and streaming engine.</p></blockquote>
-
-<p>Redis是一个开源的内存数据结构存储，被用作数据库、缓存、消息代理和流媒体引擎。</p>
-
-<h2>2.Redis的内存占用量是多少？</h2>
-
-<p>我们看几个例子（都是使用64位实例得到的。</p>
-
-<ul>
-<li>一个空的实例使用~3MB的内存。</li>
-<li>100万个小键->字符串值对使用~85MB的内存。</li>
-<li>100万个键->哈希值，代表一个有5个字段的对象，使用~160 MB的内存。</li>
-</ul>
-
-
-<h2>3.为什么Redis将其整个数据集保存在内存中？</h2>
-
-<p>在过去，Redis的开发者尝试了虚拟内存和其他系统来允许大于RAM的数据集，但最终我们很高兴能做好一件事：数据从内存中提供，磁盘用于存储。所以现在还没有计划为Redis创建一个磁盘上的后端。Redis是当前设计的结果。</p>
-
-<h2>4.你能将Redis与基于磁盘的数据库一起使用吗？</h2>
-
-<p>可以，一个常见的设计模式是在Redis中保存频繁写的小数据（以及你需要Redis数据结构以有效方式为你的问题建模的数据），而大块的数据保存到 SQL或最终一致的磁盘数据库。同样，有时Redis被用来在内存中获取存储在磁盘数据库中的相同数据子集的另一个副本。这看起来类似于缓存，但实际上是一个更高级的模型，因为通常Redis数据集与磁盘数据库数据集一起更新，而不是在缓存错过时刷新。</p>
-
-<h2>5.如何减少Redis的整体内存用量？</h2>
-
-<p>如果可以的话，使用Redis的32位实例。同时善用小的哈希值、列表、排序集和整数集，因为Redis能够在少数元素的特殊情况下以更紧凑的方式表示这些数据类型。</p>
-
-<h2>6.如果Redis的内存用完了会怎样？</h2>
-
-<p>Redis有内置的保护措施，允许用户设置内存使用的最大限制，使用配置文件中的maxmemory选项，对Redis可以使用的内存进行限制。如果达到这个限制，Redis将开始对写命令回复错误（但会继续接受只读命令）。</p>
-
-<p>你也可以配置Redis在达到最大内存限制时驱逐键值。</p>
-
-
-		
-		<a href="/blog/redis-interview-questions.html" class="more-link">继续阅读</a>
 	</div>
 
 

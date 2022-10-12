@@ -61,6 +61,87 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/redis-interview-questions.html">
+		
+			Redis 面试题</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-04-27T14:36:10+08:00" pubdate data-updated="true">27 Apr 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h2>1.什么是 Redis?</h2>
+
+<blockquote><p>Redis is an open source (BSD licensed), in-memory data structure store used as a database, cache, message broker, and streaming engine.</p></blockquote>
+
+<p>Redis是一个开源的内存数据结构存储，被用作数据库、缓存、消息代理和流媒体引擎。</p>
+
+<h2>2.Redis的内存占用量是多少？</h2>
+
+<p>我们看几个例子（都是使用64位实例得到的。</p>
+
+<ul>
+<li>一个空的实例使用~3MB的内存。</li>
+<li>100万个小键->字符串值对使用~85MB的内存。</li>
+<li>100万个键->哈希值，代表一个有5个字段的对象，使用~160 MB的内存。</li>
+</ul>
+
+
+<h2>3.为什么Redis将其整个数据集保存在内存中？</h2>
+
+<p>在过去，Redis的开发者尝试了虚拟内存和其他系统来允许大于RAM的数据集，但最终我们很高兴能做好一件事：数据从内存中提供，磁盘用于存储。所以现在还没有计划为Redis创建一个磁盘上的后端。Redis是当前设计的结果。</p>
+
+<h2>4.你能将Redis与基于磁盘的数据库一起使用吗？</h2>
+
+<p>可以，一个常见的设计模式是在Redis中保存频繁写的小数据（以及你需要Redis数据结构以有效方式为你的问题建模的数据），而大块的数据保存到 SQL或最终一致的磁盘数据库。同样，有时Redis被用来在内存中获取存储在磁盘数据库中的相同数据子集的另一个副本。这看起来类似于缓存，但实际上是一个更高级的模型，因为通常Redis数据集与磁盘数据库数据集一起更新，而不是在缓存错过时刷新。</p>
+
+<h2>5.如何减少Redis的整体内存用量？</h2>
+
+<p>如果可以的话，使用Redis的32位实例。同时善用小的哈希值、列表、排序集和整数集，因为Redis能够在少数元素的特殊情况下以更紧凑的方式表示这些数据类型。</p>
+
+<h2>6.如果Redis的内存用完了会怎样？</h2>
+
+<p>Redis有内置的保护措施，允许用户设置内存使用的最大限制，使用配置文件中的maxmemory选项，对Redis可以使用的内存进行限制。如果达到这个限制，Redis将开始对写命令回复错误（但会继续接受只读命令）。</p>
+
+<p>你也可以配置Redis在达到最大内存限制时驱逐键值。</p>
+
+
+		
+		<a href="/blog/redis-interview-questions.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/spring-boot-interview-questions.html">
 		
 			(翻译)Spring Boot 面试题</a>
@@ -238,91 +319,6 @@
 
 		
 		<a href="/blog/spring-mvc-interview-questions.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/top-spring-framework-interview-questions.html">
-		
-			(翻译)常见 Spring 框架面试题</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-04-11T10:07:29+08:00" pubdate data-updated="true">11 Apr 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h1>1.概述</h1>
-
-<p>在本教程中，我们将看看在求职面试中可能出现的一些最常见的与 Spring 有关的问题。</p>
-
-<h1>2. Spring Core</h1>
-
-<h2>Q1. 什么是 Spring 框架？</h2>
-
-<p>Spring是开发 Java 企业版应用程序最广泛使用的框架。此外，Spring 的核心功能可用于开发任何 Java 应用程序。</p>
-
-<p>我们使用它的扩展功能在 Jakarta EE 平台之上构建各种网络应用。我们也可以在简单的独立应用程序中使用它的依赖注入条款。</p>
-
-<h2>Q2. 使用 Spring 的好处是什么？</h2>
-
-<p>Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它的好处:</p>
-
-<ul>
-<li><strong>轻量级</strong>&ndash;在开发中使用该框架的开销很小</li>
-<li><strong>反转控制（IoC）</strong>&ndash;Spring 容器负责连接各种对象的依赖关系，而不是创建或寻找依赖对象</li>
-<li><strong>面向切面编程（AOP）</strong>&ndash;Spring支持AOP，将业务逻辑与系统服务分开</li>
-<li><strong>IoC容器</strong>&ndash;管理 Spring Bean 的生命周期和项目特定的配置</li>
-<li><strong>MVC框架</strong>&ndash;用于创建 Web 应用程序或 RESTful Web服务，能够返回XML/JSON响应</li>
-<li><strong>事务管理</strong> &ndash; 通过使用 Java 注解或 Spring Bean 的 XML 配置文件，减少JDBC操作、文件上传等方面的模板代码量</li>
-<li><strong>异常处理</strong>&ndash;Spring 提供了一个方便的 API，用于将特定技术的异常转化为未检查的异常</li>
-</ul>
-
-
-<h2>Q3. 您知道哪些 Spring 子项目？简要描述一下吧。</h2>
-
-<ul>
-<li><strong>核心</strong>&ndash;提供框架基础部分的关键模块，如 IoC 或 DI</li>
-<li><strong>JDBC</strong>&ndash;实现了一个 JDBC 抽象层，不需要为特定的供应商数据库进行 JDBC 编码</li>
-<li><strong>ORM 集成</strong> &ndash; 为流行的对象关系映射 API 提供集成层，如 JPA、JDO 和 Hibernate</li>
-<li><strong>Web</strong>&ndash;一个面向网络的集成模块，提供多部分文件上传、Servlet监听器和面向网络的应用程序上下文功能</li>
-<li><strong>MVC 框架</strong>&ndash;一个实现模型-视图-控制器设计模式的 Web 模块</li>
-<li><strong>AOP 模块</strong>&ndash;面向切面编程实现，允许定义干净的方法拦截器和切点</li>
-</ul>
-
-
-
-		
-		<a href="/blog/top-spring-framework-interview-questions.html" class="more-link">继续阅读</a>
 	</div>
 
 

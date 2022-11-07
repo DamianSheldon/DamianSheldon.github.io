@@ -615,6 +615,26 @@ A:
 > 	* Ask somebody to bundle up to some tagged release (see git-bundle(1) manpage). The bundle itself is an ordinary file, which you can download any way, via HTTP/FTP with resume support, via BitTorrent, via rsync, etc. The you can create clone from bundle, fix configuration, and do further fetches from official LibreOffice repository. 
 Reference:[How to complete a git clone for a big project on an unstable connection?](https://stackoverflow.com/questions/3954852/how-to-complete-a-git-clone-for-a-big-project-on-an-unstable-connection)  
 
+###15.`fatal: unable to access 'https://github.com/BroadleafCommerce/BroadleafCommerce.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443`
+
+A:问题的原因是由于机器设置 ShadowSocks Client -> Gost Client -> Gost Server 的代理，所以需要为 git 配置一下代理。  
+
+一般各平台的 Shadowsocks 客户端除了提供一个本地的 socks5 Proxy ，还会提供一个本地的 http Proxy 。 在 ShadowSocks 中的高级设置中查看 socks5 协议监听的端口，HTTP Proxy 设置中查看 http 协议监听的端口。
+
+然后使用 `git config --global -e` 命令打开 git 的配置文件编辑界面，输入如下代理配置内容: 
+
+```
+[http]
+        proxy = socks5://127.0.0.1:1086
+[https]
+        proxy = socks5://127.0.0.1:1086
+```
+
+Reference:
+
+* [Git - SSL_ERROR_SYSCALL 问题解决](https://hyperzsb.io/posts/git-ssl-error/)  
+* [软件 Proxy 设置](https://gist.github.com/qunwang6/9d4ea3cb677854964b47369f736ff561)  
+
 ####Reference  
 
 * [Pro Git](http://git-scm.com/book/zh/v1)  

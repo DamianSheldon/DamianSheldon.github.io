@@ -1125,6 +1125,33 @@ Reference:<a href="https://stackoverflow.com/questions/3954852/how-to-complete-a
 </ul>
 </blockquote>
 
+<h3>15.<code>fatal: unable to access 'https://github.com/BroadleafCommerce/BroadleafCommerce.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443</code></h3>
+
+<p>A:问题的原因是由于机器设置 ShadowSocks Client -> Gost Client -> Gost Server 的代理，所以需要为 git 配置一下代理。</p>
+
+<p>一般各平台的 Shadowsocks 客户端除了提供一个本地的 socks5 Proxy ，还会提供一个本地的 http Proxy 。 在 ShadowSocks 中的高级设置中查看 socks5 协议监听的端口，HTTP Proxy 设置中查看 http 协议监听的端口。</p>
+
+<p>然后使用 <code>git config --global -e</code> 命令打开 git 的配置文件编辑界面，输入如下代理配置内容:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>http<span class="o">]</span>
+</span><span class='line'>        <span class="nv">proxy</span> <span class="o">=</span> socks5://127.0.0.1:1086
+</span><span class='line'><span class="o">[</span>https<span class="o">]</span>
+</span><span class='line'>        <span class="nv">proxy</span> <span class="o">=</span> socks5://127.0.0.1:1086
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="https://hyperzsb.io/posts/git-ssl-error/">Git - SSL_ERROR_SYSCALL 问题解决</a></li>
+<li><a href="https://gist.github.com/qunwang6/9d4ea3cb677854964b47369f736ff561">软件 Proxy 设置</a></li>
+</ul>
+
+
 <h4>Reference</h4>
 
 <ul>

@@ -298,6 +298,13 @@ Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数
 
 下面是[基于切面的执行时间记录](https://www.baeldung.com/spring-aop-annotation)的例子。
 
+译者点评： 
+
+>In computing, aspect-oriented programming (AOP) is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns.
+>--Wikipedia
+
+在计算机领域，面向方面的编程（AOP）是一种编程范式，旨在通过允许跨领域的关注点分离来提高模块化程度。
+
 ## Q26. 什么是AOP中的Aspect、Advice、Pointcut和JoinPoint？
 
 * Aspect -- 一个实现交叉关注的类，如事务管理

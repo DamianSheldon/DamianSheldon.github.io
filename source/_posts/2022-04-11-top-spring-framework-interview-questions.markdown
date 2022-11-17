@@ -234,7 +234,7 @@ ServletConfig servletConfig;
 
 译者点评：个人觉得原文这题给的答案不是很好，题目是问什么是 Spring MVC 中的控制器，答案应该重点解释是什么，而且说所有由 DispatcherServlet 处理的请求都会被引导到带有 `@Controller` 注释的类太绝对了，例如 BeanNameUrlHandlerMapping 就支持将 URL 映射到对应名字的 bean。
 
-Spring MVC 中的控制器是处理请求的组件，充当模型-视图-控制器模式中的控制器角色，通常是由 `@Controller` 的类。
+Spring MVC 中的控制器是处理请求的组件，充当模型-视图-控制器模式中的控制器角色，通常是由 `@Controller` 注解的类。
 
 ## Q21. `@RequestMapping` 注解是如何工作的？
 `@RequestMapping` 注解用于将 Web 请求映射到Spring 控制器方法。除了简单的用例之外，我们还可以用它来映射 HTTP 头，用 `@PathVariable` 来绑定URI的部分内容，以及用 URI 参数和 `@RequestParam` 注解来工作。

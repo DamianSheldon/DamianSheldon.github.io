@@ -17,7 +17,7 @@ description: Top Spring Framework Interview Questions
 ## Q1. 什么是 Spring 框架？
 Spring是开发 Java 企业版应用程序最广泛使用的框架。此外，Spring 的核心功能可用于开发任何 Java 应用程序。
 
-我们使用它的扩展功能在 Jakarta EE 平台之上构建各种网络应用。我们也可以在简单的独立应用程序中使用它的依赖注入条款。
+我们使用它的扩展功能在 Jakarta EE 平台之上构建各种网络应用。我们也可以在简单的独立应用程序中使用它的依赖注入功能。
 
 ## Q2. 使用 Spring 的好处是什么？
 Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它的好处:  

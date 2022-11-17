@@ -58,6 +58,13 @@ Spring 的目标是使 Jakarta EE的 开发更容易，所以我们来看看它�
 ## Q6. 哪种方式是注入 Bean 的最佳方式，为什么？
 推荐的方法是对强制性的依赖使用构造函数参数，对选择性的依赖使用设置器。这是因为构造函数注入允许向不可变的字段注入值，使测试更容易。
 
+译者：问题可以继续拓展：字段注入的缺点？  
+
+* 和 IoC 容器紧密耦合，不能在它之外使用
+* 不便于单元测试
+
+Reference: [What exactly is Field Injection and how to avoid it?](https://stackoverflow.com/questions/39890849/what-exactly-is-field-injection-and-how-to-avoid-it)  
+
 ## Q7. BeanFactory 和 ApplicationContext 之间的区别是什么？
 BeanFactory 表示一个提供和管理 Bean 实例的容器接口。默认的实现是在调用 `getBean()`时懒惰地将 Bean 实例化。
 

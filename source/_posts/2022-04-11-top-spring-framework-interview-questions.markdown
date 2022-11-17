@@ -175,7 +175,7 @@ Spring Boot 是一个提供了一套预配置框架以减少模板配置的项�
 
 ## Q17. 请说出 Spring 框架中使用的一些设计模式？
 
-* **单例模式**--单例范围的 bean
+* **单例模式**--单例作用域的 bean
 * **工厂模式**-- Bean 工厂类
 * **原型模式**（Prototype Pattern）--原型作用域的 Bean。
 * **适配器模式**--Spring Web和Spring MVC

@@ -52,7 +52,7 @@ Spring MVC实现了清晰的关注点分离，使我们能够轻松开发和单�
 关于这个注解的更多信息可以在我们与[`@ModelAttribute`注解有关的文章](https://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation)中找到。  
 
 ##Q4. 解释一下@Controller和@RestController之间的区别？
-`@Controller`和`@RestController`注释的主要区别在于，`@RestController`注释会自动包含`@ResponseBody`。这意味着我们不需要用`@ResponseBody`来注释我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在`@Controller`类中需要这样做。  
+`@Controller`和`@RestController`注释的主要区别在于，`@RestController`注解会自动包含`@ResponseBody`。这意味着我们不需要用`@ResponseBody`来标注我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在`@Controller`类中需要这样做。  
 
 ##Q5. 描述一下PathVariable
 我们可以使用`@PathVariable`注解处理方法的参数，来提取URI模板变量的值。

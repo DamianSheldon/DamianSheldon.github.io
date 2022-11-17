@@ -224,6 +224,8 @@ public class Person {
 
 译者点评：`@Required` 是如何实现的？
 
+RequiredAnnotationBeanPostProcessor 通过检查 bean 定义中标注了 `@Required` 的属性是否有赋值来实现的。
+
 ##Q16. 描述一下前台控制器模式
 在前端控制器模式中，所有的请求将首先进入前端控制器，而不是Servlet。它将确保响应已经准备好，并将它们送回给浏览器。这样，我们就有一个地方可以控制来自外部世界的一切。
 

@@ -307,7 +307,7 @@ Spring 数据访问对象（DAO）是 Spring 为 JDBC、Hibernate 和 JPA 等数
 
 ## Q26. 什么是AOP中的Aspect、Advice、Pointcut和JoinPoint？
 
-* Aspect -- 一个实现交叉关注的类，如事务管理
+* Aspect -- 一个实现跨领域关注的类，如事务管理
 * Advice --当应用程序运行到与 Pointcut 相匹配的特定 JoinPoint 时被执行的方法
 * Pointcut -- 一组与 JoinPoint 匹配的正则表达式，以确定是否需要执行 Advice
 * JoinPoint -- 程序执行过程中的一个点，例如一个方法的执行或一个异常的处理

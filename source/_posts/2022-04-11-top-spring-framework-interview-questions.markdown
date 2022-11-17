@@ -120,7 +120,7 @@ Spring Bean 是由 Spring IoC 容器初始化的 Java 对象。
 
 调用 BeanPostProcessor 的 `postProcessBeforeInitialization` 方法；
 
-如果 Bean 实现 InitializingBean 的 `afterPropertiesSet` 方法；
+如果 Bean 实现了 InitializingBean 接口则调用它的 `afterPropertiesSet` 方法；
 
 调用 `init-method` 属性 或 `@postConstruct` 注解设置的初始化方法；
 

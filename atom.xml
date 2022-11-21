@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-11-07T10:40:19+08:00</updated>
+  <updated>2022-11-21T10:14:22+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -2293,7 +2293,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <h2>Q4. 解释一下@Controller和@RestController之间的区别？</h2>
 
-<p><code>@Controller</code>和<code>@RestController</code>注释的主要区别在于，<code>@RestController</code>注释会自动包含<code>@ResponseBody</code>。这意味着我们不需要用<code>@ResponseBody</code>来注释我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在<code>@Controller</code>类中需要这样做。</p>
+<p><code>@Controller</code>和<code>@RestController</code>注释的主要区别在于，<code>@RestController</code>注解会自动包含<code>@ResponseBody</code>。这意味着我们不需要用<code>@ResponseBody</code>来标注我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在<code>@Controller</code>类中需要这样做。</p>
 
 <h2>Q5. 描述一下PathVariable</h2>
 
@@ -2521,6 +2521,8 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <p>译者点评：<code>@Required</code> 是如何实现的？</p>
 
+<p>RequiredAnnotationBeanPostProcessor 通过检查 bean 定义中标注了 <code>@Required</code> 的属性是否有赋值来实现的。</p>
+
 <h2>Q16. 描述一下前台控制器模式</h2>
 
 <p>在前端控制器模式中，所有的请求将首先进入前端控制器，而不是Servlet。它将确保响应已经准备好，并将它们送回给浏览器。这样，我们就有一个地方可以控制来自外部世界的一切。</p>
@@ -2598,7 +2600,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <h2>Q23. 解释一下控制器增强</h2>
 
-<p>@ControllerAdvice注解允许我们编写适用于广泛的控制器的全局代码。我们可以将控制器的范围与选定的包或特定的注解联系起来。</p>
+<p>@ControllerAdvice注解允许我们编写适用于大范围控制器的全局代码。我们可以将控制器的范围与选定的包或特定的注解联系起来。</p>
 
 <p>默认情况下，@ControllerAdvice适用于用@Controller（或@RestController）注释的类。如果我们想更具体一些，我们还有一些属性可以使用。</p>
 
@@ -2719,7 +2721,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <p>Spring是开发 Java 企业版应用程序最广泛使用的框架。此外，Spring 的核心功能可用于开发任何 Java 应用程序。</p>
 
-<p>我们使用它的扩展功能在 Jakarta EE 平台之上构建各种网络应用。我们也可以在简单的独立应用程序中使用它的依赖注入条款。</p>
+<p>我们使用它的扩展功能在 Jakarta EE 平台之上构建各种网络应用。我们也可以在简单的独立应用程序中使用它的依赖注入功能。</p>
 
 <h2>Q2. 使用 Spring 的好处是什么？</h2>
 
@@ -2775,6 +2777,16 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 <h2>Q6. 哪种方式是注入 Bean 的最佳方式，为什么？</h2>
 
 <p>推荐的方法是对强制性的依赖使用构造函数参数，对选择性的依赖使用设置器。这是因为构造函数注入允许向不可变的字段注入值，使测试更容易。</p>
+
+<p>译者：问题可以继续拓展：字段注入的缺点？</p>
+
+<ul>
+<li>和 IoC 容器紧密耦合，不能在它之外使用</li>
+<li>不便于单元测试</li>
+</ul>
+
+
+<p>Reference: <a href="https://stackoverflow.com/questions/39890849/what-exactly-is-field-injection-and-how-to-avoid-it">What exactly is Field Injection and how to avoid it?</a></p>
 
 <h2>Q7. BeanFactory 和 ApplicationContext 之间的区别是什么？</h2>
 
@@ -2839,7 +2851,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <p>调用 BeanPostProcessor 的 <code>postProcessBeforeInitialization</code> 方法；</p>
 
-<p>如果 Bean 实现 InitializingBean 的 <code>afterPropertiesSet</code> 方法；</p>
+<p>如果 Bean 实现了 InitializingBean 接口则调用它的 <code>afterPropertiesSet</code> 方法；</p>
 
 <p>调用 <code>init-method</code> 属性 或 <code>@postConstruct</code> 注解设置的初始化方法；</p>
 
@@ -2902,7 +2914,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 <h2>Q17. 请说出 Spring 框架中使用的一些设计模式？</h2>
 
 <ul>
-<li><strong>单例模式</strong>&ndash;单例范围的 bean</li>
+<li><strong>单例模式</strong>&ndash;单例作用域的 bean</li>
 <li><strong>工厂模式</strong>&ndash; Bean 工厂类</li>
 <li><strong>原型模式</strong>（Prototype Pattern）&ndash;原型作用域的 Bean。</li>
 <li><strong>适配器模式</strong>&ndash;Spring Web和Spring MVC</li>
@@ -2979,7 +2991,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <p>译者点评：个人觉得原文这题给的答案不是很好，题目是问什么是 Spring MVC 中的控制器，答案应该重点解释是什么，而且说所有由 DispatcherServlet 处理的请求都会被引导到带有 <code>@Controller</code> 注释的类太绝对了，例如 BeanNameUrlHandlerMapping 就支持将 URL 映射到对应名字的 bean。</p>
 
-<p>Spring MVC 中的控制器是处理请求的组件，充当模型-视图-控制器模式中的控制器角色，通常是由 <code>@Controller</code> 的类。</p>
+<p>Spring MVC 中的控制器是处理请求的组件，充当模型-视图-控制器模式中的控制器角色，通常是由 <code>@Controller</code> 注解的类。</p>
 
 <h2>Q21. <code>@RequestMapping</code> 注解是如何工作的？</h2>
 
@@ -3066,10 +3078,17 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <p>下面是<a href="https://www.baeldung.com/spring-aop-annotation">基于切面的执行时间记录</a>的例子。</p>
 
+<p>译者点评：</p>
+
+<blockquote><p>In computing, aspect-oriented programming (AOP) is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns.
+&ndash;Wikipedia</p></blockquote>
+
+<p>在计算机领域，面向方面的编程（AOP）是一种编程范式，旨在通过允许跨领域的关注点分离来提高模块化程度。</p>
+
 <h2>Q26. 什么是AOP中的Aspect、Advice、Pointcut和JoinPoint？</h2>
 
 <ul>
-<li>Aspect &ndash; 一个实现交叉关注的类，如事务管理</li>
+<li>Aspect &ndash; 一个实现跨领域关注的类，如事务管理</li>
 <li>Advice &ndash;当应用程序运行到与 Pointcut 相匹配的特定 JoinPoint 时被执行的方法</li>
 <li>Pointcut &ndash; 一组与 JoinPoint 匹配的正则表达式，以确定是否需要执行 Advice</li>
 <li>JoinPoint &ndash; 程序执行过程中的一个点，例如一个方法的执行或一个异常的处理</li>

@@ -140,7 +140,7 @@
 
 <h2>Q4. 解释一下@Controller和@RestController之间的区别？</h2>
 
-<p><code>@Controller</code>和<code>@RestController</code>注释的主要区别在于，<code>@RestController</code>注释会自动包含<code>@ResponseBody</code>。这意味着我们不需要用<code>@ResponseBody</code>来注释我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在<code>@Controller</code>类中需要这样做。</p>
+<p><code>@Controller</code>和<code>@RestController</code>注释的主要区别在于，<code>@RestController</code>注解会自动包含<code>@ResponseBody</code>。这意味着我们不需要用<code>@ResponseBody</code>来标注我们的处理方法。如果我们想直接在HTTP响应体中写入响应类型，在<code>@Controller</code>类中需要这样做。</p>
 
 <h2>Q5. 描述一下PathVariable</h2>
 
@@ -368,6 +368,8 @@
 
 <p>译者点评：<code>@Required</code> 是如何实现的？</p>
 
+<p>RequiredAnnotationBeanPostProcessor 通过检查 bean 定义中标注了 <code>@Required</code> 的属性是否有赋值来实现的。</p>
+
 <h2>Q16. 描述一下前台控制器模式</h2>
 
 <p>在前端控制器模式中，所有的请求将首先进入前端控制器，而不是Servlet。它将确保响应已经准备好，并将它们送回给浏览器。这样，我们就有一个地方可以控制来自外部世界的一切。</p>
@@ -445,7 +447,7 @@
 
 <h2>Q23. 解释一下控制器增强</h2>
 
-<p>@ControllerAdvice注解允许我们编写适用于广泛的控制器的全局代码。我们可以将控制器的范围与选定的包或特定的注解联系起来。</p>
+<p>@ControllerAdvice注解允许我们编写适用于大范围控制器的全局代码。我们可以将控制器的范围与选定的包或特定的注解联系起来。</p>
 
 <p>默认情况下，@ControllerAdvice适用于用@Controller（或@RestController）注释的类。如果我们想更具体一些，我们还有一些属性可以使用。</p>
 

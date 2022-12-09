@@ -364,7 +364,7 @@ Spring WebFlux支持Reactor Netty、Tomcat、Jetty和Undertow，其中Reactor Ne
 ##Q20. 为什么我们需要Spring Profiles？
 在为企业开发应用程序时，我们通常要处理多种环境，如开发、QA和生产。这些环境的配置属性是不同的。
 
-例如，我们可能在开发中使用嵌入式H2数据库，但开发中可能有专有的Oracle或DB2。即使DBMS在不同的环境中是相同的，URLs也肯定是不同的。
+例如，我们可能在开发中使用嵌入式H2数据库，但生产环境可能有专用的Oracle或DB2。即使DBMS在不同的环境中是相同的，URLs也肯定是不同的。
 
 为了使这个问题简单明了，Spring提供了配置文件，以帮助分离每个环境的配置。因此，可以将这些属性保存在不同的文件中，如application-dev.properties和application-prod.properties，而不是通过编程来维护这些属性。默认的application.properties使用spring.profiles.active指向当前活动的配置文件，这样就可以获得正确的配置。
 

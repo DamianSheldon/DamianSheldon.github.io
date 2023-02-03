@@ -25,7 +25,7 @@ Oracle 在 HotSpot Virtual Machine Garbage Collection Tuning Guide 提到过一�
 > It is typical that the size of the heap will oscillate as the garbage collector tries to satisfy competing goals. This is true even if the application has reached a steady state. The pressure to achieve a throughput goal (which may require a larger heap) competes with the goals for a maximum pause time and a minimum footprint (which both may require a small heap).
 
 这个调优的策略比较粗，可以作为我们调优的总纲领，还需要更细化一下才更具可操作性。  
-
+<!--more-->
 > Selecting a Collector
 
 > Unless your application has rather strict pause-time requirements, first run your application and allow the VM to select a collector.

@@ -61,6 +61,111 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-development-problems-part-7.html">
+		
+			iOS App 开发问题汇总（七）</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-05-03T17:00:04+08:00" pubdate data-updated="true">03 May 2016</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？</h3>
+
+<p>A:可以通过设置导航栏的背景图和阴隐图为透明的图片来实现。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidAppear:(BOOL)animated
+</span><span class='line'>{
+</span><span class='line'>    [super viewDidAppear:animated];
+</span><span class='line'>    
+</span><span class='line'>    self.translucent = self.navigationController.navigationBar.isTranslucent;
+</span><span class='line'>    self.navigationController.navigationBar.translucent = YES;
+</span><span class='line'>    
+</span><span class='line'>    self.previousImage = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>    
+</span><span class='line'>    UIImage *newImage = [UIImage imageNamed:@"TransparentPixel"];
+</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:newImage forBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>    
+</span><span class='line'>    self.previousShadowImage = self.navigationController.navigationBar.shadowImage;
+</span><span class='line'>    self.navigationController.navigationBar.shadowImage = newImage;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)viewWillDisappear:(BOOL)animated
+</span><span class='line'>{
+</span><span class='line'>    [super viewWillDisappear:animated];
+</span><span class='line'>    
+</span><span class='line'>    self.navigationController.navigationBar.translucent = self.translucent;
+</span><span class='line'>    
+</span><span class='line'>    [self.navigationController.navigationBar setBackgroundImage:self.previousImage forBarMetrics:UIBarMetricsDefault];
+</span><span class='line'>    self.navigationController.navigationBar.shadowImage = self.previousShadowImage;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:Apple&rsquo;s sample code Customizing UINavigationBar<br/>
+<a href="http://stackoverflow.com/questions/18921082/separator-between-navigation-bar-and-view-ios-7">Separator between navigation bar and view - iOS 7</a></p>
+
+
+		
+		<a href="/blog/ios-development-problems-part-7.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problems-part-6.html">
 		
 			iOS App 开发问题汇总（六）</a>
@@ -261,86 +366,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-technical-interview-part-3.html">
-		
-			iOS 面试题汇总(三)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-02-25T18:43:44+08:00" pubdate data-updated="true">25 Feb 2016</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.Difference between categories and extensions?</h3>
-
-<p>A:There are three difference beween categories and extensions:</p>
-
-<ol>
-<li>The extension has no name;</li>
-<li>The implementation of the extension must be in the main @implementation block of the file;</li>
-<li>The extension can easy declare property that need backend instance variable.</li>
-</ol>
-
-
-<p>Reference:<a href="http://stackoverflow.com/questions/3499704/difference-between-category-and-class-extension">Difference between Category and Class Extension?</a></p>
-
-<h3>2.What is advantage of category?</h3>
-
-<p>A:</p>
-
-<ul>
-<li>You can add method to existing class even to that class whose source is not available to you.</li>
-<li>You can extend functionality of a class without subclassing.</li>
-<li>You can split implementation in multiple files.</li>
-</ul>
-
-
-<h3>3.What are KVO and KVC?</h3>
-
-<p>A:</p>
-
-<blockquote><p>Key-value observing is a mechanism that enables an object to be notified directly when a property of another object changes.</p>
-
-<p>Key-value coding is a mechanism for indirectly accessing an object’s attributes and relationships using string identifiers.</p></blockquote>
-
-<p>Reference:Cocoa Core Competencies</p>
-
-
-		
-		<a href="/blog/ios-technical-interview-part-3.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/17" class="prev">Prev</a>
@@ -351,7 +376,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

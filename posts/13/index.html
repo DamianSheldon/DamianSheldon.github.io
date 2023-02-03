@@ -61,6 +61,63 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/a-simple-conical-gradient-on-ios.html">
+		
+			圆锥渐变的一种简单实现</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-09-22T15:59:35+08:00" pubdate data-updated="true">22 Sep 2017</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：</p>
+
+<p><img src="../images/Conical-1.png" title="'Conical-1'" ><br/>
+<img src="../images/Conical-2.png" title="'Conical-2'" ></p>
+
+<p>要实现这样一种渐变你会怎么做呢？我的想法是从渐变的本质着手。渐变是从一种颜色渐渐变化成另外一种颜色，而圆锥渐变是根据角度渐渐变化。我们把界面看成位图，这样可以由点的位置得到它的角度，继而根据角度线性插值可以得到它的颜色，最终就可以得到圆锥渐变。</p>
+
+<p>想法有了，接下来我们用它来实现上图中 Find My iPhone 图标的雷达效果吧。</p>
+
+<p>首先定义一个 CALayer 的子类 ConicalLayer，</p>
+
+
+		
+		<a href="/blog/a-simple-conical-gradient-on-ios.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-development-problems-part-10.html">
 		
 			iOS 开发问题汇总(十)</a>
@@ -224,144 +281,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-of-android-development-part-4.html">
-		
-			Android 开发问题汇总(四)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-05-14T16:56:19+08:00" pubdate data-updated="true">14 May 2017</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.怎么给 Button 加上圆角?</h3>
-
-<p>A:Create an xml inside Drawable Folder with below code. Name it rounded_red_border.xml</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>    android:shape="rectangle"&gt;
-</span><span class='line'> 
-</span><span class='line'>// The width and color of the border   
-</span><span class='line'> &lt;stroke
-</span><span class='line'>        android:width="4dp"
-</span><span class='line'>        android:color="#de3d3d" /&gt;
-</span><span class='line'> 
-</span><span class='line'>// The desired corner radius. reduce it to keep it less rounded
-</span><span class='line'>    &lt;corners android:radius="360dp" /&gt;
-</span><span class='line'> 
-</span><span class='line'>// Add your desired padding
-</span><span class='line'>    &lt;padding
-</span><span class='line'>        android:left="20dp"
-</span><span class='line'>        android:top="10dp"
-</span><span class='line'>        android:right="20dp"
-</span><span class='line'>        android:bottom="10dp"    &gt;
-</span><span class='line'>    &lt;/padding&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;/shape&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Applying the border to a Layout or View</p>
-
-<p>Set the above drawable as a background to your Layout or View like LinearLayout, FrameLayout, TextView, Button etc.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-</span><span class='line'>&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</span><span class='line'>android:layout_width="match_parent"
-</span><span class='line'>android:layout_height="match_parent"&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>// Apply as the background of TextView
-</span><span class='line'>&lt;TextView
-</span><span class='line'>    android:layout_width="wrap_content"
-</span><span class='line'>    android:layout_height="wrap_content"
-</span><span class='line'>    android:text="YOUR TEXT"
-</span><span class='line'>    android:textSize="20dp"
-</span><span class='line'>    android:textStyle="bold"
-</span><span class='line'>    android:background="@drawable/rounded_red_border"
-</span><span class='line'>    android:textColor="#000"
-</span><span class='line'>    android:layout_centerInParent="true"/&gt;
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>&lt;/RelativeLayout&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/problems-of-android-development-part-4.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/12" class="prev">Prev</a>
@@ -372,7 +291,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

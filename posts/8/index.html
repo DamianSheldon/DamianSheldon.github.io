@@ -61,6 +61,116 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-development-notes-part-four.html">
+		
+			Web 开发问题汇总(四)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2019-07-16T17:24:01+08:00" pubdate data-updated="true">16 Jul 2019</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.如何实现如下布局：两个元素A和B，其中A的宽度为包裹其内容，B则占用剩余的宽度？</h3>
+
+<p>A:A 元素利用 float 的包裹性，B 元素则利用 BFC。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="container"&gt;
+</span><span class='line'>    &lt;div class="right"&gt;&lt;/div&gt;
+</span><span class='line'>    &lt;div class="left"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>.container {
+</span><span class='line'>    width:600px;
+</span><span class='line'>    height:200px;
+</span><span class='line'>    border:1px solid;
+</span><span class='line'>}
+</span><span class='line'>.left {
+</span><span class='line'>    width:auto;
+</span><span class='line'>    height:200px;
+</span><span class='line'>    background:red;
+</span><span class='line'>    overflow:hidden;
+</span><span class='line'>}
+</span><span class='line'>.right {
+</span><span class='line'>    height:200px;
+</span><span class='line'>    width:200px;
+</span><span class='line'>    background:blue;
+</span><span class='line'>    float:left;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width">Expand a div to fill the remaining width</a></p>
+
+<h3>2.Meaning of ~ in import of scss files</h3>
+
+<p>A:</p>
+
+<blockquote><p>From documentation on a <code>sass-loader#imports</code> project,</p>
+
+<blockquote><p>webpack provides an advanced mechanism to resolve files. The sass-loader uses node-sass' custom importer feature to pass all queries to the webpack resolving engine. Thus you can import your Sass modules from node_modules. Just prepend them with a ~ to tell webpack that this is not a relative import</p></blockquote>
+
+<p>So if you have a file named foo.css and a module foo then you would use ~ if you want to include the module.</p></blockquote>
+
+<p>Reference:<a href="https://stackoverflow.com/questions/38880187/meaning-of-in-import-of-scss-files">Meaning of ~ in import of scss files</a></p>
+
+
+		
+		<a href="/blog/web-development-notes-part-four.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/an-introduction-to-mobile-cross-platform-development.html">
 		
 			浅析移动端跨平台开发</a>
@@ -192,101 +302,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-app-distribution.html">
-		
-			iOS App Distribution</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-12-04T14:33:49+08:00" pubdate data-updated="true">04 Dec 2018</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>iOS App 有不少分发方法，她们散落在 Apple 的文档中，并未归总到一处，所以本文对她们进行了总结，方便查阅。</p>
-
-<p>首先我们简单梳理下这些分发方法，然后重点说明下 ipa 文件的安装方法。 Apple 制作的这张表格将分发方法归纳得很全：</p>
-
-<table>
-<thead>
-<tr>
-<th> Method </th>
-<th style="text-align:left;"> Description </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> App Store </td>
-<td style="text-align:left;"> Distributes your app through the App Store, signed with an Apple Developer Program distribution provisioning profile. </td>
-</tr>
-<tr>
-<td> Ad Hoc </td>
-<td style="text-align:left;"> Distributes your app to testers with registered devices, signed with an ad hoc provisioning profile.<br>The devices need to be registered in your developer account and are limited to 100 devices per product family per year. If you don’t want to use a portion of these development devices for testing, distribute your app using TestFlight instead.<br>If you are a member of the Apple Developer Enterprise Program, choose this option to test your app. Only members of the Apple Developer Program have access to App Store Connect and TestFlight. </td>
-</tr>
-<tr>
-<td> Development </td>
-<td style="text-align:left;"> Distributes your app to testers with registered devices, signed with a development provisioning profile. </td>
-</tr>
-<tr>
-<td> Enterprise </td>
-<td style="text-align:left;"> Distributes your app to users in your organization, signed with an Apple Developer Enterprise Program distribution provisioning profile. </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>虽然分发方法有很多，但可以分为两类：一类是通过 App Store 分发；另一类则是在 App Store 外分发。通过 App Store 分发时的流程很统一，都是上传应用到 iTunes Connection，等待审核发布，所以没有什么好说的。但是在 App Store 外发布时选择就多样了，我们既可以走像 App Store 分发那样流程的 TestFlight，也可以导出 ipa 文件然后安装。</p>
-
-<p>下面我们介绍在 iPhone 上安装 ipa 的方法：</p>
-
-<h2>Install using iTunes</h2>
-
-<blockquote><p>iTunes 12.7 for Mac was released on Tuesday with a major change in the app. Apple has redesign iTunes so that it focuses on sales of music, movies, TV shows, audiobooks, and podcasts. It no longer has an App Store for buying apps for your iPhone or iPad. Therefore, you can no long install your iOS App (.ipa file) through iTunes any longer.</p></blockquote>
-
-<ol>
-<li>Download the .ipa file after the build completes.</li>
-<li>Open iTunes, go to App library.</li>
-<li>Drag and drop the downloaded .ipa file into the App library.</li>
-<li>Connect your device to iTunes and go to your device apps.</li>
-<li>Click Install button of the app and click Sync button. </li>
-</ol>
-
-
-
-		
-		<a href="/blog/ios-app-distribution.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/7" class="prev">Prev</a>
@@ -297,7 +312,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

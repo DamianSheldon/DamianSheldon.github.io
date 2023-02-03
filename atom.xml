@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2022-12-09T10:55:38+08:00</updated>
+  <updated>2023-02-03T11:20:40+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[HotSpot 虚拟机垃圾收集调优总结]]></title>
+    <link href="http://DamianSheldon.github.io/blog/hotspot-virtual-machine-garbage-collection-tuning-summary.html"/>
+    <updated>2023-02-03T09:34:30+08:00</updated>
+    <id>http://DamianSheldon.github.io/blog/hotspot-virtual-machine-garbage-collection-tuning-summary</id>
+    <content type="html"><![CDATA[<p>工作中我们可能需要对 HotSpot 虚拟机垃圾收集调优，那么应该怎么做呢？</p>
+
+<p>Oracle 在 HotSpot Virtual Machine Garbage Collection Tuning Guide 提到过一个调优策略：</p>
+
+<blockquote><p>Tuning Strategy</p>
+
+<p>Do not choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Choose a throughput goal that is sufficient for your application.</p>
+
+<p>The heap will grow or shrink to a size that will support the chosen throughput goal. A change in the application&rsquo;s behavior can cause the heap to grow or shrink. For example, if the application starts allocating at a higher rate, the heap will grow to maintain the same throughput.</p>
+
+<p>If the heap grows to its maximum size and the throughput goal is not being met, the maximum heap size is too small for the throughput goal. Set the maximum heap size to a value that is close to the total physical memory on the platform but which does not cause swapping of the application. Execute the application again. If the throughput goal is still not met, then the goal for the application time is too high for the available memory on the platform.</p>
+
+<p>If the throughput goal can be met, but there are pauses that are too long, then select a maximum pause time goal. Choosing a maximum pause time goal may mean that your throughput goal will not be met, so choose values that are an acceptable compromise for the application.</p>
+
+<p>It is typical that the size of the heap will oscillate as the garbage collector tries to satisfy competing goals. This is true even if the application has reached a steady state. The pressure to achieve a throughput goal (which may require a larger heap) competes with the goals for a maximum pause time and a minimum footprint (which both may require a small heap).</p></blockquote>
+
+<p>这个调优的策略比较粗，可以作为我们调优的总纲领，还需要更细化一下才更具可操作性。</p>
+
+<!--more-->
+
+
+<blockquote><p>Selecting a Collector</p>
+
+<p>Unless your application has rather strict pause-time requirements, first run your application and allow the VM to select a collector.</p>
+
+<p>If necessary, adjust the heap size to improve performance. If the performance still doesn&rsquo;t meet your goals, then use the following guidelines as a starting point for selecting a collector:</p>
+
+<ul>
+<li>If the application has a small data set (up to approximately 100 MB), then select the serial collector with the option <code>-XX:+UseSerialGC</code>. </li>
+<li>If the application will be run on a single processor and there are no pause-time requirements, then select the serial collector with the option <code>-XX:+UseSerialGC</code>. </li>
+<li>If (a) peak application performance is the first priority and (b) there are no pause-time requirements or pauses of one second or longer are acceptable, then let the VM select the collector or select the parallel collector with <code>-XX:+UseParallelGC</code>. </li>
+<li>If response time is more important than overall throughput and garbage collection pauses must be kept shorter, then select the mostly concurrent collector with <code>-XX:+UseG1GC</code>. </li>
+<li>If response time is a high priority, then select a fully concurrent collector with <code>-XX:+UseZGC</code>.
+ 这份指南就更具操作性了。</li>
+</ul>
+</blockquote>
+
+<p>周志明老师在他的《深入理解 java 虚拟机》中介绍了如何权衡收集器：</p>
+
+<blockquote><p>现在可能有读者要犯选择困难症了，我们应该如何选择一款适合自己应用的收集器呢？这个问题主要受以下三个因素影响：</p>
+
+<ul>
+<li><p>应用程序的主要关注点是什么?如果是数据分析、科学计算类的任务，目标是尽可能快算出结果，那吞吐量就是主要关注点；如果是 SLA 应用，那停顿时间直接影响服务质量，严重的甚至会导致事务超时，这样延时就是主要关注点；而如果是客户端应用或者嵌入式应用，那垃圾收集的内存占用则是不可忽视的。</p></li>
+<li><p>运行应用的基础设施如何？譬如硬件规格，要涉及的系统架构是x86-32/64、SPAR 还是 ARM/Aarch64；处理器的数量多少，分配的内存大小；选择的操作系统是Linux、Solaris 还是 Windows 等。</p></li>
+<li><p>使用 JDK 的发行商是什么？版本号是多少？是 ZingJDK/Zulu、OracleJDK、OpenJDK、OpenJ9 抑或是其他公司的发行版? 该 JDK 对应了《 Java 虚拟机规范 》的哪个版本？</p></li>
+</ul>
+
+
+<p>一般来说，收集器的选择就从以上这几点出发来考虑。举个例子，假设某个直接面向用户提供服务的 B/S 系统准备选择垃圾收集器，一般来说延迟时间是这类应用的主要关注点，那么：</p>
+
+<ul>
+<li><p>如果你有充足的预算但没有太多调优经验，那么一套带有商业技术支持的专有硬件或软件解决方案是不错的选择。Azul 公司以前主推的 Vega 系统和现在主推的 Zing VM 是这方面的代表，这样你就可以使用传说中的 C4 收集器。</p></li>
+<li><p>如果你虽然没有充足的预算去使用商业解决方案，但能掌握软硬件型号，使用较新的版本，同时又特别注重延时，那 ZGC 很值得尝试。</p></li>
+<li><p>如果你对还处于实验状态的收集器的稳定性有顾虑，或者必须运行在 Windows 操作系统下，那 ZGC 无缘了，试试 Shenandoah 吧。</p></li>
+<li><p>如果你接手的是遗留系统，软硬件基础设施和 JDK 版本都比较落后，那就根据内存规模衡量一下，对于大概 4GB 到 6GB 以下的堆内存，CMS 一般能处理得比较好，而对于更大的堆内存，可重点考察一下 G1。</p></li>
+</ul>
+
+
+<p>当然，以上都是仅从理论出发的分析，实战中切不可纸上谈兵，根据系统实际情况去测试才是选择收集器的最终依据。</p></blockquote>
+
+<p>这里的建议更具体，结合这两份建议，谈谈我个人的理解。</p>
+
+<p>目前 HotSpot 虚拟机主要有 Serial, Parallel, CMS, Shenandoah 和 ZGC 这几款收集器，Serial, Parallel 主要关注吞吐量; CMS, Shenandoah 和 ZGC 主要关注低延时。</p>
+
+<p>在做 Java 服务端开发时，我们基本可以不考虑 Serial 收集器。而服务端的应用主要是面向用户提供服务的，所以要选择低延时的收集器。根据使用 java 版本和堆内存大小从 CMS, G1 和 ZGC 中选择，然后进行测试，根据测试结果选择。</p>
+
+<p>下面举个 Tomcat 的例子，Tomcat 9 支持 java 8 及以上的版本，可以用来试验各自收集器。</p>
+
+<p>在 Tomcat 的安装包对应的 bin 目录下新建 setenv.sh 文件:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
+</span><span class='line'># Set any additional Tomcat options
+</span><span class='line'>#CATALINA_OPTS="-Dcatalina.base=$CATALINA_HOME -Dcatalina.home=$CATALINA_HOME"
+</span><span class='line'>#CATALINA_OPTS="-XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:/usr/local/apache-tomcat-9.0.35/logs/parallel-gc.log"
+</span><span class='line'>#CATALINA_OPTS="-XX:+UseConcMarkSweepGC -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:/usr/local/apache-tomcat-9.0.35/logs/cms-gc.log"
+</span><span class='line'>#CATALINA_OPTS="-XX:+UseG1GC -Xlog:gc*=debug:file=/usr/local/apache-tomcat-9.0.35/logs/g1-gc.log"
+</span><span class='line'>#CATALINA_OPTS="-XX:+UseZGC -Xlog:gc*=debug:file=/usr/local/apache-tomcat-9.0.35/logs/z-gc.log"
+</span><span class='line'>#JDK_JAVA_OPTIONS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>取消对应行的注释去试验对应的收集器，可以考虑使用 ab 之类压测工具观察性能变化，<a href="gceasy.io">gceasy</a> 可以用来辅助分析 gc 日志。</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning">HotSpot Virtual Machine Garbage Collection Tuning Guide</a></li>
+<li>深入理解 java 虚拟机</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MyBatis 的工作流程(一)]]></title>
@@ -2776,7 +2881,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.</p></
 
 <h2>Q6. 哪种方式是注入 Bean 的最佳方式，为什么？</h2>
 
-<p>推荐的方法是对强制性的依赖使用构造函数参数，对选择性的依赖使用设置器。这是因为构造函数注入允许向不可变的字段注入值，使测试更容易。</p>
+<p>推荐的方法是对强制性的依赖使用构造函数参数，对选择性的依赖使用 setter 方法。这是因为构造函数注入允许向不可变的字段注入值，使测试更容易。</p>
 
 <p>译者：问题可以继续拓展：字段注入的缺点？</p>
 
@@ -6012,274 +6117,6 @@ with the following content:</p>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?f=8&amp;t=85110">Ubuntu 1710 screen flicker</a></li>
 <li><a href="https://forums.virtualbox.org/viewtopic.php?t=91563">Centos7 Guest Additions fails: kernel headers not found</a></li>
 <li><a href="https://www.howtogeek.com/312883/how-to-shrink-a-virtualbox-virtual-machine-and-free-up-disk-space/">How to Shrink a VirtualBox Virtual Machine and Free Up Disk Space</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[创建 Cordova plugin 及其 Ionic Native]]></title>
-    <link href="http://DamianSheldon.github.io/blog/create-cordova-plugin.html"/>
-    <updated>2019-09-30T09:59:14+08:00</updated>
-    <id>http://DamianSheldon.github.io/blog/create-cordova-plugin</id>
-    <content type="html"><![CDATA[<p>本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：</p>
-
-<ul>
-<li>Cordova Plugin 的工作原理</li>
-<li>如何创建 Cordova Plugin</li>
-<li>如何创建 Cordova Plugin 对应的 Ionic Native</li>
-</ul>
-
-
-<h3>Cordova Plugin 的工作原理</h3>
-
-<p>我们简要介绍下 Cordova Plugin 的工作原理，这样我们才能解决在开发中遇到的问题。</p>
-
-<p>Plugin js 端的入口方法签名形式如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>exec(&lt;successFunction&gt;, &lt;failFunction&gt;, &lt;service&gt;, &lt;action&gt;, [&lt;args&gt;]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>successFunction, failFunction 是成功和失败的回调函数，args 则是传递给原生端的参数。service, action 则是用来映射到原生端的对象和方法。这个映射是通过 plugin.xml 建立起来的。在 plugin.xml 中我们有如下元数据信息:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
-</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>service 就是对应 service_name 指定的对象，而 action 则是该对象能处理方法。</p>
-
-<p>具体是怎么映射的呢？</p>
-
-<p>以 android 为例，我们安装的 plugin 信息会保存在 config.xml 中，<code>cordova prepare android</code> 命令会将 config.xml 在 android 的资源文件目录中生成一个同名文件，两个文件内容大致相同，plugin 的信息会改成如下形式表示：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;feature name="&lt;service_name&gt;"&gt;
-</span><span class='line'>    &lt;param name="android-package" value="&lt;full_name_including_namespace&gt;" /&gt;
-</span><span class='line'>&lt;/feature&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个形式就是我们上面见过的形式。</p>
-
-<p>当 js 端调用 exec 方法时，它会通过 webview 建立的通信通道(通常是用 WebView.addJavascriptInterface)调用 PluginManager 的 exec 方法，PluginManager 则根据 service_name 查找或创建 plugin ，然后调用 plugin 的 exec 方法，并将 action 作为参数传入，于是我们便可按需响应 action 请求。</p>
-
-<h3>如何创建 Cordova Plugin</h3>
-
-<h4>安装 plugman</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm install -g plugman</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>创建 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman create --name &lt;pluginName&gt; --plugin_id &lt;pluginID&gt; --plugin_version &lt;version&gt; [--path &lt;directory&gt;] [--variable NAME=VALUE]
-</span><span class='line'>
-</span><span class='line'>eg.
-</span><span class='line'>$plugman create --name cordova-plugin-onsite-signature --plugin_id cordova-plugin-onsite-signature --plugin_version 0.0.1</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>添加 platform</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$plugman platform add --platform_name android</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>创建 package.json 文件</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ plugman createpackagejson &lt;directory&gt;
-</span><span class='line'>
-</span><span class='line'>eg.
-</span><span class='line'>$plugman createpackagejson .</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>安装 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 方法一：这种方式的命令和添加官方的插件类似，个人推荐此方法，可以少记一个命令
-</span><span class='line'>$cordova plugin add git+ssh://git@192.168.8.91/git/cordova-plugin-onsite-signature.git
-</span><span class='line'>
-</span><span class='line'>// 方法二：
-</span><span class='line'>$ plugman install --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>卸载 cordova plugin</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// 与安装的方法对应有两种卸载方法
-</span><span class='line'>// 方法一：$cordova plugin remove cordova-plugin-onsite-signature
-</span><span class='line'>
-</span><span class='line'>// 方法二：
-</span><span class='line'>$ plugman uninstall --platform android --project platforms/android --plugin ../LogicLinkPlugin/</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>发布</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Create a tag
-</span><span class='line'>$git tag &lt;tagname&gt;
-</span><span class='line'>
-</span><span class='line'>// Push to repository
-</span><span class='line'>$git push origin master</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>升级 cordova plugin</h4>
-
-<p>现在暂时没有直接升级的命令，采用的是先卸载后安装新版本的方法。</p>
-
-<h3>如何创建 Cordova Plugin 对应的 Ionic Native</h3>
-
-<h4>Creating Plugin Wrappers</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Navigate to ionic-native root path
-</span><span class='line'>$cd  ionic-native
-</span><span class='line'>
-</span><span class='line'>// Install dependencies first time
-</span><span class='line'>$npm install
-</span><span class='line'>
-</span><span class='line'>// Create plugin wrapper
-</span><span class='line'>// When gulp installed locally
-</span><span class='line'>$npx gulp plugin:create -n PluginName
-</span><span class='line'>
-</span><span class='line'>// When gulp installed globally
-</span><span class='line'>$gulp plugin:create -n PluginName</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>安装</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// You need to run npm run build in the ionic-native project, this will create a dist directory. The dist directory will contain a sub directory @ionic-native with all the packages compiled in there.
-</span><span class='line'>$npm run build
-</span><span class='line'>
-</span><span class='line'>//Copy the package(s) you created/modified to your app's node_modules under the @ionic-native directory.
-</span><span class='line'>$cp -r dist/@ionic-native/plugin-name ../my-app/node_modules/@ionic-native/</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>使用</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Import the plugin in a @NgModule and add it to the list of Providers. 
-</span><span class='line'>// app.module.ts
-</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>@NgModule({
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>  providers: [
-</span><span class='line'>    ...
-</span><span class='line'>    APIClient
-</span><span class='line'>    ...
-</span><span class='line'>  ]
-</span><span class='line'>  ...
-</span><span class='line'>})
-</span><span class='line'>export class AppModule { }
-</span><span class='line'>
-</span><span class='line'>// After the plugin has been declared, it can be imported and injected like any other service:
-</span><span class='line'>
-</span><span class='line'>// login.service.ts
-</span><span class='line'>import { APIClient } from '@ionic-native/api-client/ngx';
-</span><span class='line'>import { ServiceName } from '@ionic-native/api-client/ngx';
-</span><span class='line'>
-</span><span class='line'>constructor(private apiClient: APIClient) { }
-</span><span class='line'>
-</span><span class='line'>this.apiClient.get(ServiceName.Login, JSON.stringify(user))
-</span><span class='line'>      .then((result: string) =&gt; {
-</span><span class='line'>        console.log('api client login:', result);
-</span><span class='line'>        //TODO: Parse server return json to UserExt object
-</span><span class='line'>        const routePath = this.simulateLogin(username);        
-</span><span class='line'>        resolve(routePath);
-</span><span class='line'>      })
-</span><span class='line'>      .catch((error: string) =&gt; {
-</span><span class='line'>        console.log('api client login error:', error);
-</span><span class='line'>
-</span><span class='line'>        reject(error);
-</span><span class='line'>      });</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Reference:</h1>
-
-<ul>
-<li><a href="https://github.com/RootSoft/Create-a-custom-Cordova-plugin">Create-a-custom-Cordova-plugin</a></li>
-<li><a href="https://github.com/ionic-team/ionic-native/blob/master/DEVELOPER.md">Ionic Native Developer Guide</a></li>
 </ul>
 
 ]]></content>

@@ -61,6 +61,106 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/private-pods.html">
+		
+			如何创建私有的Pod</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-03-11T17:23:04+08:00" pubdate data-updated="true">11 Mar 2015</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>公司的框架代码大多数时候是需要保密的，而手动的复制导入比较麻烦，这时候我们可以创建私有 Pod 来方便我们的日常开发工作，本文是我创建私有 Pod 的笔记。</p>
+
+<p>Cocoapods 提供了 pod lib create [pod name] 来创建私有库工程，但是有个 embedded dylibs/frameworks are only supported on iOS 8.0 and later 的问题。 意思是只有部署 iOS 8 以上的应用才能使用它，所以要支持 iOS 8 以下的应用的 Pod 我们还是得手动创建，详细步骤如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir AJFrame
+</span><span class='line'>
+</span><span class='line'>// Create static library
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Framework & Library &gt; Cocoa Touch Static Libray 
+</span><span class='line'>
+</span><span class='line'>// Create dev app
+</span><span class='line'>Xcode &gt; File &gt; New &gt; Project... &gt; Single View Application
+</span><span class='line'>
+</span><span class='line'>// Result 
+</span><span class='line'>AJFrame
+</span><span class='line'>├── AJFrame
+</span><span class='line'>│   ├── AJFrame.xcodeproj
+</span><span class='line'>│   ├── AJFrameTests
+</span><span class='line'>│   ├── Classes
+</span><span class='line'>├── AJFrame.podspec
+</span><span class='line'>├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp
+</span><span class='line'>│   ├── AJFrameDevApp.xcodeproj
+</span><span class='line'>│   ├── AJFrameDevApp.xcworkspace
+</span><span class='line'>│   ├── AJFrameDevAppTests
+</span><span class='line'>│   ├── Podfile
+</span><span class='line'>│   ├── Podfile.lock
+</span><span class='line'>│   └── Pods
+</span><span class='line'>└── LICENSE</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/private-pods.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-play.html">
 		
 			(翻译)How to Play, Record, and Edit Videos in iOS</a>
@@ -376,94 +476,6 @@ A: No, if view&rsquo;s transform is not CGAffineTransformIdentity, its may not e
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/problems-of-android-development.html">
-		
-			Android开发问题汇总(一)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-12-17T09:38:20+08:00" pubdate data-updated="true">17 Dec 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/archives/'>archives</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.Gradle使用代理服务器</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// /Users/&lt;username&gt;/.gradle/gradle.properties (Mac)
-</span><span class='line'># Http Proxy
-</span><span class='line'>systemProp.http.proxyHost=www.somehost.org
-</span><span class='line'>systemProp.http.proxyPort=8080
-</span><span class='line'>systemProp.http.proxyUser=userid
-</span><span class='line'>systemProp.http.proxyPassword=password
-</span><span class='line'>systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Reference:<a href="https://www.leimingshan.com/gradle/">Gradle使用代理服务器</a></p>
-
-<h3>2.设置Gradle home</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Mac OS X
-</span><span class='line'>Use local gradle distribution &gt; Gradle home &gt; /Applications/Android Studio.app/Contents/plugins/gradle</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3.The project is using an unsupported version of Gradle</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>The project is using an unsupported version of Gradle.
-</span><span class='line'>Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
-</span><span class='line'>
-</span><span class='line'>Consult IDE log for more details (Help | Show Log)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-		
-		<a href="/blog/problems-of-android-development.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/25" class="prev">Prev</a>
@@ -474,7 +486,7 @@ A: No, if view&rsquo;s transform is not CGAffineTransformIdentity, its may not e
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

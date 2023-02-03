@@ -61,6 +61,134 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/web-development-notes-part-five.html">
+		
+			Web 开发问题汇总(五)</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2022-07-01T09:32:39+08:00" pubdate data-updated="true">01 Jul 2022</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ jmap -heap 29104
+</span><span class='line'>Attaching to process ID 29104, please wait...
+</span><span class='line'>ERROR: attach: task_for_pid(29104) failed: '(os/kern) failure' (5)
+</span><span class='line'>Error attaching to process: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+</span><span class='line'>sun.jvm.hotspot.debugger.DebuggerException: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.execute(BsdDebuggerLocal.java:169)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach(BsdDebuggerLocal.java:287)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.attachDebugger(HotSpotAgent.java:671)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.setupDebuggerDarwin(HotSpotAgent.java:659)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.setupDebugger(HotSpotAgent.java:341)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.go(HotSpotAgent.java:304)
+</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.attach(HotSpotAgent.java:140)
+</span><span class='line'>  at sun.jvm.hotspot.tools.Tool.start(Tool.java:185)
+</span><span class='line'>  at sun.jvm.hotspot.tools.Tool.execute(Tool.java:118)
+</span><span class='line'>  at sun.jvm.hotspot.tools.HeapSummary.main(HeapSummary.java:49)
+</span><span class='line'>  at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+</span><span class='line'>  at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+</span><span class='line'>  at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</span><span class='line'>  at java.lang.reflect.Method.invoke(Method.java:498)
+</span><span class='line'>  at sun.tools.jmap.JMap.runTool(JMap.java:201)
+</span><span class='line'>  at sun.tools.jmap.JMap.main(JMap.java:130)
+</span><span class='line'>Caused by: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach0(Native Method)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.access$100(BsdDebuggerLocal.java:65)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$1AttachTask.doit(BsdDebuggerLocal.java:278)
+</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.run(BsdDebuggerLocal.java:144)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A: macOS 上的 java 虚拟机基础工具不能附加到 java 进程上，操作系统环境为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sw_vers
+</span><span class='line'>ProductName:  Mac OS X
+</span><span class='line'>ProductVersion:   10.15.7
+</span><span class='line'>BuildVersion: 19H1922</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java 版本:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -version
+</span><span class='line'>java version "1.8.0_121"
+</span><span class='line'>Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
+</span><span class='line'>Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>google 了一番之后，问题可能是 <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">macOS 上的 java 8 部分小版本有问题</a>，于是我打算用虚拟机里面的 RockyLinux 来试下，结果是确定可以。</p>
+
+
+		
+		<a href="/blog/web-development-notes-part-five.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/redis-interview-questions.html">
 		
 			Redis 面试题</a>
@@ -246,86 +374,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/spring-mvc-interview-questions.html">
-		
-			(翻译)Spring MVC 面试题</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-04-12T11:42:30+08:00" pubdate data-updated="true">12 Apr 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h1>1. 简介</h1>
-
-<p>Spring MVC是Spring公司在Servlet API基础上建立的原创Web框架。它提供了模型-视图-控制器架构，可用于开发灵活的Web应用。</p>
-
-<p>在本教程中，我们将重点讨论与之相关的问题，因为它经常是Spring开发者求职面试的一个话题。</p>
-
-<p>关于Spring框架的更多问题，你可以查看我们<a href="https://www.baeldung.com/tag/interview/">面试问题系列</a>中另一篇与<a href="https://www.baeldung.com/spring-interview-questions">Spring有关的文章</a>。</p>
-
-<h1>2.基础 Spring MVC 题</h1>
-
-<h2>Q1. 为什么我们要使用Spring MVC？</h2>
-
-<p>Spring MVC实现了清晰的关注点分离，使我们能够轻松开发和单元测试我们的应用程序。</p>
-
-<p>像如下概念：</p>
-
-<ul>
-<li>Dispatcher Servlet</li>
-<li>Controllers</li>
-<li>View Resolvers</li>
-<li>Views, Models</li>
-<li>ModelAndView</li>
-<li>Model and Session Attributes</li>
-</ul>
-
-
-<p>是完全相互独立的，它们只负责一件事。</p>
-
-<p>因此，MVC给了我们相当大的灵活性。它是基于接口的（有提供的实现类），我们可以通过使用自定义接口来配置框架的每一部分。</p>
-
-<p>另一件重要的事情是，我们并没有被束缚在一个特定的视图技术上（例如JSP），而是可以选择我们最喜欢的技术。</p>
-
-<p>另外，我们不只在Web应用开发中使用Spring MVC，在创建RESTful Web服务时也是如此。</p>
-
-
-		
-		<a href="/blog/spring-mvc-interview-questions.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/index.html" class="prev">Prev</a>
@@ -336,7 +384,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

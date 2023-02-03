@@ -61,6 +61,93 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/ios-concurrency-programming-gcd.html">
+		
+			iOS 并发编程之 GCD</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">21 May 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>在 iOS 并发编程之 Operation 中我们提到了 GCD 出现的背景，这篇文章是我对它的使用总结。</p>
+
+<h2>GCD 是什么？</h2>
+
+<blockquote><p>Grand Central Dispatch (GCD) dispatch queues are a powerful tool for performing tasks. Dispatch queues let you execute arbitrary blocks of code either asynchronously or synchronously with respect to the caller.</p></blockquote>
+
+<p>GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步或同步运行任务代码块。</p>
+
+<h2>为什么使用 GCD?</h2>
+
+<p>我们使用 GCD 的原因很可能是我们想要异步或同步运行执行任务，并且还想获得以下优势:</p>
+
+<ul>
+<li>直接简单的编程接口；</li>
+<li>自动、整体的线程池管理；</li>
+<li>高效的内存管理；</li>
+<li>负载时不干扰内核；</li>
+<li>异步分发任务到分派队列不会造成死锁；</li>
+<li>优雅地处理竞争；</li>
+<li>串行分派队列为锁和其他同步操作提供了更高效选择；</li>
+</ul>
+
+
+<h2>如何使用 GCD？</h2>
+
+<p>在 GCD 是什么部分，我们指出它是执行任务的分发队列。除了核心的分发队列，GCD 还提供了几个其他的使用分发队列的技术来帮助我们管理代码。</p>
+
+<h3>Dispatch groups</h3>
+
+<p>Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。</p>
+
+<h3>Dispatch semaphores</h3>
+
+<p>Dispatch semaphores 类似传统的信号量，但是它通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。</p>
+
+<h3>Dispatch sources</h3>
+
+<p>Dispatch source 产生通知响应指定的系统事件。你可以使用 dispatch sources 来监视像进程通知，信号和描述符等类似事件。当事件发生时，dispatch source 异步地提交你的任务到指定分发队列去处理。</p>
+
+<p>所以要掌握如何使用 GCD，我们需要学习如何使用 Dispatch queue, Dispatch groups, Dispatch semaphores 和 Dispatch sources。</p>
+
+
+		
+		<a href="/blog/ios-concurrency-programming-gcd.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/ios-concurrency-programming-operation.html">
 		
 			iOS 并发编程之 Operation</a>
@@ -359,89 +446,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html">
-		
-			iOS UIWebView与JavaScript交互</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-05-14T11:05:53+08:00" pubdate data-updated="true">14 May 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h2>1.UIWebView调用JavaScript</h2>
-
-<h3>1.1调用html中已有的JavaScript function</h3>
-
-<p>假设html中的JavaScript有名为JSFunction(arg)的函数，可用如下方法调用：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;JSFunction(&#39;OC---Call--&gt;JS&#39;)&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="n">js</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>1.2注入JavaScript function,然后调用</h3>
-
-<p>我们还可以先向html中注入JavaScript function,然后调用。
-通常可以在UIWebViewDelegate中注入。示例如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="bp">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="s">@&quot;function injectJSFunction (parameter) { return parameter + 1;}&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Call injectJSFunction from somewhere else</span>
-</span><span class='line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="s">@&quot;injectJSFunction(1)&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/ios-uiwebviewyu-javascriptjiao-hu.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/33" class="prev">Prev</a>
@@ -452,7 +456,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

@@ -61,6 +61,70 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/hotspot-virtual-machine-garbage-collection-tuning-summary.html">
+		
+			HotSpot 虚拟机垃圾收集调优总结</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2023-02-03T09:34:30+08:00" pubdate data-updated="true">03 Feb 2023</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<p>工作中我们可能需要对 HotSpot 虚拟机垃圾收集调优，那么应该怎么做呢？</p>
+
+<p>Oracle 在 HotSpot Virtual Machine Garbage Collection Tuning Guide 提到过一个调优策略：</p>
+
+<blockquote><p>Tuning Strategy</p>
+
+<p>Do not choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Choose a throughput goal that is sufficient for your application.</p>
+
+<p>The heap will grow or shrink to a size that will support the chosen throughput goal. A change in the application&rsquo;s behavior can cause the heap to grow or shrink. For example, if the application starts allocating at a higher rate, the heap will grow to maintain the same throughput.</p>
+
+<p>If the heap grows to its maximum size and the throughput goal is not being met, the maximum heap size is too small for the throughput goal. Set the maximum heap size to a value that is close to the total physical memory on the platform but which does not cause swapping of the application. Execute the application again. If the throughput goal is still not met, then the goal for the application time is too high for the available memory on the platform.</p>
+
+<p>If the throughput goal can be met, but there are pauses that are too long, then select a maximum pause time goal. Choosing a maximum pause time goal may mean that your throughput goal will not be met, so choose values that are an acceptable compromise for the application.</p>
+
+<p>It is typical that the size of the heap will oscillate as the garbage collector tries to satisfy competing goals. This is true even if the application has reached a steady state. The pressure to achieve a throughput goal (which may require a larger heap) competes with the goals for a maximum pause time and a minimum footprint (which both may require a small heap).</p></blockquote>
+
+<p>这个调优的策略比较粗，可以作为我们调优的总纲领，还需要更细化一下才更具可操作性。</p>
+
+
+		
+		<a href="/blog/hotspot-virtual-machine-garbage-collection-tuning-summary.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/mybatis-workflow.html">
 		
 			MyBatis 的工作流程(一)</a>
@@ -262,134 +326,6 @@ To do this Spring Boot has to register a default error page for the container. I
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/web-development-notes-part-five.html">
-		
-			Web 开发问题汇总(五)</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2022-07-01T09:32:39+08:00" pubdate data-updated="true">01 Jul 2022</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<h3>1.</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ jmap -heap 29104
-</span><span class='line'>Attaching to process ID 29104, please wait...
-</span><span class='line'>ERROR: attach: task_for_pid(29104) failed: '(os/kern) failure' (5)
-</span><span class='line'>Error attaching to process: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
-</span><span class='line'>sun.jvm.hotspot.debugger.DebuggerException: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
-</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.execute(BsdDebuggerLocal.java:169)
-</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach(BsdDebuggerLocal.java:287)
-</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.attachDebugger(HotSpotAgent.java:671)
-</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.setupDebuggerDarwin(HotSpotAgent.java:659)
-</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.setupDebugger(HotSpotAgent.java:341)
-</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.go(HotSpotAgent.java:304)
-</span><span class='line'>  at sun.jvm.hotspot.HotSpotAgent.attach(HotSpotAgent.java:140)
-</span><span class='line'>  at sun.jvm.hotspot.tools.Tool.start(Tool.java:185)
-</span><span class='line'>  at sun.jvm.hotspot.tools.Tool.execute(Tool.java:118)
-</span><span class='line'>  at sun.jvm.hotspot.tools.HeapSummary.main(HeapSummary.java:49)
-</span><span class='line'>  at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-</span><span class='line'>  at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-</span><span class='line'>  at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</span><span class='line'>  at java.lang.reflect.Method.invoke(Method.java:498)
-</span><span class='line'>  at sun.tools.jmap.JMap.runTool(JMap.java:201)
-</span><span class='line'>  at sun.tools.jmap.JMap.main(JMap.java:130)
-</span><span class='line'>Caused by: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process. Could be caused by an incorrect pid or lack of privileges.
-</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.attach0(Native Method)
-</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal.access$100(BsdDebuggerLocal.java:65)
-</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$1AttachTask.doit(BsdDebuggerLocal.java:278)
-</span><span class='line'>  at sun.jvm.hotspot.debugger.bsd.BsdDebuggerLocal$BsdDebuggerLocalWorkerThread.run(BsdDebuggerLocal.java:144)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A: macOS 上的 java 虚拟机基础工具不能附加到 java 进程上，操作系统环境为:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sw_vers
-</span><span class='line'>ProductName:  Mac OS X
-</span><span class='line'>ProductVersion:   10.15.7
-</span><span class='line'>BuildVersion: 19H1922</span></code></pre></td></tr></table></div></figure>
-
-
-<p>java 版本:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -version
-</span><span class='line'>java version "1.8.0_121"
-</span><span class='line'>Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
-</span><span class='line'>Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>google 了一番之后，问题可能是 <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">macOS 上的 java 8 部分小版本有问题</a>，于是我打算用虚拟机里面的 RockyLinux 来试下，结果是确定可以。</p>
-
-
-		
-		<a href="/blog/web-development-notes-part-five.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
     
@@ -398,7 +334,7 @@ To do this Spring Boot has to register a default error page for the container. I
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

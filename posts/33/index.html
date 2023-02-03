@@ -61,6 +61,71 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html">
+		
+			iOS App 开发问题汇总（一）</a>
+	</h2>
+        
+    <div class="meta">
+	   <div class="date">
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-08-25T17:09:49+08:00" pubdate data-updated="true">25 Aug 2014</time></div>
+	   
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
+
+</div>
+
+
+    </div>
+        
+	<div class="entry-content">
+		<h3>1.Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。</h3>
+
+<p>  解决办法：Google找到Stackoverflow上有人说是选中了Auto layout的原因，取消之后确实生效了。PS:但是不知道问题的原因是什么。</p>
+
+<p>Reference:<br/>
+o <a href="http://stackoverflow.com/questions/18263359/setting-the-frame-of-an-uiview-does-not-work">Setting the frame of an UIView does not work</a></p>
+
+<h3>2.在switch语句中，如果在case中要定义变量的话要加上大括号。</h3>
+
+<p>原因：Case statements are only &lsquo;labels&rsquo;. This means the compiler will interpret this as a jump directly to the label.The problem here is one of scope. Your curly brackets define the scope as everything inside the &lsquo;switch&rsquo; statement. This means that you are left with a scope where a jump will be performed further into the code skipping the initialization. The correct way to handle this is to define a scope specific to that case statement and define your variable within it.</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/92396/why-cant-variables-be-declared-in-a-switch-statement/92439#92439">Why can&rsquo;t variables be declared in a switch statement?</a></p>
+
+<h3>3.创建Group style的UITalbeView的顶端有很大一块空白。</h3>
+
+<p>解决办法：YouStoryboard.storyboard > YouViewController > Attributes inspector > Uncheck - Adjust scroll view insets</p>
+
+<p>Reference:<a href="http://stackoverflow.com/questions/18880341/why-is-there-extra-padding-at-the-top-of-my-uitableview-with-style-uitableviewst">Why is there extra padding at the top of my UITableView with style UITableViewStyleGrouped in iOS7</a></p>
+
+
+		
+		<a href="/blog/gai-bian-uiviewde-frameshi-yu-dao-de-wen-ti.html" class="more-link">继续阅读</a>
+	</div>
+
+
+        
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/how-to-make-didupdatelocations-compatible-with-ios-5-and-ios-6.html">
 		
 			(翻译)如何让didUpdateLocation兼容iOS 5和iOS 6</a>
@@ -188,93 +253,6 @@
 </article>
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/ios-concurrency-programming-gcd.html">
-		
-			iOS 并发编程之 GCD</a>
-	</h2>
-        
-    <div class="meta">
-	   <div class="date">
-
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-05-21T11:40:27+08:00" pubdate data-updated="true">21 May 2014</time></div>
-	   
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/archives/'>archives</a>, <a class='category' href='/blog/categories/ios-development/'>ios development</a>
-
-</div>
-
-
-    </div>
-        
-	<div class="entry-content">
-		<p>在 iOS 并发编程之 Operation 中我们提到了 GCD 出现的背景，这篇文章是我对它的使用总结。</p>
-
-<h2>GCD 是什么？</h2>
-
-<blockquote><p>Grand Central Dispatch (GCD) dispatch queues are a powerful tool for performing tasks. Dispatch queues let you execute arbitrary blocks of code either asynchronously or synchronously with respect to the caller.</p></blockquote>
-
-<p>GCD 分发队列是执行任务的强大工具。 分发队列可以让你异步或同步运行任务代码块。</p>
-
-<h2>为什么使用 GCD?</h2>
-
-<p>我们使用 GCD 的原因很可能是我们想要异步或同步运行执行任务，并且还想获得以下优势:</p>
-
-<ul>
-<li>直接简单的编程接口；</li>
-<li>自动、整体的线程池管理；</li>
-<li>高效的内存管理；</li>
-<li>负载时不干扰内核；</li>
-<li>异步分发任务到分派队列不会造成死锁；</li>
-<li>优雅地处理竞争；</li>
-<li>串行分派队列为锁和其他同步操作提供了更高效选择；</li>
-</ul>
-
-
-<h2>如何使用 GCD？</h2>
-
-<p>在 GCD 是什么部分，我们指出它是执行任务的分发队列。除了核心的分发队列，GCD 还提供了几个其他的使用分发队列的技术来帮助我们管理代码。</p>
-
-<h3>Dispatch groups</h3>
-
-<p>Dispatch group 是一种监视一系列块对象已完成的方法。(你可以根据需求同步或异步地监视块。)它为需要依赖其他任务完成的代码提供了有用的同步机制。</p>
-
-<h3>Dispatch semaphores</h3>
-
-<p>Dispatch semaphores 类似传统的信号量，但是它通常更加高效。它仅仅在信号量不可用需要阻塞线程时才向下调用到内核。如果信号量可用，无需内核调用。</p>
-
-<h3>Dispatch sources</h3>
-
-<p>Dispatch source 产生通知响应指定的系统事件。你可以使用 dispatch sources 来监视像进程通知，信号和描述符等类似事件。当事件发生时，dispatch source 异步地提交你的任务到指定分发队列去处理。</p>
-
-<p>所以要掌握如何使用 GCD，我们需要学习如何使用 Dispatch queue, Dispatch groups, Dispatch semaphores 和 Dispatch sources。</p>
-
-
-		
-		<a href="/blog/ios-concurrency-programming-gcd.html" class="more-link">继续阅读</a>
-	</div>
-
-
-        
-</article>
-
-
 <nav id="pagenavi">
     
         <a href="/posts/32" class="prev">Prev</a>
@@ -285,7 +263,7 @@
     
 </nav>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014 - 2022
+	<footer id="footer" class="inner">Copyright &copy; 2014 - 2023
 
     Sheldon
 

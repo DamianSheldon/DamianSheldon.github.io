@@ -85,4 +85,48 @@ Reference:
 * [Mac 使用 jinfo 出现：Can't attach to the process. Could be caused by an incorrect pid or lack of privileg](https://blog.csdn.net/Dongguabai/article/details/88736589)  
 * [JDK-8160376 : DebuggerException: Can't attach symbolicator to the process](https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376)
 
+###2. [FATAL] [DBT-06103] The port (5,500) is already in use.
+在 MacOS 下 Virtualbox 的 RockyLinux 中安装 oracle-xe-21c，详细的错误信息如下：
+
+```
+[FATAL] [DBT-06103] The port (5,500) is already in use.
+   ACTION: Specify a free port.
+
+Database configuration failed. Check logs under '/opt/oracle/cfgtoollogs/dbca'.
+```
+
+参照  
+
+> The short name of your host is missing from /etc/hosts, only the FQDN is there. It should be:  
+
+> ```
+
+> 163.173.24.179  linux.mydomain.com linux
+
+> ```
+> linux (hostname -s) is unreachable due to this.
+
+把机器的主机名加入 hosts,   
+
+```
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 centos centos.tenneshop.com
+```
+
+重新执行配置命令，问题解决了。
+
+```
+Database creation complete. For details check the logfiles at:
+ /opt/oracle/cfgtoollogs/dbca/XE.
+Database Information:
+Global Database Name:XE
+System Identifier(SID):XE
+Look at the log file "/opt/oracle/cfgtoollogs/dbca/XE/XE.log" for further details.
+
+Connect to Oracle Database using one of the connect strings:
+     Pluggable database: centos.tenneshop.com/XEPDB1
+     Multitenant container database: centos.tenneshop.com
+Use https://localhost:5500/em to access Oracle Enterprise Manager for Oracle Database XE
+```
+
+Reference:[[[FATAL]] [[DBT-06103]] The port (5,500) is already in use [duplicate]](https://dba.stackexchange.com/questions/268437/fatal-dbt-06103-the-port-5-500-is-already-in-use)  
 

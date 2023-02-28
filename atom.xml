@@ -4,7 +4,7 @@
   <title><![CDATA[Hello World]]></title>
   <link href="http://DamianSheldon.github.io/atom.xml" rel="self"/>
   <link href="http://DamianSheldon.github.io/"/>
-  <updated>2023-02-03T11:20:40+08:00</updated>
+  <updated>2023-02-28T13:05:12+08:00</updated>
   <id>http://DamianSheldon.github.io/</id>
   <author>
     <name><![CDATA[Sheldon]]></name>
@@ -1768,6 +1768,64 @@ To do this Spring Boot has to register a default error page for the container. I
 <li><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8160376">JDK-8160376 : DebuggerException: Can&rsquo;t attach symbolicator to the process</a></li>
 </ul>
 
+
+<h3>2. [FATAL] [DBT-06103] The port (5,500) is already in use.</h3>
+
+<p>在 MacOS 下 Virtualbox 的 RockyLinux 中安装 oracle-xe-21c，详细的错误信息如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[FATAL] [DBT-06103] The port (5,500) is already in use.
+</span><span class='line'>   ACTION: Specify a free port.
+</span><span class='line'>
+</span><span class='line'>Database configuration failed. Check logs under '/opt/oracle/cfgtoollogs/dbca'.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参照</p>
+
+<blockquote><p>The short name of your host is missing from /etc/hosts, only the FQDN is there. It should be:</p>
+
+<pre><code>
+163.173.24.179  linux.mydomain.com linux
+</code></pre>
+
+<p>linux (hostname -s) is unreachable due to this.</p></blockquote>
+
+<p>把机器的主机名加入 hosts,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 centos centos.tenneshop.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重新执行配置命令，问题解决了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Database creation complete. For details check the logfiles at:
+</span><span class='line'> /opt/oracle/cfgtoollogs/dbca/XE.
+</span><span class='line'>Database Information:
+</span><span class='line'>Global Database Name:XE
+</span><span class='line'>System Identifier(SID):XE
+</span><span class='line'>Look at the log file "/opt/oracle/cfgtoollogs/dbca/XE/XE.log" for further details.
+</span><span class='line'>
+</span><span class='line'>Connect to Oracle Database using one of the connect strings:
+</span><span class='line'>     Pluggable database: centos.tenneshop.com/XEPDB1
+</span><span class='line'>     Multitenant container database: centos.tenneshop.com
+</span><span class='line'>Use https://localhost:5500/em to access Oracle Enterprise Manager for Oracle Database XE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference:<a href="https://dba.stackexchange.com/questions/268437/fatal-dbt-06103-the-port-5-500-is-already-in-use">[[FATAL]] [[DBT-06103]] The port (5,500) is already in use [duplicate]</a></p>
 ]]></content>
   </entry>
   

@@ -633,7 +633,18 @@ A:问题的原因是由于机器设置 ShadowSocks Client -> Gost Client -> Gost
 Reference:
 
 * [Git - SSL_ERROR_SYSCALL 问题解决](https://hyperzsb.io/posts/git-ssl-error/)  
-* [软件 Proxy 设置](https://gist.github.com/qunwang6/9d4ea3cb677854964b47369f736ff561)  
+* [软件 Proxy 设置](https://gist.github.com/qunwang6/9d4ea3cb677854964b47369f736ff561) 
+
+
+###16. git stash cannot save the current status
+A:  
+
+```
+mv .git/refs/stash .git/refs/stash-bak
+```
+
+Reference:[Git stash fails 'error: unable to resolve reference refs/stash: No such file or directory'](https://stackoverflow.com/questions/18480174/git-stash-fails-error-unable-to-resolve-reference-refs-stash-no-such-file-or/19409320#19409320)  
+
 
 ####Reference  
 

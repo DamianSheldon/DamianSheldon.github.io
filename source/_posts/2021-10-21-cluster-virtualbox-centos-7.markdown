@@ -36,6 +36,30 @@ description: Cluster VirtualBox CentOS 7
 
 之后我们可以利用 VirtualBox 的克隆功能来扩展我们的集群节点。  
 
+# Kernel headers not found for target kernel `4.18.0-477.10.1.el8_8.x86_64`. Please install them and execute `/sbin/rcvboxadd setup`
+
+A: 安装 Virtualbox guest additions 时会要编译模块，所以需要对应的 kernel header, 同时也会需要相关的开发工具，所以需要安装对应的包, \
+`dnf install kernel-devel-$(uname -r)`
+
+Reference: [How to Install Linux Kernel Headers on Rocky Linux](https://www.linuxcapable.com/how-to-install-linux-kernel-headers-on-rocky-linux/#Step-3-Install-Linux-Kernel-Headers)
+
+# ValueError: mount.vboxsf already defined
+
+A: 
+
+```
+# semanage fcontext -d /opt/VBoxGuestAdditions-<VERSION>/other/mount.vboxsf
+# restorecon /opt/VBoxGuestAdditions-<VERSION>/other/mount.vboxsf
+```
+
+Reference:[ValueError: mount.vboxsf already defined](https://www.virtualbox.org/ticket/19756)
+
+# Kernel configuration is invalid.include/generated/autoconf.h or include/config/auto.conf are missing.Run 'make oldconfig && make prepare' on kernel src to fix it.
+
+A: Virtualbox 从 7.0.6 升级到 7.0.12.
+
+Reference:[Cannot build Guest Additions 7.0.6 for CentOS Stream 9 kernel 5.14.0-239.el9.x86_64 => fixed in svn](https://www.virtualbox.org/ticket/21450)
+
 #修改记录
 	
 * 2021/10/21：第一次完成

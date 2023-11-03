@@ -60,6 +60,9 @@ A: Virtualbox 从 7.0.6 升级到 7.0.12.
 
 Reference:[Cannot build Guest Additions 7.0.6 for CentOS Stream 9 kernel 5.14.0-239.el9.x86_64 => fixed in svn](https://www.virtualbox.org/ticket/21450)
 
+# Windows host, Linux guest, 网络选择 bridged, linux 不能 ping 通 windows
+A: Windows 防火墙的原因, 关闭后可拼通，后续考虑设置规则.
+
 #修改记录
 	
 * 2021/10/21：第一次完成

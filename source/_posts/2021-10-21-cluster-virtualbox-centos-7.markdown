@@ -63,6 +63,37 @@ Reference:[Cannot build Guest Additions 7.0.6 for CentOS Stream 9 kernel 5.14.0-
 # Windows host, Linux guest, 网络选择 bridged, linux 不能 ping 通 windows
 A: Windows 防火墙的原因, 关闭后可拼通，后续考虑设置规则.
 
+# `sqlplus / as sysdba` ORA-01017: invalid username/password; logon denied
+
+A：
+
+```
+sqlplus sys as sysdba
+```
+
+SYSDBA is not a user, it is a system privilege. When you connect as / you are connecting to the SYS user. 
+You don't need a password when you connect as you are - as long as it's a local connection from an OS account in the DBA group.
+
+```
+// Add root, mldong to group dba, oper
+usermod -aG dba root
+usermod -aG dba mldong
+usermod -aG oper root
+usermod -aG oper mldong
+
+// Verify
+groups root
+groups mldong
+
+// Restart
+/etc/init.d/oracle-xe-21c restart
+
+systemctl daemon-reload
+systemctl enable oracle-xe-21c
+```
+
+Reference:[SYSDBA password in Oracle DB](https://dba.stackexchange.com/questions/38701/sysdba-password-in-oracle-db)
+
 #修改记录
 	
 * 2021/10/21：第一次完成

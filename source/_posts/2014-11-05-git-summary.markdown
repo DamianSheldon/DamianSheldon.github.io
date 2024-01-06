@@ -633,7 +633,39 @@ A:问题的原因是由于机器设置 ShadowSocks Client -> Gost Client -> Gost
 Reference:
 
 * [Git - SSL_ERROR_SYSCALL 问题解决](https://hyperzsb.io/posts/git-ssl-error/)  
-* [软件 Proxy 设置](https://gist.github.com/qunwang6/9d4ea3cb677854964b47369f736ff561)  
+* [软件 Proxy 设置](https://gist.github.com/qunwang6/9d4ea3cb677854964b47369f736ff561) 
+
+
+###16. git stash cannot save the current status
+A:  
+
+```
+mv .git/refs/stash .git/refs/stash-bak
+```
+
+Reference:[Git stash fails 'error: unable to resolve reference refs/stash: No such file or directory'](https://stackoverflow.com/questions/18480174/git-stash-fails-error-unable-to-resolve-reference-refs-stash-no-such-file-or/19409320#19409320)  
+
+##17.git 查看某次合并前后的文件
+要查看Git中某次合并前后的文件，可以使用git diff命令。以下是具体的步骤：
+
+1. 确保你在包含需要查看的Git仓库目录下。
+
+2. 执行以下命令，其中commit_hash是需要查看的提交的哈希值，file_path是需要查看的文件路径。
+
+```
+git diff commit_hash^..commit_hash file_path
+```
+该命令将会显示合并前和合并后的文件之间的差异。commit_hash^代表合并前的版本，commit_hash代表合并后的版本。file_path是需要查看的文件路径。
+
+Git会输出包含文件差异的列表，包括修改的行和行号。
+
+如果需要更详细的信息，可以使用-p或--patch选项，例如：
+
+```
+git diff -p commit_hash^..commit_hash file_path
+```
+这将显示每个修改的详细信息，包括添加、删除或修改的行以及行号。
+
 
 ####Reference  
 

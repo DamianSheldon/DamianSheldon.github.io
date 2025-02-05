@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Android开发问题汇总(一)"
+date: 2014-12-17 09:38:20 +0800
+comments: true
+categories: [Archives, Android]
+keywords: Android, Gradle, Android Studio, Eclipse
+description: Android开发问题汇总
+---
+###1.Gradle使用代理服务器
+
+```
+// /Users/<username>/.gradle/gradle.properties (Mac)
+# Http Proxy
+systemProp.http.proxyHost=www.somehost.org
+systemProp.http.proxyPort=8080
+systemProp.http.proxyUser=userid
+systemProp.http.proxyPassword=password
+systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost
+```
+Reference:[Gradle使用代理服务器](https://www.leimingshan.com/gradle/)
+
+###2.设置Gradle home
+
+```
+// Mac OS X
+Use local gradle distribution > Gradle home > /Applications/Android Studio.app/Contents/plugins/gradle
+```
+###3.The project is using an unsupported version of Gradle
+
+```
+The project is using an unsupported version of Gradle.
+Please point to a supported Gradle version in the project's Gradle settings or in the project's Gradle wrapper (if applicable.)
+
+Consult IDE log for more details (Help | Show Log)
+```
+
+<!--more-->
+
+###4.Error:Error retrieving parent for item: No resource found that matches the given name 'android:Theme.AppCompat.Light'.
+
+
+###5.Project'X' is missing required Java project 'Y'
+Solution: Open Java project 'Y'
+
+###6.Unbound classpath container: 'Default System Library'
+Solution: Eclipse > Preferences > Java > Installed JREs > Add > Standar VM > Select JRE Directory
+
+My Mac JRE Directory is here:/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home/
+
+###7.Eclipse Can't detect Android Device
+Solution: Disable device's usb debuggin then enable, It then prompted me for authorization for that computer, select ok, and then it worked fine.
+
+Reference:http://stackoverflow.com/questions/8799982/why-eclipse-can-not-detect-android-device
+
+###8.Unable to resolve target "Android-5"
+Solution:Android SDK Manager > Android 1.6 (API 4) > Intall
+
+Eclipse > Preferences... > Android > Apply > OK
+
+Project > Properties > Android > Project Build Target
+
+###9.error: Error retrieving parent for item: No resource found that matches the given name '@android:TextAppearance.Material.SearchResult.Subtitle'.
+Solution:Project > Properties > Android > Project Build Target > 21
+
+Reference:http://stackoverflow.com/questions/26457096/appcompat-v7-r21-returning-error-in-values-xml
+
+###10.Android studio Offline document path
+
+Solution:file:///Users/dongmeiliang/Library/Android/sdk/docs/index.html
+
+Reference:http://stackoverflow.com/questions/4974309/android-sdk-and-developer-guide-offline-or-pdf
+
+###11.Error:Execution failed for task ':app:processDebugManifest'. Manifest merger failed : uses-sdk element cannot have a "tools:node" attribute
+
+Solution:Add this line to uses-sdk tag like this:
+
+```
+<uses-sdk
+    tools:node="merge"   <----This line do the magic
+    android:minSdkVersion="14"
+    android:targetSdkVersion="19" />
+```
+
+And add the tools name space in manifest :
+
+```
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" .....
+.../>
+```
+
+Reference:http://stackoverflow.com/questions/26688711/uses-sdk-element-cannot-have-a-toolsnode-attribute
+
+###12.Gradle DSL method not found: 'runProguard'
+
+```
+Error:(27, 0) Gradle DSL method not found: 'runProguard()'
+**Possible causes:
+The project 'Atomic4Mobile' may be using a version of Gradle that does not contain the method.
+**Gradle settings**
+The build file may be missing a Gradle plugin.
+**Apply Gradle plugin**
+```
+
+Solution:runProguard was renamed to minifyEnabled in version 0.14.0.
+
+Reference:http://stackoverflow.com/questions/27078075/gradle-dsl-method-not-found-runproguard
+
+###13.error “Library projects cannot set applicationId”
+
+```
+Error: Library projects cannot set applicationId. applicationId is set to 'com.super.app' in default config.
+```
+Solution:Removing applicationId variable from the library's build.gradle file should resolve the issue.
+
+Reference:http://stackoverflow.com/questions/27374933/android-studio-1-0-and-error-library-projects-cannot-set-applicationid
+
+###14.How to increase the font size in Android Studio?
+
+Solution: In mac book ,you can use two fingers to zoom in(increase font size) or zoom out for decrease font size, like when we zoomed image in mobilephone.
+
+Reference:http://stackoverflow.com/questions/16590216/how-to-increase-the-font-size-in-android-studio
+
+###15.Eclipse report error when loading the SDK
+
+```
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/armeabi-v7a/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/x86/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/armeabi-v7a/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/x86/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/armeabi-v7a/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-23/android-wear/x86/devices.xml
+cvc-complex-type.2.4.d: Invalid content was found starting with element 'd:skin'. No child element is expected at this point.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/armeabi-v7a/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+Error: Error parsing /Users/dongmeiliang/Library/Android/sdk/system-images/android-24/android-wear/x86/devices.xml
+cvc-enumeration-valid: Value '280dpi' is not facet-valid with respect to enumeration '[ldpi, mdpi, tvdpi, hdpi, xhdpi, xxhdpi, xxxhdpi]'. It must be a value from the             enumeration.
+```
+
+A:Delete the package Android Wear ARM EABI v7a system image and Android Wear X86 system image under API 23 and API 24.
+
+Reference:[Error Loading the sdk when eclipse is started](http://stackoverflow.com/questions/30439524/error-loading-the-sdk-when-eclipse-is-started#30439524)

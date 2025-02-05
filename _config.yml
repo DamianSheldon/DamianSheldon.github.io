@@ -18,21 +18,35 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 #
-# Debug git post receive hook v2 
 
 title: Iteration 
 email: dongmeilianghy@sina.com
 description: >- # this means to ignore newlines until "baseurl:"
-        Here's where it all happens for me.
+        Sheldon's personal technology blog about iOS, Android, Back-end, Web and English.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://DamianSheldon.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: dongmeilianghy
 github_username:  DamianSheldon
+
+subtitle: Here's where it all happens for me.
+author: Sheldon
+simple_search: https://www.bing.com/search
+keywords: iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, English 
+
+# Default date format is "ordinal" (resulting in "July 22nd 2007")
+# You can customize the format as defined in
+# http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
+# Additionally, %o will give you the ordinal representation of the day
+date_format: "ordinal"
+
+# RSS / Email (optional) subscription links (change if using something like Feedburner)
+subscribe_rss: /atom.xml
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+permalink: /blog/:title.html
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -53,3 +67,10 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+# ----------------------- #
+#   3rd Party Settings    #
+# ----------------------- #
+
+# Google Analytics
+google_analytics_tracking_id: UA-52345084-1

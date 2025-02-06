@@ -1,0 +1,17 @@
+---
+layout: default 
+title: "Web Development"
+---
+{% for post in site.posts %}
+
+    {% assign categories = "" %}
+    {% for category in post.categories %}
+        {% assign categories = categories | append: category | append: ',' %}
+    {% endfor %}
+
+    {% assign categories = categories | downcase %}
+
+    {% if categories contains 'web development' %}
+        {% include archive_post.html %}
+    {% endif %}
+{% endfor %}

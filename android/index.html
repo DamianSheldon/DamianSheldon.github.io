@@ -1,0 +1,18 @@
+---
+layout: default
+title: "Android"
+---
+
+{% for post in site.posts %}
+
+    {% assign categories = "" %}
+    {% for category in post.categories %}
+        {% assign categories = categories | append: category | append: ',' %}
+    {% endfor %}
+
+    {% assign categories = categories | downcase %}
+
+    {% if categories contains 'android' %}
+        {% include archive_post.html %}
+    {% endif %}
+{% endfor %}

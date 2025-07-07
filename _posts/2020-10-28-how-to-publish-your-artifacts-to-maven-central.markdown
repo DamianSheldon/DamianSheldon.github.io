@@ -4,7 +4,7 @@ title: "如何发布自己的 artifacts 到 maven 中央仓库"
 date: 2020-10-28 09:16:37 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords: publish, deploy, artifact, maven
+keywords: Maven Central 发布, 如何发布到 Maven Central, Java artifacts 发布, Maven 发布教程, Maven Central 步骤, Java 库发布, Maven Central 配置, OSSRH 发布指南, Sonatype Maven Central, Maven GPG 签名, Maven Central 审核流程, 发布 Java 到中央仓库, 发布 Maven artifacts, Java 项目发布, Maven Deploy
 description: How to Publish Your Artifacts to Maven Central
 ---
 

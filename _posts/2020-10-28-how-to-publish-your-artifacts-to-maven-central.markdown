@@ -21,7 +21,7 @@ description: How to Publish Your Artifacts to Maven Central
 3. Deployment
 4. Releasing to Central
 
-###创建 Sonatype 工单
+### 创建 Sonatype 工单
 
 Sonatype 使用 JIRA 管理请求，所以我们要创建 JIRA 帐号, 然后创建一个新工程工单。  
 
@@ -38,7 +38,7 @@ Sonatype 使用 JIRA 管理请求，所以我们要创建 JIRA 帐号, 然后创
 2. Sign Files with GPG/PGP
 3. Sufficient Metadata
 <!--more-->
-####Supply Javadoc and Sources
+#### Supply Javadoc and Sources
 
 我们可以集成 maven 插件来提供 Javadoc 和源文件。  
 
@@ -71,7 +71,7 @@ Sonatype 使用 JIRA 管理请求，所以我们要创建 JIRA 帐号, 然后创
 </plugin>
 {% endcodeblock %}
 
-####Sign Files with GPG/PGP
+#### Sign Files with GPG/PGP
 
 我们需要用 GPG/PGP 对文件签名，以 macOS 为例：
 
@@ -82,7 +82,7 @@ brew install gpg
 #2. Generate the key pair
 gpg --full-gen-key
 
-###3.Publish the GPG key pair and distribute your key to GPG servers
+### 3.Publish the GPG key pair and distribute your key to GPG servers
 
 gpg --keyserver hkps.pool.sks-keyservers.net  --send-keys your_key_id
 
@@ -114,7 +114,7 @@ GPG_TTY=$(tty)
 export GPG_TTY
 {% endcodeblock %}
 
-####Sufficient Metadata
+#### Sufficient Metadata
 
 元数据信息要包括：  
 
@@ -129,14 +129,14 @@ export GPG_TTY
 >My project is hosted at a project hosting service like SourceForge or Github, what should I use as groupId?
 >If your project name is foo at SourceForge, you can use net.sf.foo. If your username is bar on Github, you can use com.github.bar. You can also use another reversed domain name you control. The group ID does not have to reflect the project host.
 
-###Deployment
+### Deployment
 
 至此，准备工作就完成了，接下来可以进入部署环节了。先还是要做些相关配置，主要是：  
 
 * Distribution Management and Authentication
 * Using a Profile
 
-####Distribution Management and Authentication
+#### Distribution Management and Authentication
 
 为了配置 Maven，使其能够通过 Nexus Staging Maven 插件部署到 OSSRH 的 Nexus Repository Manager上，你必须进行如下配置：  
 
@@ -194,7 +194,7 @@ export GPG_TTY
 </settings>
 {% endcodeblock %}
 
-####Using a Profile
+#### Using a Profile
 
 由于生成javadoc和源代码jars以及使用GPG签署组件是一个相当耗时的过程，这些执行通常从正常的构建配置中分离出来，并转移到一个配置文件中。然后，当通过激活配置文件进行部署时，该配置文件又会被使用。
 
@@ -371,7 +371,7 @@ export GPG_TTY
 
 推荐的方式是使用 Nexus Staging Maven Plugin。  
 
-####Nexus Staging Maven Plugin for Deployment and Release
+#### Nexus Staging Maven Plugin for Deployment and Release
 
 Performing a Snapshot Deployment
 
@@ -395,7 +395,7 @@ mvn versions:set -DnewVersion=1.2.3
 mvn clean deploy -P release
 {% endcodeblock %}
 
-####Performing a Release Deployment with the Maven Release Plugin
+#### Performing a Release Deployment with the Maven Release Plugin
 
 Maven发布插件可以用来自动完成对Maven POM文件的修改、健康检查、所需的SCM操作和实际部署执行。
 
@@ -429,17 +429,17 @@ mvn release:perform
 
 由于使用了Nexus Staging Maven Plugin，并将autoReleaseAfterClose设置为true，这个执行将一次性部署到OSSRH并发布到中央仓库。
 
-###Releasing to Central
+### Releasing to Central
 
 在前面的介绍中，我们提到使用 Nexus Staging Maven Plugin，并将autoReleaseAfterClose设置为true，部署到OSSRH后会发布到中央仓库。我们也可以手动执行 `mvn nexus-staging:release
 ` 来发布 staging repository。  
 
-###Reference 
+### Reference 
 
 * [OSSRH Guide](https://central.sonatype.org/pages/ossrh-guide.html)  
 * [Requirements](https://central.sonatype.org/pages/requirements.html)  
 * [Deploying to OSSRH with Apache Maven](https://central.sonatype.org/pages/apache-maven.html#nexus-staging-maven-plugin-for-deployment-and-release)  
 * [How to Publish Your Artifacts to Maven Central](https://dzone.com/articles/publish-your-artifacts-to-maven-central)  
 * [“gpg: signing failed: Inappropriate ioctl for device” on MacOS with Maven](https://stackoverflow.com/questions/57591432/gpg-signing-failed-inappropriate-ioctl-for-device-on-macos-with-maven)  
-
+* [Register to Publish Via the Central Portal](https://central.sonatype.org/register/central-portal/)  
 

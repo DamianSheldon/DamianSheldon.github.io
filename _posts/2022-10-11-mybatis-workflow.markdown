@@ -4,8 +4,7 @@ title: "MyBatis 的工作流程(一)"
 date: 2022-10-11 16:06:03 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords: mybatis, spring boot, mybatis 工作流程, mybatis 初始化, spring boot 集成 mybatis, mybatis 配置, sqlsessionfactory, mapperfactorybean, 持久层框架, java 持久层, mybatis 自动配置, mybatis 教程, mybatis 源码分析, mybatis spring boot starter, java web开发, 代码解析, mybatis 代理, mapper 注入, mapper 扫描, sqlsessiontemplate, sqlsession
-description: MyBatis' Workflow
+description: MyBatis 与 Spring Boot 集成时的初始化及工作流程详解，涵盖配置加载、Mapper 注册、SqlSessionFactory 创建等核心过程，助力理解 MyBatis 在实际开发中的运作机制。
 ---
 
 MyBatis 的工作流程主要是以下几步：  

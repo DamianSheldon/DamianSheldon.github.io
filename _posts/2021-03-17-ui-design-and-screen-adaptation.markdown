@@ -4,8 +4,7 @@ title: "UI 设计与屏幕适配"
 date: 2021-03-17 15:12:26 +0800
 comments: true
 categories: [Archives, iOS Development, Android, Web Development]
-keywords: px, dp, dpi, ppi, in
-description: UI design and screen adaptation
+description: 本文介绍了 UI 设计与屏幕适配的核心理念和实践方法，适用于移动端和网页开发，帮助设计师和开发者提升用户体验。通过实际案例分析，深入探讨了多设备环境下的界面优化策略。
 ---
 
 目前移动设备的尺寸很多，所以前端 (iOS, Android, Web, 小程序等)开发需要适配多种尺寸屏幕。在适配时我们可能会有困惑，设计稿通常是 px 来表示尺寸，设备的分辨率也是以 px 来表示，它们之间是一样的吗？还是存在什么关系？iOS 开发者用 point 来表示视图的尺寸； Android 开发者用 dp 来表示视图尺寸； Web 开发者用 px 来表示尺寸？它们和设计稿的 px 是什么关系？设计师应该以什么基准尺寸来设计会有利于屏幕适配？应该输出几套切图？除了切图，设计师还可以做些什么来配合开发者做屏幕适配？要搞清楚这些问题，我们需要翻翻历史了。  

@@ -4,8 +4,7 @@ title: "Hello Octopress"
 date: 2014-05-09 15:01:51 +0800
 comments: true
 categories: [Archives]
-keywords: Octopress, blog, Problem, Solution
-description: 用Octopress搭建自己博客过程中的常见问题及解决办法
+description: 记录了使用 Octopress 平台搭建个人博客的初体验与心得。文章内容涵盖建站过程、遇到的问题及解决方案，适合希望了解 Octopress 使用方法和个人网站搭建流程的读者。
 ---
 > Octopress:A blogging framework for hackers.
 

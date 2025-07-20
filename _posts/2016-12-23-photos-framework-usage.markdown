@@ -4,8 +4,7 @@ title: "Photos 框架的基本使用"
 date: 2016-12-23 14:23:33 +0800
 comments: true
 categories: [Archives, iOS Development] 
-keywords: Photos, PHPhotoLibrary, PHAssetCollection, PHAsset,  Assets Library 
-description: Photos framework usage.
+description: 详细介绍了 Photos Framework 的使用方法与实践，适用于开发者和技术爱好者。内容涵盖框架功能解析、应用场景及代码示例，帮助用户高效集成和优化照片管理相关功能。
 ---
 
 从 iOS 9 开始 Apple 把 Asset Library 标记为废弃状态，并建议开发者使用 Photos 框架。

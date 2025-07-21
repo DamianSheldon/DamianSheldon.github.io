@@ -4,8 +4,7 @@ title: "(翻译)Spring Boot 面试题"
 date: 2022-04-19 10:03:03 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords: Spring Boot, Spring, Interview
-description: Spring Boot Interview Questions
+description: Spring Boot 面试题精选，涵盖常见问题与解答，助力开发者高效备考面试，提升实战能力。适用于 Java 后端工程师求职、面试复习和技术提升
 ---
 
 #1. 概述

@@ -4,8 +4,7 @@ title: "Spring MVC 中的异常处理"
 date: 2022-09-30 10:06:54 +0800
 comments: true
 categories: [Archives, Web Development]
-keywords: Spring MVC, exception handling
-description: Exception handling in Spring MVC
+description: 本文详细介绍了 Spring MVC 中的异常处理机制，包括常见异常类型、处理方式及最佳实践，帮助开发者提升 Web 应用的健壮性与用户体验。
 ---
 
 使用 Spring 来开发 web 应用时很有必要建立一个统一的异常处理体系。想要建立这个体系，我们先要搞清楚 Spring MVC 中的异常处理机制。 Spring MVC 是基于 Servlet，所以它遵循 Servlet 规范。

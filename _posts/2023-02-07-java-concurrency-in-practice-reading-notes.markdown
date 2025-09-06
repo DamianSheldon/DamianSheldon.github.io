@@ -83,7 +83,7 @@ candidate = null;
 } }
     return numPairs;
 }
-```
+
 ```
 
 另外就是利用 ThreadLocal 为每个线程复制一份变量，这样也能独享。

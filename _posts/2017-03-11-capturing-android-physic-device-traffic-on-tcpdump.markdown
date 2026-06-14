@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Android 真机抓包"
 date: 2017-03-11 17:04:33 +0800
 comments: true
-categories: [技术]
+categories: [Android]
 keywords: Root, Tcpdump, ADB, tPacketCapture 
 description: How to capture network packet on android physic device with tcpdump. 
 ---

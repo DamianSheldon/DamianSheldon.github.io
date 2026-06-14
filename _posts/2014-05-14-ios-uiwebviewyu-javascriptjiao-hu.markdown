@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS UIWebView与JavaScript交互"
 date: 2014-05-14 11:05:53 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS, UIWebView, JavaScript, 交互
 description: iOS UIWebView与JavaScript交互
 ---

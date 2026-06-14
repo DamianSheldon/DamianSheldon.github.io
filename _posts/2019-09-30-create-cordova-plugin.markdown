@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "创建 Cordova plugin 及其 Ionic Native"
 date: 2019-09-30 09:59:14 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 keywords: Cordova, Plugin, Ionic Native
 description: How cordova plugin works? How to create a cordova plugin and wrapper as Ionic Native?
 ---

@@ -1,10 +1,10 @@
-﻿---
+----
 layout: post
 title: "Swift Learning Notes -- Initialization"
 date: 2014-06-24 11:33:28 +0800
 comments: true
 published: false
-categories: [技术]
+categories: [iOS]
 keywords: swift, learn, Initialization, iOS
 description: Initialization method of swift
 ---

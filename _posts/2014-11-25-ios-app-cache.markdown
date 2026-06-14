@@ -1,10 +1,10 @@
-﻿---
+----
 layout: post
 title: "iOS App Cache"
 date: 2014-11-25 16:36:04 +0800
 comments: true
 published: false
-categories: [技术]
+categories: [iOS]
 keywords: Cache, iOS App, Data Model, URL Cache, Core Data, SQLite
 description: Summary of iOS App Cache
 ---

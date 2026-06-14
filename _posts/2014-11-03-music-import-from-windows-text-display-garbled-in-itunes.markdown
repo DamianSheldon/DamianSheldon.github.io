@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iTunes 歌曲信息乱码的解决办法"
 date: 2014-11-03 10:23:29 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Garbled, 乱码, iTunes, Music
 description: Fix Music that import from windows garbled text in iTunes
 ---

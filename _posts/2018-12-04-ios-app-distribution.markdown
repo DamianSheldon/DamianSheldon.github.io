@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS App Distribution"
 date: 2018-12-04 14:33:49 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: distribution, in-house, ad-hoc, testflight
 description: Summary iOS App Distribution methods.
 ---

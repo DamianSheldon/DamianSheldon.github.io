@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "用 Wireshark 抓 iPhone 网络请求的数据包"
 date: 2016-01-04 14:43:00 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 description: 了解如何在 Wireshark 上捕获 iPhone 流量，详细教程帮助你轻松监控和分析 iOS 网络数据。适用于技术爱好者和开发者，提升网络调试能力。
 ---
 开发过程中经常可能遇到网络问题，这时候我们需要抓包来定位问题所在。那么如何用 Wireshark 抓取 iPhone 真机网络请求的数据包呢？

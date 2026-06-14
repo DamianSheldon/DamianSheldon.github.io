@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "MySQL 使用笔记(二)"
 date: 2020-07-18 15:57:24 +0800
 comments: true
-categories: [技术]
+categories: [Backend]
 keywords: MySQL, procedure, notes 
 description: MySQL notes
 ---

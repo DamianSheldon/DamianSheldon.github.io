@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Android开发问题汇总(一)"
 date: 2014-12-17 09:38:20 +0800
 comments: true
-categories: [技术]
+categories: [Android]
 keywords: Android, Gradle, Android Studio, Eclipse
 description: Android开发问题汇总
 ---

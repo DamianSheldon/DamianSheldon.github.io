@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Set up PHP development environment"
 date: 2015-09-19 22:25:19 +0800
 comments: true
-categories: [技术]
+categories: [Backend]
 keywords: PHP, development, environment
 description: How to set up php development environment?
 ---

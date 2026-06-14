@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 项目持续集成和部署笔记"
 date: 2015-11-04 09:38:13 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS, Continuous Integration, Deployment
 description: Continuous Integration & Deployment for iOS Projects
 ---

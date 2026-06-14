@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Spring MVC 中的异常处理"
 date: 2022-09-30 10:06:54 +0800
 comments: true
-categories: [技术]
+categories: [Backend]
 description: 本文详细介绍了 Spring MVC 中的异常处理机制，包括常见异常类型、处理方式及最佳实践，帮助开发者提升 Web 应用的健壮性与用户体验。
 ---
 

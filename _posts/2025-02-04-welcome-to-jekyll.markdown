@@ -1,8 +1,8 @@
-﻿---
+----
 layout: post
 title:  "Welcome to Jekyll!"
 date:   2025-02-04 17:40:38 +0800
-categories: [技术]
+categories: [Web]
 ---
 
 下面是一个完整的测试用 Markdown 示例，**覆盖了技术博客中常见的所有 Markdown 元素**，适用于 GitHub Pages（GFM/kramdown）、Jekyll 博客等环境。

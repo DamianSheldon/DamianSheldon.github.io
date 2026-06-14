@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Mac 使用笔记(一)"
 date: 2015-10-10 08:49:37 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Mac
 description: 使用 Mac 时遇到的问题
 ---

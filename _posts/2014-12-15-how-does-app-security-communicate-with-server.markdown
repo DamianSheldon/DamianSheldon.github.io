@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "在 iOS App 中使用自签名证书"
 date: 2014-12-15 11:53:11 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Self-signed, Certificate, iOS, TLS/SSL, HTTPS 
 description: App如何与Server安全交互
 ---

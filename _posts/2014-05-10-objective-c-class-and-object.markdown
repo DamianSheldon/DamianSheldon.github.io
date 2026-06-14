@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Objective-C Class And Object"
 date: 2014-05-10 07:54:58 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Objective-C, Class, Object, Programming, Category, ISA
 description: Introduce Objective-C's class and object
 ---

@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Blocks 的实现"
 date: 2018-09-01 15:42:34 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 description: 本文深入解析 Objective-C 中 Block 的底层实现原理，包括 Block 结构体转换、自动变量捕获机制、__block 修饰符作用及七种常见 Block 使用场景。通过 Clang 转换示例详细讲解 Block 与变量的内存管理与生命周期，帮助 iOS 开发者全面理解 Block 的本质，提高面试与实际开发中的代码掌控力。
 ---
 Block 的实现是面试中高频出现的问题，背后的原因我想是希望借此考察面试者对 Block 的掌握程度，在日后的工作中能够用好它；同时能从侧面反映面试者有没有深入钻研技术，以及独立思考能力如何，可谓一举多得。

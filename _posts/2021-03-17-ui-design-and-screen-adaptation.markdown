@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "UI 设计与屏幕适配"
 date: 2021-03-17 15:12:26 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 description: 本文介绍了 UI 设计与屏幕适配的核心理念和实践方法，适用于移动端和网页开发，帮助设计师和开发者提升用户体验。通过实际案例分析，深入探讨了多设备环境下的界面优化策略。
 ---
 

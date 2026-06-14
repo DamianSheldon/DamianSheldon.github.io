@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "(翻译)iOS 设计模式"
 date: 2014-11-10 08:35:43 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Design Patterns, iOS
 description: Introduce to iOS Design Patterns
 ---

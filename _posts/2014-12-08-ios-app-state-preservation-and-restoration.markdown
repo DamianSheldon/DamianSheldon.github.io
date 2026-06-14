@@ -1,10 +1,10 @@
-﻿---
+----
 layout: post
 title: "iOS App State Preservation and Restoration"
 date: 2014-12-08 11:55:48 +0800
 comments: true
 published: false
-categories: [技术]
+categories: [iOS]
 keywords: State Preservation Resoration
 description: Introduce iOS App State Preservation and Restoration
 ---

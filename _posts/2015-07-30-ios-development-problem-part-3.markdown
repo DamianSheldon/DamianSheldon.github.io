@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS App 开发问题汇总（三）"
 date: 2015-07-30 11:36:57 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS App
 description: iOS App 开发问题汇总
 ---

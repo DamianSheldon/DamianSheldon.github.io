@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "OpenLDAP 学习笔记"
 date: 2018-07-10 21:58:07 +0800
 comments: true
-categories: [技术]
+categories: [Backend]
 description: OpenLDAP 学习笔记，详细介绍在 Mac 上安装、配置和使用 OpenLDAP，包括 slapd.conf 配置、数据目录准备、客户端设置、初始数据导入及常见问题解决方案，帮助读者快速掌握 LDAP 服务部署与管理。
 ---
 

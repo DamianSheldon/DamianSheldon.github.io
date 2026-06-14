@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Web 面试题汇总(二)"
 date: 2018-09-05 15:52:44 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 keywords: css, web, interview
 description: Web 面试题汇总
 ---

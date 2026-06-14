@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Mac 使用笔记(二)"
 date: 2018-01-23 11:59:31 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Mac, spctl, ssh, sed, lsof
 description: 使用 Mac 时遇到的问题
 ---

@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 面试题汇总(三)"
 date: 2016-02-25 18:43:44 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS, Technical, Interview, Category, Extension, KVO, KVC, shallow copy, deep copy
 description: iOS Technical Interview questions about categories, extension, KVO, KVC, shallow copy, deep copy and so on.
 ---

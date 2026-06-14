@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "圆锥渐变的一种简单实现"
 date: 2017-09-22 15:59:35 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 description: 本文详细介绍了在 iOS 上通过 Core Graphics 实现圆锥（Conical）渐变的原理和方法，包括自定义 CALayer 子类、颜色处理、位图填充等关键步骤。适合需要雷达、扫描等视觉效果开发的 iOS 工程师参考，并附有完整示例代码和相关知识链接，有助于提升 UI 渲染与动画效果的开发能力。
 ---
 

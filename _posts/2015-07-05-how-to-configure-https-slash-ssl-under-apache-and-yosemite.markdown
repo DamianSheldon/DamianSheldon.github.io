@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "如何在 Mac 上开启 Apache, PHP, MySQL"
 date: 2015-07-05 21:24:55 +0800
 comments: true
-categories: [技术]
+categories: [Backend]
 keywords: https, SSL, Mac, Apache, MySQL
 description:
 ---

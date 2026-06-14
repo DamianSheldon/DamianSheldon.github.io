@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Ionic App 使用 cordova hot code push 实现热更新"
 date: 2020-01-07 17:02:35 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 description: 这篇文章详细介绍了如何在 Ionic App 中使用 Cordova Hot Code Push 实现热更新，并分享了常见问题的解决方法，包括白屏问题、文件路径处理、WebView 响应 file schema、以及 ionic icon 加载问题。内容涵盖插件安装、配置步骤、代码示例，以及与 Angular 和 Fetch API 的兼容性优化，适合开发者查阅与实践。
 ---
 

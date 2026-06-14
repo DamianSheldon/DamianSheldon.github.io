@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS Development--Certificates, Provisioning Profiles"
 date: 2014-10-09 16:24:09 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Certificates, Provisioning, App ID, UDID, CSR 
 description: Introduce Certificates and Provisioning Profiles
 ---

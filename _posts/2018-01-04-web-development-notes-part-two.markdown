@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Web 开发问题汇总(二)"
 date: 2018-01-04 10:08:36 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 keywords: web, jquery, servlet, eclipse
 description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the second.
 ---

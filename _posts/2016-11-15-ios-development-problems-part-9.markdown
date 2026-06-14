@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 开发问题汇总(九)"
 date: 2016-11-15 14:49:17 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS, Swift
 description: 
 ---

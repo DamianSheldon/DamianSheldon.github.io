@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "(翻译)Variable-Sized Items in UICollectionView"
 date: 2014-11-04 11:27:12 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: UICollectionView, Auto Layout, UICollectionViewCell
 description: How to layout Variable-Sized Items in UICollectionView
 ---

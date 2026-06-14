@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Debian 使用笔记"
 date: 2016-02-29 21:46:20 +0800
 comments: true
-categories: [技术]
+categories: [Linux]
 keywords: Debian
 description: Notes Of Using Debian
 ---

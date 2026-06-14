@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Linux 使用笔记(二)"
 date: 2015-09-11 09:30:16 +0800
 comments: true
-categories: [技术]
+categories: [Linux]
 keywords: Linux, command line
 description: Linux usage notes
 ---

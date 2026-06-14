@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Core Data 使用笔记"
 date: 2014-05-22 09:53:40 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Core Data, iOS, Database
 description: Simple introduce of Core Data
 ---

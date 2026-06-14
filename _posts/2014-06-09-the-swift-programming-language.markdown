@@ -1,10 +1,10 @@
-﻿---
+----
 layout: post
 title: "The Swift Programming Language"
 date: 2014-06-09 16:56:43 +0800
 comments: true
 published: false
-categories: [技术]
+categories: [iOS]
 keywords: Swift, Programming, Language
 description: Introduce swift Programming Language
 ---

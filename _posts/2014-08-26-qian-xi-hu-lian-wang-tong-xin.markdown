@@ -1,10 +1,10 @@
-﻿---
+----
 layout: post
 title: "网络是如何工作的"
 date: 2014-08-26 21:20:31 +0800
 comments: true
 published: true
-categories: [技术]
+categories: [Web]
 keywords: Internet, TCP/IP, HTTP
 description: How does the Internet work
 ---

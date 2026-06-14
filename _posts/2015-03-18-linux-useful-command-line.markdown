@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Linux 使用笔记(一)"
 date: 2015-03-18 21:12:56 +0800
 comments: true
-categories: [技术]
+categories: [Linux]
 keywords: Linux, Command Line
 description: Linux Useful Command Line
 ---

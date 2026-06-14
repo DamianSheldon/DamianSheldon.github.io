@@ -1,19 +1,18 @@
 ---
 layout: default
-title: "技术"
+title: "Web"
 ---
 
 <header class="category-header">
-  <h1 class="page-title">技术</h1>
+  <h1 class="page-title">Web</h1>
   <p style="color: var(--text-secondary); margin-top: 0.5rem;">
-    百炼成器，功法秘籍。涵盖 iOS、Android、Web、后端等技术笔记。
+    Web 前端开发笔记，涵盖 HTML、CSS、JavaScript、Stencil、Cordova、Ionic 等。
   </p>
 </header>
 
 <section class="post-list">
-  <h2 class="section-title">全部技术文章</h2>
-  {% assign tech_posts = site.posts | where_exp: "post", "post.categories contains '技术'" %}
-  {% for post in tech_posts %}
+  {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains 'Web'" %}
+  {% for post in cat_posts %}
   <article class="post-card">
     <div class="post-card-meta">
       <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
@@ -26,7 +25,7 @@ title: "技术"
     {% endif %}
   </article>
   {% endfor %}
-  {% if tech_posts.size == 0 %}
-  <p style="color: var(--text-muted); text-align: center; padding: 2rem;">暂无技术文章。</p>
+  {% if cat_posts.size == 0 %}
+  <p style="color: var(--text-muted); text-align: center; padding: 2rem;">暂无文章。</p>
   {% endif %}
 </section>

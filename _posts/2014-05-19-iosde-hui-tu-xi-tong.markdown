@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 的绘图系统"
 date: 2014-05-19 16:47:22 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS, UIKit, Core Graphics, Core Animation, OpenCL ES
 description: iOS的绘图系统
 ---

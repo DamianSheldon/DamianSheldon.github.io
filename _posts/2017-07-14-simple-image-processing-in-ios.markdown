@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 中简单的图片处理"
 date: 2017-07-14 09:49:40 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Exif, UIImage, ImageIO
 description: Simple image processing in iOS
 ---

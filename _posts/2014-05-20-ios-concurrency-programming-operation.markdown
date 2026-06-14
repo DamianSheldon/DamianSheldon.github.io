@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 并发编程之 Operation"
 date: 2014-05-20 09:31:07 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Operation, NSOperation, Concurrency Programming 
 description: iOS 并发编程之 Operation 
 ---

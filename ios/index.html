@@ -1,0 +1,31 @@
+---
+layout: default
+title: "iOS"
+---
+
+<header class="category-header">
+  <h1 class="page-title">iOS</h1>
+  <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+    iOS 开发笔记，涵盖 Objective-C、Swift、Xcode、UIKit、Core Data、AVFoundation 等。
+  </p>
+</header>
+
+<section class="post-list">
+  {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains 'iOS'" %}
+  {% for post in cat_posts %}
+  <article class="post-card">
+    <div class="post-card-meta">
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+    </div>
+    <h3 class="post-card-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h3>
+    {% if post.description %}
+    <p class="post-card-desc">{{ post.description }}</p>
+    {% endif %}
+  </article>
+  {% endfor %}
+  {% if cat_posts.size == 0 %}
+  <p style="color: var(--text-muted); text-align: center; padding: 2rem;">暂无文章。</p>
+  {% endif %}
+</section>

@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Web 开发问题汇总(五)"
 date: 2022-07-01 09:32:39 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 keywords: jvm, java
 description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the fifth.
 ---

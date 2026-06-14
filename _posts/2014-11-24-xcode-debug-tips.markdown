@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Xcode 调试技巧（持续更新）"
 date: 2014-11-24 17:14:52 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Debug, iOS App, Xcode
 description: Summary of Xcode debug tips
 ---

@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "iOS 面试题汇总(二)"
 date: 2016-02-25 16:54:55 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: iOS, Technical, Interview,
 description: iOS Technical Interview questions about property attributes, weak, copy, arc and so on.
 ---

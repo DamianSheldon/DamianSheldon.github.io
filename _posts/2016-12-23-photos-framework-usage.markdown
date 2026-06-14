@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Photos 框架的基本使用"
 date: 2016-12-23 14:23:33 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 description: 详细介绍了 Photos Framework 的使用方法与实践，适用于开发者和技术爱好者。内容涵盖框架功能解析、应用场景及代码示例，帮助用户高效集成和优化照片管理相关功能。
 ---
 

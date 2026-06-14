@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Web 面试题汇总(一)"
 date: 2018-09-03 17:26:10 +0800
 comments: true
-categories: [技术]
+categories: [Web]
 keywords: html, web, interview
 description: Web 面试题汇总
 ---

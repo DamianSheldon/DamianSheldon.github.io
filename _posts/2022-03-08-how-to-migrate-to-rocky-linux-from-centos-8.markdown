@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "CentOS 8 迁移到 Rocky Linux 时遇到的问题"
 date: 2022-03-08 11:25:32 +0800
 comments: true
-categories: [技术]
+categories: [Linux]
 description: 本教程详细介绍了如何从 CentOS 8 平滑迁移到 Rocky Linux，涵盖所需步骤、注意事项及最佳实践，帮助系统管理员轻松完成迁移，保障服务器安全与稳定。
 ---
 

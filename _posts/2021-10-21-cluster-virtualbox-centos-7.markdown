@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "VirtualBox 搭建 CentOS 7 集群"
 date: 2021-10-21 15:57:18 +0800
 comments: true
-categories: [技术]
+categories: [Linux]
 description: 搭建基于 VirtualBox 和 CentOS 7 的集群环境详细教程，涵盖安装配置步骤、网络设置与常见问题解决，助力开发者高效构建本地测试环境。
 ---
 

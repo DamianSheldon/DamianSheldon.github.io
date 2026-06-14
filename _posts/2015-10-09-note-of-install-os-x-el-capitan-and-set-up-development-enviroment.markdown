@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Mac 安装 OS X El Capitan"
 date: 2015-10-09 18:00:22 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: OS El Capitan, Mac 
 description: 
 ---

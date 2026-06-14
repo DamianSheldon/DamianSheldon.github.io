@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "Key-Value Coding &amp; Key-Value Observing"
 date: 2014-11-12 16:06:13 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Key-Value Coding, Key-Value Observing
 description: Simple summary of Key-Value Coding And Key-Value Observing
 ---

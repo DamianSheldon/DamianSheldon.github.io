@@ -1,9 +1,9 @@
-﻿---
+----
 layout: post
 title: "(翻译)How to Play, Record, and Edit Videos in iOS"
 date: 2015-01-22 16:48:25 +0800
 comments: true
-categories: [技术]
+categories: [iOS]
 keywords: Play, Record, Edit, Video, iOS
 description: Learn the basics of working with videos on iOS with AV Foundation in this tutorial. You'll play, record, and even do some light video editing!
 ---

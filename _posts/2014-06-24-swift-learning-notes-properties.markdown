@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "Swift Learning Notes -- Properties"
 date: 2014-06-24 15:28:20 +0800

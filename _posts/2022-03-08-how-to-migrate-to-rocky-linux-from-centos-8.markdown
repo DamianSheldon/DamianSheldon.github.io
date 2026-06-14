@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "CentOS 8 迁移到 Rocky Linux 时遇到的问题"
 date: 2022-03-08 11:25:32 +0800

@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "Swift Learning Notes -- Initialization"
 date: 2014-06-24 11:33:28 +0800

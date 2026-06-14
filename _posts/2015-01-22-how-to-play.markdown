@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "(翻译)How to Play, Record, and Edit Videos in iOS"
 date: 2015-01-22 16:48:25 +0800

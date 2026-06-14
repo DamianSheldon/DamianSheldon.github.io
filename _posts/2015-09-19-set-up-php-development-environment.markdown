@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "Set up PHP development environment"
 date: 2015-09-19 22:25:19 +0800

@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "在Mac OSX Mavericks上安装和配置Openfire"
 date: 2014-09-11 09:15:32 +0800

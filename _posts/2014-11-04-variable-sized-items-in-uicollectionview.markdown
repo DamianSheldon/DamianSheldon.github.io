@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "(翻译)Variable-Sized Items in UICollectionView"
 date: 2014-11-04 11:27:12 +0800

@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "Auto Layout"
 date: 2014-10-19 17:43:12 +0800

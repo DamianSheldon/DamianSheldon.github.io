@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "如何发布自己的 artifacts 到 maven 中央仓库"
 date: 2020-10-28 09:16:37 +0800

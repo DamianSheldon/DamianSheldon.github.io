@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "(翻译)Property Values"
 date: 2014-05-10 14:41:40 +0800

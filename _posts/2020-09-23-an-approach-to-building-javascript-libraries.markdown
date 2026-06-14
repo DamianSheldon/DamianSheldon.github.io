@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "一种构建 JavaScript 库的方法"
 date: 2020-09-23 15:08:06 +0800

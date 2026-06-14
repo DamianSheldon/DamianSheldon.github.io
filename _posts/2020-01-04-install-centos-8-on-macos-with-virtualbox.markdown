@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "在 macOS 上用 VirtualBox 安装 CentOS"
 date: 2020-01-04 13:49:46 +0800

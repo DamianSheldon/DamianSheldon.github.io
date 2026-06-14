@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "OpenLDAP 学习笔记"
 date: 2018-07-10 21:58:07 +0800

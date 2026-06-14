@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "为MacBook Pro配置一个像guake的终端"
 date: 2014-11-07 10:31:19 +0800

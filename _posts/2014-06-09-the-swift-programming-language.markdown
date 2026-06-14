@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "The Swift Programming Language"
 date: 2014-06-09 16:56:43 +0800

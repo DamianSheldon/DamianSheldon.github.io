@@ -1,4 +1,4 @@
-----
+---
 layout: post
 title: "Mac 安装 OS X El Capitan"
 date: 2015-10-09 18:00:22 +0800

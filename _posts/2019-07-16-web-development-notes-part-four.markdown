@@ -5,7 +5,7 @@ date: 2019-07-16 17:24:01 +0800
 comments: true
 categories: [Web]
 keywords: bfc
-description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the fourth.
+description: "Web 开发问题汇总（四），继续整理前端与全栈开发中的实战问题与解决经验，包括框架使用、构建工具配置及部署运维等实际场景。"
 ---
 
 ###1.如何实现如下布局：两个元素A和B，其中A的宽度为包裹其内容，B则占用剩余的宽度？

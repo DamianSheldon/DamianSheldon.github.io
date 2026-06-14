@@ -4,7 +4,7 @@ title: "如何搭建一个带 Dovecot 的 Postfix 邮件服务器"
 date: 2017-02-15 16:29:42 +0800
 comments: true
 categories: [Backend]
-description: 这篇文章详细介绍了如何在 CentOS 8 上搭建带有 Dovecot 的 Postfix 邮件服务器，包括 DNS 配置、Postfix 安装与设置、邮件别名、防火墙开放、邮件发送与接收测试，以及 Dovecot 的安装与配置。内容涵盖 SMTP/IMAP 工作原理、常见问题解决、SASL 认证配置、邮箱权限设置等，适合有 VPS 需求或希望自建邮件服务器的开发者参考。
+description: "手把手教你搭建带 Dovecot 的 Postfix 邮件服务器，涵盖 DNS 配置、SMTP 发送、IMAP 接收、SSL 加密与 SASL 认证，实现完整的自建邮件系统。"
 ---
 
 作为一个软件开发人员，我们可能需要一个自己的 VPS ，在上面可以跑我们的 side project，或者做一些实验。VPS 在运行过程中可能会遇到问题，这时我们可能希望在发生问题时能收到通知。使用邮件通知是个不错的方式，这样我们的服务挂掉了能及时处理，所以学会搭建邮件服务器还是很有价值。另外我一直觉得软件技术人员有个自己域名的邮箱很酷，所以我决定自己动手搭建一个邮件服务器。本文记录了如何搭建一个自己域名的邮件服务器，并让这个邮箱可以通过 Mac 和 iPhone 自由收发邮件(测试过 sina 和 QQ)。

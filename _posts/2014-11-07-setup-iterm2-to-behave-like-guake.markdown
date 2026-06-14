@@ -5,7 +5,7 @@ date: 2014-11-07 10:31:19 +0800
 comments: true
 categories: [Linux]
 keywords: iterm2, guake, mac
-description: setup iterm2 to behave like guake
+description: "在 MacBook Pro 上配置 iTerm2 实现类似 Guake 下拉终端的效果，包括快捷键绑定、窗口样式设置与自动隐藏功能，打造高效的命令行工作环境。"
 ---
 以前在Arch下经常使用一个名为guake的终端，体验很好，用MacBook Pro之后也想有个这样的终端，由于各种原因，这事一直耽搁着，但并没有放下，今天特意找了下，还真找到了。不费话了，进入正题。
 

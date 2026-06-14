@@ -5,7 +5,7 @@ date: 2020-10-28 09:16:37 +0800
 comments: true
 categories: [Backend]
 keywords: Maven Central 发布, 如何发布到 Maven Central, Java artifacts 发布, Maven 发布教程, Maven Central 步骤, Java 库发布, Maven Central 配置, OSSRH 发布指南, Sonatype Maven Central, Maven GPG 签名, Maven Central 审核流程, 发布 Java 到中央仓库, 发布 Maven artifacts, Java 项目发布, Maven Deploy
-description: How to Publish Your Artifacts to Maven Central
+description: "详细教程：如何将自己的 Java 库发布到 Maven 中央仓库，涵盖 Sonatype JIRA 申请、GPG 签名配置、pom.xml 规范及 Gradle/Maven 发布插件使用。"
 ---
 
 当我们越来越熟悉 Java 开发，可能也想发布自己的 artifacts 到 maven 中央仓库，那么该如何做呢？  

@@ -5,7 +5,7 @@ date: 2014-05-20 09:31:07 +0800
 comments: true
 categories: [iOS]
 keywords: Operation, NSOperation, Concurrency Programming 
-description: iOS 并发编程之 Operation 
+description: "深入讲解 iOS 并发编程之 NSOperation 与 NSOperationQueue，包括依赖管理、优先级控制、取消操作与线程安全，是构建高性能 iOS App 的必备技能。"
 ---
 
 ##背景简介

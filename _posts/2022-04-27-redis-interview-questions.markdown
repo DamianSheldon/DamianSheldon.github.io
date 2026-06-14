@@ -5,7 +5,7 @@ date: 2022-04-27 14:36:10 +0800
 comments: true
 categories: [Backend]
 keywords: Redis, Cache
-description: Redis Interview Questions
+description: "Redis 面试题汇总，涵盖数据类型、持久化机制（RDB/AOF）、缓存穿透与雪崩解决方案、集群模式与分布式锁等核心考点，助你在面试中脱颖而出。"
 ---
 
 ##1.什么是 Redis?

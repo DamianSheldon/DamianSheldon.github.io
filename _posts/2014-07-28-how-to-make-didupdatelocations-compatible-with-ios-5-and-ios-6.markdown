@@ -5,7 +5,7 @@ date: 2014-07-28 16:05:38 +0800
 comments: true
 categories: [iOS]
 keywords: Core Location, iOS, compatible
-description: 如何让didUpdateLocation兼容iOS 5和iOS 6
+description: "翻译国外技术文章，分享如何让 CLLocationManager 的 didUpdateLocations 回调同时兼容 iOS 5 和 iOS 6，解决不同系统版本 API 差异带来的兼容性问题。"
 ---
 
 `- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation` 是CLLocationManagerDelegate protocol 中的一个常用方法，它让你的应用接收更新位置信息，当检测到任何位置变化。新的位置详情存储在 newLocation 中，它是一个 CLLocation.  

@@ -5,7 +5,7 @@ date: 2015-03-16 16:14:50 +0800
 comments: true
 categories: [iOS]
 keywords: iOS App
-description: iOS App development problem collection. 
+description: "iOS App 开发问题汇总（二），整理实际项目中遇到的 UI、Swift、Xcode 等方面的问题与解决方案，持续积累开发经验，少踩坑。"
 ---
 
 ###1.Ad Hoc分发应用

@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [iOS]
 keywords: Swift, learn, property, iOS 
-description: Swift Learning Notes of Properties
+description: "Swift 属性学习笔记，系统梳理存储属性、计算属性、属性观察器、懒加载以及类型属性的用法与区别，帮助开发者掌握 Swift 中属性的精髓。"
 ---
 
 ###Properties

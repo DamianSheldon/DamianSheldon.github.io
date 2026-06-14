@@ -5,7 +5,7 @@ date: 2016-11-15 14:49:17 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, Swift
-description: 
+description: "iOS App 开发问题汇总（九），记录实际项目中遇到的各类技术问题与解决过程，包括证书配置、推送通知、第三方 SDK 集成等常见开发障碍。"
 ---
 ###1.Curried functions in Swift
 A:There’s a difference between self.methodname (which you are using), and Classname.methodname.

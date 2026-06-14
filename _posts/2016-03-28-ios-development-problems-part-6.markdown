@@ -5,7 +5,7 @@ date: 2016-03-28 20:14:53 +0800
 comments: true
 categories: [iOS]
 keywords: iOS
-description: iOS development problems
+description: "iOS App 开发问题汇总（六），记录日常开发中遇到的 Bug 与解决方案，包含 Swift 版本迁移、Xcode 编译错误及运行时崩溃排查经验。"
 ---
 ### 1. The data couldn’t be read because it isn’t in the correct format.
 A:项目是2014年开发的，打包导出 Ad-hoc 时报上面的错误，Build Setting > Enable Bitcode > NO 之后再试成功了。

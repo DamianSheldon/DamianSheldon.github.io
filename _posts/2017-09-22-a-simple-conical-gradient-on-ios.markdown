@@ -4,7 +4,7 @@ title: "圆锥渐变的一种简单实现"
 date: 2017-09-22 15:59:35 +0800
 comments: true
 categories: [iOS]
-description: 本文详细介绍了在 iOS 上通过 Core Graphics 实现圆锥（Conical）渐变的原理和方法，包括自定义 CALayer 子类、颜色处理、位图填充等关键步骤。适合需要雷达、扫描等视觉效果开发的 iOS 工程师参考，并附有完整示例代码和相关知识链接，有助于提升 UI 渲染与动画效果的开发能力。
+description: "详解在 iOS 上通过 Core Graphics 实现圆锥渐变的原理与步骤，包括自定义 CALayer 子类、颜色空间处理与位图绘制，适用于雷达图、扫描动画等视觉效果开发。"
 ---
 
 Core Graphics 支持两种渐变：线性(Axial)和径向(Radial)渐变，但是有的时候我们可能会用到圆锥(Conical)渐变，例如在扫描附近的目标时，交互可能用上带这种渐变的雷达效果，它长这样：

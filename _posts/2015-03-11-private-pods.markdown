@@ -5,7 +5,7 @@ date: 2015-03-11 17:23:04 +0800
 comments: true
 categories: [iOS]
 keywords: Cocoa pods, private pods
-description: How to create a private pod
+description: "详细教程：如何创建私有的 CocoaPods 仓库并发布内部 Pod，涵盖 Spec 仓库搭建、podspec 配置、版本管理与团队协作，实现 iOS 组件化开发的第一步。"
 ---
 
 公司的框架代码大多数时候是需要保密的，而手动的复制导入比较麻烦，这时候我们可以创建私有 Pod 来方便我们的日常开发工作，本文是我创建私有 Pod 的笔记。

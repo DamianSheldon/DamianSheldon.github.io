@@ -5,7 +5,7 @@ date: 2017-10-11 08:32:44 +0800
 comments: true
 categories: [Linux]
 keywords: strongswan, eap-mschapv2, VPN, IKEv2, CentOS 8, iPhone, iOS, macOS, windows 10
-description: How to setup a IKEv2 VPN Server on CentOS 8
+description: "在 CentOS 8 上搭建 IKEv2 VPN 服务器的详细教程，涵盖 StrongSwan 安装配置、证书生成、防火墙规则设置及客户端连接测试，实现安全远程访问。"
 ---
 
 由于 Debian 8 官方不再支持，经过一番考虑和准备，最近将 VPS 的系统换成了 CentOS 8。Libreswan 的文档没有 VPN 时打不开，这就形成了一个死循环，所以将她换成了 StrongSwan 。StrongSwan 的文档个人觉得对新手不是很友好，我是看了好一会才看明白些，另外在支持 macOS，iOS，Windows 10 的过程中也遇到不少问题，所以这里记录下来，以备日后参考。  

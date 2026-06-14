@@ -5,7 +5,7 @@ date: 2015-11-04 09:38:13 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, Continuous Integration, Deployment
-description: Continuous Integration & Deployment for iOS Projects
+description: "iOS 项目持续集成与持续部署（CI/CD）实战笔记，涵盖 Xcode Server、Fastlane、Jenkins 等工具的配置与使用，自动化构建、测试与发布流程。"
 ---
 本文是我做 iOS 项目持续集成和部署的笔记。
 

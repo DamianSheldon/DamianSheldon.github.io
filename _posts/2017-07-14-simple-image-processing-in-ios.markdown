@@ -5,7 +5,7 @@ date: 2017-07-14 09:49:40 +0800
 comments: true
 categories: [iOS]
 keywords: Exif, UIImage, ImageIO
-description: Simple image processing in iOS
+description: "iOS 中简单图片处理的实践笔记，涵盖 Core Image 滤镜应用、GPUImage 框架使用、图片压缩与裁剪等常见需求，帮助开发者快速实现图片处理功能。"
 ---
 在 iOS 应用开发中，我们可能会要对图片进行旋转、缩放和裁剪，在介绍具体方法前，我们有必要先对图片做个大致的了解，这样有助于我们选择合适的方法。
 

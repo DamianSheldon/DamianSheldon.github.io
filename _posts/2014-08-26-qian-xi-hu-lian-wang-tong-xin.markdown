@@ -6,7 +6,7 @@ comments: true
 published: true
 categories: [Web]
 keywords: Internet, TCP/IP, HTTP
-description: How does the Internet work
+description: "通俗易懂地讲解互联网通信的基本原理，涵盖 TCP/IP 协议栈、HTTP 请求响应模型、DNS 解析及数据传输过程，为 Web 开发打下扎实的网络基础。"
 ---
 
 我一直想弄清楚互联网上两台计算机是如何通信的。经过一番探索和学习，我得出了自己的答案。

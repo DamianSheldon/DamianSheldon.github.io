@@ -5,7 +5,7 @@ date: 2014-05-10 09:23:09 +0800
 comments: true
 categories: [iOS]
 keywords: Framework, Development, Tips, Techniques
-description: Tips and Techniques for Framework Developers
+description: "翻译 Apple 官方文档，分享框架开发中的实用技巧与最佳实践，涵盖 API 设计、兼容性处理、性能优化等要点，帮助开发者编写高质量的 iOS 框架。"
 ---
 
 ##Initialization

@@ -5,7 +5,7 @@ date: 2022-07-01 09:32:39 +0800
 comments: true
 categories: [Web]
 keywords: jvm, java
-description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the fifth.
+description: "Web 开发问题汇总（五），持续记录前端与全栈项目中遇到的技术障碍及解决思路，包括框架升级迁移、性能瓶颈排查及部署流程优化等经验。"
 ---
 
 ###1.

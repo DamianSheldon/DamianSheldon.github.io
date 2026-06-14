@@ -5,7 +5,7 @@ date: 2014-11-12 16:06:13 +0800
 comments: true
 categories: [iOS]
 keywords: Key-Value Coding, Key-Value Observing
-description: Simple summary of Key-Value Coding And Key-Value Observing
+description: "深入解析 KVC 与 KVO 的原理和用法，包括键路径访问、集合运算符、手动与自动通知机制、依赖键等高级特性，帮助开发者掌握 Cocoa 绑定的核心基石。"
 ---
 ##Key-Value Coding
 1. Key-Value Coding是什么？

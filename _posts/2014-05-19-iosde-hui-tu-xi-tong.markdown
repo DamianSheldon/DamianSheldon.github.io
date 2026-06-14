@@ -5,7 +5,7 @@ date: 2014-05-19 16:47:22 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, UIKit, Core Graphics, Core Animation, OpenCL ES
-description: iOS的绘图系统
+description: "系统梳理 iOS 绘图体系，涵盖 UIKit 绘图、Core Graphics 上下文、贝塞尔路径、渐变与阴影等核心技术，帮助开发者掌握自定义 UI 控件的绘制能力。"
 ---
 
 在 iOS 开发过程中，有时我们可能需要自己用代码绘制应用的部分内容，这时候就需要和绘图系统打交道了。 iOS 的绘图系统很强大，我们可以用它来做很多事情；另一方面 Apple 做了很多艰苦卓绝的工作，使得大多数情况下我们可以很轻松完成绘制任务。

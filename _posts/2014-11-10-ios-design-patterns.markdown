@@ -5,7 +5,7 @@ date: 2014-11-10 08:35:43 +0800
 comments: true
 categories: [iOS]
 keywords: Design Patterns, iOS
-description: Introduce to iOS Design Patterns
+description: "翻译经典 iOS 设计模式文章，涵盖 MVC、单例、观察者、工厂、代理等常用模式在 iOS 开发中的实践应用，帮助你写出更优雅、可维护的代码架构。"
 ---
 *iOS 设计模式*--你也许听说过这个术语，但是你知道它意味着什么吗？尽管大多数开发者可能同意设计模式非常重要，但关于它的文章并不多，咱们开发者们写代码时并没有花太多注意力放到设计模式上。  
 

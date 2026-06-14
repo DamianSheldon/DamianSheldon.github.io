@@ -5,7 +5,7 @@ date: 2018-03-17 10:20:21 +0800
 comments: true
 categories: [iOS]
 keywords: backup, corrupt, incompatible, iPhone, 换机
-description: 一次换新 iPhone 的经过，过程中遇到了从 iTunes 备份中恢复遇到 your backup is corrupt or incompatible 的问题，以及我的解决办法。
+description: "记一次换新 iPhone 的数据迁移经历，详细记录 iTunes 备份恢复失败 \"backup is corrupt or incompatible\" 错误的排查过程与最终解决方案。"
 ---
 
 说来惭愧，一直还是在用公司配的开发机 5S, 没用上最新手机的主要原因可以归结为穷 ><。但最近 5S 的存储不够用了，再加上心仪的 8 降价了，一冲动就入了一个，嗯，这几个月做好了吃土的准备了。  

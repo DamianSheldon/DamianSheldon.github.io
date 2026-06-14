@@ -5,7 +5,7 @@ date: 2018-09-03 17:26:10 +0800
 comments: true
 categories: [Web]
 keywords: html, web, interview
-description: Web 面试题汇总
+description: "Web 前端面试题汇总（一），收集整理 HTML、CSS 核心考点与高频面试题，附详细解析，帮助前端开发者系统复习、高效备战面试。"
 ---
 
 ###1.Doctype作用？标准模式与兼容模式各有什么区别?

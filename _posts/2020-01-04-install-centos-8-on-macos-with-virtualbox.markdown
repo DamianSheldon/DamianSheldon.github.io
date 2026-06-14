@@ -5,7 +5,7 @@ date: 2020-01-04 13:49:46 +0800
 comments: true
 categories: [Linux]
 keywords: screen flicker, kernel headers not found
-description: Record solutions to two problems when install CentOS on macOS with VirtualBox.
+description: "记录在 macOS 上使用 VirtualBox 安装 CentOS 8 时遇到的两个典型问题及解决方案，包括网络配置、SSH 连接与共享文件夹设置，适合搭建本地 Linux 开发环境。"
 ---
 
 最近为了更好的实践 Linux，决定在 mac 上使用 VirtualBox 安装一个 CentOS，主要是参考鸟哥的这篇[安裝 CentOS7.x](http://linux.vbird.org/linux_basic/0157installcentos7.php#centos_1)。  

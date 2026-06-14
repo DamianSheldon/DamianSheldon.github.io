@@ -5,7 +5,7 @@ date: 2015-07-30 11:36:57 +0800
 comments: true
 categories: [iOS]
 keywords: iOS App
-description: iOS App 开发问题汇总
+description: "iOS App 开发问题汇总（三），收集真机调试、界面适配、第三方库集成等实际问题与解决过程，持续记录 iOS 开发路上的经验教训。"
 ---
 
 ### 1.Checking the Entitlements for an iOS app Submission to the App Store

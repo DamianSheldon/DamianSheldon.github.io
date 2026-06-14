@@ -5,7 +5,7 @@ date: 2014-09-03 09:59:58 +0800
 comments: true
 categories: [iOS]
 keywords: Core Animation, iOS Development
-description: Summary of Core Animation
+description: "Core Animation 学习笔记，深入讲解 CALayer 层级、隐式动画与显式动画、CATransaction、图层变换等核心技术，帮助开发者打造流畅的 iOS 动画效果。"
 ---
 ##Core Animation介绍
 > Core Animation is a graphics rendering and animation infrastructure available on both iOS and OS X that you use to animate the views and other visual elements of your app. -- Apple

@@ -5,7 +5,7 @@ date: 2017-04-05 08:48:36 +0800
 comments: true
 categories: [Android]
 keywords: Android, Problems 
-description: 
+description: "Android 开发问题汇总（三），记录开发过程中遇到的各类 Bug 及解决思路，涵盖 RecyclerView、Fragment、权限适配等常见难点。"
 ---
 
 ###1. How to define custom attributes?

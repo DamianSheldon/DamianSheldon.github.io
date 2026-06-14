@@ -5,7 +5,7 @@ date: 2019-03-06 09:27:15 +0800
 comments: true
 categories: [Web]
 keywords: Layout, Position, Float, CSS, Web
-description: Summary web UI layout methods, so we can more deeply understand it  and use it correct.
+description: "系统梳理 Web 界面布局技术，涵盖 Flexbox、Grid、Float、Position 等核心布局方案对比及最佳实践，帮助前端开发者灵活应对各种页面布局需求。"
 ---
 
 Web 应用程序是用户与软件系统的接口，用户通过她与系统进行交互。在 Web 应用程序的开发过程中，实现交互界面占工作内容的很大一部分比例，界面布局则又是这其中的重要组成部分，所以她值得我们花时间去掌握，以便完成工作任务，进而提高工作效率。  

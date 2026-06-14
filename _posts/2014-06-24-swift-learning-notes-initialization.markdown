@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [iOS]
 keywords: swift, learn, Initialization, iOS
-description: Initialization method of swift
+description: "Swift 初始化方法学习笔记，详细讲解指定初始化器与便捷初始化器的区别、继承规则、可失败初始化以及 required 修饰符的使用，夯实 Swift 基础。"
 ---
 
 ###Initialization

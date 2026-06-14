@@ -5,7 +5,7 @@ date: 2016-08-30 10:43:36 +0800
 comments: true
 categories: [iOS]
 keywords: iOS Technical Interview
-description: iOS Technical Interview  
+description: "iOS 面试题汇总（四），涵盖 RunLoop 机制、Block 底层原理、Runtime 消息转发及性能优化等进阶考点，帮助中高级 iOS 开发者备战大厂面试。"
 ---
 
 ###1.熟悉 CocoaPods 么？能大概讲一下工作原理么？

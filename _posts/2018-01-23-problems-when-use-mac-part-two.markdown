@@ -5,7 +5,7 @@ date: 2018-01-23 11:59:31 +0800
 comments: true
 categories: [iOS]
 keywords: Mac, spctl, ssh, sed, lsof
-description: 使用 Mac 时遇到的问题
+description: "Mac 使用笔记（二），继续记录 macOS 日常使用中的实用技巧与问题解决，涵盖终端配置、Homebrew 使用、开发环境优化等内容。"
 ---
 
 ## 1. iPhone每次连接Mac都会弹出iPhoto

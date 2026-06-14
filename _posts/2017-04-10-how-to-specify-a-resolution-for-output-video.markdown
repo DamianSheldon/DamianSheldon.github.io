@@ -5,7 +5,7 @@ date: 2017-04-10 10:12:09 +0800
 comments: true
 categories: [iOS]
 keywords: Video Resolution, AVFoundation, AVAssetWriter, AVAssetExportSession 
-description: How to secify a resolution for output video? 
+description: "详解 iOS 中如何通过 AVAssetWriter 和 AVMutableVideoComposition 指定输出视频的自定义分辨率，实现视频转码与尺寸调整功能，满足多样化的视频处理需求。"
 ---
 最近要做的一个项目中要拍摄视频，于是就开始来研究视频。看了几遍 AVFoundation Programming Guide 之后也写了个 Demo，把基本功能都过了一遍。这其中有意思的一件事情是我发现微信拍摄短视频的尺寸是 540x944, 这尺寸很奇怪，不是任何一个预设值。不清楚微信为什么用这么一个尺寸，但我想搞清楚怎么输出自定义尺寸的视频。
 

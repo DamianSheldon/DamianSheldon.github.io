@@ -5,7 +5,7 @@ date: 2020-09-23 15:08:06 +0800
 comments: true
 categories: [Web]
 keywords: Library, Module, CommonJS, AMD, UMD, TypeScript, ECMAScript Harmony, rollup
-description: An Approach to Building JavaScript Libraries.
+description: "分享一种构建 JavaScript 库的方法与工程化实践，涵盖模块化设计、打包工具选择、API 设计原则及版本管理，帮助开发者发布高质量的前端工具库。"
 ---
 最近手头有个项目需要构建 JavaScript 库，核心需求是库既能用于传统的多页面，也能用于 Angular 的单页面。目前网络上暂时好像没有这类详细教程，反而是一些理论阐述的文章较多，经过一番研究后，我得到了一个适合自己的方法。  
 

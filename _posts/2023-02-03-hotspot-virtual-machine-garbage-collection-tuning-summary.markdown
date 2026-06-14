@@ -4,7 +4,7 @@ title: "HotSpot 虚拟机垃圾收集调优总结"
 date: 2023-02-03 09:34:30 +0800
 comments: true
 categories: [Backend]
-description: HotSpot 虚拟机垃圾回收调优总结，详细介绍了垃圾回收器类型、调优参数及实际案例，帮助开发者高效优化 Java 应用性能，提升系统稳定性与响应速度。
+description: "HotSpot 虚拟机垃圾回收调优总结，系统梳理 Serial、CMS、G1、ZGC 等 GC 算法特点、JVM 调优参数及实际案例分析，帮助 Java 开发者优化应用性能。"
 ---
 
 工作中我们可能需要对 HotSpot 虚拟机垃圾收集调优，那么应该怎么做呢？  

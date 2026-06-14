@@ -5,7 +5,7 @@ date: 2016-10-14 08:59:43 +0800
 comments: true
 categories: [Android]
 keywords: Android, development problems 
-description: Problems of android development. 
+description: "Android 开发问题汇总（二），继续整理项目中遇到的 Gradle 构建错误、多版本兼容、内存优化等问题，帮助 Android 开发者积累实战经验。"
 ---
 
 ### 1.Error running app: Default Activity not found

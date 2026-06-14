@@ -5,7 +5,7 @@ date: 2014-05-10 07:54:58 +0800
 comments: true
 categories: [iOS]
 keywords: Objective-C, Class, Object, Programming, Category, ISA
-description: Introduce Objective-C's class and object
+description: "深入讲解 Objective-C 中类与对象的核心概念，包括 isa 指针、消息传递机制、类对象与元类的关系，帮助 iOS 开发者夯实底层基础。"
 ---
 
 Objective-C是一门面向对象的编程语言，既然是面向对象，那我们就有必要对它的对象作进一步的理解，而且它的很多特性与这也大有关系。

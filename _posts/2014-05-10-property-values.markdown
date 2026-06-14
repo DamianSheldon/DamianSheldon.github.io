@@ -5,7 +5,7 @@ date: 2014-05-10 14:41:40 +0800
 comments: true
 categories: [iOS]
 keywords: Property Valule, Objective-C, iOS
-description: Introduce Objective-C's Property
+description: "翻译 Apple 官方文档，详解 Objective-C 属性声明中 strong、weak、copy、assign 等修饰符的语义与内存管理原理，是每个 iOS 开发者必读的基础知识。"
 ---
  
   现场教学的一部分乐趣是应付问题和独立思考。在我展示了一些在类中广泛使用的 @property 代码，其中一个学生问到"@property 后面繁琐的字段都是什么？我已经使用了 retain, assign 和 nonatomic，但我真的不知道它们真正是干什么用的。"（如果你仅仅只是想要一份快速参考，文章最后有所有的 @property 属性。）

@@ -5,7 +5,7 @@ date: 2015-01-22 16:48:25 +0800
 comments: true
 categories: [iOS]
 keywords: Play, Record, Edit, Video, iOS
-description: Learn the basics of working with videos on iOS with AV Foundation in this tutorial. You'll play, record, and even do some light video editing!
+description: "翻译国外经典教程，手把手教你使用 AVFoundation 框架实现视频的播放、录制与编辑功能，包含代码示例与实践项目，适合 iOS 多媒体开发入门。"
 ---
 
 录制视频(并用代码播放它们)是你可以用手机来做的最酷的事情之一，但不是所有的应用都利用了它们。它需要 AVFoundation 框架，AVFoundation 从 Lion(10.7)开始是 OS X 的一部分，Apple 在 2010 年将它加入到 iOS 4.

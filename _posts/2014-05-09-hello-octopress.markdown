@@ -4,7 +4,7 @@ title: "Hello Octopress"
 date: 2014-05-09 15:01:51 +0800
 comments: true
 categories: [Web]
-description: 记录了使用 Octopress 平台搭建个人博客的初体验与心得。文章内容涵盖建站过程、遇到的问题及解决方案，适合希望了解 Octopress 使用方法和个人网站搭建流程的读者。
+description: "记录使用 Octopress 平台搭建个人技术博客的初体验与心得，涵盖建站过程、主题配置、Markdown 写作与部署发布，适合想搭建独立博客的开发者参考。"
 ---
 > Octopress:A blogging framework for hackers.
 

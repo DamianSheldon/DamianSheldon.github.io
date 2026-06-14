@@ -5,7 +5,7 @@ date: 2018-09-13 10:20:22 +0800
 comments: true
 categories: [Web]
 keywords: js, web, interview
-description: Web 面试题汇总
+description: "Web 前端面试题汇总（三），涵盖 HTTP 协议、浏览器渲染原理、性能优化、前端安全等进阶话题，帮助开发者全面提升前端技术纵深。"
 ---
 
 ###1.介绍js的基本数据类型。

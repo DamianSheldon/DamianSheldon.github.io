@@ -4,6 +4,7 @@ title: "如何在 Mac 上开启 Apache, PHP, MySQL"
 date: 2015-07-05 21:24:55 +0800
 comments: true
 categories: [Backend]
+description: "在 macOS Yosemite 上配置 Apache + HTTPS/SSL 的详细教程，包括自签名证书生成、虚拟主机配置与 SSL 模块启用，搭建本地安全的 Web 开发环境。"
 keywords: https, SSL, Mac, Apache, MySQL
 description:
 ---

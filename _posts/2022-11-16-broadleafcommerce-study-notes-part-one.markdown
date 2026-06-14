@@ -5,7 +5,7 @@ date: 2022-11-16 17:23:16 +0800
 comments: true
 categories: [Backend]
 keywords: broadleafcommerce
-description: broadleafcommerce study notes part one
+description: "Broadleaf Commerce 电商框架学习笔记（一），记录框架架构、核心模块、数据模型与扩展机制的学习过程，为电商项目技术选型提供参考。"
 published: false
 ---
 

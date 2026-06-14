@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [iOS]
 keywords: Cache, iOS App, Data Model, URL Cache, Core Data, SQLite
-description: Summary of iOS App Cache
+description: "介绍 iOS App 缓存机制与实现方案，涵盖 NSCache、磁盘缓存、网络缓存策略与 NSURLCache 配置，帮助开发者优化应用性能并合理管理存储空间。"
 ---
 在互联网时代的今天，iOS App几乎都要联网，缓存可以解决网络连接不良甚至无网络所造成的性能问题，而且还可以节约用户的流量。我们可以采用两种缓存策略：预缓存和按需缓存。预缓存就是应用启动以后开个后台线程去把需要用到的数据先取下来。按需缓存就是应用请求网络数据后在本地保存一份，只要本地数据没有过期就使用本地数据。
 

@@ -5,7 +5,7 @@ date: 2018-01-04 10:08:36 +0800
 comments: true
 categories: [Web]
 keywords: web, jquery, servlet, eclipse
-description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the second.
+description: "Web 开发问题汇总（二），持续整理 Web 项目开发中遇到的问题与解决思路，每解决 15 个问题整理成一篇，积累前端与全栈开发实战经验。"
 ---
 
 ###1.Uncaught TypeError: Cannot read property 'msie' of undefined

@@ -5,7 +5,7 @@ date: 2014-09-11 09:15:32 +0800
 comments: true
 categories: [Backend]
 keywords: Openfire, Mac, OSX, Mavericks, Install, Configure
-description: Install and configure openfire on Mac OSX mavericks.
+description: "在 Mac OS X Mavericks 上安装和配置 Openfire XMPP 即时通讯服务器的完整教程，涵盖数据库配置、管理控制台设置与客户端连接测试。"
 ---
 
 ###安装

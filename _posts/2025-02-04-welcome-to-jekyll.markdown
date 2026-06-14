@@ -3,6 +3,7 @@ layout: post
 title:  "Welcome to Jekyll!"
 date:   2025-02-04 17:40:38 +0800
 categories: [Web]
+description: "Jekyll 静态博客入门指南，介绍 Jekyll 的基本用法、目录结构、Markdown 写作与本地预览，是搭建个人博客的第一步。"
 ---
 
 下面是一个完整的测试用 Markdown 示例，**覆盖了技术博客中常见的所有 Markdown 元素**，适用于 GitHub Pages（GFM/kramdown）、Jekyll 博客等环境。

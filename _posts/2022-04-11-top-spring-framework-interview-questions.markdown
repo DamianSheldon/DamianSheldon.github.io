@@ -4,7 +4,7 @@ title: "(翻译)常见 Spring 框架面试题"
 date: 2022-04-11 10:07:29 +0800
 comments: true
 categories: [Backend]
-description: 常见 Spring 框架面试题及详细解析，涵盖 Spring Core、Spring MVC、Spring Boot、AOP、设计模式等核心知识点，助力 Java 开发者高效备战面试，全面掌握 Spring 技术要点。
+description: "翻译国外经典 Spring 面试题合集，覆盖 Spring Core、IoC 容器、AOP 切面编程、Spring Boot 自动配置等核心知识点，助力 Java 后端开发者高效备战面试。"
 ---
 
 # 1.概述

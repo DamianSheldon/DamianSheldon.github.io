@@ -5,7 +5,7 @@ date: 2018-04-13 11:07:25 +0800
 comments: true
 categories: [Web]
 keywords: web, jquery, servlet, eclipse
-description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the three.
+description: "Web 开发问题汇总（三），继续记录日常 Web 开发中遇到的技术难点与解决过程，涵盖浏览器兼容性、响应式布局、前后端联调等问题。"
 ---
 
 ###1.How to send email in java?

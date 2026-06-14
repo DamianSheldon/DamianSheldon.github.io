@@ -5,7 +5,7 @@ date: 2019-09-30 09:59:14 +0800
 comments: true
 categories: [Web]
 keywords: Cordova, Plugin, Ionic Native
-description: How cordova plugin works? How to create a cordova plugin and wrapper as Ionic Native?
+description: "深入讲解 Cordova 插件工作原理，手把手创建自定义 Cordova 插件并封装为 Ionic Native 接口，帮助移动端开发者扩展 App 原生能力。"
 ---
 
 本文介绍如何创建 Cordova plugin 及其 Ionic Native，主要内容如下：  

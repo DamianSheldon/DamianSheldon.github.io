@@ -5,7 +5,7 @@ date: 2016-05-03 17:00:04 +0800
 comments: true
 categories: [iOS]
 keywords: iOS
-description: iOS development problems
+description: "iOS App 开发问题汇总（七），持续记录 App 开发实战中碰到的技术难题与解决思路，涵盖 UI 适配、多线程并发、网络请求异常等场景。"
 ---
 
 ### 1.如何设置透明的导航栏并且去掉其底部灰色的分隔线？

@@ -5,7 +5,7 @@ date: 2015-10-15 15:04:13 +0800
 comments: true
 categories: [iOS]
 keywords: iOS Development
-description: iOS App Development
+description: "iOS App 开发问题汇总（四），涵盖 Auto Layout 冲突、App 审核被拒、性能优化等实际开发中的问题与解决思路，持续更新。"
 ---
 ### 1. Suppressing deprecated warnings
 ```

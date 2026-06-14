@@ -4,7 +4,7 @@ title: "VirtualBox 搭建 CentOS 7 集群"
 date: 2021-10-21 15:57:18 +0800
 comments: true
 categories: [Linux]
-description: 搭建基于 VirtualBox 和 CentOS 7 的集群环境详细教程，涵盖安装配置步骤、网络设置与常见问题解决，助力开发者高效构建本地测试环境。
+description: "使用 VirtualBox 搭建 CentOS 7 集群的详细教程，包括多节点网络配置、SSH 免密登录、时间同步等关键步骤，帮助开发者在本地构建分布式测试环境。"
 ---
 
 软件开发时我们可能需要集群环境，特别是现在微服务很流行的情况下。如果我们手里的电脑配置不错就可以用 来搭建集群，用于学习或开发还是很不错，性价比很高。  

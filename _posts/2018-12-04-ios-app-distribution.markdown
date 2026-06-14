@@ -5,7 +5,7 @@ date: 2018-12-04 14:33:49 +0800
 comments: true
 categories: [iOS]
 keywords: distribution, in-house, ad-hoc, testflight
-description: Summary iOS App Distribution methods.
+description: "全面总结 iOS App 分发方式：App Store 发布、TestFlight 内测、Ad Hoc 部署、企业签名分发及 Development 调试，对比各方案适用场景与操作流程。"
 ---
 
 iOS App 有不少分发方法，她们散落在 Apple 的文档中，并未归总到一处，所以本文对她们进行了总结，方便查阅。  

@@ -5,7 +5,7 @@ date: 2016-02-25 16:54:55 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, Technical, Interview,
-description: iOS Technical Interview questions about property attributes, weak, copy, arc and so on.
+description: "iOS 面试题汇总（二），覆盖 property 属性修饰符、weak 实现原理、copy 与 mutableCopy 区别及 ARC 内存管理机制等高频考点，助你斩获 Offer。"
 ---
 
 ###1.什么情况使用 weak 关键字，相比 assign 有什么不同？  

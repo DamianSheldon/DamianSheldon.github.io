@@ -3,6 +3,7 @@ layout: post
 title:  "Arthas 排查函数调用异常"
 date:   2025-09-13 17:40:38 +0800
 categories: [Backend]
+description: "使用阿里巴巴 Arthas 工具在线排查 Java 生产环境函数调用异常的实战记录，涵盖 watch、trace、jad、redefine、tt 等核心命令的对比与应用场景。"
 ---
 
 最近生产环境有方法对于部分参数会调用异常，由于代码是很久之前的其他同事写的，当时并没有在最外层捕获异常并记录日志，所以并不知道什么原因，于是想利用 Arthas 来在线排查。

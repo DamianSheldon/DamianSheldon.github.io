@@ -5,7 +5,7 @@ date: 2015-08-12 22:01:09 +0800
 comments: true
 categories: [Backend]
 keywords: MySQL, server id, notes 
-description: Mysql notes.
+description: "MySQL 数据库使用笔记（一），涵盖安装配置、库表操作、SQL 查询优化、用户权限管理及常见问题处理，帮助后端开发者扎实掌握 MySQL 基本功。"
 ---
 
 ###1.查看所有的用户

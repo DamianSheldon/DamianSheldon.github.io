@@ -5,7 +5,7 @@ date: 2014-11-05 10:13:13 +0800
 comments: true
 categories: [Backend]
 keywords: Git, Summary
-description: A summary of basic usage of git
+description: "Git 基础用法小结，涵盖常用命令如 add、commit、branch、merge、rebase、stash 及远程协作流程，适合 Git 初学者快速上手版本控制。"
 ---
 本文是从日常开发的角度对 Git 的总结，主要内容如下：
 

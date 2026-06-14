@@ -6,7 +6,7 @@ published: false
 comments: true
 categories: [iOS]
 keywords: Xcode, shortcut, 快捷键
-description: Xcode 快捷键
+description: "整理 Xcode 开发中高频使用的快捷键和实用技巧，涵盖代码导航、编辑、调试、Interface Builder 操作等场景，大幅提升 iOS 开发效率。"
 ---
 
 | Symbol | Key |

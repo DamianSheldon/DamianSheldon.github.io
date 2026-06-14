@@ -5,7 +5,7 @@ date: 2014-12-15 11:53:11 +0800
 comments: true
 categories: [iOS]
 keywords: Self-signed, Certificate, iOS, TLS/SSL, HTTPS 
-description: App如何与Server安全交互
+description: "实现在 iOS App 中使用自签名证书与服务器建立 HTTPS 安全通信，涵盖证书生成、AFNetworking 配置 ATS 例外与 SSL Pinning，保障数据传输安全。"
 ---
 
 大多数App都需和Server通信来提供服务，这中间就牵涉到网络通信安全。网络通信安全是一个很大的话题，本文不打算全面覆盖，而是来理理HTTPS。

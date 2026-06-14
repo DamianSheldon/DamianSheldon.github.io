@@ -5,7 +5,7 @@ date: 2014-11-04 11:27:12 +0800
 comments: true
 categories: [iOS]
 keywords: UICollectionView, Auto Layout, UICollectionViewCell
-description: How to layout Variable-Sized Items in UICollectionView
+description: "翻译国外教程，详解如何在 UICollectionView 中实现可变尺寸 Item 的布局方式，利用自定义 UICollectionViewLayout 优雅解决复杂网格布局需求。"
 ---
 
 ###基本训练  

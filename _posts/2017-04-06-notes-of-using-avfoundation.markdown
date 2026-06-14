@@ -5,7 +5,7 @@ date: 2017-04-06 15:09:30 +0800
 comments: true
 categories: [iOS]
 keywords: AVFoundation, Video, Audio, Trim, Rotate, Crop, Export, Watermark
-description: Notes of using AVFoundation. 
+description: "AVFoundation 使用笔记，记录音频录制、视频播放、相机控制、音视频合成等多媒体开发实战经验，帮助 iOS 开发者掌握音视频处理的核心 API。"
 ---
 使用一个框架时，我们可能有这么三个问题：  
 

@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [iOS]
 keywords: Swift, Programming, Language
-description: Introduce swift Programming Language
+description: "紧跟 Apple 官方文档，上手 Swift 编程语言，涵盖基本语法、可选类型、函数与闭包、面向协议编程等核心特性，为 iOS 开发者打开 Swift 世界的大门。"
 ---
 ##Data Types
 

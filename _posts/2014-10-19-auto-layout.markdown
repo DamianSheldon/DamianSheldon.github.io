@@ -5,7 +5,7 @@ date: 2014-10-19 17:43:12 +0800
 comments: true
 categories: [iOS]
 keywords: Auto Layout, 自动布局, iOS, Adaptive, Mutiple Screen, iPhone 6, iPhone 6 Plus
-description: Introduce auto layout, build adaptive user interface with auto layout 
+description: "Auto Layout 入门与实践，涵盖约束的创建方式（Interface Builder 与代码）、优先级、Intrinsic Content Size、Stack View 等核心概念，打造自适应 iOS 界面。"
 ---
 
 ###前言 

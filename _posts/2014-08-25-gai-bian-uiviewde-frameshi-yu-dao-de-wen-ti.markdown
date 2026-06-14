@@ -5,7 +5,7 @@ date: 2014-08-25 17:09:49 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, UIView, Frame， Switch, Case
-description: iOS App 开发问题汇总
+description: "记录 iOS 开发中修改 UIView frame 时遇到的实际问题与解决思路，涵盖 Auto Layout 与 frame 混用时的冲突处理，帮助开发者少走弯路。"
 ---
 
 ###1.Storyboard中的ViewController上添加一个自定义的view,声明为IBOutlet然后用代码改变view的Frame,打印输出Frame的值确实改变了，但是模拟器上的视图的Frame还是没有改变。

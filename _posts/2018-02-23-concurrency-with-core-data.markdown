@@ -5,7 +5,7 @@ date: 2018-02-23 16:00:35 +0800
 comments: true
 categories: [iOS]
 keywords: Concurrency, Core Data
-description: Concurrency with Core Data
+description: "深入讲解多线程环境下使用 Core Data 的最佳实践，涵盖 NSManagedObjectContext 并发类型、父子 Context 数据传递与线程安全策略，避免数据竞争与崩溃。"
 ---
 
 平常在项目中没有使用过 Core Data, 因为我觉得它的学习曲线还挺陡峭，整个框架给人的感觉很复杂和笨重，因此一直没有使用它。但是看到喵神这份[上级向的十个 iOS 开发面试题](https://onevcat.com/2013/04/ios-interview/)中和这份[百度面试](http://studentdeng.github.io/blog/2014/02/11/baidu-interview/)题中都有涉及到 Core Data 的内容，我想还是有必要好好研究一下它，毕竟它是 Apple 官方的持久化方案，我们可以取其精华，弃其糟粕，另一方面未来我们也可能因为各种原因接手或参与使用 Core Data 的项目。  

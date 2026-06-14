@@ -5,7 +5,7 @@ date: 2015-03-16 16:27:17 +0800
 comments: true
 categories: [iOS]
 keywords: NSThread, NSRunLoop, Concurrent programming
-description: NSThread technology notes
+description: "iOS 并发编程之 NSThread 详解，涵盖线程创建、线程通信、RunLoop 配合使用及线程安全注意事项，与前两篇 GCD 和 Operation 形成完整的 iOS 并发知识体系。"
 ---
 
 在 iOS 并发编程之 Operation 中，我们说过 GCD 是将线程管理的代码从应用层移到了系统层，它是基于线程技术的。虽然在 iOS 和 OS X 平台不鼓励直接使用线程实现并发，但它还是有它的应用场景。那么什么时候应该使用线程呢？

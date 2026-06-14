@@ -5,7 +5,7 @@ date: 2016-06-24 15:54:30 +0800
 comments: true
 categories: [iOS]
 keywords: iOS 
-description: iOS development problems
+description: "iOS App 开发问题汇总（八），整理近期开发中遇到的 Xcode 疑难、第三方库兼容性、打包发布等实际问题及解决过程，积累避坑经验。"
 ---
 
 ### 1.Detect hash tags #, mention tags @, in iOS like in Twitter App

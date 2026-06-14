@@ -4,7 +4,7 @@ title: "英语句子结构"
 date: 2014-11-27 20:19:06 +0800
 comments: true
 categories: [英语]
-description: 本篇文章详细介绍了英语句子的基本结构，包括常见语序（如 SVO、SVP、SVOiOd、SVOC 等），并配有丰富的英文实例，帮助读者掌握英语语法和句式的构成。适合英语学习者和语法爱好者阅读，提升英语写作与理解能力。
+description: "系统讲解英语句子结构，包括 SVO、SVP、SVOO、SVOC 等常见句型的构成规则与实例分析，夯实英语语法基础，适合英语学习者和程序员。"
 ---
 
 英语的基本语序是SVO(Subject-Verbe-Object),且基本上不能任意变换语序，除了在少数诗词以外；另一方面，有时英语会使用OSV(Object-Subject-Verbe)的语序。它有6大句型：

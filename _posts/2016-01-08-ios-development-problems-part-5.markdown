@@ -5,7 +5,7 @@ date: 2016-01-08 21:32:22 +0800
 comments: true
 categories: [iOS]
 keywords: iOS
-description: iOS development problems
+description: "iOS App 开发问题汇总（五），继续整理 App 开发中遇到的各类疑难杂症，包括 Swift 与 ObjC 混编、布局异常、内存泄漏排查等实战经验。"
 ---
 ### 1.On iOS 7 and later, how do I take a snapshot of my view and save the result in a UIImage?
 Solution:

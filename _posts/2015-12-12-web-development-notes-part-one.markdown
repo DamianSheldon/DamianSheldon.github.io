@@ -5,7 +5,7 @@ date: 2015-12-12 22:27:22 +0800
 comments: true
 categories: [Web]
 keywords: HTML, CSS, JavaScript, Bootstrap, ionic, GMP, AngularJS, JQuery
-description: Web Development Notes Part One
+description: "Web 开发问题汇总（一），记录前端与后端开发过程中遇到的各类技术问题及解决方案，涵盖 HTML、CSS、JavaScript 及 HTTP 协议相关的实战经验。"
 ---
 
 ###1. What is href=“#” and why is it used?

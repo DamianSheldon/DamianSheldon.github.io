@@ -5,7 +5,7 @@ date: 2023-01-29 13:57:18 +0800
 comments: true
 categories: [Backend]
 keywords: MySQL
-description: MySQL Interview Questions
+description: "MySQL 面试题整理，涵盖索引原理（B+Tree）、事务隔离级别、锁机制（行锁/间隙锁）、SQL 性能优化及主从复制等高价值考点。"
 published: false
 ---
 

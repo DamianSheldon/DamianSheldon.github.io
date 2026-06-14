@@ -5,7 +5,7 @@ date: 2020-09-02 11:40:17 +0800
 comments: true
 categories: [Linux]
 keywords: Backup, Restore, CentOS 8, Linux
-description: Linux usage notes
+description: "Linux 常用命令行笔记（三），继续补充日常运维中实用的命令技巧，涵盖文件查找、文本处理、磁盘管理及性能监控等内容。"
 ---
 
 ### 1.系统迁移和备份

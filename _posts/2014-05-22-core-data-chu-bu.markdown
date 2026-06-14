@@ -5,7 +5,7 @@ date: 2014-05-22 09:53:40 +0800
 comments: true
 categories: [iOS]
 keywords: Core Data, iOS, Database
-description: Simple introduce of Core Data
+description: "Core Data 入门指南，介绍 Core Data Stack 的搭建、数据模型设计、增删改查操作及 NSFetchedResultsController 的使用，帮助 iOS 开发者快速上手本地持久化。"
 ---
 1. Core Data是什么？
 2. 为什么使用Core Data?

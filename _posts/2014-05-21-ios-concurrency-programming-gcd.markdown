@@ -5,7 +5,7 @@ date: 2014-05-21 11:40:27 +0800
 comments: true
 categories: [iOS]
 keywords: GCD，iOS, Dispatch Queue, Concurrency Programming
-description: iOS 并发编程之 GCD
+description: "全面解析 iOS GCD 并发编程，涵盖串行队列、并发队列、Dispatch Group、信号量与 Barrier 等核心 API，帮助开发者写出线程安全的高效代码。"
 ---
 
 在 iOS 并发编程之 Operation 中我们提到了 GCD 出现的背景，这篇文章是我对它的使用总结。

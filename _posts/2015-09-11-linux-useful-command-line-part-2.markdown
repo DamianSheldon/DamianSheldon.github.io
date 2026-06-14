@@ -5,7 +5,7 @@ date: 2015-09-11 09:30:16 +0800
 comments: true
 categories: [Linux]
 keywords: Linux, command line
-description: Linux usage notes
+description: "Linux 常用命令行笔记（二），继续整理进阶命令与运维脚本技巧，涵盖系统监控、日志分析、定时任务与用户管理等实用场景。"
 ---
 ###1.Rails Error: ImageMagick/GraphicsMagick is not installed
 

@@ -5,7 +5,7 @@ date: 2020-12-18 08:46:08 +0800
 comments: true
 categories: [Backend]
 keywords: MySQL, notes
-description: Mysql notes.
+description: "MySQL 数据库使用笔记（三），深入学习主从复制、读写分离、分库分表及高可用架构，帮助后端工程师构建可扩展的数据库系统。"
 ---
 
 ###1.How do I see all foreign keys to a table or column?

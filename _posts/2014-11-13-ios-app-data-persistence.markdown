@@ -5,7 +5,7 @@ date: 2014-11-13 15:06:25 +0800
 comments: true
 categories: [iOS]
 keywords: Data Persistence, File System, Sandbox, NSUserDefaults, Sqlite3, Core Data, plist, Archiving
-description: Simple summary of iOS App Data Persistence
+description: "全面梳理 iOS 数据持久化的五种方案：UserDefaults、FileManager、SQLite、Core Data 与 Keychain，对比各自适用场景与优缺点，帮助选择合适的存储策略。"
 ---
 
 数据的持久化就是让数据能够持久的保存，实现它的方法有两种：云端和本地。本文试着简单总结本地持久化的方法。

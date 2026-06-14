@@ -5,7 +5,7 @@ date: 2016-10-21 15:15:53 +0800
 comments: true
 categories: [iOS]
 keywords: Audio, Video, Codec, iOS, Android
-description: Summary iOS and Android support audio and video codec format
+description: "系统梳理 iOS 和 Android 平台支持的音频和视频编解码格式，涵盖 AAC、MP3、H.264、HEVC 等格式特性及选型建议，为多媒体开发提供格式参考。"
 ---
 
 ## 音频格式

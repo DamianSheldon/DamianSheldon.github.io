@@ -5,7 +5,7 @@ date: 2015-09-19 22:25:19 +0800
 comments: true
 categories: [Backend]
 keywords: PHP, development, environment
-description: How to set up php development environment?
+description: "搭建 PHP 开发环境的完整指南，涵盖 Apache、PHP、MySQL 的组合配置、phpMyAdmin 安装及常见扩展启用，快速启动 PHP Web 项目开发。"
 ---
 
 ###Notes of Set up PHP development environment

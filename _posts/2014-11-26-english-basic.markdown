@@ -5,7 +5,7 @@ date: 2014-11-26 22:01:08 +0800
 comments: true
 categories: [英语]
 keywords: English, Basic Summary
-description: Simple summary of english
+description: "英语学习笔记开篇，记录英语基础知识的学习过程与心得，帮助程序员系统提升英语阅读与技术文档理解能力。"
 ---
 
 如果从初中开始算起，我接触英语已十多年了，回想起来自己还是很受益于她的。我能自学掌握 iOS 开发，全得益于有点英语底子，因为自学的过程基本是通过啃 Apple 的官方文档和 Raywenderlich 的教程。引申开来，其实就是英语阅读能力对技术人员很重要。这其中的原因，我想大家都是心知肚明的。  

@@ -5,7 +5,7 @@ date: 2014-05-14 11:05:53 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, UIWebView, JavaScript, 交互
-description: iOS UIWebView与JavaScript交互
+description: "详解 iOS UIWebView 与 JavaScript 的双向交互方法，包括 JS 调用原生代码、原生注入 JS 脚本、参数传递与回调处理，适用于 Hybrid App 开发场景。"
 ---
 
 ##1.UIWebView调用JavaScript

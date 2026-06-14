@@ -5,7 +5,7 @@ date: 2015-03-18 21:12:56 +0800
 comments: true
 categories: [Linux]
 keywords: Linux, Command Line
-description: Linux Useful Command Line
+description: "Linux 常用命令行笔记（一），整理日常服务器运维中高频使用的 Shell 命令，涵盖文件操作、进程管理、权限配置与网络诊断等实用技巧。"
 ---
 
 ###1.Create new account

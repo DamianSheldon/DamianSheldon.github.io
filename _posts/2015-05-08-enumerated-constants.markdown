@@ -5,7 +5,7 @@ date: 2015-05-08 16:38:20 +0800
 comments: true
 categories: [iOS]
 keywords: Objective c, Enumerated constants
-description: 
+description: "iOS 开发中枚举与常量定义的最佳实践，涵盖 C 枚举、NS_ENUM、NS_OPTIONS 以及 extern const 的使用场景对比，帮助写出规范清晰的 API 接口。"
 ---
 
 Objective-C中的枚举常量大致有以下四种情形：

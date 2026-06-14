@@ -4,7 +4,7 @@ title: "(翻译)Spring Boot 面试题"
 date: 2022-04-19 10:03:03 +0800
 comments: true
 categories: [Backend]
-description: Spring Boot 面试题精选，涵盖常见问题与解答，助力开发者高效备考面试，提升实战能力。适用于 Java 后端工程师求职、面试复习和技术提升
+description: "翻译 Spring Boot 面试题合集，覆盖自动配置原理、Starter 机制、Actuator 监控、配置优先级等高价值考点，适合 Java 后端工程师面试备战。"
 ---
 
 # 1. 概述

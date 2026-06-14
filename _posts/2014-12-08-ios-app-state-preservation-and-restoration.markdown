@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [iOS]
 keywords: State Preservation Resoration
-description: Introduce iOS App State Preservation and Restoration
+description: "详解 iOS App 状态保存与恢复的实现机制，涵盖 UIStateRestoration 协议、编码与解码状态、恢复标识符设置等，确保用户返回应用时无缝还原界面。"
 ---
 1. 什么是State Preservation and Restoration？
 2. 为什么要用State Preservation and Restoration？

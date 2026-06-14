@@ -5,7 +5,7 @@ date: 2022-04-26 10:18:15 +0800
 comments: true
 categories: [Backend]
 keywords: MyBatis, ORM, Mapper, SQL
-description: MyBatis Interview Questions
+description: "MyBatis 面试题整理，涵盖核心组件、一级与二级缓存机制、动态 SQL、插件原理与分页实现方式等高频考点，帮助开发者系统掌握 MyBatis 知识点。"
 published: false
 ---
 

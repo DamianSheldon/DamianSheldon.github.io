@@ -5,7 +5,7 @@ date: 2016-02-25 18:43:44 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, Technical, Interview, Category, Extension, KVO, KVC, shallow copy, deep copy
-description: iOS Technical Interview questions about categories, extension, KVO, KVC, shallow copy, deep copy and so on.
+description: "iOS 面试题汇总（三），深入讲解 Category 与 Extension 区别、KVO 与 KVC 实现原理、深浅拷贝及通知中心机制，帮你从容应对 iOS 技术面试。"
 ---
 
 ###1.Difference between categories and extensions?

@@ -5,7 +5,7 @@ date: 2018-09-05 15:52:44 +0800
 comments: true
 categories: [Web]
 keywords: css, web, interview
-description: Web 面试题汇总
+description: "Web 前端面试题汇总（二），聚焦 JavaScript 核心概念、原型链、闭包、事件循环及 ES6 新特性等高频考点，助力前端开发者深入理解 JS 基础。"
 ---
 
 ###1.介绍一下标准的CSS的盒子模型？低版本IE的盒子模型有什么不同的？

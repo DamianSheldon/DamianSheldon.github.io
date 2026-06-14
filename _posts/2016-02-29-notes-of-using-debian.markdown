@@ -5,7 +5,7 @@ date: 2016-02-29 21:46:20 +0800
 comments: true
 categories: [Linux]
 keywords: Debian
-description: Notes Of Using Debian
+description: "Debian 使用笔记，记录日常使用 Debian 系统时遇到的问题与解决方法，涵盖软件源配置、包管理、系统服务管理等运维要点。"
 ---
 ###1. Install pear on Debian
 A:

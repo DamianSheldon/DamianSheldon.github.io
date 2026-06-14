@@ -5,7 +5,7 @@ date: 2014-12-17 09:38:20 +0800
 comments: true
 categories: [Android]
 keywords: Android, Gradle, Android Studio, Eclipse
-description: Android开发问题汇总
+description: "Android 开发问题汇总（一），记录 Android 开发中遇到的界面布局、兼容性适配、真机调试等实际问题与解决方案，适合 Android 初学者参考。"
 ---
 ###1.Gradle使用代理服务器
 

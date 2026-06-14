@@ -5,7 +5,7 @@ date: 2016-01-22 14:19:12 +0800
 comments: true
 categories: [iOS]
 keywords: Unit Test, OCMock
-description: iOS Unit Testing With OCMock
+description: "iOS 单元测试进阶：使用 OCMock 框架进行 Mock 对象测试，涵盖 Class Mock、Protocol Mock、Partial Mock 及 Stub 与 Expect 验证，提升代码质量与测试覆盖率。"
 ---
 
 单元测试是我们保障代码质量的重要手段， Apple 对此也十分重视，这点可以从 Xcode 新建工程时会自动创建单元测试的 Target 看出来。单元测试牵涉的内容很多，这篇文章是目前我对单元测试的理解。  

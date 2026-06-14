@@ -5,7 +5,7 @@ date: 2015-09-15 09:05:51 +0800
 comments: true
 categories: [Linux]
 keywords: tcpdump, Wireshark, Capture package
-description: Notes of Using Wireshark and tcpdump.
+description: "Tcpdump 与 Wireshark 网络抓包工具使用笔记，涵盖基本命令、过滤规则、协议分析技巧及实战案例，帮助开发者掌握网络诊断与问题排查能力。"
 ---
 Tcpdump 和 Wireshark 是两个常用的抓包工具，一个是命令行工具；一个图形界面工具，可以按自己的喜好选择。图形界面的 Wireshark 个人感觉使用更简单，但从打开到抓包花费的时间要比使用 Tcpdump 要多，有的场景也不能使用 Wireshark，例如在 Android 真机上抓包。由于使用它们时核心是一样的，就是按照包过滤语法(pcap-filter(7))来指定表达式，因此可以先使用 Wireshark 上手，之后熟练起来后在不能用 Wirehshark 的场景便可以使用 Tcpdump。
 

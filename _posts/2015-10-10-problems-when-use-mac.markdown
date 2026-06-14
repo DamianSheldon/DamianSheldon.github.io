@@ -5,7 +5,7 @@ date: 2015-10-10 08:49:37 +0800
 comments: true
 categories: [iOS]
 keywords: Mac
-description: 使用 Mac 时遇到的问题
+description: "Mac 使用笔记（一），整理日常使用 macOS 时遇到的问题与高效操作技巧，涵盖系统设置、终端配置、开发工具优化等实用内容。"
 ---
 
 ## 1. How to enable the three finger drag on OS X 10.11

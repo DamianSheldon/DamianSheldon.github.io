@@ -4,7 +4,7 @@ title: "OpenLDAP 学习笔记"
 date: 2018-07-10 21:58:07 +0800
 comments: true
 categories: [Backend]
-description: OpenLDAP 学习笔记，详细介绍在 Mac 上安装、配置和使用 OpenLDAP，包括 slapd.conf 配置、数据目录准备、客户端设置、初始数据导入及常见问题解决方案，帮助读者快速掌握 LDAP 服务部署与管理。
+description: "OpenLDAP 学习笔记，详细介绍在 Mac 上安装、配置和使用 LDAP 目录服务，包括 slapd.conf 配置、Schema 定义、数据导入与管理，掌握统一身份认证基础。"
 ---
 
 最近业余时间在自学 Java，接触到 JNDI，继而牵扯出 LDAP。在倒腾过程中感觉是个复杂的主题，决定做个简要的笔记，梳理下思路，也方便日后忘记时容易拾起。  

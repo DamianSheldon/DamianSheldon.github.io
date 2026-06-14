@@ -5,7 +5,7 @@ date: 2015-01-05 15:44:07 +0800
 comments: true
 categories: [iOS]
 keywords: iOS, Technical, Interview, Questions
-description: iOS Technical Interview Questions about method swizzling, memory management, thread safe and so on.
+description: "iOS 技术面试高频题汇总（一），涵盖 Method Swizzling、内存管理、多线程安全等核心考点，附详细解答与代码示例，助你从容应对 iOS 面试。"
 ---
 
 ###1.Explain method swizzling. When you would use it?

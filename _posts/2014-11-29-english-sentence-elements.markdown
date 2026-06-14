@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [英语]
 keywords: English, Sentence Elements
-description: Summary of english sentence elements
+description: "深入讲解英语句子成分，涵盖主语、谓语、宾语、定语、状语等核心语法要素，辅以丰富的英文例句，帮助学习者理清句式结构。"
 ---
 
 英语的句子成分主要有：

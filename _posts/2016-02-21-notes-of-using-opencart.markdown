@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: [Backend]
 keywords: OpenCart
-description: Notes Of Using OpenCart
+description: "OpenCart 电商系统使用笔记，记录搭建与二次开发过程中的经验，包括模板修改、插件安装、后台配置及常见问题解决。"
 ---
 ###1. opencart 安装中文语言包
 A:

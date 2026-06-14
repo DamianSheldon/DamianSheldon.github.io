@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: (翻译)如何让didUpdateLocation兼容iOS 5和iOS 6
 date: 2014-07-28 16:05:38 +0800
 comments: true
-categories: [iOS Development, Archives]
+categories: [技术]
 keywords: Core Location, iOS, compatible
 description: 如何让didUpdateLocation兼容iOS 5和iOS 6
 ---

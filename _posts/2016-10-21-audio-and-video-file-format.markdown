@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "音频和视频格式"
 date: 2016-10-21 15:15:53 +0800
 comments: true
-categories: [Archive, Archives, iOS Development]
+categories: [技术]
 keywords: Audio, Video, Codec, iOS, Android
 description: Summary iOS and Android support audio and video codec format
 ---

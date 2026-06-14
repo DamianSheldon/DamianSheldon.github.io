@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "broadleafcommerce study notes part one"
 date: 2022-11-16 17:23:16 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: broadleafcommerce
 description: broadleafcommerce study notes part one
 published: false

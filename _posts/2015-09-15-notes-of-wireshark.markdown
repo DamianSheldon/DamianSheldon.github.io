@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Tcpdump 和 Wireshark 使用笔记"
 date: 2015-09-15 09:05:51 +0800
 comments: true
-categories: [Archives]
+categories: [技术]
 keywords: tcpdump, Wireshark, Capture package
 description: Notes of Using Wireshark and tcpdump.
 ---

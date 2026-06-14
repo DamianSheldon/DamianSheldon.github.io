@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% include head.html %}
+<body>
+  <div class="site-wrapper">
+    {% include header.html %}
+    <main class="site-main">
+      {{ content }}
+    </main>
+    {% include footer.html %}
+  </div>
+  <script src="{{ '/javascripts/navigation-toggle.js' | relative_url }}"></script>
+</body>
+</html>

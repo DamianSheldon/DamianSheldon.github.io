@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS App 开发问题汇总（一）"
 date: 2014-08-25 17:09:49 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: iOS, UIView, Frame， Switch, Case
 description: iOS App 开发问题汇总
 ---

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迭代 — 视觉预览</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<div class="site-wrapper">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-logo" href="#"><span class="logo-icon">仙</span><span class="logo-text">迭代</span></a>
+      <button class="nav-toggle"><span class="hamburger"></span></button>
+      <nav class="site-nav">
+        <a href="#" class="nav-link active">迭代</a>
+        <a href="#" class="nav-link">技术</a>
+        <a href="#" class="nav-link">英语</a>
+        <a href="#" class="nav-link">关于</a>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">迭代</h1>
+        <p class="hero-subtitle">持续迭代，终得正解。</p>
+      </div>
+    </section>
+    <section class="post-list">
+      <h2 class="section-title">最新文章</h2>
+      <article class="post-card">
+        <div class="post-card-meta"><time datetime="2014-05-09">2014-05-09</time><span class="post-card-cats"><span class="cat-tag">技术</span></span></div>
+        <h3 class="post-card-title"><a href="#">Hello Octopress — 用 Octopress 搭建个人博客</a></h3>
+        <p class="post-card-desc">记录了使用 Octopress 平台搭建个人博客的初体验与心得。</p>
+      </article>
+      <article class="post-card">
+        <div class="post-card-meta"><time datetime="2014-11-26">2014-11-26</time><span class="post-card-cats"><span class="cat-tag">英语</span></span></div>
+        <h3 class="post-card-title"><a href="#">英语笔记开篇</a></h3>
+        <p class="post-card-desc">Simple summary of english learning.</p>
+      </article>
+      <article class="post-card">
+        <div class="post-card-meta"><time datetime="2014-09-03">2014-09-03</time><span class="post-card-cats"><span class="cat-tag">技术</span></span></div>
+        <h3 class="post-card-title"><a href="#">iOS Core Animation 笔记</a></h3>
+        <p class="post-card-desc">Core Animation 学习笔记，涵盖 CALayer、隐式动画与显式动画。</p>
+      </article>
+      <div class="view-all"><a href="#" class="btn-ghost">查看全部文章 →</a></div>
+    </section>
+    <div style="margin-top:4rem;"></div>
+    <article class="post-full">
+      <header class="post-header">
+        <h1 class="post-title">iOS Core Animation 笔记</h1>
+        <div class="post-meta"><time datetime="2014-09-03">2014-09-03</time><span class="post-cats"><span class="cat-tag">技术</span></span></div>
+      </header>
+      <div class="post-content">
+        <p>本文记录 Core Animation 的学习笔记，涵盖 <strong>CALayer</strong>、<strong>隐式动画</strong> 与 <strong>显式动画</strong> 的核心概念。修道如逆水行舟，不进则退。代码即修行，迭代即飞升。每一行代码都是向道之路上的一个脚印。</p>
+        <h2>CALayer 基础</h2>
+        <p>每个 <code>UIView</code> 都有一个与之关联的 <code>CALayer</code>，负责视图的可视化内容渲染。开发者可以直接操作 layer 的 <em>cornerRadius</em>、<em>shadowColor</em> 等属性来实现丰富的视觉效果。</p>
+        <blockquote><p>修道如逆水行舟，不进则退。代码即修行，迭代即飞升。</p></blockquote>
+        <h3>代码示例</h3>
+        <pre><code>let layer = view.layer
+layer.cornerRadius = 8
+layer.shadowColor = UIColor.black.cgColor
+layer.shadowOpacity = 0.3
+layer.shadowOffset = CGSize(width: 0, height: 2)</code></pre>
+        <ul>
+          <li>隐式动画：修改 layer 属性时自动触发的默认动画</li>
+          <li>显式动画：通过 <code>CABasicAnimation</code> 手动创建</li>
+          <li>关键帧动画：<code>CAKeyframeAnimation</code> 实现复杂路径</li>
+        </ul>
+        <table><tr><th>概念</th><th>描述</th></tr><tr><td>CALayer</td><td>视图的底层渲染对象</td></tr><tr><td>CABasicAnimation</td><td>单一属性的基础动画</td></tr></table>
+      </div>
+      <footer class="post-footer">
+        <nav class="post-nav">
+          <a class="prev-post" href="#">← 上一篇：Auto Layout 入门</a>
+          <a class="next-post" href="#">下一篇：iOS 证书配置 →</a>
+        </nav>
+      </footer>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="footer-logo">仙</span><span>迭代</span></div>
+      <p class="footer-tagline">修道如逆水行舟，不进则退。代码即修行，迭代即飞升。</p>
+      <div class="footer-links"><a href="#">首页</a><a href="#">关于</a><a href="#">RSS</a><a href="#">GitHub</a></div>
+      <p class="footer-copy">&copy; 2026 Sheldon · Powered by Jekyll</p>
+    </div>
+  </footer>
+</div>
+<script>document.querySelector('.nav-toggle').addEventListener('click',function(){document.querySelector('.site-nav').classList.toggle('is-open')});</script>
+</body>
+</html>

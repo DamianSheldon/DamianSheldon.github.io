@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Core Animation 笔记"
 date: 2014-09-03 09:59:58 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Core Animation, iOS Development
 description: Summary of Core Animation
 ---

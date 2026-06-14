@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS App 数据持久化"
 date: 2014-11-13 15:06:25 +0800
 comments: true
-categories:  [Archives, iOS Development]
+categories: [技术]
 keywords: Data Persistence, File System, Sandbox, NSUserDefaults, Sqlite3, Core Data, plist, Archiving
 description: Simple summary of iOS App Data Persistence
 ---

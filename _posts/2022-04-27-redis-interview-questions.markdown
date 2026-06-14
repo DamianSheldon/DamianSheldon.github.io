@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Redis 面试题"
 date: 2022-04-27 14:36:10 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: Redis, Cache
 description: Redis Interview Questions
 ---

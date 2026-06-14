@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "AVFoundation 使用笔记"
 date: 2017-04-06 15:09:30 +0800
 comments: true
-categories: [Archives, iOS Development] 
+categories: [技术]
 keywords: AVFoundation, Video, Audio, Trim, Rotate, Crop, Export, Watermark
 description: Notes of using AVFoundation. 
 ---

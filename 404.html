@@ -1,25 +1,28 @@
 ---
 permalink: /404.html
-layout: page
+layout: default
 ---
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
+<style>
+  .not-found { text-align: center; padding: 5rem 1.5rem; }
+  .not-found h1 {
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
     line-height: 1;
-    letter-spacing: -1px;
   }
+  .not-found .icon { font-size: 3rem; margin-bottom: 1rem; }
+  .not-found p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 0.5rem; }
+  .not-found .home-link { margin-top: 2rem; }
 </style>
 
-<div class="container">
+<div class="not-found">
+  <div class="icon">&#x4ED9;</div>
   <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
+  <p><strong>此处灵气稀薄，页面不存在。</strong></p>
+  <p>道友请回，或前往首页重新寻道。</p>
+  <p class="home-link">
+    <a href="{{ '/' | relative_url }}" class="btn-ghost">&#x25C0; 返回首页</a>
+  </p>
 </div>

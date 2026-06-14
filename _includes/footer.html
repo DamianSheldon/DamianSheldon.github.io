@@ -1,0 +1,18 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">&#x4ED9;</span>
+      <span>{{ site.title }}</span>
+    </div>
+    <p class="footer-tagline">修道如逆水行舟，不进则退。代码即修行，迭代即飞升。</p>
+    <div class="footer-links">
+      <a href="{{ '/' | relative_url }}">首页</a>
+      <a href="{{ '/about/' | relative_url }}">关于</a>
+      <a href="{{ '/atom.xml' | relative_url }}">RSS</a>
+      {% if site.github_username %}
+      <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+      {% endif %}
+    </div>
+    <p class="footer-copy">&copy; {{ 'now' | date: "%Y" }} {{ site.author }} · Powered by Jekyll</p>
+  </div>
+</footer>

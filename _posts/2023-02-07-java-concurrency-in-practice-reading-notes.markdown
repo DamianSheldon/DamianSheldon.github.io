@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Java 并发编程实战读书笔记"
 date: 2023-02-07 16:42:01 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 description: Java 并发编程实战读书笔记，详细梳理了并发的基本概念、线程池、任务抽象、安全性、活跃性与性能问题解决方案，涵盖 Java 内存模型（JMM）、锁机制、原子操作类、并发集合等知识点，帮助开发者深入理解 Java 并发与多线程编程实战技巧，提升并发程序的性能与可靠性。
 published: true
 ---

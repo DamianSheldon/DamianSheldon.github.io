@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS 面试题汇总(一)"
 date: 2015-01-05 15:44:07 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: iOS, Technical, Interview, Questions
 description: iOS Technical Interview Questions about method swizzling, memory management, thread safe and so on.
 ---

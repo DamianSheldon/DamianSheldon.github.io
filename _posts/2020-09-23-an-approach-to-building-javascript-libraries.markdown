@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "一种构建 JavaScript 库的方法"
 date: 2020-09-23 15:08:06 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: Library, Module, CommonJS, AMD, UMD, TypeScript, ECMAScript Harmony, rollup
 description: An Approach to Building JavaScript Libraries.
 ---

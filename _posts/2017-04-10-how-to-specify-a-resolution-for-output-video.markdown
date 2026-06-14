@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "输出自定义尺寸视频"
 date: 2017-04-10 10:12:09 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Video Resolution, AVFoundation, AVAssetWriter, AVAssetExportSession 
 description: How to secify a resolution for output video? 
 ---

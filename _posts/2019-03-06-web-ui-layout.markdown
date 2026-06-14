@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Web 界面布局"
 date: 2019-03-06 09:27:15 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: Layout, Position, Float, CSS, Web
 description: Summary web UI layout methods, so we can more deeply understand it  and use it correct.
 ---

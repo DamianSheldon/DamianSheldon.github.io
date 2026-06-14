@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "MyBatis Interview Questions"
 date: 2022-04-26 10:18:15 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: MyBatis, ORM, Mapper, SQL
 description: MyBatis Interview Questions
 published: false

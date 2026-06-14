@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "MySQL 使用笔记"
 date: 2015-08-12 22:01:09 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: MySQL, server id, notes 
 description: Mysql notes.
 ---

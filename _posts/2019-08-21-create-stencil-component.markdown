@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "创建 Stencil 组件"
 date: 2019-08-21 16:24:06 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: stencil, ionic, angular, web component
 description: How to create your own stencil component and publish to private git repo?  
 published: false

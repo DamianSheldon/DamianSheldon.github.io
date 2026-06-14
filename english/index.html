@@ -1,18 +1,32 @@
 ---
 layout: default
-title: "English"
+title: "英语"
 ---
 
-{% for post in site.posts %}
+<header class="category-header">
+  <h1 class="page-title">英语</h1>
+  <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+    灵言术法，沟通万界。英语学习笔记与心得。
+  </p>
+</header>
 
-    {% assign categories = "" %}
-    {% for category in post.categories %}
-        {% assign categories = categories | append: category | append: ',' %}
-    {% endfor %}
-
-    {% assign categories = categories | downcase %}
-
-    {% if categories contains 'english' %}
-        {% include archive_post.html %}
+<section class="post-list">
+  <h2 class="section-title">英语笔记</h2>
+  {% assign en_posts = site.posts | where_exp: "post", "post.categories contains '英语'" %}
+  {% for post in en_posts %}
+  <article class="post-card">
+    <div class="post-card-meta">
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+    </div>
+    <h3 class="post-card-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h3>
+    {% if post.description %}
+    <p class="post-card-desc">{{ post.description }}</p>
     {% endif %}
-{% endfor %}
+  </article>
+  {% endfor %}
+  {% if en_posts.size == 0 %}
+  <p style="color: var(--text-muted); text-align: center; padding: 2rem;">暂无英语笔记。</p>
+  {% endif %}
+</section>

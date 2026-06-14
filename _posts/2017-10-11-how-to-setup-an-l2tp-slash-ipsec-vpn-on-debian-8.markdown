@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "How to setup an IKEv2 VPN Server on CentOS 8"
 date: 2017-10-11 08:32:44 +0800
 comments: true
-categories: [Archives]
+categories: [技术]
 keywords: strongswan, eap-mschapv2, VPN, IKEv2, CentOS 8, iPhone, iOS, macOS, windows 10
 description: How to setup a IKEv2 VPN Server on CentOS 8
 ---

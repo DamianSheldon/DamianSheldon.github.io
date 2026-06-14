@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Auto Layout"
 date: 2014-10-19 17:43:12 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Auto Layout, 自动布局, iOS, Adaptive, Mutiple Screen, iPhone 6, iPhone 6 Plus
 description: Introduce auto layout, build adaptive user interface with auto layout 
 ---

@@ -1,0 +1,37 @@
+---
+layout: default
+title: "迭代"
+---
+
+<header class="category-header">
+  <h1 class="page-title">迭代</h1>
+  <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+    以技证道，日拱一卒。软件工程师迭代赚钱实践 — 既有渔，也有鱼。
+  </p>
+</header>
+
+<section class="post-list">
+  <h2 class="section-title">迭代心法</h2>
+  {% assign iteration_posts = site.posts | where_exp: "post", "post.categories contains '迭代'" %}
+  {% if iteration_posts.size > 0 %}
+    {% for post in iteration_posts %}
+    <article class="post-card">
+      <div class="post-card-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+      </div>
+      <h3 class="post-card-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h3>
+      {% if post.description %}
+      <p class="post-card-desc">{{ post.description }}</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  {% else %}
+    <div style="text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+      <p style="font-size: 2rem; margin-bottom: 1rem;">修</p>
+      <p>功法研习中，不日将至...</p>
+      <p style="font-size: 0.85rem; margin-top: 0.5rem;">迭代系列文章正在路上，敬请期待。</p>
+    </div>
+  {% endif %}
+</section>

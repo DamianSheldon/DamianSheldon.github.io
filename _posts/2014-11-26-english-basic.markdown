@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "英语笔记开篇"
 date: 2014-11-26 22:01:08 +0800
 comments: true
-categories: [Archives, English]
+categories: [英语]
 keywords: English, Basic Summary
 description: Simple summary of english
 ---

@@ -1,28 +1,11 @@
-// Navigation toggle
-window.onload = function() {
-    var nav = document.getElementById('nav');
-    var navItem = nav.getElementsByTagName('li');
-    //is it floated?
-    var floated = navItem[0].currentStyle ? el.currentStyle['float'] : document.defaultView.getComputedStyle(navItem[0],null).getPropertyValue('float');
-
-    if (floated != 'left') {
-        var collapse = document.getElementById('nav-collapse');
-
-        //toggle class utility function
-        var classToggle = function( element, tclass ) {
-            var classes = element.className,
-                pattern = new RegExp( tclass );
-            hasClass = pattern.test( classes );
-            //toggle the class
-            classes = hasClass ? classes.replace( pattern, '' ) : classes + ' ' + tclass;
-            element.className = classes.trim();
-        };
-
-        classToggle(nav, 'hide');
-        classToggle(collapse, 'active');
-        collapse.onclick = function() {
-            classToggle(nav, 'hide');
-            return false;
-        }
-    }
-}
+// 移动端导航开关
+(function() {
+  var toggle = document.querySelector('.nav-toggle');
+  var nav = document.querySelector('.site-nav');
+  if (!toggle || !nav) return;
+  toggle.addEventListener('click', function() {
+    nav.classList.toggle('is-open');
+    var expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !expanded);
+  });
+})();

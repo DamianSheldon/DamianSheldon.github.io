@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "(翻译)Property Values"
 date: 2014-05-10 14:41:40 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Property Valule, Objective-C, iOS
 description: Introduce Objective-C's Property
 ---

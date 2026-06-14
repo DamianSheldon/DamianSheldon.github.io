@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS Unit Testing With OCMock"
 date: 2016-01-22 14:19:12 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Unit Test, OCMock
 description: iOS Unit Testing With OCMock
 ---

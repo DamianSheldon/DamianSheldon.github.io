@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS App 开发问题汇总（六）"
 date: 2016-03-28 20:14:53 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: iOS
 description: iOS development problems
 ---

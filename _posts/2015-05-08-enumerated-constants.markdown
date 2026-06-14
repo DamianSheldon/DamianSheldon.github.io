@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Enumerated constants"
 date: 2015-05-08 16:38:20 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Objective c, Enumerated constants
 description: 
 ---

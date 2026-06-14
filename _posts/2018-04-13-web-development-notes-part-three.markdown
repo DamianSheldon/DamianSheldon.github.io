@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Web 开发问题汇总(三)"
 date: 2018-04-13 11:07:25 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: web, jquery, servlet, eclipse
 description: Noting problems encounter during web development, every fifteen problem produce a blog, this is the three.
 ---

@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Android开发问题汇总(三)"
 date: 2017-04-05 08:48:36 +0800
 comments: true
-categories: [Archives, android] 
+categories: [技术]
 keywords: Android, Problems 
 description: 
 ---

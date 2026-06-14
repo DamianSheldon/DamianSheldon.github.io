@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS 并发编程之 GCD"
 date: 2014-05-21 11:40:27 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: GCD，iOS, Dispatch Queue, Concurrency Programming
 description: iOS 并发编程之 GCD
 ---

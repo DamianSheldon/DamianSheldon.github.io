@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "MySQL 使用笔记(三)"
 date: 2020-12-18 08:46:08 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: MySQL, notes
 description: Mysql notes.
 ---

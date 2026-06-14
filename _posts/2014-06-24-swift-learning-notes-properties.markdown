@@ -1,10 +1,10 @@
----
+﻿---
 layout: post
 title: "Swift Learning Notes -- Properties"
 date: 2014-06-24 15:28:20 +0800
 comments: true
 published: false
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Swift, learn, property, iOS 
 description: Swift Learning Notes of Properties
 ---

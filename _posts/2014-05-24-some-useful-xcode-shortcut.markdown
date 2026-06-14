@@ -1,10 +1,10 @@
----
+﻿---
 layout: post
 title: "Xcode & OS X 快捷键"
 date: 2014-05-24 21:11:02 +0800
 published: false
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Xcode, shortcut, 快捷键
 description: Xcode 快捷键
 ---

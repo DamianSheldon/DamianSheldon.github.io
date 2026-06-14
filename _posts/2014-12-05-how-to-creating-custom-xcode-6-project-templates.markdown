@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "如何创建自定义的Xcode 6 工程模板"
 date: 2014-12-05 14:34:04 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Xcode 6 Project Templates
 description: How to creating custom Xcode 6 Project Templates
 ---

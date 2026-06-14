@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS 面试题汇总(四)"
 date: 2016-08-30 10:43:36 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: iOS Technical Interview
 description: iOS Technical Interview  
 ---

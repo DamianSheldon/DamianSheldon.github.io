@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Web API 的设计与开发--读书笔记"
 date: 2020-04-29 10:31:16 +0800
 comments: true
-categories: [Archives, iOS Development, Android Development, Web Development]
+categories: [技术]
 description: Web API 设计与开发全面笔记，涵盖 API 端点、HTTP 方法、请求与响应规范、错误信息处理等关键原则，帮助开发者高效构建易维护、高质量的 Web API 系统。
 ---
 

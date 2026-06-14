@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Git 小结"
 date: 2014-11-05 10:13:13 +0800
 comments: true
-categories: [Archives]
+categories: [技术]
 keywords: Git, Summary
 description: A summary of basic usage of git
 ---

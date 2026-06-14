@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Web 开发问题汇总(一)"
 date: 2015-12-12 22:27:22 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: HTML, CSS, JavaScript, Bootstrap, ionic, GMP, AngularJS, JQuery
 description: Web Development Notes Part One
 ---

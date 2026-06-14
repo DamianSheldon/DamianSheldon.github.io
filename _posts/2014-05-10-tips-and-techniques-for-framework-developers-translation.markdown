@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "(翻译)Tips and Techniques for Framework Developers"
 date: 2014-05-10 09:23:09 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Framework, Development, Tips, Techniques
 description: Tips and Techniques for Framework Developers
 ---

@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "如何创建私有的Pod"
 date: 2015-03-11 17:23:04 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Cocoa pods, private pods
 description: How to create a private pod
 ---

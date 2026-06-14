@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "记一次换新 iPhone"
 date: 2018-03-17 10:20:21 +0800
 comments: true
-categories: [Archives]
+categories: [技术]
 keywords: backup, corrupt, incompatible, iPhone, 换机
 description: 一次换新 iPhone 的经过，过程中遇到了从 iTunes 备份中恢复遇到 your backup is corrupt or incompatible 的问题，以及我的解决办法。
 ---

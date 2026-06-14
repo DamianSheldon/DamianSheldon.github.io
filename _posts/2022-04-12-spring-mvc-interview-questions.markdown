@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "(翻译)Spring MVC 面试题"
 date: 2022-04-12 11:42:30 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 description: Spring MVC 面试题汇总，涵盖常见问题及详细解答，助力求职者高效准备 Java 后端开发面试，提升面试成功率。
 ---
 

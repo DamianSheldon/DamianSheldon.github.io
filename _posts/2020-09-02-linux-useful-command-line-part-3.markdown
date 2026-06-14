@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "Linux 使用笔记(三)"
 date: 2020-09-02 11:40:17 +0800
 comments: true
-categories: [Archives]
+categories: [技术]
 keywords: Backup, Restore, CentOS 8, Linux
 description: Linux usage notes
 ---

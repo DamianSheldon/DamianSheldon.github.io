@@ -1,91 +1,24 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-#
-
-title: Iteration 
+title: 迭代
 email: dongmeilianghy@sina.com
-description: >- # this means to ignore newlines until "baseurl:"
-        Sheldon's personal technology blog about iOS, Android, Back-end, Web and English.
-baseurl: "/" # the subpath of your site, e.g. /blog
-url: "http://DamianSheldon.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+description: 持续迭代，终得正解。
+baseurl: "/"
+url: "http://DamianSheldon.github.io"
 twitter_username: dongmeilianghy
-github_username:  DamianSheldon
+github_username: DamianSheldon
 
 subtitle: Here's where it all happens for me.
 author: Sheldon
 simple_search: https://www.bing.com/search
-keywords: iOS, Objective-C, Swift, Xcode, Java, Android Studio, Eclipse, Web, HTML, Javascript, CSS, English 
+keywords: iOS, Objective-C, Swift, Xcode, Java, Android, Web, HTML, Javascript, CSS, English
 
-# Default date format is "ordinal" (resulting in "July 22nd 2007")
-# You can customize the format as defined in
-# http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
-# Additionally, %o will give you the ordinal representation of the day
 date_format: "ordinal"
-
-# RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
 
-# Build settings
-theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+
 permalink: /blog/:title.html
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
-
-# ----------------------- #
-#   3rd Party Settings    #
-# ----------------------- #
-
 # Google Analytics
-google_analytics_tracking_id: UA-52345084-1
 google_analytics: G-YPLKXV8RKB
-
-# Github 
-#lsi 表示 "Latent Semantic Indexing"（潜在语义索引），它是用于搜索引擎优化（SEO）中的一种技术。lsi: false 禁用了这个特性。 
-#lsi: false
-#safe: true
-#source: .
-#incremental: false
-#highlighter: rouge
-#gist:
-#  noscript: false
-#kramdown:
-#  math_engine: mathjax
-#  syntax_highlighter: rouge

@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "多线程的 Core Data"
 date: 2018-02-23 16:00:35 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: Concurrency, Core Data
 description: Concurrency with Core Data
 ---

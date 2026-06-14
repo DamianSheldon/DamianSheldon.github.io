@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "iOS 并发编程之 Thread"
 date: 2015-03-16 16:27:17 +0800
 comments: true
-categories: [Archives, iOS Development]
+categories: [技术]
 keywords: NSThread, NSRunLoop, Concurrent programming
 description: NSThread technology notes
 ---

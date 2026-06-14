@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "在Mac OSX Mavericks上安装和配置Openfire"
 date: 2014-09-11 09:15:32 +0800
 comments: true
-categories: [Archives] 
+categories: [技术]
 keywords: Openfire, Mac, OSX, Mavericks, Install, Configure
 description: Install and configure openfire on Mac OSX mavericks.
 ---

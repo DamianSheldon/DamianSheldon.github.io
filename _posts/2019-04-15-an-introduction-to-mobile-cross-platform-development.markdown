@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "浅析移动端跨平台开发"
 date: 2019-04-15 17:04:39 +0800
 comments: true
-categories: [Archives, iOS Development, Android, Web Development]
+categories: [技术]
 description: 介绍了移动端跨平台开发的基础知识、主流技术和实际应用案例。内容涵盖多种开发框架对比，适合希望了解如何高效构建兼容多平台应用的开发者。通过深入分析各类工具和方法，帮助读者选择最适合自身需求的跨平台开发方案。
 ---
 

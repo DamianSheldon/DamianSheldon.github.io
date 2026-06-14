@@ -1,0 +1,455 @@
+/* ============================================================
+   迭代博客
+   主配色：长时间阅读优化（暖光纸色 + 深灰正文）
+   点缀：国漫修仙色（金/翠/紫，仅用于装饰元素）
+   设计规范：Apple HIG · 内容优先
+   ============================================================ */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* 主配色 — 阅读区（暖光纸色系） */
+  --bg-page:       #fcfaf5;
+  --bg-surface:    #f6f3ec;
+  --bg-card:       #faf7f0;
+  --bg-code:       #f3efe7;
+  --text-primary:  #2d2924;
+  --text-secondary:#6e6860;
+  --text-muted:    #96918a;
+  --text-heading:  #1f1c18;
+
+  /* 修仙点缀色 — 仅用于装饰 */
+  --accent-gold:   #b8943e;
+  --accent-jade:   #4a8c6f;
+  --accent-warm:   #c47a4a;
+
+  /* Footer 底色 — 比 body 略深 */
+  --bg-footer:     #f2efe7;
+
+  /* 边框与阴影 */
+  --border:        rgba(0,0,0,0.06);
+  --border-gold:   rgba(184,148,62,0.18);
+  --shadow:        0 1px 4px rgba(0,0,0,0.04);
+
+  /* 排版 — 系统原生字体，零网络请求，即显即读 */
+  --font-serif:    'Songti SC', 'STSong', 'SimSun', 'Noto Serif CJK SC', 'Source Han Serif SC', 'WenQuanYi Zen Hei', serif;
+  --font-sans:     'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:     'SF Mono', 'Cascadia Code', 'Consolas', 'JetBrains Mono', 'Fira Code', 'Menlo', 'DejaVu Sans Mono', monospace;
+  --line-body:     1.9;
+  --line-heading:  1.35;
+  --content-width: 680px;
+  --radius:        4px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: var(--font-serif);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: var(--line-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: var(--accent-gold); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--accent-warm); }
+img { max-width: 100%; height: auto; }
+ul, ol { padding-left: 1.6rem; }
+blockquote {
+  border-left: 3px solid var(--accent-gold);
+  margin: 1.4rem 0;
+  padding: 0.7rem 1.2rem;
+  background: var(--bg-surface);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-code);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  color: var(--accent-warm);
+}
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+pre code { background: none; padding: 0; color: var(--text-primary); font-size: inherit; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  font-size: 0.92rem;
+}
+th, td {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+th { background: var(--bg-surface); color: var(--text-heading); font-weight: 700; }
+hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+/* ---------- Layout ---------- */
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   Header — 与 body 同色系
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+}
+.header-inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: 0.08em;
+}
+.site-logo:hover { color: var(--accent-gold); }
+.logo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, #b8943e, #d4a94e);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* 导航 */
+.site-nav { display: flex; gap: 0.15rem; }
+.nav-link {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  transition: all .2s;
+}
+.nav-link:hover { color: var(--text-primary); background: var(--bg-surface); }
+.nav-link.active { color: var(--accent-gold); }
+
+/* Hamburger */
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+.hamburger, .hamburger::before, .hamburger::after {
+  display: block; width: 20px; height: 2px;
+  background: var(--text-primary); border-radius: 2px; transition: all .3s;
+}
+.hamburger { position: relative; }
+.hamburger::before, .hamburger::after { content: ''; position: absolute; left: 0; }
+.hamburger::before { top: -6px; }
+.hamburger::after  { top: 6px; }
+
+/* ============================================================
+   Main Content — 暖光阅读区
+   ============================================================ */
+.site-main {
+  flex: 1;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+/* ---------- Hero — 极简 ---------- */
+.hero {
+  text-align: center;
+  padding: 2rem 0 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-gold);
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: 0.25em;
+  margin-bottom: 0.5rem;
+}
+.hero-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+/* ---------- Post List ---------- */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-card {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.post-card:first-of-type { border-top: 1px solid var(--border); }
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+.post-card-cats { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.cat-tag {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border-radius: 3px;
+  font-size: 0.68rem;
+  background: rgba(184,148,62,0.08);
+  color: var(--accent-gold);
+  font-family: var(--font-sans);
+}
+.cat-tag::before { content: '#'; }
+.post-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.post-card-title a { color: var(--text-primary); }
+.post-card-title a:hover { color: var(--accent-gold); }
+.post-card-desc {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.view-all { text-align: center; margin-top: 2.5rem; }
+.btn-ghost {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  transition: all .2s;
+}
+.btn-ghost:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ---------- Post Full Page ---------- */
+.post-header, .page-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-gold);
+}
+.post-title, .page-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  line-height: var(--line-heading);
+  margin-bottom: 0.5rem;
+}
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  flex-wrap: wrap;
+}
+.post-cats { display: flex; gap: 0.4rem; }
+
+/* Post Content — 阅读区核心 */
+.post-content {
+  font-size: 1rem;
+  line-height: var(--line-body);
+  word-break: break-word;
+  letter-spacing: 0.01em;
+}
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  font-family: var(--font-serif);
+  color: var(--text-heading);
+  margin: 2rem 0 0.5rem;
+  line-height: var(--line-heading);
+}
+.post-content h1 { font-size: 1.4rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 0.3rem; }
+.post-content h2 { font-size: 1.2rem; }
+.post-content h3 { font-size: 1.05rem; color: var(--accent-warm); }
+.post-content h4 { font-size: 0.95rem; }
+.post-content p { margin-bottom: 1.05rem; }
+.post-content ul, .post-content ol { margin: 0.5rem 0 1.05rem; }
+.post-content li { margin-bottom: 0.2rem; }
+.post-content a { border-bottom: 1px dashed var(--accent-gold); }
+.post-content a:hover { border-bottom-color: var(--accent-warm); color: var(--accent-warm); }
+.post-content strong { color: var(--text-heading); font-weight: 800; }
+.post-content em { color: var(--accent-jade); font-style: italic; }
+
+/* Post Footer */
+.post-footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.prev-post, .next-post {
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  transition: all .2s;
+}
+.next-post { text-align: right; }
+.prev-post:hover, .next-post:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ---------- Category Page ---------- */
+.category-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-gold);
+}
+
+/* ============================================================
+   Footer — 略深于 body，微妙收束
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg-footer);
+  padding: 2.2rem 1.5rem;
+  text-align: center;
+  margin-top: auto;
+}
+.footer-inner { max-width: var(--content-width); margin: 0 auto; }
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-heading);
+  margin-bottom: 0.4rem;
+}
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  background: linear-gradient(135deg, #b8943e, #d4a94e);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+.footer-tagline {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.7rem;
+  font-family: var(--font-serif);
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.7rem;
+}
+.footer-links a {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-copy {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-page); }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+
+/* ---------- Selection — 修仙金点缀 ---------- */
+::selection { background: rgba(184,148,62,0.18); color: var(--text-heading); }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+
+@media (max-width: 768px) {
+  html { font-size: 17px; }
+  .site-main { padding: 2.5rem 1.25rem 4rem; }
+  .hero { padding: 1.5rem 0 2rem; }
+  .hero-title { font-size: 1.8rem; letter-spacing: 0.18em; }
+  .post-title, .page-title { font-size: 1.4rem; }
+}
+
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+  .header-inner { height: 48px; }
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 48px;
+    left: 0; right: 0;
+    background: var(--bg-page);
+    flex-direction: column;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    z-index: 99;
+  }
+  .site-nav.is-open { display: flex; }
+  .nav-link { padding: 0.55rem 1.5rem; border-radius: 0; font-size: 0.85rem; }
+  .nav-toggle { display: block; }
+
+  .site-main { padding: 2rem 1rem 3rem; }
+  .hero { padding: 1rem 0 1.5rem; }
+  .hero-title { font-size: 1.5rem; letter-spacing: 0.12em; }
+  .hero-subtitle { font-size: 0.8rem; }
+
+  .post-title, .page-title { font-size: 1.25rem; }
+  .post-nav { grid-template-columns: 1fr; }
+  .post-card-title { font-size: 0.95rem; }
+  .post-content { font-size: 0.93rem; }
+  .footer-links { gap: 1rem; }
+}

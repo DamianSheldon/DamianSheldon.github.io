@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "MySQL Interview Questions"
 date: 2023-01-29 13:57:18 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 keywords: MySQL
 description: MySQL Interview Questions
 published: false

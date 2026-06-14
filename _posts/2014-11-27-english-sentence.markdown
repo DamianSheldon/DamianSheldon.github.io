@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "英语句子结构"
 date: 2014-11-27 20:19:06 +0800
 comments: true
-categories: [English]
+categories: [英语]
 description: 本篇文章详细介绍了英语句子的基本结构，包括常见语序（如 SVO、SVP、SVOiOd、SVOC 等），并配有丰富的英文实例，帮助读者掌握英语语法和句式的构成。适合英语学习者和语法爱好者阅读，提升英语写作与理解能力。
 ---
 

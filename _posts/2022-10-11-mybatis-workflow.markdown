@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "MyBatis 的工作流程(一)"
 date: 2022-10-11 16:06:03 +0800
 comments: true
-categories: [Archives, Web Development]
+categories: [技术]
 description: MyBatis 与 Spring Boot 集成时的初始化及工作流程详解，涵盖配置加载、Mapper 注册、SqlSessionFactory 创建等核心过程，助力理解 MyBatis 在实际开发中的运作机制。
 ---
 

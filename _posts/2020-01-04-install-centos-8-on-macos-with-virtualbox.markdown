@@ -1,9 +1,9 @@
----
+﻿---
 layout: post
 title: "在 macOS 上用 VirtualBox 安装 CentOS"
 date: 2020-01-04 13:49:46 +0800
 comments: true
-categories: [Archives]
+categories: [技术]
 keywords: screen flicker, kernel headers not found
 description: Record solutions to two problems when install CentOS on macOS with VirtualBox.
 ---

@@ -1,10 +1,10 @@
----
+﻿---
 layout: post
 title: "英语句子成分"
 date: 2014-11-29 22:38:03 +0800
 comments: true
 published: false
-categories: [English]
+categories: [英语]
 keywords: English, Sentence Elements
 description: Summary of english sentence elements
 ---
